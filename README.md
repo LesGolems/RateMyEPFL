@@ -4,3 +4,5 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6bef22bb4c8d79ce579b/test_coverage)](https://codeclimate.com/github/LesGolems/RateMyEPFL/test_coverage)
 
 Les Golems donnent leur avis sur l'EPFL.
+
+Mathias Bouilloud, Julien Mettler, Emilien Guandalino, Alexandre Messmer, Nicolas Matekalo, Souleyman Boudouh
