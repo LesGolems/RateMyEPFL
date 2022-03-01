@@ -47,7 +47,7 @@ class GreetingActivityTest {
         scenario.use {
             onView(withId(R.id.greetingMessage)).check(
                 matches(
-                    withText("Hello $name")
+                    withText("Hello $name!")
                 )
             )
         }
