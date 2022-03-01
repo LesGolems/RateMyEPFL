@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 
@@ -36,4 +37,25 @@ class MainActivityTest {
         release();
     }
 
+    @Test
+    fun firesAnIntentWhenTheUsersPressesButton() {
+        Intents.init()
+        val name = "my name"
+        onView(withId(R.id.mainName)).perform(typeText(name))
+        onView(withId(R.id.mainGoButton)).perform(click())
+
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun passesUsernameAsExtra() {
+        init()
+        val name = "name"
+        onView(withId(R.id.mainName)).perform(typeText(name))
+        onView(withId(R.id.mainGoButton)).perform(click())
+
+        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
+        release()
+    }
 }

@@ -11,6 +11,7 @@
         android:theme="@style/Theme.RateMyEPFL">
         <activity
             android:name=".GreetingActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
