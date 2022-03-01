@@ -51,7 +51,7 @@ class MainActivityTest {
     @Test
     fun passesUsernameAsExtra() {
         init()
-        val name = "name"
+        val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
         onView(withId(R.id.mainGoButton)).perform(click())
 
