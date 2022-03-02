@@ -5,4 +5,4 @@
 
 Les Golems donnent leur avis sur l'EPFL.
 
-Mathias Bouilloud, Julien Mettler, Emilien Guandalino, Alexandre Messmer, Nicolas Matekalo, Souleyman Boudouh
+Mathias Bouilloud, Julien Mettler, Emilien Guandalino, Alexandre Messmer, Nicolas Matekalo, Souleyman Boudouh;
