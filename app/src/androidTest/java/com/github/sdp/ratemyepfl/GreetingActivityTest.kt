@@ -36,7 +36,7 @@ class GreetingActivityTest {
 
     @Test
     fun displaysUsernameOnLaunch() {
-        val name = "name"
+        val name = "John"
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
             GreetingActivity::class.java
