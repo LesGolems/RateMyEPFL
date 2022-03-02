@@ -34,4 +34,22 @@ class GreetingActivityTest {
         scenario.close()
     }
 
+    @Test
+    fun displaysUsernameOnLaunch() {
+        val name = "name"
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            GreetingActivity::class.java
+        )
+            .putExtra(GreetingActivity.EXTRA_USER_NAME, name)
+
+        val scenario: ActivityScenario<GreetingActivity> = ActivityScenario.launch(intent)
+        scenario.use {
+            onView(withId(R.id.greetingMessage)).check(
+                matches(
+                    withText("Hello $name!")
+                )
+            )
+        }
+    }
 }
