@@ -70,7 +70,7 @@ class MainActivityTest {
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
             .perform(ViewActions.pressKey(KeyEvent.KEYCODE_D))
-
+        assertNoUnverifiedIntents()
         // How can we check that no intent is fired ?
         release()
     }
