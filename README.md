@@ -14,6 +14,4 @@ Les Golems donnent leur avis sur l'EPFL.
 | Nicolas Matekalo   | nicolas.matekalo@epfl.ch |
 | Souleyman Boudouh | souleyman.boudouh@epfl.ch |
 
-Mathias Bouilloud, Julien Mettler, Emilien Guandalino, Alexandre Messmer, Nicolas Matekalo, Souleyman Boudouh
-
-:)
+Mathias Bouilloud, Julien git Mettler, Emilien Guandalino, Alexandre Messmer, Nicolas Matekalo, Souleyman Boudouh
