@@ -70,8 +70,8 @@ class MainActivityTest {
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
             .perform(ViewActions.pressKey(KeyEvent.KEYCODE_D))
+        // Check that no intent is fired
         assertNoUnverifiedIntents()
-        // How can we check that no intent is fired ?
         release()
     }
 
@@ -81,7 +81,6 @@ class MainActivityTest {
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
         onView(withId(R.id.mainGoButton)).perform(click())
-
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
         release()
     }
