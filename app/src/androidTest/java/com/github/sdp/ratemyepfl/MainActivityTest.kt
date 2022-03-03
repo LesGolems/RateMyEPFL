@@ -1,11 +1,15 @@
 package com.github.sdp.ratemyepfl
 
+import android.view.KeyEvent
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAssertion
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
@@ -21,40 +25,40 @@ class MainActivityTest {
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun test() {
+    fun firesAnIntentWhenUserPressesButton() {
         init()
-
-        val username = "Julien"
-        onView(withId(R.id.mainName)).perform(typeText(username))
+        val name = "John"
+        onView(withId(R.id.mainName)).perform(typeText(name))
         onView(withId(R.id.mainGoButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
 
-        /* Check an intent is fired */
-        intended(toPackage("com.github.sdp.ratemyepfl"));
-
-        /* Check the intent contains the username */
-        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, username));
-
-        release();
+    fun hasExtraWhenUserPressesButton() {
+        init()
+        val name = "John"
+        onView(withId(R.id.mainName)).perform(typeText(name))
+        onView(withId(R.id.mainGoButton)).perform(click())
+        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
+        release()
     }
 
     @Test
-    fun firesAnIntentWhenTheUsersPressesButton() {
-        Intents.init()
-        val name = "my name"
+    fun firesAnIntentWhenUserPressesEnter() {
+        init()
+        val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
-
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
 
     @Test
-    fun passesUsernameAsExtra() {
+    fun hasExtraWhenUserPressesEnter() {
         init()
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
-
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
         release()
     }

@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -26,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Bonus: trigger the button when the user presses "enter" in the text field
-        mNameText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                mGoButton.callOnClick()
-                return@setOnEditorActionListener true
+        mNameText.setOnKeyListener{ _, keyCode, event ->
+            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                mGoButton.performClick()
+                true
             }
-            return@setOnEditorActionListener false
+            false
         }
     }
 
