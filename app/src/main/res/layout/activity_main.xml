@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     tools:context=".MainActivity">
 
     <EditText
@@ -11,11 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Name"
+        android:inputType="textPersonName"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/mainGoButton"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/mainGoButton"
@@ -29,42 +32,25 @@
         android:id="@+id/coursesReviewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="71dp"
-        android:layout_marginEnd="135dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginTop="20dp"
         android:text="Courses review"
-        app:layout_constraintBottom_toTopOf="@+id/classroomReviewButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainName" />
+        app:layout_constraintTop_toBottomOf="@+id/classroomReviewButton"
+        tools:layout_editor_absoluteX="77dp" />
 
     <Button
         android:id="@+id/classroomReviewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="137dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="138dp"
-        android:layout_marginBottom="34dp"
         android:text="Classrooms"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coursesReviewButton" />
+        app:layout_constraintTop_toBottomOf="@+id/mainName"
+        tools:layout_editor_absoluteX="93dp" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="162dp"
         android:text="Login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classroomReviewButton" />
+        app:layout_constraintTop_toBottomOf="@+id/coursesReviewButton"
+        tools:layout_editor_absoluteX="126dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
