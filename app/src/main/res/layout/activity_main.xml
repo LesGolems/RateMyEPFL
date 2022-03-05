@@ -25,4 +25,46 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/mainName" />
 
+    <Button
+        android:id="@+id/coursesReviewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="28dp"
+        android:text="Courses review"
+        app:layout_constraintBottom_toTopOf="@+id/classroomReviewButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainName" />
+
+    <Button
+        android:id="@+id/classroomReviewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="137dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginBottom="34dp"
+        android:text="Classrooms"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coursesReviewButton" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="162dp"
+        android:text="Login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classroomReviewButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
