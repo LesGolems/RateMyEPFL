@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl
 
-interface Review {
+abstract class Review(val rate: Int, val comment: String) {
+
 }
