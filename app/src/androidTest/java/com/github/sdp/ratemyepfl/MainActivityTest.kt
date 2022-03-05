@@ -1,19 +1,14 @@
 package com.github.sdp.ratemyepfl
 
 import android.view.KeyEvent
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAssertion
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
-
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,62 +20,40 @@ class MainActivityTest {
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun test() {
-        init()
-
-        val username = "Julien"
-        onView(withId(R.id.mainName)).perform(typeText(username))
-        onView(withId(R.id.mainGoButton)).perform(click())
-
-        /* Check an intent is fired */
-        intended(toPackage("com.github.sdp.ratemyepfl"));
-
-        /* Check the intent contains the username */
-        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, username));
-
-        release();
-    }
-
-    @Test
     fun firesAnIntentWhenUserPressesButton() {
-        Intents.init()
-        val name = "my name"
+        init()
+        val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
         onView(withId(R.id.mainGoButton)).perform(click())
-
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
 
-    @Test
-    fun firesAnIntentWhenUserPressesEnter() {
-        Intents.init()
+    fun hasExtraWhenUserPressesButton() {
+        init()
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
-            .perform(ViewActions.pressImeActionButton())
-
-        intended(toPackage("com.github.sdp.ratemyepfl"))
+        onView(withId(R.id.mainGoButton)).perform(click())
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
         release()
     }
 
     @Test
-    fun doesNotFireAnIntentWithOtherKeyThanEnter() {
-        Intents.init()
+    fun firesAnIntentWhenUserPressesEnter() {
+        init()
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
-            .perform(ViewActions.pressKey(KeyEvent.KEYCODE_D))
-        // Check that no intent is fired
-        assertNoUnverifiedIntents()
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
+        intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
 
     @Test
-    fun passesUsernameAsExtra() {
+    fun hasExtraWhenUserPressesEnter() {
         init()
         val name = "John"
         onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
         release()
     }
