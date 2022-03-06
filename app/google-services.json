@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "389821913479",
+    "project_id": "ratemyepfl",
+    "storage_bucket": "ratemyepfl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389821913479:android:c1c013ee30e9db07dddb22",
+        "android_client_info": {
+          "package_name": "com.github.sdp.ratemyepfl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389821913479-u60fae7uhvlue7j8oolq8irg4kuhjqi9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.sdp.ratemyepfl",
+            "certificate_hash": "d038e28844939959cf990db762df2cb55ab5c08e"
+          }
+        },
+        {
+          "client_id": "389821913479-8i20bg7n6ag0mol9i00alpt0r0rdromk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSWvlArDa8VPCAaSR2nB0UaQSeEn14VYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389821913479-8i20bg7n6ag0mol9i00alpt0r0rdromk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
