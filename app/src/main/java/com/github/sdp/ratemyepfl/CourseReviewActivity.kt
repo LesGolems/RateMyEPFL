@@ -98,6 +98,7 @@ class CourseReviewActivity : AppCompatActivity() {
     }
 
     private fun submitReview(review: CourseReview) {
+        // Currently returns to GreetingActivity, to be changed
         val intent = Intent(this, GreetingActivity::class.java)
         intent.putExtra(GreetingActivity.EXTRA_USER_NAME, review.toString())
         startActivity(intent)

@@ -8,6 +8,7 @@ enum class ReviewRating(val rating: Int) {
     EXCELLENT(ReviewRating.EXCELLENT_RATING);
 
     companion object {
+        // Defines the integer values corresponding to each rating
         const val EXCELLENT_RATING = 5
         const val GOOD_RATING = 4
         const val AVERAGE_RATING = 3
