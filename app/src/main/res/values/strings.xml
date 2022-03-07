@@ -1,4 +1,14 @@
 <resources>
-    <string name="app_name">Bootcamp</string>
+    <string name="app_name">RateMyEpfl</string>
     <string name="greeting_message">Hello %s!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rating_value_1">Terrible</string>
+    <string name="rating_value_2">Poor</string>
+    <string name="rating_value_3">Average</string>
+    <string name="rating_value_4">Good</string>
+    <string name="rating_value_5">Excellent</string>
+    <string name="course_review_indication_string">How would you describe the course %s</string>
+    <string name="course_review_title_default">Enter a title</string>
+    <string name="course_review_comment_default">Give us your opinion</string>
 </resources>
