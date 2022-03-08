@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         // We get a reference to the view objects, using their previously set ID
         val mNameText = findViewById<EditText>(R.id.mainName)
         val mGoButton = findViewById<Button>(R.id.mainGoButton)
+        val mCoursesButton = findViewById<Button>(R.id.coursesButton)
 
         // We then set the behaviour of the button
         // It's quite short, so we can leave it here, but as soon as it starts
@@ -33,11 +34,20 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
+
+        mCoursesButton.setOnClickListener {
+            displayCourses()
+        }
     }
 
     private fun sayHello(userName: String) {
         val intent = Intent(this, GreetingActivity::class.java)
         intent.putExtra(GreetingActivity.EXTRA_USER_NAME, userName)
+        startActivity(intent)
+    }
+
+    private fun displayCourses() {
+        val intent = Intent(this, CoursesActivity::class.java)
         startActivity(intent)
     }
 }
