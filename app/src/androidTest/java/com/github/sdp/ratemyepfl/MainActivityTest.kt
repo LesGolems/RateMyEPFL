@@ -7,15 +7,20 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class MainActivityTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
@@ -28,6 +33,7 @@ class MainActivityTest {
         release()
     }
 
+    @Test
     fun hasExtraWhenUserPressesButton() {
         init()
         val name = "John"
@@ -58,10 +64,28 @@ class MainActivityTest {
     }
 
     @Test
+    fun emailDisplayedWhenUserPressesLogin(){
+        onView(withId(R.id.loginButton)).perform(click())
+        Thread.sleep(1000)
+        onView(withId(R.id.email)).check(matches(withText("user@email.com")))
+    }
+
+    @Test
+    fun emailNotDisplayedWhenUserLogout(){
+        onView(withId(R.id.loginButton)).perform(click())
+        Thread.sleep(1000)
+        onView(withId(R.id.logoutButton)).perform(click())
+        Thread.sleep(1000)
+        onView(withId(R.id.email)).check(matches(withText("")))
+    }
+    /*
+    @Test
     fun firesAnIntentWhenUserPressesLogin() {
         init()
         onView(withId(R.id.loginButton)).perform(click())
         intended(hasComponent("com.firebase.ui.auth.KickoffActivity"))
         release()
     }
+
+     */
 }

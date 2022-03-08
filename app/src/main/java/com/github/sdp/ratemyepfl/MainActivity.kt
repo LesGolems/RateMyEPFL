@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity(){
     private fun setUpButtons(){
         mLoginButton.setOnClickListener {
             auth.signIn(this)
+            checkUser()
         }
 
         mLogoutButton.setOnClickListener {
