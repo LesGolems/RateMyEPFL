@@ -1,11 +1,17 @@
 package com.github.sdp.ratemyepfl.auth
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.Task
+
 interface UserAuth {
-    fun signIn()
+    fun signIn(activity : AppCompatActivity)
 
-    fun signOut()
+    fun signOut(context : Context): Task<Void>
 
-    fun isLoggedIn()
+    fun isLoggedIn(): Boolean
 
-    fun getEmail()
+    fun getUserId(): String?
+
+    fun getEmail(): String?
 }
