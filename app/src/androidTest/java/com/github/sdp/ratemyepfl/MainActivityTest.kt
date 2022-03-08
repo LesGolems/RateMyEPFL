@@ -4,8 +4,7 @@ import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -55,6 +54,14 @@ class MainActivityTest {
         onView(withId(R.id.mainName)).perform(typeText(name))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
+        release()
+    }
+
+    @Test
+    fun firesAnIntentWhenUserPressesLogin() {
+        init()
+        onView(withId(R.id.loginButton)).perform(click())
+        intended(hasComponent("com.firebase.ui.auth.KickoffActivity"))
         release()
     }
 }
