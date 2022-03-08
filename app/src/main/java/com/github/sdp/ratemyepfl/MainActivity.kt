@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.auth.UserAuthImpl
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mLoginButton: Button
+    private lateinit var mLogoutButton: Button
     private lateinit var mEmail: TextView
     private lateinit var auth: UserAuth
 
@@ -25,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         val mGoButton = findViewById<Button>(R.id.mainGoButton)
         mEmail = findViewById(R.id.email)
         mLoginButton = findViewById(R.id.loginButton)
+        mLogoutButton = findViewById(R.id.logoutButton)
         auth = UserAuthImpl()
+        checkUser()
 
         // We then set the behaviour of the button
         // It's quite short, so we can leave it here, but as soon as it starts
@@ -47,6 +50,16 @@ class MainActivity : AppCompatActivity() {
         setUpButtons()
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkUser()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        checkUser()
+    }
+
     private fun sayHello(userName: String) {
         val intent = Intent(this, GreetingActivity::class.java)
         intent.putExtra(GreetingActivity.EXTRA_USER_NAME, userName)
@@ -56,10 +69,25 @@ class MainActivity : AppCompatActivity() {
     private fun setUpButtons(){
         mLoginButton.setOnClickListener {
             auth.signIn(this)
-            mEmail.text = auth.getEmail()
-            mEmail.visibility = View.VISIBLE
+        }
+
+        mLogoutButton.setOnClickListener {
+            auth.signOut(applicationContext).addOnCompleteListener {
+                checkUser()
+            }
         }
     }
 
+    private fun checkUser(){
+        if(!auth.isLoggedIn()){
+            mLogoutButton.isEnabled = false
+            mLoginButton.isEnabled = true
+            mEmail.text = ""
+        } else {
+            mLogoutButton.isEnabled = true
+            mLoginButton.isEnabled = false
+            mEmail.text = auth.getEmail()
+        }
+    }
 
 }
