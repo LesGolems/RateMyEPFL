@@ -10,9 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".GreetingActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".review.AddRoomReviewActivity"
             android:exported="false" />
+        <activity
+            android:name=".review.RoomReviewsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".review.ClassroomsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GreetingActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

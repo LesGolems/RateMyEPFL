@@ -6,8 +6,11 @@ import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.github.sdp.ratemyepfl.review.ClassroomsListActivity
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var mRoomReviewButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             false
+        }
+
+        mRoomReviewButton = findViewById(R.id.classroomReviewButton)
+        mRoomReviewButton.setOnClickListener {
+            startActivity(Intent(this, ClassroomsListActivity::class.java))
         }
     }
 
