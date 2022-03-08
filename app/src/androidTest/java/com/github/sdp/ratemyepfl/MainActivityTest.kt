@@ -68,13 +68,4 @@ class MainActivityTest {
         release()
     }
 
-    @Test
-    fun hasExtraWhenUSerPressesCourseReviewButton() {
-        init()
-        val courseName = "CS-306"
-        onView(withId(R.id.coursesReviewButton))
-            .perform(click())
-        intended(hasExtra(CourseReviewActivity.EXTRA_COURSE_NAME, courseName))
-        release()
-    }
 }
