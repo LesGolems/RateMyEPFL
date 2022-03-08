@@ -1,13 +1,12 @@
 package com.github.sdp.ratemyepfl
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.github.sdp.ratemyepfl.database.ReviewDatabase
+import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
 import com.github.sdp.ratemyepfl.review.ReviewRating
@@ -47,8 +46,9 @@ class CourseReviewActivity : AppCompatActivity() {
 
         val courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
         val serializedCourse: String? = intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
-        val course: Optional<Course> = if (serializedCourse != null) Optional.of(Json.decodeFromString<Course>(serializedCourse))
-        else Optional.empty()
+        val course: Optional<Course> =
+            if (serializedCourse != null) Optional.of(Json.decodeFromString<Course>(serializedCourse))
+            else Optional.empty()
 
         courseReviewIndication.text =
             getString(R.string.course_review_indication_string, course.map { c ->

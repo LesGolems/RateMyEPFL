@@ -1,16 +1,12 @@
 package com.github.sdp.ratemyepfl
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
-import com.github.sdp.ratemyepfl.viewmodels.CourseReviewDatabaseViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -36,25 +32,28 @@ class CourseManagementActivity : AppCompatActivity() {
         }
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val data: Intent? = result.data
-            val serializedReview = data?.getStringExtra(CourseReviewActivity.EXTRA_REVIEW)
-            val courseCode = data?.getStringExtra(EXTRA_COURSE_REVIEWED)
-            if (serializedReview != null && courseCode != null) {
-                // Only examples to retrieve the data
-                val review = CourseReview.deserialize(serializedReview)
-                //val course = retrieveCourseFromCourseCode(courseCode)
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                val serializedReview = data?.getStringExtra(CourseReviewActivity.EXTRA_REVIEW)
+                val courseCode = data?.getStringExtra(EXTRA_COURSE_REVIEWED)
+                if (serializedReview != null && courseCode != null) {
+                    // Only examples to retrieve the data
+                    val review = CourseReview.deserialize(serializedReview)
+                    //val course = retrieveCourseFromCourseCode(courseCode)
+                }
             }
         }
-    }
 
     private fun retrieveCourseFromCourseCode(code: String): Course {
         TODO("")
     }
+
     private fun processResult(course: Course, review: CourseReview) {
         // Do some operations
     }
+
     private fun startReview(course: Course) {
         val intent = Intent(this, CourseReviewActivity::class.java)
         intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, Json.encodeToString(course))

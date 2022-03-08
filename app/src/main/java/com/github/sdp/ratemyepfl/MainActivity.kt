@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Bonus: trigger the button when the user presses "enter" in the text field
-        mNameText.setOnKeyListener{ _, keyCode, event ->
-            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mNameText.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 mGoButton.performClick()
                 true
             }

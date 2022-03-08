@@ -11,8 +11,8 @@
         android:theme="@style/Theme.RateMyEPFL">
         <activity
             android:name=".CourseManagementActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CourseReviewActivity"
             android:exported="false"

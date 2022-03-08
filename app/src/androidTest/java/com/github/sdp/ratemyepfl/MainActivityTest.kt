@@ -11,9 +11,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.Timeout
 import org.junit.runner.RunWith
-import java.util.concurrent.CompletableFuture
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {

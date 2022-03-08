@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.review
 
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 import java.time.LocalDate
 
@@ -61,6 +61,7 @@ class CourseReviewTest {
 
         assertEquals(rating, builder.rating)
     }
+
     @Test
     fun builderSetTitleCorrectly() {
         val title: String = "My title"

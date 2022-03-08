@@ -3,9 +3,6 @@ package com.github.sdp.ratemyepfl.review
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
-import org.json.JSONObject
-import java.io.Serializable
 import java.time.LocalDate
 
 class CourseReview private constructor(
@@ -21,10 +18,12 @@ class CourseReview private constructor(
     }
 
     override fun toString(): String {
-        return String.format("Rating: %s \n Title: %s \n \t %s",
+        return String.format(
+            "Rating: %s \n Title: %s \n \t %s",
             rating.toString(),
             title,
-            comment)
+            comment
+        )
     }
 
     data class Builder(
@@ -59,8 +58,7 @@ class CourseReview private constructor(
                 return CourseReview(
                     rate, title, comment, date
                 )
-            }
-            else throw IllegalStateException("Cannot build a review made of null elements")
+            } else throw IllegalStateException("Cannot build a review made of null elements")
         }
 
 

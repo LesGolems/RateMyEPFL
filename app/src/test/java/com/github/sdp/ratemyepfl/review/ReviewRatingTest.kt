@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.review
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ReviewRatingTest {
