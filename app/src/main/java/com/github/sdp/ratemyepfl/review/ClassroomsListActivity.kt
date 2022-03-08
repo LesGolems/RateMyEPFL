@@ -26,7 +26,6 @@ class ClassroomsListActivity : AppCompatActivity() {
         ).get(ClassroomsListViewModel::class.java)
 
         val roomsAdapter = ClassroomsAdapter { room -> adapterOnClick(room) }
-
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.adapter = roomsAdapter
 

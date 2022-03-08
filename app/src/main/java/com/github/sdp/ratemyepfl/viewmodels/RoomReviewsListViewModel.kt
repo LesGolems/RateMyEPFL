@@ -12,9 +12,10 @@ class RoomReviewsListViewModel(
     private val id: String?
 ) : ViewModel() {
 
+    // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData(
         dataSource.getRoomForId(id)?.reviews
-    )// getReviewsForId(id)
+    )
 
     fun getReviews(): LiveData<List<ClassroomReview>?> {
         return reviewsLiveData
@@ -23,7 +24,7 @@ class RoomReviewsListViewModel(
     fun insertReview(roomGrade: String, roomComment: String) {
         val newReview = ClassroomReview(roomGrade.toInt(), roomComment)
         val currentList = reviewsLiveData.value
-        if (currentList == null) {
+        if (currentList == null) { // No reviews yet
             reviewsLiveData.postValue(listOf(newReview))
         } else {
             val updatedList = currentList.toMutableList()
@@ -50,18 +51,4 @@ class RoomReviewsListViewModel(
 
     }
 
-    /*private val reviewsLiveData = MutableLiveData(
-    listOf(
-        ClassroomReview(
-            15, "Pas mal"
-        ),
-        ClassroomReview(
-            6, "wola c nul"
-        )
-    )
-)
-
-fun getReviews(): LiveData<List<ClassroomReview>> {
-    return reviewsLiveData
-}*/
 }

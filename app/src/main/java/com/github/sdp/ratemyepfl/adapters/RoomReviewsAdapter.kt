@@ -20,8 +20,9 @@ class RoomReviewsAdapter :
     inner class RoomReviewViewHolder(reviewView: View) :
         RecyclerView.ViewHolder(reviewView) {
 
-        private val reviewGradeTextView: TextView = reviewView.findViewById(R.id.room_review_grade)
-        private val reviewCommentTextView: TextView =
+        private val gradeTextView: TextView =
+            reviewView.findViewById(R.id.room_review_grade)
+        private val commentTextView: TextView =
             reviewView.findViewById(R.id.room_review_comment)
         private var currentReview: ClassroomReview? = null
 
@@ -29,10 +30,8 @@ class RoomReviewsAdapter :
         /* Bind room id and name. */
         fun bind(review: ClassroomReview) {
             currentReview = review
-            //Resources.getSystem().getString(R.string.grade, )
-            reviewGradeTextView.text = review.rate.toString()
-            // Resources.getSystem().getString(R.string.comment, review.comment)
-            reviewCommentTextView.text = review.comment
+            gradeTextView.text = review.rate.toString()
+            commentTextView.text = review.comment
         }
     }
 
@@ -49,7 +48,6 @@ class RoomReviewsAdapter :
     override fun onBindViewHolder(holder: RoomReviewViewHolder, position: Int) {
         val review = getItem(position)
         holder.bind(review)
-
     }
 
 }
