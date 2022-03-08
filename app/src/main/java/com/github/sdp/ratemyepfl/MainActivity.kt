@@ -3,11 +3,18 @@ package com.github.sdp.ratemyepfl
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.sdp.ratemyepfl.auth.UserAuth
+import com.github.sdp.ratemyepfl.auth.UserAuthImpl
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mLoginButton: Button
+    private lateinit var mEmail: TextView
+    private lateinit var auth: UserAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         // We get a reference to the view objects, using their previously set ID
         val mNameText = findViewById<EditText>(R.id.mainName)
         val mGoButton = findViewById<Button>(R.id.mainGoButton)
+        mEmail = findViewById(R.id.email)
+        mLoginButton = findViewById(R.id.loginButton)
+        auth = UserAuthImpl()
 
         // We then set the behaviour of the button
         // It's quite short, so we can leave it here, but as soon as it starts
@@ -33,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
+
+        setUpButtons()
     }
 
     private fun sayHello(userName: String) {
@@ -40,4 +52,14 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(GreetingActivity.EXTRA_USER_NAME, userName)
         startActivity(intent)
     }
+
+    private fun setUpButtons(){
+        mLoginButton.setOnClickListener {
+            auth.signIn(this)
+            mEmail.text = auth.getEmail()
+            mEmail.visibility = View.VISIBLE
+        }
+    }
+
+
 }
