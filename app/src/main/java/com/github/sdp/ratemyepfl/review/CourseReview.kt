@@ -1,14 +1,24 @@
 package com.github.sdp.ratemyepfl.review
 
-import java.lang.IllegalStateException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.encodeToJsonElement
+import org.json.JSONObject
+import java.io.Serializable
 import java.time.LocalDate
 
-class CourseReview(
-    rating: ReviewRating,
+class CourseReview private constructor(
+    override val rating: ReviewRating,
     val title: String,
-    comment: String,
+    override val comment: String,
     val date: LocalDate
 ) : Review(rating, comment) {
+
+    companion object {
+        fun serialize(review: CourseReview): String = Json.encodeToString(review)
+        fun deserialize(review: String): CourseReview = Json.decodeFromString(review)
+    }
 
     override fun toString(): String {
         return String.format("Rating: %s \n Title: %s \n \t %s",
@@ -21,6 +31,7 @@ class CourseReview(
         private var rate: ReviewRating? = null,
         private var title: String? = null,
         private var comment: String? = null,
+        private var date: LocalDate? = null,
     ) {
         fun setRate(rate: ReviewRating) = apply {
             this.rate = rate
@@ -34,12 +45,25 @@ class CourseReview(
             this.comment = comment
         }
 
-        fun build(): CourseReview =
-            if (rate == null || title == null || comment == null)
-                throw IllegalStateException()
-            else CourseReview(
-                rate!!, title!!, comment!!, LocalDate.now()
-            )
+        fun setDate(date: LocalDate) = apply {
+            this.date = date
+        }
+
+        fun build(): CourseReview {
+            val rate = this.rate
+            val title = this.title
+            val comment = this.comment
+            val date = this.date
+
+            if (rate != null && title != null && comment != null && date != null) {
+                return CourseReview(
+                    rate, title, comment, date
+                )
+            }
+            else throw IllegalStateException("Cannot build a review made of null elements")
+        }
+
+
     }
 
 }

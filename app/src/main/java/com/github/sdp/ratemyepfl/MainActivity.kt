@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mReviewButton.setOnClickListener {
-            startReview(mNameText.text.toString())
+            // To be changed once courses are implemented
+            startReview()
         }
 
         // Bonus: trigger the button when the user presses "enter" in the text field
@@ -46,9 +47,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun startReview(courseName: String) {
-        val intent = Intent(this, CourseReviewActivity::class.java)
-        intent.putExtra(CourseReviewActivity.EXTRA_COURSE_NAME, courseName)
+    private fun startReview() {
+        val intent = Intent(this, CourseManagementActivity::class.java)
         startActivity(intent)
     }
 }

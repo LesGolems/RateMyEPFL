@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".CourseManagementActivity">
 
+    <Button
+        android:id="@+id/startCourseReviewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Review a course"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="132dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

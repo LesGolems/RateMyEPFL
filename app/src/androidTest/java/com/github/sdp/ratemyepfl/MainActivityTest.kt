@@ -11,7 +11,9 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.Timeout
 import org.junit.runner.RunWith
+import java.util.concurrent.CompletableFuture
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
@@ -55,6 +57,26 @@ class MainActivityTest {
         onView(withId(R.id.mainName)).perform(typeText(name))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
         intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
+        release()
+    }
+
+    // To be changed once the courses are implemented
+    @Test
+    fun firesAnIntentWhenUserPressesCourseReviewButton() {
+        init()
+        onView(withId(R.id.coursesReviewButton))
+            .perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun hasExtraWhenUSerPressesCourseReviewButton() {
+        init()
+        val courseName = "CS-306"
+        onView(withId(R.id.coursesReviewButton))
+            .perform(click())
+        intended(hasExtra(CourseReviewActivity.EXTRA_COURSE_NAME, courseName))
         release()
     }
 }

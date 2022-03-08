@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.items
 
-class Course(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Course(
     val name: String,
     val faculty: String,
     val teacher: String,

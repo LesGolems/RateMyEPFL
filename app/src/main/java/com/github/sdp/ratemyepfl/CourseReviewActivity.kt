@@ -7,9 +7,15 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import com.github.sdp.ratemyepfl.database.ReviewDatabase
+import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
 import com.github.sdp.ratemyepfl.review.ReviewRating
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.time.LocalDate
+import java.util.*
 
 class CourseReviewActivity : AppCompatActivity() {
 
@@ -17,8 +23,10 @@ class CourseReviewActivity : AppCompatActivity() {
         const val UNCHECKED_RATING_MESSAGE: String = "Please select a rating"
         const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
         const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
-        const val EXTRA_COURSE_NAME: String = "com.github.sdp.ratemyepfl.review.extra_course_name"
+        const val EXTRA_COURSE_IDENTIFIER: String =
+            "com.github.sdp.ratemyepfl.review.extra_course_name"
         const val EMPTY_STRING: String = ""
+        const val EXTRA_REVIEW: String = "com.github.sdp.ratemyepfl.review.extra_review"
     }
 
     private lateinit var courseRatingButton: RadioGroup
@@ -38,9 +46,14 @@ class CourseReviewActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.courseReviewSubmit)
 
         val courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
-        val courseName: String? = intent.getStringExtra(EXTRA_COURSE_NAME)
+        val serializedCourse: String? = intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
+        val course: Optional<Course> = if (serializedCourse != null) Optional.of(Json.decodeFromString<Course>(serializedCourse))
+        else Optional.empty()
+
         courseReviewIndication.text =
-            getString(R.string.course_review_indication_string, courseName)
+            getString(R.string.course_review_indication_string, course.map { c ->
+                String.format("%s %s", c.courseCode, c.name)
+            }.orElse(null))
 
         submitButton.setOnClickListener { _ ->
             val review = extractReview()
@@ -83,6 +96,7 @@ class CourseReviewActivity : AppCompatActivity() {
                 .setRate(rating)
                 .setTitle(title!!)
                 .setComment(comment!!)
+                .setDate(LocalDate.now())
                 .build()
         }
         return null
@@ -98,9 +112,13 @@ class CourseReviewActivity : AppCompatActivity() {
     }
 
     private fun submitReview(review: CourseReview) {
-        // Currently returns to GreetingActivity, to be changed
-        val intent = Intent(this, GreetingActivity::class.java)
-        intent.putExtra(GreetingActivity.EXTRA_USER_NAME, review.toString())
-        startActivity(intent)
+        val resultIntent = Intent()
+        resultIntent.putExtra(EXTRA_REVIEW, CourseReview.serialize(review))
+        resultIntent.putExtra(
+            CourseManagementActivity.EXTRA_COURSE_REVIEWED,
+            intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
+        )
+        setResult(RESULT_OK, resultIntent)
+        finish()
     }
 }
