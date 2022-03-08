@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import javax.inject.Inject
 
-class UserAuthImpl : UserAuth {
+class UserAuthImpl @Inject constructor() : UserAuth {
 
     override fun signIn(activity : AppCompatActivity) {
         val providers = arrayListOf(

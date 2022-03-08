@@ -10,13 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.auth.UserAuth
 import com.github.sdp.ratemyepfl.auth.UserAuthImpl
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
+
+    @Inject lateinit var auth: UserAuth
+
     private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
     private lateinit var mEmail: TextView
-    private lateinit var auth: UserAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         mEmail = findViewById(R.id.email)
         mLoginButton = findViewById(R.id.loginButton)
         mLogoutButton = findViewById(R.id.logoutButton)
-        auth = UserAuthImpl()
         checkUser()
 
         // We then set the behaviour of the button
