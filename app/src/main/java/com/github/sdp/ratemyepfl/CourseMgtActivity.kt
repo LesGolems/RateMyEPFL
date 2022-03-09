@@ -33,6 +33,7 @@ class CourseMgtActivity : AppCompatActivity() {
         }
     }
 
+
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -56,8 +57,10 @@ class CourseMgtActivity : AppCompatActivity() {
     }
 
     private fun startReview(course: Course) {
+
         val intent = Intent(this, CourseReviewActivity::class.java)
         intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, Json.encodeToString(course))
         resultLauncher.launch(intent)
+
     }
 }

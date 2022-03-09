@@ -23,6 +23,9 @@ class CourseReview private constructor(
         fun deserialize(review: String): CourseReview = Json.decodeFromString(review)
     }
 
+
+
+
     override fun toString(): String {
         return String.format(
             "Rating: %s \n Title: %s \n \t %s",
