@@ -57,10 +57,8 @@ class CourseMgtActivity : AppCompatActivity() {
     }
 
     private fun startReview(course: Course) {
-
         val intent = Intent(this, CourseReviewActivity::class.java)
         intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, Json.encodeToString(course))
         resultLauncher.launch(intent)
-
     }
 }

@@ -50,7 +50,6 @@ class CourseReviewActivity : AppCompatActivity() {
         courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
 
         startReview()
-
     }
 
     private fun <T> setError(view: TextView, newValue: T?, errorMessage: String) {
@@ -60,21 +59,16 @@ class CourseReviewActivity : AppCompatActivity() {
     private fun startReview() {
         val serializedCourse: String? = intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
         if (serializedCourse == null) {
-            setResult(RESULT_CANCELED)
+            setResult(RESULT_CANCELED, Intent())
             finish()
-            return
         }
-
-        serializedCourse.let { identifier ->
+        serializedCourse?.let { identifier ->
             val course: Course = Json.decodeFromString<Course>(identifier)
             courseReviewIndication.text =
                 getString(R.string.course_review_indication_string, course.toString())
-            viewModel =
-                ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
-                    .get(CourseReviewViewModel::class.java)
+            viewModel = ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
+                .get(CourseReviewViewModel::class.java)
         }
-        viewModel = ViewModelProvider(this).get(CourseReviewViewModel::class.java)
-
         viewModel.rating.observe(this) { rating ->
             setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
         }
@@ -84,7 +78,6 @@ class CourseReviewActivity : AppCompatActivity() {
         viewModel.title.observe(this) { title ->
             setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
         }
-
 
         courseRatingButton.setOnCheckedChangeListener { _, id ->
             viewModel.setRating(fromIdToRating(id))
