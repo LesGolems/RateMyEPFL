@@ -47,7 +47,7 @@ class CourseReviewActivity : AppCompatActivity() {
         courseReviewComment = findViewById(R.id.courseReviewOpinion)
         lastCourseRatingButton = findViewById(R.id.courseRatingExcellentRadioButton)
         submitButton = findViewById(R.id.courseReviewSubmit)
-        courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
+        courseReviewIndication = findViewById(R.id.courseReviewCourseName)
 
         startReview()
     }

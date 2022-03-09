@@ -11,4 +11,5 @@ data class Course(
     val courseCode: String
 ) {
 
+    override fun toString(): String = String.format("%s %s", courseCode, name)
 }
