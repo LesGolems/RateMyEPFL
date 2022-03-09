@@ -12,12 +12,8 @@ import com.github.sdp.ratemyepfl.Classroom
 import com.github.sdp.ratemyepfl.R
 
 class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
-    ListAdapter<Classroom, ClassroomsAdapter.RoomViewHolder>(RoomDiffCallback) {//RecyclerView.Adapter<ClassroomsAdapter.RoomViewHolder>() {
+    ListAdapter<Classroom, ClassroomsAdapter.RoomViewHolder>(RoomDiffCallback) {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
     inner class RoomViewHolder(roomView: View) :
         RecyclerView.ViewHolder(roomView) {
 
@@ -49,7 +45,6 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
                 false
             )
         )
-
     }
 
     /* Gets current room and uses it to bind view. */

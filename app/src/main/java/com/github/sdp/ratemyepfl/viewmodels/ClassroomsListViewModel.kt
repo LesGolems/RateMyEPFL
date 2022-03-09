@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.Classroom
 import com.github.sdp.ratemyepfl.placeholder.DataSource
 
-class ClassroomsListViewModel(private val dataSource: DataSource = DataSource()) : ViewModel() {
+class ClassroomsListViewModel(dataSource: DataSource = DataSource()) : ViewModel() {
 
     private val roomsLiveData = dataSource.getRoomList()
 

@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.review
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.Classroom
@@ -26,7 +26,7 @@ class ClassroomsListActivity : AppCompatActivity() {
         ).get(ClassroomsListViewModel::class.java)
 
         val roomsAdapter = ClassroomsAdapter { room -> adapterOnClick(room) }
-        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val recyclerView: RecyclerView = findViewById(R.id.rooms_recycler_view)
         recyclerView.adapter = roomsAdapter
 
         viewModel.getRooms().observe(this) {
@@ -38,13 +38,11 @@ class ClassroomsListActivity : AppCompatActivity() {
 
     }
 
-    /* Opens FlowerDetailActivity when RecyclerView item is clicked. */
+    /* Opens RoomReviewsActivity when RecyclerView item is clicked. */
     private fun adapterOnClick(room: Classroom) {
         val intent = Intent(this, RoomReviewsListActivity()::class.java)
         intent.putExtra(ROOM_ID, room.id)
         startActivity(intent)
     }
-
-
 
 }
