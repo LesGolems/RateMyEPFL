@@ -19,6 +19,7 @@ class CourseMgtActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_COURSE_REVIEWED = "com.github.sdp.ratemyepfl.review.extra_course_reviewed"
+        val DEFAULT_COURSE: Course = Course("Sweng", "CS", "Candea", 4, "CS-306")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class CourseMgtActivity : AppCompatActivity() {
         reviewButton = findViewById(R.id.startCourseReviewButton)
 
         reviewButton.setOnClickListener {
-            startReview(Course("Sweng", "CS", "Candea", 4, "CS-306"))
+            startReview(DEFAULT_COURSE)
         }
     }
 
@@ -47,7 +48,7 @@ class CourseMgtActivity : AppCompatActivity() {
         }
 
     private fun retrieveCourseFromCourseCode(code: String): Course {
-        TODO("")
+        return DEFAULT_COURSE
     }
 
     private fun processResult(course: Course, review: CourseReview) {

@@ -41,7 +41,7 @@ class CourseReviewActivity : AppCompatActivity() {
         courseRatingButton = findViewById(R.id.courseReviewRating)
         courseReviewTitle = findViewById(R.id.courseReviewTitle)
         courseReviewComment = findViewById(R.id.courseReviewOpinion)
-        lastCourseRatingButton = findViewById(R.id.courseRatingTerribleRadioButton)
+        lastCourseRatingButton = findViewById(R.id.courseRatingExcellentRadioButton)
         submitButton = findViewById(R.id.courseReviewSubmit)
 
         val courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
