@@ -11,4 +11,6 @@
     <string name="course_review_indication_string">How would you describe the course %s</string>
     <string name="course_review_title_default">Enter a title</string>
     <string name="course_review_comment_default">Give us your opinion</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
 </resources>
