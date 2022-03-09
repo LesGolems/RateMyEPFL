@@ -9,25 +9,40 @@ import com.github.sdp.ratemyepfl.review.CourseReview
 import com.github.sdp.ratemyepfl.review.ReviewRating
 import java.time.LocalDate
 
+/**
+ * View model for the course reviewing feature
+ */
 class CourseReviewViewModel(val course: Course) : ViewModel() {
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
     private var date: LocalDate? = null
 
-    private fun setRating(rating: ReviewRating?) {
+    /**
+     * Set the rating entered by the user
+     * @param rating: rating entered by the user
+     */
+    fun setRating(rating: ReviewRating?) {
         this.rating.postValue(rating)
     }
 
-    fun setRating(buttonId: Int) {
-        setRating(fromIdToRating(buttonId))
-    }
-
+    /**
+     * Set the title entered by the user
+     * @param title: title entered by the user
+     */
     fun setTitle(title: String?) = this.title.postValue(title)
 
+    /**
+     * Set the comment entered by the user
+     * @param comment: comment entered by the user
+     */
     fun setComment(comment: String?) = this.comment.postValue(comment)
 
-
+    /**
+     * Builds the review from user's input
+     *
+     * @return the CourseReview, if every field is filled, or null otherwise
+     */
     fun review(): CourseReview? {
         val rating = rating.value
         val title = title.value
@@ -36,7 +51,7 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
 
         return if (rating != null && title != null && comment != null) {
             CourseReview.Builder()
-                .setRate(rating)
+                .setRating(rating)
                 .setTitle(title)
                 .setComment(comment)
                 .setDate(date)
@@ -44,16 +59,10 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
         } else null
     }
 
-    private fun fromIdToRating(id: Int): ReviewRating? = when (id) {
-        R.id.courseRatingTerribleRadioButton -> ReviewRating.TERRIBLE
-        R.id.courseRatingPoorRadioButton -> ReviewRating.POOR
-        R.id.courseRatingAverageRadioButton -> ReviewRating.AVERAGE
-        R.id.courseRatingGoodRadioButton -> ReviewRating.GOOD
-        R.id.courseRatingExcellentRadioButton -> ReviewRating.EXCELLENT
-        else -> null
-    }
-
-    class CourseReviewViewModelFactory(val course: Course) : ViewModelProvider.Factory {
+    /**
+     * Factory to create a CourseReviewViewModel
+     */
+    class CourseReviewViewModelFactory(private val course: Course) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             // If model class is correct return them as ViewModel with Value
             if (modelClass.isAssignableFrom(CourseReviewViewModel::class.java)) {

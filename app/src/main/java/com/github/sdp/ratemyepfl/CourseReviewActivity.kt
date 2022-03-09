@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
+import com.github.sdp.ratemyepfl.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.serialization.decodeFromString
@@ -48,6 +49,8 @@ class CourseReviewActivity : AppCompatActivity() {
         submitButton = findViewById(R.id.courseReviewSubmit)
         courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
 
+        startReview()
+
     }
 
     private fun <T> setError(view: TextView, newValue: T?, errorMessage: String) {
@@ -65,7 +68,7 @@ class CourseReviewActivity : AppCompatActivity() {
         serializedCourse.let { identifier ->
             val course: Course = Json.decodeFromString<Course>(identifier)
             courseReviewIndication.text =
-                getString(R.string.course_review_indication_string, course)
+                getString(R.string.course_review_indication_string, course.toString())
             viewModel =
                 ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
                     .get(CourseReviewViewModel::class.java)
@@ -84,7 +87,7 @@ class CourseReviewActivity : AppCompatActivity() {
 
 
         courseRatingButton.setOnCheckedChangeListener { _, id ->
-            viewModel.setRating(id)
+            viewModel.setRating(fromIdToRating(id))
         }
 
         courseReviewTitle.addTextChangedListener(object : TextWatcher {
@@ -114,6 +117,7 @@ class CourseReviewActivity : AppCompatActivity() {
             }
 
         })
+
         submitButton.setOnClickListener { _ ->
             viewModel.review()?.let { review ->
                 submitReview(viewModel.course, review)
@@ -130,5 +134,14 @@ class CourseReviewActivity : AppCompatActivity() {
         )
         setResult(RESULT_OK, resultIntent)
         finish()
+    }
+
+    private fun fromIdToRating(id: Int): ReviewRating? = when (id) {
+        R.id.courseRatingTerribleRadioButton -> ReviewRating.TERRIBLE
+        R.id.courseRatingPoorRadioButton -> ReviewRating.POOR
+        R.id.courseRatingAverageRadioButton -> ReviewRating.AVERAGE
+        R.id.courseRatingGoodRadioButton -> ReviewRating.GOOD
+        R.id.courseRatingExcellentRadioButton -> ReviewRating.EXCELLENT
+        else -> null
     }
 }
