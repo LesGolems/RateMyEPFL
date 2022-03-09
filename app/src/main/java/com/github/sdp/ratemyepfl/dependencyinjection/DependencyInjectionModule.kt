@@ -14,6 +14,6 @@ abstract class DependencyInjectionModule {
 
     @Singleton
     @Binds
-    abstract fun provideUserAuth(userAuth : UserAuthImpl): UserAuth
+    abstract fun provideUserAuth(userAuth: UserAuthImpl): UserAuth
 
 }

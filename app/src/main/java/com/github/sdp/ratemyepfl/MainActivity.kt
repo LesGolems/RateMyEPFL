@@ -12,9 +12,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var auth: UserAuth
+    @Inject
+    lateinit var auth: UserAuth
 
     private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
-    private fun setUpButtons(){
+    private fun setUpButtons() {
         mLoginButton.setOnClickListener {
             auth.signIn(this)
             checkUser()
@@ -93,8 +94,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun checkUser(){
-        if(!auth.isLoggedIn()){
+    private fun checkUser() {
+        if (!auth.isLoggedIn()) {
             mLogoutButton.isEnabled = false
             mLoginButton.isEnabled = true
             mEmail.text = ""

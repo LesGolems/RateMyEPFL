@@ -3,12 +3,13 @@ package com.github.sdp.ratemyepfl
 import android.view.KeyEvent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.*
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.auth.FakeUserAuth
 import com.github.sdp.ratemyepfl.auth.UserAuth
 import com.github.sdp.ratemyepfl.dependencyinjection.DependencyInjectionModule
@@ -84,16 +85,15 @@ class MainActivityTest {
     }
 
 
-
     @Test
-    fun emailDisplayedWhenUserPressesLogin(){
+    fun emailDisplayedWhenUserPressesLogin() {
         onView(withId(R.id.loginButton)).perform(click())
         Thread.sleep(1000)
         onView(withId(R.id.email)).check(matches(withText("user@email.com")))
     }
 
     @Test
-    fun emailNotDisplayedWhenUserLogout(){
+    fun emailNotDisplayedWhenUserLogout() {
         onView(withId(R.id.loginButton)).perform(click())
         Thread.sleep(1000)
         onView(withId(R.id.logoutButton)).perform(click())

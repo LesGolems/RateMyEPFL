@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 
 interface UserAuth {
-    fun signIn(activity : AppCompatActivity)
+    fun signIn(activity: AppCompatActivity)
 
-    fun signOut(context : Context): Task<Void>
+    fun signOut(context: Context): Task<Void>
 
     fun isLoggedIn(): Boolean
 

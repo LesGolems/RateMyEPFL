@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class UserAuthImpl @Inject constructor() : UserAuth {
 
-    override fun signIn(activity : AppCompatActivity) {
+    override fun signIn(activity: AppCompatActivity) {
         val providers = arrayListOf(
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
@@ -23,7 +23,7 @@ class UserAuthImpl @Inject constructor() : UserAuth {
         activity.startActivity(signInIntent)
     }
 
-    override fun signOut(context : Context) : Task<Void> {
+    override fun signOut(context: Context): Task<Void> {
         return AuthUI.getInstance().signOut(context)
     }
 
@@ -35,7 +35,7 @@ class UserAuthImpl @Inject constructor() : UserAuth {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    override fun getEmail() : String? {
+    override fun getEmail(): String? {
         return FirebaseAuth.getInstance().currentUser?.email
     }
 

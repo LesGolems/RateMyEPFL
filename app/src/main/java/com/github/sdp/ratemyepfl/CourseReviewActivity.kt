@@ -2,19 +2,21 @@ package com.github.sdp.ratemyepfl
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
-import com.github.sdp.ratemyepfl.review.ReviewRating
+import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
-import java.util.*
 
 class CourseReviewActivity : AppCompatActivity() {
 
@@ -24,7 +26,6 @@ class CourseReviewActivity : AppCompatActivity() {
         const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
         const val EXTRA_COURSE_IDENTIFIER: String =
             "com.github.sdp.ratemyepfl.review.extra_course_name"
-        const val EMPTY_STRING: String = ""
         const val EXTRA_REVIEW: String = "com.github.sdp.ratemyepfl.review.extra_review"
     }
 
@@ -33,6 +34,8 @@ class CourseReviewActivity : AppCompatActivity() {
     private lateinit var courseReviewComment: TextInputEditText
     private lateinit var lastCourseRatingButton: RadioButton
     private lateinit var submitButton: Button
+    private lateinit var courseReviewIndication: TextView
+    private lateinit var viewModel: CourseReviewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,80 +46,87 @@ class CourseReviewActivity : AppCompatActivity() {
         courseReviewComment = findViewById(R.id.courseReviewOpinion)
         lastCourseRatingButton = findViewById(R.id.courseRatingExcellentRadioButton)
         submitButton = findViewById(R.id.courseReviewSubmit)
+        courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
 
-        val courseReviewIndication = findViewById<TextView>(R.id.courseReviewCourseName)
+    }
+
+    private fun <T> setError(view: TextView, newValue: T?, errorMessage: String) {
+        view.error = if (newValue == null) errorMessage else null
+    }
+
+    private fun startReview() {
         val serializedCourse: String? = intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
-        val course: Optional<Course> =
-            if (serializedCourse != null) Optional.of(Json.decodeFromString<Course>(serializedCourse))
-            else Optional.empty()
+        if (serializedCourse == null) {
+            setResult(RESULT_CANCELED)
+            finish()
+            return
+        }
 
-        courseReviewIndication.text =
-            getString(R.string.course_review_indication_string, course.map { c ->
-                String.format("%s %s", c.courseCode, c.name)
-            }.orElse(null))
+        serializedCourse.let { identifier ->
+            val course: Course = Json.decodeFromString<Course>(identifier)
+            courseReviewIndication.text =
+                getString(R.string.course_review_indication_string, course)
+            viewModel =
+                ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
+                    .get(CourseReviewViewModel::class.java)
+        }
+        viewModel = ViewModelProvider(this).get(CourseReviewViewModel::class.java)
 
+        viewModel.rating.observe(this) { rating ->
+            setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
+        }
+        viewModel.comment.observe(this) { comment ->
+            setError(courseReviewComment, comment, EMPTY_COMMENT_MESSAGE)
+        }
+        viewModel.title.observe(this) { title ->
+            setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
+        }
+
+
+        courseRatingButton.setOnCheckedChangeListener { _, id ->
+            viewModel.setRating(id)
+        }
+
+        courseReviewTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.setTitle(p0.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        courseReviewComment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.setComment(p0.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
         submitButton.setOnClickListener { _ ->
-            val review = extractReview()
-            if (review != null) {
-                submitReview(review)
+            viewModel.review()?.let { review ->
+                submitReview(viewModel.course, review)
             }
         }
     }
 
-
-    private fun extractTextField(field: TextInputEditText, errorMessage: String): String? {
-        val text: String? = field.text?.toString()
-        field.error =
-            if (!isTextValid(text))
-                errorMessage
-            else null
-        return text
-    }
-
-    private fun isTextValid(text: String?): Boolean = text != null && text != EMPTY_STRING
-
-    private fun extractTitle() = extractTextField(courseReviewTitle, EMPTY_TITLE_MESSAGE)
-    private fun extractComment() = extractTextField(courseReviewComment, EMPTY_COMMENT_MESSAGE)
-
-    private fun extractRating(): ReviewRating? {
-        val checkedButton = courseRatingButton.checkedRadioButtonId
-        val rating = fromIdToRating(checkedButton)
-        lastCourseRatingButton.error =
-            if (rating == null) UNCHECKED_RATING_MESSAGE else null
-        return rating
-    }
-
-    private fun extractReview(): CourseReview? {
-        val rating = extractRating()
-        val title = extractTitle()
-        val comment = extractComment()
-
-        if (rating != null && isTextValid(title) && isTextValid(comment)) {
-            return CourseReview.Builder()
-                .setRate(rating)
-                .setTitle(title!!)
-                .setComment(comment!!)
-                .setDate(LocalDate.now())
-                .build()
-        }
-        return null
-    }
-
-    private fun fromIdToRating(id: Int): ReviewRating? = when (id) {
-        R.id.courseRatingTerribleRadioButton -> ReviewRating.TERRIBLE
-        R.id.courseRatingPoorRadioButton -> ReviewRating.POOR
-        R.id.courseRatingAverageRadioButton -> ReviewRating.AVERAGE
-        R.id.courseRatingGoodRadioButton -> ReviewRating.GOOD
-        R.id.courseRatingExcellentRadioButton -> ReviewRating.EXCELLENT
-        else -> null
-    }
-
-    private fun submitReview(review: CourseReview) {
+    private fun submitReview(course: Course, review: CourseReview) {
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, CourseReview.serialize(review))
         resultIntent.putExtra(
             CourseMgtActivity.EXTRA_COURSE_REVIEWED,
-            intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
+            Json.encodeToString(course)
         )
         setResult(RESULT_OK, resultIntent)
         finish()
