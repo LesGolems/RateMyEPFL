@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.auth.UserAuth
-import com.github.sdp.ratemyepfl.auth.UserAuthImpl
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -77,7 +76,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun startReview() {
-        val intent = Intent(this, CourseManagementActivity::class.java)
+        val intent = Intent(this, CourseMgtActivity::class.java)
         startActivity(intent)
     }
 

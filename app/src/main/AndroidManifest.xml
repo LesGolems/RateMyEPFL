@@ -13,13 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".CourseManagementActivity"
+            android:name=".CourseMgtActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".CourseReviewActivity"
             android:exported="false"
-            android:parentActivityName=".CourseManagementActivity" />
+            android:parentActivityName=".CourseMgtActivity" />
         <activity
             android:name=".GreetingActivity"
             android:exported="false"

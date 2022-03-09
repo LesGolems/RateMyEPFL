@@ -115,7 +115,7 @@ class CourseReviewActivity : AppCompatActivity() {
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, CourseReview.serialize(review))
         resultIntent.putExtra(
-            CourseManagementActivity.EXTRA_COURSE_REVIEWED,
+            CourseMgtActivity.EXTRA_COURSE_REVIEWED,
             intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
         )
         setResult(RESULT_OK, resultIntent)

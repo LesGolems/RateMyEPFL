@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 /*
 Mock class, to be replaced when Nicolas is done
  */
-class CourseManagementActivity : AppCompatActivity() {
+class CourseMgtActivity : AppCompatActivity() {
 
     private lateinit var reviewButton: Button
 

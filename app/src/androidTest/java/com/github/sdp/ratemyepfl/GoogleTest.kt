@@ -27,4 +27,6 @@ class GoogleTest {
         Intents.intended(IntentMatchers.hasComponent("com.firebase.ui.auth.KickoffActivity"))
         Intents.release()
     }
+
+
 }

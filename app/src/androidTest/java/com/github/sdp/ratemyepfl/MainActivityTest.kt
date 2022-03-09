@@ -83,6 +83,8 @@ class MainActivityTest {
         release()
     }
 
+
+
     @Test
     fun emailDisplayedWhenUserPressesLogin(){
         onView(withId(R.id.loginButton)).perform(click())
@@ -98,4 +100,6 @@ class MainActivityTest {
         Thread.sleep(1000)
         onView(withId(R.id.email)).check(matches(withText("")))
     }
+
+
 }
