@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.review
 
+import com.github.sdp.ratemyepfl.serializer.LocalDateSerializer
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -103,5 +104,20 @@ class CourseReviewTest {
             .build()
 
         assertEquals(date, review.date)
+    }
+
+    @Test
+    fun serializationIsConsistent() {
+        val review: CourseReview = CourseReview.Builder()
+            .setRating(ReviewRating.EXCELLENT)
+            .setComment("My comment")
+            .setTitle("My title")
+            .setDate(LocalDate.of(2020, 3, 8))
+            .build()
+
+        val serializedReview = CourseReview.serialize(review)
+        val deserializedReview = CourseReview.deserialize(serializedReview)
+
+        assertEquals(review, deserializedReview)
     }
 }

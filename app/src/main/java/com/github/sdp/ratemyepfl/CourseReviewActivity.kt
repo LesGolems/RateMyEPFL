@@ -120,7 +120,7 @@ class CourseReviewActivity : AppCompatActivity() {
 
     private fun submitReview(course: Course, review: CourseReview) {
         val resultIntent = Intent()
-        resultIntent.putExtra(EXTRA_REVIEW, CourseReview.serialize(review))
+        resultIntent.putExtra(EXTRA_REVIEW, review.serialize())
         resultIntent.putExtra(
             CourseMgtActivity.EXTRA_COURSE_REVIEWED,
             Json.encodeToString(course)

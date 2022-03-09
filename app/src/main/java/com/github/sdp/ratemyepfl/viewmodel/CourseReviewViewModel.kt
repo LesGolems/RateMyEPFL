@@ -70,6 +70,5 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
             }
             throw IllegalArgumentException("Unknown ViewModel Class")
         }
-
     }
 }
