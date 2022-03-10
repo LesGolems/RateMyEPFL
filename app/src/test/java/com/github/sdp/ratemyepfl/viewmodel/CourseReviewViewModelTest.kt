@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.sdp.ratemyepfl.items.Course
 import com.github.sdp.ratemyepfl.review.CourseReview
 import com.github.sdp.ratemyepfl.review.ReviewRating
@@ -11,9 +10,6 @@ import java.time.LocalDate
 
 class CourseReviewViewModelTest {
     private val defaultCourse = Course("Sweng", "CS", "Candea", 4, "CS-306")
-
-    @Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun factoryCreatesAViewModelWithTheCorrectCourse() {
