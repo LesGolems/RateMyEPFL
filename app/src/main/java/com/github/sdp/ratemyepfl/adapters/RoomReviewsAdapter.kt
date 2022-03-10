@@ -24,6 +24,8 @@ class RoomReviewsAdapter :
             reviewView.findViewById(R.id.room_review_grade)
         private val commentTextView: TextView =
             reviewView.findViewById(R.id.room_review_comment)
+        private val dateTextView : TextView =
+            reviewView.findViewById(R.id.room_review_date)
         private var currentReview: ClassroomReview? = null
 
 
@@ -32,6 +34,7 @@ class RoomReviewsAdapter :
             currentReview = review
             gradeTextView.text = review.rate.toString()
             commentTextView.text = review.comment
+            dateTextView.text = "Posted on : " + review.date.toString() // not very clean way to do this
         }
     }
 
