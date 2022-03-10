@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".review.AddRoomReviewActivity"
+            android:name=".activities.classrooms.AddRoomReviewActivity"
             android:exported="false" />
         <activity
             android:name=".activities.classrooms.RoomReviewsListActivity"
             android:exported="false" />
         <activity
-            android:name=".review.ClassroomsListActivity"
+            android:name=".activities.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
             android:name=".GreetingActivity"
