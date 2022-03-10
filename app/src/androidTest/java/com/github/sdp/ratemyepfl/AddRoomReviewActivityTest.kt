@@ -33,6 +33,7 @@ class AddRoomReviewActivityTest {
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
         onView(withId(R.id.done_button)).perform(click())
 
+
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
         release()
