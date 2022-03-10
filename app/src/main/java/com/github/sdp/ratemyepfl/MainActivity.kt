@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val mNameText = findViewById<EditText>(R.id.mainName)
         val mGoButton = findViewById<Button>(R.id.mainGoButton)
         val mCoursesButton = findViewById<Button>(R.id.coursesButton)
+        val mReviewButton = findViewById<Button>(R.id.coursesReviewButton)
 
         // We then set the behaviour of the button
         // It's quite short, so we can leave it here, but as soon as it starts
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         mGoButton.setOnClickListener {
             val name = mNameText.text.toString()
             sayHello(name)
+        }
+
+        mReviewButton.setOnClickListener {
+            startReview(mNameText.text.toString())
         }
 
         // Bonus: trigger the button when the user presses "enter" in the text field
@@ -48,6 +53,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayCourses() {
         val intent = Intent(this, CoursesActivity::class.java)
+    }
+
+    private fun startReview(courseName: String) {
+        val intent = Intent(this, CourseReviewActivity::class.java)
+        intent.putExtra(CourseReviewActivity.EXTRA_COURSE_NAME, courseName)
         startActivity(intent)
     }
-}
