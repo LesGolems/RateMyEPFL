@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">RateMyEPFL</string>
+    <string name="greeting_message">Hello %s!</string>
+    <string name="rating_value_1">Terrible</string>
+    <string name="rating_value_2">Poor</string>
+    <string name="rating_value_3">Average</string>
+    <string name="rating_value_4">Good</string>
+    <string name="rating_value_5">Excellent</string>
+    <string name="course_review_indication_string">How would you describe the course %s</string>
+    <string name="course_review_title_default">Enter a title</string>
+    <string name="course_review_comment_default">Give us your opinion</string>
+    <string name="name">Name</string>
+    <string name="button">Button</string>
     <string name="fab_content_description">fab</string>
     <string name="add_review">Add review</string>
     <string name="room_grade_edit_text">Grade</string>
@@ -9,4 +20,7 @@
     <string name="comment">Comment: %s</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="courses">Courses</string>
+    <string name="classrooms">Classrooms</string>
+    <string name="courses_review">Courses review</string>
 </resources>

@@ -11,12 +11,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var auth: UserAuth
+    @Inject
+    lateinit var auth: UserAuth
 
     private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
+    private lateinit var mCoursesButton: Button
+    private lateinit var mReviewButton: Button
     private lateinit var mEmail: TextView
 
     private lateinit var mRoomReviewButton: Button
@@ -29,6 +32,9 @@ class MainActivity : AppCompatActivity(){
         mLoginButton = findViewById(R.id.loginButton)
         mLogoutButton = findViewById(R.id.logoutButton)
         checkUser()
+
+        mCoursesButton = findViewById<Button>(R.id.coursesButton)
+        mReviewButton = findViewById<Button>(R.id.coursesReviewButton)
 
         mRoomReviewButton = findViewById(R.id.classroomReviewButton)
         mRoomReviewButton.setOnClickListener {
@@ -47,7 +53,17 @@ class MainActivity : AppCompatActivity(){
         checkUser()
     }
 
-    private fun setUpButtons(){
+    private fun displayCourses() {
+        val intent = Intent(this, CoursesActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startReview() {
+        val intent = Intent(this, CourseMgtActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun setUpButtons() {
         mLoginButton.setOnClickListener {
             auth.signIn(this)
             checkUser()
@@ -58,10 +74,19 @@ class MainActivity : AppCompatActivity(){
                 checkUser()
             }
         }
+
+        mCoursesButton.setOnClickListener {
+            displayCourses()
+        }
+
+        mReviewButton.setOnClickListener {
+            // To be changed once courses are implemented
+            startReview()
+        }
     }
 
-    private fun checkUser(){
-        if(!auth.isLoggedIn()){
+    private fun checkUser() {
+        if (!auth.isLoggedIn()) {
             mLogoutButton.isEnabled = false
             mLoginButton.isEnabled = true
             mEmail.text = ""
@@ -71,5 +96,5 @@ class MainActivity : AppCompatActivity(){
             mEmail.text = auth.getEmail()
         }
     }
-
 }
+

@@ -20,11 +20,11 @@ class FakeUserAuth @Inject constructor() : UserAuth {
     }
 
     override fun isLoggedIn(): Boolean {
-       return loggedIn
+        return loggedIn
     }
 
     override fun getUserId(): String? {
-       return "12345"
+        return "12345"
     }
 
     override fun getEmail(): String? {
