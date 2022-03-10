@@ -34,46 +34,6 @@ class MainActivityTest {
     val auth: UserAuth = FakeUserAuth()
 
     @Test
-    fun firesAnIntentWhenUserPressesButton() {
-        init()
-        val name = "John"
-        onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
-    @Test
-    fun hasExtraWhenUserPressesButton() {
-        init()
-        val name = "John"
-        onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
-        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
-        release()
-    }
-
-    @Test
-    fun firesAnIntentWhenUserPressesEnter() {
-        init()
-        val name = "John"
-        onView(withId(R.id.mainName)).perform(typeText(name))
-            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
-    @Test
-    fun hasExtraWhenUserPressesEnter() {
-        init()
-        val name = "John"
-        onView(withId(R.id.mainName)).perform(typeText(name))
-            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
-        intended(hasExtra(GreetingActivity.EXTRA_USER_NAME, name))
-        release()
-    }
-
-    @Test
     fun emailDisplayedWhenUserPressesLogin(){
         onView(withId(R.id.loginButton)).perform(click())
         Thread.sleep(1000)
