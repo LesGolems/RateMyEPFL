@@ -14,7 +14,6 @@ class CourseReviewAdapter(
     reviews: List<CourseReview>
 ) : ArrayAdapter<CourseReview>(context, resource, reviews) {
 
-    private val mContext: Context = context
     private val mResource: Int = resource
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
