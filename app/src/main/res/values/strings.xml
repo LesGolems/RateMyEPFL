@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Bootcamp</string>
     <string name="greeting_message">Hello %s!</string>
+    <string name="fab_content_description">fab</string>
+    <string name="add_review">Add review</string>
+    <string name="room_grade_edit_text">Grade</string>
+    <string name="room_comment_edit_text">Comments</string>
+    <string name="done_button_text">DONE</string>
+    <string name="grade">Grade: %s</string>
+    <string name="comment">Comment: %s</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
 </resources>
