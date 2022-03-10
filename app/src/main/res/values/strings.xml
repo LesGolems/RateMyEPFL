@@ -8,4 +8,6 @@
     <string name="done_button_text">DONE</string>
     <string name="grade">Grade: %s</string>
     <string name="comment">Comment: %s</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
 </resources>
