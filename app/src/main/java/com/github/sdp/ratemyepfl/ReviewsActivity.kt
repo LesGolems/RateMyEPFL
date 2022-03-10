@@ -1,14 +1,17 @@
 package com.github.sdp.ratemyepfl
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.items.FakeCoursesDatabase
+import com.github.sdp.ratemyepfl.review.CourseReviewAdapter
 
 class ReviewsActivity : AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_COURSE_NAME: String = "course name"
+    }
+
     private lateinit var reviewsView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,21 +19,11 @@ class ReviewsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_reviews)
 
         val fakeDatabase = FakeCoursesDatabase()
-        val courseList = fakeDatabase.getCoursesList()
+        val reviewsList = fakeDatabase.getReviewsList()
 
-        reviewsView = findViewById(R.id.coursesListView)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_2,
-            courseList)
-        reviewsView.adapter = adapter
-        reviewsView.isClickable = true
-        reviewsView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            printCourse(courseList[position].name)
-        }
-    }
-
-    private fun printCourse(courseName: String) {
-        val intent = Intent(this, GreetingActivity::class.java)
-        intent.putExtra(GreetingActivity.EXTRA_USER_NAME, courseName)
-        startActivity(intent)
+        reviewsView = findViewById(R.id.reviewsListView)
+        val reviewAdapter = CourseReviewAdapter(this, R.layout.list_reviews_row,
+            reviewsList)
+        reviewsView.adapter = reviewAdapter
     }
 }

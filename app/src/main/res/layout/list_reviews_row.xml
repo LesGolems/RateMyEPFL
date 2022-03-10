@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:text="Title"
+        />
+
+    <TextView
+        android:id="@+id/commentReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/rateReview"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:text="Comment"
+        />
+
+    <TextView
+        android:id="@+id/dateReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/commentReview"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:text="Date"
+        />
+
+    <TextView
+        android:id="@+id/rateReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/titleReview"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:text="Rate"
+        />
+
+</RelativeLayout>

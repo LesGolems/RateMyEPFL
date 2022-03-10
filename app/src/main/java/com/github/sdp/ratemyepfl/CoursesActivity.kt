@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.items.FakeCoursesDatabase
 
 class CoursesActivity : AppCompatActivity() {
+
     private lateinit var coursesView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,14 +24,14 @@ class CoursesActivity : AppCompatActivity() {
             courseList)
         coursesView.adapter = adapter
         coursesView.isClickable = true
-        coursesView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            printCourse(courseList[position].name)
+        coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            displayCourseReviews(courseList[position].name)
         }
     }
 
-    private fun printCourse(courseName: String) {
-        val intent = Intent(this, GreetingActivity::class.java)
-        intent.putExtra(GreetingActivity.EXTRA_USER_NAME, courseName)
+    private fun displayCourseReviews(courseName: String) {
+        val intent = Intent(this, ReviewsActivity::class.java)
+        intent.putExtra(ReviewsActivity.EXTRA_COURSE_NAME, courseName)
         startActivity(intent)
     }
 }
