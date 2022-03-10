@@ -10,12 +10,9 @@ import java.time.LocalDate
 import java.util.*
 
 class DataSource() {
-    @RequiresApi(Build.VERSION_CODES.O)
     private val initialRoomsList = roomsList()
-    @RequiresApi(Build.VERSION_CODES.O)
     private val roomsLiveData = MutableLiveData(initialRoomsList)
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun roomsList(): List<Classroom> {
         return listOf(
             Classroom(
@@ -37,7 +34,6 @@ class DataSource() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getRoomForId(id: String?): Classroom? {
         roomsLiveData.value?.let { rooms ->
             return rooms.firstOrNull { it.id == id }
@@ -46,7 +42,6 @@ class DataSource() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getRoomList(): LiveData<List<Classroom>> {
         return roomsLiveData
     }
