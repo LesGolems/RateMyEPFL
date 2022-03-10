@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.sdp.ratemyepfl.review.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.review.ROOM_ID
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,7 +57,7 @@ class ClassroomsListActivityTest {
                 )
             )
 
-        intended(hasExtra(ClassroomsListActivity.ROOM_ID, "CM3"))
+        intended(hasExtra(ROOM_ID, "CM3"))
         release()
     }
 
