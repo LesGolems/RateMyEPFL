@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RateMyEpfl</string>
+    <string name="app_name">RateMyEPFL</string>
     <string name="greeting_message">Hello %s!</string>
     <string name="rating_value_1">Terrible</string>
     <string name="rating_value_2">Poor</string>
