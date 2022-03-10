@@ -34,16 +34,6 @@ class MainActivityTest {
     @JvmField
     val auth: UserAuth = FakeUserAuth()
 
-    @Test
-    fun firesAnIntentWhenUserPressesButton() {
-        init()
-        val name = "John"
-        onView(withId(R.id.mainName)).perform(typeText(name))
-        onView(withId(R.id.mainGoButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
     // To be changed once the courses are implemented
     @Test
     fun firesAnIntentWhenUserPressesCourseReviewButton() {
