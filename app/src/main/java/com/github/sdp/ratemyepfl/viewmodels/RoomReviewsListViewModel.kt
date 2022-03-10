@@ -10,9 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import javax.inject.Inject
 
-//@HiltViewModel
-//class RoomReviewsListViewModel @Inject constructor(private val dataSource: DataSource, private val id: String?) : ViewModel() {
-class RoomReviewsListViewModel(private val dataSource: DataSource, private val id: String?) : ViewModel() {
+class RoomReviewsListViewModel (private val dataSource: DataSource, private val id: String?) : ViewModel() {
 
     // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData(
@@ -35,7 +33,7 @@ class RoomReviewsListViewModel(private val dataSource: DataSource, private val i
         }
     }
 
-    class RoomReviewsListViewModelFactory(
+    /*class RoomReviewsListViewModelFactory(
         private val dataSource: DataSource,
         private val id: String?
     ) :
@@ -51,6 +49,6 @@ class RoomReviewsListViewModel(private val dataSource: DataSource, private val i
             throw IllegalArgumentException("Unknown ViewModel class")
         }
 
-    }
+    }*/
 
 }

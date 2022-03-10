@@ -8,8 +8,9 @@ import com.github.sdp.ratemyepfl.Classroom
 import com.github.sdp.ratemyepfl.review.ClassroomReview
 import java.time.LocalDate
 import java.util.*
+import javax.inject.Inject
 
-class DataSource() {
+class DataSource @Inject constructor() {
     private val initialRoomsList = roomsList()
     private val roomsLiveData = MutableLiveData(initialRoomsList)
 

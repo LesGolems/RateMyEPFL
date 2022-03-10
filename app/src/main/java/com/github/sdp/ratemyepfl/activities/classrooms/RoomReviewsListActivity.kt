@@ -16,10 +16,12 @@ import com.github.sdp.ratemyepfl.viewmodels.RoomReviewsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
-    private lateinit var roomReviewsViewModel: RoomReviewsListViewModel
+    @Inject
+    lateinit var dataSource: DataSource
+    lateinit var roomReviewsViewModel: RoomReviewsListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +32,12 @@ class RoomReviewsListActivity : AppCompatActivity() {
         if (bundle != null) {
             currentRoomId = bundle.getString(ROOM_ID)
         }
+        roomReviewsViewModel = RoomReviewsListViewModel(dataSource, currentRoomId)
 
-        roomReviewsViewModel = ViewModelProvider(
+        /*roomReviewsViewModel = ViewModelProvider(
             this,
             RoomReviewsListViewModel.RoomReviewsListViewModelFactory(DataSource(), currentRoomId)
-        ).get(RoomReviewsListViewModel::class.java)
+        ).get(RoomReviewsListViewModel::class.java)*/
 
         val reviewsAdapter = RoomReviewsAdapter()
         val recyclerView: RecyclerView = findViewById(R.id.review_recycler_view)
