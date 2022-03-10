@@ -1,7 +1,9 @@
 package com.github.sdp.ratemyepfl.review
 
-import com.github.sdp.ratemyepfl.review.ReviewRating
+import kotlinx.serialization.Serializable
 
-abstract class Review(open val rating: ReviewRating, open val comment: String) {
-
+@Serializable
+abstract class Review() {
+    abstract val rating: ReviewRating
+    abstract val comment: String
 }

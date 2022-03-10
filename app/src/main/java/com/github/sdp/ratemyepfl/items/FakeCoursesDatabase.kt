@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.item
+package com.github.sdp.ratemyepfl.items
 
 class FakeCoursesDatabase {
     fun getCoursesList(): List<Course> {

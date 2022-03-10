@@ -1,45 +1,137 @@
 package com.github.sdp.ratemyepfl.review
 
-import java.lang.IllegalStateException
+import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
-class CourseReview(
-    rating: ReviewRating,
+/**
+ * Represents a course review
+ */
+@Serializable
+class CourseReview private constructor(
+    override val rating: ReviewRating,
     val title: String,
-    comment: String,
+    override val comment: String,
+    @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate
-) : Review(rating, comment) {
+) : Review() {
 
-    override fun toString(): String {
-        return String.format("Rating: %s \n Title: %s \n \t %s",
-            rating.toString(),
-            title,
-            comment)
+    companion object {
+        /**
+         * Function to serialize a CourseReview easily, based on kotlin serialization plugin.
+         *
+         * @param review: Review to serialize
+         * @return the serialization (in JSON) of the review
+         */
+        fun serialize(review: CourseReview): String = Json.encodeToString(review)
+
+        /**
+         * Function to deserialize a CourseReview
+         *
+         * @param review: Review to deserialize (in JSON)
+         * @return the deserialized review
+         */
+        fun deserialize(review: String): CourseReview = Json.decodeFromString(review)
     }
 
+
+    override fun toString(): String {
+        return String.format(
+            "Rating: %s \n Title: %s \n \t %s",
+            rating.toString(),
+            title,
+            comment
+        )
+    }
+
+    /**
+     * Allows to create a ReviewRating incrementally.
+     * NB: Even if a user can create a review incrementally, he
+     * must specify every property of the review.
+     */
     data class Builder(
-        private var rate: ReviewRating? = null,
+        private var rating: ReviewRating? = null,
         private var title: String? = null,
         private var comment: String? = null,
+        private var date: LocalDate? = null,
     ) {
-        fun setRate(rate: ReviewRating) = apply {
-            this.rate = rate
+        /**
+         * Sets the rating of the review
+         * @param rating: the new rating of the review
+         * @return this
+         */
+        fun setRating(rating: ReviewRating) = apply {
+            this.rating = rating
         }
 
+        /**
+         * Sets the title of the review
+         * @param title: the new title of the review
+         * @return this
+         */
         fun setTitle(title: String) = apply {
             this.title = title
         }
 
+        /**
+         * Sets the comment of the review
+         * @param comment: the new comment of the review
+         * @return this
+         */
         fun setComment(comment: String) = apply {
             this.comment = comment
         }
 
-        fun build(): CourseReview =
-            if (rate == null || title == null || comment == null)
-                throw IllegalStateException()
-            else CourseReview(
-                rate!!, title!!, comment!!, LocalDate.now()
-            )
+        /**
+         * Sets the date of publication the review
+         * @param date: the new date of the review
+         * @return this
+         */
+        fun setDate(date: LocalDate) = apply {
+            this.date = date
+        }
+
+        /**
+         * Builds the corresponding CourseReview
+         *
+         * @throws IllegalStateException if one of the properties is null
+         */
+        fun build(): CourseReview {
+            val rate = this.rating
+            val title = this.title
+            val comment = this.comment
+            val date = this.date
+
+            if (rate != null && title != null && comment != null && date != null) {
+                return CourseReview(
+                    rate, title, comment, date
+                )
+            } else throw IllegalStateException("Cannot build a review made of null elements")
+        }
+
+
+    }
+
+    /**
+     * A personalized serializer for a LocalDate
+     */
+    @Serializer(forClass = LocalDate::class)
+    object LocalDateSerializer : KSerializer<LocalDate> {
+        override fun deserialize(decoder: Decoder): LocalDate {
+            return LocalDate.parse(decoder.decodeString())
+        }
+
+        override fun serialize(encoder: Encoder, value: LocalDate) {
+            encoder.encodeString(value.toString())
+        }
+
+        override val descriptor: SerialDescriptor =
+            PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
     }
 
 }

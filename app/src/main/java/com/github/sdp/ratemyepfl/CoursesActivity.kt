@@ -6,7 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.sdp.ratemyepfl.item.FakeCoursesDatabase
+import com.github.sdp.ratemyepfl.items.FakeCoursesDatabase
 
 class CoursesActivity : AppCompatActivity() {
     private lateinit var coursesView: ListView

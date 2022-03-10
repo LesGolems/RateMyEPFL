@@ -11,4 +11,11 @@
     <string name="course_review_indication_string">How would you describe the course %s</string>
     <string name="course_review_title_default">Enter a title</string>
     <string name="course_review_comment_default">Give us your opinion</string>
+    <string name="name">Name</string>
+    <string name="button">Button</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="courses">Courses</string>
+    <string name="classrooms">Classrooms</string>
+    <string name="courses_review">Courses review</string>
 </resources>

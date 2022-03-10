@@ -1,5 +1,10 @@
 package com.github.sdp.ratemyepfl.review
 
+/**
+ * Defines the rating for a review.
+ * Consists of 5 different types, each with an integer
+ * corresponding to a grade on a scale from 1 to 5
+ */
 enum class ReviewRating(val rating: Int) {
     TERRIBLE(ReviewRating.TERRIBLE_RATING),
     POOR(ReviewRating.POOR_RATING),

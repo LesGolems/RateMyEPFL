@@ -5,9 +5,23 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.sdp.ratemyepfl.auth.UserAuth
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var auth: UserAuth
+
+    private lateinit var mLoginButton: Button
+    private lateinit var mLogoutButton: Button
+    private lateinit var mCoursesButton: Button
+    private lateinit var mReviewButton: Button
+    private lateinit var mEmail: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,8 +30,14 @@ class MainActivity : AppCompatActivity() {
         // We get a reference to the view objects, using their previously set ID
         val mNameText = findViewById<EditText>(R.id.mainName)
         val mGoButton = findViewById<Button>(R.id.mainGoButton)
-        val mCoursesButton = findViewById<Button>(R.id.coursesButton)
-        val mReviewButton = findViewById<Button>(R.id.coursesReviewButton)
+
+        mEmail = findViewById(R.id.email)
+        mLoginButton = findViewById(R.id.loginButton)
+        mLogoutButton = findViewById(R.id.logoutButton)
+        checkUser()
+
+        mCoursesButton = findViewById<Button>(R.id.coursesButton)
+        mReviewButton = findViewById<Button>(R.id.coursesReviewButton)
 
         // We then set the behaviour of the button
         // It's quite short, so we can leave it here, but as soon as it starts
@@ -27,22 +47,26 @@ class MainActivity : AppCompatActivity() {
             sayHello(name)
         }
 
-        mReviewButton.setOnClickListener {
-            startReview(mNameText.text.toString())
-        }
-
         // Bonus: trigger the button when the user presses "enter" in the text field
-        mNameText.setOnKeyListener{ _, keyCode, event ->
-            if((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mNameText.setOnKeyListener { _, keyCode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 mGoButton.performClick()
                 true
             }
             false
         }
 
-        mCoursesButton.setOnClickListener {
-            displayCourses()
-        }
+        setUpButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkUser()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        checkUser()
     }
 
     private fun sayHello(userName: String) {
@@ -55,8 +79,43 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, CoursesActivity::class.java)
     }
 
-    private fun startReview(courseName: String) {
-        val intent = Intent(this, CourseReviewActivity::class.java)
-        intent.putExtra(CourseReviewActivity.EXTRA_COURSE_NAME, courseName)
+    private fun startReview() {
+        val intent = Intent(this, CourseMgtActivity::class.java)
         startActivity(intent)
     }
+
+    private fun setUpButtons() {
+        mLoginButton.setOnClickListener {
+            auth.signIn(this)
+            checkUser()
+        }
+
+        mLogoutButton.setOnClickListener {
+            auth.signOut(applicationContext).addOnCompleteListener {
+                checkUser()
+            }
+        }
+
+        mCoursesButton.setOnClickListener {
+            displayCourses()
+        }
+
+        mReviewButton.setOnClickListener {
+            // To be changed once courses are implemented
+            startReview()
+        }
+    }
+
+    private fun checkUser() {
+        if (!auth.isLoggedIn()) {
+            mLogoutButton.isEnabled = false
+            mLoginButton.isEnabled = true
+            mEmail.text = ""
+        } else {
+            mLogoutButton.isEnabled = true
+            mLoginButton.isEnabled = false
+            mEmail.text = auth.getEmail()
+        }
+    }
+}
+
