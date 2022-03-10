@@ -13,7 +13,7 @@
             android:name=".review.AddRoomReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".review.RoomReviewsListActivity"
+            android:name=".activities.classrooms.RoomReviewsListActivity"
             android:exported="false" />
         <activity
             android:name=".review.ClassroomsListActivity"

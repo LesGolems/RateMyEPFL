@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.github.sdp.ratemyepfl.review.ClassroomReview
 import com.github.sdp.ratemyepfl.placeholder.DataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
+import javax.inject.Inject
 
-class RoomReviewsListViewModel(
-    private val dataSource: DataSource,
-    private val id: String?
-) : ViewModel() {
+//@HiltViewModel
+//class RoomReviewsListViewModel @Inject constructor(private val dataSource: DataSource, private val id: String?) : ViewModel() {
+class RoomReviewsListViewModel(private val dataSource: DataSource, private val id: String?) : ViewModel() {
 
     // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData(

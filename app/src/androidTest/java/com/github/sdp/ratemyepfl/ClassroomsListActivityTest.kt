@@ -15,8 +15,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.sdp.ratemyepfl.review.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.review.ROOM_ID
+import com.github.sdp.ratemyepfl.activities.classrooms.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.activities.classrooms.ROOM_ID
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

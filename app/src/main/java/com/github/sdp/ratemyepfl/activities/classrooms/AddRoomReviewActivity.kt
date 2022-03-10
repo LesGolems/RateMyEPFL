@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.review
+package com.github.sdp.ratemyepfl.activities.classrooms
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
 const val ROOM_GRADE = "grade"
 const val ROOM_COMMENT = "comment"

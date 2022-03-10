@@ -6,7 +6,7 @@ import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.github.sdp.ratemyepfl.review.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.activities.classrooms.ClassroomsListActivity
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.review
+package com.github.sdp.ratemyepfl.activities.classrooms
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,8 @@ import com.github.sdp.ratemyepfl.Classroom
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapters.ClassroomsAdapter
 import com.github.sdp.ratemyepfl.viewmodels.ClassroomsListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 const val ROOM_ID = "room id"
 

@@ -10,9 +10,9 @@ import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.sdp.ratemyepfl.review.AddRoomReviewActivity
-import com.github.sdp.ratemyepfl.review.ROOM_COMMENT
-import com.github.sdp.ratemyepfl.review.ROOM_GRADE
+import com.github.sdp.ratemyepfl.activities.classrooms.AddRoomReviewActivity
+import com.github.sdp.ratemyepfl.activities.classrooms.ROOM_COMMENT
+import com.github.sdp.ratemyepfl.activities.classrooms.ROOM_GRADE
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test

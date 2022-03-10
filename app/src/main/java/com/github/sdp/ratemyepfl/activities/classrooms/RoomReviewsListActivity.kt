@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.review
+package com.github.sdp.ratemyepfl.activities.classrooms
 
 import android.app.Activity
 import android.content.Intent
@@ -11,9 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapters.RoomReviewsAdapter
 import com.github.sdp.ratemyepfl.placeholder.DataSource
+import com.github.sdp.ratemyepfl.review.ClassroomReview
 import com.github.sdp.ratemyepfl.viewmodels.RoomReviewsListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+//@AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
+
     private lateinit var roomReviewsViewModel: RoomReviewsListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
