@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">RateMyEpfl</string>
     <string name="greeting_message">Hello %s!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="rating_value_1">Terrible</string>
     <string name="rating_value_2">Poor</string>
     <string name="rating_value_3">Average</string>
@@ -13,6 +11,13 @@
     <string name="course_review_comment_default">Give us your opinion</string>
     <string name="name">Name</string>
     <string name="button">Button</string>
+    <string name="fab_content_description">fab</string>
+    <string name="add_review">Add review</string>
+    <string name="room_grade_edit_text">Grade</string>
+    <string name="room_comment_edit_text">Comments</string>
+    <string name="done_button_text">DONE</string>
+    <string name="grade">Grade: %s</string>
+    <string name="comment">Comment: %s</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="courses">Courses</string>

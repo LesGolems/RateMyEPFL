@@ -29,6 +29,15 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.classrooms.AddRoomReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.classrooms.RoomReviewsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.classrooms.ClassroomsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".GreetingActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
