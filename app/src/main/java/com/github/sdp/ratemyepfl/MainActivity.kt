@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayCourses() {
         val intent = Intent(this, CoursesActivity::class.java)
+        startActivity(intent)
     }
 
     private fun startReview() {
