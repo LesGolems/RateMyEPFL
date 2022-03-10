@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/layout/activity_classrooms_list.xml" value="0.4895833333333333" />
+        <entry key="app/src/main/res/layout/activity_greeting.xml" value="0.4895833333333333" />
+        <entry key="app/src/main/res/layout/activity_room_reviews_list.xml" value="0.5385416666666667" />
+        <entry key="app/src/main/res/layout/add_room_review_layout.xml" value="0.5385416666666667" />
+        <entry key="app/src/main/res/layout/date_room_review.xml" value="0.5385416666666667" />
+        <entry key="app/src/main/res/layout/room_item.xml" value="0.5385416666666667" />
+        <entry key="app/src/main/res/layout/room_review_item.xml" value="0.387263339070568" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
