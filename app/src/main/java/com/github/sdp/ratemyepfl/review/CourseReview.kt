@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.review
 
+import com.github.sdp.ratemyepfl.serializer.LocalDateSerializer
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -13,7 +14,7 @@ import java.time.LocalDate
  * Represents a course review
  */
 @Serializable
-class CourseReview private constructor(
+data class CourseReview private constructor(
     override val rating: ReviewRating,
     val title: String,
     override val comment: String,
@@ -39,15 +40,7 @@ class CourseReview private constructor(
         fun deserialize(review: String): CourseReview = Json.decodeFromString(review)
     }
 
-
-    override fun toString(): String {
-        return String.format(
-            "Rating: %s \n Title: %s \n \t %s",
-            rating.toString(),
-            title,
-            comment
-        )
-    }
+    fun serialize(): String = Companion.serialize(this)
 
     /**
      * Allows to create a ReviewRating incrementally.
@@ -117,21 +110,6 @@ class CourseReview private constructor(
 
     }
 
-    /**
-     * A personalized serializer for a LocalDate
-     */
-    @Serializer(forClass = LocalDate::class)
-    object LocalDateSerializer : KSerializer<LocalDate> {
-        override fun deserialize(decoder: Decoder): LocalDate {
-            return LocalDate.parse(decoder.decodeString())
-        }
 
-        override fun serialize(encoder: Encoder, value: LocalDate) {
-            encoder.encodeString(value.toString())
-        }
-
-        override val descriptor: SerialDescriptor =
-            PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
-    }
 
 }

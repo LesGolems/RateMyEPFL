@@ -19,6 +19,26 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
     private var date: LocalDate? = null
 
     /**
+     * @return the value of the current rating
+     */
+    fun getRating(): ReviewRating? = rating.value
+
+    /**
+     * @return the value of the current title
+     */
+    fun getTitle(): String? = title.value
+
+    /**
+     * @return the value of the current comment
+     */
+    fun getComment(): String? = comment.value
+
+    /**
+     * @return the date of publication of the review
+     */
+    fun getDate(): LocalDate? = date
+
+    /**
      * Set the rating entered by the user
      * @param rating: rating entered by the user
      */
@@ -39,7 +59,16 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
     fun setComment(comment: String?) = this.comment.postValue(comment)
 
     /**
-     * Builds the review from user's input
+     * Set the date of publication of the comment
+     * @param date: date of the publication to be set
+     */
+    fun setDate(date: LocalDate?) {
+        this.date = date
+    }
+
+    /**
+     * Builds the review from user's input. If no date was specified, today's
+     * one is used by default
      *
      * @return the CourseReview, if every field is filled, or null otherwise
      */
@@ -70,6 +99,5 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
             }
             throw IllegalArgumentException("Unknown ViewModel Class")
         }
-
     }
 }
