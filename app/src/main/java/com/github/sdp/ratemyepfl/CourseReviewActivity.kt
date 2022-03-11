@@ -69,7 +69,6 @@ class CourseReviewActivity : AppCompatActivity() {
                 ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
                     .get(CourseReviewViewModel::class.java)
 
-            /*
             viewModel.rating.observe(this) { rating ->
                 setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
             }
@@ -78,7 +77,7 @@ class CourseReviewActivity : AppCompatActivity() {
             }
             viewModel.title.observe(this) { title ->
                 setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
-            }*/
+            }
 
             courseRatingButton.setOnCheckedChangeListener { _, id ->
                 viewModel.setRating(fromIdToRating(id))

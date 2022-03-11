@@ -53,11 +53,12 @@ class CourseReviewActivityTest {
         onView(withId(R.id.courseRatingPoorRadioButton)).perform(click())
         onView(withId(R.id.courseRatingTerribleRadioButton)).perform(click())
 
+        onView(withId(R.id.courseReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+
         onView(withId(R.id.courseReviewOpinion)).perform(typeText(comment))
         closeSoftKeyboard()
 
-        onView(withId(R.id.courseReviewTitle)).perform(typeText(title))
-        closeSoftKeyboard()
 
         onView(withId(R.id.courseReviewSubmit)).perform(click())
 
