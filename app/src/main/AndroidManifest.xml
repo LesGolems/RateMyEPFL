@@ -13,32 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".ReviewsActivity"
-            android:parentActivityName=".CoursesActivity"
+            android:name=".activity.ReviewsActivity"
+            android:parentActivityName=".activity.CoursesActivity"
             android:exported="false" />
         <activity
-            android:name=".CoursesActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activity.CoursesActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".CourseMgtActivity"
+            android:name=".activity.CourseMgtActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".CourseReviewActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activity.CourseReviewActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.classrooms.AddRoomReviewActivity"
+            android:name=".activity.classrooms.AddRoomReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.classrooms.RoomReviewsListActivity"
+            android:name=".activity.classrooms.RoomReviewsListActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.classrooms.ClassroomsListActivity"
+            android:name=".activity.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
