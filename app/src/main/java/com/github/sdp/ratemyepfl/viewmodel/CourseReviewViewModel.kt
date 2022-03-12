@@ -3,10 +3,9 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.items.Course
-import com.github.sdp.ratemyepfl.review.CourseReview
-import com.github.sdp.ratemyepfl.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.review.CourseReview
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 
 /**
