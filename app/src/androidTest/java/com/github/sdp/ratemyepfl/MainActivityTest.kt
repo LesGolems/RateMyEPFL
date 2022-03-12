@@ -1,31 +1,19 @@
 package com.github.sdp.ratemyepfl
 
-import android.app.Activity
 import android.content.Intent
-import android.view.KeyEvent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.auth.*
-import com.github.sdp.ratemyepfl.dependencyinjection.DependencyInjectionModule
-import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
-import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
 
@@ -77,6 +65,7 @@ class MainActivityTest {
 
     @Test
     fun firesAnIntentWhenUserPressesLogin() {
+        FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
 
         val scenario: ActivityScenario<CourseReviewActivity> = ActivityScenario.launch(intent)
