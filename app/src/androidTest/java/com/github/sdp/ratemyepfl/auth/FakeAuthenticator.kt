@@ -6,6 +6,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
+/*
+Fake authenticator for tests
+ */
 class FakeAuthenticator @Inject constructor(): Authenticator{
 
     override fun signIn(activity: AppCompatActivity) {

@@ -6,6 +6,10 @@ import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.Task
 import javax.inject.Inject
 
+
+/*
+Implementation of the authenticator using Google Sign In
+*/
 class GoogleAuthenticator @Inject constructor() : Authenticator{
 
     override fun signIn(activity: AppCompatActivity) {

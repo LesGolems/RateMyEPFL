@@ -3,6 +3,9 @@ package com.github.sdp.ratemyepfl.auth
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
+/*
+Implementation of the connected user using Firebase Auth
+ */
 class ConnectedUserImpl @Inject constructor() : ConnectedUser {
 
     override fun isLoggedIn(): Boolean {
