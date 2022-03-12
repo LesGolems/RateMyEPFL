@@ -15,7 +15,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var user: ConnectedUser
-    private var auth : Authenticator = Authenticator()
+    @Inject lateinit var auth : Authenticator
 
     private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         mLogoutButton = findViewById(R.id.logoutButton)
         checkUser()
 
-        mCoursesButton = findViewById<Button>(R.id.coursesButton)
-        mReviewButton = findViewById<Button>(R.id.coursesReviewButton)
+        mCoursesButton = findViewById(R.id.coursesButton)
+        mReviewButton = findViewById(R.id.coursesReviewButton)
 
         mRoomReviewButton = findViewById(R.id.classroomReviewButton)
         mRoomReviewButton.setOnClickListener {

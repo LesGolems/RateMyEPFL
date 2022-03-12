@@ -15,4 +15,8 @@ abstract class DependencyInjectionModule {
     @Binds
     abstract fun provideConnectedUser(user: ConnectedUserImpl): ConnectedUser
 
+    @Singleton
+    @Binds
+    abstract fun provideAuthenticator(user: GoogleAuthenticator): Authenticator
+
 }

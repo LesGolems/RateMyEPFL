@@ -17,4 +17,8 @@ abstract class FakeDependencyInjectionModule {
     @Singleton
     @Binds
     abstract fun provideConnectedUser(user: FakeConnectedUser): ConnectedUser
+
+    @Singleton
+    @Binds
+    abstract fun provideAuthenticator(auth: FakeAuthenticator): Authenticator
 }
