@@ -6,22 +6,22 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.activities.classrooms.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.auth.UserAuth
+import com.github.sdp.ratemyepfl.auth.Authenticator
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var auth: UserAuth
+    @Inject lateinit var user: ConnectedUser
+    private var auth : Authenticator = Authenticator()
 
     private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
     private lateinit var mCoursesButton: Button
     private lateinit var mReviewButton: Button
     private lateinit var mEmail: TextView
-
     private lateinit var mRoomReviewButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,14 +86,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkUser() {
-        if (!auth.isLoggedIn()) {
+        if (!user.isLoggedIn()) {
             mLogoutButton.isEnabled = false
             mLoginButton.isEnabled = true
             mEmail.text = ""
         } else {
             mLogoutButton.isEnabled = true
             mLoginButton.isEnabled = false
-            mEmail.text = auth.getEmail()
+            mEmail.text = user.getEmail()
         }
     }
 }
