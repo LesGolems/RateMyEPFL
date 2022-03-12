@@ -1,13 +1,10 @@
 package com.github.sdp.ratemyepfl.placeholder
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.sdp.ratemyepfl.Classroom
-import com.github.sdp.ratemyepfl.review.ClassroomReview
+import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import java.time.LocalDate
-import java.util.*
 import javax.inject.Inject
 
 class DataSource @Inject constructor() {
