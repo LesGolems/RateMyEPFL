@@ -6,28 +6,18 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
-class FakeUserAuth @Inject constructor() : UserAuth {
-
-    private var loggedIn = false
+/*
+Fake authenticator for tests
+ */
+class FakeAuthenticator @Inject constructor(): Authenticator{
 
     override fun signIn(activity: AppCompatActivity) {
-        loggedIn = true
+        FakeConnectedUser.loggedIn = true
     }
 
     override fun signOut(context: Context): Task<Void> {
-        loggedIn = false
+        FakeConnectedUser.loggedIn = false
         return Tasks.forResult(null)
     }
 
-    override fun isLoggedIn(): Boolean {
-        return loggedIn
-    }
-
-    override fun getUserId(): String? {
-        return "12345"
-    }
-
-    override fun getEmail(): String? {
-        return "user@email.com"
-    }
 }

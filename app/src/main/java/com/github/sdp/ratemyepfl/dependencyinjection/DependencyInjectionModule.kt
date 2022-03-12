@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.auth.UserAuth
-import com.github.sdp.ratemyepfl.auth.UserAuthImpl
+import com.github.sdp.ratemyepfl.auth.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,6 +13,10 @@ abstract class DependencyInjectionModule {
 
     @Singleton
     @Binds
-    abstract fun provideUserAuth(userAuth: UserAuthImpl): UserAuth
+    abstract fun provideConnectedUser(user: ConnectedUserImpl): ConnectedUser
+
+    @Singleton
+    @Binds
+    abstract fun provideAuthenticator(user: GoogleAuthenticator): Authenticator
 
 }

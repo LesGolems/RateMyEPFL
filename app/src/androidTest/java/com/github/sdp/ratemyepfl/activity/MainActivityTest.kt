@@ -9,17 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.auth.FakeUserAuth
-import com.github.sdp.ratemyepfl.auth.UserAuth
-import com.github.sdp.ratemyepfl.dependencyinjection.DependencyInjectionModule
-import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.UninstallModules
 import org.junit.Rule
 import org.junit.Test
 
-@UninstallModules(DependencyInjectionModule::class)
 @HiltAndroidTest
 class MainActivityTest {
 
@@ -29,15 +23,29 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @BindValue
-    @JvmField
-    val auth: UserAuth = FakeUserAuth()
-
     // To be changed once the courses are implemented
     @Test
     fun firesAnIntentWhenUserPressesCourseReviewButton() {
         init()
         onView(withId(R.id.coursesReviewButton))
+            .perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun firesAnIntentWhenUserPressesCourseButton() {
+        init()
+        onView(withId(R.id.coursesButton))
+            .perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun firesAnIntentWhenUserPressesClassroomButton() {
+        init()
+        onView(withId(R.id.classroomReviewButton))
             .perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()

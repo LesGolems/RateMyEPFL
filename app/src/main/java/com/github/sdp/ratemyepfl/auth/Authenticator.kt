@@ -4,14 +4,12 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 
-interface UserAuth {
-    fun signIn(activity: AppCompatActivity)
+/*
+Interface representing the app authenticator, used to log in and log out
+ */
+interface Authenticator {
 
+    fun signIn(activity: AppCompatActivity)
     fun signOut(context: Context): Task<Void>
 
-    fun isLoggedIn(): Boolean
-
-    fun getUserId(): String?
-
-    fun getEmail(): String?
 }
