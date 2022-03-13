@@ -5,4 +5,6 @@ abstract class Repository<T> (private val dataSource : Database<T>){
     abstract fun add(value : T)
 
     abstract fun remove(value : T)
+
+    abstract fun get(value : T)
 }

@@ -10,5 +10,8 @@ class CoursesRepository (courses : Database<Course>) : Repository<Course>(course
     override fun remove(value: Course) {
     }
 
+    override fun get(value: Course) {
+    }
+
 
 }
