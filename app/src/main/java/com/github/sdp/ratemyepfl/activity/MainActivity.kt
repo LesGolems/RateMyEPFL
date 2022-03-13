@@ -18,19 +18,17 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var user: ConnectedUser
     @Inject lateinit var auth : Authenticator
 
-    private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
     private lateinit var mCoursesButton: Button
     private lateinit var mReviewButton: Button
-    private lateinit var mEmail: TextView
+    private lateinit var mUser_text: TextView
     private lateinit var mRoomReviewButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mEmail = findViewById(R.id.email)
-        mLoginButton = findViewById(R.id.loginButton)
+        mUser_text = findViewById(R.id.user_text)
         mLogoutButton = findViewById(R.id.logoutButton)
         checkUser()
 
@@ -65,14 +63,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
-        mLoginButton.setOnClickListener {
-            auth.signIn(this)
-            checkUser()
-        }
-
         mLogoutButton.setOnClickListener {
             auth.signOut(applicationContext).addOnCompleteListener {
-                checkUser()
+                startActivity(Intent(this, SplashScreen::class.java))
             }
         }
 
@@ -89,12 +82,10 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser() {
         if (!user.isLoggedIn()) {
             mLogoutButton.isEnabled = false
-            mLoginButton.isEnabled = true
-            mEmail.text = ""
+            mUser_text.text = "Visitor"
         } else {
             mLogoutButton.isEnabled = true
-            mLoginButton.isEnabled = false
-            mEmail.text = user.getEmail()
+            mUser_text.text = user.getEmail()
         }
     }
 }
