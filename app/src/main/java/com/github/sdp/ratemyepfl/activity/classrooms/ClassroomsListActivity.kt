@@ -49,9 +49,9 @@ class ClassroomsListActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        var menuItem = menu!!.findItem(R.id.searchView)
-        var searchView = menuItem.actionView as SearchView
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val menuItem = menu!!.findItem(R.id.searchView)
+        val searchView = menuItem.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -62,10 +62,7 @@ class ClassroomsListActivity : AppCompatActivity() {
                 roomsAdapter.filter.filter(newText)
                 return true
             }
-
         })
-
-
 
         return super.onCreateOptionsMenu(menu)
     }

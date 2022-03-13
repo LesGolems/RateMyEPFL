@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,26 +70,28 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
 
     private val roomSearchFilter = object : Filter() {
         override fun performFiltering(query: CharSequence?): FilterResults {
-            val filteredList = mutableListOf<Classroom>()
+            val results = FilterResults()
 
             if (query.isNullOrEmpty()) {
-                filteredList.addAll(list)
+                results.values = list
+                results.count = list.size
             } else {
+                val queryLower = query.toString().lowercase()
+                val filteredList = mutableListOf<Classroom>()
                 filteredList.addAll(list.filter {
-                    it.id.lowercase(Locale.getDefault())
-                        .startsWith(query.toString().lowercase(Locale.getDefault()))
+                    it.id.lowercase().startsWith(queryLower)
                 })
+                results.values = filteredList
+                results.count = filteredList.size
             }
 
-            val filterResults = FilterResults()
-            filterResults.values = filteredList
-            filterResults.count = filteredList.size
-
-            return filterResults
+            return results
         }
 
         override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
-            submitList(searchResults?.values as MutableList<Classroom>)
+            if (searchResults!!.count > 0) {
+                submitList(searchResults.values as MutableList<Classroom>)
+            }
         }
     }
 
