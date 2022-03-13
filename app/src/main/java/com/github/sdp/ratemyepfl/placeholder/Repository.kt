@@ -1,4 +1,8 @@
 package com.github.sdp.ratemyepfl.placeholder
 
-interface Repository {
+abstract class Repository<T> (private val dataSource : Database<T>){
+
+    abstract fun add(value : T)
+
+    abstract fun remove(value : T)
 }

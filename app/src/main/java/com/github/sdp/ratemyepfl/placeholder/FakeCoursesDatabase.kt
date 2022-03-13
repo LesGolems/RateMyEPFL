@@ -1,10 +1,11 @@
-package com.github.sdp.ratemyepfl.model.items
+package com.github.sdp.ratemyepfl.placeholder
 
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 
-class FakeCoursesDatabase {
+class FakeCoursesDatabase : Database<Course>{
     fun getReviewsList(): List<CourseReview> {
         return listOf(
             CourseReview.Builder().setTitle("Absolument dé-men-tiel")

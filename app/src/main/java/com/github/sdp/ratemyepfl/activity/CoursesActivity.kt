@@ -7,7 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.FakeCoursesDatabase
+import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
 
 class CoursesActivity : AppCompatActivity() {
 

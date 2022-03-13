@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.FakeCoursesDatabase
+import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
 import com.github.sdp.ratemyepfl.model.review.CourseReviewAdapter
 
 class ReviewsActivity : AppCompatActivity() {
