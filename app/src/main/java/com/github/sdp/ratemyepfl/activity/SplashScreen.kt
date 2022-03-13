@@ -16,13 +16,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {
 
-    private val resultLauncher: ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                goToMain()
-            }
-        }
-
     @Inject lateinit var auth : Authenticator
     @Inject lateinit var user : ConnectedUser
 
@@ -37,12 +30,18 @@ class SplashScreen : AppCompatActivity() {
         val mVisitorButton = findViewById<Button>(R.id.visitor_button)
 
         mLoginButton.setOnClickListener {
-            auth.signIn(resultLauncher)
+            auth.signIn(this)
+            if(user.isLoggedIn()) goToMain()
         }
 
         mVisitorButton.setOnClickListener {
             goToMain()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(user.isLoggedIn()) goToMain()
     }
 
     private fun goToMain(){

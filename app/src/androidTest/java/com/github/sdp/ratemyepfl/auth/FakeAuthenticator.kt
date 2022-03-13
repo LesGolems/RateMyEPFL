@@ -13,7 +13,7 @@ Fake authenticator for tests
  */
 class FakeAuthenticator @Inject constructor(): Authenticator{
 
-    override fun signIn(resultLauncher: ActivityResultLauncher<Intent>) {
+    override fun signIn(activity: AppCompatActivity) {
         FakeConnectedUser.loggedIn = true
     }
 

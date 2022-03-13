@@ -17,7 +17,7 @@ Implementation of the authenticator using Google Sign In
 */
 class GoogleAuthenticator @Inject constructor() : Authenticator{
 
-    override fun signIn(resultLauncher: ActivityResultLauncher<Intent>){
+    override fun signIn(activity: AppCompatActivity){
         val providers = arrayListOf(
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
@@ -28,7 +28,7 @@ class GoogleAuthenticator @Inject constructor() : Authenticator{
             .setAvailableProviders(providers)
             .build()
 
-        resultLauncher.launch(intent)
+        activity.startActivity(intent)
     }
 
     override fun signOut(context: Context): Task<Void> {

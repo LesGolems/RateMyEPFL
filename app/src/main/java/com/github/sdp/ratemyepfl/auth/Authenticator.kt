@@ -11,7 +11,7 @@ Interface representing the app authenticator, used to log in and log out
  */
 interface Authenticator {
 
-    fun signIn(resultLauncher: ActivityResultLauncher<Intent>)
+    fun signIn(activity: AppCompatActivity)
     fun signOut(context: Context): Task<Void>
 
 }
