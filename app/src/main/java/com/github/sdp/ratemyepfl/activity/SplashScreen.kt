@@ -33,10 +33,15 @@ class SplashScreen : AppCompatActivity() {
 
         if(user.isLoggedIn()) goToMain()
 
-        val button = findViewById<Button>(R.id.login_button)
+        val mLoginButton = findViewById<Button>(R.id.login_button)
+        val mVisitorButton = findViewById<Button>(R.id.visitor_button)
 
-        button.setOnClickListener {
+        mLoginButton.setOnClickListener {
             auth.signIn(resultLauncher)
+        }
+
+        mVisitorButton.setOnClickListener {
+            goToMain()
         }
     }
 
