@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.auth
 
 import android.content.Context
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -11,7 +13,7 @@ Fake authenticator for tests
  */
 class FakeAuthenticator @Inject constructor(): Authenticator{
 
-    override fun signIn(activity: AppCompatActivity) {
+    override fun signIn(resultLauncher: ActivityResultLauncher<Intent>) {
         FakeConnectedUser.loggedIn = true
     }
 
