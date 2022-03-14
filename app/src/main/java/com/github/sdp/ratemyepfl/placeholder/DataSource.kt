@@ -7,7 +7,7 @@ import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import java.time.LocalDate
 import javax.inject.Inject
 
-class DataSource @Inject constructor() : Database<Classroom>{
+class DataSource @Inject constructor() {
     private val initialRoomsList = roomsList()
     private val roomsLiveData = MutableLiveData(initialRoomsList)
 

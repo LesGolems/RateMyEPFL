@@ -5,7 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 
-class FakeCoursesDatabase : Database<Course>{
+class FakeCoursesDatabase {
     fun getReviewsList(): List<CourseReview> {
         return listOf(
             CourseReview.Builder().setTitle("Absolument dé-men-tiel")
