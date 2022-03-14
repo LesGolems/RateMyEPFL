@@ -1,10 +1,13 @@
 package com.github.sdp.ratemyepfl.placeholder
 
-abstract class Repository<T> (private val dataSource : Database<T>){
+import com.google.firebase.firestore.FirebaseFirestore
 
-    abstract fun add(value : T)
+abstract class Repository<T> (private val db : FirebaseFirestore){
 
-    abstract fun remove(value : T)
+    abstract suspend fun add(value : T)
 
-    abstract fun get(value : T)
+    abstract suspend fun remove(value : T)
+
+    abstract suspend fun get() : Collection<T>
+
 }

@@ -30,22 +30,4 @@ class RoomReviewsListViewModel (private val dataSource: DataSource, private val 
         }
     }
 
-    /*class RoomReviewsListViewModelFactory(
-        private val dataSource: DataSource,
-        private val id: String?
-    ) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(RoomReviewsListViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return RoomReviewsListViewModel(
-                    dataSource = dataSource,
-                    id = id
-                ) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-
-    }*/
-
 }
