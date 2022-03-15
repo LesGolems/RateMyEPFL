@@ -38,7 +38,6 @@ class CourseReviewViewModelTest {
         val rating = ReviewRating.AVERAGE
         val model = CourseReviewViewModel(savedStateHandle)
         model.setRating(rating)
-        Thread.sleep(DEFAULT_POSTING_TIME)
         Assert.assertEquals(rating, model.getRating())
     }
 
@@ -47,7 +46,6 @@ class CourseReviewViewModelTest {
         val title = "My title"
         val viewModel = CourseReviewViewModel(savedStateHandle)
         viewModel.title.postValue(title)
-        Thread.sleep(DEFAULT_POSTING_TIME)
 
         Assert.assertEquals(title, viewModel.getTitle())
     }
@@ -65,7 +63,6 @@ class CourseReviewViewModelTest {
         val date = LocalDate.of(2022, 3, 9)
         val viewModel = CourseReviewViewModel(savedStateHandle)
         viewModel.setDate(date)
-        Thread.sleep(DEFAULT_POSTING_TIME)
 
         Assert.assertEquals(date, viewModel.getDate())
     }
@@ -83,7 +80,6 @@ class CourseReviewViewModelTest {
             this.setTitle(title)
             this.setComment(comment)
             this.setDate(date)
-            Thread.sleep(DEFAULT_POSTING_TIME)
         }.review()
 
         Assert.assertEquals(rating, review?.rating)
@@ -103,7 +99,6 @@ class CourseReviewViewModelTest {
             this.setTitle(title)
             this.setComment(comment)
             this.setDate(date)
-            Thread.sleep(DEFAULT_POSTING_TIME)
         }.review()
 
         Assert.assertEquals(null, review)
@@ -120,7 +115,6 @@ class CourseReviewViewModelTest {
             this.setRating(rating)
             this.setComment(comment)
             this.setDate(date)
-            Thread.sleep(DEFAULT_POSTING_TIME)
         }.review()
 
         Assert.assertEquals(null, review)
@@ -137,7 +131,6 @@ class CourseReviewViewModelTest {
             this.setTitle(title)
             this.setRating(rating)
             this.setDate(date)
-            Thread.sleep(DEFAULT_POSTING_TIME)
         }.review()
 
         Assert.assertEquals(null, review)
@@ -154,7 +147,6 @@ class CourseReviewViewModelTest {
             this.setTitle(title)
             this.setRating(rating)
             this.setComment(comment)
-            Thread.sleep(DEFAULT_POSTING_TIME)
         }.run {
             date = LocalDate.now()
             review()
@@ -166,7 +158,4 @@ class CourseReviewViewModelTest {
 
     }
 
-    companion object {
-        const val DEFAULT_POSTING_TIME: Long = 1000
-    }
 }
