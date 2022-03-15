@@ -27,4 +27,5 @@
     <string name="search">Search</string>
     <string name="increasing_order">A-Z</string>
     <string name="decreasing_order">Z-A</string>
+    <string name="credits">Credits</string>
 </resources>
