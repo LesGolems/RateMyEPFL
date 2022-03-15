@@ -1,21 +1,39 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.github.sdp.ratemyepfl.activity.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
+import javax.inject.Inject
 
 /**
- * View model for the course reviewing feature
+ * View model for the course reviewing feature.
+ *
+ * @constructor: throws an IllegalArgumentException if no course can be induced from
+ *               the savedStateHandle
  */
-class CourseReviewViewModel(val course: Course) : ViewModel() {
+@HiltViewModel
+class CourseReviewViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
     private var date: LocalDate? = null
+
+    // Retrieve the reviewed course from the savedStateHandle, and throws an exception if it fails
+    val course: Course =
+        savedStateHandle.get<String>(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER)
+            ?.let { course: String ->
+                Json.decodeFromString(course)
+            } ?: throw IllegalArgumentException("Cannot review a null course")
 
     /**
      * @return the value of the current rating
@@ -85,18 +103,5 @@ class CourseReviewViewModel(val course: Course) : ViewModel() {
                 .setDate(date)
                 .build()
         } else null
-    }
-
-    /**
-     * Factory to create a CourseReviewViewModel
-     */
-    class CourseReviewViewModelFactory(private val course: Course) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            // If model class is correct return them as ViewModel with Value
-            if (modelClass.isAssignableFrom(CourseReviewViewModel::class.java)) {
-                return CourseReviewViewModel(course) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel Class")
-        }
     }
 }
