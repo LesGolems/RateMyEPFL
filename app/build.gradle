@@ -63,6 +63,8 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
 
     // Hilt dependencies
     implementation "com.google.dagger:hilt-android:$hilt_version"
