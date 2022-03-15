@@ -14,6 +14,10 @@ class ClassroomsRepository (private val db : FirebaseFirestore) {
         private const val TAG = "ClassroomRepository"
     }
 
+    suspend fun getAll() : List<Classroom> {
+        return db.collection("classrooms").get().await().toObjects(Classroom::class.java)
+    }
+
     suspend fun getById(id: String) : Classroom?{
         return db.collection("classrooms").document(id).get()
             .addOnSuccessListener {
@@ -22,11 +26,6 @@ class ClassroomsRepository (private val db : FirebaseFirestore) {
                 Log.i("Firebase", "Error getting Classroom", it)
             }.await().toClassroom()
         }
-
-
-    /*suspend fun getSortedByName(name: String) : List<Classroom>? {
-        return null
-    }*/
 
 
 }
