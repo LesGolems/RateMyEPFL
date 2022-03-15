@@ -15,7 +15,12 @@ class ClassroomsRepository (private val db : FirebaseFirestore) {
     }
 
     suspend fun getAll() : List<Classroom> {
-        return db.collection("classrooms").get().await().toObjects(Classroom::class.java)
+        return db.collection("classrooms").get()
+            .addOnSuccessListener {
+                Log.i("Firebase", "Classrooms successfully fetched")
+            }.addOnFailureListener{
+                Log.i("Firebase", "Error getting all classrooms", it)
+            } .await().toObjects(Classroom::class.java)
     }
 
     suspend fun getById(id: String) : Classroom?{
