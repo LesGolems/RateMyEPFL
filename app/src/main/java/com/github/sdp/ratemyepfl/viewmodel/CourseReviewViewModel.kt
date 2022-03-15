@@ -23,6 +23,7 @@ import javax.inject.Inject
 class CourseReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)

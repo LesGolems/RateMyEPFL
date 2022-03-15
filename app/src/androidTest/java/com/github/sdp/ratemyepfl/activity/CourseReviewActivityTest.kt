@@ -20,11 +20,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import java.time.LocalDate
 
-
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class CourseReviewActivityTest {
+
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
 
     @Test
     fun nullCourseCancels() {
