@@ -1,18 +1,32 @@
 package com.github.sdp.ratemyepfl.placeholder
 
+import android.util.Log
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Classroom.Companion.toClassroom
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
-class ClassroomsRepository (db : FirebaseFirestore): Repository<Classroom>(db){
+// TODO: refactor using listeners
+class ClassroomsRepository (private val db : FirebaseFirestore) {
 
-    override suspend fun add(value: Classroom) {
+
+    companion object {
+        private const val TAG = "ClassroomRepository"
     }
 
-    override suspend fun remove(value: Classroom) {
-    }
+    suspend fun getById(id: String) : Classroom?{
+        return db.collection("classrooms").document(id).get()
+            .addOnSuccessListener {
+                Log.i("Firebase", "Got Classroom $id")
+            }.addOnFailureListener {
+                Log.i("Firebase", "Error getting Classroom", it)
+            }.await().toClassroom()
+        }
 
-    override suspend fun get() : Set<Classroom>{
-    }
+
+    /*suspend fun getSortedByName(name: String) : List<Classroom>? {
+        return null
+    }*/
 
 
 }
