@@ -6,11 +6,21 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/settingsView"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:id="@+id/sortAlphabView"
         android:title="@string/sort_alphabetically"
-        app:showAsAction="always"/>
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/increasingOrder"
+                android:title="@string/increasing_order" />
+            <item
+                android:id="@+id/decreasingOrder"
+                android:title="@string/decreasing_order" />
+        </menu>
+
+    </item>
+
 </menu>

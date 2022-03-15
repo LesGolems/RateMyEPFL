@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -44,9 +45,10 @@ class CoursesActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_menu, menu)
-        val menuItem = menu!!.findItem(R.id.searchView)
-        val searchView = menuItem.actionView as SearchView
+        menuInflater.inflate(R.menu.rooms_options_menu, menu)
+
+        val searchItem = menu!!.findItem(R.id.searchView)
+        val searchView = searchItem.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -59,13 +61,20 @@ class CoursesActivity : AppCompatActivity() {
             }
         })
 
-        val sortView = menu.findItem(R.id.settingsView)
-        sortView.setOnMenuItemClickListener {
-            adapter.sort { o1, o2 -> o1.name.compareTo(o2.name) }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.increasingOrder -> {
+            adapter.sort { c1, c2 -> c1.name.compareTo(c2.name) }
             true
         }
-
-
-        return super.onCreateOptionsMenu(menu)
+        R.id.decreasingOrder -> {
+            adapter.sort { c1, c2 -> c2.name.compareTo(c1.name) }
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

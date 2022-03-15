@@ -25,4 +25,6 @@
     <string name="courses_review">Courses review</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="search">Search</string>
+    <string name="increasing_order">A-Z</string>
+    <string name="decreasing_order">Z-A</string>
 </resources>

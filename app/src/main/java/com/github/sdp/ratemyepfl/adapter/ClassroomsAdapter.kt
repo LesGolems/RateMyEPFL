@@ -10,9 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.R
-import java.util.*
+import com.github.sdp.ratemyepfl.model.items.Classroom
 
 class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
     ListAdapter<Classroom, ClassroomsAdapter.RoomViewHolder>(RoomDiffCallback),
@@ -93,11 +92,15 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
         }
     }
 
-    fun sortAlphabetically() {
+    fun sortAlphabetically(increasing: Boolean) {
         val sortedList = mutableListOf<Classroom>()
         sortedList.addAll(list)
+
         sortedList.sortBy { it.id }
-        submitList(sortedList)
+        if (!increasing) {
+            sortedList.reverse()
+        }
+        setData(sortedList)
     }
 
 
