@@ -71,6 +71,7 @@ class CourseReviewActivity : AppCompatActivity() {
             this.viewModel = viewModel
         } catch (e: IllegalArgumentException) {
             cancelReview()
+            return
         }
 
         courseReviewIndication.text =
