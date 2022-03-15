@@ -23,4 +23,6 @@
     <string name="courses">Courses</string>
     <string name="classrooms">Classrooms</string>
     <string name="courses_review">Courses review</string>
+    <string name="sort_alphabetically">Sort alphabetically</string>
+    <string name="search">Search</string>
 </resources>

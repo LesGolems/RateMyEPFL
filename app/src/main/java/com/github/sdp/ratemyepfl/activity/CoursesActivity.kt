@@ -30,6 +30,7 @@ class CoursesActivity : AppCompatActivity() {
             courseList
         )
         coursesView.adapter = adapter
+
         coursesView.isClickable = true
         coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             displayCourseReviews(courseList[position].name)
@@ -57,6 +58,13 @@ class CoursesActivity : AppCompatActivity() {
                 return true
             }
         })
+
+        val sortView = menu.findItem(R.id.settingsView)
+        sortView.setOnMenuItemClickListener {
+            adapter.sort { o1, o2 -> o1.name.compareTo(o2.name) }
+            true
+        }
+
 
         return super.onCreateOptionsMenu(menu)
     }

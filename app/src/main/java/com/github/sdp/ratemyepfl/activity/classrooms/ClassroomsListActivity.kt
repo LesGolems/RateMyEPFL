@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.activity.classrooms
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +12,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ClassroomsAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
+import java.util.*
 
 const val ROOM_ID = "room id"
 
@@ -50,8 +52,10 @@ class ClassroomsListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
+
         val menuItem = menu!!.findItem(R.id.searchView)
         val searchView = menuItem.actionView as SearchView
+
         searchView.maxWidth = Int.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -64,7 +68,23 @@ class ClassroomsListActivity : AppCompatActivity() {
             }
         })
 
+        val sortView = menu.findItem(R.id.settingsView)
+        sortView.setOnMenuItemClickListener {
+            roomsAdapter.sortAlphabetically()
+            true
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.settingsView -> {
+            roomsAdapter.sortAlphabetically()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }*/
 
 }

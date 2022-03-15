@@ -89,11 +89,17 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
         }
 
         override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
-            if (searchResults!!.count > 0) {
-                submitList(searchResults.values as MutableList<Classroom>)
-            }
+            submitList(searchResults!!.values as MutableList<Classroom>)
         }
     }
+
+    fun sortAlphabetically() {
+        val sortedList = mutableListOf<Classroom>()
+        sortedList.addAll(list)
+        sortedList.sortBy { it.id }
+        submitList(sortedList)
+    }
+
 
 }
 

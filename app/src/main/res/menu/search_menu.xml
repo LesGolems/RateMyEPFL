@@ -4,7 +4,13 @@
     <item
         android:id="@+id/searchView"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="Search View"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/settingsView"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="@string/sort_alphabetically"
+        app:showAsAction="always"/>
 </menu>
