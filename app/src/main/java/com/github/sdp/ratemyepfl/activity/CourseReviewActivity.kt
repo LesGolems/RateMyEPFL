@@ -8,18 +8,20 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@AndroidEntryPoint
 class CourseReviewActivity : AppCompatActivity() {
 
     companion object {
@@ -37,6 +39,7 @@ class CourseReviewActivity : AppCompatActivity() {
     private lateinit var lastCourseRatingButton: RadioButton
     private lateinit var submitButton: Button
     private lateinit var courseReviewIndication: TextView
+    private lateinit var viewModel: CourseReviewViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,68 +59,71 @@ class CourseReviewActivity : AppCompatActivity() {
         view.error = if (newValue == null) errorMessage else null
     }
 
+    private fun cancelReview() {
+        setResult(RESULT_CANCELED, Intent())
+        finish()
+    }
+
     private fun startReview() {
-        val serializedCourse: String? = intent.getStringExtra(EXTRA_COURSE_IDENTIFIER)
-        if (serializedCourse == null) {
-            setResult(RESULT_CANCELED, Intent())
-            finish()
-        } else {
+        // Set up the view model. If it fails, cancel the review
+        try {
+            val viewModel by viewModels<CourseReviewViewModel>()
+            this.viewModel = viewModel
+        } catch (e: IllegalArgumentException) {
+            cancelReview()
+        }
 
-            val course: Course = Json.decodeFromString(serializedCourse!!)
-            courseReviewIndication.text =
-                getString(R.string.course_review_indication_string, course.toString())
-            val viewModel =
-                ViewModelProvider(this, CourseReviewViewModel.CourseReviewViewModelFactory(course))
-                    .get(CourseReviewViewModel::class.java)
+        courseReviewIndication.text =
+            getString(R.string.course_review_indication_string, viewModel.course.toString())
 
-            viewModel.rating.observe(this) { rating ->
-                setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
+        viewModel.rating.observe(this) { rating ->
+            setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
+        }
+        viewModel.comment.observe(this) { comment ->
+            setError(courseReviewComment, comment, EMPTY_COMMENT_MESSAGE)
+        }
+        viewModel.title.observe(this) { title ->
+            setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
+        }
+
+        courseRatingButton.setOnCheckedChangeListener { _, id ->
+            viewModel.setRating(fromIdToRating(id))
+        }
+
+        courseReviewTitle.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
-            viewModel.comment.observe(this) { comment ->
-                setError(courseReviewComment, comment, EMPTY_COMMENT_MESSAGE)
-            }
-            viewModel.title.observe(this) { title ->
-                setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.setTitle(p0.toString())
             }
 
-            courseRatingButton.setOnCheckedChangeListener { _, id ->
-                viewModel.setRating(fromIdToRating(id))
+            override fun afterTextChanged(p0: Editable?) {
+
             }
 
-            courseReviewTitle.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        })
 
-                }
+        courseReviewComment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    viewModel.setTitle(p0.toString())
-                }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.setComment(p0.toString())
+            }
 
-                override fun afterTextChanged(p0: Editable?) {
+            override fun afterTextChanged(p0: Editable?) {
+            }
 
-                }
+        })
 
-            })
-
-            courseReviewComment.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    viewModel.setComment(p0.toString())
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                }
-
-            })
-
-            submitButton.setOnClickListener { _ ->
-                viewModel.review()?.let { review ->
-                    submitReview(viewModel.course, review)
-                }
+        submitButton.setOnClickListener { _ ->
+            viewModel.review()?.let { review ->
+                submitReview(viewModel.course, review)
             }
         }
+
     }
 
     private fun submitReview(course: Course, review: CourseReview) {
