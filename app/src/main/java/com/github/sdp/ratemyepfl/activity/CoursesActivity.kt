@@ -7,7 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
 import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class CoursesActivity : AppCompatActivity() {
 
@@ -18,7 +22,12 @@ class CoursesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_courses)
 
         val fakeDatabase = FakeCoursesDatabase()
-        val courseList = fakeDatabase.getCoursesList()
+        var courseList: List<Course> = listOf()
+        runBlocking {
+            launch {
+                courseList = CoursesRepository().get()
+            }
+        }
 
         coursesView = findViewById(R.id.coursesListView)
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,

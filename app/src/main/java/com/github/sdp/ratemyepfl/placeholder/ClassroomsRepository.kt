@@ -1,9 +1,8 @@
 package com.github.sdp.ratemyepfl.placeholder
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.google.firebase.firestore.FirebaseFirestore
 
-class ClassroomsRepository (db : FirebaseFirestore): Repository<Classroom>(db){
+class ClassroomsRepository: Repository<Classroom>() {
 
     override suspend fun add(value: Classroom) {
     }
@@ -12,6 +11,7 @@ class ClassroomsRepository (db : FirebaseFirestore): Repository<Classroom>(db){
     }
 
     override suspend fun get() : Set<Classroom>{
+        return setOf<Classroom>()
     }
 
 

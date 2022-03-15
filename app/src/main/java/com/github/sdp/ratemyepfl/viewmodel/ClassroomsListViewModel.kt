@@ -5,11 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.placeholder.ClassroomsRepository
-import com.github.sdp.ratemyepfl.placeholder.DataSource
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-class ClassroomsListViewModel(classrooms : ClassroomsRepository) : ViewModel() {
+class ClassroomsListViewModel(val classrooms: ClassroomsRepository): ViewModel() {
 
-    private val roomsLiveData = MutableLiveData(classrooms.get())
+    private val roomsLiveData = MutableLiveData<Set<Classroom>>()
+
+    fun updateRooms() {
+        runBlocking {
+            launch {
+                roomsLiveData.value = classrooms.get()
+            }
+        }
+    }
 
     fun getRooms(): LiveData<Set<Classroom>> {
         return roomsLiveData
