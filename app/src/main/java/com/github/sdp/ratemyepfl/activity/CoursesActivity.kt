@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -54,15 +53,15 @@ class CoursesActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                adapter.filter.filter(newText)
+                adapter.filterByName(newText)//filter.filter(newText)
                 return true
             }
         })
 
-        return super.onCreateOptionsMenu(menu)
+        return true //super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.increasingOrder -> {
             adapter.sort { c1, c2 -> c1.name.compareTo(c2.name) }
             true
@@ -76,7 +75,7 @@ class CoursesActivity : AppCompatActivity() {
             true
         }
         else -> {
-            super.onOptionsItemSelected(item)
+            true
         }
-    }
+    }*/
 }
