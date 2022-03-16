@@ -64,6 +64,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
+    // for asynchronous livedata
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
 
     //for await() method in Repositories

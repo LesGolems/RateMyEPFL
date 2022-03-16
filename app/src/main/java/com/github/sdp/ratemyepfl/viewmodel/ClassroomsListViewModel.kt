@@ -1,17 +1,15 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.placeholder.ClassroomsRepository
 import com.github.sdp.ratemyepfl.placeholder.DataSource
 
 class ClassroomsListViewModel(classrooms : ClassroomsRepository) : ViewModel() {
 
-    private val roomsLiveData = MutableLiveData(classrooms.get())
+    private val roomsLiveData: LiveData<Classroom?> = classrooms.getAll().asLiveData()
 
-    fun getRooms(): LiveData<Set<Classroom>> {
+    fun getRooms(): LiveData<Classroom?> {
         return roomsLiveData
     }
 

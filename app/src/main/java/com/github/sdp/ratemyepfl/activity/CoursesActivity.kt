@@ -7,7 +7,13 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
 import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 
 class CoursesActivity : AppCompatActivity() {
 
@@ -17,8 +23,14 @@ class CoursesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courses)
 
-        val fakeDatabase = FakeCoursesDatabase()
-        val courseList = fakeDatabase.getCoursesList()
+        //var courseList: List<Course> = listOf()
+        val courseList = CoursesRepository().getAll()
+
+        /*runBlocking {
+            launch {
+                courseList = CoursesRepository(db).getAll()
+            }
+        }*/
 
         coursesView = findViewById(R.id.coursesListView)
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
