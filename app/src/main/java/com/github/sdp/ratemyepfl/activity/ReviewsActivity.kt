@@ -10,7 +10,7 @@ import com.github.sdp.ratemyepfl.model.review.CourseReviewAdapter
 class ReviewsActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_COURSE_NAME: String = "course name"
+        const val EXTRA_COURSE_NAME: String = "com.github.sdp.ratemyepfl.activity.course_name"
     }
 
     private lateinit var reviewsView: ListView

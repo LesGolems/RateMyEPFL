@@ -4,10 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
@@ -17,7 +14,6 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -33,7 +29,7 @@ class CourseReviewActivity : AppCompatActivity() {
         const val EXTRA_REVIEW: String = "com.github.sdp.ratemyepfl.model.review.extra_review"
     }
 
-    private lateinit var courseRatingButton: RadioGroup
+    private lateinit var courseRatingRadioGroup: RadioGroup
     private lateinit var courseReviewTitle: TextInputEditText
     private lateinit var courseReviewComment: TextInputEditText
     private lateinit var lastCourseRatingButton: RadioButton
@@ -45,10 +41,11 @@ class CourseReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_review)
 
-        courseRatingButton = findViewById(R.id.courseReviewRating)
+        val radioGroupLayout = findViewById<RelativeLayout>(R.id.layoutRadioGroupCourseReview)
+        courseRatingRadioGroup = radioGroupLayout.findViewById(R.id.courseReviewRating)
         courseReviewTitle = findViewById(R.id.courseReviewTitle)
         courseReviewComment = findViewById(R.id.courseReviewOpinion)
-        lastCourseRatingButton = findViewById(R.id.courseRatingExcellentRadioButton)
+        lastCourseRatingButton = radioGroupLayout.findViewById(R.id.courseRatingExcellentRadioButton)
         submitButton = findViewById(R.id.courseReviewSubmit)
         courseReviewIndication = findViewById(R.id.courseReviewCourseName)
 
@@ -87,36 +84,18 @@ class CourseReviewActivity : AppCompatActivity() {
             setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
         }
 
-        courseRatingButton.setOnCheckedChangeListener { _, id ->
+        courseRatingRadioGroup.setOnCheckedChangeListener { _, id ->
             viewModel.setRating(fromIdToRating(id))
         }
 
-        courseReviewTitle.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.setTitle(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
+        courseReviewTitle.addTextChangedListener(onTextChangedTextWatcher { charSequence, _, _, _ ->
+            viewModel.setTitle(charSequence.toString())
         })
 
-        courseReviewComment.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.setComment(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
+        courseReviewComment.addTextChangedListener(onTextChangedTextWatcher { charSequence, _, _, _ ->
+            viewModel.setComment(
+                charSequence.toString()
+            )
         })
 
         submitButton.setOnClickListener { _ ->
@@ -146,4 +125,15 @@ class CourseReviewActivity : AppCompatActivity() {
         R.id.courseRatingExcellentRadioButton -> ReviewRating.EXCELLENT
         else -> null
     }
+
+    private fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
+        object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                consume(p0, p1, p2, p3)
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+        }
 }
