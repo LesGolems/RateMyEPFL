@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.FakeCoursesDatabase
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CourseListActivity : AppCompatActivity() {
 
     private lateinit var coursesView: ListView
