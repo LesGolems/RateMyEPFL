@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
-import com.github.sdp.ratemyepfl.activity.CourseReviewActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

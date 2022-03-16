@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.activity.CourseReviewActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

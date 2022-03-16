@@ -1,11 +1,13 @@
-package com.github.sdp.ratemyepfl.model.items
+package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
+import javax.inject.Inject
 
-class FakeCoursesDatabase {
-    fun getReviewsList(): List<CourseReview> {
+class FakeCoursesDatabase : CourseDatabase {
+    override fun getReviews(): List<CourseReview> {
         return listOf(
             CourseReview.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -30,7 +32,7 @@ class FakeCoursesDatabase {
         )
     }
 
-    fun getCoursesList(): List<Course> {
+    override fun getCourses(): List<Course> {
         return listOf(
             Course(
                 name="Software development project",

@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.activity.course
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.CourseMgtActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

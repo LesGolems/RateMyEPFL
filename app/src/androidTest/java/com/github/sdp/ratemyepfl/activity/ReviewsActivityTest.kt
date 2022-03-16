@@ -6,6 +6,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
@@ -18,7 +19,7 @@ class ReviewsActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(ReviewsActivity::class.java)
+    val testRule = ActivityScenarioRule(CourseReviewListActivity::class.java)
 
     @Test
     fun isCoursesListViewViewVisibleOnActivityLaunch() {
