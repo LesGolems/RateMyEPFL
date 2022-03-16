@@ -17,10 +17,10 @@ class CoursesRepository: Repository<Course>() {
     }
 
     override suspend fun get(): List<Course> {
-        return collectionReference().get().await().map { q -> toCourse(q.id, q["title"].toString()) }
+        return coursesCollection().get().await().map { q -> toCourse(q.id, q["title"].toString()) }
     }
 
-    private fun collectionReference(): CollectionReference {
+    private fun coursesCollection(): CollectionReference {
         return db.collection(COURSES_COLLECTION)
     }
 

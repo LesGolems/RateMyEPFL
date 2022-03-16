@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
-import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -21,8 +20,7 @@ class CoursesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courses)
 
-        val fakeDatabase = FakeCoursesDatabase()
-        var courseList: List<Course> = listOf()
+        var courseList: List<Course> = emptyList()
         runBlocking {
             launch {
                 courseList = CoursesRepository().get()
