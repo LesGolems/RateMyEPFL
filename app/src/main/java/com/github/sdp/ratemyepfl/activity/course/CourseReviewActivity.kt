@@ -8,7 +8,6 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.CourseMgtActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -111,7 +110,7 @@ class CourseReviewActivity : AppCompatActivity() {
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, review.serialize())
         resultIntent.putExtra(
-            CourseMgtActivity.EXTRA_COURSE_REVIEWED,
+            CourseReviewListActivity.EXTRA_COURSE_JSON,
             Json.encodeToString(course)
         )
         setResult(RESULT_OK, resultIntent)

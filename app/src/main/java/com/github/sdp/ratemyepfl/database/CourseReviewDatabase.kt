@@ -4,4 +4,5 @@ import com.github.sdp.ratemyepfl.model.review.CourseReview
 
 interface CourseReviewDatabase {
     fun getReviews(): List<CourseReview>
+    fun addReview(review: CourseReview)
 }

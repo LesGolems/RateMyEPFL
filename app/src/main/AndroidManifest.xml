@@ -24,10 +24,6 @@
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".activity.CourseMgtActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
             android:name=".activity.course.CourseReviewActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />

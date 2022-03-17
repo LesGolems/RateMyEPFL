@@ -59,8 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startReview() {
-        val intent = Intent(this, CourseMgtActivity::class.java)
-        startActivity(intent)
+
     }
 
     private fun setUpButtons() {
