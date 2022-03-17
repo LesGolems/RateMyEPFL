@@ -5,8 +5,9 @@ import com.github.sdp.ratemyepfl.model.review.ClassroomReview.Companion.toClassr
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
+import javax.inject.Inject
 
-class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
+class ClassroomsReviewsRepository @Inject constructor() : Repository<ClassroomReview>() {
     companion object {
         const val COLLECTION = "classrooms_reviews"
     }

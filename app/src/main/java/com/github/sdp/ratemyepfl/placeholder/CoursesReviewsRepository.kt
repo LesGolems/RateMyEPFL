@@ -7,8 +7,9 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
+import javax.inject.Inject
 
-class CoursesReviewsRepository : Repository<CourseReview>() {
+class CoursesReviewsRepository @Inject constructor() : Repository<CourseReview>() {
     companion object {
         const val COLLECTION = "courses_reviews"
     }

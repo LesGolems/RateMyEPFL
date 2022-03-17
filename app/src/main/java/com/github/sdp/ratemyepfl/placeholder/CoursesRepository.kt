@@ -3,8 +3,9 @@ package com.github.sdp.ratemyepfl.placeholder
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class CoursesRepository: Repository<Course>() {
+class CoursesRepository @Inject constructor() : Repository<Course>() {
     companion object {
         const val COURSES_COLLECTION = "courses"
     }
