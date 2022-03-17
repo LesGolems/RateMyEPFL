@@ -17,7 +17,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_ID
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
@@ -64,7 +63,7 @@ class ClassroomsListActivityTest {
                 )
             )
 
-        intended(hasExtra(ROOM_ID, "CM3"))
+        intended(hasExtra(ClassroomsListActivity.EXTRA_ROOM_ID, "CM3"))
         release()
     }
 

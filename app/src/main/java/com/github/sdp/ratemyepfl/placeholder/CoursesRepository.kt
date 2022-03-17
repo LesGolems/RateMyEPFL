@@ -3,8 +3,9 @@ package com.github.sdp.ratemyepfl.placeholder
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Course.Companion.toCourse
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class CoursesRepository : Repository() {
+class CoursesRepository @Inject constructor(): Repository() {
 
     private val collection = db.collection("courses")
     companion object {

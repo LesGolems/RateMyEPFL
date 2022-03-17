@@ -9,6 +9,7 @@ import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayCourses() {
-        val intent = Intent(this, CoursesActivity::class.java)
+        val intent = Intent(this, CourseListActivity::class.java)
         startActivity(intent)
     }
 
