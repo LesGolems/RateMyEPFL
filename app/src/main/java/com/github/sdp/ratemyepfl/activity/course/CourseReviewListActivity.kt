@@ -1,26 +1,30 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.activity.course
 
 import android.os.Bundle
 import android.widget.ListView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.FakeCoursesDatabase
+import com.github.sdp.ratemyepfl.database.FakeCoursesDatabase
 import com.github.sdp.ratemyepfl.model.review.CourseReviewAdapter
+import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class ReviewsActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class CourseReviewListActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_COURSE_NAME: String = "course name"
+        const val EXTRA_COURSE_NAME: String = "com.github.sdp.ratemyepfl.activity.course_name"
     }
 
     private lateinit var reviewsView: ListView
+    private val viewModel by viewModels<ReviewListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
 
-        val fakeDatabase = FakeCoursesDatabase()
-        val reviewsList = fakeDatabase.getReviewsList()
+        val reviewsList = viewModel.getReviews()
 
         reviewsView = findViewById(R.id.reviewsListView)
         val reviewAdapter = CourseReviewAdapter(this, R.layout.list_reviews_row,

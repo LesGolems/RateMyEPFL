@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.placeholder.DataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ClassroomsListViewModel(dataSource: DataSource = DataSource()) : ViewModel() {
+@HiltViewModel
+class ClassroomsListViewModel @Inject constructor(dataSource: DataSource) : ViewModel() {
 
     private val roomsLiveData = dataSource.getRoomList()
 

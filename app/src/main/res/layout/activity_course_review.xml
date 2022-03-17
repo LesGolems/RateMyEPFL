@@ -4,48 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/courseReviewRating"
+    <include
+        android:id="@+id/layoutRadioGroupCourseReview"
+        layout="@layout/rating_radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseReviewCourseName">
-
-        <RadioButton
-            android:id="@+id/courseRatingTerribleRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating_value_1" />
-
-        <RadioButton
-            android:id="@+id/courseRatingPoorRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating_value_2" />
-
-        <RadioButton
-            android:id="@+id/courseRatingAverageRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating_value_3" />
-
-        <RadioButton
-            android:id="@+id/courseRatingGoodRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating_value_4" />
-
-        <RadioButton
-            android:id="@+id/courseRatingExcellentRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/rating_value_5" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/courseReviewCourseName" />
 
     <TextView
         android:id="@+id/courseReviewCourseName"
@@ -67,11 +34,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="32dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseReviewRating">
+        app:layout_constraintTop_toBottomOf="@+id/layoutRadioGroupCourseReview">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/courseReviewTitle"
@@ -84,8 +53,8 @@
         android:id="@+id/courseReviewSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:text="Submit your comment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

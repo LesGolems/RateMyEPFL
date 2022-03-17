@@ -16,11 +16,11 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReviewsActivity"
+            android:name=".activity.course.CourseReviewListActivity"
             android:exported="false"
-            android:parentActivityName=".activity.CoursesActivity" />
+            android:parentActivityName=".activity.course.CourseListActivity" />
         <activity
-            android:name=".activity.CoursesActivity"
+            android:name=".activity.course.CourseListActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
@@ -28,7 +28,7 @@
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".activity.CourseReviewActivity"
+            android:name=".activity.course.CourseReviewActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity

@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import kotlinx.serialization.encodeToString
@@ -19,7 +20,8 @@ class CourseMgtActivity : AppCompatActivity() {
     private lateinit var reviewButton: Button
 
     companion object {
-        const val EXTRA_COURSE_REVIEWED = "com.github.sdp.ratemyepfl.model.review.extra_course_reviewed"
+        const val EXTRA_COURSE_REVIEWED =
+            "com.github.sdp.ratemyepfl.model.review.extra_course_reviewed"
         val DEFAULT_COURSE: Course = Course("Sweng", "CS", "Candea", 4, "CS-306")
     }
 

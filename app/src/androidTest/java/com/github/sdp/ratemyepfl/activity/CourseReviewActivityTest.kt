@@ -12,6 +12,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -20,11 +21,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import java.time.LocalDate
 
-
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class CourseReviewActivityTest {
+
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
 
     @Test
     fun nullCourseCancels() {
@@ -78,6 +85,7 @@ class CourseReviewActivityTest {
             review.serialize())
         scenario.close()
     }
+
 
         
 

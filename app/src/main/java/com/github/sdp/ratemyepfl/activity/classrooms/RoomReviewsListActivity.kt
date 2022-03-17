@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
@@ -20,31 +21,19 @@ class RoomReviewsListActivity : AppCompatActivity() {
 
     @Inject
     lateinit var dataSource: DataSource
-    lateinit var roomReviewsViewModel: RoomReviewsListViewModel
+    private val viewModel: RoomReviewsListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_reviews_list)
-
-        var currentRoomId: String? = null
-        val bundle: Bundle? = intent.extras
-        if (bundle != null) {
-            currentRoomId = bundle.getString(ROOM_ID)
-        }
-        roomReviewsViewModel = RoomReviewsListViewModel(dataSource, currentRoomId)
-
-        /*roomReviewsViewModel = ViewModelProvider(
-            this,
-            RoomReviewsListViewModel.RoomReviewsListViewModelFactory(DataSource(), currentRoomId)
-        ).get(RoomReviewsListViewModel::class.java)*/
 
         val reviewsAdapter = RoomReviewsAdapter()
         val recyclerView: RecyclerView = findViewById(R.id.review_recycler_view)
         recyclerView.adapter = reviewsAdapter
 
         // Display the reviews of the classroom
-        currentRoomId?.let {
-            roomReviewsViewModel.getReviews().observe(this) {
+        viewModel.id.let {
+            viewModel.getReviews().observe(this) {
                 it?.let {
                     reviewsAdapter.submitList(it as MutableList<ClassroomReview>)
                 }
@@ -72,7 +61,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
                 val roomGrade = d?.getStringExtra(ROOM_GRADE)
                 val roomComment = d?.getStringExtra(ROOM_COMMENT)
                 if (roomGrade != null && roomComment != null) {
-                    roomReviewsViewModel.insertReview(roomGrade, roomComment)
+                    viewModel.insertReview(roomGrade, roomComment)
                 }
             }
         }
