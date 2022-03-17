@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener
-import android.widget.Button
 import android.widget.ListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -44,7 +43,7 @@ class CourseReviewListActivity : AppCompatActivity() {
         course = intent.getStringExtra(EXTRA_COURSE_JSON)
             ?.let { Json.decodeFromString(it) }
 
-        addReviewFAB = findViewById(R.id.extended_fab)
+        addReviewFAB = findViewById(R.id.startCourseReviewFAB)
 
         // If a course is given, we can review it
         course?.let { course ->
@@ -87,10 +86,6 @@ class CourseReviewListActivity : AppCompatActivity() {
             }
         }
 
-
-    private fun processResult(course: Course, review: CourseReview) {
-        // Do some operations
-    }
 
     private fun startReview(jsonCourse: String) {
         val intent = Intent(this, CourseReviewActivity::class.java)
