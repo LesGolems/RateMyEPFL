@@ -18,35 +18,30 @@
         android:textAppearance="?attr/textAppearanceHeadline4" />
 
     <TextView
+        android:id="@+id/overallScoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/overall_score_classroom_review"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"/>
 
-    <include layout="@layout/rating_radio_group"
-        android:layout_height="wrap_content"
+    <RatingBar
+        android:id="@+id/roomReviewRatingBar"
+        style="@android:style/Widget.Material.RatingBar"
         android:layout_width="wrap_content"
-        />
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/room_grade_edit_text"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_room_grade"
-            android:digits="0123456789"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="0dp"
+        android:progressTint="@color/purple_500"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:secondaryProgressTint="@color/purple_200"
+        android:stepSize="1.0" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"

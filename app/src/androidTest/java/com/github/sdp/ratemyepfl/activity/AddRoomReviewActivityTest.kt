@@ -1,12 +1,16 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.app.Activity
+import android.widget.RatingBar
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.intent.Intents.init
 import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -15,6 +19,9 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.AddRoomReviewActivity
 import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_COMMENT
 import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_GRADE
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.firebase.firestore.core.View
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Rule
 import org.junit.Test
@@ -33,7 +40,6 @@ class AddRoomReviewActivityTest {
 
         val comment = "Good"
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
-        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
 
@@ -46,9 +52,7 @@ class AddRoomReviewActivityTest {
     fun nullCommentCancelsActivity() {
         init()
 
-        val grade = "15"
-        onView(withId(R.id.add_room_grade)).perform(typeText(grade))
-        closeSoftKeyboard()
+        onView(withId(R.id.roomReviewRatingBar)).perform(click())
         onView(withId(R.id.done_button)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
@@ -60,10 +64,8 @@ class AddRoomReviewActivityTest {
     fun nonNullGradeAndCommentsGivesOK() {
         init()
 
-        val grade = "15"
         val comment = "Good"
-        onView(withId(R.id.add_room_grade)).perform(typeText(grade))
-        closeSoftKeyboard()
+        onView(withId(R.id.roomReviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
@@ -77,18 +79,42 @@ class AddRoomReviewActivityTest {
     fun nonNullGradeAndCommentGivesSameValuesToList() {
         init()
 
-        val grade = "15"
+        val rating = ReviewRating.EXCELLENT
         val comment = "Good"
-        onView(withId(R.id.add_room_grade)).perform(typeText(grade))
-        closeSoftKeyboard()
+        onView(withId(R.id.roomReviewRatingBar)).perform(
+            performSetRating(rating))
+
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
         val data = testRule.scenario.result.resultData
-        assertThat(data.getStringExtra(ROOM_GRADE), Matchers.equalTo(grade))
+
+        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
         assertThat(data.getStringExtra(ROOM_COMMENT), Matchers.equalTo(comment))
+        assertThat(data.getIntExtra(ROOM_GRADE, -1), Matchers.equalTo(rating.rating))
 
         release()
+    }
+
+    companion object {
+        private fun performSetRating(value: Float) = object : ViewAction {
+            override fun getConstraints(): Matcher<android.view.View> {
+                return ViewMatchers.isAssignableFrom(RatingBar::class.java)
+            }
+
+            override fun getDescription(): String {
+                return "Custom view action to set rating."
+            }
+
+            override fun perform(uiController: UiController?, view: android.view.View?) {
+                val ratingBar = view as RatingBar
+                ratingBar.rating = value
+            }
+
+        }
+
+        fun performSetRating(rating: ReviewRating) =
+            performSetRating(rating.rating.toFloat())
     }
 }

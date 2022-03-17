@@ -32,7 +32,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         recyclerView.adapter = reviewsAdapter
 
         // Display the reviews of the classroom
-        viewModel.id.let {
+        viewModel.roomId.let {
             viewModel.getReviews().observe(this) {
                 it?.let {
                     reviewsAdapter.submitList(it as MutableList<ClassroomReview>)
@@ -51,18 +51,24 @@ class RoomReviewsListActivity : AppCompatActivity() {
 
     /* Adds review */
     private fun fabOnClick() {
-        resultLauncher.launch(Intent(this, AddRoomReviewActivity::class.java))
+        val intent = Intent(this, AddRoomReviewActivity::class.java)
+        intent.putExtra(AddRoomReviewActivity.EXTRA_ROOM_REVIEWED, viewModel.roomId)
+        resultLauncher.launch(intent)
     }
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val d: Intent? = result.data
-                val roomGrade = d?.getStringExtra(ROOM_GRADE)
+                val roomGrade: Int? = d?.getIntExtra(ROOM_GRADE, INVALID_ROOM_GRADE)
                 val roomComment = d?.getStringExtra(ROOM_COMMENT)
-                if (roomGrade != null && roomComment != null) {
+                if (roomGrade != null && roomGrade != INVALID_ROOM_GRADE && roomComment != null) {
                     viewModel.insertReview(roomGrade, roomComment)
                 }
             }
         }
+
+    companion object {
+        const val INVALID_ROOM_GRADE: Int = -1
+    }
 }
