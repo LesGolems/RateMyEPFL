@@ -12,7 +12,7 @@ import com.github.sdp.ratemyepfl.model.review.CourseReview
 class CourseReviewAdapter(
     context: Context,
     resource: Int,
-    reviews: List<CourseReview>
+    reviews: List<CourseReview?>
 ) : ArrayAdapter<CourseReview>(context, resource, reviews) {
 
     /** TO DO:

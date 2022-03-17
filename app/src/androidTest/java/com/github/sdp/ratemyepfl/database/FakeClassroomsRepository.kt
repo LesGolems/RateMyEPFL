@@ -1,17 +1,13 @@
-package com.github.sdp.ratemyepfl.placeholder
+package com.github.sdp.ratemyepfl.database
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import java.time.LocalDate
 import javax.inject.Inject
 
-class DataSource @Inject constructor() {
-    private val initialRoomsList = roomsList()
-    private val roomsLiveData = MutableLiveData(initialRoomsList)
+class FakeClassroomsRepository @Inject constructor(): ClassroomsRepositoryInterface {
 
-    private fun roomsList(): List<Classroom> {
+    override suspend fun get(): List<Classroom?> {
         return listOf(
             Classroom(
                 id = "CM3",
@@ -32,17 +28,4 @@ class DataSource @Inject constructor() {
         )
     }
 
-    fun getRoomForId(id: String?): Classroom? {
-        roomsLiveData.value?.let { rooms ->
-            return rooms.firstOrNull { it.id == id }
-        }
-        return null
-    }
-
-
-    fun getRoomList(): LiveData<List<Classroom>> {
-        return roomsLiveData
-    }
-
 }
-

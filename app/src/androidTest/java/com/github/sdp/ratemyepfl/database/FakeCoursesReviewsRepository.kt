@@ -6,11 +6,10 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 import javax.inject.Inject
 
-class FakeCourseReviewDatabase @Inject constructor() : CourseReviewDatabase {
-    private val reviewList: MutableList<CourseReview> = mutableListOf()
+class FakeCoursesReviewsRepository @Inject constructor() : CoursesReviewsRepositoryInterface {
 
-    init {
-        reviewList.addAll(listOf(
+    override suspend fun get(): List<CourseReview?> {
+        return listOf(
             CourseReview.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -31,12 +30,8 @@ class FakeCourseReviewDatabase @Inject constructor() : CourseReviewDatabase {
                 .setRating(ReviewRating.GOOD)
                 .setDate(LocalDate.now())
                 .build()
-        ))
+        )
     }
 
-    override fun addReview(review: CourseReview){
-        reviewList.add(review)
-    }
-
-    override fun getReviews(): List<CourseReview> = reviewList.toList()
+    override fun add(value: CourseReview){}
 }

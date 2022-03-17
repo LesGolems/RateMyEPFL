@@ -13,10 +13,12 @@ import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddRoomReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
 const val ROOM_GRADE = "grade"
 const val ROOM_COMMENT = "comment"
 
+@AndroidEntryPoint
 class AddRoomReviewActivity : AppCompatActivity() {
 
     companion object {
@@ -81,6 +83,7 @@ class AddRoomReviewActivity : AppCompatActivity() {
         if (rating == null || comment == null) {
             setResult(Activity.RESULT_CANCELED, resultIntent)
         } else {
+            viewModel.submitReview()
             resultIntent.putExtra(ROOM_GRADE, rating.rating)
             resultIntent.putExtra(ROOM_COMMENT, comment)
             setResult(Activity.RESULT_OK, resultIntent)

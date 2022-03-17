@@ -1,31 +1,37 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
-import com.github.sdp.ratemyepfl.placeholder.DataSource
+import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepository
+import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class RoomReviewsListViewModel @Inject constructor(
-    private val dataSource: DataSource,
-    // To retrieve room information
+    private val reviewsRepository: ClassroomsReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val roomId: String? = savedStateHandle.get<String>(ClassroomsListActivity.EXTRA_ROOM_ID)
+    val id: String? = savedStateHandle.get<String>(ClassroomsListActivity.EXTRA_ROOM_ID)
 
     // Reviews of the classroom
-    private val reviewsLiveData = MutableLiveData(
-        dataSource.getRoomForId(roomId)?.reviews
-    )
+    private val reviewsLiveData = MutableLiveData<List<ClassroomReview?>>()
 
-    fun getReviews(): LiveData<List<ClassroomReview>?> {
+    init {
+        updateReviewsList()
+    }
+
+    private fun updateReviewsList() {
+        viewModelScope.launch {
+            reviewsLiveData.value = reviewsRepository.getByClassroom(id)
+        }
+    }
+
+    fun getReviews(): LiveData<List<ClassroomReview?>> {
         return reviewsLiveData
     }
 

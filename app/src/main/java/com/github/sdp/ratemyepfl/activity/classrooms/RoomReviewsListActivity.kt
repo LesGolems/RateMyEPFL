@@ -10,17 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomReviewsAdapter
-import com.github.sdp.ratemyepfl.placeholder.DataSource
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var dataSource: DataSource
     private val viewModel: RoomReviewsListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +28,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         recyclerView.adapter = reviewsAdapter
 
         // Display the reviews of the classroom
-        viewModel.roomId.let {
+        viewModel.id.let {
             viewModel.getReviews().observe(this) {
                 it?.let {
                     reviewsAdapter.submitList(it as MutableList<ClassroomReview>)
@@ -52,7 +48,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
     /* Adds review */
     private fun fabOnClick() {
         val intent = Intent(this, AddRoomReviewActivity::class.java)
-        intent.putExtra(AddRoomReviewActivity.EXTRA_ROOM_REVIEWED, viewModel.roomId)
+        intent.putExtra(AddRoomReviewActivity.EXTRA_ROOM_REVIEWED, viewModel.id)
         resultLauncher.launch(intent)
     }
 

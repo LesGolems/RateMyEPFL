@@ -21,6 +21,8 @@ import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_COMMENT
 import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_GRADE
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.core.View
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.junit.Rule
@@ -28,10 +30,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class AddRoomReviewActivityTest {
 
-    @get:Rule
+    @get:Rule (order = 0)
+    val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule (order = 1)
     val testRule = ActivityScenarioRule(AddRoomReviewActivity::class.java)
 
     @Test

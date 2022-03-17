@@ -3,12 +3,15 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class AddRoomReviewViewModel @Inject constructor() : ViewModel() {
+class AddRoomReviewViewModel @Inject constructor(val database: ClassroomsReviewsRepositoryInterface) : ViewModel() {
 
     private var roomName: String? = null
     val comment: MutableLiveData<String> = MutableLiveData(null)
@@ -29,6 +32,18 @@ class AddRoomReviewViewModel @Inject constructor() : ViewModel() {
 
     fun setComment(comment: String?) {
         this.comment.postValue(comment)
+    }
+
+    fun submitReview(): Boolean {
+        val rating = rating.value
+        val comment = comment.value
+
+        if (rating != null && comment != null) {
+            val review = ClassroomReview(rating, "", comment, LocalDate.now())
+            database.add(review)
+            return true
+        }
+        return false
     }
 
 }

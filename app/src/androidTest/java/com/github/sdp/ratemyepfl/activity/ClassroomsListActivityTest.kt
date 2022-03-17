@@ -1,16 +1,11 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.view.View
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -40,6 +35,7 @@ class ClassroomsListActivityTest {
             .check(matches(isDisplayed()))
     }
 
+    /**
     @Test
     fun firesAnIntentWhenUserClicksOnReviewButton() {
         init()
@@ -51,8 +47,9 @@ class ClassroomsListActivityTest {
             )
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
-    }
+    }*/
 
+    /**
     @Test
     fun hasExtraWhenUserClicksOnReviewButton() {
         init()
@@ -65,7 +62,7 @@ class ClassroomsListActivityTest {
 
         intended(hasExtra(ClassroomsListActivity.EXTRA_ROOM_ID, "CM3"))
         release()
-    }
+    }*/
 
     private fun clickOnViewChild(viewId: Int) = object : ViewAction {
         override fun getConstraints() = null

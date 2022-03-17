@@ -23,25 +23,21 @@ import kotlinx.serialization.json.Json
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class CourseReviewListActivityTest {
 
-    @HiltAndroidTest
-    class ScenarioRuled {
-        @get:Rule(order = 0)
-        val hiltRule = HiltAndroidRule(this)
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
 
-        @get:Rule(order = 1)
-        val testRule = ActivityScenarioRule(CourseReviewListActivity::class.java)
+    @get:Rule(order = 1)
+    val testRule = ActivityScenarioRule(CourseReviewListActivity::class.java)
 
-        @Test
-        fun isCoursesListViewViewVisibleOnActivityLaunch() {
-            onView(withId(R.id.reviewsListView))
-                .check(matches(isDisplayed()))
-        }
-
+    @Test
+    fun isCoursesListViewViewVisibleOnActivityLaunch() {
+        onView(withId(R.id.reviewsListView))
+            .check(matches(isDisplayed()))
     }
+
     /*
     @HiltAndroidTest
     class NoRule {
