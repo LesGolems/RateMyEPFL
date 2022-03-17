@@ -11,8 +11,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class CourseListActivity : AppCompatActivity() {
@@ -24,12 +22,7 @@ class CourseListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courses)
 
-        var courseList: List<Course> = emptyList()
-        runBlocking {
-            launch {
-                courseList = viewModel.getCourses()
-            }
-        }
+        val courseList: List<Course> = viewModel.getCourses()
 
         coursesView = findViewById(R.id.coursesListView)
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,

@@ -24,15 +24,15 @@ class CoursesReviewsRepository : Repository<CourseReview>() {
         }
     }
 
-    suspend fun getByCourse(course: Course): Collection<CourseReview?> {
+    suspend fun getByCourse(course: Course): List<CourseReview?> {
         return getBy("course", course.courseCode)
     }
 
-    suspend fun getByRating(rating: ReviewRating): Collection<CourseReview?> {
+    suspend fun getByRating(rating: ReviewRating): List<CourseReview?> {
         return getBy("rating", rating.toString())
     }
 
-    suspend fun getByDate(date: LocalDate): Collection<CourseReview?> {
+    suspend fun getByDate(date: LocalDate): List<CourseReview?> {
         return getBy("date", date.toString())
     }
 
@@ -44,7 +44,7 @@ class CoursesReviewsRepository : Repository<CourseReview>() {
         return db.collection(COLLECTION)
     }
 
-    private suspend fun getBy(name: String, value: String): Collection<CourseReview?> {
+    private suspend fun getBy(name: String, value: String): List<CourseReview?> {
         return reviewsCollection()
                     .whereEqualTo(name, value)
                     .get()

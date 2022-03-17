@@ -1,16 +1,22 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.database.CourseReviewDatabase
+import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.model.review.CourseReview
+import com.github.sdp.ratemyepfl.placeholder.CoursesReviewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * TO DO: change the database to repository, when available
- */
 @HiltViewModel
-class ReviewListViewModel @Inject constructor(val database: CourseReviewDatabase) : ViewModel() {
+class ReviewListViewModel @Inject constructor(private val reviewsRepository: CoursesReviewsRepository) : ViewModel() {
 
-    fun getReviews() = database.getReviews()
+    fun getReviews(): List<CourseReview?> {
+        var reviewsList: List<CourseReview?> = emptyList()
+        viewModelScope.launch {
+            reviewsList = reviewsRepository.get()
+        }
+        return reviewsList
+    }
 
 }

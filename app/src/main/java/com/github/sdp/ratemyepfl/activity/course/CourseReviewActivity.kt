@@ -12,11 +12,8 @@ import com.github.sdp.ratemyepfl.activity.CourseMgtActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.placeholder.CoursesReviewsRepository
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -111,12 +108,8 @@ class CourseReviewActivity : AppCompatActivity() {
     }
 
     private fun submitReview(course: Course, review: CourseReview) {
-        val repo = CoursesReviewsRepository()
-        runBlocking {
-            launch {
-                repo.add(review)
-            }
-        }
+        viewModel.addReview(review)
+
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, review.serialize())
         resultIntent.putExtra(
