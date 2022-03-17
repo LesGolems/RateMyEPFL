@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
-import com.github.sdp.ratemyepfl.placeholder.FakeCoursesDatabase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class CoursesActivity : AppCompatActivity() {
 
@@ -23,22 +20,19 @@ class CoursesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courses)
 
-        //var courseList: List<Course> = listOf()
-        val courseList = CoursesRepository().getAll()
-
-        /*runBlocking {
+        var courseList: List<Course?> = listOf()
+        runBlocking {
             launch {
-                courseList = CoursesRepository(db).getAll()
+                courseList = CoursesRepository().get()
             }
-        }*/
+        }
 
         coursesView = findViewById(R.id.coursesListView)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
-            courseList)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, courseList)
         coursesView.adapter = adapter
         coursesView.isClickable = true
         coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            displayCourseReviews(courseList[position].name)
+            courseList[position]?.let { displayCourseReviews(it.name) }
         }
     }
 

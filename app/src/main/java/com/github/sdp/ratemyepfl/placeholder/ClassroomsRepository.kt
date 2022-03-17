@@ -12,11 +12,16 @@ import kotlinx.coroutines.tasks.await
 
 // TODO: refactor using listeners
 class ClassroomsRepository : Repository() {
-
+/*
     private val collection = db.collection("classrooms")
     companion object {
         private const val TAG = "ClassroomRepository"
     }
+
+    suspend fun get() : List<Classroom> {
+        return collection.get().await().toObjects(Classroom::class.java)
+    }
+
 
     fun getAll() : Flow<Classroom?> = flow {
         collection.get().addOnSuccessListener{
@@ -35,5 +40,5 @@ class ClassroomsRepository : Repository() {
             }.await().toClassroom()
     }
 
-
+*/
 }

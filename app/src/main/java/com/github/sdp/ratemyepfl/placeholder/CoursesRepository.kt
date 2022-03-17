@@ -18,21 +18,40 @@ class CoursesRepository : Repository() {
         private const val TAG = "CourseRepository"
     }
 
-    fun getAll() : Flow<Course?>  = flow {
-        collection.get().addOnSuccessListener {
-                Log.i("Firebase", "Courses successfully fetched")
-            }.addOnFailureListener{
-                Log.i("Firebase", "Error getting all courses", it)
-            }.await().asFlow().collect { value -> emit(value.toCourse()) }
+    suspend fun get() : List<Course?> {
+        return collection.get().await().mapNotNull{obj -> obj.toCourse()}
     }
 
-    suspend fun getById(id: String) : Course?{
+    /*fun getPosts(userId: String): Flow<List<Post>> {
+        val db = FirebaseFirestore.getInstance()
+        return callbackFlow {
+            val listenerRegistration = db.collection("users")
+                .document(userId)
+                .collection("posts")
+                .addSnapshotListener { querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException? ->
+                    if (firebaseFirestoreException != null) {
+                        cancel(message = "Error fetching posts",
+                            cause = firebaseFirestoreException)
+                        return@addSnapshotListener
+                    }
+                    val map = querySnapshot.documents.
+                        .mapNotNull { it.toPost() }
+                    offer(map)
+                }
+            awaitClose {
+                Log.d(TAG, "Cancelling posts listener")
+                listenerRegistration.remove()
+            }
+        }*/
+
+
+    /*suspend fun getById(id: String) : Course?{
         return collection.document(id).get()
             .addOnSuccessListener {
                 Log.i("Firebase", "Got Course $id")
             }.addOnFailureListener {
                 Log.i("Firebase", "Error getting courses", it)
             }.await().toCourse()
-    }
+    }*/
 
 }

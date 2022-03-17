@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 import java.lang.reflect.Array.getInt
 
 @Serializable
-class Course(
+data class Course(
     val name: String,
     val faculty: String,
     val teacher: String,
@@ -18,16 +18,14 @@ class Course(
         return "$courseCode $name"
     }
 
-
     companion object {
         fun DocumentSnapshot.toCourse() : Course? {
             return try {
-                val name = getString("name")!!
-                val faculty = getString("faculty")!!
+                val name = getString("title")!!
+                //val faculty = getString("faculty")!!
                 val teacher = getString("teacher")!!
-                val credits = getString("credits")?.toInt()!!
-                val courseCode = getString("courseCode")!!
-                Course(name, faculty, teacher, credits, courseCode)
+                //val credits = getString("credits")?.toInt()!!
+                Course(name, "", teacher, 4, id)
             } catch (e: Exception){
                 Log.e(TAG, "Error converting course", e)
                 null
