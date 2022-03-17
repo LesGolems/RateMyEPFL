@@ -1,7 +1,9 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Course(
     val name: String,
     val faculty: String,
