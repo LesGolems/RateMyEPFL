@@ -34,6 +34,17 @@ class CourseReviewViewModelTest {
     }
 
     @Test
+    fun throwsExceptionIfTheCourseIsNotValid() {
+        val savedStateHandle = SavedStateHandle()
+
+        Assert.assertThrows(IllegalArgumentException::class.java) {
+            CourseReviewViewModel(
+                savedStateHandle
+            )
+        }
+    }
+
+    @Test
     fun setRatingCorrectly() {
         val rating = ReviewRating.AVERAGE
         val model = CourseReviewViewModel(savedStateHandle)
