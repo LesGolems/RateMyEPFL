@@ -1,12 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import android.util.Log
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.serialization.Serializable
-import java.lang.reflect.Array.getInt
 
-@Serializable
 data class Course(
     val name: String,
     val faculty: String,
@@ -27,7 +22,6 @@ data class Course(
                 //val credits = getString("credits")?.toInt()!!
                 Course(name, "", teacher, 4, id)
             } catch (e: Exception){
-                Log.e(TAG, "Error converting course", e)
                 null
             }
         }
