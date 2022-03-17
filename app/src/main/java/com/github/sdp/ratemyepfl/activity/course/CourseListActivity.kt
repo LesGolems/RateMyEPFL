@@ -8,7 +8,6 @@ import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.FakeCoursesDatabase
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,17 +21,20 @@ class CourseListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courses)
 
-        val courseList = viewModel.getCourses()
-
         coursesView = findViewById(R.id.coursesListView)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1,
-            courseList)
-        coursesView.adapter = adapter
         coursesView.isClickable = true
-        coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            displayCourseReviews(courseList[position].name)
+
+        viewModel.getCourses().observe(this){
+            it?.let{ it ->
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, it)
+                coursesView.adapter = adapter
+                coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                    it[position]?.let { it1 -> displayCourseReviews(it1.name) }
+                }
+                }
+            }
         }
-    }
+
 
     private fun displayCourseReviews(courseName: String) {
         val intent = Intent(this, CourseReviewListActivity::class.java)

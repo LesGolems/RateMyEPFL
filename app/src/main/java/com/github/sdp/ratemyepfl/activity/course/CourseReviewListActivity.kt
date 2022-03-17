@@ -5,7 +5,6 @@ import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.FakeCoursesDatabase
 import com.github.sdp.ratemyepfl.model.review.CourseReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 import dagger.hilt.android.AndroidEntryPoint
