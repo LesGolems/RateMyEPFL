@@ -68,9 +68,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    // for asynchronous livedata
+    //implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
 
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.2'
+
+    //for await() method in Repositories
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.1'
 
     // Hilt dependencies
     implementation "com.google.dagger:hilt-android:$hilt_version"

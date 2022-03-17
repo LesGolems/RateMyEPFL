@@ -13,12 +13,12 @@ import java.time.LocalDate
  * Represents a course review
  */
 @Serializable
-data class CourseReview private constructor(
+data class CourseReview constructor(
     override val rating: ReviewRating,
-    val title: String,
+    override val title: String,
     override val comment: String,
     @Serializable(with = LocalDateSerializer::class)
-    val date: LocalDate
+    override val date: LocalDate
 ) : Review() {
 
     companion object {

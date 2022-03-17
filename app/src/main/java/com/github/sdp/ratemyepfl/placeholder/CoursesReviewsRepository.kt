@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.placeholder
 
+import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.CourseReview.Companion.toCourseReview
@@ -9,17 +10,17 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class CoursesReviewsRepository @Inject constructor() : Repository<CourseReview>() {
+class CoursesReviewsRepository @Inject constructor() : Repository() {
     companion object {
         const val COLLECTION = "courses_reviews"
     }
 
-    override suspend fun add(value: CourseReview) {
+    fun add(value: CourseReview) {
         reviewsCollection().document(value.title)
                            .set(value.toHashMap())
     }
 
-    override suspend fun get(): List<CourseReview?> {
+    suspend fun get(): List<CourseReview?> {
         return reviewsCollection().get().await().map {
                 q -> q.toCourseReview()
         }
@@ -37,7 +38,7 @@ class CoursesReviewsRepository @Inject constructor() : Repository<CourseReview>(
         return getBy("date", date.toString())
     }
 
-    override suspend fun remove(value: CourseReview) {
+    fun remove(value: CourseReview) {
         reviewsCollection().document(value.title).delete()
     }
 
