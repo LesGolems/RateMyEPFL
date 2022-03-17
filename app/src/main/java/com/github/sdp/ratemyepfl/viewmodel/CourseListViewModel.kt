@@ -13,7 +13,6 @@ import javax.inject.Inject
 /**
  * View model of the courseList activity. Bridge between the activity
  * and the database
- * NB: Change the database into repository when implemented
  */
 @HiltViewModel
 class CourseListViewModel @Inject constructor(private val repository: CoursesRepositoryInterface) : ViewModel() {
@@ -29,6 +28,4 @@ class CourseListViewModel @Inject constructor(private val repository: CoursesRep
     fun getCourses(): LiveData<List<Course?>> {
         return coursesLiveData
     }
-
-
 }

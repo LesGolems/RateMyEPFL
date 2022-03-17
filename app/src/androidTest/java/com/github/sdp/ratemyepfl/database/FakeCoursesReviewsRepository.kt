@@ -5,8 +5,9 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 import javax.inject.Inject
 
-class FakeCourseReviewDatabase @Inject constructor() : CourseReviewDatabase {
-    override fun getReviews(): List<CourseReview> {
+class FakeCoursesReviewsRepository @Inject constructor() : CoursesReviewsRepositoryInterface {
+
+    override suspend fun get(): List<CourseReview?> {
         return listOf(
             CourseReview.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -30,4 +31,6 @@ class FakeCourseReviewDatabase @Inject constructor() : CourseReviewDatabase {
                 .build()
         )
     }
+
+    override fun add(value: CourseReview){}
 }

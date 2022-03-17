@@ -1,8 +1,10 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.database.ClassroomsRepositoryInterface
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +19,6 @@ class ClassroomsListViewModel @Inject constructor(private val repository: Classr
             roomsLiveData.value = repository.get()
         }
     }
-
 
     fun getRooms(): LiveData<List<Classroom?>> {
         return roomsLiveData

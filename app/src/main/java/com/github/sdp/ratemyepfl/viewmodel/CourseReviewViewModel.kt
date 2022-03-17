@@ -3,11 +3,15 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.database.CoursesReviewsRepository
+import com.github.sdp.ratemyepfl.database.CoursesReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
@@ -21,6 +25,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CourseReviewViewModel @Inject constructor(
+    private val reviewsRepository: CoursesReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -35,6 +40,12 @@ class CourseReviewViewModel @Inject constructor(
             ?.let { course: String ->
                 Json.decodeFromString(course)
             } ?: throw IllegalArgumentException("Cannot review a null course")
+
+    fun addReview(review: CourseReview) {
+        viewModelScope.launch {
+            reviewsRepository.add(review)
+        }
+    }
 
     /**
      * @return the value of the current rating

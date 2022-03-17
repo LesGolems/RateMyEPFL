@@ -23,11 +23,14 @@ class CourseReviewListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
 
-        val reviewsList = viewModel.getReviews()
-
         reviewsView = findViewById(R.id.reviewsListView)
-        val reviewAdapter = CourseReviewAdapter(this, R.layout.list_reviews_row,
-            reviewsList)
-        reviewsView.adapter = reviewAdapter
+        // Display the reviews of the courses
+        viewModel.getReviews().observe(this) {
+            it?.let {
+                val reviewAdapter = CourseReviewAdapter(this, R.layout.list_reviews_row,
+                    it)
+                reviewsView.adapter = reviewAdapter
+            }
+        }
     }
 }

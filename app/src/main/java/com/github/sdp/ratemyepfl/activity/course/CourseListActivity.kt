@@ -24,16 +24,18 @@ class CourseListActivity : AppCompatActivity() {
         coursesView = findViewById(R.id.coursesListView)
         coursesView.isClickable = true
 
-        viewModel.getCourses().observe(this){
-            it?.let{ it ->
+        // Display the reviews of the classroom
+        viewModel.getCourses().observe(this) {
+            it?.let { it ->
                 val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, it)
                 coursesView.adapter = adapter
-                coursesView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-                    it[position]?.let { it1 -> displayCourseReviews(it1.name) }
-                }
-                }
+                coursesView.onItemClickListener =
+                    AdapterView.OnItemClickListener { _, _, position, _ ->
+                        it[position]?.let { it1 -> displayCourseReviews(it1.name) }
+                    }
             }
         }
+    }
 
 
     private fun displayCourseReviews(courseName: String) {

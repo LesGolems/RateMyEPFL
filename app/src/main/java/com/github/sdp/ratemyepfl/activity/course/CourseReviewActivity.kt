@@ -108,6 +108,8 @@ class CourseReviewActivity : AppCompatActivity() {
     }
 
     private fun submitReview(course: Course, review: CourseReview) {
+        viewModel.addReview(review)
+
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, review.serialize())
         resultIntent.putExtra(
