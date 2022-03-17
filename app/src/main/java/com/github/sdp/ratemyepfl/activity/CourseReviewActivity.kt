@@ -14,7 +14,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.placeholder.ReviewsRepository
+import com.github.sdp.ratemyepfl.placeholder.CoursesReviewsRepository
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
@@ -124,7 +124,7 @@ class CourseReviewActivity : AppCompatActivity() {
     }
 
     private fun submitReview(course: Course, review: CourseReview) {
-        val repo = ReviewsRepository()
+        val repo = CoursesReviewsRepository()
         runBlocking {
             launch {
                 repo.add(review)

@@ -9,6 +9,5 @@ abstract class Repository<T> {
 
     abstract suspend fun remove(value : T)
 
-    abstract suspend fun get(): Collection<T>?
-
+    abstract suspend fun get(): Collection<T?>
 }

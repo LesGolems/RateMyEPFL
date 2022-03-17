@@ -1,7 +1,11 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import android.util.Log
 import com.github.sdp.ratemyepfl.serializer.LocalDateSerializer
-import kotlinx.serialization.*
+import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
@@ -33,9 +37,28 @@ data class CourseReview private constructor(
          * @return the deserialized review
          */
         fun deserialize(review: String): CourseReview = Json.decodeFromString(review)
+
+        fun DocumentSnapshot.toCourseReview() : CourseReview? {
+            return try {
+                val rating = ReviewRating.valueOf(getString("rating")!!)
+                val title = getString("title")!!
+                val comment = getString("comment")!!
+                val date = LocalDate.parse(getString("date")!!)
+                CourseReview(rating , title, comment, date)
+            } catch (e: Exception){
+                Log.e(TAG, "Error converting course review", e)
+                null
+            }
+        }
+        private const val TAG = "Course review"
     }
 
     fun serialize(): String = Companion.serialize(this)
+
+    fun toHashMap(): HashMap<String, String> {
+        return hashMapOf("title" to title, "rating" to rating.toString(),
+                         "comment" to comment, "date" to date.toString())
+    }
 
     /**
      * Allows to create a ReviewRating incrementally.
@@ -101,10 +124,5 @@ data class CourseReview private constructor(
                 )
             } else throw IllegalStateException("Cannot build a review made of null elements")
         }
-
-
     }
-
-
-
 }
