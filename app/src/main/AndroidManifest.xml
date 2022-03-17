@@ -13,21 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".activity.ReviewsActivity"
-            android:parentActivityName=".activity.CoursesActivity"
+            android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.CoursesActivity"
-            android:parentActivityName=".activity.MainActivity"
-            android:exported="false" />
+            android:name=".activity.course.CourseReviewListActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.course.CourseListActivity" />
+        <activity
+            android:name=".activity.course.CourseListActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.CourseMgtActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".activity.CourseReviewActivity"
-            android:parentActivityName=".activity.MainActivity"
-            android:exported="false" />
+            android:name=".activity.course.CourseReviewActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.classrooms.AddRoomReviewActivity"
             android:exported="false" />
@@ -38,8 +41,8 @@
             android:name=".activity.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MainActivity"
-            android:exported="true">
+            android:name=".activity.SplashScreen"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

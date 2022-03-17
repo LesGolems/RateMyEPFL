@@ -9,6 +9,7 @@ import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,19 +19,17 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var user: ConnectedUser
     @Inject lateinit var auth : Authenticator
 
-    private lateinit var mLoginButton: Button
     private lateinit var mLogoutButton: Button
     private lateinit var mCoursesButton: Button
     private lateinit var mReviewButton: Button
-    private lateinit var mEmail: TextView
+    private lateinit var mUser_text: TextView
     private lateinit var mRoomReviewButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mEmail = findViewById(R.id.email)
-        mLoginButton = findViewById(R.id.loginButton)
+        mUser_text = findViewById(R.id.user_text)
         mLogoutButton = findViewById(R.id.logoutButton)
         checkUser()
 
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayCourses() {
-        val intent = Intent(this, CoursesActivity::class.java)
+        val intent = Intent(this, CourseListActivity::class.java)
         startActivity(intent)
     }
 
@@ -65,14 +64,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpButtons() {
-        mLoginButton.setOnClickListener {
-            auth.signIn(this)
-            checkUser()
-        }
-
         mLogoutButton.setOnClickListener {
             auth.signOut(applicationContext).addOnCompleteListener {
-                checkUser()
+                startActivity(Intent(this, SplashScreen::class.java))
             }
         }
 
@@ -89,12 +83,10 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser() {
         if (!user.isLoggedIn()) {
             mLogoutButton.isEnabled = false
-            mLoginButton.isEnabled = true
-            mEmail.text = ""
+            mUser_text.text = "Visitor"
         } else {
             mLogoutButton.isEnabled = true
-            mLoginButton.isEnabled = false
-            mEmail.text = user.getEmail()
+            mUser_text.text = user.getEmail()
         }
     }
 }

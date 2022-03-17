@@ -1,20 +1,24 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.activity.course
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
+import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class CoursesActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class CourseListActivity : AppCompatActivity() {
 
     private lateinit var coursesView: ListView
+    val viewModel by viewModels<CourseListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +27,7 @@ class CoursesActivity : AppCompatActivity() {
         var courseList: List<Course> = emptyList()
         runBlocking {
             launch {
-                courseList = CoursesRepository().get()
+                courseList = viewModel.getCourses()
             }
         }
 
@@ -38,8 +42,8 @@ class CoursesActivity : AppCompatActivity() {
     }
 
     private fun displayCourseReviews(courseName: String) {
-        val intent = Intent(this, ReviewsActivity::class.java)
-        intent.putExtra(ReviewsActivity.EXTRA_COURSE_NAME, courseName)
+        val intent = Intent(this, CourseReviewListActivity::class.java)
+        intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_NAME, courseName)
         startActivity(intent)
     }
 }

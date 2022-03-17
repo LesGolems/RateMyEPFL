@@ -1,26 +1,17 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.placeholder.ClassroomsRepository
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import com.github.sdp.ratemyepfl.placeholder.DataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ClassroomsListViewModel(val classrooms: ClassroomsRepository): ViewModel() {
+@HiltViewModel
+class ClassroomsListViewModel @Inject constructor(dataSource: DataSource) : ViewModel() {
+    private val roomsLiveData = dataSource.getRoomList()
 
-    private val roomsLiveData = MutableLiveData<Set<Classroom>>()
-
-    fun updateRooms() {
-        runBlocking {
-            launch {
-                roomsLiveData.value = classrooms.get()
-            }
-        }
-    }
-
-    fun getRooms(): LiveData<Set<Classroom>> {
+    fun getRooms(): LiveData<List<Classroom>> {
         return roomsLiveData
     }
 

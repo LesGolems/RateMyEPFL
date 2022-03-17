@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.placeholder
 
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview.Companion.toClassroomReview
 import com.google.firebase.firestore.CollectionReference
@@ -23,15 +22,15 @@ class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
         }
     }
 
-    suspend fun getByCourse(course: Course): Collection<ClassroomReview?> {
-        return getBy("course", course.courseCode)
+    suspend fun getByClassroom(id: String?): List<ClassroomReview?> {
+        return getBy("room", id.orEmpty())
     }
 
-    suspend fun getByRate(rate: Int): Collection<ClassroomReview?> {
+    suspend fun getByRate(rate: Int): List<ClassroomReview?> {
         return getBy("rate", rate.toString())
     }
 
-    suspend fun getByDate(date: LocalDate): Collection<ClassroomReview?> {
+    suspend fun getByDate(date: LocalDate): List<ClassroomReview?> {
         return getBy("date", date.toString())
     }
 
@@ -43,7 +42,7 @@ class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
         return db.collection(COLLECTION)
     }
 
-    private suspend fun getBy(name: String, value: String): Collection<ClassroomReview?> {
+    private suspend fun getBy(name: String, value: String): List<ClassroomReview?> {
         return reviewsCollection()
                     .whereEqualTo(name, value)
                     .get()
