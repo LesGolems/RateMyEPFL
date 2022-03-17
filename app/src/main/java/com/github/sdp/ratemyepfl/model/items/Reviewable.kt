@@ -8,8 +8,4 @@ abstract class Reviewable
     abstract val id: String
     abstract var numRatings: Int
     abstract var avgRating: Double
-
-    override fun hashCode(): Int {
-        return id.toInt()
-    }
 }
