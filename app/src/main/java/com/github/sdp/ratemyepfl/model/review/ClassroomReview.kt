@@ -6,9 +6,10 @@ import java.time.LocalDate
 
 @Serializable
 class ClassroomReview(    override val rating: ReviewRating,
+                          override val title: String,
                           override val comment: String,
                           @Serializable(with = LocalDateSerializer::class)
-                          val date: LocalDate) : Review() {
+                          override val date: LocalDate) : Review() {
 
     /**
      * For compatibility issues with current code and type that does not match database
@@ -22,5 +23,5 @@ class ClassroomReview(    override val rating: ReviewRating,
         }
 
     constructor(rate: Int, comment: String, date : LocalDate)
-            : this(ReviewRating.values()[rate * 5 / 100], comment, date)
+            : this(ReviewRating.values()[rate * 5 / 100], "", comment, date)
 }

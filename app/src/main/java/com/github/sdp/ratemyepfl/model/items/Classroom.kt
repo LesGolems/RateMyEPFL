@@ -12,7 +12,7 @@ data class Classroom(
     val reviews: List<ClassroomReview>? = null
 ) : Reviewable()
 {
-    val name: String = type!!
+    val name: String = type.orEmpty()
 
     constructor(id: String, name: String, reviews: List<ClassroomReview> = listOf())
         : this(id, 0, 0.0, name, reviews)
