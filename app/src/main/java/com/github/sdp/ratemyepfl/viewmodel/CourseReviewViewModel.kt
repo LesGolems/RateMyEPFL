@@ -8,7 +8,8 @@ import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.placeholder.CoursesReviewsRepository
+import com.github.sdp.ratemyepfl.database.CoursesReviewsRepository
+import com.github.sdp.ratemyepfl.database.CoursesReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
@@ -24,7 +25,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CourseReviewViewModel @Inject constructor(
-    private val reviewsRepository: CoursesReviewsRepository,
+    private val reviewsRepository: CoursesReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

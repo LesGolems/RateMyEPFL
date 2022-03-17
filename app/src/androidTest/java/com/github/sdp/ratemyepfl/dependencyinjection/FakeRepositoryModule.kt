@@ -23,4 +23,12 @@ abstract class FakeRepositoryModule {
     @Binds
     abstract fun provideClassroomsRepository(repo: FakeClassroomsRepository): ClassroomsRepositoryInterface
 
+    @Singleton
+    @Binds
+    abstract fun provideCourseReviewRepo(repo: FakeCoursesReviewsRepository): CoursesReviewsRepositoryInterface
+
+    @Singleton
+    @Binds
+    abstract fun provideClassroomReviewRepo(repo: FakeClassroomsReviewsRepository): ClassroomsReviewsRepositoryInterface
+
 }

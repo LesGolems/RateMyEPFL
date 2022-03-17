@@ -19,4 +19,12 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideClassroomRepo(repo: ClassroomsRepository): ClassroomsRepositoryInterface
 
+    @Singleton
+    @Binds
+    abstract fun provideCourseReviewRepo(repo: CoursesReviewsRepository): CoursesReviewsRepositoryInterface
+
+    @Singleton
+    @Binds
+    abstract fun provideClassroomReviewRepo(repo: ClassroomsReviewsRepository): ClassroomsReviewsRepositoryInterface
+
 }

@@ -1,14 +1,16 @@
-package com.github.sdp.ratemyepfl.placeholder
+package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview.Companion.toClassroomReview
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ClassroomsReviewsRepository @Inject constructor() : Repository() {
+class ClassroomsReviewsRepository @Inject constructor() : ClassroomsReviewsRepositoryInterface{
+    private val db = FirebaseFirestore.getInstance()
+
     companion object {
         const val COLLECTION = "classrooms_reviews"
     }
@@ -18,13 +20,13 @@ class ClassroomsReviewsRepository @Inject constructor() : Repository() {
                            .set(value.toHashMap())
     }
 
-    suspend fun get(): List<ClassroomReview?> {
+    override suspend fun get(): List<ClassroomReview?> {
         return reviewsCollection().get().await().map {
                 q -> q.toClassroomReview()
         }
     }
 
-    suspend fun getByClassroom(id: String?): List<ClassroomReview?> {
+    override suspend fun getByClassroom(id: String?): List<ClassroomReview?> {
         return getBy("room", id.orEmpty())
     }
 

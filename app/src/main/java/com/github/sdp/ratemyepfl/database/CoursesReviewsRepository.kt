@@ -1,26 +1,28 @@
-package com.github.sdp.ratemyepfl.placeholder
+package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.CourseReview.Companion.toCourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class CoursesReviewsRepository @Inject constructor() : Repository() {
+class CoursesReviewsRepository @Inject constructor() : CoursesReviewsRepositoryInterface{
+    private val db = FirebaseFirestore.getInstance()
+
     companion object {
         const val COLLECTION = "courses_reviews"
     }
 
-    fun add(value: CourseReview) {
+    override fun add(value: CourseReview) {
         reviewsCollection().document(value.title)
                            .set(value.toHashMap())
     }
 
-    suspend fun get(): List<CourseReview?> {
+    override suspend fun get(): List<CourseReview?> {
         return reviewsCollection().get().await().map {
                 q -> q.toCourseReview()
         }
