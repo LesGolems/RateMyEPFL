@@ -22,7 +22,7 @@ class ReviewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reviews)
 
-        var reviewsList: List<CourseReview> = emptyList()
+        var reviewsList: List<CourseReview?> = emptyList()
         runBlocking {
             launch {
                 reviewsList = CoursesReviewsRepository().get()

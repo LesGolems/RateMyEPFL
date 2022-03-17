@@ -11,7 +11,7 @@ import com.github.sdp.ratemyepfl.R
 class CourseReviewAdapter(
     context: Context,
     resource: Int,
-    reviews: List<CourseReview>
+    reviews: List<CourseReview?>
 ) : ArrayAdapter<CourseReview>(context, resource, reviews) {
 
     private val mResource: Int = resource

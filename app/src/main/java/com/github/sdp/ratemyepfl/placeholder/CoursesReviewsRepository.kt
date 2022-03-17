@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.model.review.CourseReview.Companion.toCourseRev
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
 
 class CoursesReviewsRepository : Repository<CourseReview>() {
     companion object {
@@ -29,6 +30,10 @@ class CoursesReviewsRepository : Repository<CourseReview>() {
 
     suspend fun getByRating(rating: ReviewRating): Collection<CourseReview?> {
         return getBy("rating", rating.toString())
+    }
+
+    suspend fun getByDate(date: LocalDate): Collection<CourseReview?> {
+        return getBy("date", date.toString())
     }
 
     override suspend fun remove(value: CourseReview) {

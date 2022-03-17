@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview.Companion.toClassroomReview
 import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
 
 class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
     companion object {
@@ -23,11 +24,15 @@ class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
     }
 
     suspend fun getByCourse(course: Course): Collection<ClassroomReview?> {
-        return reviewsCollection()
-            .whereEqualTo("course", course.courseCode)
-            .get()
-            .await()
-            .map { q -> q.toClassroomReview() }
+        return getBy("course", course.courseCode)
+    }
+
+    suspend fun getByRate(rate: Int): Collection<ClassroomReview?> {
+        return getBy("rate", rate.toString())
+    }
+
+    suspend fun getByDate(date: LocalDate): Collection<ClassroomReview?> {
+        return getBy("date", date.toString())
     }
 
     override suspend fun remove(value: ClassroomReview) {
@@ -36,5 +41,13 @@ class ClassroomsReviewsRepository : Repository<ClassroomReview>() {
 
     private fun reviewsCollection(): CollectionReference {
         return db.collection(COLLECTION)
+    }
+
+    private suspend fun getBy(name: String, value: String): Collection<ClassroomReview?> {
+        return reviewsCollection()
+                    .whereEqualTo(name, value)
+                    .get()
+                    .await()
+                    .map { q -> q.toClassroomReview() }
     }
 }
