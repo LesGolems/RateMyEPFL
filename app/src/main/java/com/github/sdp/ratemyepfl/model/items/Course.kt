@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.model.items
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Course(
+data class Course(
     val name: String,
     val faculty: String,
     val teacher: String,

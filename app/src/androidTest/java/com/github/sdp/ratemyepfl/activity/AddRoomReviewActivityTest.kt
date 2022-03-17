@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.app.Activity
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
@@ -32,6 +33,7 @@ class AddRoomReviewActivityTest {
 
         val comment = "Good"
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
 
@@ -46,6 +48,7 @@ class AddRoomReviewActivityTest {
 
         val grade = "15"
         onView(withId(R.id.add_room_grade)).perform(typeText(grade))
+        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
@@ -60,7 +63,9 @@ class AddRoomReviewActivityTest {
         val grade = "15"
         val comment = "Good"
         onView(withId(R.id.add_room_grade)).perform(typeText(grade))
+        closeSoftKeyboard()
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
@@ -75,7 +80,9 @@ class AddRoomReviewActivityTest {
         val grade = "15"
         val comment = "Good"
         onView(withId(R.id.add_room_grade)).perform(typeText(grade))
+        closeSoftKeyboard()
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
         val data = testRule.scenario.result.resultData

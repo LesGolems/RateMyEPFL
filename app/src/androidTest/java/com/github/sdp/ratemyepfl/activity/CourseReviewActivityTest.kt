@@ -12,6 +12,10 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
+import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -20,11 +24,17 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Rule
 import java.time.LocalDate
 
-
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class CourseReviewActivityTest {
+
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
 
     @Test
     fun nullCourseCancels() {
@@ -40,7 +50,7 @@ class CourseReviewActivityTest {
     @Test
     fun correctReviewWorks() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), CourseReviewActivity::class.java)
-        val default = CourseMgtActivity.DEFAULT_COURSE
+        val default = Course("Sweng", "CS", "Candea", 4, "CS-306")
 
         intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, Json.encodeToString(default))
 
@@ -64,7 +74,7 @@ class CourseReviewActivityTest {
         onView(withId(R.id.courseReviewSubmit)).perform(click())
 
         assertThat(scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
-        assertEquals(scenario.result.resultData.getStringExtra(CourseMgtActivity.EXTRA_COURSE_REVIEWED),
+        assertEquals(scenario.result.resultData.getStringExtra(CourseReviewListActivity.EXTRA_COURSE_JSON),
             Json.encodeToString(default))
 
         val review = CourseReview.Builder()
@@ -78,6 +88,7 @@ class CourseReviewActivityTest {
             review.serialize())
         scenario.close()
     }
+
 
         
 

@@ -2,12 +2,25 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
 import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.placeholder.DataSource
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
+import javax.inject.Inject
 
-class RoomReviewsListViewModel (private val dataSource: DataSource, private val id: String?) : ViewModel() {
+@HiltViewModel
+class RoomReviewsListViewModel @Inject constructor(
+    private val dataSource: DataSource,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    val id: String? = savedStateHandle.get<String>(ClassroomsListActivity.EXTRA_ROOM_ID)
 
     // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData(
@@ -29,23 +42,5 @@ class RoomReviewsListViewModel (private val dataSource: DataSource, private val 
             reviewsLiveData.postValue(updatedList)
         }
     }
-
-    /*class RoomReviewsListViewModelFactory(
-        private val dataSource: DataSource,
-        private val id: String?
-    ) :
-        ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(RoomReviewsListViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return RoomReviewsListViewModel(
-                    dataSource = dataSource,
-                    id = id
-                ) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-
-    }*/
 
 }
