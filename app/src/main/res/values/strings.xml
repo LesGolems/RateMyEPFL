@@ -12,9 +12,9 @@
     <string name="name">Name</string>
     <string name="button">Button</string>
     <string name="fab_content_description">fab</string>
-    <string name="title_review_classroom">Give us your opinion about %s</string>
+    <string name="title_review_classroom">What do you think about %s</string>
     <string name="room_grade_edit_text">Grade</string>
-    <string name="room_comment_edit_text">Comments</string>
+    <string name="room_comment_edit_text">Your opinion</string>
     <string name="done_button_text">DONE</string>
     <string name="grade">Grade: %s</string>
     <string name="comment">Comment: %s</string>
