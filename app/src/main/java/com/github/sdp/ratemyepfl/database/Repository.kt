@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.placeholder
+package com.github.sdp.ratemyepfl.database
 
 import com.google.firebase.firestore.FirebaseFirestore
 

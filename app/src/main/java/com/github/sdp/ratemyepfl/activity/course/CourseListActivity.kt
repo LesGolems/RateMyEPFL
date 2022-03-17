@@ -8,10 +8,6 @@ import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.placeholder.CoursesRepository
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
