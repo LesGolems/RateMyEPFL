@@ -7,7 +7,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ClassroomTest {
-
     val EXPECTED_ROOM = Classroom("CE 1 3", 3, 4.9, "Auditorium")
     val EXPECTED_JSON = "{\"id\":\"CE 1 3\",\"numRatings\":3,\"avgRating\":4.9,\"type\":\"Auditorium\"}"
 
