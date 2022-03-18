@@ -5,7 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
+import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,27 +24,13 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CourseReviewViewModel @Inject constructor(
-    private val reviewsRepository: CoursesReviewsRepositoryInterface,
-    private val savedStateHandle: SavedStateHandle
+    private val database: ReviewsRepositoryInterface
 ) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
     private var date: LocalDate? = null
-
-    // Retrieve the reviewed course from the savedStateHandle, and throws an exception if it fails
-    val course: Course =
-        savedStateHandle.get<String>(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER)
-            ?.let { course: String ->
-                Json.decodeFromString(course)
-            } ?: throw IllegalArgumentException("Cannot review a null course")
-
-    fun addReview(review: CourseReview) {
-        viewModelScope.launch {
-            reviewsRepository.add(review)
-        }
-    }
 
     /**
      * @return the value of the current rating
@@ -93,24 +81,27 @@ class CourseReviewViewModel @Inject constructor(
     }
 
     /**
-     * Builds the review from user's input. If no date was specified, today's
-     * one is used by default
+     * Builds and submits the review to the database
      *
-     * @return the CourseReview, if every field is filled, or null otherwise
+     * @return true if it succeeds to build the review, false otherwise
      */
-    fun review(): CourseReview? {
+    fun submitReview(reviewableId : String) : Boolean{
         val rating = rating.value
         val title = title.value
         val comment = comment.value
         val date = date ?: LocalDate.now()
 
-        return if (rating != null && title != null && comment != null) {
-            CourseReview.Builder()
-                .setRating(rating)
-                .setTitle(title)
-                .setComment(comment)
-                .setDate(date)
-                .build()
-        } else null
+        if (rating != null && title != null && comment != null && reviewableId != null) {
+            val review = Review.Builder()
+                            .setRating(rating)
+                            .setTitle(title)
+                            .setComment(comment)
+                            .setReviewableID(reviewableId)
+                            .setDate(date)
+                            .build()
+            database.add(review)
+            return true
+        }
+        return false
     }
 }
