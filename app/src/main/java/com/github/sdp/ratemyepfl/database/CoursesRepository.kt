@@ -14,7 +14,7 @@ class CoursesRepository @Inject constructor(): CoursesRepositoryInterface {
     }
 
     override suspend fun get() : List<Course?> {
-        return collection.get().await().mapNotNull{obj -> obj.toCourse()}
+        return collection.limit(50).get().await().mapNotNull{obj -> obj.toCourse()}
     }
 
     suspend fun getById(id: String) : Course?{
