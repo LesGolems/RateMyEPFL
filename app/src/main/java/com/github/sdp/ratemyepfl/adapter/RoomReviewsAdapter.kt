@@ -32,9 +32,9 @@ class RoomReviewsAdapter :
         /* Bind room id and name. */
         fun bind(review: Review) {
             currentReview = review
-            gradeTextView.text = "Grade : " + review.rating.toString()
-            commentTextView.text = "Comment : " + review.comment
-            dateTextView.text = "Posted on : " + review.date.toString() // not very clean way to do this
+            ("Grade : " + review.rating.toString()).also { gradeTextView.text = it }
+            ("Comment : " + review.comment).also { commentTextView.text = it }
+            ("Posted on : " + review.date.toString()).also { dateTextView.text = it } // not very clean way to do this
         }
     }
 

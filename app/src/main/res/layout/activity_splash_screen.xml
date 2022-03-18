@@ -24,6 +24,7 @@
         android:id="@+id/logo_epfl"
         android:layout_width="327dp"
         android:layout_height="95dp"
+        android:contentDescription="epfl_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

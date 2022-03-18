@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkUser() {
         if (!user.isLoggedIn()) {
             mLogoutButton.isEnabled = false
-            mUser_text.text = "Visitor"
+            mUser_text.text = getString(R.string.visitor)
         } else {
             mLogoutButton.isEnabled = true
             mUser_text.text = user.getEmail()
