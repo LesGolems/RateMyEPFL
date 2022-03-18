@@ -33,20 +33,15 @@ class CourseReviewListActivity : AppCompatActivity() {
 
     private lateinit var reviewsView: ListView
     private val viewModel by viewModels<CourseReviewListViewModel>()
-    private var course: Course? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_review_list)
 
-        course = intent.getStringExtra(EXTRA_COURSE_JSON)
-            ?.let { Json.decodeFromString(it) }
-
         addReviewFAB = findViewById(R.id.startCourseReviewFAB)
 
         // If a course is given, we can review it
-        course?.let { course ->
+        viewModel.course?.let { course ->
             addReviewFAB.setOnClickListener {
                 startReview(course)
             }

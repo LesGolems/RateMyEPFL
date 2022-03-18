@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
-    private val viewModel: RoomReviewsListViewModel by viewModels()
+    private val viewModel by viewModels<RoomReviewsListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
