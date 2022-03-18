@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.CourseReview.Companion.toCourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.CollectionReference

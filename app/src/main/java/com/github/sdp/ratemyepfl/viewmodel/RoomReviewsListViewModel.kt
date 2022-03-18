@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
-import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepository
 import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

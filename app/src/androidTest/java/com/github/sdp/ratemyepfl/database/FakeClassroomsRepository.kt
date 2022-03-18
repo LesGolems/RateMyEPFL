@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import java.time.LocalDate
 import javax.inject.Inject
 

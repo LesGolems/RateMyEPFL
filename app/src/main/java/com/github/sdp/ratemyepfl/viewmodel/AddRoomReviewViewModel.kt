@@ -1,10 +1,8 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepositoryInterface
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate

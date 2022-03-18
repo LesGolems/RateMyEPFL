@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomReviewsAdapter
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.adapter.CourseReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

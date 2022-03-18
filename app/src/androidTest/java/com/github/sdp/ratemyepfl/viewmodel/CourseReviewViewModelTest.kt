@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.database.CoursesReviewsRepository
 import com.github.sdp.ratemyepfl.database.FakeCoursesReviewsRepository

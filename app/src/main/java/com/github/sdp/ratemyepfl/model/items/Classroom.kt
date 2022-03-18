@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 
