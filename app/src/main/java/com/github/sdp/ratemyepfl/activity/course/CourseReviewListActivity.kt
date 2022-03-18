@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.adapter.CourseReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
@@ -76,19 +77,14 @@ class CourseReviewListActivity : AppCompatActivity() {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-
+                // refresh view model here
             }
         }
 
-
-    private fun startReview(jsonCourse: String) {
-        val intent = Intent(this, CourseReviewActivity::class.java)
-        intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, jsonCourse)
-        resultLauncher.launch(intent)
-    }
-
     private fun startReview(course: Course) {
-        startReview(Json.encodeToString(course))
+        val intent = Intent(this, AddReviewActivity::class.java)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.id)
+        resultLauncher.launch(intent)
     }
 
     private fun createOnScrollListener(

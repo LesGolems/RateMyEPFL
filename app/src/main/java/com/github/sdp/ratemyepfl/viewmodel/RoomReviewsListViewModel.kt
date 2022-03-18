@@ -34,19 +34,4 @@ class RoomReviewsListViewModel @Inject constructor(
     fun getReviews(): LiveData<List<Review?>> {
         return reviewsLiveData
     }
-
-    fun insertReview(roomGrade: Int, roomComment: String) {
-        /*
-        val newReview = Review(ReviewRating.fromValue(roomGrade)!!, roomComment, LocalDate.now())
-        val currentList = reviewsLiveData.value
-        if (currentList == null) { // No reviews yet
-            reviewsLiveData.postValue(listOf(newReview))
-        } else {
-            val updatedList = currentList.toMutableList()
-            updatedList.add(0, newReview)
-            reviewsLiveData.postValue(updatedList)
-        }
-         */
-    }
-
 }

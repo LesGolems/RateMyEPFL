@@ -7,7 +7,7 @@ import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
-class AddRoomReviewViewModelTest {
+class AddRoomAddReviewViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()

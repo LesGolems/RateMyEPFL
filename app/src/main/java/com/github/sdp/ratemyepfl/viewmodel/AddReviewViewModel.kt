@@ -1,18 +1,11 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -23,7 +16,7 @@ import javax.inject.Inject
  *               the savedStateHandle
  */
 @HiltViewModel
-class CourseReviewViewModel @Inject constructor(
+class AddReviewViewModel @Inject constructor(
     private val database: ReviewsRepositoryInterface
 ) : ViewModel() {
 
@@ -85,7 +78,7 @@ class CourseReviewViewModel @Inject constructor(
      *
      * @return true if it succeeds to build the review, false otherwise
      */
-    fun submitReview(reviewableId : String) : Boolean{
+    fun submitReview(reviewableId : String?) : Boolean{
         val rating = rating.value
         val title = title.value
         val comment = comment.value

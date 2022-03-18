@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import kotlinx.serialization.encodeToString
@@ -13,7 +12,7 @@ import org.junit.Test
 import java.time.LocalDate
 
 
-class CourseReviewViewModelTest {
+class AddReviewViewModelTest {
     @get:Rule
     val instantTaskExecutor = InstantTaskExecutorRule()
     val course = Course("SWENG", "CS", "Candea", 4, "CS-306")
@@ -29,7 +28,7 @@ class CourseReviewViewModelTest {
         val savedStateHandle = SavedStateHandle().apply {
             set(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, Json.encodeToString(course))
         }
-        val model = CourseReviewViewModel(repo, savedStateHandle)
+        val model = AddReviewViewModel(repo, savedStateHandle)
         Assert.assertEquals(course, model.course)
     }
 
@@ -38,7 +37,7 @@ class CourseReviewViewModelTest {
         val savedStateHandle = SavedStateHandle()
         val repository = FakeCoursesReviewsRepository()
         Assert.assertThrows(IllegalArgumentException::class.java) {
-            CourseReviewViewModel(
+            AddReviewViewModel(
                 repository,
                 savedStateHandle
             )
@@ -48,7 +47,7 @@ class CourseReviewViewModelTest {
     @Test
     fun setRatingCorrectly() {
         val rating = ReviewRating.AVERAGE
-        val model = CourseReviewViewModel(repo, savedStateHandle)
+        val model = AddReviewViewModel(repo, savedStateHandle)
         model.setRating(rating)
         Assert.assertEquals(rating, model.getRating())
     }
@@ -56,7 +55,7 @@ class CourseReviewViewModelTest {
     @Test
     fun setTitleCorrectly() {
         val title = "My title"
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         viewModel.title.postValue(title)
 
         Assert.assertEquals(title, viewModel.getTitle())
@@ -65,7 +64,7 @@ class CourseReviewViewModelTest {
     @Test
     fun setCommentCorrectly() {
         val comment = "My comment"
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         viewModel.setComment(comment)
         Assert.assertEquals(comment, viewModel.getComment())
     }
@@ -73,7 +72,7 @@ class CourseReviewViewModelTest {
     @Test
     fun setDateCorrectly() {
         val date = LocalDate.of(2022, 3, 9)
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         viewModel.setDate(date)
 
         Assert.assertEquals(date, viewModel.getDate())
@@ -81,7 +80,7 @@ class CourseReviewViewModelTest {
 
     @Test
     fun correctlyReviewWhenUserEntersRatingTitleCommentAndDate() {
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         val rating = ReviewRating.AVERAGE
         val title = "My title"
         val comment = "My comment"
@@ -102,7 +101,7 @@ class CourseReviewViewModelTest {
 
     @Test
     fun returnNullWhenRatingIsMissing() {
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         val title = "My title"
         val comment = "My comment"
         val date = LocalDate.of(2022, 3, 9)
@@ -118,7 +117,7 @@ class CourseReviewViewModelTest {
 
     @Test
     fun returnNullWhenTitleIsMissing() {
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         val rating = ReviewRating.AVERAGE
         val comment = "My comment"
         val date = LocalDate.of(2022, 3, 9)
@@ -134,7 +133,7 @@ class CourseReviewViewModelTest {
 
     @Test
     fun returnNullWhenCommentIsMissing() {
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         val rating = ReviewRating.AVERAGE
         val title = "My title"
         val date = LocalDate.of(2022, 3, 9)
@@ -150,7 +149,7 @@ class CourseReviewViewModelTest {
 
     @Test
     fun usesCurrentDateIfDateIsMissing() {
-        val viewModel = CourseReviewViewModel(repo, savedStateHandle)
+        val viewModel = AddReviewViewModel(repo, savedStateHandle)
         val rating = ReviewRating.AVERAGE
         val title = "My title"
         val comment = "My comment"

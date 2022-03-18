@@ -9,7 +9,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.RoomReviewsAdapter
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +32,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         viewModel.id.let {
             viewModel.getReviews().observe(this) {
                 it?.let {
-                    reviewsAdapter.submitList(it as MutableList<ClassroomReview>)
+                    reviewsAdapter.submitList(it as MutableList<Review>)
                 }
             }
         }
@@ -43,27 +45,17 @@ class RoomReviewsListActivity : AppCompatActivity() {
 
     }
 
-
     /* Adds review */
     private fun fabOnClick() {
-        val intent = Intent(this, AddRoomReviewActivity::class.java)
-        intent.putExtra(AddRoomReviewActivity.EXTRA_ROOM_REVIEWED, viewModel.id)
+        val intent = Intent(this, AddReviewActivity::class.java)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, viewModel.id)
         resultLauncher.launch(intent)
     }
 
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val d: Intent? = result.data
-                val roomGrade: Int? = d?.getIntExtra(ROOM_GRADE, INVALID_ROOM_GRADE)
-                val roomComment = d?.getStringExtra(ROOM_COMMENT)
-                if (roomGrade != null && roomGrade != INVALID_ROOM_GRADE && roomComment != null) {
-                    viewModel.insertReview(roomGrade, roomComment)
-                }
+                // refresh viewModel here
             }
         }
-
-    companion object {
-        const val INVALID_ROOM_GRADE: Int = -1
-    }
 }
