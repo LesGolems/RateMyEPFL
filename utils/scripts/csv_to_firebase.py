@@ -16,7 +16,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # modify this with your own files
-CSV_FILE_PATH = 'course_list.csv'
+CSV_FILE_PATH = 'rooms.csv'
 CERTIFICATE_PATH = 'ratemyepfl-firebase-adminsdk-he1ed-7f15ecd77e.json'
 
 # You need to set the environment variable in order for the script to work
@@ -24,8 +24,6 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CERTIFICATE_PATH
 
 cred = credentials.Certificate(CERTIFICATE_PATH)
 app = firebase_admin.initialize_app(cred)
-
-database = firestore.client()
 
 DB = firestore.Client()
 
@@ -43,14 +41,14 @@ with open(CSV_FILE_PATH, 'r') as csv_file:
     for row in reader:
         tuple = {}
         key = row.pop(0)
-        for index, attribute in enumerate(row):
-            if attribute:
-                if data_types[index] == 'int':
-                    tuple[header[index]] = int(attribute)
-                else:
-                    tuple[header[index]] = attribute
         if key:
-            DB.collection(collection_name).document(key).set(tuple)
-        print('Added ' + key)
+            for index, attribute in enumerate(row):
+                if attribute:
+                    if data_types[index] == 'int':
+                        tuple[header[index]] = int(attribute)
+                    else:
+                        tuple[header[index]] = attribute
+                DB.collection(collection_name).document(key).set(tuple)
+                print('Added ' + key)
 
 csv_file.close()
