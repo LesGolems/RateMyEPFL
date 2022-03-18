@@ -31,7 +31,7 @@
     <string name="login_google_text">Sign In with Google</string>
     <string name="visitor_text">Continue as a visitor</string>
     <string name="logo_text">RATE MY</string>
-    <string name="overall_score_classroom_review">Overall score:</string>
+    <string name="overall_score_classroom_review">Overall score: %s</string>
     <string name="submit_course_review_textbutton">Send your review</string>
     <string name="add_review_fab_course_review_list">Give my opinion</string>
 </resources>

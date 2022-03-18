@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mLogoutButton: Button
     private lateinit var mCoursesButton: Button
-    private lateinit var mReviewButton: Button
     private lateinit var mUser_text: TextView
     private lateinit var mRoomReviewButton: Button
 
@@ -34,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         checkUser()
 
         mCoursesButton = findViewById(R.id.coursesButton)
-        mReviewButton = findViewById(R.id.coursesReviewButton)
 
         mRoomReviewButton = findViewById(R.id.classroomReviewButton)
         mRoomReviewButton.setOnClickListener {
@@ -58,10 +56,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun startReview() {
-
-    }
-
     private fun setUpButtons() {
         mLogoutButton.setOnClickListener {
             auth.signOut(applicationContext).addOnCompleteListener {
@@ -73,10 +67,6 @@ class MainActivity : AppCompatActivity() {
             displayCourses()
         }
 
-        mReviewButton.setOnClickListener {
-            // To be changed once courses are implemented
-            startReview()
-        }
     }
 
     private fun checkUser() {

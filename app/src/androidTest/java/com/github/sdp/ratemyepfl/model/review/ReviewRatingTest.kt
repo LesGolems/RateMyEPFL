@@ -18,4 +18,18 @@ class ReviewRatingTest {
         assertEquals(ReviewRating.EXCELLENT_RATING, excellent.rating)
 
     }
+
+    @Test
+    fun fromValueReturnsCorrectValues() {
+        val terrible = ReviewRating.TERRIBLE
+        assertEquals(ReviewRating.fromValue(1.2f), terrible)
+        val poor = ReviewRating.POOR
+        assertEquals(ReviewRating.fromValue(2.49f), poor)
+        val average = ReviewRating.AVERAGE
+        assertEquals(ReviewRating.fromValue(3.0f), average)
+        val good = ReviewRating.GOOD
+        assertEquals(ReviewRating.fromValue(3.51f), good)
+        val excellent = ReviewRating.EXCELLENT
+        assertEquals(ReviewRating.fromValue(5.25f), excellent)
+    }
 }

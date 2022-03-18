@@ -39,7 +39,6 @@ class CourseListActivity : AppCompatActivity() {
 
     }
 
-    /* Opens CourseReviewListActivity when RecyclerView item is clicked. */
     private fun displayCourseReviews(course: Course) {
         val intent = Intent(this, CourseReviewListActivity::class.java)
         intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_JSON, Json.encodeToString(course))

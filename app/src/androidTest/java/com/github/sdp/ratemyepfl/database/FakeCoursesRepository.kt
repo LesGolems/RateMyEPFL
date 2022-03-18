@@ -1,19 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.CourseReview
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import java.time.LocalDate
 import javax.inject.Inject
 
 
-class FakeCoursesDatabase @Inject constructor() : CourseDatabase {
-    private val initialCoursesList = coursesList()
-    private val coursesLiveData = MutableLiveData(initialCoursesList)
+class FakeCoursesRepository @Inject constructor(): CoursesRepositoryInterface {
 
-    private fun coursesList(): List<Course> {
+    override suspend fun get(): List<Course?> {
         return listOf(
             Course(
                 name="Software development project",
@@ -51,9 +44,5 @@ class FakeCoursesDatabase @Inject constructor() : CourseDatabase {
                 courseCode="CS-332"
             )
         )
-    }
-
-    override fun getCourses(): LiveData<List<Course>> {
-        return coursesLiveData
     }
 }

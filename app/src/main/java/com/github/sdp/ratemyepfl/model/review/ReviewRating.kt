@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import kotlin.math.roundToInt
+
 /**
  * Defines the rating for a review.
  * Consists of 5 different types, each with an integer
@@ -19,6 +21,22 @@ enum class ReviewRating(val rating: Int) {
         const val AVERAGE_RATING = 3
         const val POOR_RATING = 2
         const val TERRIBLE_RATING = 1
+
+        /**
+         * Convert a float to the correspond rating. It rounds the value to the nearest integer,
+         * and associate it a rating according to its integer value.
+         *
+         * @param value: the value to convert
+         * @return the corresponding rating, and null if it does not correspond to anything
+         */
+        fun fromValue(value: Float): ReviewRating? = when(value.roundToInt()) {
+            TERRIBLE_RATING -> TERRIBLE
+            POOR_RATING -> POOR
+            AVERAGE_RATING -> AVERAGE
+            GOOD_RATING -> GOOD
+            EXCELLENT_RATING -> EXCELLENT
+            else -> null
+        }
     }
 }
 
