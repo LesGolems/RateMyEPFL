@@ -22,16 +22,21 @@ class CourseListActivityTest {
     val testRule = ActivityScenarioRule(CourseListActivity::class.java)
 
     @Test
-    fun isCoursesListViewViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.coursesListView))
-                .check(matches(isDisplayed()))
+    fun isRecyclerViewVisibleOnActivityLaunch() {
+        onView(withId(R.id.courses_recycler_view))
+            .check(matches(isDisplayed()))
     }
 
     /**
     @Test
-    fun firesAnIntentWhenUserPressesCourse() {
+    fun firesAnIntentWhenUserClicksOnCourse() {
         init()
-        onData(anything()).inAdapterView(withId(R.id.coursesListView)).atPosition(0).perform(click())
+        onView(withId(R.id.courses_recycler_view))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0, click()
+                )
+            )
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }*/

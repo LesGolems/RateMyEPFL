@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Course
 import javax.inject.Inject
 
+
 class FakeCoursesRepository @Inject constructor(): CoursesRepositoryInterface {
 
     override suspend fun get(): List<Course?> {
@@ -44,5 +45,4 @@ class FakeCoursesRepository @Inject constructor(): CoursesRepositoryInterface {
             )
         )
     }
-
 }

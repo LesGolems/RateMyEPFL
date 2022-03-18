@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/courseSearchView"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/sortCoursesView"
+        android:title="@string/sort_alphabetically"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/increasingOrder"
+                android:title="@string/increasing_order" />
+            <item
+                android:id="@+id/decreasingOrder"
+                android:title="@string/decreasing_order" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/creditPicker"
+        android:title="@string/credits"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/credit_2"
+                android:title="2" />
+            <item
+                android:id="@+id/credit_3"
+                android:title="3" />
+            <item
+                android:id="@+id/credit_4"
+                android:title="4" />
+            <item
+                android:id="@+id/credit_5"
+                android:title="5" />
+            <item
+                android:id="@+id/credit_6"
+                android:title="6" />
+            <item
+                android:id="@+id/credit_7"
+                android:title="7" />
+            <item
+                android:id="@+id/credit_8"
+                android:title="8" />
+        </menu>
+    </item>
+</menu>

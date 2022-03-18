@@ -4,15 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Classroom
 
 class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
-    ListAdapter<Classroom, ClassroomsAdapter.RoomViewHolder>(RoomDiffCallback) {
+    ListAdapter<Classroom, ClassroomsAdapter.RoomViewHolder>(RoomDiffCallback),
+    Filterable {
+
+    private var list = mutableListOf<Classroom>()
 
     inner class RoomViewHolder(roomView: View) :
         RecyclerView.ViewHolder(roomView) {
@@ -52,6 +57,52 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
         val room = getItem(position)
         holder.bind(room)
     }
+
+    fun setData(list: MutableList<Classroom>?) {
+        this.list = list!!
+        submitList(list)
+    }
+
+    override fun getFilter(): Filter {
+        return roomSearchFilter
+    }
+
+    private val roomSearchFilter = object : Filter() {
+        override fun performFiltering(query: CharSequence?): FilterResults {
+            val results = FilterResults()
+
+            if (query.isNullOrEmpty()) {
+                results.values = list
+                results.count = list.size
+            } else {
+                val queryLower = query.toString().lowercase()
+                val filteredList = mutableListOf<Classroom>()
+                filteredList.addAll(list.filter {
+                    it.id.lowercase().startsWith(queryLower)
+                })
+                results.values = filteredList
+                results.count = filteredList.size
+            }
+
+            return results
+        }
+
+        override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
+            submitList(searchResults!!.values as MutableList<Classroom>)
+        }
+    }
+
+    fun sortAlphabetically(increasing: Boolean) {
+        val sortedList = mutableListOf<Classroom>()
+        sortedList.addAll(list)
+
+        sortedList.sortBy { it.id }
+        if (!increasing) {
+            sortedList.reverse()
+        }
+        setData(sortedList)
+    }
+
 
 }
 

@@ -23,6 +23,11 @@
     <string name="courses">Courses</string>
     <string name="classrooms">Classrooms</string>
     <string name="courses_review">Courses review</string>
+    <string name="sort_alphabetically">Sort alphabetically</string>
+    <string name="search">Search</string>
+    <string name="increasing_order">A-Z</string>
+    <string name="decreasing_order">Z-A</string>
+    <string name="credits">Credits</string>
     <string name="login_google_text">Sign In with Google</string>
     <string name="visitor_text">Continue as a visitor</string>
     <string name="logo_text">RATE MY</string>
