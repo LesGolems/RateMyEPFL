@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@raw/background"
     tools:context=".activity.SplashScreen">
 
     <TextView
@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="@string/logo_text"
         android:textColor="#FFF000"
-        android:textSize="40dp"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/logo_epfl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.303"
@@ -24,12 +24,12 @@
         android:id="@+id/logo_epfl"
         android:layout_width="327dp"
         android:layout_height="95dp"
-        android:contentDescription="epfl_logo"
+        android:contentDescription="@string/epfl_logo_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/epfl_logo_white" />
+        app:srcCompat="@raw/epfl_logo_white" />
 
     <Button
         android:id="@+id/login_button"

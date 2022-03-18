@@ -42,4 +42,6 @@
     <string name="credit_7">7</string>
     <string name="credit_8">8</string>
     <string name="visitor">Visitor</string>
+    <string name="epfl_logo_description">epfl_logo</string>
+    <string name="add_review_button_description">add_review_button</string>
 </resources>
