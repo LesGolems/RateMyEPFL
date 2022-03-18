@@ -64,6 +64,21 @@ class AddReviewActivityTest {
     }
 
     @Test
+    fun nullReviewableIdCancelsActivity() {
+        init()
+
+        val comment = "Good"
+        onView(withId(R.id.roomReviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
+        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.done_button)).perform(click())
+
+        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+
+        release()
+    }
+
+    @Test
     fun nonNullGradeAndCommentsGivesOK() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "ID")
