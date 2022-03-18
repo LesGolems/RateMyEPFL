@@ -14,13 +14,8 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.classrooms.AddRoomReviewActivity
-import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_COMMENT
-import com.github.sdp.ratemyepfl.activity.classrooms.ROOM_GRADE
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.firebase.firestore.core.View
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matcher
@@ -37,14 +32,14 @@ class AddRoomReviewActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule (order = 1)
-    val testRule = ActivityScenarioRule(AddRoomReviewActivity::class.java)
+    val testRule = ActivityScenarioRule(AddReviewActivity::class.java)
 
     @Test
     fun nullGradeCancelsActivity() {
         init()
 
         val comment = "Good"
-        onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
@@ -72,7 +67,7 @@ class AddRoomReviewActivityTest {
 
         val comment = "Good"
         onView(withId(R.id.roomReviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
@@ -90,7 +85,7 @@ class AddRoomReviewActivityTest {
         onView(withId(R.id.roomReviewRatingBar)).perform(
             performSetRating(rating))
 
-        onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 

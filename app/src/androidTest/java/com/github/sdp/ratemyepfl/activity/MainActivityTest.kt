@@ -50,7 +50,7 @@ class MainActivityTest {
         FakeConnectedUser.loggedIn = true
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
 
-        val scenario: ActivityScenario<CourseReviewActivity> = ActivityScenario.launch(intent)
+        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
         onView(withId(R.id.user_text)).check(matches(withText("user@email.com")))
         scenario.close()
     }
@@ -60,7 +60,7 @@ class MainActivityTest {
         init()
         FakeConnectedUser.loggedIn = true
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        val scenario: ActivityScenario<CourseReviewActivity> = ActivityScenario.launch(intent)
+        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
         onView(withId(R.id.logoutButton)).perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         scenario.close()
@@ -71,7 +71,7 @@ class MainActivityTest {
     fun visitorDisplayedWhenLoggedOut() {
         FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        val scenario: ActivityScenario<CourseReviewActivity> = ActivityScenario.launch(intent)
+        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
         onView(withId(R.id.user_text)).check(matches(withText("Visitor")))
         scenario.close()
     }
