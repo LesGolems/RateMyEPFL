@@ -45,6 +45,7 @@ class AddRoomReviewActivityTest {
 
         val comment = "Good"
         onView(withId(R.id.add_room_comment)).perform(typeText(comment))
+        closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
 
 
