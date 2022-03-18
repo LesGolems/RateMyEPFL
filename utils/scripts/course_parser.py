@@ -33,7 +33,7 @@ def get_courses(c, s):
                     exam = exam.split(' session')
                     session = exam[0]
                     if (len(exam) > 1):
-                        mode = exam[1]
+                        grading = exam[1]
                 teacher = line.find('div', {'class': 'enseignement-name'}).text
                 language = line.find('div', {'data-title': 'Language'}).text
 
