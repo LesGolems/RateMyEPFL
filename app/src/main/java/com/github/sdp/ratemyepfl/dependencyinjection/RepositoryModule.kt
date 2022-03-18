@@ -21,10 +21,6 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseReviewRepo(repo: CoursesReviewsRepository): CoursesReviewsRepositoryInterface
-
-    @Singleton
-    @Binds
-    abstract fun provideClassroomReviewRepo(repo: ClassroomsReviewsRepository): ClassroomsReviewsRepositoryInterface
+    abstract fun provideReviewRepo(repo: ReviewsRepository): ReviewsRepositoryInterface
 
 }

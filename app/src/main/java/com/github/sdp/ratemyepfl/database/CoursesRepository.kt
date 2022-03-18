@@ -6,8 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class CoursesRepository @Inject constructor(): CoursesRepositoryInterface {
-    private val db = FirebaseFirestore.getInstance()
+class CoursesRepository @Inject constructor(): CoursesRepositoryInterface, Repository() {
     private val collection = db.collection("courses")
     companion object {
         private const val TAG = "CourseRepository"

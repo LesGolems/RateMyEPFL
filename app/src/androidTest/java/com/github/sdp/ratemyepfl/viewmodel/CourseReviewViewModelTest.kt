@@ -5,8 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.database.CoursesReviewsRepository
-import com.github.sdp.ratemyepfl.database.FakeCoursesReviewsRepository
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert

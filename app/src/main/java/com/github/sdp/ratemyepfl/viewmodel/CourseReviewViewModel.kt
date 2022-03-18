@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.database.CoursesReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString

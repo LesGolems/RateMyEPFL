@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.database.ClassroomsReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RoomReviewsListViewModel @Inject constructor(
-    private val reviewsRepository: ClassroomsReviewsRepositoryInterface,
+    private val reviewsRepository: ReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
