@@ -107,7 +107,7 @@ data class Review constructor(
          * @return this
          */
         fun setReviewableID(id: String) = apply {
-            this.reviewableId = reviewableId
+            this.reviewableId = id
         }
 
 

@@ -18,6 +18,7 @@ class ReviewTest {
         val builder = Review.Builder()
             .setComment("Hello")
             .setTitle("Hello")
+            .setReviewableID("ID")
             .setDate(LocalDate.now())
 
         assertThrows(IllegalStateException::class.java) {
@@ -30,6 +31,7 @@ class ReviewTest {
         val builder = Review.Builder()
             .setComment("Hello")
             .setRating(ReviewRating.AVERAGE)
+            .setReviewableID("ID")
             .setDate(LocalDate.now())
 
         assertThrows(IllegalStateException::class.java) {
@@ -42,6 +44,20 @@ class ReviewTest {
         val builder = Review.Builder()
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
+            .setReviewableID("ID")
+            .setDate(LocalDate.now())
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsExceptionIfReviewableIdIsNull() {
+        val builder = Review.Builder()
+            .setRating(ReviewRating.AVERAGE)
+            .setTitle("Hello")
+            .setComment("Hello")
             .setDate(LocalDate.now())
 
         assertThrows(IllegalStateException::class.java) {
@@ -56,6 +72,7 @@ class ReviewTest {
             .setRating(rating)
             .setComment("My comment")
             .setTitle("My title")
+            .setReviewableID("ID")
             .setDate(LocalDate.now())
             .build()
 
@@ -69,6 +86,7 @@ class ReviewTest {
             .setRating(ReviewRating.TERRIBLE)
             .setComment("My comment")
             .setTitle(title)
+            .setReviewableID("ID")
             .setDate(LocalDate.now())
             .build()
 
@@ -82,6 +100,7 @@ class ReviewTest {
             .setRating(ReviewRating.TERRIBLE)
             .setComment(comment)
             .setTitle("My title")
+            .setReviewableID("ID")
             .setDate(LocalDate.now())
             .build()
 
@@ -99,10 +118,30 @@ class ReviewTest {
             .setRating(rate)
             .setTitle(title)
             .setComment(comment)
+            .setReviewableID("ID")
             .setDate(date)
             .build()
 
         assertEquals(date, review.date)
+    }
+
+    @Test
+    fun builderSetReviewableIdCorrectly() {
+        val rate = ReviewRating.GOOD
+        val title = "My title"
+        val comment = "My comment"
+        val reviewableId = "Id"
+        val date = LocalDate.of(2022, 3, 8)
+
+        val review = Review.Builder()
+            .setRating(rate)
+            .setTitle(title)
+            .setComment(comment)
+            .setReviewableID(reviewableId)
+            .setDate(date)
+            .build()
+
+        assertEquals(reviewableId, review.reviewableId)
     }
 
     @Test
@@ -111,6 +150,7 @@ class ReviewTest {
             .setRating(ReviewRating.EXCELLENT)
             .setComment("My comment")
             .setTitle("My title")
+            .setReviewableID("ID")
             .setDate(LocalDate.of(2020, 3, 8))
             .build()
 
