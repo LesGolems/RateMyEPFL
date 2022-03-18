@@ -8,7 +8,6 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.CourseMgtActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -28,6 +27,17 @@ class CourseReviewActivity : AppCompatActivity() {
         const val EXTRA_COURSE_IDENTIFIER: String =
             "com.github.sdp.ratemyepfl.model.review.extra_course_name"
         const val EXTRA_REVIEW: String = "com.github.sdp.ratemyepfl.model.review.extra_review"
+
+        fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
+            object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    consume(p0, p1, p2, p3)
+                }
+
+                override fun afterTextChanged(p0: Editable?) {}
+            }
     }
 
     private lateinit var courseRatingRadioGroup: RadioGroup
@@ -46,7 +56,8 @@ class CourseReviewActivity : AppCompatActivity() {
         courseRatingRadioGroup = radioGroupLayout.findViewById(R.id.courseReviewRating)
         courseReviewTitle = findViewById(R.id.courseReviewTitle)
         courseReviewComment = findViewById(R.id.courseReviewOpinion)
-        lastCourseRatingButton = radioGroupLayout.findViewById(R.id.courseRatingExcellentRadioButton)
+        lastCourseRatingButton =
+            radioGroupLayout.findViewById(R.id.courseRatingExcellentRadioButton)
         submitButton = findViewById(R.id.courseReviewSubmit)
         courseReviewIndication = findViewById(R.id.courseReviewCourseName)
 
@@ -78,9 +89,11 @@ class CourseReviewActivity : AppCompatActivity() {
         viewModel.rating.observe(this) { rating ->
             setError(lastCourseRatingButton, rating, UNCHECKED_RATING_MESSAGE)
         }
+
         viewModel.comment.observe(this) { comment ->
             setError(courseReviewComment, comment, EMPTY_COMMENT_MESSAGE)
         }
+
         viewModel.title.observe(this) { title ->
             setError(courseReviewTitle, title, EMPTY_TITLE_MESSAGE)
         }
@@ -113,7 +126,7 @@ class CourseReviewActivity : AppCompatActivity() {
         val resultIntent = Intent()
         resultIntent.putExtra(EXTRA_REVIEW, review.serialize())
         resultIntent.putExtra(
-            CourseMgtActivity.EXTRA_COURSE_REVIEWED,
+            CourseReviewListActivity.EXTRA_COURSE_JSON,
             Json.encodeToString(course)
         )
         setResult(RESULT_OK, resultIntent)
@@ -129,14 +142,4 @@ class CourseReviewActivity : AppCompatActivity() {
         else -> null
     }
 
-    private fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
-        object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                consume(p0, p1, p2, p3)
-            }
-
-            override fun afterTextChanged(p0: Editable?) {}
-        }
 }

@@ -8,8 +8,11 @@ import android.widget.ListView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class CourseListActivity : AppCompatActivity() {
@@ -19,7 +22,7 @@ class CourseListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_courses)
+        setContentView(R.layout.activity_course_list)
 
         coursesView = findViewById(R.id.coursesListView)
         coursesView.isClickable = true
@@ -31,16 +34,16 @@ class CourseListActivity : AppCompatActivity() {
                 coursesView.adapter = adapter
                 coursesView.onItemClickListener =
                     AdapterView.OnItemClickListener { _, _, position, _ ->
-                        it[position]?.let { it1 -> displayCourseReviews(it1.name) }
+                        it[position]?.let { it1 -> displayCourseReviews(it1) }
                     }
             }
         }
     }
 
 
-    private fun displayCourseReviews(courseName: String) {
+    private fun displayCourseReviews(course: Course) {
         val intent = Intent(this, CourseReviewListActivity::class.java)
-        intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_NAME, courseName)
+        intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_JSON, Json.encodeToString(course))
         startActivity(intent)
     }
 }

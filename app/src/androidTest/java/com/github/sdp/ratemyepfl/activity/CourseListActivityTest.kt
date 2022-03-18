@@ -13,7 +13,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class CoursesActivityTest {
+class CourseListActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

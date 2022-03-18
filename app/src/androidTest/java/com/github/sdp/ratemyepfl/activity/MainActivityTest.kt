@@ -28,16 +28,6 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
-    // To be changed once the courses are implemented
-    @Test
-    fun firesAnIntentWhenUserPressesCourseReviewButton() {
-        init()
-        onView(withId(R.id.coursesReviewButton))
-            .perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
     @Test
     fun firesAnIntentWhenUserPressesCourseButton() {
         init()

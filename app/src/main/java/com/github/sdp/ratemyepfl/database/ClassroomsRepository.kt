@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ClassroomsRepository @Inject constructor(): ClassroomsRepositoryInterface {
     private val db = FirebaseFirestore.getInstance()
-    private val collection = db.collection("classrooms")
+    private val collection = db.collection("rooms")
     companion object {
         private const val TAG = "ClassroomRepository"
     }

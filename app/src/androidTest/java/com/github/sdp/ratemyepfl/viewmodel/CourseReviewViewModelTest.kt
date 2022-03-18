@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.database.CoursesReviewsRepository
+import com.github.sdp.ratemyepfl.database.FakeCoursesReviewsRepository
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert
@@ -33,6 +34,18 @@ class CourseReviewViewModelTest {
         }
         val model = CourseReviewViewModel(repo, savedStateHandle)
         Assert.assertEquals(course, model.course)
+    }
+
+    @Test
+    fun throwsExceptionIfTheCourseIsNotValid() {
+        val savedStateHandle = SavedStateHandle()
+        val repository = FakeCoursesReviewsRepository()
+        Assert.assertThrows(IllegalArgumentException::class.java) {
+            CourseReviewViewModel(
+                repository,
+                savedStateHandle
+            )
+        }
     }
 
     @Test

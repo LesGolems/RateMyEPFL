@@ -5,6 +5,10 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 class FakeClassroomsReviewsRepository @Inject constructor(): ClassroomsReviewsRepositoryInterface{
+    override fun add(value: ClassroomReview) {
+
+    }
+
     override suspend fun get(): List<ClassroomReview?> {
         return listOf(
             ClassroomReview(15, "bien", LocalDate.now()),

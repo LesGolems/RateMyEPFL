@@ -15,7 +15,7 @@ class ClassroomsReviewsRepository @Inject constructor() : ClassroomsReviewsRepos
         const val COLLECTION = "classrooms_reviews"
     }
 
-    fun add(value: ClassroomReview) {
+    override fun add(value: ClassroomReview) {
         reviewsCollection().document(value.comment)
                            .set(value.toHashMap())
     }
