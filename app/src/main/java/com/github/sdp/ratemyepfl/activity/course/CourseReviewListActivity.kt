@@ -57,7 +57,6 @@ class CourseReviewListActivity : AppCompatActivity() {
             )
         )
 
-        reviewsView = findViewById(R.id.reviewsListView)
         // Display the reviews of the courses
         viewModel.getReviews().observe(this) {
             it?.let {
