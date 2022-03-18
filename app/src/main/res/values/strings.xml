@@ -34,4 +34,11 @@
     <string name="overall_score_classroom_review">Overall score: %s</string>
     <string name="submit_course_review_textbutton">Send your review</string>
     <string name="add_review_fab_course_review_list">Give my opinion</string>
+    <string name="credit_2">2</string>
+    <string name="credit_3">3</string>
+    <string name="credit_4">4</string>
+    <string name="credit_5">5</string>
+    <string name="credit_6">6</string>
+    <string name="credit_7">7</string>
+    <string name="credit_8">8</string>
 </resources>
