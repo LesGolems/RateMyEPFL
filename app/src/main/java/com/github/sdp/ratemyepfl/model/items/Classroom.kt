@@ -22,9 +22,9 @@ data class Classroom(
     companion object {
         fun DocumentSnapshot.toClassroom() : Classroom? {
             return try {
-                val id = getString("id")!!
-                val name = getString("name")!!
-                Classroom(id, name,  listOf())
+                //val id = getString("id")!!
+                //val name = getString("name")!!
+                Classroom(id, "",  listOf())
             } catch (e: Exception){
                 null
             }
