@@ -58,16 +58,16 @@ class AddReviewActivity : AppCompatActivity() {
             addReview()
         }
 
-        ratingBar = findViewById(R.id.roomReviewRatingBar)
+        ratingBar = findViewById(R.id.reviewRatingBar)
         comment = findViewById(R.id.add_review_comment)
-        reviewIndicationTitle = findViewById(R.id.room_review_title)
+        reviewIndicationTitle = findViewById(R.id.review_title)
         scoreTextView = findViewById(R.id.overallScoreTextView)
 
 
         viewModel.rating.observe(this) { rating ->
             scoreTextView.text =
                 getString(
-                    R.string.overall_score_classroom_review,
+                    R.string.overall_score_review,
                     rating?.toString() ?: NO_GRADE_MESSAGE
                 )
         }
@@ -81,7 +81,7 @@ class AddReviewActivity : AppCompatActivity() {
             viewModel.setComment(text?.toString())
         })
 
-        reviewIndicationTitle.text = getString(R.string.title_review_classroom, reviewableId)
+        reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)
     }
 
     /* The onClick action for the done button. Closes the activity and returns the room review grade
