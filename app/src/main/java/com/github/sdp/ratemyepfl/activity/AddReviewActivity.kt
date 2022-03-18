@@ -63,6 +63,7 @@ class AddReviewActivity : AppCompatActivity() {
         reviewIndicationTitle = findViewById(R.id.room_review_title)
         scoreTextView = findViewById(R.id.overallScoreTextView)
 
+
         viewModel.rating.observe(this) { rating ->
             scoreTextView.text =
                 getString(
