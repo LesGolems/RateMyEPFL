@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
@@ -11,62 +12,63 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 
-
-class CoursesAdapter(private val onClick: (Course) -> Unit) :
-    ListAdapter<Course, CoursesAdapter.CourseViewHolder>(CourseDiffCallback),
+class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
+    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ReviewableDiffCallback),
     Filterable {
 
-    private var list = mutableListOf<Course>()
+    private var list = mutableListOf<Reviewable>()
 
-    inner class CourseViewHolder(courseView: View) :
-        RecyclerView.ViewHolder(courseView) {
+    inner class ReviewableViewHolder(reviewableView: View) :
+        RecyclerView.ViewHolder(reviewableView) {
 
-        private val courseTextView: TextView = courseView.findViewById(R.id.courseId)
-        private var currentCourse: Course? = null
+        private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
+        private val reviewBut: Button = reviewableView.findViewById(R.id.reviewableButton)
+        private var currentReviewable: Reviewable? = null
 
         init {
-            courseView.setOnClickListener {
-                currentCourse?.let {
+            reviewBut.setOnClickListener {
+                currentReviewable?.let {
                     onClick(it)
                 }
             }
         }
 
-        /* Bind course name. */
-        fun bind(course: Course) {
-            currentCourse = course
-            courseTextView.text = course.name
+        /* Bind room id. */
+        fun bind(reviewable: Reviewable) {
+            currentReviewable = reviewable
+            reviewableTextView.text = reviewable.id
         }
     }
 
-    /* Creates and inflates view and return CourseViewHolder. */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        return CourseViewHolder(
+    /* Creates and inflates view and return RoomViewHolder. */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewableViewHolder {
+        return ReviewableViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.course_item,
+                R.layout.reviewable_item,
                 parent,
                 false
             )
         )
     }
 
-    /* Gets current course and uses it to bind view. */
-    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
-        val course = getItem(position)
-        holder.bind(course)
+    /* Gets current room and uses it to bind view. */
+    override fun onBindViewHolder(holder: ReviewableViewHolder, position: Int) {
+        val room = getItem(position)
+        holder.bind(room)
     }
 
-    fun setData(list: MutableList<Course>?) {
+    fun setData(list: MutableList<Reviewable>?) {
         this.list = list!!
         submitList(list)
     }
 
     override fun getFilter(): Filter {
-        return courseSearchFilter
+        return reviewableSearchFilter
     }
 
-    private val courseSearchFilter = object : Filter() {
+    private val reviewableSearchFilter = object : Filter() {
         override fun performFiltering(query: CharSequence?): FilterResults {
             val results = FilterResults()
 
@@ -75,9 +77,9 @@ class CoursesAdapter(private val onClick: (Course) -> Unit) :
                 results.count = list.size
             } else {
                 val queryLower = query.toString().lowercase()
-                val filteredList = mutableListOf<Course>()
+                val filteredList = mutableListOf<Reviewable>()
                 filteredList.addAll(list.filter {
-                    it.name.lowercase().contains(queryLower)
+                    it.id.lowercase().startsWith(queryLower)
                 })
                 results.values = filteredList
                 results.count = filteredList.size
@@ -87,15 +89,15 @@ class CoursesAdapter(private val onClick: (Course) -> Unit) :
         }
 
         override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
-            submitList(searchResults!!.values as MutableList<Course>)
+            submitList(searchResults!!.values as MutableList<Reviewable>)
         }
     }
 
     fun sortAlphabetically(increasing: Boolean) {
-        val sortedList = mutableListOf<Course>()
+        val sortedList = mutableListOf<Reviewable>()
         sortedList.addAll(list)
 
-        sortedList.sortBy { it.name }
+        sortedList.sortBy { it.id }
         if (!increasing) {
             sortedList.reverse()
         }
@@ -115,9 +117,9 @@ class CoursesAdapter(private val onClick: (Course) -> Unit) :
                 results.count = list.size
             } else {
                 val queryInt = query.toString().toInt()
-                val filteredList = mutableListOf<Course>()
+                val filteredList = mutableListOf<Reviewable>()
                 filteredList.addAll(list.filter {
-                    it.credits == queryInt
+                    (it as Course).credits == queryInt
                 })
                 results.values = filteredList
                 results.count = filteredList.size
@@ -127,19 +129,19 @@ class CoursesAdapter(private val onClick: (Course) -> Unit) :
         }
 
         override fun publishResults(query: CharSequence?, results: FilterResults?) {
-            submitList(results!!.values as MutableList<Course>)
+            submitList(results!!.values as MutableList<Reviewable>)
         }
 
     }
 
 }
 
-object CourseDiffCallback : DiffUtil.ItemCallback<Course>() {
-    override fun areItemsTheSame(oldItem: Course, newItem: Course): Boolean {
+object ReviewableDiffCallback : DiffUtil.ItemCallback<Reviewable>() {
+    override fun areItemsTheSame(oldItem: Reviewable, newItem: Reviewable): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: Course, newItem: Course): Boolean {
-        return oldItem.courseCode == newItem.courseCode
+    override fun areContentsTheSame(oldItem: Reviewable, newItem: Reviewable): Boolean {
+        return oldItem.id == newItem.id
     }
 }

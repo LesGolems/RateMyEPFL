@@ -95,7 +95,8 @@ class AddReviewActivity : AppCompatActivity() {
         })
     }
 
-    /* The onClick action for the done button. Closes the activity and returns OK or Canceled. If the grade or comment are missing, the result is set
+    /* The onClick action for the done button. Closes the activity and returns the room review grade
+    and comment as part of the intent. If the grade or comment are missing, the result is set
     to cancelled. */
     private fun addReview() {
         val resultIntent = Intent()

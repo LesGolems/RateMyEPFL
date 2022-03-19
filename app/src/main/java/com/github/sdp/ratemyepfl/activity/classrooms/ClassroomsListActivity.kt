@@ -9,29 +9,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.ClassroomsAdapter
+import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ClassroomsListActivity : AppCompatActivity() {
 
-    private lateinit var roomsAdapter: ClassroomsAdapter
+    private lateinit var roomsAdapter: ReviewableAdapter
     private lateinit var recyclerView: RecyclerView
     private val viewModel: ClassroomsListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_classrooms_list)
+        setContentView(R.layout.activity_reviewable_list)
 
-        roomsAdapter = ClassroomsAdapter { room -> displayRoomReviews(room) }
-        recyclerView = findViewById(R.id.roomsRecyclerView)
+        roomsAdapter = ReviewableAdapter { room -> displayRoomReviews(room as Classroom) }
+        recyclerView = findViewById(R.id.reviewableRecyclerView)
         recyclerView.adapter = roomsAdapter
 
         viewModel.getRooms().observe(this) {
             it?.let {
-                roomsAdapter.setData(it as MutableList<Classroom>)
+                roomsAdapter.setData(it as MutableList<Reviewable>)
             }
         }
 

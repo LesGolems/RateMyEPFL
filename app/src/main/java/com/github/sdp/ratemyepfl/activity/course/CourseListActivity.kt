@@ -9,8 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.CoursesAdapter
+import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
@@ -19,21 +20,21 @@ import kotlinx.serialization.json.Json
 @AndroidEntryPoint
 class CourseListActivity : AppCompatActivity() {
 
-    private lateinit var coursesAdapter: CoursesAdapter
+    private lateinit var coursesAdapter: ReviewableAdapter
     private lateinit var recyclerView: RecyclerView
     private val viewModel: CourseListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_course_list)
+        setContentView(R.layout.activity_reviewable_list)
 
-        coursesAdapter = CoursesAdapter { course -> displayCourseReviews(course) }
-        recyclerView = findViewById(R.id.coursesRecyclerView)
+        coursesAdapter = ReviewableAdapter { course -> displayCourseReviews(course as Course) }
+        recyclerView = findViewById(R.id.reviewableRecyclerView)
         recyclerView.adapter = coursesAdapter
 
         viewModel.getCourses().observe(this) {
             it?.let {
-                coursesAdapter.setData(it as MutableList<Course>)
+                coursesAdapter.setData(it as MutableList<Reviewable>)
             }
         }
 

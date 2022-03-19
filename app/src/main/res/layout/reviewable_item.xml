@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/roomId"
+                android:id="@+id/reviewableId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -25,7 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/reviewRoomButton"
+                android:id="@+id/reviewableButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
