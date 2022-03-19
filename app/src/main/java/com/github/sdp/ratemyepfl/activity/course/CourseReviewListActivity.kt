@@ -9,8 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.CourseReview
 import com.github.sdp.ratemyepfl.adapter.CourseReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -33,20 +33,15 @@ class CourseReviewListActivity : AppCompatActivity() {
 
     private lateinit var reviewsView: ListView
     private val viewModel by viewModels<CourseReviewListViewModel>()
-    private var course: Course? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_review_list)
 
-        course = intent.getStringExtra(EXTRA_COURSE_JSON)
-            ?.let { Json.decodeFromString(it) }
-
         addReviewFAB = findViewById(R.id.startCourseReviewFAB)
 
         // If a course is given, we can review it
-        course?.let { course ->
+        viewModel.course?.let { course ->
             addReviewFAB.setOnClickListener {
                 startReview(course)
             }
@@ -62,7 +57,6 @@ class CourseReviewListActivity : AppCompatActivity() {
             )
         )
 
-        reviewsView = findViewById(R.id.reviewsListView)
         // Display the reviews of the courses
         viewModel.getReviews().observe(this) {
             it?.let {
@@ -77,19 +71,14 @@ class CourseReviewListActivity : AppCompatActivity() {
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-
+                // refresh view model here
             }
         }
 
-
-    private fun startReview(jsonCourse: String) {
-        val intent = Intent(this, CourseReviewActivity::class.java)
-        intent.putExtra(CourseReviewActivity.EXTRA_COURSE_IDENTIFIER, jsonCourse)
-        resultLauncher.launch(intent)
-    }
-
     private fun startReview(course: Course) {
-        startReview(Json.encodeToString(course))
+        val intent = Intent(this, AddReviewActivity::class.java)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.id)
+        resultLauncher.launch(intent)
     }
 
     private fun createOnScrollListener(

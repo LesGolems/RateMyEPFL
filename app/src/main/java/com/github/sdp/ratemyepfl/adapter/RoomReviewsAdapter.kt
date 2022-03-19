@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.sdp.ratemyepfl.model.review.ClassroomReview
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.review.Review
 
 class RoomReviewsAdapter :
-    ListAdapter<ClassroomReview, RoomReviewsAdapter.RoomReviewViewHolder>(RoomReviewDiffCallback) {
+    ListAdapter<Review, RoomReviewsAdapter.RoomReviewViewHolder>(RoomReviewDiffCallback) {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -26,13 +26,13 @@ class RoomReviewsAdapter :
             reviewView.findViewById(R.id.room_review_comment)
         private val dateTextView : TextView =
             reviewView.findViewById(R.id.room_review_date)
-        private var currentReview: ClassroomReview? = null
+        private var currentReview: Review? = null
 
 
         /* Bind room id and name. */
-        fun bind(review: ClassroomReview) {
+        fun bind(review: Review) {
             currentReview = review
-            gradeTextView.text = "Grade : " + review.rate.toString()
+            gradeTextView.text = "Grade : " + review.rating.toString()
             commentTextView.text = "Comment : " + review.comment
             dateTextView.text = "Posted on : " + review.date.toString() // not very clean way to do this
         }
@@ -55,12 +55,12 @@ class RoomReviewsAdapter :
 
 }
 
-object RoomReviewDiffCallback : DiffUtil.ItemCallback<ClassroomReview>() {
-    override fun areItemsTheSame(oldItem: ClassroomReview, newItem: ClassroomReview): Boolean {
+object RoomReviewDiffCallback : DiffUtil.ItemCallback<Review>() {
+    override fun areItemsTheSame(oldItem: Review, newItem: Review): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: ClassroomReview, newItem: ClassroomReview): Boolean {
+    override fun areContentsTheSame(oldItem: Review, newItem: Review): Boolean {
         return oldItem.comment == newItem.comment
     }
 }

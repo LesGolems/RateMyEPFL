@@ -24,11 +24,7 @@
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".activity.course.CourseReviewActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
-            android:name=".activity.classrooms.AddRoomReviewActivity"
+            android:name=".activity.AddReviewActivity"
             android:exported="false" />
         <activity
             android:name=".activity.classrooms.RoomReviewsListActivity"

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.CourseReview
+import com.github.sdp.ratemyepfl.model.review.Review
 
 class CourseReviewAdapter(
     context: Context,
     resource: Int,
-    reviews: List<CourseReview?>
-) : ArrayAdapter<CourseReview>(context, resource, reviews) {
+    reviews: List<Review?>
+) : ArrayAdapter<Review>(context, resource, reviews) {
 
     /** TO DO:
      *  - Refactor in ListAdapter
