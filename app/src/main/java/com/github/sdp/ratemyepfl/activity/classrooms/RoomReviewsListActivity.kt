@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.RoomReviewsAdapter
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,26 +30,26 @@ class RoomReviewsListActivity : AppCompatActivity() {
         recyclerView.adapter = reviewsAdapter
 
         // Display the reviews of the classroom
-        viewModel.id.let {
-            viewModel.getReviews().observe(this) {
-                it?.let {
-                    reviewsAdapter.submitList(it as MutableList<Review>)
-                }
+
+        viewModel.getReviews().observe(this) {
+            it?.let {
+                reviewsAdapter.submitList(it as MutableList<Review>)
             }
         }
 
         // Floating action button for adding reviews
         val fab: View = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            fabOnClick()
+        viewModel.room?.let { room ->
+            fab.setOnClickListener {
+                fabOnClick(room)
+            }
         }
-
     }
 
     /* Adds review */
-    private fun fabOnClick() {
+    private fun fabOnClick(room : Classroom) {
         val intent = Intent(this, AddReviewActivity::class.java)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, viewModel.id)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id)
         resultLauncher.launch(intent)
     }
 

@@ -12,6 +12,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.utils.OptionMenuUtils
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
@@ -48,21 +49,7 @@ class CourseListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.courses_options_menu, menu)
-
-        val searchItem = menu!!.findItem(R.id.courseSearchView)
-        val searchView = searchItem.actionView as SearchView
-        searchView.maxWidth = Int.MAX_VALUE
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                coursesAdapter.filter.filter(newText)
-                return true
-            }
-        })
-
+        OptionMenuUtils.setUpSearchView(menu, coursesAdapter, R.id.courseSearchView)
         return super.onCreateOptionsMenu(menu)
     }
 

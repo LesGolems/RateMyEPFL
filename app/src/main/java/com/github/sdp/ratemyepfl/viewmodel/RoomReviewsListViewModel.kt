@@ -3,11 +3,12 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,7 +17,7 @@ class RoomReviewsListViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val id: String? = savedStateHandle.get<String>(ClassroomsListActivity.EXTRA_ROOM_ID)
+    val room: Classroom? = savedStateHandle.get<String>(ClassroomsListActivity.EXTRA_CLASSROOMS_JSON)?.let { Json.decodeFromString(it)}
 
     // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData<List<Review?>>()
@@ -27,7 +28,7 @@ class RoomReviewsListViewModel @Inject constructor(
 
     private fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(id)
+            reviewsLiveData.value = reviewsRepository.getByReviewableId(room!!.id)
         }
     }
 
