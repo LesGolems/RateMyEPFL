@@ -68,29 +68,36 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         return reviewableSearchFilter
     }
 
-    private val reviewableSearchFilter = object : Filter() {
-        override fun performFiltering(query: CharSequence?): FilterResults {
-            val results = FilterResults()
+    fun getFilterMethod(filter: (CharSequence?) -> List<Reviewable>): Filter {
+        return object : Filter() {
+            override fun performFiltering(query: CharSequence?): FilterResults {
+                val results = FilterResults()
 
-            if (query.isNullOrEmpty()) {
-                results.values = list
-                results.count = list.size
-            } else {
-                val queryLower = query.toString().lowercase()
-                val filteredList = mutableListOf<Reviewable>()
-                filteredList.addAll(list.filter {
-                    it.toString().lowercase().contains(queryLower)
-                })
-                results.values = filteredList
-                results.count = filteredList.size
+                if (query.isNullOrEmpty()) {
+                    results.values = list
+                    results.count = list.size
+                } else {
+                    val filteredList = filter(query)
+                    results.values = filteredList
+                    results.count = filteredList.size
+                }
+
+                return results
             }
 
-            return results
+            override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
+                submitList(searchResults!!.values as MutableList<Reviewable>)
+            }
         }
+    }
 
-        override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
-            submitList(searchResults!!.values as MutableList<Reviewable>)
-        }
+    private val reviewableSearchFilter = getFilterMethod { query ->
+        val queryLower = query.toString().lowercase()
+        val filteredList = mutableListOf<Reviewable>()
+        filteredList.addAll(list.filter {
+            it.toString().lowercase().contains(queryLower)
+        })
+        filteredList
     }
 
     fun sortAlphabetically(increasing: Boolean) {
@@ -108,32 +115,14 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         courseCreditsFilter.filter(credit)
     }
 
-    private val courseCreditsFilter = object : Filter() {
-        override fun performFiltering(query: CharSequence?): FilterResults {
-            val results = FilterResults()
-
-            if (query.isNullOrEmpty()) {
-                results.values = list
-                results.count = list.size
-            } else {
-                val queryInt = query.toString().toInt()
-                val filteredList = mutableListOf<Reviewable>()
-                filteredList.addAll(list.filter {
-                    (it as Course).credits == queryInt
-                })
-                results.values = filteredList
-                results.count = filteredList.size
-            }
-
-            return results
-        }
-
-        override fun publishResults(query: CharSequence?, results: FilterResults?) {
-            submitList(results!!.values as MutableList<Reviewable>)
-        }
-
+    private val courseCreditsFilter = getFilterMethod { query ->
+        val queryInt = query.toString().toInt()
+        val filteredList = mutableListOf<Reviewable>()
+        filteredList.addAll(list.filter {
+            (it as Course).credits == queryInt
+        })
+        filteredList
     }
-
 }
 
 object ReviewableDiffCallback : DiffUtil.ItemCallback<Reviewable>() {
