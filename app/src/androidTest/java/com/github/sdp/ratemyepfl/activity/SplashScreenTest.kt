@@ -40,7 +40,7 @@ class SplashScreenTest {
         FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
-        onView(withId(R.id.visitor_button)).perform(click())
+        onView(withId(R.id.visitorButton)).perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         scenario.close()
         release()
@@ -52,7 +52,7 @@ class SplashScreenTest {
         FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
-        onView(withId(R.id.login_button)).perform(click())
+        onView(withId(R.id.loginButton)).perform(click())
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, Intent())
         intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
         intended(toPackage("com.github.sdp.ratemyepfl"))

@@ -22,7 +22,7 @@ class ClassroomsAdapter(private val onClick: (Classroom) -> Unit) :
     inner class RoomViewHolder(roomView: View) :
         RecyclerView.ViewHolder(roomView) {
 
-        private val roomTextView: TextView = roomView.findViewById(R.id.room_id)
+        private val roomTextView: TextView = roomView.findViewById(R.id.roomId)
         private val reviewBut: Button = roomView.findViewById(R.id.reviewRoomButton)
         private var currentRoom: Classroom? = null
 

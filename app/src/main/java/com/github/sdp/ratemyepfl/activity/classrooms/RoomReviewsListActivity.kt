@@ -25,7 +25,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_room_reviews_list)
 
         val reviewsAdapter = RoomReviewsAdapter()
-        val recyclerView: RecyclerView = findViewById(R.id.review_recycler_view)
+        val recyclerView: RecyclerView = findViewById(R.id.reviewRecyclerView)
         recyclerView.adapter = reviewsAdapter
 
         // Display the reviews of the classroom

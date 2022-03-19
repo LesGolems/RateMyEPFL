@@ -41,9 +41,9 @@ class AddReviewActivityTest {
         init()
 
         val comment = "Good"
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
@@ -56,7 +56,7 @@ class AddReviewActivityTest {
         init()
 
         onView(withId(R.id.reviewRatingBar)).perform(click())
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
@@ -69,9 +69,9 @@ class AddReviewActivityTest {
 
         val comment = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
@@ -85,11 +85,11 @@ class AddReviewActivityTest {
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.add_review_title)).perform(typeText(title))
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
@@ -106,11 +106,11 @@ class AddReviewActivityTest {
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.add_review_title)).perform(typeText(title))
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
         release()

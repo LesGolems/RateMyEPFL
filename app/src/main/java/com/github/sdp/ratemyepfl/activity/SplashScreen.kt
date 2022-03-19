@@ -21,8 +21,8 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         supportActionBar?.hide()
 
-        val mLoginButton = findViewById<Button>(R.id.login_button)
-        val mVisitorButton = findViewById<Button>(R.id.visitor_button)
+        val mLoginButton = findViewById<Button>(R.id.loginButton)
+        val mVisitorButton = findViewById<Button>(R.id.visitorButton)
 
         mLoginButton.setOnClickListener {
             auth.signIn(this)

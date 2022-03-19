@@ -26,7 +26,7 @@ class ClassroomsListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_classrooms_list)
 
         roomsAdapter = ClassroomsAdapter { room -> displayRoomReviews(room) }
-        recyclerView = findViewById(R.id.rooms_recycler_view)
+        recyclerView = findViewById(R.id.roomsRecyclerView)
         recyclerView.adapter = roomsAdapter
 
         viewModel.getRooms().observe(this) {

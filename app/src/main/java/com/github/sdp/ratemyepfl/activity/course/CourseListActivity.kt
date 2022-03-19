@@ -28,7 +28,7 @@ class CourseListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_course_list)
 
         coursesAdapter = CoursesAdapter { course -> displayCourseReviews(course) }
-        recyclerView = findViewById(R.id.courses_recycler_view)
+        recyclerView = findViewById(R.id.coursesRecyclerView)
         recyclerView.adapter = coursesAdapter
 
         viewModel.getCourses().observe(this) {

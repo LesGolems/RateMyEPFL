@@ -23,7 +23,7 @@ class CourseListActivityTest {
 
     @Test
     fun isRecyclerViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.courses_recycler_view))
+        onView(withId(R.id.coursesRecyclerView))
             .check(matches(isDisplayed()))
     }
 

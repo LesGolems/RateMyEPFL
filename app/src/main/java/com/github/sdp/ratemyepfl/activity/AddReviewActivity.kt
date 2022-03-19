@@ -10,7 +10,6 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
@@ -56,14 +55,14 @@ class AddReviewActivity : AppCompatActivity() {
 
         reviewableId = intent.getStringExtra(EXTRA_ITEM_REVIEWED)
 
-        findViewById<Button>(R.id.done_button).setOnClickListener {
+        findViewById<Button>(R.id.doneButton).setOnClickListener {
             addReview()
         }
 
         ratingBar = findViewById(R.id.reviewRatingBar)
-        comment = findViewById(R.id.add_review_comment)
-        title = findViewById(R.id.add_review_title)
-        reviewIndicationTitle = findViewById(R.id.review_title)
+        comment = findViewById(R.id.addReviewComment)
+        title = findViewById(R.id.addReviewTitle)
+        reviewIndicationTitle = findViewById(R.id.reviewTitle)
         scoreTextView = findViewById(R.id.overallScoreTextView)
 
 

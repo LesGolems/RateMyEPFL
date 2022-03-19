@@ -31,7 +31,7 @@ class ClassroomsListActivityTest {
 
     @Test
     fun isRecycleViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.rooms_recycler_view))
+        onView(withId(R.id.roomsRecyclerView))
             .check(matches(isDisplayed()))
     }
 

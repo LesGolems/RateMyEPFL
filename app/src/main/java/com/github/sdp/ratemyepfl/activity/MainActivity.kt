@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mUser_text = findViewById(R.id.user_text)
+        mUser_text = findViewById(R.id.userText)
         mLogoutButton = findViewById(R.id.logoutButton)
         checkUser()
 
