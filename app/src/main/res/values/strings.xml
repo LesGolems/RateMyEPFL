@@ -26,4 +26,9 @@
     <string name="visitor">Visitor</string>
     <string name="epfl_logo_description">epfl_logo</string>
     <string name="add_review_button_description">add_review_button</string>
+    <string name="review_text_button">REVIEW</string>
+    <string name="title_review_list">Title</string>
+    <string name="comment_review_list">Comment</string>
+    <string name="date_review_list">Date</string>
+    <string name="rate_review_list">Rate</string>
 </resources>
