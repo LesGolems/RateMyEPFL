@@ -45,6 +45,7 @@ class AddReviewActivity : AppCompatActivity() {
     private lateinit var title: TextInputEditText
     private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
+    private lateinit var doneButton: Button
     private var reviewableId: String? = null
 
     val viewModel: AddReviewViewModel by viewModels()
@@ -55,16 +56,12 @@ class AddReviewActivity : AppCompatActivity() {
 
         reviewableId = intent.getStringExtra(EXTRA_ITEM_REVIEWED)
 
-        findViewById<Button>(R.id.doneButton).setOnClickListener {
-            addReview()
-        }
-
+        doneButton = findViewById(R.id.doneButton)
         ratingBar = findViewById(R.id.reviewRatingBar)
         comment = findViewById(R.id.addReviewComment)
         title = findViewById(R.id.addReviewTitle)
         reviewIndicationTitle = findViewById(R.id.reviewTitle)
         scoreTextView = findViewById(R.id.overallScoreTextView)
-
 
         viewModel.rating.observe(this) { rating ->
             scoreTextView.text =
@@ -72,6 +69,16 @@ class AddReviewActivity : AppCompatActivity() {
                     R.string.overall_score_review,
                     rating?.toString() ?: NO_GRADE_MESSAGE
                 )
+        }
+
+        reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)
+
+        setupListeners()
+    }
+
+    private fun setupListeners(){
+        doneButton.setOnClickListener {
+            addReview()
         }
 
         ratingBar.setOnRatingBarChangeListener { _, float, _ ->
@@ -86,12 +93,9 @@ class AddReviewActivity : AppCompatActivity() {
         title.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
             viewModel.setTitle(text?.toString())
         })
-
-        reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)
     }
 
-    /* The onClick action for the done button. Closes the activity and returns the room review grade
-    and comment as part of the intent. If the grade or comment are missing, the result is set
+    /* The onClick action for the done button. Closes the activity and returns OK or Canceled. If the grade or comment are missing, the result is set
     to cancelled. */
     private fun addReview() {
         val resultIntent = Intent()
