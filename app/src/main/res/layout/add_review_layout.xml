@@ -7,12 +7,12 @@
     android:paddingRight="16dp">
 
     <TextView
-        android:id="@+id/room_review_title"
+        android:id="@+id/review_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:text="@string/title_review_classroom"
+        android:text="@string/title_review"
         android:typeface="monospace"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline4" />
@@ -21,14 +21,14 @@
         android:id="@+id/overallScoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/overall_score_classroom_review"
+        android:text="@string/overall_score_review"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"/>
 
     <RatingBar
-        android:id="@+id/roomReviewRatingBar"
+        android:id="@+id/reviewRatingBar"
         style="@android:style/Widget.Material.RatingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:hint="@string/room_comment_edit_text"
+        android:hint="@string/comment_edit_text"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 

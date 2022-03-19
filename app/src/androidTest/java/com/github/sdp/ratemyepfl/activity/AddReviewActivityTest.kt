@@ -55,7 +55,7 @@ class AddReviewActivityTest {
     fun nullCommentCancelsActivity() {
         init()
 
-        onView(withId(R.id.roomReviewRatingBar)).perform(click())
+        onView(withId(R.id.reviewRatingBar)).perform(click())
         onView(withId(R.id.done_button)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
@@ -68,7 +68,7 @@ class AddReviewActivityTest {
         init()
 
         val comment = "Good"
-        onView(withId(R.id.roomReviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
+        onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.add_review_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
@@ -86,7 +86,7 @@ class AddReviewActivityTest {
         init()
 
         val comment = "Good"
-        onView(withId(R.id.roomReviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
+        onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.add_review_comment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.done_button)).perform(click())
