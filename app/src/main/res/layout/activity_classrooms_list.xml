@@ -7,7 +7,7 @@
     tools:context=".activity.classrooms.ClassroomsListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rooms_recycler_view"
+        android:id="@+id/roomsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"/>

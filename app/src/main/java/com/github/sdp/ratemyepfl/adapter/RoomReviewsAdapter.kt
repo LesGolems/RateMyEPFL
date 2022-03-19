@@ -21,11 +21,11 @@ class RoomReviewsAdapter :
         RecyclerView.ViewHolder(reviewView) {
 
         private val gradeTextView: TextView =
-            reviewView.findViewById(R.id.room_review_grade)
+            reviewView.findViewById(R.id.roomReviewGrade)
         private val commentTextView: TextView =
-            reviewView.findViewById(R.id.room_review_comment)
+            reviewView.findViewById(R.id.roomReviewComment)
         private val dateTextView : TextView =
-            reviewView.findViewById(R.id.room_review_date)
+            reviewView.findViewById(R.id.roomReviewDate)
         private var currentReview: Review? = null
 
 

@@ -51,7 +51,7 @@ class MainActivityTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
 
         val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
-        onView(withId(R.id.user_text)).check(matches(withText("user@email.com")))
+        onView(withId(R.id.userText)).check(matches(withText("user@email.com")))
         scenario.close()
     }
 
@@ -72,7 +72,7 @@ class MainActivityTest {
         FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
         val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
-        onView(withId(R.id.user_text)).check(matches(withText("Visitor")))
+        onView(withId(R.id.userText)).check(matches(withText("Visitor")))
         scenario.close()
     }
 

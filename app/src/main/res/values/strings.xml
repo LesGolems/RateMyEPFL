@@ -31,4 +31,5 @@
     <string name="comment_review_list">Comment</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
+    <string name="title_edit_text">Give a title to your review</string>
 </resources>

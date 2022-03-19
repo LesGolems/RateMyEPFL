@@ -41,9 +41,9 @@ class AddReviewActivityTest {
         init()
 
         val comment = "Good"
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
 
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
@@ -56,7 +56,22 @@ class AddReviewActivityTest {
         init()
 
         onView(withId(R.id.reviewRatingBar)).perform(click())
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
+
+        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+
+        release()
+    }
+
+    @Test
+    fun nullTitleCancelsActivity() {
+        init()
+
+        val comment = "Good"
+        onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
@@ -68,10 +83,13 @@ class AddReviewActivityTest {
         init()
 
         val comment = "Good"
+        val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
 
         assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
 
@@ -79,20 +97,22 @@ class AddReviewActivityTest {
     }
 
     @Test
-    fun nonNullGradeAndCommentsGivesOK() {
+    fun nonNullArgumentsGivesOK() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "ID")
         val scenario: ActivityScenario<AddReviewActivity> = ActivityScenario.launch(intent)
         init()
 
         val comment = "Good"
+        val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
 
-        assertThat(scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
-
+        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
         release()
         scenario.close()
     }

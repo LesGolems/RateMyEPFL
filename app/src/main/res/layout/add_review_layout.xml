@@ -7,7 +7,7 @@
     android:paddingRight="16dp">
 
     <TextView
-        android:id="@+id/review_title"
+        android:id="@+id/reviewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
@@ -47,12 +47,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:hint="@string/title_edit_text"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addReviewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="@string/comment_edit_text"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_review_comment"
+            android:id="@+id/addReviewComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine" />
@@ -60,7 +76,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/done_button"
+        android:id="@+id/doneButton"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="240dp"
         android:layout_height="wrap_content"

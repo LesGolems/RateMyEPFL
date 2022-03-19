@@ -37,10 +37,10 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/user_text" />
+        app:layout_constraintBottom_toTopOf="@+id/userText" />
 
     <TextView
-        android:id="@+id/user_text"
+        android:id="@+id/userText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"

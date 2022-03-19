@@ -42,6 +42,7 @@ class AddReviewActivity : AppCompatActivity() {
 
     private lateinit var ratingBar: RatingBar
     private lateinit var comment: TextInputEditText
+    private lateinit var title: TextInputEditText
     private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
     private var reviewableId: String? = null
@@ -54,13 +55,14 @@ class AddReviewActivity : AppCompatActivity() {
 
         reviewableId = intent.getStringExtra(EXTRA_ITEM_REVIEWED)
 
-        findViewById<Button>(R.id.done_button).setOnClickListener {
+        findViewById<Button>(R.id.doneButton).setOnClickListener {
             addReview()
         }
 
         ratingBar = findViewById(R.id.reviewRatingBar)
-        comment = findViewById(R.id.add_review_comment)
-        reviewIndicationTitle = findViewById(R.id.review_title)
+        comment = findViewById(R.id.addReviewComment)
+        title = findViewById(R.id.addReviewTitle)
+        reviewIndicationTitle = findViewById(R.id.reviewTitle)
         scoreTextView = findViewById(R.id.overallScoreTextView)
 
 
@@ -79,6 +81,10 @@ class AddReviewActivity : AppCompatActivity() {
 
         comment.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
             viewModel.setComment(text?.toString())
+        })
+
+        title.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
+            viewModel.setTitle(text?.toString())
         })
 
         reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)

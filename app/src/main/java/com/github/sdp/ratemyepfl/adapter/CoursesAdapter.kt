@@ -22,7 +22,7 @@ class CoursesAdapter(private val onClick: (Course) -> Unit) :
     inner class CourseViewHolder(courseView: View) :
         RecyclerView.ViewHolder(courseView) {
 
-        private val courseTextView: TextView = courseView.findViewById(R.id.course_id)
+        private val courseTextView: TextView = courseView.findViewById(R.id.courseId)
         private var currentCourse: Course? = null
 
         init {

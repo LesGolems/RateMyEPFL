@@ -34,6 +34,12 @@ class AddReviewViewModel @Inject constructor(
     }
 
     /**
+     * Set the title entered by the user
+     * @param title: title entered by the user
+     */
+    fun setTitle(title: String?) = this.title.postValue(title)
+
+    /**
      * Set the comment entered by the user
      * @param comment: comment entered by the user
      */
@@ -47,13 +53,14 @@ class AddReviewViewModel @Inject constructor(
     fun submitReview(reviewableId : String?) : Boolean{
         val rating = rating.value
         val comment = comment.value
+        val title = title.value
         val date = date ?: LocalDate.now()
 
         // For now title is empty, as we don't have an input for it in the UI
-        if (rating != null && comment != null && reviewableId != null) {
+        if (rating != null && comment != null && title != null && reviewableId != null) {
             val review = Review.Builder()
                             .setRating(rating)
-                            .setTitle("")
+                            .setTitle(title)
                             .setComment(comment)
                             .setReviewableID(reviewableId)
                             .setDate(date)
