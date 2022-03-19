@@ -49,7 +49,7 @@ class ClassroomsListActivity : AppCompatActivity() {
     /* Opens RoomReviewsActivity when RecyclerView item is clicked. */
     private fun displayRoomReviews(room: Classroom) {
         val intent = Intent(this, RoomReviewsListActivity::class.java)
-        intent.putExtra(EXTRA_CLASSROOMS_JSON, Json.encodeToString(room))
+        intent.putExtra(RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON, Json.encodeToString(room))
         startActivity(intent)
     }
 
@@ -71,9 +71,5 @@ class ClassroomsListActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    companion object {
-        const val EXTRA_CLASSROOMS_JSON = "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
     }
 }

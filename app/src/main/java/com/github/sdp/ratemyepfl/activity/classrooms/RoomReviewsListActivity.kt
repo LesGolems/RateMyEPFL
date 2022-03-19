@@ -7,10 +7,11 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
-import com.github.sdp.ratemyepfl.adapter.RoomReviewsAdapter
+import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
@@ -19,17 +20,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
+    companion object {
+        const val EXTRA_CLASSROOMS_JSON = "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
+    }
+
     private val viewModel by viewModels<RoomReviewsListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_room_reviews_list)
+        setContentView(R.layout.activity_review_list)
 
-        val reviewsAdapter = RoomReviewsAdapter()
+        val reviewsAdapter = ReviewAdapter()
         val recyclerView: RecyclerView = findViewById(R.id.reviewRecyclerView)
         recyclerView.adapter = reviewsAdapter
 
-        // Display the reviews of the classroom
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        )
 
         viewModel.getReviews().observe(this) {
             it?.let {
@@ -38,7 +45,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         }
 
         // Floating action button for adding reviews
-        val fab: View = findViewById(R.id.fab)
+        val fab: View = findViewById(R.id.startCourseReviewFAB)
         viewModel.room?.let { room ->
             fab.setOnClickListener {
                 fabOnClick(room)

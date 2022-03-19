@@ -49,7 +49,7 @@ class ClassroomsListActivityTest {
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
-
+    /*
     @Test
     fun hasExtraWhenUserClicksOnReviewButton() {
         init()
@@ -62,7 +62,7 @@ class ClassroomsListActivityTest {
 
         intended(hasExtra(ClassroomsListActivity.EXTRA_ROOM_ID, "CM3"))
         release()
-    }
+    }*/
 
     private fun clickOnViewChild(viewId: Int) = object : ViewAction {
         override fun getConstraints() = null

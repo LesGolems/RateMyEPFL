@@ -23,7 +23,7 @@ class CourseReviewListActivityTest {
 
     @Test
     fun isCoursesListViewViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.reviewsListView))
+        onView(withId(R.id.reviewRecyclerView))
             .check(matches(isDisplayed()))
     }
 

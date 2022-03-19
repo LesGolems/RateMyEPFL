@@ -1,12 +1,7 @@
 package com.github.sdp.ratemyepfl.utils
 
-import android.content.Context
 import android.view.Menu
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
-import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 
 class ListActivityUtils {
