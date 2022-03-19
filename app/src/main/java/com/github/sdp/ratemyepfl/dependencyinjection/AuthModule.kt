@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DependencyInjectionModule {
+abstract class AuthModule {
 
     @Singleton
     @Binds
