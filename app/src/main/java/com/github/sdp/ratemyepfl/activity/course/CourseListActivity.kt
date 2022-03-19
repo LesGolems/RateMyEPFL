@@ -6,13 +6,13 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.utils.OptionMenuUtils
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
@@ -33,6 +33,10 @@ class CourseListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.reviewableRecyclerView)
         recyclerView.adapter = coursesAdapter
 
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        )
+
         viewModel.getCourses().observe(this) {
             it?.let {
                 coursesAdapter.setData(it as MutableList<Reviewable>)
@@ -49,7 +53,7 @@ class CourseListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.courses_options_menu, menu)
-        OptionMenuUtils.setUpSearchView(menu, coursesAdapter, R.id.courseSearchView)
+        ListActivityUtils.setUpSearchView(menu, coursesAdapter, R.id.courseSearchView)
         return super.onCreateOptionsMenu(menu)
     }
 

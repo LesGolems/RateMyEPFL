@@ -6,17 +6,18 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.utils.OptionMenuUtils.Companion.setUpSearchView
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils.Companion.setUpSearchView
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+
 
 @AndroidEntryPoint
 class ClassroomsListActivity : AppCompatActivity() {
@@ -32,6 +33,10 @@ class ClassroomsListActivity : AppCompatActivity() {
         roomsAdapter = ReviewableAdapter { room -> displayRoomReviews(room as Classroom) }
         recyclerView = findViewById(R.id.reviewableRecyclerView)
         recyclerView.adapter = roomsAdapter
+
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        )
 
         viewModel.getRooms().observe(this) {
             it?.let {
