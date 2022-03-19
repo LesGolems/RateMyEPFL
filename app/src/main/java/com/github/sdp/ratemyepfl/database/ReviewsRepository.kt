@@ -38,7 +38,7 @@ class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repo
     }
 
     fun remove(value: Review) {
-        reviewsCollection().document(value.comment).delete()
+        reviewsCollection().document(value.title).delete()
     }
 
     private fun reviewsCollection(): CollectionReference {

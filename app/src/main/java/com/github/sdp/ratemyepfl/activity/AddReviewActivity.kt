@@ -10,6 +10,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
@@ -42,6 +43,7 @@ class AddReviewActivity : AppCompatActivity() {
 
     private lateinit var ratingBar: RatingBar
     private lateinit var comment: TextInputEditText
+    private lateinit var title: TextInputEditText
     private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
     private var reviewableId: String? = null
@@ -60,6 +62,7 @@ class AddReviewActivity : AppCompatActivity() {
 
         ratingBar = findViewById(R.id.reviewRatingBar)
         comment = findViewById(R.id.add_review_comment)
+        title = findViewById(R.id.add_review_title)
         reviewIndicationTitle = findViewById(R.id.review_title)
         scoreTextView = findViewById(R.id.overallScoreTextView)
 
@@ -79,6 +82,10 @@ class AddReviewActivity : AppCompatActivity() {
 
         comment.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
             viewModel.setComment(text?.toString())
+        })
+
+        title.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
+            viewModel.setTitle(text?.toString())
         })
 
         reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)
