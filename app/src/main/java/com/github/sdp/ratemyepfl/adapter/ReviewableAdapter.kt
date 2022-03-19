@@ -38,7 +38,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         /* Bind room id. */
         fun bind(reviewable: Reviewable) {
             currentReviewable = reviewable
-            reviewableTextView.text = reviewable.id
+            reviewableTextView.text = reviewable.toString()
         }
     }
 
@@ -79,7 +79,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
                 val queryLower = query.toString().lowercase()
                 val filteredList = mutableListOf<Reviewable>()
                 filteredList.addAll(list.filter {
-                    it.id.lowercase().startsWith(queryLower)
+                    it.toString().lowercase().contains(queryLower)
                 })
                 results.values = filteredList
                 results.count = filteredList.size

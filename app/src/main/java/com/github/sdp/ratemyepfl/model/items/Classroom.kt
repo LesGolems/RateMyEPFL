@@ -30,4 +30,8 @@ data class Classroom(
         private const val TAG = "Classroom"
     }
 
+    override fun toString(): String {
+        return "$id"
+    }
+
 }
