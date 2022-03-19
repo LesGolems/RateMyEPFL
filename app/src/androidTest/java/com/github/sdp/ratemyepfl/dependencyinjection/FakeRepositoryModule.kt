@@ -16,7 +16,7 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCoursesRepository(repo: FakeItemsRepository): ItemsRepositoryInterface
+    abstract fun provideItemRepository(repo: FakeItemsRepository): ItemsRepositoryInterface
 
     @Singleton
     @Binds
