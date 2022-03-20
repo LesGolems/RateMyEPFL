@@ -29,7 +29,7 @@ class RoomReviewsListViewModel @Inject constructor(
 
     private fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(room!!.id)
+            reviewsLiveData.value = reviewsRepository.getByReviewableId(room?.id)
         }
     }
 
