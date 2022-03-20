@@ -14,7 +14,10 @@ import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,12 +48,19 @@ class RoomReviewsListActivity : AppCompatActivity() {
         }
 
         // Floating action button for adding reviews
-        val fab: View = findViewById(R.id.startCourseReviewFAB)
+        val fab: ExtendedFloatingActionButton = findViewById(R.id.startCourseReviewFAB)
         viewModel.room?.let { room ->
             fab.setOnClickListener {
                 fabOnClick(room)
             }
         }
+
+        recyclerView.setOnScrollListener(
+            ListActivityUtils.createOnScrollListener(
+                { fab.extend() },
+                { fab.shrink() }
+            )
+        )
     }
 
     /* Adds review */

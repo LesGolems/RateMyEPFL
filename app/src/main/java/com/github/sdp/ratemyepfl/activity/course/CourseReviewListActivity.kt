@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.activity.course
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AbsListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,9 @@ import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils.Companion.createOnScrollListener
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -47,12 +50,20 @@ class CourseReviewListActivity : AppCompatActivity() {
         }
 
         // Floating action button for adding reviews
-        val fab: View = findViewById(R.id.startCourseReviewFAB)
+        val fab: ExtendedFloatingActionButton = findViewById(R.id.startCourseReviewFAB)
         viewModel.course?.let { course ->
             fab.setOnClickListener {
                 startReview(course)
             }
         }
+
+        // When the users scroll the list of reviews, the button shrinks
+        recyclerView.setOnScrollListener(
+            createOnScrollListener(
+                { fab.extend() },
+                { fab.shrink() }
+            )
+        )
     }
 
     private val resultLauncher =
@@ -67,5 +78,4 @@ class CourseReviewListActivity : AppCompatActivity() {
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.id)
         resultLauncher.launch(intent)
     }
-
 }

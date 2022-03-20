@@ -68,7 +68,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         return reviewableSearchFilter
     }
 
-    fun getFilterMethod(filter: (CharSequence?) -> List<Reviewable>): Filter {
+    private fun getFilterMethod(filter: (CharSequence?) -> List<Reviewable>): Filter {
         return object : Filter() {
             override fun performFiltering(query: CharSequence?): FilterResults {
                 val results = FilterResults()

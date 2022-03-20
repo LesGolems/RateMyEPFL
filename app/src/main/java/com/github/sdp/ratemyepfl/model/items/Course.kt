@@ -22,8 +22,6 @@ data class Course(
      * For compatibility issues with the current code and the data format in the database
      */
     val name: String = title
-    val faculty: String = section
-    val courseCode: String = id
 
     constructor(name: String, faculty: String, teacher: String, credits: Int, courseCode: String)
             : this(name, faculty, teacher, credits, courseCode, 0, 0.0)
@@ -35,11 +33,11 @@ data class Course(
     companion object {
         fun DocumentSnapshot.toCourse() : Course? {
             return try {
-                val name = getString("title")!!
-                //val faculty = getString("faculty")!!
+                val title = getString("title")!!
+                val section = getString("section")!!
                 val teacher = getString("teacher")!!
-                //val credits = getString("credits")?.toInt()!!
-                Course(name, "", teacher, 4, id)
+                val credits = getString("credits")?.toInt()!!
+                Course(title, section, teacher, credits, id)
             } catch (e: Exception){
                 null
             }
