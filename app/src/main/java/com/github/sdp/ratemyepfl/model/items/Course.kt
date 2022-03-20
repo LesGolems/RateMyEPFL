@@ -18,14 +18,6 @@ data class Course(
     val language: String? = null
 ) : Reviewable() {
 
-    /**
-     * For compatibility issues with the current code and the data format in the database
-     */
-    val name: String = title
-
-    constructor(name: String, faculty: String, teacher: String, credits: Int, courseCode: String)
-            : this(name, faculty, teacher, credits, courseCode, 0, 0.0)
-
     override fun toString(): String {
         return "$id $title"
     }

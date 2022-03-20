@@ -11,18 +11,11 @@ data class Classroom(
     val type: String? = null,
 ) : Reviewable()
 {
-    val name: String = type.orEmpty()
-
-    constructor(id: String, name: String)
-        : this(id, 0, 0.0, name)
-
     // This converts a json object from firebase into a Classroom object
     companion object {
         fun DocumentSnapshot.toClassroom() : Classroom? {
             return try {
-                //val id = getString("id")!!
-                //val name = getString("name")!!
-                Classroom(id, "")
+                Classroom(id)
             } catch (e: Exception){
                 null
             }
