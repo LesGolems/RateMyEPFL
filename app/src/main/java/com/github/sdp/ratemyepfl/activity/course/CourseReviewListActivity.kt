@@ -2,22 +2,22 @@ package com.github.sdp.ratemyepfl.activity.course
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.AbsListView
-import android.widget.AbsListView.OnScrollListener
-import android.widget.ListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.adapter.CourseReviewAdapter
+import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils.Companion.createOnScrollListener
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 /**
  * Activity that displays the review of a given course
@@ -29,44 +29,42 @@ class CourseReviewListActivity : AppCompatActivity() {
         const val EXTRA_COURSE_JSON: String = "com.github.sdp.ratemyepfl.activity.course_json"
     }
 
-    private lateinit var addReviewFAB: ExtendedFloatingActionButton
-
-    private lateinit var reviewsView: ListView
     private val viewModel by viewModels<CourseReviewListViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_course_review_list)
+        setContentView(R.layout.activity_review_list)
 
-        addReviewFAB = findViewById(R.id.startCourseReviewFAB)
+        val reviewsAdapter = ReviewAdapter()
+        val recyclerView: RecyclerView = findViewById(R.id.reviewRecyclerView)
+        recyclerView.adapter = reviewsAdapter
 
-        // If a course is given, we can review it
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        )
+
+        viewModel.getReviews().observe(this) {
+            it?.let {
+                reviewsAdapter.submitList(it as MutableList<Review>)
+            }
+        }
+
+        // Floating action button for adding reviews
+        val fab: ExtendedFloatingActionButton = findViewById(R.id.startCourseReviewFAB)
         viewModel.course?.let { course ->
-            addReviewFAB.setOnClickListener {
+            fab.setOnClickListener {
                 startReview(course)
             }
         }
 
-        reviewsView = findViewById(R.id.reviewsListView)
-
         // When the users scroll the list of reviews, the button shrinks
-        reviewsView.setOnScrollListener(
+        recyclerView.setOnScrollListener(
             createOnScrollListener(
-                { addReviewFAB.extend() },
-                { addReviewFAB.shrink() }
+                { fab.extend() },
+                { fab.shrink() }
             )
         )
-
-        // Display the reviews of the courses
-        viewModel.getReviews().observe(this) {
-            it?.let {
-                val reviewAdapter = CourseReviewAdapter(this, R.layout.list_reviews_row,
-                    it)
-                reviewsView.adapter = reviewAdapter
-            }
-        }
     }
-
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -80,27 +78,4 @@ class CourseReviewListActivity : AppCompatActivity() {
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.id)
         resultLauncher.launch(intent)
     }
-
-    private fun createOnScrollListener(
-        onScrollUp: () -> Unit,
-        onScrollDown: () -> Unit
-    ): OnScrollListener =
-        object : OnScrollListener {
-            private var lastFirstItem = 0
-            override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
-
-            }
-
-            override fun onScroll(p0: AbsListView?, firstItem: Int, p2: Int, p3: Int) {
-                if (firstItem < lastFirstItem) {
-                    onScrollUp()
-                } else if (firstItem > lastFirstItem) {
-                    onScrollDown()
-                }
-
-                lastFirstItem = firstItem
-            }
-
-        }
-
 }

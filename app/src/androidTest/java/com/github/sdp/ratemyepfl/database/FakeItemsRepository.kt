@@ -10,39 +10,39 @@ class FakeItemsRepository @Inject constructor(): ItemsRepositoryInterface {
     override suspend fun getCourses(): List<Course?> {
         return listOf(
             Course(
-                name="Software development project",
-                faculty="IC",
+                title="Software development project",
+                section="IC",
                 teacher="George Candea",
                 credits=4,
-                courseCode="CS-306"
+                id="CS-306"
             ),
             Course(
-                name="Calcul quantique",
-                faculty="IC",
+                title="Calcul quantique",
+                section="IC",
                 teacher="Nicolas Macris",
                 credits=4,
-                courseCode="CS-308"
+                id="CS-308"
             ),
             Course(
-                name="Intelligence artificielle",
-                faculty="IC",
+                title="Intelligence artificielle",
+                section="IC",
                 teacher="Boi Faltings",
                 credits=4,
-                courseCode="CS-330"
+                id="CS-330"
             ),
             Course(
-                name="Projet de systems-on-chip",
-                faculty="IC",
+                title="Projet de systems-on-chip",
+                section="IC",
                 teacher="René Beuchat",
                 credits=3,
-                courseCode="CS-309"
+                id="CS-309"
             ),
             Course(
-                name="Introduction to database systems",
-                faculty="IC",
+                title="Introduction to database systems",
+                section="IC",
                 teacher="Christoph Koch",
                 credits=4,
-                courseCode="CS-332"
+                id="CS-332"
             )
         )
     }
@@ -52,19 +52,15 @@ class FakeItemsRepository @Inject constructor(): ItemsRepositoryInterface {
         return listOf(
             Classroom(
                 id = "CM3",
-                name = "Salle"
             ),
             Classroom(
                 id = "CE-1515",
-                name = "Salle polyvalente"
             ),
             Classroom(
                 id = "AAC 2 31",
-                name = "Salle de cours"
             ),
             Classroom(
                 id = "ELA 2",
-                name = "Salle de cours"
             )
         )
     }
