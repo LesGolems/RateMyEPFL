@@ -10,9 +10,9 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [DependencyInjectionModule::class]
+    replaces = [AuthModule::class]
 )
-abstract class FakeDependencyInjectionModule {
+abstract class FakeAuthModule {
 
     @Singleton
     @Binds

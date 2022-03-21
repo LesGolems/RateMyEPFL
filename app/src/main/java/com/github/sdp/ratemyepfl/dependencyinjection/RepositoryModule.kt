@@ -13,11 +13,7 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseRepo(repo: CoursesRepository): CoursesRepositoryInterface
-
-    @Singleton
-    @Binds
-    abstract fun provideClassroomRepo(repo: ClassroomsRepository): ClassroomsRepositoryInterface
+    abstract fun provideItemRepo(repo: ItemsRepository): ItemsRepositoryInterface
 
     @Singleton
     @Binds
