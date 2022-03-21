@@ -3,34 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ReviewFragment">
+    tools:context=".fragment.navigation.ReviewFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/review_tab_layout"
+        android:id="@+id/reviewTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/courseTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Courses" />
+            android:text="@string/course_tab_item_title" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/classroomTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Classrooms" />
+            android:text="@string/classroom_tab_item_title" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/restaurantTabItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Restaurants" />
+            android:text="@string/restaurant_tab_item_title" />
 
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/reviewTabFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/review_tab_layout"/>
+        android:layout_below="@id/reviewTabLayout"/>
 
 
 </RelativeLayout>

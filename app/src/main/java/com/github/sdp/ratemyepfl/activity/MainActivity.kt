@@ -2,9 +2,6 @@ package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -14,11 +11,10 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.fragment.EventFragment
-import com.github.sdp.ratemyepfl.fragment.HomeFragment
-import com.github.sdp.ratemyepfl.fragment.MapFragment
-import com.github.sdp.ratemyepfl.fragment.ReviewFragment
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -81,10 +77,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun manageNavigation(id: Int) =
         when (id) {
-            R.id.homeNavItem -> swapFragment<HomeFragment>("home")
-            R.id.reviewNavItem -> swapFragment<ReviewFragment>("review")
-            R.id.eventNavItem -> swapFragment<EventFragment>("event")
-            R.id.mapNavItem -> swapFragment<MapFragment>("map")
+            R.id.homeNavItem -> swapFragment<HomeFragment>("nav")
+            R.id.reviewNavItem -> swapFragment<ReviewFragment>("nav")
+            R.id.eventNavItem -> swapFragment<EventFragment>("nav")
+            R.id.mapNavItem -> swapFragment<MapFragment>("nav")
             else -> false
         }
 
@@ -105,10 +101,7 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun displayCourses() {
-        val intent = Intent(this, CourseListActivity::class.java)
-        startActivity(intent)
-    }
+
 
     /*
     private fun setUpButtons() {

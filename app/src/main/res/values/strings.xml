@@ -38,4 +38,9 @@
     <string name="map_nav_title">Map</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="course_tab_item_title">Courses</string>
+    <string name="classroom_tab_item_title">Classrooms</string>
+    <string name="restaurant_tab_item_title">Restaurants</string>
+    <string name="button_course_tab_fragment">Display courses</string>
+    <string name="button_classroom_tab_fragment">Display classrooms</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.fragment
+package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
