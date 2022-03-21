@@ -3,12 +3,12 @@ package com.github.sdp.ratemyepfl.activity.classrooms
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
@@ -17,7 +17,6 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +27,8 @@ class RoomReviewsListActivity : AppCompatActivity() {
     }
 
     private val viewModel by viewModels<RoomReviewsListViewModel>()
+
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +62,14 @@ class RoomReviewsListActivity : AppCompatActivity() {
                 { fab.shrink() }
             )
         )
+
+        // Vertical swipe refreshes the list of reviews
+        swipeRefresher = findViewById(R.id.swiperefresh)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.refreshReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
+
     }
 
     /* Adds review */
@@ -73,7 +82,8 @@ class RoomReviewsListActivity : AppCompatActivity() {
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // refresh viewModel here
+                // refresh viewmodel
+                viewModel.refreshReviewsList()
             }
         }
 }
