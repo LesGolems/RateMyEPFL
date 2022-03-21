@@ -20,7 +20,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 class MainActivityTest {
-
+    /*
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -75,5 +75,7 @@ class MainActivityTest {
         onView(withId(R.id.userText)).check(matches(withText("Visitor")))
         scenario.close()
     }
+    */
+
 
 }
