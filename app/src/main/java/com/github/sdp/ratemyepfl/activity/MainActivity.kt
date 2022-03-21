@@ -47,17 +47,6 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
     }
 
-    override fun onResume() {
-        super.onResume()
-        checkUser()
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        checkUser()
-    }
-
     private fun setupNavigation() {
 
         // Setup the size of the icons
@@ -119,17 +108,5 @@ class MainActivity : AppCompatActivity() {
 
      */
 
-    private fun checkUser() {
-        /*
-        if (!user.isLoggedIn()) {
-            mLogoutButton.isEnabled = false
-            mUser_text.text = getString(R.string.visitor)
-        } else {
-            mLogoutButton.isEnabled = true
-            mUser_text.text = user.getEmail()
-        }
-
-         */
-    }
 }
 

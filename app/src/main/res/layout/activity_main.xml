@@ -7,9 +7,12 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainActivityFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/activityMainBottomNavigationView"/>
+        android:layout_above="@id/activityMainBottomNavigationView"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/activityMainBottomNavigationView"

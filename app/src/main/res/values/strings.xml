@@ -43,4 +43,7 @@
     <string name="restaurant_tab_item_title">Restaurants</string>
     <string name="button_course_tab_fragment">Display courses</string>
     <string name="button_classroom_tab_fragment">Display classrooms</string>
+    <string name="home_page_title">HOME PAGE</string>
+    <string name="home_page_hello_user_text">Hello %s !</string>
+    <string name="logout_fab_content_description">Logout</string>
 </resources>

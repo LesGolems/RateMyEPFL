@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.navigation.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/homePageTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="HOME PAGE"
-        android:gravity="center"
-        android:textSize="40dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center_horizontal"
+        android:text="@string/home_page_title"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/homePageHelloUserText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/homePageTitle"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_marginTop="64dp"
+        android:text="@string/home_page_hello_user_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homePageTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/homePageConnectionFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/logout_fab_content_description"
+        android:layout_marginTop="16dp"
+        app:backgroundTint="@color/white"
+        app:icon="@drawable/ic_login_black_24dp"
+        app:iconTint="@color/black"
+        android:textColor="@color/black"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homePageHelloUserText" />
+</androidx.constraintlayout.widget.ConstraintLayout>
