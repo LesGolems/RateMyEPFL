@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
-import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantListActivity.Companion.EXTRA_RESTAURANT_JSON
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewListActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Restaurant
