@@ -6,6 +6,7 @@
     <string name="logout">Logout</string>
     <string name="courses">Courses</string>
     <string name="classrooms">Classrooms</string>
+    <string name="map">Map</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="search">Search</string>
     <string name="increasing_order">A-Z</string>

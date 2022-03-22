@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.sdp.ratemyepfl.auth.Authenticator
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
+import com.github.sdp.ratemyepfl.auth.Authenticator
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mCoursesButton: Button
     private lateinit var mUser_text: TextView
     private lateinit var mRoomReviewButton: Button
+    private lateinit var mMapButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         mCoursesButton = findViewById(R.id.coursesButton)
 
         mRoomReviewButton = findViewById(R.id.classroomReviewButton)
+
+        mMapButton = findViewById(R.id.mapButton)
+
         mRoomReviewButton.setOnClickListener {
             startActivity(Intent(this, ClassroomsListActivity::class.java))
         }
@@ -56,6 +60,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun displayMap() {
+        val intent = Intent(this, MapActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun setUpButtons() {
         mLogoutButton.setOnClickListener {
             auth.signOut(applicationContext).addOnCompleteListener {
@@ -67,6 +76,9 @@ class MainActivity : AppCompatActivity() {
             displayCourses()
         }
 
+        mMapButton.setOnClickListener {
+            displayMap()
+        }
     }
 
     private fun checkUser() {
