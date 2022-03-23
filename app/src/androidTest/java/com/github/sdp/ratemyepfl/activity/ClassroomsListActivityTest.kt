@@ -56,20 +56,6 @@ class ClassroomsListActivityTest {
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
-    /*
-    @Test
-    fun hasExtraWhenUserClicksOnReviewButton() {
-        init()
-        onView(withId(R.id.reviewableRecyclerView))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, clickOnViewChild(R.id.reviewableButton)
-                )
-            )
-
-        intended(hasExtra(ClassroomsListActivity.EXTRA_ROOM_ID, "CM3"))
-        release()
-    }*/
 
     @Test
     fun nonEmptySearchQueryChangesCorrectlyTheList() {
@@ -93,11 +79,21 @@ class ClassroomsListActivityTest {
     }
 
     @Test
-    fun nullSearchQueryDisplaysNothing() {
+    fun noSearchResultsDisplaysNothing() {
         openSearchView(R.id.searchView)
         typeQuery("Not a classroom")
         onView(withId(R.id.reviewableRecyclerView)).check(
             matches(not(hasDescendant(withText("CM3"))))
+        )
+        closeSearchView()
+    }
+
+    @Test
+    fun emptySearchQueryDoesNotChangeTheView() {
+        openSearchView(R.id.searchView)
+        typeQuery("")
+        onView(withId(R.id.reviewableRecyclerView)).check(
+            matches(hasDescendant(withText("CM3")))
         )
         closeSearchView()
     }
