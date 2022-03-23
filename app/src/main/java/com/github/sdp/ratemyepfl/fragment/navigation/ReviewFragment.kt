@@ -25,7 +25,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
     private fun setupTabNavigation() {
 
         // Initially set the corresponding tab
-        parentFragmentManager.commit {
+        childFragmentManager.commit {
             val fragment = fromTabToFragment(tabLayout.selectedTabPosition)
             if (fragment != null) {
                 add(
@@ -42,14 +42,14 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
             { tab ->
                 when (tab?.position) {
                     0 -> {
-                        parentFragmentManager.commit {
+                        childFragmentManager.commit {
                             replace<CourseTabFragment>(R.id.reviewTabFragment)
                             setReorderingAllowed(true)
                             addToBackStack("courseTab")
                         }
                     }
                     1 -> {
-                        parentFragmentManager.commit {
+                        childFragmentManager.commit {
                             replace<ClassroomTabFragment>(R.id.reviewTabFragment)
                             setReorderingAllowed(true)
                             addToBackStack("classroomTab")
@@ -61,6 +61,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
             {},
             {}
         ))
+
     }
 
 

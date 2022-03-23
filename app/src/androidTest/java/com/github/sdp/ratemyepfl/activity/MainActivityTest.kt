@@ -1,21 +1,28 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.view.View
+import android.content.Intent
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
+import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matcher
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import java.lang.Thread.sleep
 
 @HiltAndroidTest
 class MainActivityTest {
@@ -26,10 +33,77 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
+    @get:Rule (order = 2)
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Test
-    fun navigateHomePageAddTheCorrectFragment() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(0))
-            .check(matches(isDisplayed()))
+    fun initiallyStartAtHomePage() {
+        testRule.scenario.recreate()
+            .onActivity { activity ->
+                val fragment: Fragment? =
+                    activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
+                assertEquals(true, fragment is HomeFragment)
+            }
+    }
+
+    @Test
+    fun navigateHomePageAddsTheCorrectFragment() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.homeNavItem))
+        testRule.scenario.onActivity { activity ->
+            val fragment: Fragment? =
+                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
+            assertEquals(true, fragment is HomeFragment)
+        }
+    }
+
+    @Test
+    fun navigateToReviewAddsTheCorrectFragment() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
+        testRule.scenario.onActivity { activity ->
+            val fragment: Fragment? =
+                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
+            assertEquals(true, fragment is ReviewFragment)
+        }
+    }
+
+    @Test
+    fun navigateToEventPageAddsTheCorrectFragment() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.eventNavItem))
+        testRule.scenario.onActivity { activity ->
+            activity.findViewById<BottomNavigationView>(R.id.activityMainBottomNavigationView).selectedItemId = 2
+            val fragment: Fragment? =
+                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
+            assertEquals(true, fragment is EventFragment)
+        }
+    }
+
+    @Test
+    fun navigateToMapPageAddsTheCorrectFragment() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.mapNavItem))
+        testRule.scenario.onActivity { activity ->
+            val fragment: Fragment? =
+                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
+            assertEquals(true, fragment is MapFragment)
+        }
+    }
+
+    @Test
+    fun testCourseButton() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
+        init()
+        onView(withId(R.id.courseTabButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun testClassroomButton() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
+        init()
+        onView(withId(R.id.reviewTabLayout)).perform(CustomViewActions.pressesTab(1))
+        onView(withId(R.id.classroomTabButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
     }
 
     /*
@@ -65,24 +139,6 @@ class MainActivityTest {
     }
 
      */
-
-    companion object {
-        fun navigateTo(itemPosition: Int) = object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isAssignableFrom(BottomNavigationView::class.java)
-            }
-
-            override fun getDescription(): String {
-                return "Custom view action to press navigation view"
-            }
-
-            override fun perform(uiController: UiController?, view: android.view.View?) {
-                val nav = view as BottomNavigationView
-                nav.selectedItemId = itemPosition
-            }
-
-        }
-    }
 
 
 

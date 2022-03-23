@@ -35,10 +35,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bottomNavigation = findViewById(R.id.activityMainBottomNavigationView)
-        mainFragment = findViewById(R.id.mainActivityFragment)
+        mainFragment = findViewById(R.id.mainActivityFragmentContainer)
 
         supportFragmentManager.commit {
-            add(R.id.mainActivityFragment, HomeFragment())
+            add(R.id.mainActivityFragmentContainer, HomeFragment())
             setReorderingAllowed(true)
         }
 
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private inline fun <reified T : Fragment> swapFragment(transactionName: String?): Boolean =
-        swapFragment<T>(R.id.mainActivityFragment, transactionName)
+        swapFragment<T>(R.id.mainActivityFragmentContainer, transactionName)
 
     /**
      * Generic function that replaces the main fragment
