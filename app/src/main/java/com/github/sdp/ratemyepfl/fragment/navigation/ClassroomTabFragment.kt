@@ -13,12 +13,10 @@ class ClassroomTabFragment : TabFragment(R.layout.fragment_classroom_tab) {
         super.onViewCreated(view, savedInstanceState)
 
         classroomButton = view.findViewById<Button>(R.id.classroomTabButton).apply {
-            setListeners(this)
+            setOnClickListener {
+                displayContent<ClassroomsListActivity>()
+            }
         }
     }
 
-    override fun displayContent() {
-        val intent = Intent(this.activity, ClassroomsListActivity::class.java)
-        startActivity(intent)
-    }
 }
