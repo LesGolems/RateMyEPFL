@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.database.FakeItemsRepository
+import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
+import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

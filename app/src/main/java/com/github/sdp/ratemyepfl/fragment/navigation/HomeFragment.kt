@@ -10,7 +10,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.SplashScreen
 import com.github.sdp.ratemyepfl.viewmodel.HomeViewModel
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,10 +24,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         helloUser = view.findViewById(R.id.homePageHelloUserText)
-        connectionButton = view.findViewById(R.id.homePageConnectionFAB)
+        connectionButton = view.findViewById(R.id.homePageConnectionButton)
         setupConnectionButton()
         setupUser()
     }
+
 
     private fun setupUser() {
         viewModel.isUserLoggedIn.observe(viewLifecycleOwner) { loggedIn ->
@@ -36,9 +36,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 if (loggedIn) R.drawable.ic_logout_black_24dp else R.drawable.ic_login_black_24dp
             connectionButton.setIconResource(icon)
 
-            connectionButton.text = if (loggedIn) "Logout" else "Login"
+            connectionButton.text = if (loggedIn) LOGOUT else LOGIN
 
-            val userName = viewModel.user.getEmail() ?: "visitor"
+            val userName = viewModel.user.getEmail() ?: VISITOR_NAME
             helloUser.text = getString(R.string.home_page_hello_user_text, userName)
         }
     }
@@ -52,7 +52,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             if (context != null) {
                 if (viewModel.isUserLoggedIn()) {
                     viewModel.signOut(requireContext())
-                    // For some reason, the button appears twice
                 } else {
                     startActivity(Intent(context, SplashScreen::class.java))
                 }
@@ -69,5 +68,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onStart() {
         super.onStart()
         checkUser()
+    }
+
+    companion object {
+        const val LOGOUT = "Logout"
+        const val LOGIN = "Login"
+        const val VISITOR_NAME = "visitor"
     }
 }

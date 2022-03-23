@@ -15,7 +15,8 @@ import javax.inject.Inject
  * and the database
  */
 @HiltViewModel
-class CourseListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) : ViewModel() {
+class CourseListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
+    ViewModel() {
 
     private var coursesLiveData = MutableLiveData<List<Course?>>()
 

@@ -28,14 +28,14 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
         parentFragmentManager.commit {
             val fragment = fromTabToFragment(tabLayout.selectedTabPosition)
             if (fragment != null) {
-                    add(
-                        R.id.reviewTabFragment,
-                        fragment
-                    )
-                    setReorderingAllowed(true)
-                    addToBackStack("tab")
-                }
+                add(
+                    R.id.reviewTabFragment,
+                    fragment
+                )
+                setReorderingAllowed(true)
+                addToBackStack("tab")
             }
+        }
 
 
         tabLayout.addOnTabSelectedListener(onTabSelectedListener(

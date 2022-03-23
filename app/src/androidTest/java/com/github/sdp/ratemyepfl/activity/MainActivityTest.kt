@@ -1,26 +1,25 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.content.Intent
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
+import android.view.View
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.Matcher
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
 class MainActivityTest {
-    /*
+
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -28,23 +27,12 @@ class MainActivityTest {
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun firesAnIntentWhenUserPressesCourseButton() {
-        init()
-        onView(withId(R.id.coursesButton))
-            .perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
+    fun navigateHomePageAddTheCorrectFragment() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(0))
+            .check(matches(isDisplayed()))
     }
 
-    @Test
-    fun firesAnIntentWhenUserPressesClassroomButton() {
-        init()
-        onView(withId(R.id.classroomReviewButton))
-            .perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
+    /*
     @Test
     fun emailDisplayedWhenUserLoggedIn() {
         FakeConnectedUser.loggedIn = true
@@ -75,7 +63,27 @@ class MainActivityTest {
         onView(withId(R.id.userText)).check(matches(withText("Visitor")))
         scenario.close()
     }
-    */
+
+     */
+
+    companion object {
+        fun navigateTo(itemPosition: Int) = object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isAssignableFrom(BottomNavigationView::class.java)
+            }
+
+            override fun getDescription(): String {
+                return "Custom view action to press navigation view"
+            }
+
+            override fun perform(uiController: UiController?, view: android.view.View?) {
+                val nav = view as BottomNavigationView
+                nav.selectedItemId = itemPosition
+            }
+
+        }
+    }
+
 
 
 }

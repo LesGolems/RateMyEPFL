@@ -7,7 +7,7 @@ import com.github.sdp.ratemyepfl.model.items.Course.Companion.toCourse
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class ItemsRepository @Inject constructor(): ItemsRepositoryInterface, Repository() {
+class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Repository() {
     private val collectionCourses = db.collection("courses")
     private val collectionRooms = db.collection("rooms")
 
@@ -16,19 +16,19 @@ class ItemsRepository @Inject constructor(): ItemsRepositoryInterface, Repositor
         private const val TAG_ROOMS = "ClassroomRepository"
     }
 
-    override suspend fun getCourses() : List<Course?> {
-        return collectionCourses.limit(50).get().await().mapNotNull{obj -> obj.toCourse()}
+    override suspend fun getCourses(): List<Course?> {
+        return collectionCourses.limit(50).get().await().mapNotNull { obj -> obj.toCourse() }
     }
 
-    suspend fun getByIdCourses(id: String) : Course?{
+    suspend fun getByIdCourses(id: String): Course? {
         return collectionCourses.document(id).get().await().toCourse()
     }
 
-    override suspend fun getClassrooms() : List<Classroom?> {
-        return collectionRooms.limit(50).get().await().mapNotNull{obj -> obj.toClassroom()}
+    override suspend fun getClassrooms(): List<Classroom?> {
+        return collectionRooms.limit(50).get().await().mapNotNull { obj -> obj.toClassroom() }
     }
 
-    suspend fun getByIdClassrooms(id: String) : Classroom?{
+    suspend fun getByIdClassrooms(id: String): Classroom? {
         return collectionRooms.document(id).get().await().toClassroom()
     }
 

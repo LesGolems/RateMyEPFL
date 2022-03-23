@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.model.review
 import android.util.Log
 import com.github.sdp.ratemyepfl.serializer.LocalDateSerializer
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -14,7 +15,7 @@ data class Review constructor(
     val rating: ReviewRating,
     val title: String,
     val comment: String,
-    val reviewableId : String,
+    val reviewableId: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate
 ) {

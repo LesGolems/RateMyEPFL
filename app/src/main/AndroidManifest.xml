@@ -14,7 +14,8 @@
         android:theme="@style/Theme.RateMyEPFL">
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
         <activity
             android:name=".activity.course.CourseReviewListActivity"
             android:exported="false"

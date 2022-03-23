@@ -6,8 +6,9 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.github.sdp.ratemyepfl.R
@@ -28,6 +29,7 @@ class SplashScreenTest {
         init()
         FakeConnectedUser.loggedIn = true
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
+        //intent.putExtra("source", "test")
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         intended(toPackage("com.github.sdp.ratemyepfl"))
         scenario.close()

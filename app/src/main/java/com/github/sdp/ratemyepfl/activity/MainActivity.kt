@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,7 +7,6 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
@@ -47,10 +45,10 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
     }
 
+    /**
+     * Setup the listener for the bottom navigation menu
+     */
     private fun setupNavigation() {
-
-        // Setup the size of the icons
-
         bottomNavigation.setOnItemSelectedListener { item ->
             manageNavigation(item.itemId)
         }
@@ -62,8 +60,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
+    /**
+     * Perform the replacement of fragment when the user presses
+     * one of the navigation item
+     *
+     * @param id: id of the navigation item
+     */
     private fun manageNavigation(id: Int) =
         when (id) {
             R.id.homeNavItem -> swapFragment<HomeFragment>("nav")
@@ -73,9 +75,17 @@ class MainActivity : AppCompatActivity() {
             else -> false
         }
 
+
     private inline fun <reified T : Fragment> swapFragment(transactionName: String?): Boolean =
         swapFragment<T>(R.id.mainActivityFragment, transactionName)
 
+    /**
+     * Generic function that replaces the main fragment
+     *
+     * @param T: Fragment class to put
+     * @param fragmentId: id of the fragment whose content is replaced
+     * @param transactionName: name of the transaction in the backstack
+     */
     private inline fun <reified T : Fragment> swapFragment(
         fragmentId: Int,
         transactionName: String?
@@ -89,24 +99,6 @@ class MainActivity : AppCompatActivity() {
         }
         return result
     }
-
-
-
-    /*
-    private fun setUpButtons() {
-        mLogoutButton.setOnClickListener {
-            auth.signOut(applicationContext).addOnCompleteListener {
-                startActivity(Intent(this, SplashScreen::class.java))
-            }
-        }
-
-        mCoursesButton.setOnClickListener {
-            displayCourses()
-        }
-
-    }
-
-     */
 
 }
 

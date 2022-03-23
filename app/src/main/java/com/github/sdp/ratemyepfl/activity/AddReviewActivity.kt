@@ -73,7 +73,7 @@ class AddReviewActivity : AppCompatActivity() {
         setupListeners()
     }
 
-    private fun setupListeners(){
+    private fun setupListeners() {
         doneButton.setOnClickListener {
             addReview()
         }

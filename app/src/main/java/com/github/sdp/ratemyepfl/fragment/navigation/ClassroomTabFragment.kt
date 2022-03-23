@@ -7,7 +7,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
-import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 
 class ClassroomTabFragment : Fragment(R.layout.fragment_classroom_tab) {
     private lateinit var button: Button
