@@ -37,11 +37,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation = findViewById(R.id.activityMainBottomNavigationView)
         mainFragment = findViewById(R.id.mainActivityFragmentContainer)
 
-        supportFragmentManager.commit {
-            add(R.id.mainActivityFragmentContainer, HomeFragment())
-            setReorderingAllowed(true)
-        }
-
         setupNavigation()
     }
 

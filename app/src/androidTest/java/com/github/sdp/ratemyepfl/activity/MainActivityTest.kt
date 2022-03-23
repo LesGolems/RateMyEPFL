@@ -35,16 +35,6 @@ class MainActivityTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun initiallyStartAtHomePage() {
-        testRule.scenario.recreate()
-            .onActivity { activity ->
-                val fragment: Fragment? =
-                    activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
-                assertEquals(true, fragment is HomeFragment)
-            }
-    }
-
-    @Test
     fun navigateHomePageAddsTheCorrectFragment() {
         onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.homeNavItem))
         testRule.scenario.onActivity { activity ->
