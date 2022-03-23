@@ -8,14 +8,12 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 
 class ClassroomTabFragment : TabFragment(R.layout.fragment_classroom_tab) {
-    private lateinit var button: Button
+    private lateinit var classroomButton: Button
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button = view.findViewById<Button?>(R.id.classroomTabButton).apply {
-            setOnClickListener {
-                displayContent()
-            }
+        classroomButton = view.findViewById<Button>(R.id.classroomTabButton).apply {
+            setListeners(this)
         }
     }
 
