@@ -23,7 +23,6 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
     }
 
     private fun setupTabNavigation() {
-
         // Initially set the corresponding tab
         childFragmentManager.commit {
             val fragment = fromTabToFragment(tabLayout.selectedTabPosition)
@@ -37,31 +36,27 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
             }
         }
 
+        tabLayout.addOnTabSelectedListener(tabManager)
+    }
 
-        tabLayout.addOnTabSelectedListener(onTabSelectedListener(
+    private val tabManager =
+        onTabSelectedListener(
             { tab ->
                 when (tab?.position) {
-                    0 -> {
-                        childFragmentManager.commit {
-                            replace<CourseTabFragment>(R.id.reviewTabFragment)
-                            setReorderingAllowed(true)
-                            addToBackStack("courseTab")
-                        }
-                    }
-                    1 -> {
-                        childFragmentManager.commit {
-                            replace<ClassroomTabFragment>(R.id.reviewTabFragment)
-                            setReorderingAllowed(true)
-                            addToBackStack("classroomTab")
-                        }
-                    }
+                    0 -> changeTab<CourseTabFragment>()
+                    1 -> changeTab<ClassroomTabFragment>()
                     2 -> {}
                 }
             },
             {},
-            {}
-        ))
+            {})
 
+    private inline fun<reified T : Fragment> changeTab() {
+        childFragmentManager.commit {
+            replace<T>(R.id.reviewTabFragment)
+            setReorderingAllowed(true)
+            addToBackStack("tab")
+        }
     }
 
 
