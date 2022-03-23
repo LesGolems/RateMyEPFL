@@ -4,23 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.fragment.app.Fragment
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 
-class ClassroomTabFragment : Fragment(R.layout.fragment_classroom_tab) {
+class ClassroomTabFragment : TabFragment(R.layout.fragment_classroom_tab) {
     private lateinit var button: Button
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button = view.findViewById(R.id.classroomTabButton)
-        button.setOnClickListener {
-            displayClassrooms()
+        button = view.findViewById<Button?>(R.id.classroomTabButton).apply {
+            setOnClickListener {
+                displayContent()
+            }
         }
-
     }
 
-    private fun displayClassrooms() {
+    override fun displayContent() {
         val intent = Intent(this.activity, ClassroomsListActivity::class.java)
         startActivity(intent)
     }
