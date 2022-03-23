@@ -4,8 +4,9 @@
     package="com.github.sdp.ratemyepfl">
 
     <application tools:ignore="MissingApplicationIcon">
-        <activity android:name=".activity.HiltTestActivity"
-            android:exported="true"/>
+        <activity
+            android:name=".activity.HiltTestActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

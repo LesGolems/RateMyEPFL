@@ -1,14 +1,11 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.github.sdp.ratemyepfl.R
@@ -52,6 +49,5 @@ class SplashScreenTest {
         scenario.close()
         release()
     }
-
 
 }

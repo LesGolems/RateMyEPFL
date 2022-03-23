@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
@@ -22,7 +21,6 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import java.lang.Thread.sleep
 
 @HiltAndroidTest
 class MainActivityTest {
@@ -33,7 +31,7 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @get:Rule (order = 2)
+    @get:Rule(order = 2)
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
@@ -70,7 +68,8 @@ class MainActivityTest {
     fun navigateToEventPageAddsTheCorrectFragment() {
         onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.eventNavItem))
         testRule.scenario.onActivity { activity ->
-            activity.findViewById<BottomNavigationView>(R.id.activityMainBottomNavigationView).selectedItemId = 2
+            activity.findViewById<BottomNavigationView>(R.id.activityMainBottomNavigationView).selectedItemId =
+                2
             val fragment: Fragment? =
                 activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
             assertEquals(true, fragment is EventFragment)
@@ -139,7 +138,6 @@ class MainActivityTest {
     }
 
      */
-
 
 
 }

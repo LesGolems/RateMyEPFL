@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.utils
 
 import android.view.View
-import androidx.compose.material.TabPosition
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
@@ -10,7 +9,7 @@ import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
 
 object CustomViewActions {
-    private inline fun<reified T: View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
+    private inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
         object : ViewAction {
             override fun getConstraints(): Matcher<View> {
                 return ViewMatchers.isAssignableFrom(T::class.java)

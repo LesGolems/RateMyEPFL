@@ -15,6 +15,7 @@ class SplashScreen : AppCompatActivity() {
 
     @Inject
     lateinit var auth: Authenticator
+
     @Inject
     lateinit var user: ConnectedUser
 
