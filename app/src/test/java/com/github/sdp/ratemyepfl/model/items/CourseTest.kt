@@ -42,6 +42,13 @@ class CourseTest {
     }
 
     @Test
+    fun constructorWorksWithZeroAverageRating() {
+        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 5,
+            0.0, "bachelor", "Fall", "During the semester", "ENG")
+        assertEquals(0.0, c.avgRating, 0.00001)
+    }
+
+    @Test
     fun toStringWorks(){
         assertEquals(EXPECTED_COURSE.toString(), "CS-306 SDP")
     }
