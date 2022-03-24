@@ -33,4 +33,9 @@
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
     <string name="title_edit_text">Give a title to your review</string>
+    <string name="change_map_type">Change map type</string>
+    <string name="standard_type">Standard</string>
+    <string name="satellite_type">Satellite</string>
+    <string name="hybrid_type">Hybrid</string>
+    <string name="terrain_type">Terrain</string>
 </resources>
