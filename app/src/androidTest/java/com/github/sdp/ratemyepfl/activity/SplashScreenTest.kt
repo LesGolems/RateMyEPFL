@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.github.sdp.ratemyepfl.R
@@ -35,7 +36,7 @@ class SplashScreenTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         //intent.putExtra("source", "test")
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
-        intended(toPackage("com.github.sdp.ratemyepfl"), times(2))
+        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
         scenario.close()
         release()
     }
@@ -47,7 +48,7 @@ class SplashScreenTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         onView(withId(R.id.visitorButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"), times(2))
+        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
         scenario.close()
         release()
     }
@@ -61,7 +62,7 @@ class SplashScreenTest {
         onView(withId(R.id.loginButton)).perform(click())
         val result = Instrumentation.ActivityResult(Activity.RESULT_OK, Intent())
         intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
-        intended(toPackage("com.github.sdp.ratemyepfl"), times(2))
+        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
         scenario.close()
         release()
     }
