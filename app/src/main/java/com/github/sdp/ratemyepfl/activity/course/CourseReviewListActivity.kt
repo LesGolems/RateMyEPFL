@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
@@ -28,6 +29,8 @@ class CourseReviewListActivity : AppCompatActivity() {
     }
 
     private val viewModel by viewModels<CourseReviewListViewModel>()
+
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +65,20 @@ class CourseReviewListActivity : AppCompatActivity() {
                 { fab.shrink() }
             )
         )
+
+        // Vertical swipe refreshes the list of reviews
+        swipeRefresher = findViewById(R.id.swiperefresh)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
     }
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                // refresh view model here
+                // refresh view model
+                viewModel.updateReviewsList()
             }
         }
 
