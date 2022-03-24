@@ -22,4 +22,8 @@ interface ConnectedUser {
      * Return the user's email, or null if the user is not logged in
      */
     fun getEmail(): String?
+
+    fun getUsername(): String?
+
+    fun getProfilePictureUrl(): String?
 }

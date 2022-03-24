@@ -20,4 +20,12 @@ class ConnectedUserImpl @Inject constructor() : ConnectedUser {
         return FirebaseAuth.getInstance().currentUser?.email
     }
 
+    override fun getUsername(): String? {
+        return FirebaseAuth.getInstance().currentUser?.displayName
+    }
+
+    override fun getProfilePictureUrl(): String? {
+        return FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+    }
+
 }
