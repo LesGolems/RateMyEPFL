@@ -23,7 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_CLASSROOMS_JSON = "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
+        const val EXTRA_CLASSROOMS_JSON =
+            "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
     }
 
     private val viewModel by viewModels<RoomReviewsListViewModel>()
@@ -73,7 +74,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
     }
 
     /* Adds review */
-    private fun fabOnClick(room : Classroom) {
+    private fun fabOnClick(room: Classroom) {
         val intent = Intent(this, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id)
         resultLauncher.launch(intent)

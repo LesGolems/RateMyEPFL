@@ -9,17 +9,17 @@ data class Classroom(
     override var numRatings: Int = 0,
     override var avgRating: Double = 0.0,
     val type: String? = null,
-) : Reviewable()
-{
+) : Reviewable() {
     // This converts a json object from firebase into a Classroom object
     companion object {
-        fun DocumentSnapshot.toClassroom() : Classroom? {
+        fun DocumentSnapshot.toClassroom(): Classroom? {
             return try {
                 Classroom(id)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 null
             }
         }
+
         private const val TAG = "Classroom"
     }
 

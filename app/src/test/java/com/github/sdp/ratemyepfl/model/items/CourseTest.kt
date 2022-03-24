@@ -9,10 +9,11 @@ import org.junit.Test
 class CourseTest {
 
     val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306")
-    val EXPECTED_JSON = "{\"title\":\"SDP\",\"section\":\"IC\",\"teacher\":\"Candea\",\"credits\":4,\"id\":\"CS-306\"}"
+    val EXPECTED_JSON =
+        "{\"title\":\"SDP\",\"section\":\"IC\",\"teacher\":\"Candea\",\"credits\":4,\"id\":\"CS-306\"}"
 
     @Test
-    fun constructorWithDefaultValuesWorks(){
+    fun constructorWithDefaultValuesWorks() {
         val c = Course("SDP", "IC", "Candea", 4, "CS-306")
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
@@ -25,9 +26,11 @@ class CourseTest {
     }
 
     @Test
-    fun constructorWithAllValuesWorks(){
-        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 5,
-            3.7, "bachelor", "Fall", "During the semester", "ENG")
+    fun constructorWithAllValuesWorks() {
+        val c = Course(
+            "SDP", "IC", "Candea", 4, "CS-306", 5,
+            3.7, "bachelor", "Fall", "During the semester", "ENG"
+        )
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
@@ -42,18 +45,18 @@ class CourseTest {
     }
 
     @Test
-    fun toStringWorks(){
+    fun toStringWorks() {
         assertEquals(EXPECTED_COURSE.toString(), "CS-306 SDP")
     }
 
     @Test
-    fun serializationWorks(){
+    fun serializationWorks() {
         val json = Json.encodeToString(EXPECTED_COURSE)
         assertEquals(EXPECTED_JSON, json)
     }
 
     @Test
-    fun deserializationWorks(){
+    fun deserializationWorks() {
         val course = Json.decodeFromString<Course>(EXPECTED_JSON)
         assertEquals(EXPECTED_COURSE, course)
     }

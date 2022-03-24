@@ -5,7 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 import javax.inject.Inject
 
-class FakeReviewsRepository @Inject constructor(): ReviewsRepositoryInterface{
+class FakeReviewsRepository @Inject constructor() : ReviewsRepositoryInterface {
     private val fakeList = listOf(
         Review.Builder().setTitle("Absolument dé-men-tiel")
             .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -32,6 +32,7 @@ class FakeReviewsRepository @Inject constructor(): ReviewsRepositoryInterface{
             .setDate(LocalDate.now())
             .build()
     )
+
     override fun add(value: Review) {}
 
     override suspend fun get(): List<Review?> {

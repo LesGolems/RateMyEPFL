@@ -14,7 +14,7 @@ data class Review constructor(
     val rating: ReviewRating,
     val title: String,
     val comment: String,
-    val reviewableId : String,
+    val reviewableId: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate
 ) {
