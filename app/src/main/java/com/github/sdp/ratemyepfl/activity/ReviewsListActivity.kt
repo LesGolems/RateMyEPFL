@@ -49,9 +49,9 @@ open class ReviewsListActivity<T : Reviewable> : AppCompatActivity() {
         )
     }
 
-    fun startReview(reviewable: Reviewable, resultLauncher: ActivityResultLauncher<Intent>) {
+    fun startReview(reviewable: Reviewable) {
         val intent = Intent(this, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, reviewable.id)
-        resultLauncher.launch(intent)
+        startActivity(intent)
     }
 }

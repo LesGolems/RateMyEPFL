@@ -33,7 +33,7 @@ class CourseReviewListActivity : ReviewsListActivity<Course>() {
 
         viewModel.course?.let { course ->
             fab.setOnClickListener {
-                startReview(course, resultLauncher)
+                startReview(course)
             }
         }
 
@@ -43,11 +43,8 @@ class CourseReviewListActivity : ReviewsListActivity<Course>() {
         }
     }
 
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                // refresh view model
-                viewModel.updateReviewsList()
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateReviewsList()
+    }
 }
