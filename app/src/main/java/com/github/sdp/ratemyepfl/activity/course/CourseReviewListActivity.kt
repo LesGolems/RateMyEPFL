@@ -2,17 +2,16 @@ package com.github.sdp.ratemyepfl.activity.course
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AbsListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils.Companion.createOnScrollListener
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
@@ -30,6 +29,8 @@ class CourseReviewListActivity : AppCompatActivity() {
     }
 
     private val viewModel by viewModels<CourseReviewListViewModel>()
+
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +65,20 @@ class CourseReviewListActivity : AppCompatActivity() {
                 { fab.shrink() }
             )
         )
+
+        // Vertical swipe refreshes the list of reviews
+        swipeRefresher = findViewById(R.id.swiperefresh)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
     }
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                // refresh view model here
+                // refresh view model
+                viewModel.updateReviewsList()
             }
         }
 

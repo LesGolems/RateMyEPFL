@@ -24,9 +24,7 @@
     <string name="credit_6">6</string>
     <string name="credit_7">7</string>
     <string name="credit_8">8</string>
-    <string name="visitor">Visitor</string>
     <string name="epfl_logo_description">epfl_logo</string>
-    <string name="add_review_button_description">add_review_button</string>
     <string name="review_text_button">REVIEW</string>
     <string name="title_review_list">Title</string>
     <string name="comment_review_list">Comment</string>
@@ -39,4 +37,18 @@
     <string name="hybrid_type">Hybrid</string>
     <string name="terrain_type">Terrain</string>
     <string name="maps_api_key">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
+    <string name="home_nav_title">Home</string>
+    <string name="reviews_nav_title">Reviews</string>
+    <string name="events_nav_item">Events</string>
+    <string name="map_nav_title">Map</string>
+    <string name="course_tab_item_title">Courses</string>
+    <string name="classroom_tab_item_title">Classrooms</string>
+    <string name="restaurant_tab_item_title">Restaurants</string>
+    <string name="button_course_tab_fragment">Display courses</string>
+    <string name="button_classroom_tab_fragment">Display classrooms</string>
+    <string name="button_map_tab_fragment">Display map</string>
+    <string name="home_page_title">HOME PAGE</string>
+    <string name="home_page_hello_user_text">Hello %s !</string>
+    <string name="logout_fab_content_description">Logout</string>
+    <string name="event_page_title">EVENT PAGE</string>
 </resources>

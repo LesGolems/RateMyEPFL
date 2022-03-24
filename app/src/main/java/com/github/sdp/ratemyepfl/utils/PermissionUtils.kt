@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.activity.map
+package com.github.sdp.ratemyepfl.utils
 
 import android.content.pm.PackageManager
 
