@@ -8,10 +8,11 @@ import org.junit.Test
 
 class ClassroomTest {
     val EXPECTED_ROOM = Classroom("CE 1 3", 3, 4.9, "Auditorium")
-    val EXPECTED_JSON = "{\"id\":\"CE 1 3\",\"numRatings\":3,\"avgRating\":4.9,\"type\":\"Auditorium\"}"
+    val EXPECTED_JSON =
+        "{\"id\":\"CE 1 3\",\"numRatings\":3,\"avgRating\":4.9,\"type\":\"Auditorium\"}"
 
     @Test
-    fun constructorWithDefaultValuesWorks(){
+    fun constructorWithDefaultValuesWorks() {
         val r = Classroom("CO1")
         assertEquals("CO1", r.id)
         assertEquals(0, r.numRatings)
@@ -20,7 +21,7 @@ class ClassroomTest {
     }
 
     @Test
-    fun constructorWithAllValuesWorks(){
+    fun constructorWithAllValuesWorks() {
         val r = Classroom("CM 1 4", 89, 2.35, "Auditorium")
         assertEquals("CM 1 4", r.id)
         assertEquals(89, r.numRatings)
@@ -29,13 +30,13 @@ class ClassroomTest {
     }
 
     @Test
-    fun serializationWorks(){
+    fun serializationWorks() {
         val json = Json.encodeToString(EXPECTED_ROOM)
         assertEquals(EXPECTED_JSON, json)
     }
 
     @Test
-    fun deserializationWorks(){
+    fun deserializationWorks() {
         val course = Json.decodeFromString<Classroom>(EXPECTED_JSON)
         assertEquals(EXPECTED_ROOM, course)
     }

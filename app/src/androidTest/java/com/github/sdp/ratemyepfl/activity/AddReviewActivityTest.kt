@@ -30,10 +30,10 @@ import org.junit.Test
 @HiltAndroidTest
 class AddReviewActivityTest {
 
-    @get:Rule (order = 0)
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule (order = 1)
+    @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(AddReviewActivity::class.java)
 
     @Test
@@ -98,7 +98,8 @@ class AddReviewActivityTest {
 
     @Test
     fun nonNullArgumentsGivesOK() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), AddReviewActivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "ID")
         val scenario: ActivityScenario<AddReviewActivity> = ActivityScenario.launch(intent)
         init()

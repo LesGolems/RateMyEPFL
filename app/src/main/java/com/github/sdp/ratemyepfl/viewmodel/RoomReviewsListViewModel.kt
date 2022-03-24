@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
-import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
@@ -18,7 +17,9 @@ class RoomReviewsListViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val room: Classroom? = savedStateHandle.get<String>(RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON)?.let { Json.decodeFromString(it)}
+    val room: Classroom? =
+        savedStateHandle.get<String>(RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON)
+            ?.let { Json.decodeFromString(it) }
 
     // Reviews of the classroom
     private val reviewsLiveData = MutableLiveData<List<Review?>>()

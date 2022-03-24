@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.activity.course
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AbsListView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils.Companion.createOnScrollListener
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
