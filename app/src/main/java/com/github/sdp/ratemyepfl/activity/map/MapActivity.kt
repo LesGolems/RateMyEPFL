@@ -84,7 +84,7 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     override fun onResumeFragments() {
         super.onResumeFragments()
         if (permissionDenied) {
-            /** Maybe display an error message here */
+            /* Maybe display an error message here */
             permissionDenied = false
         }
     }

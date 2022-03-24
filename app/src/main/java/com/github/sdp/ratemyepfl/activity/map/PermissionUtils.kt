@@ -3,8 +3,6 @@ package com.github.sdp.ratemyepfl.activity.map
 import android.content.pm.PackageManager
 
 object PermissionUtils {
-
-    @JvmStatic
     fun isPermissionGranted(grantPermissions: Array<String>, grantResults: IntArray,
         permission: String): Boolean {
         for (i in grantPermissions.indices) {
