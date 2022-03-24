@@ -32,25 +32,22 @@ class RoomReviewsListActivity : ReviewsListActivity<Classroom>() {
             }
         }
 
-        // Floating action button for adding reviews
         viewModel.room?.let { room ->
             fab.setOnClickListener {
                 startReview(room, resultLauncher)
             }
         }
 
-        // Vertical swipe refreshes the list of reviews
         swipeRefresher.setOnRefreshListener {
             viewModel.updateReviewsList()
             swipeRefresher.isRefreshing = false
         }
-
     }
 
-    private var resultLauncher =
+    private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // refresh viewmodel
+            if (result.resultCode == RESULT_OK) {
+                // refresh view model
                 viewModel.updateReviewsList()
             }
         }

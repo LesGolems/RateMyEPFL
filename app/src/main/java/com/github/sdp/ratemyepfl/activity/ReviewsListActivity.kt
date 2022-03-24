@@ -30,18 +30,16 @@ open class ReviewsListActivity<T : Reviewable> : AppCompatActivity() {
 
         // Vertical swipe refreshes the list of reviews
         swipeRefresher = findViewById(R.id.swiperefresh)
-
+        
         // List of reviews
-        fab = findViewById(R.id.startReviewFAB)
-        swipeRefresher = findViewById(R.id.swiperefresh)
-
         recyclerView = findViewById(R.id.reviewRecyclerView)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
-        )
 
         reviewsAdapter = ReviewAdapter()
         recyclerView.adapter = reviewsAdapter
+
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+        )
 
         recyclerView.setOnScrollListener(
             ListActivityUtils.createOnScrollListener(
