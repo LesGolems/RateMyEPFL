@@ -30,6 +30,36 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepositoryInterface {
             .setRating(ReviewRating.GOOD)
             .setReviewableID("CS-435")
             .setDate(LocalDate.now())
+            .build(),
+        Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
+            .setComment("Regardez comme il ondule. En forêt Amazonienne, je prendrais ce type pour un serpent... Il a tout du reptile !")
+            .setRating(ReviewRating.GOOD)
+            .setReviewableID("CS-435")
+            .setDate(LocalDate.now())
+            .build(),
+        Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
+            .setComment("Regardez comme il ondule. En forêt Amazonienne, je prendrais ce type pour un serpent... Il a tout du reptile !")
+            .setRating(ReviewRating.GOOD)
+            .setReviewableID("CS-435")
+            .setDate(LocalDate.now())
+            .build(),
+        Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
+            .setComment("Regardez comme il ondule. En forêt Amazonienne, je prendrais ce type pour un serpent... Il a tout du reptile !")
+            .setRating(ReviewRating.GOOD)
+            .setReviewableID("CS-435")
+            .setDate(LocalDate.now())
+            .build(),
+        Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
+            .setComment("Regardez comme il ondule. En forêt Amazonienne, je prendrais ce type pour un serpent... Il a tout du reptile !")
+            .setRating(ReviewRating.GOOD)
+            .setReviewableID("CS-435")
+            .setDate(LocalDate.now())
+            .build(),
+        Review.Builder().setTitle("The last review")
+            .setComment("I am the last review")
+            .setRating(ReviewRating.TERRIBLE)
+            .setReviewableID("CS-303")
+            .setDate(LocalDate.now())
             .build()
     )
 

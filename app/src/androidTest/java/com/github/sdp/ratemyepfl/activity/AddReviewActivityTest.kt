@@ -22,7 +22,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.Rule
 import org.junit.Test
 
@@ -46,7 +46,7 @@ class AddReviewActivityTest {
         onView(withId(R.id.doneButton)).perform(click())
 
 
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
 
         release()
     }
@@ -58,7 +58,7 @@ class AddReviewActivityTest {
         onView(withId(R.id.reviewRatingBar)).perform(click())
         onView(withId(R.id.doneButton)).perform(click())
 
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
 
         release()
     }
@@ -73,7 +73,7 @@ class AddReviewActivityTest {
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
 
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
 
         release()
     }
@@ -91,7 +91,7 @@ class AddReviewActivityTest {
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
 
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_CANCELED))
+        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
 
         release()
     }
@@ -113,33 +113,10 @@ class AddReviewActivityTest {
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
 
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
+        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_OK))
         release()
         scenario.close()
     }
-    /*
-
-    @Test
-    fun nonNullGradeAndCommentGivesSameValuesToList() {
-        init()
-
-        val rating = ReviewRating.EXCELLENT
-        val comment = "Good"
-        onView(withId(R.id.roomReviewRatingBar)).perform(
-            performSetRating(rating))
-
-        onView(withId(R.id.add_review_comment)).perform(typeText(comment))
-        closeSoftKeyboard()
-        onView(withId(R.id.done_button)).perform(click())
-
-        val data = testRule.scenario.result.resultData
-
-        assertThat(testRule.scenario.result.resultCode, Matchers.equalTo(Activity.RESULT_OK))
-        assertThat(data.getStringExtra(ROOM_COMMENT), Matchers.equalTo(comment))
-        assertThat(data.getIntExtra(ROOM_GRADE, -1), Matchers.equalTo(rating.rating))
-
-        release()
-    }*/
 
     companion object {
         private fun performSetRating(value: Float) = object : ViewAction {
