@@ -87,5 +87,30 @@ class RoomReviewsListActivityTest {
         scenario.close()
     }
 
+    @Test
+    fun swipeRefreshes() {
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .build()
+        )
+        val intent = Intent(
+            ApplicationProvider.getApplicationContext(),
+            CourseReviewListActivity::class.java
+        )
+        val scenario: ActivityScenario<CourseReviewListActivity> =
+            ActivityScenario.launch(intent)
+        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+
+        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
+        onView(withId(R.id.swiperefresh)).perform(ViewActions.swipeDown())
+        onView(withId(R.id.reviewRecyclerView)).check(matches(CoreMatchers.not(hasChildCount(1))))
+
+        scenario.close()
+    }
+
 
 }

@@ -73,7 +73,6 @@ class CourseReviewListActivityTest {
 
     @Test
     fun swipeRefreshes() {
-        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
         FakeReviewsRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
