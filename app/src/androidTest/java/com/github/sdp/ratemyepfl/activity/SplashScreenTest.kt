@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -45,6 +47,20 @@ class SplashScreenTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         onView(withId(R.id.visitorButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"), times(2))
+        scenario.close()
+        release()
+    }
+
+    @Test
+    fun userPressingLogInGoesToMain() {
+        init()
+        FakeConnectedUser.loggedIn = false
+        val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
+        val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
+        onView(withId(R.id.loginButton)).perform(click())
+        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, Intent())
+        intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
         intended(toPackage("com.github.sdp.ratemyepfl"), times(2))
         scenario.close()
         release()

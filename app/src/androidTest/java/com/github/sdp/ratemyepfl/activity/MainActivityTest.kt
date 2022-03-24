@@ -31,8 +31,6 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @get:Rule(order = 2)
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun navigateHomePageAddsTheCorrectFragment() {
@@ -58,8 +56,6 @@ class MainActivityTest {
     fun navigateToEventPageAddsTheCorrectFragment() {
         onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.eventNavItem))
         testRule.scenario.onActivity { activity ->
-            activity.findViewById<BottomNavigationView>(R.id.activityMainBottomNavigationView).selectedItemId =
-                2
             val fragment: Fragment? =
                 activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
             assertEquals(true, fragment is EventFragment)

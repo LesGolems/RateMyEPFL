@@ -12,6 +12,21 @@ import com.github.sdp.ratemyepfl.activity.HiltTestActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 object HiltUtils {
+
+    /**
+     * Launch a fragment in an hilt container (i.e., the HiltTestActivity)
+     * This is mandatory for an AndroidEntryPoint fragment (that is, injected
+     * by Hilt) since the activity provided by any other fragment launcher
+     * is not annotated with it (and Hilt thus can't inject)
+     *
+     * Ex:
+     *      launchFragmentInHiltContainer<MyFragment> { fragment ->
+     *          // Works as a fragment.apply()
+     *      }
+     *      // The view is set. You can call any view matcher.
+     *      onView(withId(myId)).perform(click())
+     *
+     */
     @ExperimentalCoroutinesApi
     inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         fragmentArgs: Bundle? = null,
