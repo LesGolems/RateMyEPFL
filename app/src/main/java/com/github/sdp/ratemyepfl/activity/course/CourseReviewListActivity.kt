@@ -31,12 +31,15 @@ class CourseReviewListActivity : ReviewsListActivity<Course>() {
             }
         }
 
+        // Floating action button for adding reviews
         viewModel.course?.let { course ->
             fab.setOnClickListener {
                 startReview(course, resultLauncher)
             }
         }
 
+
+        // Vertical swipe refreshes the list of reviews
         swipeRefresher.setOnRefreshListener {
             viewModel.updateReviewsList()
             swipeRefresher.isRefreshing = false

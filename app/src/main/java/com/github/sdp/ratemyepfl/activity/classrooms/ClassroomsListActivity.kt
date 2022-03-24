@@ -38,7 +38,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.rooms_options_menu, menu)
-        setUpSearchView(menu, reviewableAdapter, R.id.roomSearchView)
+        setUpSearchView(menu, reviewableAdapter, R.id.searchView)
         return super.onCreateOptionsMenu(menu)
     }
 
