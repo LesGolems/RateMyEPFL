@@ -38,4 +38,5 @@
     <string name="satellite_type">Satellite</string>
     <string name="hybrid_type">Hybrid</string>
     <string name="terrain_type">Terrain</string>
+    <string name="maps_api_key">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
 </resources>

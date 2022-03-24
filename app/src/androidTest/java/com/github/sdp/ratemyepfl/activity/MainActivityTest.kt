@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
@@ -40,6 +40,15 @@ class MainActivityTest {
     fun firesAnIntentWhenUserPressesClassroomButton() {
         init()
         onView(withId(R.id.classroomReviewButton))
+            .perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @Test
+    fun firesAnIntentWhenUserPressesMapButton() {
+        init()
+        onView(withId(R.id.mapButton))
             .perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
