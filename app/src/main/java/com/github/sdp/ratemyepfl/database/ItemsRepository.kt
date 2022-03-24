@@ -4,8 +4,6 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Classroom.Companion.toClassroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Course.Companion.toCourse
-import com.github.sdp.ratemyepfl.utils.RepositoryUtils.Companion.getById
-import com.github.sdp.ratemyepfl.utils.RepositoryUtils.Companion.getLimit
 import javax.inject.Inject
 
 class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Repository() {
