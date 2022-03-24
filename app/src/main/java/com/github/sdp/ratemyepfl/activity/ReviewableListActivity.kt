@@ -33,7 +33,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(getMenuString(), menu)
-        ListActivityUtils.setUpSearchView(menu, reviewableAdapter, R.id.searchView)
+        ListActivityUtils.setUpSearchView(menu, reviewableAdapter, getSearchViewString())
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -57,6 +57,8 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
     abstract fun getExtraClass(): Class<ReviewsListActivity<T>>
 
     abstract fun getMenuString(): Int
+
+    abstract fun getSearchViewString(): Int
 
     private fun displayReviews(t: T) {
         val intent = Intent(this, getExtraClass())

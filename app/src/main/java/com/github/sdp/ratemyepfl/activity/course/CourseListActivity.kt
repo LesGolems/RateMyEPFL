@@ -47,4 +47,8 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     override fun getMenuString(): Int {
         return R.menu.courses_options_menu
     }
+
+    override fun getSearchViewString(): Int {
+        return R.id.courseSearchView
+    }
 }

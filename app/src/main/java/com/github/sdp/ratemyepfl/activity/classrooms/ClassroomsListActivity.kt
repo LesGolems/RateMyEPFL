@@ -36,4 +36,8 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
     override fun getMenuString(): Int {
         return R.menu.rooms_options_menu
     }
+
+    override fun getSearchViewString(): Int {
+        return R.id.searchView
+    }
 }
