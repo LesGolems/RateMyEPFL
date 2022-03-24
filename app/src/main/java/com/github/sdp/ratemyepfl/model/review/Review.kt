@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.model.review
 
 import android.util.Log
 import com.github.sdp.ratemyepfl.model.user.User
-import com.github.sdp.ratemyepfl.serializer.LocalDateSerializer
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString

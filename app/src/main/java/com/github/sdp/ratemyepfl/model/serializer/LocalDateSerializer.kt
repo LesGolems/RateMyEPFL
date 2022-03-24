@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.serializer
+package com.github.sdp.ratemyepfl.model.serializer
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
