@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/titleReview"
+        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/title_review_list"
-        />
+        android:text="@string/title_review_list" />
 
     <TextView
         android:id="@+id/commentReview"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_below="@id/rateReview"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:text="@string/comment_review_list"
-        />
+        android:layout_marginStart="10dp"
+        android:text="@string/comment_review_list" />
 
     <TextView
         android:id="@+id/dateReview"
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_below="@id/commentReview"
-        style="@style/TextAppearance.AppCompat.Caption"
-        android:text="@string/date_review_list"
-        />
+        android:layout_marginStart="10dp"
+        android:text="@string/date_review_list" />
 
     <TextView
         android:id="@+id/rateReview"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_below="@id/titleReview"
-        style="@style/TextAppearance.AppCompat.Body1"
-        android:text="@string/rate_review_list"
-        />
+        android:layout_marginStart="10dp"
+        android:text="@string/rate_review_list" />
 
 </RelativeLayout>

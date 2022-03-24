@@ -16,9 +16,6 @@ import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
-const val ROOM_GRADE = "grade"
-const val ROOM_COMMENT = "comment"
-
 @AndroidEntryPoint
 class AddReviewActivity : AppCompatActivity() {
 
@@ -76,7 +73,7 @@ class AddReviewActivity : AppCompatActivity() {
         setupListeners()
     }
 
-    private fun setupListeners(){
+    private fun setupListeners() {
         doneButton.setOnClickListener {
             addReview()
         }

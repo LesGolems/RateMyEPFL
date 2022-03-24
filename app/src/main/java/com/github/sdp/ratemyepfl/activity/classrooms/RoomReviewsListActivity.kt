@@ -3,12 +3,12 @@ package com.github.sdp.ratemyepfl.activity.classrooms
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
@@ -17,17 +17,19 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RoomReviewsListActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_CLASSROOMS_JSON = "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
+        const val EXTRA_CLASSROOMS_JSON =
+            "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
     }
 
     private val viewModel by viewModels<RoomReviewsListViewModel>()
+
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +63,18 @@ class RoomReviewsListActivity : AppCompatActivity() {
                 { fab.shrink() }
             )
         )
+
+        // Vertical swipe refreshes the list of reviews
+        swipeRefresher = findViewById(R.id.swiperefresh)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
+
     }
 
     /* Adds review */
-    private fun fabOnClick(room : Classroom) {
+    private fun fabOnClick(room: Classroom) {
         val intent = Intent(this, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id)
         resultLauncher.launch(intent)
@@ -73,7 +83,8 @@ class RoomReviewsListActivity : AppCompatActivity() {
     private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // refresh viewModel here
+                // refresh viewmodel
+                viewModel.updateReviewsList()
             }
         }
 }

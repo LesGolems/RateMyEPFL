@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.auth.*
+import com.github.sdp.ratemyepfl.auth.Authenticator
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
+import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
