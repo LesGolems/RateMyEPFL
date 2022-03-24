@@ -9,4 +9,8 @@ interface ConnectedUser {
     fun getUserId(): String?
 
     fun getEmail(): String?
+
+    fun getUsername(): String?
+
+    fun getProfilePictureUrl(): String?
 }

@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl.model.user
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -15,7 +16,7 @@ class UserTest {
 
     @Test
     fun constructorWithLoggedInUserWorks() {
-        val user = User(object: CurrentUser {
+        val user = User(object: ConnectedUser {
             override fun getUsername(): String? {
                 return "Jean"
             }

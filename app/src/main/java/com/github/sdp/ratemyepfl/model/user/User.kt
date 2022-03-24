@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl.model.user
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 import java.lang.IllegalArgumentException
@@ -26,7 +27,7 @@ data class User(
             }
         }
 
-    constructor(user : CurrentUser) : this(
+    constructor(user : ConnectedUser) : this(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,
         email = user.getEmail()!!,

@@ -13,6 +13,14 @@ class FakeConnectedUser @Inject constructor(): ConnectedUser {
 
     override fun getEmail(): String? = "user@email.com"
 
+    override fun getUsername(): String? {
+        return null
+    }
+
+    override fun getProfilePictureUrl(): String? {
+        return null
+    }
+
     companion object {
         var loggedIn = false
     }
