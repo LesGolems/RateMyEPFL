@@ -24,8 +24,11 @@
             android:value="@string/maps_api_key" />
 
         <activity
+            android:name=".activity.ReviewsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activity.course.CourseReviewListActivity"
             android:exported="false"
