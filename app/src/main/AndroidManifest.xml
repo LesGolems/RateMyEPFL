@@ -3,6 +3,7 @@
     package="com.github.sdp.ratemyepfl">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".RateMyEPFLApplication"
@@ -42,7 +43,7 @@
             android:name=".activity.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.MapActivity"
+            android:name=".activity.map.MapActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"

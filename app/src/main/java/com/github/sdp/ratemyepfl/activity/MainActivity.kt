@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
+import com.github.sdp.ratemyepfl.activity.map.MapActivity
 import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import dagger.hilt.android.AndroidEntryPoint
