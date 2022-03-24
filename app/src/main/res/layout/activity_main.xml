@@ -26,5 +26,4 @@
         app:itemTextColor="@drawable/bottom_navigation_color"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_navigation_menu" />
-
 </RelativeLayout>

@@ -2,13 +2,14 @@ package com.github.sdp.ratemyepfl.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.map.MapActivity
+import com.github.sdp.ratemyepfl.auth.Authenticator
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.auth.Authenticator
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
@@ -69,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             R.id.mapNavItem -> swapFragment<MapFragment>("nav")
             else -> false
         }
-
 
     private inline fun <reified T : Fragment> swapFragment(transactionName: String?): Boolean =
         swapFragment<T>(R.id.mainActivityFragmentContainer, transactionName)
