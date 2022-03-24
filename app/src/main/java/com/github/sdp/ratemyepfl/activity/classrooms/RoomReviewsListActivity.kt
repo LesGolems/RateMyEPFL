@@ -67,7 +67,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         // Vertical swipe refreshes the list of reviews
         swipeRefresher = findViewById(R.id.swiperefresh)
         swipeRefresher.setOnRefreshListener {
-            viewModel.refreshReviewsList()
+            viewModel.updateReviewsList()
             swipeRefresher.isRefreshing = false
         }
 
@@ -84,7 +84,7 @@ class RoomReviewsListActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 // refresh viewmodel
-                viewModel.refreshReviewsList()
+                viewModel.updateReviewsList()
             }
         }
 }

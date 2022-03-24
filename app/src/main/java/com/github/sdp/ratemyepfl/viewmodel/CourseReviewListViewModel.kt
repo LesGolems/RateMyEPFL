@@ -26,7 +26,7 @@ class CourseReviewListViewModel @Inject constructor(
         updateReviewsList()
     }
 
-    private fun updateReviewsList() {
+    fun updateReviewsList() {
         viewModelScope.launch {
             reviewsLiveData.value = reviewsRepository.getByReviewableId(course?.id)
         }
@@ -34,9 +34,5 @@ class CourseReviewListViewModel @Inject constructor(
 
     fun getReviews(): LiveData<List<Review?>> {
         return reviewsLiveData
-    }
-
-    fun refreshReviewsList() {
-        updateReviewsList()
     }
 }
