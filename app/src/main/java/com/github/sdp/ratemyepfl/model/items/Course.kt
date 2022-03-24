@@ -23,17 +23,18 @@ data class Course(
     }
 
     companion object {
-        fun DocumentSnapshot.toCourse() : Course? {
+        fun DocumentSnapshot.toCourse(): Course? {
             return try {
                 val title = getString("title")!!
                 val section = getString("section")!!
                 val teacher = getString("teacher")!!
                 val credits = getString("credits")?.toInt()!!
                 Course(title, section, teacher, credits, id)
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 null
             }
         }
+
         private const val TAG = "Course"
     }
 

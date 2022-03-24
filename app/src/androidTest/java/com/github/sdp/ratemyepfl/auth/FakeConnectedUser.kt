@@ -5,13 +5,13 @@ import javax.inject.Inject
 /*
 Fake connected user for tests
  */
-class FakeConnectedUser @Inject constructor(): ConnectedUser {
+class FakeConnectedUser @Inject constructor() : ConnectedUser {
 
     override fun isLoggedIn(): Boolean = loggedIn
 
-    override fun getUserId(): String? = "12345"
+    override fun getUserId(): String? = userId
 
-    override fun getEmail(): String? = "user@email.com"
+    override fun getEmail(): String? = if (isLoggedIn()) email else null
 
     override fun getUsername(): String? {
         return null
@@ -22,6 +22,8 @@ class FakeConnectedUser @Inject constructor(): ConnectedUser {
     }
 
     companion object {
-        var loggedIn = false
+        var loggedIn: Boolean = false
+        var email: String? = "user@email.com"
+        var userId: String? = "12345"
     }
 }

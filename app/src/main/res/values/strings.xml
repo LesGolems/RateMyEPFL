@@ -3,9 +3,6 @@
     <string name="title_review">What do you think about %s</string>
     <string name="comment_edit_text">Your opinion</string>
     <string name="done_button_text">DONE</string>
-    <string name="logout">Logout</string>
-    <string name="courses">Courses</string>
-    <string name="classrooms">Classrooms</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="search">Search</string>
     <string name="increasing_order">A-Z</string>
@@ -23,13 +20,24 @@
     <string name="credit_6">6</string>
     <string name="credit_7">7</string>
     <string name="credit_8">8</string>
-    <string name="visitor">Visitor</string>
     <string name="epfl_logo_description">epfl_logo</string>
-    <string name="add_review_button_description">add_review_button</string>
     <string name="review_text_button">REVIEW</string>
     <string name="title_review_list">Title</string>
     <string name="comment_review_list">Comment</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
     <string name="title_edit_text">Give a title to your review</string>
+    <string name="home_nav_title">Home</string>
+    <string name="reviews_nav_title">Reviews</string>
+    <string name="events_nav_item">Events</string>
+    <string name="map_nav_title">Map</string>
+    <string name="course_tab_item_title">Courses</string>
+    <string name="classroom_tab_item_title">Classrooms</string>
+    <string name="restaurant_tab_item_title">Restaurants</string>
+    <string name="button_course_tab_fragment">Display courses</string>
+    <string name="button_classroom_tab_fragment">Display classrooms</string>
+    <string name="home_page_title">HOME PAGE</string>
+    <string name="home_page_hello_user_text">Hello %s !</string>
+    <string name="logout_fab_content_description">Logout</string>
+    <string name="event_page_title">EVENT PAGE</string>
 </resources>

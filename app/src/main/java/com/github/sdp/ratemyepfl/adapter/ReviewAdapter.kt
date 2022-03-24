@@ -24,9 +24,9 @@ class ReviewAdapter :
             reviewView.findViewById(R.id.rateReview)
         private val commentView: TextView =
             reviewView.findViewById(R.id.commentReview)
-        private val dateView : TextView =
+        private val dateView: TextView =
             reviewView.findViewById(R.id.dateReview)
-        private val titleView : TextView =
+        private val titleView: TextView =
             reviewView.findViewById(R.id.titleReview)
         private var currentReview: Review? = null
 
