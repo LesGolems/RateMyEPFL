@@ -1,37 +1,42 @@
 package com.github.sdp.ratemyepfl.model.user
-
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.Serializable
+import java.lang.IllegalArgumentException
 
-interface User {
-
+@Serializable
+data class User(
+    val uid : String,
+    val username : String?,
+    val email : String?,
+    val picture : String?
+) {
     companion object {
+
+        const val USERNAME_FIELD = "username"
+        const val EMAIL_FIELD = "email"
+        const val PICTURE_FIELD = "picture"
+
         fun DocumentSnapshot.toUser() : User {
-            return object : User {
-                override fun getUid(): String {
-                    return getString("uid")!!
-                }
-
-                override fun getUsername(): String? {
-                    return getString("username")
-                }
-
-                override fun getEmail(): String? {
-                    return getString("email")
-                }
+            return User(
+                uid = id,
+                username = getString(USERNAME_FIELD)!!,
+                email = getString(EMAIL_FIELD)!!,
+                picture = getString(PICTURE_FIELD)!!
+                )
             }
         }
-    }
+
+    constructor(user : CurrentUser) : this(
+        uid = user.getUserId()!!,
+        username = user.getUsername()!!,
+        email = user.getEmail()!!,
+        picture = user.getProfilePictureUrl()!!)
 
     fun toHashMap(): HashMap<String, String?> {
         return hashMapOf(
-            "username" to getUsername(),
-            "email" to getEmail()
+            USERNAME_FIELD to username,
+            EMAIL_FIELD to email,
+            PICTURE_FIELD to picture
         )
     }
-
-    fun getUid() : String
-
-    fun getUsername() : String?
-
-    fun getEmail() : String?
 }

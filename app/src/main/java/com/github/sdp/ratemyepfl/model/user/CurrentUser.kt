@@ -1,24 +1,16 @@
 package com.github.sdp.ratemyepfl.model.user
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 
-class CurrentUser : User {
+/**
+ * Decorator class for ConnectedUser, otherwise I can't upgrade ConnectedUser
+ * without modifying a bunch of files.
+ */
 
-    private fun currentUser() : FirebaseUser {
-        return FirebaseAuth.getInstance().currentUser!!
-    }
+interface CurrentUser : ConnectedUser {
 
-    override fun getUid(): String {
-        return currentUser().uid
-    }
+    fun getUsername(): String?
 
-    override fun getUsername(): String? {
-        return currentUser().displayName
-    }
-
-    override fun getEmail(): String? {
-        return currentUser().email
-    }
+    fun getProfilePictureUrl(): String?
 
 }
