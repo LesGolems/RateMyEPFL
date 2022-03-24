@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 
 class ReviewAdapter :
-    ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(ReviewDiffCallback) {
+    ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(ListActivityUtils.diffCallback<Review>()) {
 
     /**
      * Provide a reference to the type of views that you are using
@@ -55,14 +55,4 @@ class ReviewAdapter :
         holder.bind(review)
     }
 
-}
-
-object ReviewDiffCallback : DiffUtil.ItemCallback<Review>() {
-    override fun areItemsTheSame(oldItem: Review, newItem: Review): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: Review, newItem: Review): Boolean {
-        return oldItem.comment == newItem.comment
-    }
 }

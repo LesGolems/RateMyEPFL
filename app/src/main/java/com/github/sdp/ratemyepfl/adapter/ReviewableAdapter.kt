@@ -7,15 +7,15 @@ import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
-    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ReviewableDiffCallback),
+    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ListActivityUtils.diffCallback<Reviewable>()),
     Filterable {
 
     private var list = mutableListOf<Reviewable>()
@@ -122,15 +122,5 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
             (it as Course).credits == queryInt
         })
         filteredList
-    }
-}
-
-object ReviewableDiffCallback : DiffUtil.ItemCallback<Reviewable>() {
-    override fun areItemsTheSame(oldItem: Reviewable, newItem: Reviewable): Boolean {
-        return oldItem == newItem
-    }
-
-    override fun areContentsTheSame(oldItem: Reviewable, newItem: Reviewable): Boolean {
-        return oldItem.id == newItem.id
     }
 }
