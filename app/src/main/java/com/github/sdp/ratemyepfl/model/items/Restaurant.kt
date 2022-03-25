@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
-import java.lang.Exception
 
 @Serializable
 data class Restaurant(

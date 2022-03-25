@@ -16,7 +16,9 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantReviewsListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RestaurantReviewListActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_RESTAURANT_JSON: String =

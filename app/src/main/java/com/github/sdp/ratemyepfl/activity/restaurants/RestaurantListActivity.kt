@@ -48,10 +48,7 @@ class RestaurantListActivity : AppCompatActivity() {
 
     private fun displayRestaurantReviews(restaurant: Restaurant) {
         val intent = Intent(this, RestaurantReviewListActivity::class.java)
-        intent.putExtra(
-            RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON,
-            Json.encodeToString(restaurant)
-        )
+        intent.putExtra( RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON, Json.encodeToString(restaurant) )
         startActivity(intent)
     }
 
