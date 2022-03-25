@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import javax.inject.Inject
 
 
@@ -44,6 +45,14 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
                 credits = 4,
                 id = "CS-332"
             )
+        )
+    }
+
+    override suspend fun getRestaurants(): List<Restaurant?> {
+        return listOf(
+            Restaurant(id = "Roulotte du Soleil"),
+            Restaurant(id = "Arcadie"),
+            Restaurant(id = "Takinoa")
         )
     }
 
