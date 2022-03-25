@@ -48,5 +48,4 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         val avgRating = (item.avgRating + rating.toValue()) / numRatings
         db.collection(item.collectionPath()).document(item.id).update("numRatings", numRatings,"avgRating", avgRating)
     }
-
 }
