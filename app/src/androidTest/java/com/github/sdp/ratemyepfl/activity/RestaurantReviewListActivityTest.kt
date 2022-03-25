@@ -38,7 +38,7 @@ class RestaurantReviewListActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(RestaurantReviewListActivity::class.java)
 
-    /*@Test
+    @Test
     fun fabListenForReviewIfARestaurantIsGiven() {
         val r = Restaurant("Arcadie")
         val intent = Intent(
@@ -59,9 +59,9 @@ class RestaurantReviewListActivityTest {
         Intents.intended(IntentMatchers.hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, r.id))
         Intents.release()
         scenario.close()
-    }*/
+    }
 
-    /*@Test
+    @Test
     fun swipeRefreshes() {
         FakeReviewsRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
@@ -89,5 +89,5 @@ class RestaurantReviewListActivityTest {
             )
         ))
         scenario.close()
-    }*/
+    }
 }

@@ -33,7 +33,7 @@ class RestaurantListActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(RestaurantListActivity::class.java)
 
-    /*@Test
+    @Test
     fun isRecyclerViewVisibleOnActivityLaunch() {
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
@@ -41,7 +41,7 @@ class RestaurantListActivityTest {
 
     @Test
     fun isSearchViewVisibleOnActivityLaunch() {
-        Espresso.onView(ViewMatchers.withId(R.id.searchView))
+        Espresso.onView(ViewMatchers.withId(R.id.restaurantSearchView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -60,24 +60,24 @@ class RestaurantListActivityTest {
 
     @Test
     fun nonEmptySearchQueryChangesCorrectlyTheList() {
-        openSearchView(R.id.searchView)
+        openSearchView(R.id.restaurantSearchView)
 
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
-            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("ELA 2")))
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("Takinoa")))
         )
 
         // Writes on the view that is opened by clicking on the search view
-        typeQuery("CM3")
+        typeQuery("Arcadie")
 
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
-            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("CM3")))
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("Arcadie")))
         )
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
             ViewAssertions.matches(
                 CoreMatchers.not(
                     ViewMatchers.hasDescendant(
                         ViewMatchers.withText(
-                            "ELA 2"
+                            "Takinoa"
                         )
                     )
                 )
@@ -107,10 +107,10 @@ class RestaurantListActivityTest {
 
     @Test
     fun emptySearchQueryDoesNotChangeTheView() {
-        openSearchView(R.id.searchView)
+        openSearchView(R.id.restaurantSearchView)
         typeQuery("")
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
-            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("CM3")))
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("Arcadie")))
         )
         closeSearchView()
     }
@@ -135,6 +135,6 @@ class RestaurantListActivityTest {
             .perform(ViewActions.click())
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }*/
+    }
 
 }
