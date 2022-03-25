@@ -16,4 +16,8 @@
         android:enabled="true"
         android:icon="@drawable/ic_camera_white_24dp"
         android:title="@string/pictures_review_icon" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/ic_help_white_24dp"
+        android:title="@string/todo" />
 </menu>

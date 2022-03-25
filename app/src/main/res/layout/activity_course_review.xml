@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
+        android:layout_centerHorizontal="true"
         android:background="@color/primaryColor"
         app:itemBackground="@drawable/bottom_navigation_line_selector"
         app:itemIconSize="@dimen/bottomNavigationItemIconSizeReview"

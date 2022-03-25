@@ -11,4 +11,8 @@
         android:enabled="true"
         android:icon="@drawable/ic_list_white_24dp"
         android:title="@string/list_review_icon" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/ic_help_white_24dp"
+        android:title="@string/todo" />
 </menu>
