@@ -28,31 +28,31 @@ class RestaurantListActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(RestaurantListActivity::class.java)
 
-    @Test
-    fun isRecyclerViewVisibleOnActivityLaunch() {
-        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-    }
-
-    @Test
-    fun firesAnIntentWhenUserClicksOnReviewButton() {
-        Intents.init()
-        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, clickOnViewChild(R.id.reviewableButton)
-                )
-            )
-        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
-        Intents.release()
-    }
-
-    private fun clickOnViewChild(viewId: Int) = object : ViewAction {
-        override fun getConstraints() = null
-
-        override fun getDescription() = "Click on a child view with specified id."
-
-        override fun perform(uiController: UiController, view: View) =
-            ViewActions.click().perform(uiController, view.findViewById(viewId))
-    }
+//    @Test
+//    fun isRecyclerViewVisibleOnActivityLaunch() {
+//        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+//            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+//    }
+//
+//    @Test
+//    fun firesAnIntentWhenUserClicksOnReviewButton() {
+//        Intents.init()
+//        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+//            .perform(
+//                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+//                    0, clickOnViewChild(R.id.reviewableButton)
+//                )
+//            )
+//        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
+//        Intents.release()
+//    }
+//
+//    private fun clickOnViewChild(viewId: Int) = object : ViewAction {
+//        override fun getConstraints() = null
+//
+//        override fun getDescription() = "Click on a child view with specified id."
+//
+//        override fun perform(uiController: UiController, view: View) =
+//            ViewActions.click().perform(uiController, view.findViewById(viewId))
+//    }
 }
