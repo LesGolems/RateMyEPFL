@@ -26,7 +26,7 @@ class RestaurantTest {
         assertEquals(4.5, r.avgRating, 0.0001)
     }
 
-    @Test
+    /*@Test
     fun serializationWorks(){
         val json = Json.encodeToString(EXPECTED_RESTAURANT)
         assertEquals(EXPECTED_JSON, json)
@@ -36,7 +36,7 @@ class RestaurantTest {
     fun deserializationWorks(){
         val r = Json.decodeFromString<Restaurant>(EXPECTED_JSON)
         assertEquals(EXPECTED_RESTAURANT, r)
-    }
+    }*/
 
     @Test
     fun toStringWorks(){
