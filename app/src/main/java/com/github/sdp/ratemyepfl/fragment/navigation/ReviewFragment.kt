@@ -45,7 +45,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
                 when (tab?.position) {
                     0 -> changeTab<CourseTabFragment>()
                     1 -> changeTab<ClassroomTabFragment>()
-                    2 -> {}
+                    2 -> changeTab<RestaurantTabFragment>()
                 }
             },
             {},

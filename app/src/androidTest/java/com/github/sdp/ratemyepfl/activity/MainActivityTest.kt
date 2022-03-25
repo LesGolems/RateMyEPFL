@@ -93,6 +93,16 @@ class MainActivityTest {
         release()
     }
 
+    @Test
+    fun testRestaurantButton() {
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
+        init()
+        onView(withId(R.id.reviewTabLayout)).perform(CustomViewActions.pressesTab(2))
+        onView(withId(R.id.restaurantTabButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
     /*
     @Test
     fun firesAnIntentWhenUserPressesMapButton() {

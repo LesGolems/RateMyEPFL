@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import javax.inject.Inject
 
 
@@ -49,10 +50,6 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         )
     }
 
-    override suspend fun getById(id: String): Reviewable? = null
-
-    override fun updateRating(rating: ReviewRating, item: Reviewable) {}
-
     override suspend fun getClassrooms(): List<Classroom?> {
         return listOf(
             Classroom(
@@ -69,4 +66,28 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
             )
         )
     }
+
+    override suspend fun getRestaurants(): List<Restaurant?> {
+        return listOf(
+            Restaurant(id = "Roulotte du Soleil"),
+            Restaurant(id = "Arcadie"),
+            Restaurant(id = "Takinoa")
+        )
+    }
+
+
+    override suspend fun getById(id: String): Reviewable? = null
+
+    override fun updateRating(rating: ReviewRating, item: Reviewable) {}
+
+    override suspend fun getByIdCourses(id: String): Course? = Course(
+        title = "Software development project",
+        section = "IC",
+        teacher = "George Candea",
+        credits = 4,
+        id = "CS-306"
+    )
+
+    override suspend fun getByIdClassrooms(id: String): Classroom? = Classroom(id = "CM3")
+
 }
