@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
+import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -19,7 +20,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RestaurantReviewListActivity : AppCompatActivity() {
+class RestaurantReviewListActivity : ReviewsListActivity<Restaurant>() {
     companion object {
         const val EXTRA_RESTAURANT_JSON: String =
             "com.github.sdp.ratemyepfl.activity.restaurants.extra_restaurant_json"
@@ -29,15 +30,6 @@ class RestaurantReviewListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review_list)
-
-        val reviewsAdapter = ReviewAdapter()
-        val recyclerView: RecyclerView = findViewById(R.id.reviewRecyclerView)
-        recyclerView.adapter = reviewsAdapter
-
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
-        )
 
         viewModel.getReviews().observe(this) {
             it?.let {
@@ -45,35 +37,21 @@ class RestaurantReviewListActivity : AppCompatActivity() {
             }
         }
 
-        // Floating action button for adding reviews
-        val fab: ExtendedFloatingActionButton = findViewById(R.id.startCourseReviewFAB)
-        viewModel.restaurant?.let { restaurant ->
+        viewModel.restaurant?.let { rest ->
             fab.setOnClickListener {
-                addReview(restaurant)
+                startReview(rest)
             }
         }
 
-        // When the users scroll the list of reviews, the button shrinks
-        recyclerView.setOnScrollListener(
-            ListActivityUtils.createOnScrollListener(
-                { fab.extend() },
-                { fab.shrink() }
-            )
-        )
-    }
-
-    private fun addReview(restaurant: Restaurant) {
-        val intent = Intent(this, AddReviewActivity::class.java)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, restaurant.id)
-        resultLauncher.launch(intent)
-    }
-
-
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                // refresh viewModel here
-            }
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateReviewsList()
+    }
 }

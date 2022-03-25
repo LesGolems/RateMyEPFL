@@ -27,7 +27,7 @@ class RestaurantReviewsListViewModel @Inject constructor(
         updateReviewsList()
     }
 
-    private fun updateReviewsList() {
+    fun updateReviewsList() {
         viewModelScope.launch {
             reviewsLiveData.value = reviewsRepository.getByReviewableId(restaurant?.id)
         }

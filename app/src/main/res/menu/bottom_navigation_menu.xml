@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeNavItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/home_nav_title" />
+    <item
+        android:id="@+id/reviewNavItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_rate_review_white_24dp"
+        android:title="@string/reviews_nav_title" />
+    <item
+        android:id="@+id/eventNavItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_event_white_24dp"
+        android:title="@string/events_nav_item" />
+    <item
+        android:id="@+id/mapNavItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_map_white_24dp"
+        android:title="@string/map_nav_title" />
+</menu>

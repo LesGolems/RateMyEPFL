@@ -6,6 +6,10 @@ import org.junit.Test
 import java.time.LocalDate
 
 class ReviewTest {
+    val EXPECTED_REVIEW =
+        Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
+    val EXPECTED_JSON =
+        "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
 
     @Test
     fun test() {
@@ -66,6 +70,19 @@ class ReviewTest {
     }
 
     @Test
+    fun builderThrowsExceptionIfDateIsNull() {
+        val builder = Review.Builder()
+            .setRating(ReviewRating.AVERAGE)
+            .setTitle("Hello")
+            .setComment("Hello")
+            .setReviewableID("ID")
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
     fun builderSetRateCorrectly() {
         val rating = ReviewRating.TERRIBLE
         val builder: Review = Review.Builder()
@@ -81,7 +98,7 @@ class ReviewTest {
 
     @Test
     fun builderSetTitleCorrectly() {
-        val title: String = "My title"
+        val title = "My title"
         val builder: Review = Review.Builder()
             .setRating(ReviewRating.TERRIBLE)
             .setComment("My comment")
@@ -158,6 +175,12 @@ class ReviewTest {
         val deserializedReview = Review.deserialize(serializedReview)
 
         assertEquals(review, deserializedReview)
+    }
+
+    @Test
+    fun serializeWorks() {
+        val serializedReview = EXPECTED_REVIEW.serialize()
+        assertEquals(serializedReview, EXPECTED_JSON)
     }
 
     @Test

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SplashScreen"
-    android:background="@raw/background">
+    android:background="@raw/background"
+    tools:context=".activity.SplashScreen">
 
     <TextView
         android:id="@+id/logoText"

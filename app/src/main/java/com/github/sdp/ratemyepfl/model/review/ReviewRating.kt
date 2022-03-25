@@ -29,7 +29,7 @@ enum class ReviewRating(val rating: Int) {
          * @param value: the value to convert
          * @return the corresponding rating, and null if it does not correspond to anything
          */
-        fun fromValue(value: Float): ReviewRating? = when(value.roundToInt()) {
+        fun fromValue(value: Float): ReviewRating? = when (value.roundToInt()) {
             TERRIBLE_RATING -> TERRIBLE
             POOR_RATING -> POOR
             AVERAGE_RATING -> AVERAGE
