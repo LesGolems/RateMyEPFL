@@ -9,7 +9,7 @@ import com.github.sdp.ratemyepfl.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_list) {
+class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
