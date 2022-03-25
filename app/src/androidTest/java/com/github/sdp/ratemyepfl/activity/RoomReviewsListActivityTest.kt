@@ -99,9 +99,9 @@ class RoomReviewsListActivityTest {
         )
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            CourseReviewListActivity::class.java
+            RoomReviewsListActivity::class.java
         )
-        val scenario: ActivityScenario<CourseReviewListActivity> =
+        val scenario: ActivityScenario<RoomReviewsListActivity> =
             ActivityScenario.launch(intent)
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
 
