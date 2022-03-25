@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel

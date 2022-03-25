@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
+import com.github.sdp.ratemyepfl.activity.RoomReviewListFragment
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
@@ -28,7 +29,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun displayReviews(room: Classroom) {
         val intent = Intent(this, RoomReviewActivity::class.java)
-        intent.putExtra(RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON, room.toJSON())
+        intent.putExtra(RoomReviewListFragment.EXTRA_CLASSROOMS_JSON, room.toJSON())
         startActivity(intent)
     }
     /*

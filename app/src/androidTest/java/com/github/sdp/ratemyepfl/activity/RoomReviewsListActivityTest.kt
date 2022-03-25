@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
@@ -17,7 +15,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
