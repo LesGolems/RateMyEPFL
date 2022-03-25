@@ -2,6 +2,8 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import javax.inject.Inject
 
 
@@ -47,6 +49,9 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         )
     }
 
+    override suspend fun getById(id: String): Reviewable? = null
+
+    override fun updateRating(rating: ReviewRating, item: Reviewable) {}
 
     override suspend fun getClassrooms(): List<Classroom?> {
         return listOf(
