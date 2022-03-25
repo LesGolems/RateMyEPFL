@@ -14,6 +14,20 @@ enum class ReviewRating(val rating: Int) {
     GOOD(ReviewRating.GOOD_RATING),
     EXCELLENT(ReviewRating.EXCELLENT_RATING);
 
+    /**
+     * Convert a rating to the correspond integer.
+     *
+     * @param rating: the rating to convert
+     * @return the corresponding integer
+     */
+    fun toValue(): Int = when (this) {
+        TERRIBLE -> TERRIBLE_RATING
+        POOR -> POOR_RATING
+        AVERAGE -> AVERAGE_RATING
+        GOOD -> GOOD_RATING
+        EXCELLENT -> EXCELLENT_RATING
+    }
+
     companion object {
         // Defines the integer values corresponding to each rating
         const val EXCELLENT_RATING = 5

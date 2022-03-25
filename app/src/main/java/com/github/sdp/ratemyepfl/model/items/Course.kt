@@ -38,4 +38,11 @@ data class Course(
         private const val TAG = "Course"
     }
 
+    override fun toHashMap(): HashMap<String, String> {
+        return hashMapOf(
+            "id" to id, "numRatings" to numRatings.toString(), "avgRating" to avgRating.toString(),
+            "title" to title, "section" to section, "teacher" to teacher, "credits" to credits.toString()
+        )
+    }
+
 }

@@ -1,11 +1,21 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
+import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -17,13 +27,24 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val database: ReviewsRepositoryInterface
+    private val database: ReviewsRepositoryInterface,
+    private val itemRepo: ItemsRepositoryInterface,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
     private var date: LocalDate? = null
+    private var item: Reviewable? = null
+
+    val id: String? = savedStateHandle.get<String>(AddReviewActivity.EXTRA_ITEM_REVIEWED)
+
+    init {
+        viewModelScope.launch {
+            item = itemRepo.getById(id!!)
+        }
+    }
 
     /**
      * Set the rating entered by the user
@@ -50,19 +71,21 @@ class AddReviewViewModel @Inject constructor(
      *
      * @return true if it succeeds to build the review, false otherwise
      */
-    fun submitReview(reviewableId: String?): Boolean {
+    fun submitReview(): Boolean {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
         val date = date ?: LocalDate.now()
 
+        itemRepo.updateIdWithRate(id, rating)
+
         // For now title is empty, as we don't have an input for it in the UI
-        if (rating != null && comment != null && title != null && reviewableId != null) {
+        if (rating != null && comment != null && title != null && id != null) {
             val review = Review.Builder()
                 .setRating(rating)
                 .setTitle(title)
                 .setComment(comment)
-                .setReviewableID(reviewableId)
+                .setReviewableID(id)
                 .setDate(date)
                 .build()
             database.add(review)

@@ -18,4 +18,6 @@ abstract class Reviewable {
         val serializer = this::class.serializer() as KSerializer<Any?>
         return Json.encodeToString(serializer, this)
     }
+
+     abstract fun toHashMap(): HashMap<String, String>
 }
