@@ -39,10 +39,22 @@ data class Course(
     }
 
     override fun toHashMap(): HashMap<String, String> {
-        return hashMapOf(
-            "id" to id, "numRatings" to numRatings.toString(), "avgRating" to avgRating.toString(),
-            "title" to title, "section" to section, "teacher" to teacher, "credits" to credits.toString()
-        )
+        val hm = super.toHashMap()
+        hm.putAll(hashMapOf("title" to title, "section" to section, "teacher" to teacher, "credits" to credits.toString()))
+        if(cycle != null){
+            hm["cycle"] = cycle
+        }
+        if(session != null){
+            hm["session"] = session
+        }
+        if(grading != null){
+            hm["cycle"] = grading
+        }
+        if(language != null){
+            hm["language"] = language
+        }
+        return hm
     }
 
+    override fun collectionPath(): String = "courses"
 }

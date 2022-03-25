@@ -77,8 +77,6 @@ class AddReviewViewModel @Inject constructor(
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        itemRepo.updateIdWithRate(id, rating)
-
         // For now title is empty, as we don't have an input for it in the UI
         if (rating != null && comment != null && title != null && id != null) {
             val review = Review.Builder()
@@ -89,6 +87,7 @@ class AddReviewViewModel @Inject constructor(
                 .setDate(date)
                 .build()
             database.add(review)
+            itemRepo.updateRating(rating, item!!)
             return true
         }
         return false

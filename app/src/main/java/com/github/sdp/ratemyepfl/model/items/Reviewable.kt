@@ -19,5 +19,9 @@ abstract class Reviewable {
         return Json.encodeToString(serializer, this)
     }
 
-     abstract fun toHashMap(): HashMap<String, String>
+     open fun toHashMap(): HashMap<String, String>{
+         return hashMapOf("id" to id, "numRatings" to numRatings.toString(), "avgRating" to avgRating.toString())
+     }
+
+    abstract fun collectionPath(): String
 }

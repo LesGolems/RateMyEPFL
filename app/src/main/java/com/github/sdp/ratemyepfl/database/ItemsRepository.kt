@@ -43,10 +43,10 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         return getByIdCourses(id)
     }
 
-    suspend fun updateIdWithRate(id: String, rating: ReviewRating, item: Reviewable){
-        item.numRatings += 1
-        item.avgRating = (item.avgRating + rating.toValue()) / item.numRatings
-        collectionCourses.document(id).set(item)
+    override fun updateRating(rating: ReviewRating, item: Reviewable){
+        val numRatings = item.numRatings + 1
+        val avgRating = (item.avgRating + rating.toValue()) / numRatings
+        db.collection(item.collectionPath()).document(item.id).update("numRatings", numRatings,"avgRating", avgRating)
     }
 
 }

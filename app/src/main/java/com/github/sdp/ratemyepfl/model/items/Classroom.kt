@@ -27,4 +27,5 @@ data class Classroom(
         return "$id"
     }
 
+    override fun collectionPath(): String = "rooms"
 }
