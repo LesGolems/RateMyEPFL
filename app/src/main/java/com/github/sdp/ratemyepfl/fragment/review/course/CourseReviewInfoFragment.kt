@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
-import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

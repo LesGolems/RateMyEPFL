@@ -6,12 +6,13 @@ import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RoomReviewActivity: AppCompatActivity() {
+class RoomReviewActivity: ReviewActivity() {
 
     private val viewModel by viewModels<RoomReviewViewModel>()
 
@@ -19,12 +20,6 @@ class RoomReviewActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_review)
 
-        setUpNavigation()
-    }
-
-    private fun setUpNavigation(){
-        val bottomNavigationReview = findViewById<BottomNavigationView>(R.id.roomReviewNavigationView)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.roomReviewNavHostFragment) as NavHostFragment
-        bottomNavigationReview.setupWithNavController(navHostFragment.navController)
+        setUpNavigation(R.id.roomReviewNavigationView, R.id.roomReviewNavHostFragment)
     }
 }

@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewListActivity
+import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewActivity
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -27,27 +27,27 @@ import org.junit.Test
 import java.time.LocalDate
 
 @HiltAndroidTest
-class RestaurantReviewListActivityTest {
+class RestaurantReviewActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(RestaurantReviewListActivity::class.java)
+    val testRule = ActivityScenarioRule(RestaurantReviewActivity::class.java)
 
     @Test
     fun fabListenForReviewIfARestaurantIsGiven() {
         val r = Restaurant("Arcadie")
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            RestaurantReviewListActivity::class.java
+            RestaurantReviewActivity::class.java
         )
         intent.putExtra(
-            RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON,
+            RestaurantReviewActivity.EXTRA_RESTAURANT_JSON,
             Json.encodeToString(r)
         )
 
-        val scenario: ActivityScenario<RestaurantReviewListActivity> =
+        val scenario: ActivityScenario<RestaurantReviewActivity> =
             ActivityScenario.launch(intent)
 
         Intents.init()
@@ -70,9 +70,9 @@ class RestaurantReviewListActivityTest {
         )
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            RestaurantReviewListActivity::class.java
+            RestaurantReviewActivity::class.java
         )
-        val scenario: ActivityScenario<RestaurantReviewListActivity> =
+        val scenario: ActivityScenario<RestaurantReviewActivity> =
             ActivityScenario.launch(intent)
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
 

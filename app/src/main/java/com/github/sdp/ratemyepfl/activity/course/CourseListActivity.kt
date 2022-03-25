@@ -7,9 +7,6 @@ import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
-import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel

@@ -39,6 +39,15 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         return getById(collectionRooms, id).toClassroom()
     }
 
+    override suspend fun getRestaurants(): List<Restaurant?> {
+        return getLimit(collectionRestaurants, 50)
+            .mapNotNull { obj -> obj.toRestaurant() }
+    }
+
+    override suspend fun getByIdRestaurants(id: String): Restaurant? {
+        return getById(collectionRestaurants, id).toRestaurant()
+    }
+
     override suspend fun getById(id : String): Reviewable? {
         val result = getByIdClassrooms(id)
         if (result != null) {
@@ -53,8 +62,4 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         db.collection(item.collectionPath()).document(item.id).update("numRatings", numRatings,"avgRating", avgRating)
     }
 
-    override suspend fun getRestaurants(): List<Restaurant?> {
-        return getLimit(collectionRestaurants, 50)
-            .mapNotNull { obj -> obj.toRestaurant() }
-    }
 }
