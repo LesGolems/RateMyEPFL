@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
 import com.github.sdp.ratemyepfl.model.items.Course
@@ -39,7 +40,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
 
     override fun displayReviews(course: Course) {
         val intent = Intent(this, CourseReviewListActivity::class.java as Class<ReviewsListActivity<Course>>)
-        intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_JSON, course.toJSON())
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.toJSON())
         startActivity(intent)
     }
 

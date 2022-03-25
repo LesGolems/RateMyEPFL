@@ -1,12 +1,11 @@
 package com.github.sdp.ratemyepfl.activity.course
 
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.viewmodel.CourseReviewListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -20,7 +19,7 @@ class CourseReviewListActivity : ReviewsListActivity<Course>() {
             "com.github.sdp.ratemyepfl.activity.course_json"
     }
 
-    private val viewModel by viewModels<CourseReviewListViewModel>()
+    private val viewModel by viewModels<CourseReviewViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +30,11 @@ class CourseReviewListActivity : ReviewsListActivity<Course>() {
             }
         }
 
-        viewModel.course?.let { course ->
-            fab.setOnClickListener {
-                startReview(course)
+        viewModel.getCourse().observe(this) {
+            it?.let { course ->
+                fab.setOnClickListener {
+                    startReview(course)
+                }
             }
         }
 

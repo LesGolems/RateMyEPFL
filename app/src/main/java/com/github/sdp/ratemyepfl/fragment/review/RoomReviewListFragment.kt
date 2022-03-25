@@ -20,8 +20,8 @@ class RoomReviewListFragment : ReviewListFragment() {
             }
         }
 
-        viewModel.getRoom().observe(viewLifecycleOwner){ room ->
-            room?.let {
+        viewModel.getRoom().observe(viewLifecycleOwner){
+            it?.let {room ->
                 fab.setOnClickListener {
                     startReview(room)
                 }

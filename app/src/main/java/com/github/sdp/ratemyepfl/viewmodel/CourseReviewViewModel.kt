@@ -1,8 +1,11 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
+import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
+import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,27 +15,28 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
-class CourseReviewListViewModel @Inject constructor(
+class CourseReviewViewModel @Inject constructor(
     private val reviewsRepository: ReviewsRepositoryInterface,
+    private val itemsRepository: ItemsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : ReviewViewModel(reviewsRepository, itemsRepository, savedStateHandle) {
 
-    val course: Course? = savedStateHandle.get<String>(CourseReviewListActivity.EXTRA_COURSE_JSON)
-        ?.let { Json.decodeFromString(it) }
 
-    private val reviewsLiveData = MutableLiveData<List<Review?>>()
+    // Course
+    private val course = MutableLiveData<Course?>()
 
     init {
+        updateCourse()
         updateReviewsList()
     }
 
-    fun updateReviewsList() {
+    fun updateCourse() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(course?.id)
+            course.value = itemsRepository.getByIdCourses(id!!)
         }
     }
 
-    fun getReviews(): LiveData<List<Review?>> {
-        return reviewsLiveData
+    fun getCourse(): LiveData<Course?> {
+        return course
     }
 }

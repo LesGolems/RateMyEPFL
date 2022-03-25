@@ -19,15 +19,10 @@ class RoomReviewViewModel @Inject constructor(
     private val reviewsRepository: ReviewsRepositoryInterface,
     private val itemsRepository: ItemsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
-
-    val id: String? = savedStateHandle.get<String>(RoomReviewActivity.EXTRA_CLASSROOMS_ID)
+) : ReviewViewModel(reviewsRepository, itemsRepository, savedStateHandle) {
 
     // Classroom
     private val room = MutableLiveData<Classroom?>()
-    // Reviews of the classroom
-    private val reviewsLiveData = MutableLiveData<List<Review?>>()
-
     
     init {
         updateRoom()
@@ -38,16 +33,6 @@ class RoomReviewViewModel @Inject constructor(
         viewModelScope.launch {
             room.value = itemsRepository.getByIdClassrooms(id!!)
         }
-    }
-
-    fun updateReviewsList() {
-        viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(id)
-        }
-    }
-
-    fun getReviews(): LiveData<List<Review?>> {
-        return reviewsLiveData
     }
 
     fun getRoom(): LiveData<Classroom?> {

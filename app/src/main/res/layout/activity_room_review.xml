@@ -24,7 +24,7 @@
         android:layout_gravity="bottom"
         android:background="@color/primaryColor"
         app:itemBackground="@drawable/bottom_navigation_line_selector"
-        app:itemIconSize="@dimen/bottomNavigationItemIconSize"
+        app:itemIconSize="@dimen/bottomNavigationItemIconSizeReview"
         app:itemIconTint="@drawable/bottom_navigation_color"
         app:itemTextColor="@drawable/bottom_navigation_color"
         app:labelVisibilityMode="unlabeled"

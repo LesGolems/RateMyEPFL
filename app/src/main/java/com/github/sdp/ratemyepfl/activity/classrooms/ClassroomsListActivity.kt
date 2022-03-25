@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
 import com.github.sdp.ratemyepfl.fragment.review.RoomReviewListFragment
@@ -29,7 +30,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun displayReviews(room: Classroom) {
         val intent = Intent(this, RoomReviewActivity::class.java)
-        intent.putExtra(RoomReviewActivity.EXTRA_CLASSROOMS_ID, room.id)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id)
         startActivity(intent)
     }
     /*
