@@ -8,7 +8,7 @@ import org.junit.Test
 
 class RestaurantTest {
     val EXPECTED_RESTAURANT = Restaurant("Roulotte du Soleil", 50, 3.5)
-    val EXPECTED_JSON = "{\"id\":\"Roulotte du Soleil\",\"numRatings\":50,\"avgRating\":3.5,\"}"
+    val EXPECTED_JSON = "{\"id\":\"Roulotte du Soleil\",\"numRatings\":50,\"avgRating\":3.5\"}"
 
     @Test
     fun defaultConstructorWorks(){
