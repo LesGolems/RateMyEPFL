@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
-import com.github.sdp.ratemyepfl.activity.RoomReviewListFragment
+import com.github.sdp.ratemyepfl.fragment.review.RoomReviewListFragment
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel

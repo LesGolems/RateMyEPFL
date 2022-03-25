@@ -1,10 +1,8 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.review
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint

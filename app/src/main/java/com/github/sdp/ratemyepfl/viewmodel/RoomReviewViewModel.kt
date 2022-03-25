@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
-import com.github.sdp.ratemyepfl.activity.RoomReviewListFragment
+import com.github.sdp.ratemyepfl.fragment.review.RoomReviewListFragment
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review

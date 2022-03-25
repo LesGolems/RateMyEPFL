@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.review
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
