@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
@@ -13,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoomReviewActivity: AppCompatActivity() {
     private lateinit var bottomNavigationReview: BottomNavigationView
-    private lateinit var reviewFragment: FragmentContainerView
 
     private val viewModel by viewModels<RoomReviewViewModel>()
 
@@ -22,6 +25,7 @@ class RoomReviewActivity: AppCompatActivity() {
         setContentView(R.layout.activity_room_review)
 
         bottomNavigationReview = findViewById(R.id.roomReviewNavigationView)
-        reviewFragment = findViewById(R.id.roomReviewActivityFragmentContainer)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.roomReviewNavHostFragment) as NavHostFragment
+        bottomNavigationReview.setupWithNavController(navHostFragment.navController)
     }
 }
