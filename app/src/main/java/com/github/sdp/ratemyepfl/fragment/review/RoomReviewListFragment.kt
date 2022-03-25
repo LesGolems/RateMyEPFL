@@ -9,11 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RoomReviewListFragment : ReviewListFragment() {
-    companion object {
-        const val EXTRA_CLASSROOMS_JSON =
-            "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
-    }
-
     private val viewModel by activityViewModels<RoomReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,9 +20,11 @@ class RoomReviewListFragment : ReviewListFragment() {
             }
         }
 
-        viewModel.room?.let { room ->
-            fab.setOnClickListener {
-                startReview(room)
+        viewModel.getRoom().observe(viewLifecycleOwner){ room ->
+            room?.let {
+                fab.setOnClickListener {
+                    startReview(room)
+                }
             }
         }
 

@@ -9,5 +9,7 @@ interface ItemsRepositoryInterface {
     suspend fun getClassrooms(): List<Classroom?>
     suspend fun getCourses(): List<Course?>
     suspend fun getById(id: String): Reviewable?
+    suspend fun getByIdCourses(id: String): Course?
+    suspend fun getByIdClassrooms(id: String): Classroom?
     fun updateRating(rating: ReviewRating, item: Reviewable)
 }

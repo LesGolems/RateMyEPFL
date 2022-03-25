@@ -29,7 +29,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun displayReviews(room: Classroom) {
         val intent = Intent(this, RoomReviewActivity::class.java)
-        intent.putExtra(RoomReviewListFragment.EXTRA_CLASSROOMS_JSON, room.toJSON())
+        intent.putExtra(RoomReviewActivity.EXTRA_CLASSROOMS_ID, room.id)
         startActivity(intent)
     }
     /*

@@ -12,6 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RoomReviewActivity: AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_CLASSROOMS_ID =
+            "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_id"
+    }
+
     private val viewModel by viewModels<RoomReviewViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

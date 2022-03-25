@@ -17,7 +17,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
             .mapNotNull { obj -> obj.toCourse() }
     }
 
-    suspend fun getByIdCourses(id: String): Course? {
+    override suspend fun getByIdCourses(id: String): Course? {
         return getById(collectionCourses, id).toCourse()
     }
 
@@ -26,7 +26,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
             .mapNotNull { obj -> obj.toClassroom() }
     }
 
-    suspend fun getByIdClassrooms(id: String): Classroom? {
+    override suspend fun getByIdClassrooms(id: String): Classroom? {
         return getById(collectionRooms, id).toClassroom()
     }
 

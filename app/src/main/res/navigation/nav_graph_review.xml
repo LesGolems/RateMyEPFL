@@ -14,7 +14,7 @@
         android:id="@+id/roomReviewListFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewListFragment"
         android:label="fragment_room_review_list"
-        tools:layout="@layout/fragment_room_review_list" />
+        tools:layout="@layout/fragment_review_list" />
     <fragment
         android:id="@+id/roomReviewPictureFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewPictureFragment"
