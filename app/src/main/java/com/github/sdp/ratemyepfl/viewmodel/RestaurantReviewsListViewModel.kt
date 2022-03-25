@@ -12,27 +12,28 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
-class RestaurantReviewViewModel @Inject constructor(
+class RestaurantReviewsListViewModel @Inject constructor(
     private val reviewsRepository: ReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val restaurant: Restaurant? = savedStateHandle.get<String>(RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON)?.let{ Json.decodeFromString(it)}
+    val restaurant: Restaurant? =
+        savedStateHandle.get<String>(RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON)
+            ?.let { Json.decodeFromString(it) }
 
     private val reviewsLiveData = MutableLiveData<List<Review?>>()
-
 
     init {
         updateReviewsList()
     }
 
-    private fun updateReviewsList(){
-        viewModelScope.launch{
+    private fun updateReviewsList() {
+        viewModelScope.launch {
             reviewsLiveData.value = reviewsRepository.getByReviewableId(restaurant?.id)
         }
     }
 
-    fun getReviews(): LiveData<List<Review?>>{
+    fun getReviews(): LiveData<List<Review?>> {
         return reviewsLiveData
     }
 

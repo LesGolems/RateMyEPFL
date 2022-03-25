@@ -10,14 +10,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class RestaurantListViewModel @Inject constructor(private val repository : ItemsRepositoryInterface): ViewModel(){
+class RestaurantListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
+    ViewModel() {
 
     private var restaurantLiveData = MutableLiveData<List<Restaurant?>>()
 
     init {
-        viewModelScope.launch{
+        viewModelScope.launch {
             restaurantLiveData.value = repository.getRestaurants()
         }
     }
@@ -25,6 +25,5 @@ class RestaurantListViewModel @Inject constructor(private val repository : Items
     fun getRestaurants(): LiveData<List<Restaurant?>> {
         return restaurantLiveData
     }
-
 
 }

@@ -5,24 +5,28 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.sdp.ratemyepfl.auth.Authenticator
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.classrooms.ClassroomsListActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
+import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantListActivity
+import com.github.sdp.ratemyepfl.auth.Authenticator
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var user: ConnectedUser
-    @Inject lateinit var auth : Authenticator
+    @Inject
+    lateinit var user: ConnectedUser
+    @Inject
+    lateinit var auth: Authenticator
 
     private lateinit var mLogoutButton: Button
     private lateinit var mCoursesButton: Button
     private lateinit var mUser_text: TextView
     private lateinit var mRoomReviewButton: Button
+    private lateinit var mRestaurantButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         checkUser()
 
         mCoursesButton = findViewById(R.id.coursesButton)
+        mRestaurantButton = findViewById(R.id.restaurantButton)
 
         mRoomReviewButton = findViewById(R.id.classroomReviewButton)
         mRoomReviewButton.setOnClickListener {
@@ -65,6 +70,10 @@ class MainActivity : AppCompatActivity() {
 
         mCoursesButton.setOnClickListener {
             displayCourses()
+        }
+
+        mRestaurantButton.setOnClickListener {
+            startActivity(Intent(this, RestaurantListActivity::class.java))
         }
 
     }

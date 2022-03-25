@@ -33,6 +33,13 @@
             android:name=".activity.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.restaurants.RestaurantListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.restaurants.RestaurantReviewListActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.restaurants.RestaurantListActivity" />
+        <activity
             android:name=".activity.SplashScreen"
             android:exported="true">
             <intent-filter>
