@@ -49,6 +49,8 @@
         <activity
             android:name=".activity.map.MapActivity"
             android:exported="false" />
+        <activity android:name=".activity.restaurants.RestaurantListActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">
