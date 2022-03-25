@@ -12,9 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.PermissionUtils.isPermissionGranted
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -38,7 +41,14 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
+        val epfl = LatLng(46.517, 6.567)
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(epfl)
+                .title("EPFL")
+        )
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(epfl))
+
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
         enableMyLocation()
