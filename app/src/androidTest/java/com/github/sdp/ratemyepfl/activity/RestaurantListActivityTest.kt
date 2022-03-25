@@ -12,10 +12,15 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.platform.app.InstrumentationRegistry
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantListActivity
+import com.github.sdp.ratemyepfl.utils.closeSearchView
+import com.github.sdp.ratemyepfl.utils.openSearchView
+import com.github.sdp.ratemyepfl.utils.typeQuery
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.CoreMatchers
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,31 +33,108 @@ class RestaurantListActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(RestaurantListActivity::class.java)
 
-//    @Test
-//    fun isRecyclerViewVisibleOnActivityLaunch() {
-//        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
-//            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-//    }
-//
-//    @Test
-//    fun firesAnIntentWhenUserClicksOnReviewButton() {
-//        Intents.init()
-//        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
-//            .perform(
-//                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-//                    0, clickOnViewChild(R.id.reviewableButton)
-//                )
-//            )
-//        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
-//        Intents.release()
-//    }
-//
-//    private fun clickOnViewChild(viewId: Int) = object : ViewAction {
-//        override fun getConstraints() = null
-//
-//        override fun getDescription() = "Click on a child view with specified id."
-//
-//        override fun perform(uiController: UiController, view: View) =
-//            ViewActions.click().perform(uiController, view.findViewById(viewId))
-//    }
+    /*@Test
+    fun isRecyclerViewVisibleOnActivityLaunch() {
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun isSearchViewVisibleOnActivityLaunch() {
+        Espresso.onView(ViewMatchers.withId(R.id.searchView))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun firesAnIntentWhenUserClicksOnReviewButton() {
+        Intents.init()
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0, com.github.sdp.ratemyepfl.utils.clickOnViewChild(R.id.reviewableButton)
+                )
+            )
+        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
+        Intents.release()
+    }
+
+    @Test
+    fun nonEmptySearchQueryChangesCorrectlyTheList() {
+        openSearchView(R.id.searchView)
+
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("ELA 2")))
+        )
+
+        // Writes on the view that is opened by clicking on the search view
+        typeQuery("CM3")
+
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("CM3")))
+        )
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
+            ViewAssertions.matches(
+                CoreMatchers.not(
+                    ViewMatchers.hasDescendant(
+                        ViewMatchers.withText(
+                            "ELA 2"
+                        )
+                    )
+                )
+            )
+        )
+
+        closeSearchView()
+    }
+
+    /*@Test
+    fun noSearchResultsDisplaysNothing() {
+        openSearchView(R.id.searchView)
+        typeQuery("Not a classroom")
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
+            ViewAssertions.matches(
+                CoreMatchers.not(
+                    ViewMatchers.hasDescendant(
+                        ViewMatchers.withText(
+                            "CM3"
+                        )
+                    )
+                )
+            )
+        )
+        closeSearchView()
+    }*/
+
+    @Test
+    fun emptySearchQueryDoesNotChangeTheView() {
+        openSearchView(R.id.searchView)
+        typeQuery("")
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView)).check(
+            ViewAssertions.matches(ViewMatchers.hasDescendant(ViewMatchers.withText("CM3")))
+        )
+        closeSearchView()
+    }
+
+    @Test
+    fun increasingSort() {
+        Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
+        Espresso.onView(ViewMatchers.withText(R.string.sort_alphabetically))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.increasing_order))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun decreasingSort() {
+        Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().targetContext)
+        Espresso.onView(ViewMatchers.withText(R.string.sort_alphabetically))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withText(R.string.decreasing_order))
+            .perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }*/
+
 }
