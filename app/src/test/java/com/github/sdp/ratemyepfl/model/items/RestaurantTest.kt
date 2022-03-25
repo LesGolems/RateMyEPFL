@@ -29,7 +29,7 @@ class RestaurantTest {
     @Test
     fun serializationWorks(){
         val json = Json.encodeToString(EXPECTED_RESTAURANT)
-        assertEquals(EXPECTED_RESTAURANT, json)
+        assertEquals(EXPECTED_JSON, json)
     }
 
     @Test
