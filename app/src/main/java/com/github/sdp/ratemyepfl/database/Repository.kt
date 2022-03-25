@@ -15,6 +15,5 @@ open class Repository {
 
     suspend fun getById(collection: CollectionReference, id: String): DocumentSnapshot {
         return collection.document(id).get().await()
-
     }
 }

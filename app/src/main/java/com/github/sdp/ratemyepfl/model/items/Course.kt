@@ -29,7 +29,9 @@ data class Course(
                 val section = getString("section")!!
                 val teacher = getString("teacher")!!
                 val credits = getString("credits")?.toInt()!!
-                Course(title, section, teacher, credits, id)
+                val numRatings = getString("numRatings")!!.toInt()
+                val avgRating = getString("avgRating")!!.toDouble()
+                Course(title, section, teacher, credits, id, numRatings, avgRating)
             } catch (e: Exception) {
                 null
             }

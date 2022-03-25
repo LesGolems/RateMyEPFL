@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/infoNavReview"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:title="@string/info_review_icon" />
+    <item
+        android:id="@+id/listNavReview"
+        android:enabled="true"
+        android:icon="@drawable/ic_rate_review_white_24dp"
+        android:title="@string/list_review_icon" />
+    <item
+        android:id="@+id/pictureNavReview"
+        android:enabled="true"
+        android:icon="@drawable/ic_event_white_24dp"
+        android:title="@string/pictures_review_icon" />
+</menu>

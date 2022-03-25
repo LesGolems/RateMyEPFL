@@ -54,7 +54,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     abstract fun getExtraString(): String
 
-    abstract fun getExtraClass(): Class<ReviewsListActivity<T>>
+    abstract fun getExtraClass(): Class<ReviewActivity<T>>
 
     abstract fun getMenuString(): Int
 

@@ -14,7 +14,7 @@ data class Classroom(
     companion object {
         fun DocumentSnapshot.toClassroom(): Classroom? {
             return try {
-                Classroom(id)
+                Classroom(id, getString("numRatings")!!.toInt(), getString("avgRating")!!.toDouble())
             } catch (e: Exception) {
                 null
             }

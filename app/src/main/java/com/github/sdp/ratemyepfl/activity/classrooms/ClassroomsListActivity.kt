@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
-import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
@@ -29,8 +29,8 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
         return RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON
     }
 
-    override fun getExtraClass(): Class<ReviewsListActivity<Classroom>> {
-        return RoomReviewsListActivity::class.java as Class<ReviewsListActivity<Classroom>>
+    override fun getExtraClass(): Class<ReviewActivity<Classroom>> {
+        return ReviewActivity::class.java as Class<ReviewActivity<Classroom>>
     }
 
     override fun getMenuString(): Int {

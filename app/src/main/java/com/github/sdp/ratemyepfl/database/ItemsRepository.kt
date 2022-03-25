@@ -12,11 +12,6 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
     private val collectionCourses = db.collection("courses")
     private val collectionRooms = db.collection("rooms")
 
-    companion object {
-        private const val TAG_COURSES = "CourseRepository"
-        private const val TAG_ROOMS = "ClassroomRepository"
-    }
-
     override suspend fun getCourses(): List<Course?> {
         return getLimit(collectionCourses, 50)
             .mapNotNull { obj -> obj.toCourse() }
