@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ReviewActivity">
+    tools:context=".activity.RoomReviewActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/roomReviewActivityFragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/roomReviewNavigationView"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_review" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/roomReviewNavigationView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom_navigation_menu_review" />
-</LinearLayout>
+        app:menu="@menu/bottom_navigation_menu_room_review" />
+</RelativeLayout>

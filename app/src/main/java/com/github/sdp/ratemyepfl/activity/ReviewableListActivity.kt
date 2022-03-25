@@ -52,17 +52,9 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
         }
     }
 
-    abstract fun getExtraString(): String
-
-    abstract fun getExtraClass(): Class<ReviewActivity<T>>
-
     abstract fun getMenuString(): Int
 
     abstract fun getSearchViewString(): Int
 
-    private fun displayReviews(t: T) {
-        val intent = Intent(this, getExtraClass())
-        intent.putExtra(getExtraString(), t.toJSON())
-        startActivity(intent)
-    }
+    abstract fun displayReviews(t: T)
 }

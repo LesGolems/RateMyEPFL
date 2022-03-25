@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL" >
         <activity
-            android:name=".activity.ReviewActivity"
+            android:name=".activity.RoomReviewActivity"
             android:exported="false" />
 
         <meta-data

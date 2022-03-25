@@ -1,13 +1,11 @@
 package com.github.sdp.ratemyepfl.activity.classrooms
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.viewmodel.RoomReviewsListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -21,7 +19,7 @@ class RoomReviewsListActivity : ReviewsListActivity<Classroom>() {
             "com.github.sdp.ratemyepfl.activity.classrooms.extra_classrooms_json"
     }
 
-    private val viewModel by viewModels<RoomReviewsListViewModel>()
+    private val viewModel by viewModels<RoomReviewViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

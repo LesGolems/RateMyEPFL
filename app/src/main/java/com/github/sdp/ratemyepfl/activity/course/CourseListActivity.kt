@@ -1,12 +1,15 @@
 package com.github.sdp.ratemyepfl.activity.course
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
@@ -37,12 +40,10 @@ class CourseListActivity : ReviewableListActivity<Course>() {
         }
     }
 
-    override fun getExtraString(): String {
-        return CourseReviewListActivity.EXTRA_COURSE_JSON
-    }
-
-    override fun getExtraClass(): Class<ReviewActivity<Course>> {
-        return ReviewActivity::class.java as Class<ReviewActivity<Course>>
+    override fun displayReviews(course: Course) {
+        val intent = Intent(this, CourseReviewListActivity::class.java as Class<ReviewsListActivity<Course>>)
+        intent.putExtra(CourseReviewListActivity.EXTRA_COURSE_JSON, course.toJSON())
+        startActivity(intent)
     }
 
     override fun getMenuString(): Int {

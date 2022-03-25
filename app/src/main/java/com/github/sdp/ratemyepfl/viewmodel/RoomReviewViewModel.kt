@@ -13,7 +13,7 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
-class RoomReviewsListViewModel @Inject constructor(
+class RoomReviewViewModel @Inject constructor(
     private val reviewsRepository: ReviewsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
