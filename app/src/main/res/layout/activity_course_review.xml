@@ -5,19 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.classrooms.RoomReviewActivity">
+    tools:context=".activity.course.CourseReviewActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/roomReviewNavHostFragment"
+        android:id="@+id/courseReviewNavHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/roomReviewNavigationView"
+        android:layout_above="@id/courseReviewNavigationView"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_room_review" />
+        app:navGraph="@navigation/nav_graph_course_review" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/roomReviewNavigationView"
+        android:id="@+id/courseReviewNavigationView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -28,5 +28,5 @@
         app:itemIconTint="@drawable/bottom_navigation_color"
         app:itemTextColor="@drawable/bottom_navigation_color"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_navigation_menu_room_review" />
+        app:menu="@menu/bottom_navigation_menu_course_review" />
 </RelativeLayout>

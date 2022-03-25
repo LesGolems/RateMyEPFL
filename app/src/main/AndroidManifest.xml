@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.sdp.ratemyepfl" >
+    package="com.github.sdp.ratemyepfl">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,9 +13,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RateMyEPFL" >
+        android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".activity.RoomReviewActivity"
+            android:name=".activity.course.CourseReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.classrooms.RoomReviewActivity"
             android:exported="false" />
 
         <meta-data
@@ -51,13 +54,15 @@
         <activity
             android:name=".activity.map.MapActivity"
             android:exported="false" />
-        <activity android:name=".activity.restaurants.RestaurantListActivity"
+        <activity
+            android:name=".activity.restaurants.RestaurantListActivity"
             android:exported="false" />
-        <activity android:name=".activity.restaurants.RestaurantReviewListActivity"
+        <activity
+            android:name=".activity.restaurants.RestaurantReviewListActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

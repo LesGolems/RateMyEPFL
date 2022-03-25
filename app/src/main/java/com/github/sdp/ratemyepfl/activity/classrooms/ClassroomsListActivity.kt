@@ -6,8 +6,6 @@ import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
-import com.github.sdp.ratemyepfl.activity.RoomReviewActivity
-import com.github.sdp.ratemyepfl.fragment.review.RoomReviewListFragment
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomsListViewModel
@@ -33,14 +31,6 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id)
         startActivity(intent)
     }
-    /*
-    override fun getExtraString(): String {
-        return RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON
-    }
-
-    override fun getExtraClass(): Class<ReviewActivity<Classroom>> {
-        return ::class.java as Class<ReviewActivity<Classroom>>
-    }*/
 
     override fun getMenuString(): Int {
         return R.menu.rooms_options_menu

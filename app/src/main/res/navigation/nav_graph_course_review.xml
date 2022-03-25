@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_course_review"
+    app:startDestination="@id/courseReviewInfoFragment">
+
+    <fragment
+        android:id="@+id/courseReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.course.CourseReviewInfoFragment"
+        android:label="fragment_course_review_info"
+        tools:layout="@layout/fragment_course_review_info" />
+    <fragment
+        android:id="@+id/courseReviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.course.CourseReviewListFragment"
+        android:label="fragment_course_review_list"
+        tools:layout="@layout/fragment_review_list" />
+</navigation>

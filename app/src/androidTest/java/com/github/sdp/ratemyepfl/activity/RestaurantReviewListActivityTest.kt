@@ -9,14 +9,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewListActivity
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

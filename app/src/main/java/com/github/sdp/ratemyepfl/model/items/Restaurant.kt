@@ -25,9 +25,5 @@ data class Restaurant(
         private const val TAG = "Restaurant"
     }
 
-
-
-
-
-
+    override fun collectionPath(): String = "restaurants"
 }

@@ -8,6 +8,8 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.activity.ReviewsListActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
@@ -39,8 +41,8 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     }
 
     override fun displayReviews(course: Course) {
-        val intent = Intent(this, CourseReviewListActivity::class.java as Class<ReviewsListActivity<Course>>)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.toJSON())
+        val intent = Intent(this, CourseReviewActivity::class.java)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, course.id)
         startActivity(intent)
     }
 
