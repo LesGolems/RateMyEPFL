@@ -4,14 +4,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.viewmodel.CourseReviewViewModel
-import com.github.sdp.ratemyepfl.viewmodel.RestaurantReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RestaurantReviewActivity: ReviewActivity() {
 
-    private val viewModel by viewModels<RestaurantReviewViewModel>()
+    private val viewModel by viewModels<ReviewViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

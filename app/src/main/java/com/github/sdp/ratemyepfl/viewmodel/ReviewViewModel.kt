@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,7 +22,13 @@ open class ReviewViewModel @Inject constructor(
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review?>>()
+    // Reviewable
+    private val reviewable = MutableLiveData<Reviewable?>()
 
+    init {
+        updateReviewable()
+        updateReviewsList()
+    }
 
     fun updateReviewsList() {
         viewModelScope.launch {
@@ -28,7 +36,17 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    fun updateReviewable() {
+        viewModelScope.launch {
+            reviewable.value = itemsRepository.getById(id!!)
+        }
+    }
+
     fun getReviews(): LiveData<List<Review?>> {
         return reviewsLiveData
+    }
+
+    fun getReviewable(): LiveData<Reviewable?> {
+        return reviewable
     }
 }

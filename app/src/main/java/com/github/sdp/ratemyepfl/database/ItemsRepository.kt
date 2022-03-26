@@ -15,12 +15,6 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
     private val collectionRooms = db.collection("rooms")
     private val collectionRestaurants = db.collection("restaurants")
 
-    companion object {
-        private const val TAG_COURSES = "CourseRepository"
-        private const val TAG_ROOMS = "ClassroomRepository"
-        private const val TAG_RESTAURANT = "RestaurantRepository"
-    }
-
     override suspend fun getCourses(): List<Course?> {
         return getLimit(collectionCourses, 50)
             .mapNotNull { obj -> obj.toCourse() }
@@ -48,12 +42,17 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         return getById(collectionRestaurants, id).toRestaurant()
     }
 
+    // Function to get for a generic Reviewable
     override suspend fun getById(id : String): Reviewable? {
         val result = getByIdClassrooms(id)
         if (result != null) {
             return result
         }
-        return getByIdCourses(id)
+        val result2 = getByIdCourses(id)
+        if (result2 != null) {
+            return result2
+        }
+        return getByIdRestaurants(id)
     }
 
     override fun updateRating(rating: ReviewRating, item: Reviewable){

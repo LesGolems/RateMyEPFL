@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.viewmodel.RoomReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RoomReviewListFragment : ReviewListFragment() {
-    private val viewModel by activityViewModels<RoomReviewViewModel>()
+    private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,7 +21,7 @@ class RoomReviewListFragment : ReviewListFragment() {
             }
         }
 
-        viewModel.getRoom().observe(viewLifecycleOwner){
+        viewModel.getReviewable().observe(viewLifecycleOwner){
             it?.let {room ->
                 fab.setOnClickListener {
                     startReview(room)

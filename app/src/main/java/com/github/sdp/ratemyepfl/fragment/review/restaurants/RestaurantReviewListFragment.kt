@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.viewmodel.RestaurantReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RestaurantReviewListFragment : ReviewListFragment() {
-    private val viewModel by activityViewModels<RestaurantReviewViewModel>()
+    private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -21,10 +21,10 @@ class RestaurantReviewListFragment : ReviewListFragment() {
             }
         }
 
-        viewModel.getRestaurant().observe(viewLifecycleOwner){
-            it?.let {course ->
+        viewModel.getReviewable().observe(viewLifecycleOwner){
+            it?.let {restaurant ->
                 fab.setOnClickListener {
-                    startReview(course)
+                    startReview(restaurant)
                 }
             }
         }
