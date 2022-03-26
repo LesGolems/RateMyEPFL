@@ -63,20 +63,6 @@ class AddReviewFragmentTest {
         onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
     }
 
-    @Test
-    fun nonNullArgumentsResets() {
-        val comment = "Good"
-        val title = "Good title"
-        onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
-        closeSoftKeyboard()
-        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
-        closeSoftKeyboard()
-        onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
-        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
-    }
-
     companion object {
         private fun performSetRating(value: Float) = object : ViewAction {
             override fun getConstraints(): Matcher<View> {
