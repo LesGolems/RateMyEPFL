@@ -28,7 +28,7 @@ import org.junit.Test
 
 
 @HiltAndroidTest
-class AddRoomReviewActivityTest {
+class AddReviewActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)

@@ -38,7 +38,7 @@ class AddReviewViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            item = itemRepo.getById(id!!)
+            item = itemRepo.getById(id)
         }
     }
 
