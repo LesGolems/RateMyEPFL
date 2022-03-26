@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -11,7 +12,9 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
@@ -20,6 +23,8 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
     protected lateinit var fab: ExtendedFloatingActionButton
     protected lateinit var swipeRefresher: SwipeRefreshLayout
+
+    private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,11 +51,35 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
                 { fab.shrink() }
             )
         )
+
+        viewModel.getReviews().observe(viewLifecycleOwner) {
+            it?.let {
+                reviewsAdapter.submitList(it as MutableList<Review>)
+            }
+        }
+
+        viewModel.getReviewable().observe(viewLifecycleOwner){
+            it?.let {restaurant ->
+                fab.setOnClickListener {
+                    startReview(restaurant)
+                }
+            }
+        }
+
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
     }
 
     fun startReview(reviewable: Reviewable) {
         val intent = Intent(requireView().context, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, reviewable.id)
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateReviewsList()
     }
 }

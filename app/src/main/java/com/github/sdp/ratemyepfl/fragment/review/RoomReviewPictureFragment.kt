@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.fragment.review.classroom
+package com.github.sdp.ratemyepfl.fragment.review
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

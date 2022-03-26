@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/roomReviewInfoFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.classroom.RoomReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewInfoFragment"
         android:label="fragment_room_review_info"
         tools:layout="@layout/fragment_room_review_info" />
     <fragment
-        android:id="@+id/roomReviewListFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.classroom.RoomReviewListFragment"
+        android:id="@+id/reviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
         android:label="fragment_room_review_list"
         tools:layout="@layout/fragment_review_list" />
     <fragment
         android:id="@+id/roomReviewPictureFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.classroom.RoomReviewPictureFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewPictureFragment"
         android:label="fragment_room_review_picture"
         tools:layout="@layout/fragment_room_review_picture" />
 </navigation>

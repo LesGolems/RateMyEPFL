@@ -7,11 +7,11 @@
 
     <fragment
         android:id="@+id/restaurantReviewInfoFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.restaurants.RestaurantReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.RestaurantReviewInfoFragment"
         android:label="fragment_restaurant_review_info"
         tools:layout="@layout/fragment_restaurant_review_info" />
     <fragment
-        android:id="@+id/restaurantReviewListFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.restaurants.RestaurantReviewListFragment"
+        android:id="@+id/reviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
         android:label="RestaurantReviewListFragment" />
 </navigation>
