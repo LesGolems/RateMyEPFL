@@ -60,7 +60,7 @@ class AddReviewViewModel @Inject constructor(
         val date = date ?: LocalDate.now()
 
         // For now title is empty, as we don't have an input for it in the UI
-        if (rating != null && comment != null && title != null && item != null) {
+        if (rating != null && comment != null && comment != "" && title != null && title != "" && item != null) {
             val review = Review.Builder()
                 .setRating(rating)
                 .setTitle(title)

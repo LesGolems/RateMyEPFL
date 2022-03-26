@@ -19,14 +19,17 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     companion object {
-
+        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
+        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
         const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
 
         fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
@@ -60,6 +63,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         title = view.findViewById(R.id.addReviewTitle)
         reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
+        title.error = "Please enter a title"
 
         viewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text =
@@ -67,6 +71,14 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                     R.string.overall_score_review,
                     rating?.toString() ?: NO_GRADE_MESSAGE
                 )
+        }
+
+        viewModel.comment.observe(viewLifecycleOwner){ text ->
+            setError(comment, text, EMPTY_COMMENT_MESSAGE)
+        }
+
+        viewModel.title.observe(viewLifecycleOwner){ text ->
+            setError(title, text, EMPTY_TITLE_MESSAGE)
         }
 
         activityViewModel.getReviewable().observe(viewLifecycleOwner){
@@ -103,9 +115,13 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     }
 
     private fun reset(){
-        title.setText(R.string.title_edit_text)
-        comment.setText(R.string.comment_edit_text)
+        title.text = null
+        comment.text = null
         ratingBar.rating = 0f
+    }
+
+    private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
+        if(actualValue == null || actualValue == "") layout.error = errorMessage
     }
 
 }
