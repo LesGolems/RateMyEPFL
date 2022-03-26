@@ -20,6 +20,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,7 +64,6 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         title = view.findViewById(R.id.addReviewTitle)
         reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
-        title.error = "Please enter a title"
 
         viewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text =
@@ -71,14 +71,6 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                     R.string.overall_score_review,
                     rating?.toString() ?: NO_GRADE_MESSAGE
                 )
-        }
-
-        viewModel.comment.observe(viewLifecycleOwner){ text ->
-            setError(comment, text, EMPTY_COMMENT_MESSAGE)
-        }
-
-        viewModel.title.observe(viewLifecycleOwner){ text ->
-            setError(title, text, EMPTY_TITLE_MESSAGE)
         }
 
         activityViewModel.getReviewable().observe(viewLifecycleOwner){
@@ -111,6 +103,12 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private fun addReview() {
         if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
             reset()
+            Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.reviewNavigationView)
+                .show()
+        }else{
+            setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
+            setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
     }
 

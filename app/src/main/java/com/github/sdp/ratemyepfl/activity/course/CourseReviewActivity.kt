@@ -16,6 +16,6 @@ class CourseReviewActivity: ReviewActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_review)
 
-        setUpNavigation(R.id.courseReviewNavigationView, R.id.courseReviewNavHostFragment)
+        setUpNavigation(R.id.reviewNavigationView, R.id.reviewNavHostFragment)
     }
 }

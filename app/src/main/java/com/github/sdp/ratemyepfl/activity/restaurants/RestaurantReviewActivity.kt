@@ -16,6 +16,6 @@ class RestaurantReviewActivity: ReviewActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_review)
 
-        setUpNavigation(R.id.restaurantReviewNavigationView, R.id.restaurantReviewNavHostFragment)
+        setUpNavigation(R.id.reviewNavigationView, R.id.reviewNavHostFragment)
     }
 }

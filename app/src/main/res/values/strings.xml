@@ -58,4 +58,5 @@
     <string name="display_restaurants_tab_button">Display restaurants</string>
     <string name="todo">TODO</string>
     <string name="add_review">Add review</string>
+    <string name="review_sent_text">Your review was submitted !</string>
 </resources>

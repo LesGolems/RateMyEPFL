@@ -16,6 +16,6 @@ class RoomReviewActivity: ReviewActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_review)
 
-        setUpNavigation(R.id.roomReviewNavigationView, R.id.roomReviewNavHostFragment)
+        setUpNavigation(R.id.reviewNavigationView, R.id.reviewNavHostFragment)
     }
 }
