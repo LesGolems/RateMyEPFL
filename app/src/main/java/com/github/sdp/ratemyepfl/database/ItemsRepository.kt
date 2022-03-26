@@ -59,7 +59,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
     override fun updateRating(rating: ReviewRating, item: Reviewable){
         val numRatings = item.numRatings + 1
         val avgRating = (item.avgRating + rating.toValue()) / numRatings
-        db.collection(item.collectionPath).document(item.id).update("numRatings", numRatings,"avgRating", avgRating)
+        db.collection(item.collectionPath).document(item.id).update("numRatings", numRatings.toString(),"avgRating", avgRating.toString())
     }
 
 }

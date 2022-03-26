@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
@@ -94,20 +95,11 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         })
     }
 
-    /* The onClick action for the done button. Closes the activity and returns the room review grade
-    and comment as part of the intent. If the grade or comment are missing, the result is set
-    to cancelled. */
+    /* Adds the review to the database */
     private fun addReview() {
-        /*val resultIntent = Intent()
-
-        if (!viewModel.submitReview(activityViewModel.getReviewable().value)) {
-            //setResult(Activity.RESULT_CANCELED, resultIntent)
-        } else {
-            //setResult(Activity.RESULT_OK, resultIntent)
+        if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
+            reset()
         }
-        //finish()*/
-        viewModel.submitReview(activityViewModel.getReviewable().value)
-        reset()
     }
 
     private fun reset(){
