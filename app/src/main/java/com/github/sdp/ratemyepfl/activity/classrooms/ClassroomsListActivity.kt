@@ -1,10 +1,8 @@
 package com.github.sdp.ratemyepfl.activity.classrooms
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.model.items.Classroom

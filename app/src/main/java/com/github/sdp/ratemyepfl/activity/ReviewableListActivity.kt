@@ -62,7 +62,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     fun displayReviews(t: T){
         val intent = Intent(this, getReviewClass())
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, t.id)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, t.id)
         startActivity(intent)
     }
 }

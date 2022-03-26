@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -70,17 +68,17 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         viewModel.getReviewable().observe(viewLifecycleOwner){
             it?.let {restaurant ->
                 fab.setOnClickListener {
-                    startReview(restaurant)
+                    //startReview(restaurant)
                 }
             }
         }
     }
-
+    /*
     fun startReview(reviewable: Reviewable) {
         val intent = Intent(requireView().context, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, reviewable.id)
         startActivity(intent)
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
