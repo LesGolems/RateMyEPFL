@@ -98,14 +98,22 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     and comment as part of the intent. If the grade or comment are missing, the result is set
     to cancelled. */
     private fun addReview() {
-        val resultIntent = Intent()
+        /*val resultIntent = Intent()
 
         if (!viewModel.submitReview(activityViewModel.getReviewable().value)) {
             //setResult(Activity.RESULT_CANCELED, resultIntent)
         } else {
             //setResult(Activity.RESULT_OK, resultIntent)
         }
-        //finish()
+        //finish()*/
+        //viewModel.submitReview(activityViewModel.getReviewable().value)
+        reset()
+    }
+
+    private fun reset(){
+        title.setText(R.string.title_edit_text)
+        comment.setText(R.string.comment_edit_text)
+        ratingBar.rating = 0f
     }
 
 }
