@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -47,9 +47,9 @@ class RoomReviewActivityTest {
             )
         )
         onView(withId(R.id.addReviewComment)).perform(ViewActions.typeText(comment))
-        Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
         onView(withId(R.id.addReviewTitle)).perform(ViewActions.typeText(title))
-        Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(ViewActions.click())
         onView(withId(R.id.addReviewComment)).check(matches(withText("")))
         onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
