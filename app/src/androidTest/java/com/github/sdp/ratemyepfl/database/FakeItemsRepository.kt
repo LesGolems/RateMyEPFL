@@ -50,6 +50,14 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         )
     }
 
+    override suspend fun getByIdCourses(id: String): Course? = Course(
+        title = "Software development project",
+        section = "IC",
+        teacher = "George Candea",
+        credits = 4,
+        id = "CS-306"
+    )
+
     override suspend fun getClassrooms(): List<Classroom?> {
         return listOf(
             Classroom(
@@ -67,6 +75,8 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         )
     }
 
+    override suspend fun getByIdClassrooms(id: String): Classroom? = Classroom(id = "CM3")
+
     override suspend fun getRestaurants(): List<Restaurant?> {
         return listOf(
             Restaurant(id = "Roulotte du Soleil"),
@@ -75,19 +85,11 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         )
     }
 
+    override suspend fun getByIdRestaurants(id: String): Restaurant? = Restaurant(id = "Roulotte du Soleil")
+
 
     override suspend fun getById(id: String): Reviewable? = null
 
     override fun updateRating(rating: ReviewRating, item: Reviewable) {}
-
-    override suspend fun getByIdCourses(id: String): Course? = Course(
-        title = "Software development project",
-        section = "IC",
-        teacher = "George Candea",
-        credits = 4,
-        id = "CS-306"
-    )
-
-    override suspend fun getByIdClassrooms(id: String): Classroom? = Classroom(id = "CM3")
 
 }

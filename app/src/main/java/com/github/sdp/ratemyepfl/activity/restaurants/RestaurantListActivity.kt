@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
 import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
@@ -31,11 +33,7 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
 
     }
 
-    override fun displayReviews(restaurant: Restaurant) {
-        val intent = Intent(this, RestaurantReviewActivity::class.java)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, restaurant.id)
-        startActivity(intent)
-    }
+    override fun getReviewClass(): Class<ReviewActivity> = RestaurantReviewActivity::class.java as Class<ReviewActivity>
 
     override fun getMenuString(): Int {
         return R.menu.restaurant_options_menu
