@@ -46,9 +46,6 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.AddReviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.map.MapActivity"
             android:exported="false" />
         <activity
