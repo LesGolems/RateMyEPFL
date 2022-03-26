@@ -106,7 +106,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
             //setResult(Activity.RESULT_OK, resultIntent)
         }
         //finish()*/
-        //viewModel.submitReview(activityViewModel.getReviewable().value)
+        viewModel.submitReview(activityViewModel.getReviewable().value)
         reset()
     }
 
