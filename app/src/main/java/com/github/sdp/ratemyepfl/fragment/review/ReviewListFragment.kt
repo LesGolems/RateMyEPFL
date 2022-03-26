@@ -52,6 +52,15 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             )
         )
 
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
+
+        setUpObservers()
+    }
+
+    fun setUpObservers(){
         viewModel.getReviews().observe(viewLifecycleOwner) {
             it?.let {
                 reviewsAdapter.submitList(it as MutableList<Review>)
@@ -64,11 +73,6 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
                     startReview(restaurant)
                 }
             }
-        }
-
-        swipeRefresher.setOnRefreshListener {
-            viewModel.updateReviewsList()
-            swipeRefresher.isRefreshing = false
         }
     }
 
