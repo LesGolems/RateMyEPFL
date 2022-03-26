@@ -43,7 +43,8 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
     }
 
     // Function to get for a generic Reviewable
-    override suspend fun getById(id : String): Reviewable? {
+    override suspend fun getById(id : String?): Reviewable? {
+        if(id == null) return null
         val result = getByIdClassrooms(id)
         if (result != null) {
             return result

@@ -38,7 +38,7 @@ open class ReviewViewModel @Inject constructor(
 
     fun updateReviewable() {
         viewModelScope.launch {
-            reviewable.value = itemsRepository.getById(id!!)
+            reviewable.value = itemsRepository.getById(id)
         }
     }
 

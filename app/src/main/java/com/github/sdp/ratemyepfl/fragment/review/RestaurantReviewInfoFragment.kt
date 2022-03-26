@@ -17,7 +17,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getReviewable().observe(viewLifecycleOwner){
-            view.findViewById<TextView>(R.id.testinfo3).text = it!!.id
+            view.findViewById<TextView>(R.id.id_restaurant_info).text = it!!.id
         }
     }
 }

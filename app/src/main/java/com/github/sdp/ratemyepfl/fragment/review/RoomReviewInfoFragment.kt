@@ -17,7 +17,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getReviewable().observe(viewLifecycleOwner){
-            view.findViewById<TextView>(R.id.testinfo).text = it!!.id
+            view.findViewById<TextView>(R.id.id_room_info).text = it!!.id
         }
     }
 }

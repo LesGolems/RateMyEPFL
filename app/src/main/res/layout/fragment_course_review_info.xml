@@ -6,7 +6,7 @@
     tools:context=".fragment.review.CourseReviewInfoFragment">
 
     <TextView
-        android:id="@+id/testinfo2"
+        android:id="@+id/id_course_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />

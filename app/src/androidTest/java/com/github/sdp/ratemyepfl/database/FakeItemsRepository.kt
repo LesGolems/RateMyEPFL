@@ -88,7 +88,7 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
     override suspend fun getByIdRestaurants(id: String): Restaurant? = Restaurant(id = "Roulotte du Soleil")
 
 
-    override suspend fun getById(id: String): Reviewable? = null
+    override suspend fun getById(id: String?): Reviewable? = Classroom("Fake id")
 
     override fun updateRating(rating: ReviewRating, item: Reviewable) {}
 
