@@ -18,21 +18,21 @@ class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repo
             .set(value.toHashMap())
     }
 
-    override suspend fun get(): List<Review?> {
-        return reviewsCollection().get().await().map { q ->
+    override suspend fun get(): List<Review> {
+        return reviewsCollection().get().await().mapNotNull { q ->
             q.toReview()
         }
     }
 
-    override suspend fun getByReviewableId(id: String?): List<Review?> {
+    override suspend fun getByReviewableId(id: String?): List<Review> {
         return getBy("reviewableId", id.orEmpty())
     }
 
-    suspend fun getByRate(rate: Int): List<Review?> {
+    suspend fun getByRate(rate: Int): List<Review> {
         return getBy("rate", rate.toString())
     }
 
-    suspend fun getByDate(date: LocalDate): List<Review?> {
+    suspend fun getByDate(date: LocalDate): List<Review> {
         return getBy("date", date.toString())
     }
 
@@ -44,11 +44,11 @@ class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repo
         return db.collection(COLLECTION)
     }
 
-    private suspend fun getBy(name: String, value: String): List<Review?> {
+    private suspend fun getBy(name: String, value: String): List<Review> {
         return reviewsCollection()
             .whereEqualTo(name, value)
             .get()
             .await()
-            .map { q -> q.toReview() }
+            .mapNotNull { q -> q.toReview() }
     }
 }

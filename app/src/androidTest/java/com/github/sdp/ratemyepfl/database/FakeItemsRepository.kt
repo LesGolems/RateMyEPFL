@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
 
-    override suspend fun getCourses(): List<Course?> {
+    override suspend fun getCourses(): List<Course> {
         return listOf(
             Course(
                 title = "Software development project",
@@ -58,7 +58,7 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
         id = "CS-306"
     )
 
-    override suspend fun getClassrooms(): List<Classroom?> {
+    override suspend fun getClassrooms(): List<Classroom> {
         return listOf(
             Classroom(
                 id = "CM3",
@@ -77,7 +77,7 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
 
     override suspend fun getByIdClassrooms(id: String): Classroom? = Classroom(id = "CM3")
 
-    override suspend fun getRestaurants(): List<Restaurant?> {
+    override suspend fun getRestaurants(): List<Restaurant> {
         return listOf(
             Restaurant(id = "Roulotte du Soleil"),
             Restaurant(id = "Arcadie"),

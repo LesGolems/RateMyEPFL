@@ -15,7 +15,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
     private val collectionRooms = db.collection("rooms")
     private val collectionRestaurants = db.collection("restaurants")
 
-    override suspend fun getCourses(): List<Course?> {
+    override suspend fun getCourses(): List<Course> {
         return getLimit(collectionCourses, 50)
             .mapNotNull { obj -> obj.toCourse() }
     }
@@ -24,7 +24,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         return getById(collectionCourses, id).toCourse()
     }
 
-    override suspend fun getClassrooms(): List<Classroom?> {
+    override suspend fun getClassrooms(): List<Classroom> {
         return getLimit(collectionRooms, 50)
             .mapNotNull { obj -> obj.toClassroom() }
     }
@@ -33,7 +33,7 @@ class ItemsRepository @Inject constructor() : ItemsRepositoryInterface, Reposito
         return getById(collectionRooms, id).toClassroom()
     }
 
-    override suspend fun getRestaurants(): List<Restaurant?> {
+    override suspend fun getRestaurants(): List<Restaurant> {
         return getLimit(collectionRestaurants, 50)
             .mapNotNull { obj -> obj.toRestaurant() }
     }

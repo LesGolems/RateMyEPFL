@@ -14,7 +14,7 @@ import javax.inject.Inject
 class RestaurantListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
     ViewModel() {
 
-    private var restaurantLiveData = MutableLiveData<List<Restaurant?>>()
+    private var restaurantLiveData = MutableLiveData<List<Restaurant>>()
 
     init {
         viewModelScope.launch {
@@ -22,7 +22,7 @@ class RestaurantListViewModel @Inject constructor(private val repository: ItemsR
         }
     }
 
-    fun getRestaurants(): LiveData<List<Restaurant?>> {
+    fun getRestaurants(): LiveData<List<Restaurant>> {
         return restaurantLiveData
     }
 

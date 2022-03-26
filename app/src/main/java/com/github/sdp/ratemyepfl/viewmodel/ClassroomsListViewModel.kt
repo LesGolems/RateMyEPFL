@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ClassroomsListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
     ViewModel() {
 
-    private var roomsLiveData = MutableLiveData<List<Classroom?>>()
+    private var roomsLiveData = MutableLiveData<List<Classroom>>()
 
     init {
         viewModelScope.launch {
@@ -22,11 +22,8 @@ class ClassroomsListViewModel @Inject constructor(private val repository: ItemsR
         }
     }
 
-    fun getRooms(): LiveData<List<Classroom?>> {
+    fun getRooms(): LiveData<List<Classroom>> {
         return roomsLiveData
     }
 
-    private fun loadRooms() {
-        // Do an asynchronous operation to fetch classrooms.
-    }
 }

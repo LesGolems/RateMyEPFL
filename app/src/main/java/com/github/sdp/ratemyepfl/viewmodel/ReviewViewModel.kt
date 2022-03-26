@@ -21,7 +21,7 @@ open class ReviewViewModel @Inject constructor(
     val id: String? = savedStateHandle.get<String>(AddReviewActivity.EXTRA_ITEM_REVIEWED)
 
     // Reviews
-    private val reviewsLiveData = MutableLiveData<List<Review?>>()
+    private val reviewsLiveData = MutableLiveData<List<Review>>()
     // Reviewable
     private val reviewable = MutableLiveData<Reviewable?>()
 
@@ -42,7 +42,7 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
-    fun getReviews(): LiveData<List<Review?>> {
+    fun getReviews(): LiveData<List<Review>> {
         return reviewsLiveData
     }
 
