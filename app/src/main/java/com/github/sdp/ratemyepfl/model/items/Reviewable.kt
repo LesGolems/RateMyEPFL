@@ -11,6 +11,5 @@ abstract class Reviewable {
     abstract val id: String
     abstract var numRatings: Int
     abstract var avgRating: Double
-
-    abstract fun collectionPath(): String
+    abstract val collectionPath: String
 }

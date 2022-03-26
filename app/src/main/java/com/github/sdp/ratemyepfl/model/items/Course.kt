@@ -40,5 +40,5 @@ data class Course(
         private const val TAG = "Course"
     }
 
-    override fun collectionPath(): String = "courses"
+    override val collectionPath = "courses"
 }
