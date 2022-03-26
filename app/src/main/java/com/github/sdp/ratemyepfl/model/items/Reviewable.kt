@@ -12,12 +12,5 @@ abstract class Reviewable {
     abstract var numRatings: Int
     abstract var avgRating: Double
 
-    @OptIn(InternalSerializationApi::class)
-    fun toJSON(): String {
-        @Suppress("UNCHECKED_CAST")
-        val serializer = this::class.serializer() as KSerializer<Any?>
-        return Json.encodeToString(serializer, this)
-    }
-
     abstract fun collectionPath(): String
 }
