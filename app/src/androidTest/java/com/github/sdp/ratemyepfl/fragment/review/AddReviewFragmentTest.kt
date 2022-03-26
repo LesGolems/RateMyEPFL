@@ -42,7 +42,7 @@ class AddReviewFragmentTest {
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
     }
-    
+
     @Test
     fun nullCommentNoReset() {
         val title = "Good"

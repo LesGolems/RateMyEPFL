@@ -15,5 +15,5 @@
         android:id="@+id/addReviewFragment"
         android:enabled="true"
         android:icon="@drawable/ic_add_circle_white_24dp"
-        android:title="@string/todo" />
+        android:title="@string/add_review" />
 </menu>
