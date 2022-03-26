@@ -1,84 +1,70 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
+import android.view.View
+import android.widget.RatingBar
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.release
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.Matcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class AddReviewFragmentTest    /* {
+class AddReviewFragmentTest {
 
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
 
     @Before
-    fun setUp(){
+    fun setUp() {
         HiltUtils.launchFragmentInHiltContainer<AddReviewFragment> {}
     }
 
-{
-
-    @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(AddReviewActivity::class.java)
-
     @Test
-    fun nullGradeCancelsActivity() {
-        init()
-
+    fun nullGradeNoReset() {
         val comment = "Good"
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-
-
-        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
-
-        release()
+        onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
     }
-
+    
     @Test
-    fun nullCommentCancelsActivity() {
-        init()
-
+    fun nullCommentNoReset() {
+        val title = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(click())
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-
-        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
-
-        release()
+        onView(withId(R.id.addReviewTitle)).check(matches(withText(title)))
     }
 
     @Test
-    fun nullTitleCancelsActivity() {
-        init()
-
+    fun nullTitleNoReset() {
         val comment = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-
-        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
-
-        release()
+        onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
     }
 
     @Test
-    fun nullReviewableIdCancelsActivity() {
-        init()
-
+    fun nonNullArgumentsResets() {
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
@@ -87,37 +73,13 @@ class AddReviewFragmentTest    /* {
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-
-        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_CANCELED))
-
-        release()
-    }
-
-    @Test
-    fun nonNullArgumentsGivesOK() {
-        val intent =
-            Intent(ApplicationProvider.getApplicationContext(), AddReviewActivity::class.java)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "ID")
-        val scenario: ActivityScenario<AddReviewActivity> = ActivityScenario.launch(intent)
-        init()
-
-        val comment = "Good"
-        val title = "Good title"
-        onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
-        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
-        closeSoftKeyboard()
-        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
-        closeSoftKeyboard()
-        onView(withId(R.id.doneButton)).perform(click())
-
-        assertThat(testRule.scenario.result.resultCode, equalTo(Activity.RESULT_OK))
-        release()
-        scenario.close()
+        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
+        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
     }
 
     companion object {
         private fun performSetRating(value: Float) = object : ViewAction {
-            override fun getConstraints(): Matcher<android.view.View> {
+            override fun getConstraints(): Matcher<View> {
                 return ViewMatchers.isAssignableFrom(RatingBar::class.java)
             }
 
@@ -125,7 +87,7 @@ class AddReviewFragmentTest    /* {
                 return "Custom view action to set rating."
             }
 
-            override fun perform(uiController: UiController?, view: android.view.View?) {
+            override fun perform(uiController: UiController?, view: View?) {
                 val ratingBar = view as RatingBar
                 ratingBar.rating = value
             }
@@ -135,4 +97,4 @@ class AddReviewFragmentTest    /* {
         fun performSetRating(rating: ReviewRating) =
             performSetRating(rating.rating.toFloat())
     }
-}*/
+}

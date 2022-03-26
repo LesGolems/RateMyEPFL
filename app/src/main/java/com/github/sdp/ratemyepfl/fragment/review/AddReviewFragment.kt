@@ -115,8 +115,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     }
 
     private fun reset(){
-        title.text = null
-        comment.text = null
+        title.setText("")
+        comment.setText("")
         ratingBar.rating = 0f
     }
 
