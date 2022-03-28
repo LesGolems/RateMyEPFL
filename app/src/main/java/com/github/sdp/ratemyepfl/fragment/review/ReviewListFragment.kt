@@ -2,8 +2,8 @@ package com.github.sdp.ratemyepfl.fragment.review
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +12,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -68,9 +67,9 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
 
         viewModel.getReviewable().observe(viewLifecycleOwner){
-            it?.let {restaurant ->
+            it?.let {reviewable ->
                 fab.setOnClickListener {
-                    startReview(restaurant)
+                    startReview(reviewable)
                 }
             }
         }
