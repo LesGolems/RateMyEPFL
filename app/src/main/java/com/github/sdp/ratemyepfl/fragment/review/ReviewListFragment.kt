@@ -17,11 +17,11 @@ import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
-    protected lateinit var reviewsAdapter: ReviewAdapter
-    protected lateinit var recyclerView: RecyclerView
+    private lateinit var reviewsAdapter: ReviewAdapter
+    private lateinit var recyclerView: RecyclerView
 
-    protected lateinit var fab: ExtendedFloatingActionButton
-    protected lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var fab: ExtendedFloatingActionButton
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     private val viewModel by activityViewModels<ReviewViewModel>()
 
@@ -59,7 +59,7 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         setUpObservers()
     }
 
-    fun setUpObservers(){
+    private fun setUpObservers(){
         viewModel.getReviews().observe(viewLifecycleOwner) {
             it?.let {
                 reviewsAdapter.submitList(it.toMutableList())
@@ -75,7 +75,7 @@ open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
     }
 
-    fun startReview(reviewable: Reviewable) {
+    private fun startReview(reviewable: Reviewable) {
         val intent = Intent(requireView().context, AddReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, reviewable.id)
         startActivity(intent)
