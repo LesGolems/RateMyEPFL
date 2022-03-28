@@ -10,8 +10,6 @@ data class Course(
     val teacher: String,
     val credits: Int,
     override val id: String,
-    override var numRatings: Int = 0,
-    override var avgRating: Double = 0.0,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
@@ -35,7 +33,7 @@ data class Course(
             }
         }
 
-        private const val TAG = "Course"
     }
 
+    override val collectionPath = "courses"
 }

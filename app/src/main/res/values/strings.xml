@@ -51,7 +51,10 @@
     <string name="home_page_hello_user_text">Hello %s !</string>
     <string name="logout_fab_content_description">Logout</string>
     <string name="event_page_title">EVENT PAGE</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="info_review_icon">Info</string>
+    <string name="list_review_icon">Reviews</string>
+    <string name="pictures_review_icon">Pictures</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="display_restaurants_tab_button">Display restaurants</string>
+    <string name="todo">TODO</string>
 </resources>

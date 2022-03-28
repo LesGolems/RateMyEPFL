@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
@@ -17,16 +15,13 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewsListActivity
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
+import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.hamcrest.CoreMatchers
 import org.junit.Rule
 import org.junit.Test
@@ -34,28 +29,36 @@ import java.time.LocalDate
 
 
 @HiltAndroidTest
-class RoomReviewsListActivityTest {
+class RoomReviewActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(CourseReviewListActivity::class.java)
+    val testRule = ActivityScenarioRule(RoomReviewActivity::class.java)
 
     @Test
-    fun isCoursesListViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.reviewRecyclerView))
-            .check(matches(isDisplayed()))
+    fun isIdVisibleOnActivityLaunch() {
+        onView(withId(R.id.id_room_info))
+            .check(matches(withText("Fake id")))
     }
 
     @Test
-    fun isFabVisibleOnActivityLaunch() {
+    fun isClassroomListViewVisible() {
+        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
+        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun isFabVisible() {
+        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
         onView(withId(R.id.startReviewFAB))
             .check(matches(isDisplayed()))
     }
 
     @Test
     fun isFabShrunkWhenUserScrollsUp() {
+        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
         onView(withId(R.id.reviewRecyclerView)).perform(
             RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
                 hasDescendant(withText("The last review"))
@@ -66,25 +69,12 @@ class RoomReviewsListActivityTest {
 
     @Test
     fun fabListenForReviewIfARoomIsGiven() {
-        val room = Classroom("CM3")
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            RoomReviewsListActivity::class.java
-        )
-        intent.putExtra(
-            RoomReviewsListActivity.EXTRA_CLASSROOMS_JSON,
-            Json.encodeToString(room)
-        )
-
-        val scenario: ActivityScenario<RoomReviewsListActivity> =
-            ActivityScenario.launch(intent)
-
+        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
         init()
         onView(withId(R.id.startReviewFAB)).perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
-        intended(hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, room.id))
+        intended(hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id"))
         release()
-        scenario.close()
     }
 
     @Test
@@ -99,18 +89,17 @@ class RoomReviewsListActivityTest {
         )
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            RoomReviewsListActivity::class.java
+            RoomReviewActivity::class.java
         )
-        val scenario: ActivityScenario<RoomReviewsListActivity> =
+        val scenario: ActivityScenario<RoomReviewActivity> =
             ActivityScenario.launch(intent)
+        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
+        Thread.sleep(500)
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
-
         onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
-        onView(withId(R.id.swiperefresh)).perform(ViewActions.swipeDown())
+        onView(withId(R.id.reviewSwipeRefresh)).perform(ViewActions.swipeDown())
         onView(withId(R.id.reviewRecyclerView)).check(matches(CoreMatchers.not(hasChildCount(1))))
 
         scenario.close()
     }
-
-
 }

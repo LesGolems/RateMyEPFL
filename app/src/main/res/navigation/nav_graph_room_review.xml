@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_review"
+    app:startDestination="@id/roomReviewInfoFragment">
+
+    <fragment
+        android:id="@+id/roomReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewInfoFragment"
+        android:label="fragment_room_review_info"
+        tools:layout="@layout/fragment_room_review_info" />
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
+        android:label="fragment_room_review_list"
+        tools:layout="@layout/fragment_review_list" />
+    <fragment
+        android:id="@+id/roomReviewPictureFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewPictureFragment"
+        android:label="fragment_room_review_picture"
+        tools:layout="@layout/fragment_room_review_picture" />
+</navigation>

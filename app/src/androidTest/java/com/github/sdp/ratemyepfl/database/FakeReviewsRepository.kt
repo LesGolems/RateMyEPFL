@@ -70,11 +70,11 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepositoryInterface {
 
     override fun add(value: Review) {}
 
-    override suspend fun get(): List<Review?> {
+    override suspend fun get(): List<Review> {
         return reviewList
     }
 
-    override suspend fun getByReviewableId(id: String?): List<Review?> {
+    override suspend fun getByReviewableId(id: String?): List<Review> {
         return reviewList
     }
 }

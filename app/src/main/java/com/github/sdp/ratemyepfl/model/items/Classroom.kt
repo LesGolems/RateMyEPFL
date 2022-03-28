@@ -6,8 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Classroom(
     override val id: String,
-    override var numRatings: Int = 0,
-    override var avgRating: Double = 0.0,
     val type: String? = null,
 ) : Reviewable() {
     // This converts a json object from firebase into a Classroom object
@@ -19,12 +17,11 @@ data class Classroom(
                 null
             }
         }
-
-        private const val TAG = "Classroom"
     }
 
     override fun toString(): String {
         return "$id"
     }
 
+    override val collectionPath = "rooms"
 }

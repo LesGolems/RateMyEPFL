@@ -98,7 +98,7 @@ class AddReviewActivity : AppCompatActivity() {
     private fun addReview() {
         val resultIntent = Intent()
 
-        if (!viewModel.submitReview(reviewableId)) {
+        if (!viewModel.submitReview()) {
             setResult(Activity.RESULT_CANCELED, resultIntent)
         } else {
             setResult(Activity.RESULT_OK, resultIntent)

@@ -21,13 +21,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var user: ConnectedUser
-
-    @Inject
-    lateinit var auth: Authenticator
-
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var mainFragment: FragmentContainerView
 

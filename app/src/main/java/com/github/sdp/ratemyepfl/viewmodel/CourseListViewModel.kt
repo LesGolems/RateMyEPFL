@@ -18,7 +18,7 @@ import javax.inject.Inject
 class CourseListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
     ViewModel() {
 
-    private var coursesLiveData = MutableLiveData<List<Course?>>()
+    private var coursesLiveData = MutableLiveData<List<Course>>()
 
     init {
         viewModelScope.launch {
@@ -26,7 +26,7 @@ class CourseListViewModel @Inject constructor(private val repository: ItemsRepos
         }
     }
 
-    fun getCourses(): LiveData<List<Course?>> {
+    fun getCourses(): LiveData<List<Course>> {
         return coursesLiveData
     }
 }

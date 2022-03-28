@@ -6,59 +6,47 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewListActivity
-import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewListActivity
+import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewActivity
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.hamcrest.CoreMatchers
 import org.junit.Rule
 import org.junit.Test
 import java.time.LocalDate
 
 @HiltAndroidTest
-class RestaurantReviewListActivityTest {
+class RestaurantReviewActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(RestaurantReviewListActivity::class.java)
+    val testRule = ActivityScenarioRule(RestaurantReviewActivity::class.java)
+
+    @Test
+    fun isIdVisibleOnActivityLaunch() {
+        onView(withId(R.id.id_restaurant_info))
+            .check(matches(ViewMatchers.withText("Fake id")))
+    }
 
     @Test
     fun fabListenForReviewIfARestaurantIsGiven() {
-        val r = Restaurant("Arcadie")
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            RestaurantReviewListActivity::class.java
-        )
-        intent.putExtra(
-            RestaurantReviewListActivity.EXTRA_RESTAURANT_JSON,
-            Json.encodeToString(r)
-        )
-
-        val scenario: ActivityScenario<RestaurantReviewListActivity> =
-            ActivityScenario.launch(intent)
-
-        Intents.init()
+        onView(withId(R.id.restaurantReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        init()
         onView(withId(R.id.startReviewFAB)).perform(ViewActions.click())
-        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
-        Intents.intended(IntentMatchers.hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, r.id))
-        Intents.release()
-        scenario.close()
+        intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
+        intended(IntentMatchers.hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id"))
+        release()
     }
 
     @Test
@@ -73,14 +61,15 @@ class RestaurantReviewListActivityTest {
         )
         val intent = Intent(
             ApplicationProvider.getApplicationContext(),
-            RestaurantReviewListActivity::class.java
+            RestaurantReviewActivity::class.java
         )
-        val scenario: ActivityScenario<RestaurantReviewListActivity> =
+        val scenario: ActivityScenario<RestaurantReviewActivity> =
             ActivityScenario.launch(intent)
+        onView(withId(R.id.restaurantReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        Thread.sleep(500)
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
-
         onView(withId(R.id.reviewRecyclerView)).check(matches(ViewMatchers.hasChildCount(1)))
-        onView(withId(R.id.swiperefresh)).perform(ViewActions.swipeDown())
+        onView(withId(R.id.reviewSwipeRefresh)).perform(ViewActions.swipeDown())
         onView(withId(R.id.reviewRecyclerView)).check(matches(
             CoreMatchers.not(
                 ViewMatchers.hasChildCount(

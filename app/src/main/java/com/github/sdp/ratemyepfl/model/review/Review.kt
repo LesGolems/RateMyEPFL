@@ -4,6 +4,7 @@ import android.util.Log
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -11,7 +12,7 @@ import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
 @Serializable
-data class Review constructor(
+data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val rating: ReviewRating,
     val title: String,
     val comment: String,
@@ -56,6 +57,7 @@ data class Review constructor(
 
     fun serialize(): String = Companion.serialize(this)
 
+    @OptIn(ExperimentalSerializationApi::class)
     fun toHashMap(): HashMap<String, String> {
         return hashMapOf(
             "title" to title, "rating" to rating.toString(),

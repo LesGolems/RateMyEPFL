@@ -6,8 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Restaurant(
     override val id: String,
-    override var numRatings: Int = 0,
-    override var avgRating: Double = 0.0
 ) : Reviewable(){
 
     override fun toString(): String {
@@ -22,12 +20,7 @@ data class Restaurant(
                 null
             }
         }
-        private const val TAG = "Restaurant"
     }
 
-
-
-
-
-
+    override val collectionPath = "restaurants"
 }
