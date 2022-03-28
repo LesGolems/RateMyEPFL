@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
-    private val reviewsRepository: ReviewsRepositoryInterface,
-    private val itemsRepository: ItemsRepositoryInterface,
+    private val reviewRepo: ReviewsRepositoryInterface,
+    private val itemRepo: ItemsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -31,13 +31,30 @@ open class ReviewViewModel @Inject constructor(
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(id)
+            reviewsLiveData.value = reviewRepo.getByReviewableId(id)
         }
     }
 
     fun updateReviewable() {
         viewModelScope.launch {
-            reviewable.value = itemsRepository.getById(id)
+            reviewable.value = itemRepo.getById(id)
+        }
+    }
+
+    fun getNumReviews(): LiveData<Int>{
+        return Transformations.switchMap(
+            reviewsLiveData
+        ) { reviewList ->
+            MutableLiveData(reviewList.size)
+        }
+    }
+
+    fun getOverallGrade(): LiveData<Int>{
+        return Transformations.switchMap(
+            reviewsLiveData
+        ) { reviewList ->
+            val sumOfRates = reviewList.map { it.rating.toValue() }.sum()
+            MutableLiveData(sumOfRates/reviewList.size)
         }
     }
 

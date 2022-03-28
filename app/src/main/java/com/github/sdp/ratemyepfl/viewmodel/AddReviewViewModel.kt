@@ -19,9 +19,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val database: ReviewsRepositoryInterface,
-    private val itemRepo: ItemsRepositoryInterface
-    ) : ViewModel() {
+    private val reviewRepo: ReviewsRepositoryInterface
+) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
@@ -68,8 +67,7 @@ class AddReviewViewModel @Inject constructor(
                 .setReviewableID(item.id)
                 .setDate(date)
                 .build()
-            database.add(review)
-            itemRepo.updateRating(rating, item)
+            reviewRepo.add(review)
             return true
         }
         return false

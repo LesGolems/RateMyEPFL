@@ -12,10 +12,9 @@ import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 
 open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
-    protected lateinit var reviewsAdapter: ReviewAdapter
-    protected lateinit var recyclerView: RecyclerView
-
-    protected lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var reviewsAdapter: ReviewAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     private val viewModel by activityViewModels<ReviewViewModel>()
 

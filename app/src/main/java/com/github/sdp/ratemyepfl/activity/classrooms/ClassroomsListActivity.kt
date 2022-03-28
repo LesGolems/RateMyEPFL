@@ -20,7 +20,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
         viewModel.getRooms().observe(this) {
             it?.let {
-                reviewableAdapter.setData(it as MutableList<Reviewable>)
+                reviewableAdapter.setData(it.toMutableList())
             }
         }
     }

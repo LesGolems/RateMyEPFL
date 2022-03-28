@@ -14,5 +14,4 @@ interface ItemsRepositoryInterface {
     suspend fun getByIdCourses(id: String): Course?
     suspend fun getByIdClassrooms(id: String): Classroom?
     suspend fun getByIdRestaurants(id: String): Restaurant?
-    fun updateRating(rating: ReviewRating, item: Reviewable)
 }
