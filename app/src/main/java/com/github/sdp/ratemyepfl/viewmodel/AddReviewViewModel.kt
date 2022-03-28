@@ -23,7 +23,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val database: ReviewsRepositoryInterface,
+    private val reviewRepo: ReviewsRepositoryInterface,
     private val itemRepo: ItemsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -82,7 +82,7 @@ class AddReviewViewModel @Inject constructor(
                 .setReviewableID(id)
                 .setDate(date)
                 .build()
-            database.add(review)
+            reviewRepo.add(review)
             itemRepo.updateRating(rating, item!!)
             return true
         }

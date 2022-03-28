@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
-    private val reviewsRepository: ReviewsRepositoryInterface,
-    private val itemsRepository: ItemsRepositoryInterface,
+    private val reviewRepo: ReviewsRepositoryInterface,
+    private val itemRepo: ItemsRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -32,13 +31,13 @@ open class ReviewViewModel @Inject constructor(
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewsRepository.getByReviewableId(id)
+            reviewsLiveData.value = reviewRepo.getByReviewableId(id)
         }
     }
 
     fun updateReviewable() {
         viewModelScope.launch {
-            reviewable.value = itemsRepository.getById(id)
+            reviewable.value = itemRepo.getById(id)
         }
     }
 
