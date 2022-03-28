@@ -41,6 +41,23 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    fun getNumReviews(): LiveData<Int>{
+        return Transformations.switchMap(
+            reviewsLiveData
+        ) { reviewList ->
+            MutableLiveData(reviewList.size)
+        }
+    }
+
+    fun getOverallGrade(): LiveData<Int>{
+        return Transformations.switchMap(
+            reviewsLiveData
+        ) { reviewList ->
+            val sumOfRates = reviewList.map { it.rating.toValue() }.sum()
+            MutableLiveData(sumOfRates/reviewList.size)
+        }
+    }
+
     fun getReviews(): LiveData<List<Review>> {
         return reviewsLiveData
     }

@@ -27,7 +27,7 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
 
         viewModel.getRestaurants().observe(this) {
             it?.let {
-                reviewableAdapter.setData(it as MutableList<Reviewable>)
+                reviewableAdapter.setData(it.toMutableList())
             }
         }
 

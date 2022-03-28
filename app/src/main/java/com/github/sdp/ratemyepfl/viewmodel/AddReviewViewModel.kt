@@ -83,7 +83,7 @@ class AddReviewViewModel @Inject constructor(
                 .setDate(date)
                 .build()
             reviewRepo.add(review)
-            itemRepo.updateRating(rating, item!!)
+            //itemRepo.updateRating(rating, item!!)
             return true
         }
         return false

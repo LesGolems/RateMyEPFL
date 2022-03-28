@@ -9,7 +9,5 @@ import kotlinx.serialization.serializer
 @Serializable
 abstract class Reviewable {
     abstract val id: String
-    abstract var numRatings: Int
-    abstract var avgRating: Double
     abstract val collectionPath: String
 }

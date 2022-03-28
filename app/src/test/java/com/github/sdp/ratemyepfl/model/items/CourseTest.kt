@@ -20,35 +20,23 @@ class CourseTest {
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
         assertEquals("CS-306", c.id)
-        assertEquals(0, c.numRatings)
-        assertEquals(0.0, c.avgRating, 0.00001)
         assertEquals(null, c.cycle)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
         val c = Course(
-            "SDP", "IC", "Candea", 4, "CS-306", 5,
-            3.7, "bachelor", "Fall", "During the semester", "ENG"
+            "SDP", "IC", "Candea", 4, "CS-306","bachelor", "Fall", "During the semester", "ENG"
         )
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
         assertEquals("CS-306", c.id)
-        assertEquals(5, c.numRatings)
-        assertEquals(3.7, c.avgRating, 0.00001)
         assertEquals("bachelor", c.cycle)
         assertEquals("Fall", c.session)
         assertEquals("During the semester", c.grading)
         assertEquals("ENG", c.language)
-    }
-
-    @Test
-    fun constructorWorksWithZeroAverageRating() {
-        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 5,
-            0.0, "bachelor", "Fall", "During the semester", "ENG")
-        assertEquals(0.0, c.avgRating, 0.00001)
     }
 
     @Test

@@ -24,7 +24,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
 
         viewModel.getCourses().observe(this) {
             it?.let {
-                reviewableAdapter.setData(it as MutableList<Reviewable>)
+                reviewableAdapter.setData(it.toMutableList())
             }
         }
     }
