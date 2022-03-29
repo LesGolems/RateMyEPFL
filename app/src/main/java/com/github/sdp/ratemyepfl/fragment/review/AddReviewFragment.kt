@@ -49,7 +49,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var doneButton: Button
 
     private val viewModel: AddReviewViewModel by viewModels()
-    
+
     // Gets the shared view model
     private val activityViewModel by activityViewModels<ReviewViewModel>()
 
@@ -72,7 +72,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         }
 
         activityViewModel.getReviewable().observe(viewLifecycleOwner){
-            reviewIndicationTitle.text = getString(R.string.title_review, it!!.id)
+            reviewIndicationTitle.text = getString(R.string.title_review, it?.id)
         }
 
         setupListeners()
