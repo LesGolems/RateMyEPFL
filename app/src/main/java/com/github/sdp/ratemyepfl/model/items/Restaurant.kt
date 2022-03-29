@@ -6,21 +6,20 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Restaurant(
     override val id: String,
-) : Reviewable(){
+) : Reviewable() {
+
+    override val collectionPath = "restaurants"
 
     override fun toString(): String {
-        return "$id"
+        return id
     }
 
     companion object {
-        fun DocumentSnapshot.toRestaurant() : Restaurant? {
-            return try {
-                Restaurant(id)
-            } catch(e:Exception){
-                null
-            }
-        }
+        /**
+         * Converts the json data into a Restaurant
+         *
+         * @return the restaurant held by the data
+         */
+        fun DocumentSnapshot.toRestaurant(): Restaurant = Restaurant(id)
     }
-
-    override val collectionPath = "restaurants"
 }

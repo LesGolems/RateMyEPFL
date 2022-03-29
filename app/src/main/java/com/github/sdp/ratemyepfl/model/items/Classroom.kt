@@ -8,19 +8,16 @@ data class Classroom(
     override val id: String,
     val type: String? = null,
 ) : Reviewable() {
-    // This converts a json object from firebase into a Classroom object
+
+    /**
+     * Converts the json data into a classroom object
+     */
     companion object {
-        fun DocumentSnapshot.toClassroom(): Classroom? {
-            return try {
-                Classroom(id)
-            } catch (e: Exception) {
-                null
-            }
-        }
+        fun DocumentSnapshot.toClassroom(): Classroom = Classroom(id)
     }
 
     override fun toString(): String {
-        return "$id"
+        return id
     }
 
     override val collectionPath = "rooms"

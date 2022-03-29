@@ -1,13 +1,12 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import kotlinx.serialization.InternalSerializationApi
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 
+/**
+ * Represents a reviewable item
+ */
 @Serializable
-abstract class Reviewable {
+sealed class Reviewable {
     abstract val id: String
     abstract val collectionPath: String
 }
