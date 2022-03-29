@@ -19,6 +19,11 @@ TODO
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 
+    companion object {
+        /* Number of columns in the image grid */
+        private const val NUM_COLUMNS = 2
+    }
+
     private lateinit var photoAdapter: PhotoAdapter
     private lateinit var photoRecyclerView: RecyclerView
 
@@ -29,7 +34,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
         photoRecyclerView = view.findViewById(R.id.photoRecyclerView)
         val gridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
         photoRecyclerView.layoutManager = gridLayoutManager
 
         photoAdapter = PhotoAdapter()
