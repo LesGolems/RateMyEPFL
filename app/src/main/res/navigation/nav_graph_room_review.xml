@@ -20,4 +20,9 @@
         android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewPictureFragment"
         android:label="fragment_room_review_picture"
         tools:layout="@layout/fragment_room_review_picture" />
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
+        android:label="fragment_add_review"
+        tools:layout="@layout/fragment_add_review" />
 </navigation>

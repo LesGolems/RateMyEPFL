@@ -13,6 +13,9 @@ import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+TODO
+ */
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 
