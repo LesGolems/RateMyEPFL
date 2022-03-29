@@ -6,12 +6,8 @@ import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface ItemsRepositoryInterface {
-    suspend fun getClassrooms(): List<Classroom>
-    suspend fun getCourses(): List<Course>
-    suspend fun getRestaurants(): List<Restaurant>
-    suspend fun getById(id: String?): Reviewable?
-    suspend fun getByIdCourses(id: String): Course?
-    suspend fun getByIdClassrooms(id: String): Classroom?
-    suspend fun getByIdRestaurants(id: String): Restaurant?
+sealed interface ItemsRepositoryInterface<T: Reviewable> {
+    suspend fun getItems(): List<T>
+    suspend fun getItemById(id: String): T?
 }
+

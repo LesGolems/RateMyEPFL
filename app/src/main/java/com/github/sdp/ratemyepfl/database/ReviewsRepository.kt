@@ -7,19 +7,19 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repository() {
+class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repository(COLLECTION_PATH) {
 
     companion object {
-        const val COLLECTION = "reviews"
+        const val COLLECTION_PATH = "reviews"
     }
 
     override fun add(value: Review) {
-        reviewsCollection().document(value.title)
+        collection.document(value.title)
             .set(value.toHashMap())
     }
 
     override suspend fun get(): List<Review> {
-        return reviewsCollection().get().await().mapNotNull { q ->
+        return collection.get().await().mapNotNull { q ->
             q.toReview()
         }
     }
@@ -37,15 +37,12 @@ class ReviewsRepository @Inject constructor() : ReviewsRepositoryInterface, Repo
     }
 
     fun remove(value: Review) {
-        reviewsCollection().document(value.title).delete()
+        collection.document(value.title).delete()
     }
 
-    private fun reviewsCollection(): CollectionReference {
-        return db.collection(COLLECTION)
-    }
 
     private suspend fun getBy(name: String, value: String): List<Review> {
-        return reviewsCollection()
+        return collection
             .whereEqualTo(name, value)
             .get()
             .await()

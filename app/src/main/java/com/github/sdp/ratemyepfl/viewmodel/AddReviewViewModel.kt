@@ -22,9 +22,9 @@ import javax.inject.Inject
  *               the savedStateHandle
  */
 @HiltViewModel
-class AddReviewViewModel @Inject constructor(
+sealed class AddReviewViewModel<T: Reviewable> @Inject constructor(
     private val reviewRepo: ReviewsRepositoryInterface,
-    private val itemRepo: ItemsRepositoryInterface,
+    private val itemRepo: ItemsRepositoryInterface<T>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -37,9 +37,12 @@ class AddReviewViewModel @Inject constructor(
     val id: String? = savedStateHandle.get<String>(AddReviewActivity.EXTRA_ITEM_REVIEWED)
 
     init {
-        viewModelScope.launch {
-            item = itemRepo.getById(id)
+        id?.apply {
+            viewModelScope.launch {
+                item = itemRepo.getItemById(id)
+            }
         }
+        // Needs to handle the case
     }
 
     /**
