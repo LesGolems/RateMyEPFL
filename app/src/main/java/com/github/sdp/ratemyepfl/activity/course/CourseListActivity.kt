@@ -43,4 +43,8 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     override fun getSearchViewString(): Int {
         return R.id.courseSearchView
     }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_course_review
+    }
 }

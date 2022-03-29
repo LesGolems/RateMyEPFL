@@ -9,10 +9,9 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.FakeItemsRepository
 import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragmentTest
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -25,15 +24,15 @@ import org.junit.Test
 
 @HiltAndroidTest
 class RoomReviewActivityTest {
-    private lateinit var scenario: ActivityScenario<ReviewActivity>
+    lateinit var scenario: ActivityScenario<ReviewActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @Before
     fun setUp(){
-        FakeItemsRepository.fakeItem = Classroom("Fake id")
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review)
         scenario = ActivityScenario.launch(intent)
     }
 

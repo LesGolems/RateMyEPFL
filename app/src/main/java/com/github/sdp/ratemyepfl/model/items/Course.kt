@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.R
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 
@@ -36,5 +35,5 @@ data class Course(
 
     }
 
-    override val layoutReview = R.layout.activity_course_review
+    override val collectionPath = "courses"
 }

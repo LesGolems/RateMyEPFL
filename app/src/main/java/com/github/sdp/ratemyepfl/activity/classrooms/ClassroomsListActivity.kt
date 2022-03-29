@@ -32,4 +32,8 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
     override fun getSearchViewString(): Int {
         return R.id.searchView
     }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_room_review
+    }
 }

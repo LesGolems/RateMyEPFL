@@ -34,4 +34,8 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
         return R.id.restaurantSearchView
     }
 
+    override fun getLayoutId(): Int {
+        return R.layout.activity_restaurant_review
+    }
+
 }

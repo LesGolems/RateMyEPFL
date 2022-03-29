@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 abstract class Reviewable {
     abstract val id: String
-    abstract val layoutReview: Int
+    abstract val collectionPath: String
 }
