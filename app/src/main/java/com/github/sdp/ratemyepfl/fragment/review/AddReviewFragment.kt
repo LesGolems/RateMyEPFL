@@ -94,7 +94,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     /* Adds the review to the database */
     private fun addReview() {
-        if(viewModel.submitReview(activityViewModel.id)) {
+        if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
             reset()
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.reviewNavigationView)
