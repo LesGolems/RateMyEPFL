@@ -52,24 +52,25 @@ class AddReviewViewModel @Inject constructor(
      *
      * @return true if it succeeds to build the review, false otherwise
      */
-    fun submitReview(item: Reviewable?): Boolean {
+    fun submitReview(id: String?): Boolean {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        // For now title is empty, as we don't have an input for it in the UI
-        if (rating != null && comment != null && comment != "" && title != null && title != "" && item != null) {
-            val review = Review.Builder()
+        if(rating == null) return false
+        if(comment == null || comment == "") return false
+        if(title == null || title == "") return false
+        if(id == null) return false
+
+        val review = Review.Builder()
                 .setRating(rating)
                 .setTitle(title)
                 .setComment(comment)
-                .setReviewableID(item.id)
+                .setReviewableID(id)
                 .setDate(date)
                 .build()
-            reviewRepo.add(review)
-            return true
-        }
-        return false
+        reviewRepo.add(review)
+        return true
     }
 }
