@@ -15,6 +15,7 @@ Fragment displayed all relevant information for a Course
 @AndroidEntryPoint
 class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) {
 
+    // Gets the shared view model
     private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

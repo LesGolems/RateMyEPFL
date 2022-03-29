@@ -15,6 +15,7 @@ Fragment displayed all relevant information for a restaurant
 @AndroidEntryPoint
 class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_review_info) {
 
+    // Gets the shared view model
     private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

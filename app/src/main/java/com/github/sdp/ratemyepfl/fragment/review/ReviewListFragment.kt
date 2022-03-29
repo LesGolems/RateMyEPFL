@@ -19,6 +19,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
 
+    // Gets the shared view model
     private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

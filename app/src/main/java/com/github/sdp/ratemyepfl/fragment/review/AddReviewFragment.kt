@@ -49,6 +49,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var doneButton: Button
 
     private val viewModel: AddReviewViewModel by viewModels()
+    
+    // Gets the shared view model
     private val activityViewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
