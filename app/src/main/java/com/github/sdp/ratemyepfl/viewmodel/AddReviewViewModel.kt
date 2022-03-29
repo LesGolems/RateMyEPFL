@@ -58,10 +58,9 @@ class AddReviewViewModel @Inject constructor(
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        if(rating == null) return false
         if(comment == null || comment == "") return false
         if(title == null || title == "") return false
-        if(id == null) return false
+        if(rating == null || id == null) return false
 
         val review = Review.Builder()
                 .setRating(rating)
