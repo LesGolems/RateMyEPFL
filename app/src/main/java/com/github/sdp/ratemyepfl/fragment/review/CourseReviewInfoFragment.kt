@@ -16,8 +16,8 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getReviewable().observe(viewLifecycleOwner){
-            view.findViewById<TextView>(R.id.id_course_info).text = it!!.id
+        viewModel.getReviewable().observe(viewLifecycleOwner){ reviewable ->
+            view.findViewById<TextView>(R.id.id_course_info).text = reviewable?.id
         }
     }
 }

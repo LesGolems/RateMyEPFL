@@ -1,10 +1,12 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Course(
+@SerialName("course")
+class Course(
     val title: String,
     val section: String,
     val teacher: String,

@@ -15,14 +15,14 @@ class ClassroomTest {
     fun constructorWithDefaultValuesWorks() {
         val r = Classroom("CO1")
         assertEquals("CO1", r.id)
-        assertEquals(null, r.type)
+        assertEquals(null, r.roomKind)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
         val r = Classroom("CM 1 4","Auditorium")
         assertEquals("CM 1 4", r.id)
-        assertEquals("Auditorium", r.type)
+        assertEquals("Auditorium", r.roomKind)
     }
 
     @Test

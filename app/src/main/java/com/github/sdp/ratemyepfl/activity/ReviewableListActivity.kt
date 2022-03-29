@@ -11,6 +11,8 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
@@ -60,7 +62,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     fun displayReviews(t: T){
         val intent = Intent(this, ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, t.id)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, Json.encodeToString<Reviewable>(t))
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, getLayoutId())
         startActivity(intent)
     }

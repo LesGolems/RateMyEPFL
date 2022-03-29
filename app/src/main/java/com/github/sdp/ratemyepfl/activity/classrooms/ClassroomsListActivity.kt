@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.activity.classrooms
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
@@ -17,7 +18,6 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel.getRooms().observe(this) {
             it?.let {
                 reviewableAdapter.setData(it.toMutableList())
