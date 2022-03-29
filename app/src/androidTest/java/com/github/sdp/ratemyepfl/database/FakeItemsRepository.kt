@@ -10,6 +10,10 @@ import javax.inject.Inject
 
 class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
 
+    companion object{
+        var fakeItem: Reviewable? = null
+    }
+
     override suspend fun getCourses(): List<Course> {
         return listOf(
             Course(
@@ -88,5 +92,5 @@ class FakeItemsRepository @Inject constructor() : ItemsRepositoryInterface {
     override suspend fun getByIdRestaurants(id: String): Restaurant? = Restaurant(id = "Roulotte du Soleil")
 
 
-    override suspend fun getById(id: String?): Reviewable? = Classroom("Fake id")
+    override suspend fun getById(id: String?): Reviewable? = fakeItem
 }

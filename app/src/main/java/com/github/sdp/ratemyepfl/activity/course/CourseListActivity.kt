@@ -36,8 +36,6 @@ class CourseListActivity : ReviewableListActivity<Course>() {
         }
     }
 
-    override fun getReviewClass(): Class<ReviewActivity> = CourseReviewActivity::class.java as Class<ReviewActivity>
-
     override fun getMenuString(): Int {
         return R.menu.courses_options_menu
     }

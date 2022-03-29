@@ -26,8 +26,6 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
 
     }
 
-    override fun getReviewClass(): Class<ReviewActivity> = RestaurantReviewActivity::class.java as Class<ReviewActivity>
-
     override fun getMenuString(): Int {
         return R.menu.restaurant_options_menu
     }
