@@ -9,9 +9,7 @@ import kotlinx.coroutines.tasks.await
 
 open class Repository {
     protected val db = FirebaseFirestore.getInstance()
-
-    val a = FirebaseStorage.getInstance("gs://ratemyepfl.appspot.com")
-
+    
     suspend fun getLimit(collection: CollectionReference, limit: Long): QuerySnapshot {
         return collection.limit(limit).get().await()
     }
