@@ -22,19 +22,10 @@
             android:name=".activity.ReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.course.CourseReviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.classrooms.ClassroomsListActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.classrooms.RoomReviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.restaurants.RestaurantListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.restaurants.RestaurantReviewActivity"
             android:exported="false" />
         <meta-data
             android:name="com.google.android.gms.version"
@@ -44,9 +35,6 @@
             android:value="@string/maps_api_key" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.AddReviewActivity"
             android:exported="false" />
         <activity
             android:name=".activity.map.MapActivity"

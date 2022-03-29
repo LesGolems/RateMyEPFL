@@ -1,41 +1,45 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
-import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragmentTest
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDate
 
 
 @HiltAndroidTest
 class RoomReviewActivityTest {
+    lateinit var scenario: ActivityScenario<ReviewActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(RoomReviewActivity::class.java)
+    @Before
+    fun setUp(){
+        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review)
+        scenario = ActivityScenario.launch(intent)
+    }
+
+    @After
+    fun clean(){
+        scenario.close()
+    }
 
     @Test
     fun isIdVisibleOnActivityLaunch() {
@@ -43,63 +47,25 @@ class RoomReviewActivityTest {
             .check(matches(withText("Fake id")))
     }
 
+    /* This tests depends on the Review activity layout, so it doesn't work when launching
+       a fragment in isolation
+     */
     @Test
-    fun isClassroomListViewVisible() {
-        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun isFabVisible() {
-        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.startReviewFAB))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun isFabShrunkWhenUserScrollsUp() {
-        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewRecyclerView)).perform(
-            RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
-                hasDescendant(withText("The last review"))
+    fun nonNullArgumentsResetsAddReview() {
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
+        val comment = "Good"
+        val title = "Good title"
+        onView(withId(R.id.reviewRatingBar)).perform(
+            AddReviewFragmentTest.performSetRating(
+                ReviewRating.GOOD
             )
         )
-        onView(withId(R.id.startReviewFAB)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun fabListenForReviewIfARoomIsGiven() {
-        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
-        init()
-        onView(withId(R.id.startReviewFAB)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        intended(hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id"))
-        release()
-    }
-
-    @Test
-    fun swipeRefreshes() {
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
-                .setRating(ReviewRating.EXCELLENT)
-                .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
-                .build()
-        )
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            RoomReviewActivity::class.java
-        )
-        val scenario: ActivityScenario<RoomReviewActivity> =
-            ActivityScenario.launch(intent)
-        onView(withId(R.id.roomReviewNavigationView)).perform(navigateTo(R.id.reviewListFragment))
-        Thread.sleep(500)
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
-        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
-        onView(withId(R.id.reviewSwipeRefresh)).perform(ViewActions.swipeDown())
-        onView(withId(R.id.reviewRecyclerView)).check(matches(CoreMatchers.not(hasChildCount(1))))
-
-        scenario.close()
+        onView(withId(R.id.addReviewComment)).perform(ViewActions.typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.addReviewTitle)).perform(ViewActions.typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(ViewActions.click())
+        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
+        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
     }
 }
