@@ -1,28 +1,29 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.review
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddReviewActivity : AppCompatActivity() {
+class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     companion object {
-        const val EXTRA_ITEM_REVIEWED: String =
-            "com.github.sdp.activity.classrooms.extra_item_reviewed"
-
+        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
+        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
         const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
 
         fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
@@ -43,24 +44,21 @@ class AddReviewActivity : AppCompatActivity() {
     private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
     private lateinit var doneButton: Button
-    private var reviewableId: String? = null
 
-    val viewModel: AddReviewViewModel by viewModels()
+    private val viewModel: AddReviewViewModel by viewModels()
+    private val activityViewModel by activityViewModels<ReviewViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_review_layout)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        reviewableId = intent.getStringExtra(EXTRA_ITEM_REVIEWED)
+        doneButton = view.findViewById(R.id.doneButton)
+        ratingBar = view.findViewById(R.id.reviewRatingBar)
+        comment = view.findViewById(R.id.addReviewComment)
+        title = view.findViewById(R.id.addReviewTitle)
+        reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
+        scoreTextView = view.findViewById(R.id.overallScoreTextView)
 
-        doneButton = findViewById(R.id.doneButton)
-        ratingBar = findViewById(R.id.reviewRatingBar)
-        comment = findViewById(R.id.addReviewComment)
-        title = findViewById(R.id.addReviewTitle)
-        reviewIndicationTitle = findViewById(R.id.reviewTitle)
-        scoreTextView = findViewById(R.id.overallScoreTextView)
-
-        viewModel.rating.observe(this) { rating ->
+        viewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text =
                 getString(
                     R.string.overall_score_review,
@@ -68,7 +66,9 @@ class AddReviewActivity : AppCompatActivity() {
                 )
         }
 
-        reviewIndicationTitle.text = getString(R.string.title_review, reviewableId)
+        activityViewModel.getReviewable().observe(viewLifecycleOwner){
+            reviewIndicationTitle.text = getString(R.string.title_review, it!!.id)
+        }
 
         setupListeners()
     }
@@ -92,18 +92,27 @@ class AddReviewActivity : AppCompatActivity() {
         })
     }
 
-    /* The onClick action for the done button. Closes the activity and returns the room review grade
-    and comment as part of the intent. If the grade or comment are missing, the result is set
-    to cancelled. */
+    /* Adds the review to the database */
     private fun addReview() {
-        val resultIntent = Intent()
-
-        if (!viewModel.submitReview()) {
-            setResult(Activity.RESULT_CANCELED, resultIntent)
-        } else {
-            setResult(Activity.RESULT_OK, resultIntent)
+        if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
+            reset()
+            Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.reviewNavigationView)
+                .show()
+        }else{
+            setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
+            setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
-        finish()
+    }
+
+    private fun reset(){
+        title.setText("")
+        comment.setText("")
+        ratingBar.rating = 0f
+    }
+
+    private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
+        if(actualValue == null || actualValue == "") layout.error = errorMessage
     }
 
 }

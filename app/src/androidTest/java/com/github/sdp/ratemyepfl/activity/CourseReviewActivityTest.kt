@@ -4,88 +4,42 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.course.CourseReviewActivity
-import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.database.FakeCourseRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.CoreMatchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDate
 
 @HiltAndroidTest
-class  CourseReviewActivityTest {
+class CourseReviewActivityTest {
+    lateinit var scenario: ActivityScenario<ReviewActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(CourseReviewActivity::class.java)
+    @Before
+    fun setUp(){
+        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_course_review)
+        scenario = ActivityScenario.launch(intent)
+    }
+
+    @After
+    fun clean(){
+        scenario.close()
+    }
 
     @Test
     fun isIdVisibleOnActivityLaunch() {
+        val fakeCourseId = FakeCourseRepository.COURSE_BY_ID.id
         onView(withId(R.id.id_course_info))
-            .check(matches(withText("Fake id")))
-    }
-
-    @Test
-    fun isCoursesListViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.courseReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun isFabVisibleOnActivityLaunch() {
-        onView(withId(R.id.courseReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.startReviewFAB)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun fabListenForReviewIfACourseIsGiven() {
-        onView(withId(R.id.courseReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        init()
-        onView(withId(R.id.startReviewFAB)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        intended(hasExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id"))
-        release()
-    }
-
-    @Test
-    fun swipeRefreshes() {
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
-                .setRating(ReviewRating.EXCELLENT)
-                .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
-                .build()
-        )
-        val intent = Intent(
-            ApplicationProvider.getApplicationContext(),
-            CourseReviewActivity::class.java
-        )
-        val scenario: ActivityScenario<CourseReviewActivity> =
-            ActivityScenario.launch(intent)
-        onView(withId(R.id.courseReviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        Thread.sleep(500)
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
-        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
-        onView(withId(R.id.reviewRecyclerView)).check(matches(not(hasChildCount(1))))
-
-        scenario.close()
+            .check(matches(withText(fakeCourseId)))
     }
 
 }

@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 
@@ -58,11 +56,12 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     abstract fun getSearchViewString(): Int
 
-    abstract fun getReviewClass(): Class<ReviewActivity>
+    abstract fun getLayoutId(): Int
 
     fun displayReviews(t: T){
-        val intent = Intent(this, getReviewClass())
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, t.id)
+        val intent = Intent(this, ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, t.id)
+        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, getLayoutId())
         startActivity(intent)
     }
 }
