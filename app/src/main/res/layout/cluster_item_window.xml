@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:id="@+id/textClusterItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/titleClusterItem"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/title_review_list" />
+
+        <Button
+            android:id="@+id/reviewableButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleClusterItem"
+            android:text="@string/review_text_button" />
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardClusterItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textClusterItem"
+        app:cardCornerRadius="6dp">
+
+        <ImageView
+            android:id="@+id/photoClusterItem"
+            android:layout_width="@dimen/clusterItemWidth"
+            android:layout_height="@dimen/clusterItemHeight"
+            android:src="@drawable/niki" />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
