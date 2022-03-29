@@ -18,6 +18,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+Fragment for the review creation, shared for every reviewable item
+ */
 @AndroidEntryPoint
 class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
@@ -96,6 +99,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private fun addReview() {
         if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
             reset()
+            // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.reviewNavigationView)
                 .show()
@@ -105,12 +109,18 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         }
     }
 
+    /*
+    Once a review is submitted all the information are reset to default
+     */
     private fun reset(){
         title.setText("")
         comment.setText("")
         ratingBar.rating = 0f
     }
 
+    /*
+    Helper method to set the error message when an input is empty, i.e invalid
+     */
     private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
         if(actualValue == null || actualValue == "") layout.error = errorMessage
     }

@@ -9,6 +9,9 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+Fragment displayed all relevant information for a Course
+ */
 @AndroidEntryPoint
 class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) {
 

@@ -10,6 +10,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/*
+General view model for all activities/fragments of the review part of the app
+ */
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewsRepositoryInterface,
@@ -41,6 +44,9 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Returns the numbers of reviews of the current reviewed item as LiveData
+     */
     fun getNumReviews(): LiveData<Int>{
         return Transformations.switchMap(
             reviewsLiveData
@@ -49,6 +55,10 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Returns the overall grade of the current reviewed item as LiveData
+     * (Note that, for concurrency issues, we calculate the overall grade using the list of reviews)
+     */
     fun getOverallGrade(): LiveData<Int>{
         return Transformations.switchMap(
             reviewsLiveData
@@ -58,10 +68,16 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Returns the list of review as LiveData
+     */
     fun getReviews(): LiveData<List<Review>> {
         return reviewsLiveData
     }
 
+    /**
+     * Returns the current reviewed item as LiveData
+     */
     fun getReviewable(): LiveData<Reviewable?> {
         return reviewable
     }
