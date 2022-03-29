@@ -37,9 +37,7 @@ class ImageDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
+        
         val photoId = intent.getIntExtra(EXTRA_PHOTO_DISPLAYED, 0)
 
         // The image seen in details
