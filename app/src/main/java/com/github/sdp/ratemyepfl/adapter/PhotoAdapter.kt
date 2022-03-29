@@ -1,14 +1,15 @@
 package com.github.sdp.ratemyepfl.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.ImageDetailActivity
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 
 class PhotoAdapter :
@@ -26,6 +27,10 @@ class PhotoAdapter :
 
         fun bind(@DrawableRes photoId: Int) {
             imageView.setImageResource(photoId)
+            imageView.tag = photoId // Use the tag because there is no method imageView.resourceId
+            imageView.setOnClickListener {
+                seeDetails(it)
+            }
         }
     }
 
@@ -51,5 +56,12 @@ class PhotoAdapter :
     fun setData(list: MutableList<Int>?) {
         this.imageIdList = list!!
         submitList(list)
+    }
+
+    private fun seeDetails(view: View) {
+        val intent = Intent(view.context, ImageDetailActivity::class.java)
+        intent.putExtra(ImageDetailActivity.EXTRA_PHOTO_DISPLAYED, view.tag as Int)
+        view.context.startActivity(intent)
+
     }
 }
