@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.items.Restaurant.Companion.toRestaurant
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
@@ -12,5 +11,14 @@ class RestaurantRepository @Inject constructor() :
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
     }
 
-    override fun toItem(snapshot: DocumentSnapshot): Restaurant = snapshot.toRestaurant()
+    override fun toItem(snapshot: DocumentSnapshot): Restaurant? {
+        val builder = Restaurant.Builder()
+            .setId(snapshot.id)
+
+        return try {
+            builder.build()
+        } catch (e: IllegalStateException) {
+            null
+        }
+    }
 }

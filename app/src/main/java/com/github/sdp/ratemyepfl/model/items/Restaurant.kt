@@ -8,18 +8,26 @@ data class Restaurant(
     override val id: String,
 ) : Reviewable() {
 
-    override val collectionPath = "restaurants"
-
     override fun toString(): String {
         return id
     }
 
-    companion object {
-        /**
-         * Converts the json data into a Restaurant
-         *
-         * @return the restaurant held by the data
-         */
-        fun DocumentSnapshot.toRestaurant(): Restaurant = Restaurant(id)
+    /**
+     * Builder to create a restaurant step by step
+     */
+    class Builder : ReviewableBuilder<Restaurant> {
+        private var id: String? = null
+
+        fun setId(id: String?) = apply {
+            this.id = id
+        }
+
+        override fun build(): Restaurant {
+            val id = this.id
+            return if (id != null) {
+                Restaurant(id)
+            } else throw IllegalStateException("Missing mandatory property for a Restaurant")
+        }
     }
+
 }

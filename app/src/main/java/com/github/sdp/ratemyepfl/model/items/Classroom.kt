@@ -9,16 +9,33 @@ data class Classroom(
     val roomKind: String? = null,
 ) : Reviewable() {
 
-    /**
-     * Converts the json data into a classroom object
-     */
-    companion object {
-        fun DocumentSnapshot.toClassroom(): Classroom = Classroom(id)
-    }
-
     override fun toString(): String {
         return id
     }
 
-    override val collectionPath = "rooms"
+    /**
+     * Builder to create a restaurant step by step
+     */
+    class Builder : ReviewableBuilder<Classroom> {
+        private var id: String? = null
+        private var roomKind: String? = null
+
+        fun setId(id: String?) = apply {
+            this.id = id
+        }
+
+        fun setRoomKind(roomKind: String?) = apply {
+            this.roomKind = roomKind
+        }
+
+        override fun build(): Classroom {
+            val id = this.id
+            val roomKind = roomKind
+
+            return if (id != null) {
+                Classroom(id, roomKind)
+            } else throw IllegalStateException("Missing mandatory property for a Classroom")
+        }
+    }
+
 }
