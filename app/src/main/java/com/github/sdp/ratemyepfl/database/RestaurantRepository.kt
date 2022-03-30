@@ -9,16 +9,18 @@ class RestaurantRepository @Inject constructor() :
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
-    }
 
-    override fun toItem(snapshot: DocumentSnapshot): Restaurant? {
-        val builder = Restaurant.Builder()
-            .setId(snapshot.id)
+        fun DocumentSnapshot.toRestaurant(): Restaurant? {
+            val builder = Restaurant.Builder()
+                .setId(id)
 
-        return try {
-            builder.build()
-        } catch (e: IllegalStateException) {
-            null
+            return try {
+                builder.build()
+            } catch (e: IllegalStateException) {
+                null
+            }
         }
     }
+
+    override fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
 }

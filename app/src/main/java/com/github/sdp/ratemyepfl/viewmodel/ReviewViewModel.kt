@@ -20,15 +20,17 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val id: String? = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)
+    private val reviewableExtra: String? = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review>>()
 
     // Reviewable
-    private val reviewable = MutableLiveData(id?.let { serialized ->
+    private val reviewable = MutableLiveData(reviewableExtra?.let { serialized ->
         Json.decodeFromString<Reviewable>(serialized)
     })
+
+    val id = reviewable.value?.id
 
     init {
         updateReviewsList()

@@ -24,15 +24,15 @@ data class Course(
      * Builder to create a course step by step
      */
     class Builder : ReviewableBuilder<Course> {
-        var title: String? = null
-        var section: String? = null
-        var teacher: String? = null
-        var credits: Int? = null
-        var id: String? = null
-        var cycle: String? = null
-        var session: String? = null
-        var grading: String? = null
-        var language: String? = null
+        private var title: String? = null
+        private var section: String? = null
+        private var teacher: String? = null
+        private var credits: Int? = null
+        private var id: String? = null
+        private var cycle: String? = null
+        private var session: String? = null
+        private var grading: String? = null
+        private var language: String? = null
 
         fun setTitle(title: String?) = apply {
             this.title = title

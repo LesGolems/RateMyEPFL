@@ -4,6 +4,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
@@ -34,5 +35,27 @@ class ClassroomTest {
     fun deserializationWorks() {
         val course = Json.decodeFromString<Classroom>(EXPECTED_JSON)
         assertEquals(EXPECTED_ROOM, course)
+    }
+
+    @Test
+    fun builderThrowsForMissingId() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setRoomKind(fake)
+            .setId(null)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderSucceedsForMissingNonMandatoryProperties() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setId(fake)
+
+        val classroom = Classroom(fake)
+        assertEquals(classroom, builder.build())
     }
 }
