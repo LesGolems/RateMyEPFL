@@ -18,6 +18,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+Fragment for the review creation, shared for every reviewable item
+ */
 @AndroidEntryPoint
 class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
@@ -46,6 +49,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var doneButton: Button
 
     private val viewModel: AddReviewViewModel by viewModels()
+
+    // Gets the shared view model
     private val activityViewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,8 +71,9 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 )
         }
 
-        activityViewModel.getReviewable().observe(viewLifecycleOwner){
+        activityViewModel.getReviewable().observe(viewLifecycleOwner) {
             reviewIndicationTitle.text = getString(R.string.title_review, it?.toString())
+
         }
 
         setupListeners()
@@ -92,25 +98,35 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         })
     }
 
-    /* Adds the review to the database */
+    /**
+     *  Adds the review to the database
+     */
     private fun addReview() {
-        if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
+        if (viewModel.submitReview(activityViewModel.getReviewable().value)) {
             reset()
+            // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.reviewNavigationView)
                 .show()
-        }else{
+        } else {
             setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
             setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
     }
 
+
+    /**
+     * Once a review is submitted all the information are reset to default
+     */
     private fun reset(){
         title.setText("")
         comment.setText("")
         ratingBar.rating = 0f
     }
 
+    /**
+     * Helper method to set the error message when an input is empty, i.e invalid
+     */
     private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
         if(actualValue == null || actualValue == "") layout.error = errorMessage
     }

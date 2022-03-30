@@ -26,7 +26,7 @@ class RestaurantReviewActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @Before
-    fun setUp(){
+    fun setUp() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, ItemSerializer.serialize(restaurant))
@@ -34,10 +34,9 @@ class RestaurantReviewActivityTest {
     }
 
     @After
-    fun clean(){
+    fun clean() {
         scenario.close()
     }
-
 
 
     @Test

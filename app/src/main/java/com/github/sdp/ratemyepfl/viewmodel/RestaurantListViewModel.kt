@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import android.location.Location
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import com.github.sdp.ratemyepfl.database.ItemRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +25,8 @@ class RestaurantListViewModel @Inject constructor(repository: ItemRepository<Res
     }
 
     suspend fun updateRestaurantsOccupancy(location: Location) {
-        getItems().map{ restaurant ->
-            if(restaurant.latitude - location.latitude < precision && restaurant.longitude - location.longitude < precision){
+        getItems().map { restaurant ->
+            if (restaurant.latitude - location.latitude < precision && restaurant.longitude - location.longitude < precision) {
                 // add one occupancy
             }
         }

@@ -19,7 +19,7 @@ class ClassroomTest {
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val r = Classroom("CM 1 4","Auditorium")
+        val r = Classroom("CM 1 4", "Auditorium")
         assertEquals("CM 1 4", r.id)
         assertEquals("Auditorium", r.roomKind)
     }

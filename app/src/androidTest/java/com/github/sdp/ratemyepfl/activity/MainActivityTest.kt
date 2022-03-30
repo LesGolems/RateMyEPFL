@@ -1,11 +1,8 @@
 package com.github.sdp.ratemyepfl.activity
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -17,7 +14,6 @@ import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert.assertEquals

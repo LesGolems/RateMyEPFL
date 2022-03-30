@@ -13,9 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.map.MapActivity
-import com.github.sdp.ratemyepfl.auth.Authenticator
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
@@ -28,8 +25,6 @@ import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LocationListener {

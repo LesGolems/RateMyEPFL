@@ -11,6 +11,9 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
+/**
+ * General view model for all activities/fragments of the review part of the app
+ */
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewsRepository,
@@ -38,7 +41,11 @@ open class ReviewViewModel @Inject constructor(
     }
 
 
-    fun getNumReviews(): LiveData<Int> {
+
+    /**
+     * Returns the numbers of reviews of the current reviewed item as LiveData
+     */
+    fun getNumReviews(): LiveData<Int>{
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->
@@ -46,7 +53,11 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
-    fun getOverallGrade(): LiveData<Int> {
+    /**
+     * Returns the overall grade of the current reviewed item as LiveData
+     * (Note that, for concurrency issues, we calculate the overall grade using the list of reviews)
+     */
+    fun getOverallGrade(): LiveData<Int>{
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->
@@ -55,10 +66,16 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Returns the list of review as LiveData
+     */
     fun getReviews(): LiveData<List<Review>> {
         return reviewsLiveData
     }
 
+    /**
+     * Returns the current reviewed item as LiveData
+     */
     fun getReviewable(): LiveData<Reviewable?> {
         return reviewable
     }

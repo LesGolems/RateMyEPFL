@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.LiveData
 import com.github.sdp.ratemyepfl.database.ItemRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,9 +11,4 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class CourseListViewModel @Inject constructor(repository: ItemRepository<Course>) :
-    ReviewableListViewModel<Course>(repository) {
-
-    fun getCourses(): LiveData<List<Course>> {
-        return getItemsAsLiveData()
-    }
-}
+    ReviewableListViewModel<Course>(repository)

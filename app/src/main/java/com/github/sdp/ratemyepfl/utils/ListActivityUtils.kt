@@ -24,7 +24,7 @@ class ListActivityUtils {
                 }
             })
         }
-
+        /*
         fun createOnScrollListener(
             onScrollUp: () -> Unit,
             onScrollDown: () -> Unit
@@ -40,7 +40,7 @@ class ListActivityUtils {
                     }
                 }
             }
-
+        */
         fun <T> diffCallback() = object : DiffUtil.ItemCallback<T>() {
             override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
                 return oldItem == newItem
