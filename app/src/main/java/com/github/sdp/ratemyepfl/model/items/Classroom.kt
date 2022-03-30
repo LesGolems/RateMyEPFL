@@ -1,12 +1,10 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("classroom")
-class Classroom(
+data class Classroom(
     override val id: String,
     val roomKind: String? = null,
 ) : Reviewable() {

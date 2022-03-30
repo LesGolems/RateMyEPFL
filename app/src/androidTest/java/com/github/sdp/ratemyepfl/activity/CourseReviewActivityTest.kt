@@ -9,6 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.FakeCourseRepository
+import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -19,6 +21,7 @@ import org.junit.Test
 @HiltAndroidTest
 class CourseReviewActivityTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
+    private var course = Course("Fake", "Fake", "Fake", 0, "Fake")
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -27,6 +30,7 @@ class CourseReviewActivityTest {
     fun setUp(){
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_course_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, ItemSerializer.serialize(course))
         scenario = ActivityScenario.launch(intent)
     }
 
@@ -35,16 +39,15 @@ class CourseReviewActivityTest {
         scenario.close()
     }
 
-    /*
-    It now require the information from the activity, and cannot be retrieved from db
+
     @Test
     fun isIdVisibleOnActivityLaunch() {
         val fakeCourseId = FakeCourseRepository.COURSE_BY_ID.id
         Thread.sleep(1000)
         onView(withId(R.id.id_course_info))
-            .check(matches(withText(fakeCourseId)))
+            .check(matches(withText(course.toString())))
     }
-    */
+
 
 
 }

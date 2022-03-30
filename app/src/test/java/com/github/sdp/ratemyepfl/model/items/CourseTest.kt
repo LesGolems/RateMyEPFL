@@ -9,9 +9,7 @@ import org.junit.Test
 class CourseTest {
 
     val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306")
-    val EXPECTED_JSON =
-        "{\"title\":\"SDP\",\"section\":\"IC\",\"teacher\":\"Candea\",\"credits\":4,\"id\":\"CS-306\"}"
-
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_COURSE)
     @Test
     fun constructorWithDefaultValuesWorks() {
         val c = Course("SDP", "IC", "Candea", 4, "CS-306")

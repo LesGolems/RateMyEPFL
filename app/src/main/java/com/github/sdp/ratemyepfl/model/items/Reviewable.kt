@@ -1,10 +1,6 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 /**
  * Represents a reviewable item

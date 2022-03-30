@@ -8,8 +8,7 @@ import org.junit.Test
 
 class ClassroomTest {
     val EXPECTED_ROOM = Classroom("CE 1 3", "Auditorium")
-    val EXPECTED_JSON =
-        "{\"id\":\"CE 1 3\",\"type\":\"Auditorium\"}"
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
 
     @Test
     fun constructorWithDefaultValuesWorks() {

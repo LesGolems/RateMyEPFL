@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.model.user
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
-import java.lang.IllegalArgumentException
 
 @Serializable
 data class User(

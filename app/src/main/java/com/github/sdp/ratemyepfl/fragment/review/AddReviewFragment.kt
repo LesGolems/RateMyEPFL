@@ -67,7 +67,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         }
 
         activityViewModel.getReviewable().observe(viewLifecycleOwner){
-            reviewIndicationTitle.text = getString(R.string.title_review, it!!.id)
+            reviewIndicationTitle.text = getString(R.string.title_review, it?.toString())
         }
 
         setupListeners()
