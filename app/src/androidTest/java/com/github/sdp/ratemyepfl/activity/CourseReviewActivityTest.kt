@@ -27,7 +27,7 @@ class CourseReviewActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @Before
-    fun setUp(){
+    fun setUp() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, ItemSerializer.serialize(course))
@@ -35,7 +35,7 @@ class CourseReviewActivityTest {
     }
 
     @After
-    fun clean(){
+    fun clean() {
         scenario.close()
     }
 
@@ -43,11 +43,9 @@ class CourseReviewActivityTest {
     @Test
     fun isIdVisibleOnActivityLaunch() {
         val fakeCourseId = FakeCourseRepository.COURSE_BY_ID.id
-        Thread.sleep(1000)
         onView(withId(R.id.id_course_info))
             .check(matches(withText(course.toString())))
     }
-
 
 
 }

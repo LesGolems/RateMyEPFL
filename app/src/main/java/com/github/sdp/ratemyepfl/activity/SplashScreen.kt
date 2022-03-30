@@ -7,15 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
-import com.github.sdp.ratemyepfl.database.UserDatabase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import androidx.lifecycle.lifecycleScope
-import com.github.sdp.ratemyepfl.model.user.User
 
 @AndroidEntryPoint
 class SplashScreen : AppCompatActivity() {

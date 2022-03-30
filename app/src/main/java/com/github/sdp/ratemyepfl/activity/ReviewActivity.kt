@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ReviewActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val EXTRA_ITEM_REVIEWED: String =
             "com.github.sdp.extra_item_reviewed"
 
@@ -25,7 +25,8 @@ class ReviewActivity : AppCompatActivity() {
         setContentView(layout)
 
         val bottomNavigationReview = findViewById<BottomNavigationView>(R.id.reviewNavigationView)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
         bottomNavigationReview.setupWithNavController(navHostFragment.navController)
     }
 }

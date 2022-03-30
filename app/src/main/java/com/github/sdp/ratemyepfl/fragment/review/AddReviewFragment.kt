@@ -66,7 +66,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 )
         }
 
-        activityViewModel.getReviewable().observe(viewLifecycleOwner){
+        activityViewModel.getReviewable().observe(viewLifecycleOwner) {
             reviewIndicationTitle.text = getString(R.string.title_review, it?.toString())
         }
 
@@ -94,25 +94,25 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     /* Adds the review to the database */
     private fun addReview() {
-        if(viewModel.submitReview(activityViewModel.getReviewable().value)) {
+        if (viewModel.submitReview(activityViewModel.getReviewable().value)) {
             reset()
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.reviewNavigationView)
                 .show()
-        }else{
+        } else {
             setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
             setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
     }
 
-    private fun reset(){
+    private fun reset() {
         title.setText("")
         comment.setText("")
         ratingBar.rating = 0f
     }
 
-    private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
-        if(actualValue == null || actualValue == "") layout.error = errorMessage
+    private fun setError(layout: TextInputEditText, actualValue: String?, errorMessage: String) {
+        if (actualValue == null || actualValue == "") layout.error = errorMessage
     }
 
 }
