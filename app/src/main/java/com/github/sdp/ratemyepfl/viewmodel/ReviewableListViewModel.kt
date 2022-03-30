@@ -21,4 +21,9 @@ sealed class ReviewableListViewModel<T : Reviewable>(private val repository: Ite
     fun getItemsAsLiveData(): LiveData<List<T>> {
         return items
     }
+
+    suspend fun getItems() : List<T> {
+        return repository.getItems()
+    }
+
 }
