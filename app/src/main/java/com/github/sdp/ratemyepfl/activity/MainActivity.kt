@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     private lateinit var locationManager: LocationManager
     private val restaurantListViewModel: RestaurantListViewModel by viewModels()
+    private val locationPermissionCode = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,21 +105,55 @@ class MainActivity : AppCompatActivity(), LocationListener {
         return result
     }
 
-    private fun startLocationService(){
+    /**
+     * Starts the Location Service and binds this Activity as a Listener
+     */
+    private fun startLocationService() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         // Check if location permission has been granted
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)){
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
+        if ((ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED)
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                locationPermissionCode
+            )
         }
         // send location updates to this LocationListener
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
     }
 
+
     /**
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
-        restaurantListViewModel.postRestaurantsOccupancy(location)
+        runBlocking {
+            restaurantListViewModel.updateRestaurantsOccupancy(location)
+        }
+        TODO("Update restaurant filter by distance")
+    }
+
+
+    /**
+     * Pops a little message after the user has specified his location preferences
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == locationPermissionCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Location Services Enable", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Location Services Disabled", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 
