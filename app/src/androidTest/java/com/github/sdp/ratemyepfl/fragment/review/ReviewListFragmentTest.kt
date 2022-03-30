@@ -23,7 +23,7 @@ class ReviewListFragmentTest {
     val hiltAndroidRule = HiltAndroidRule(this)
 
     @Test
-    fun listIsVisible(){
+    fun listIsVisible() {
         HiltUtils.launchFragmentInHiltContainer<ReviewListFragment> {}
         onView(withId(R.id.reviewRecyclerView))
             .check(ViewAssertions.matches(isDisplayed()))
