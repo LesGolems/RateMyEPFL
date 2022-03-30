@@ -3,7 +3,7 @@
     <dimen name="bottomNavigationItemIconSize">28dp</dimen>
     <dimen name="bottomNavigationItemIconSizeReview">25dp</dimen>
 
-    <dimen name="clusterItemWidth">256dp</dimen>
-    <dimen name="clusterItemHeight">144dp</dimen>
+    <dimen name="clusterItemWidth">384dp</dimen>
+    <dimen name="clusterItemHeight">216dp</dimen>
     <dimen name="itemPadding">2dp</dimen>
 </resources>

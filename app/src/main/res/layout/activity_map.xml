@@ -1,7 +1,62 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.map.MapActivity"
+    android:id="@+id/sliding_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.map.MapActivity" />
+    android:gravity="bottom"
+    sothree:umanoDragView="@id/dragView">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/dragView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titleClusterItem"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_alignBaseline="@id/reviewableButton"
+            android:visibility="gone"
+            android:text="@string/title_review_list" />
+
+        <Button
+            android:id="@+id/reviewableButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+            android:text="@string/review_text_button" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardClusterItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reviewableButton"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/photoClusterItem"
+                android:layout_width="@dimen/clusterItemWidth"
+                android:layout_height="@dimen/clusterItemHeight"
+                android:visibility="gone"
+                android:src="@drawable/niki" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

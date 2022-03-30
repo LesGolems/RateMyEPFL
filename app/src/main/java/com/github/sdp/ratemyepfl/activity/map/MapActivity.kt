@@ -8,6 +8,10 @@ import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +19,6 @@ import androidx.core.app.ActivityCompat
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewActivity
-import com.github.sdp.ratemyepfl.adapter.InfoMarkerAdapter
 import com.github.sdp.ratemyepfl.model.items.RestaurantItem
 import com.github.sdp.ratemyepfl.utils.PermissionUtils.isPermissionGranted
 import com.google.android.gms.maps.GoogleMap
@@ -96,8 +99,6 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         googleMap.setOnInfoWindowClickListener(mClusterManager)
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
-
-        mClusterManager.markerCollection.setInfoWindowAdapter(InfoMarkerAdapter(applicationContext) { m -> displayReviews(m) })
 
         mClusterManager.setOnClusterClickListener(this)
         mClusterManager.setOnClusterInfoWindowClickListener(this)
@@ -196,16 +197,28 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     }
 
     override fun onClusterItemClick(item: RestaurantItem): Boolean {
-        return false
+        val titleView: TextView = findViewById(R.id.titleClusterItem)
+        titleView.text = item.name
+        titleView.visibility = View.VISIBLE
+
+        val reviewButton: Button = findViewById(R.id.reviewableButton)
+        reviewButton.setOnClickListener { displayReviews(item) }
+        reviewButton.visibility = View.VISIBLE
+
+        val photoView: ImageView = findViewById(R.id.photoClusterItem)
+        photoView.setImageResource(item.photo)
+        photoView.visibility = View.VISIBLE
+
+        return true
     }
 
     override fun onClusterItemInfoWindowClick(item: RestaurantItem) {
         // Nothing for now
     }
 
-    fun displayReviews(marker: Marker){
+    fun displayReviews(item: RestaurantItem){
         val intent = Intent(this, RestaurantReviewActivity::class.java)
-        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, marker.title)
+        intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, item.name)
         startActivity(intent)
     }
 }
