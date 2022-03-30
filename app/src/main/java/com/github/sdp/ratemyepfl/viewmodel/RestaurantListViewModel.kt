@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
+import android.location.Location
 import androidx.lifecycle.LiveData
 import com.github.sdp.ratemyepfl.database.ItemRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
@@ -12,6 +13,14 @@ class RestaurantListViewModel @Inject constructor(repository: ItemRepository<Res
 
     fun getRestaurants(): LiveData<List<Restaurant>> {
         return getItemsAsLiveData()
+    }
+
+    fun getRestaurantByLocation(location : Location): LiveData<List<Restaurant>>{
+        TODO()
+    }
+
+    fun postRestaurantsOccupancy(location : Location){
+        TODO()
     }
 
 }

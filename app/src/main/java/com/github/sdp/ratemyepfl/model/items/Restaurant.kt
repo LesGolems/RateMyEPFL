@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Restaurant(
     override val id: String,
+    val occupancy: Int = 0
 ) : Reviewable() {
 
     override val collectionPath = "restaurants"
@@ -20,6 +21,13 @@ data class Restaurant(
          *
          * @return the restaurant held by the data
          */
-        fun DocumentSnapshot.toRestaurant(): Restaurant = Restaurant(id)
+        fun DocumentSnapshot.toRestaurant(): Restaurant? {
+            return try{
+                val p = get("occupancy")!! as Int
+                Restaurant(id, p)
+            } catch (e : Exception){
+                null
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import org.junit.Assert.*
 import org.junit.Test
 
 class ItemSerializerTest{

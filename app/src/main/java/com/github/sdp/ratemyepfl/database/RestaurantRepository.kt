@@ -12,5 +12,5 @@ class RestaurantRepository @Inject constructor() :
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
     }
 
-    override fun toItem(snapshot: DocumentSnapshot): Restaurant = snapshot.toRestaurant()
+    override fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
 }
