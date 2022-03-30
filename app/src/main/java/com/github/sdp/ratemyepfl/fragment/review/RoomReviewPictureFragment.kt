@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import com.github.sdp.ratemyepfl.R
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+TODO
+ */
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 

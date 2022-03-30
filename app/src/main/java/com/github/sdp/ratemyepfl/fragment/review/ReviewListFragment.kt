@@ -11,11 +11,15 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 
-open class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
+/*
+Fragment for the list of reviews, shared among all reviewed items
+ */
+class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var reviewsAdapter: ReviewAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
 
+    // Gets the shared view model
     private val viewModel by activityViewModels<ReviewViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
