@@ -14,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 import javax.inject.Inject
 
 @HiltAndroidTest
