@@ -24,7 +24,7 @@ sealed class ItemRepositoryImpl<T : Reviewable> constructor(collectionPath: Stri
      *
      * @param snapshot: document to convert
      *
-     * @return the converted document (as T)
+     * @return the converted document (as T), or null if it fails
      */
     abstract fun toItem(snapshot: DocumentSnapshot): T?
 
