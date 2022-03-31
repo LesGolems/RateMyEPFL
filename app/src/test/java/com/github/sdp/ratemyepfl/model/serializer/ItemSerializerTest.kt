@@ -31,4 +31,17 @@ class ItemSerializerTest {
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
     }
+
+    @Test
+    fun serializationFailsForInvalidParameters() {
+        val t: Reviewable = Restaurant.Builder()
+            .setId("fake")
+            .build()
+        val ser: String = "bad serialization"
+
+        assertEquals(
+            null,
+            ItemSerializer.deserialize(ser)
+        )
+    }
 }

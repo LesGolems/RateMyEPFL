@@ -171,7 +171,7 @@ class ReviewTest {
             .setDate(LocalDate.of(2020, 3, 8))
             .build()
 
-        val serializedReview = Review.serialize(review)
+        val serializedReview = review.serialize()
         val deserializedReview = Review.deserialize(serializedReview)
 
         assertEquals(review, deserializedReview)

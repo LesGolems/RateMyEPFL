@@ -160,4 +160,13 @@ class CourseTest {
         val course = Course(fake, fake, fake, 0, fake)
         assertEquals(course, builder.build())
     }
+
+    @Test
+    fun asMandatoryThrowsForNullValue() {
+        val builder = Course.Builder()
+
+        assertThrows(IllegalStateException::class.java) {
+            builder asMandatory null
+        }
+    }
 }
