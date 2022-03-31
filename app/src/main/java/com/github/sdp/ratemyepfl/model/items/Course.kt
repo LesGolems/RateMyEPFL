@@ -21,14 +21,20 @@ data class Course(
     }
 
     companion object {
+        /**
+         * Converts the json data in a Course object
+         *
+         * @return a course object if it contains the correct data, null otherwise
+         */
         fun DocumentSnapshot.toCourse(): Course? {
-            return try {
-                val title = getString("title")!!
-                val section = getString("section")!!
-                val teacher = getString("teacher")!!
-                val credits = getString("credits")?.toInt()!!
+            val title: String? = getString("title")
+            val section: String? = getString("section")
+            val teacher: String? = getString("teacher")
+            val credits: Int? = getString("credits")?.toInt()
+
+            return if (title != null && section != null && teacher != null && credits != null) {
                 Course(title, section, teacher, credits, id)
-            } catch (e: Exception) {
+            } else {
                 null
             }
         }

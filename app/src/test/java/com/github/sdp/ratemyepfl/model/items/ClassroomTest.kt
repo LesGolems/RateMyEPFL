@@ -8,21 +8,20 @@ import org.junit.Test
 
 class ClassroomTest {
     val EXPECTED_ROOM = Classroom("CE 1 3", "Auditorium")
-    val EXPECTED_JSON =
-        "{\"id\":\"CE 1 3\",\"type\":\"Auditorium\"}"
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
         val r = Classroom("CO1")
         assertEquals("CO1", r.id)
-        assertEquals(null, r.type)
+        assertEquals(null, r.roomKind)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val r = Classroom("CM 1 4","Auditorium")
+        val r = Classroom("CM 1 4", "Auditorium")
         assertEquals("CM 1 4", r.id)
-        assertEquals("Auditorium", r.type)
+        assertEquals("Auditorium", r.roomKind)
     }
 
     @Test

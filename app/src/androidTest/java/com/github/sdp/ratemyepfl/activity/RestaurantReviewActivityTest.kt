@@ -7,8 +7,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -19,19 +20,21 @@ import org.junit.Test
 @HiltAndroidTest
 class RestaurantReviewActivityTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
+    private val restaurant = Restaurant("Fake")
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @Before
-    fun setUp(){
+    fun setUp() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_restaurant_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, ItemSerializer.serialize(restaurant))
         scenario = ActivityScenario.launch(intent)
     }
 
     @After
-    fun clean(){
+    fun clean() {
         scenario.close()
     }
 
@@ -39,6 +42,8 @@ class RestaurantReviewActivityTest {
     @Test
     fun isIdVisibleOnActivityLaunch() {
         onView(withId(R.id.id_restaurant_info))
-            .check(matches(ViewMatchers.withText("Fake id")))
+            .check(matches(ViewMatchers.withText(restaurant.toString())))
     }
+
+
 }

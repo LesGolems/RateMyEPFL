@@ -5,7 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
 import javax.inject.Inject
 
-class FakeReviewsRepository @Inject constructor() : ReviewsRepositoryInterface {
+class FakeReviewsRepository @Inject constructor() : ReviewsRepository {
 
     companion object {
         val fakeList = listOf(

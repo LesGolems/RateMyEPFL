@@ -51,7 +51,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
             {},
             {})
 
-    private inline fun<reified T : Fragment> changeTab() {
+    private inline fun <reified T : Fragment> changeTab() {
         childFragmentManager.commit {
             replace<T>(R.id.reviewTabFragment)
             setReorderingAllowed(true)

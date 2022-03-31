@@ -34,7 +34,7 @@ class ReviewRatingTest {
     }
 
     @Test
-    fun toValueReturnsCorrectValue(){
+    fun toValueReturnsCorrectValue() {
         val terrible = ReviewRating.TERRIBLE
         assertEquals(terrible.toValue(), 1)
         val poor = ReviewRating.POOR

@@ -3,10 +3,8 @@ package com.github.sdp.ratemyepfl.activity.restaurants
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +16,7 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getRestaurants().observe(this) {
+        viewModel.getItemsAsLiveData().observe(this) {
             it?.let {
                 reviewableAdapter.setData(it.toMutableList())
             }

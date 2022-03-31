@@ -8,34 +8,34 @@ import org.junit.Test
 
 class RestaurantTest {
     val EXPECTED_RESTAURANT = Restaurant("Arcadie")
-    val EXPECTED_JSON = "{\"id\":\"Arcadie\"}"
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_RESTAURANT)
 
     @Test
-    fun defaultConstructorWorks(){
+    fun defaultConstructorWorks() {
         val r = Restaurant("Arcadie")
         assertEquals("Arcadie", r.id)
     }
 
     @Test
-    fun paramConstructorWorks(){
+    fun paramConstructorWorks() {
         val r = Restaurant("Arcadie")
         assertEquals("Arcadie", r.id)
     }
 
     @Test
-    fun serializationWorks(){
+    fun serializationWorks() {
         val json = Json.encodeToString(EXPECTED_RESTAURANT)
         assertEquals(EXPECTED_JSON, json)
     }
 
     @Test
-    fun deserializationWorks(){
+    fun deserializationWorks() {
         val r = Json.decodeFromString<Restaurant>(EXPECTED_JSON)
         assertEquals(EXPECTED_RESTAURANT, r)
     }
 
     @Test
-    fun toStringWorks(){
+    fun toStringWorks() {
         assertEquals(EXPECTED_RESTAURANT.toString(), "Arcadie")
     }
 

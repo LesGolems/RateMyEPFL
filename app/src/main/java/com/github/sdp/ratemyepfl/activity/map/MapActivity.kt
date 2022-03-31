@@ -48,10 +48,12 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             map.isMyLocationEnabled = true
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSION_REQUEST_CODE
             )
@@ -64,16 +66,27 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     }
 
     override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Latitude: ${location.latitude}\nLongitude: ${location.longitude}",
-            Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            this, "Latitude: ${location.latitude}\nLongitude: ${location.longitude}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode != PERMISSION_REQUEST_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
-        if (isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if (isPermissionGranted(
+                permissions,
+                grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
             enableMyLocation()
         } else {
             permissionDenied = true

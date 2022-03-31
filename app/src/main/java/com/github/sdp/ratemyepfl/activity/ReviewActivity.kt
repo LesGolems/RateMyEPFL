@@ -15,7 +15,7 @@ The layout is passed as extra and set in the onCreate method
 @AndroidEntryPoint
 class ReviewActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val EXTRA_ITEM_REVIEWED: String =
             "com.github.sdp.extra_item_reviewed"
 
@@ -31,7 +31,8 @@ class ReviewActivity : AppCompatActivity() {
 
         // Note that for simplicity the components id are the same for each activity layout (i.e same id in xml file)
         val bottomNavigationReview = findViewById<BottomNavigationView>(R.id.reviewNavigationView)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
         bottomNavigationReview.setupWithNavController(navHostFragment.navController)
     }
 }

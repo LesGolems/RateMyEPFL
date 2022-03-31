@@ -3,21 +3,21 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
-import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
+import com.github.sdp.ratemyepfl.database.ReviewsRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-/*
-General view model for all activities/fragments of the review part of the app
+/**
+ * General view model for all activities/fragments of the review part of the app
  */
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepositoryInterface,
-    private val itemRepo: ItemsRepositoryInterface,
+    private val reviewRepo: ReviewsRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -25,14 +25,16 @@ open class ReviewViewModel @Inject constructor(
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review>>()
+
     // Reviewable
-    private val reviewable = MutableLiveData<Reviewable?>()
+    private val reviewable = MutableLiveData(id?.let { serialized ->
+        Json.decodeFromString<Reviewable>(serialized)
+    })
 
     // Fake photo ids
     private val fakePhotoIds = listOf(R.drawable.room3 , R.drawable.room1, R.drawable.room4, R.drawable.room2, R.drawable.room5, R.drawable.room6)
 
     init {
-        updateReviewable()
         updateReviewsList()
     }
 
@@ -42,11 +44,7 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
-    fun updateReviewable() {
-        viewModelScope.launch {
-            reviewable.value = itemRepo.getById(id)
-        }
-    }
+
 
     /**
      * Returns the numbers of reviews of the current reviewed item as LiveData
@@ -68,7 +66,7 @@ open class ReviewViewModel @Inject constructor(
             reviewsLiveData
         ) { reviewList ->
             val sumOfRates = reviewList.map { it.rating.toValue() }.sum()
-            MutableLiveData(sumOfRates/reviewList.size)
+            MutableLiveData(sumOfRates / reviewList.size)
         }
     }
 

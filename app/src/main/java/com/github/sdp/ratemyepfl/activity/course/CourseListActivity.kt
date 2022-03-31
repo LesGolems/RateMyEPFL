@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +17,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getCourses().observe(this) {
+        viewModel.getItemsAsLiveData().observe(this) {
             it?.let {
                 reviewableAdapter.setData(it.toMutableList())
             }

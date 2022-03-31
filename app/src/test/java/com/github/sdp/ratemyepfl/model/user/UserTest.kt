@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.model.user
+
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class UserTest {
@@ -16,7 +17,7 @@ class UserTest {
 
     @Test
     fun constructorWithLoggedInUserWorks() {
-        val user = User(object: ConnectedUser {
+        val user = User(object : ConnectedUser {
             override fun getUsername(): String? {
                 return "Jean"
             }
@@ -45,7 +46,12 @@ class UserTest {
 
     @Test
     fun toHashMapWorks() {
-        val userHash = User("12345", "Jean", "user@email.ch", "https://www.pictures.com/?q=coolpic").toHashMap()
+        val userHash = User(
+            "12345",
+            "Jean",
+            "user@email.ch",
+            "https://www.pictures.com/?q=coolpic"
+        ).toHashMap()
         assertEquals(userHash[User.USERNAME_FIELD], "Jean")
         assertEquals(userHash[User.EMAIL_FIELD], "user@email.ch")
         assertEquals(userHash[User.PICTURE_FIELD], "https://www.pictures.com/?q=coolpic")
