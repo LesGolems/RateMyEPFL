@@ -59,6 +59,7 @@ class HomeFragmentTest {
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGOUT)))
     }
 
+
     @ExperimentalCoroutinesApi
     @Test
     fun updateToLoginWhenUserPressesLogout() {

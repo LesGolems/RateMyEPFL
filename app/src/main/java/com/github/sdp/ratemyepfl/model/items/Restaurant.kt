@@ -23,10 +23,8 @@ data class Restaurant(
         }
 
         override fun build(): Restaurant {
-            val id = this.id
-            return if (id != null) {
-                Restaurant(id)
-            } else throw IllegalStateException("Missing mandatory property for a Restaurant")
+            val id = this asMandatory id
+            return Restaurant(id)
         }
     }
 

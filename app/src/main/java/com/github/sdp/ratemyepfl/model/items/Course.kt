@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -71,25 +70,13 @@ data class Course(
         }
 
         override fun build(): Course {
-            val title = this.title
-            val section = this.section
-            val teacher = this.teacher
-            val credits = this.credits
-            val id = this.id
-            val cycle = this.cycle
-            val session = this.session
-            val grading = this.grading
-            val language = this.language
+            val title = this asMandatory title
+            val section = this asMandatory section
+            val teacher = this asMandatory teacher
+            val credits = this asMandatory credits
+            val id = this asMandatory id
 
-            // Check for mandatory properties (i.e., non nullable)
-            return if (title != null &&
-                section != null &&
-                teacher != null &&
-                credits != null &&
-                id != null
-            ) {
-                Course(title, section, teacher, credits, id, cycle, session, grading, language)
-            } else throw IllegalStateException("Missing mandatory elements for a Course")
+            return Course(title, section, teacher, credits, id, cycle, session, grading, language)
         }
 
     }

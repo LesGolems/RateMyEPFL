@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,12 +28,8 @@ data class Classroom(
         }
 
         override fun build(): Classroom {
-            val id = this.id
-            val roomKind = roomKind
-
-            return if (id != null) {
-                Classroom(id, roomKind)
-            } else throw IllegalStateException("Missing mandatory property for a Classroom")
+            val id = this asMandatory id
+            return Classroom(id, roomKind)
         }
     }
 
