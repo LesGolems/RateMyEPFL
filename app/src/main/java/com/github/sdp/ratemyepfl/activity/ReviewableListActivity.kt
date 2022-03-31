@@ -64,7 +64,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
      * Creates an intent towards the ReviewActivity, it passes as extra the id of the reviewed item and
      * the id of the layout of the activity; we have one activity layout per reviewable item
      */
-    private fun displayReviews(t: T){
+    private fun displayReviews(t: T) {
         val intent = Intent(this, ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, Json.encodeToString<Reviewable>(t))
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, getLayoutId())
