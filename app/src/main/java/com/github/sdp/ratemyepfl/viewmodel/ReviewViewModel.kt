@@ -21,18 +21,21 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val id: String? = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)
+    private val reviewableExtra: String? =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review>>()
 
     // Reviewable
-    private val reviewable = MutableLiveData(id?.let { serialized ->
+    private val reviewable = MutableLiveData(reviewableExtra?.let { serialized ->
         Json.decodeFromString<Reviewable>(serialized)
     })
 
     // Fake photo ids
     private val fakePhotoIds = listOf(R.drawable.room3 , R.drawable.room1, R.drawable.room4, R.drawable.room2, R.drawable.room5, R.drawable.room6)
+
+    val id = reviewable.value?.id
 
     init {
         updateReviewsList()
@@ -40,16 +43,15 @@ open class ReviewViewModel @Inject constructor(
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewRepo.getByReviewableId(id)
+            reviewsLiveData.postValue(reviewRepo.getByReviewableId(id))
         }
     }
-
 
 
     /**
      * Returns the numbers of reviews of the current reviewed item as LiveData
      */
-    fun getNumReviews(): LiveData<Int>{
+    fun getNumReviews(): LiveData<Int> {
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->
@@ -61,7 +63,7 @@ open class ReviewViewModel @Inject constructor(
      * Returns the overall grade of the current reviewed item as LiveData
      * (Note that, for concurrency issues, we calculate the overall grade using the list of reviews)
      */
-    fun getOverallGrade(): LiveData<Int>{
+    fun getOverallGrade(): LiveData<Int> {
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->

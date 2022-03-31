@@ -4,6 +4,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class RestaurantTest {
@@ -39,4 +40,23 @@ class RestaurantTest {
         assertEquals(EXPECTED_RESTAURANT.toString(), "Arcadie")
     }
 
+    @Test
+    fun builderThrowsForMissingId() {
+        val builder = Restaurant.Builder()
+            .setId(null)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderSucceedsForMissingNonMandatoryProperties() {
+        val fake = "fake"
+        val builder = Restaurant.Builder()
+            .setId(fake)
+
+        val restaurant = Restaurant(fake)
+        assertEquals(restaurant, builder.build())
+    }
 }

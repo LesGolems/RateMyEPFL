@@ -58,17 +58,17 @@ class AddReviewViewModel @Inject constructor(
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        if(comment == null || comment == "") return false
-        if(title == null || title == "") return false
-        if(rating == null || item == null) return false
+        if (comment == null || comment == "") return false
+        if (title == null || title == "") return false
+        if (rating == null || item == null) return false
 
         val review = Review.Builder()
-                .setRating(rating)
-                .setTitle(title)
-                .setComment(comment)
-                .setReviewableID(item.id)
-                .setDate(date)
-                .build()
+            .setRating(rating)
+            .setTitle(title)
+            .setComment(comment)
+            .setReviewableID(item.id)
+            .setDate(date)
+            .build()
         reviewRepo.add(review)
         return true
     }
