@@ -6,7 +6,7 @@ import android.widget.Button
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.course.CourseListActivity
 
-class CourseTabFragment : TabFragment(R.layout.fragment_course_tab) {
+class CourseTabFragment : ReviewableTabFragment(R.layout.fragment_course_tab) {
     private lateinit var courseButton: Button
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -6,7 +6,7 @@ import android.widget.Button
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantListActivity
 
-class RestaurantTabFragment : TabFragment(R.layout.fragment_restaurant_tab) {
+class RestaurantTabFragment : ReviewableTabFragment(R.layout.fragment_restaurant_tab) {
     private lateinit var restaurantButton: Button
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

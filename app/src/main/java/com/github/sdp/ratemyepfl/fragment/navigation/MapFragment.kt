@@ -6,7 +6,7 @@ import android.widget.Button
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.map.MapActivity
 
-class MapFragment : TabFragment(R.layout.fragment_map) {
+class MapFragment : ReviewableTabFragment(R.layout.fragment_map) {
     private lateinit var mapButton: Button
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

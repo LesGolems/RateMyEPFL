@@ -2,23 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeNavItem"
+        android:id="@+id/home"
         android:enabled="true"
+        android:contentDescription="@string/home_nav_title"
         android:icon="@drawable/ic_home_white_24dp"
         android:title="@string/home_nav_title" />
     <item
-        android:id="@+id/reviewNavItem"
+        android:id="@+id/review"
         android:enabled="true"
         android:icon="@drawable/ic_rate_review_white_24dp"
+        android:contentDescription="@string/reviews_nav_title"
         android:title="@string/reviews_nav_title" />
     <item
-        android:id="@+id/eventNavItem"
+        android:id="@+id/event"
         android:enabled="true"
         android:icon="@drawable/ic_event_white_24dp"
+        android:contentDescription="@string/event_page_title"
         android:title="@string/events_nav_item" />
     <item
-        android:id="@+id/mapNavItem"
+        android:id="@+id/map"
         android:enabled="true"
         android:icon="@drawable/ic_map_white_24dp"
+        android:contentDescription="@string/map_nav_title"
         android:title="@string/map_nav_title" />
 </menu>

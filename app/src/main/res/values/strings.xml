@@ -59,4 +59,5 @@
     <string name="todo">TODO</string>
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
+    <string name="home_page_description">Home</string>
 </resources>

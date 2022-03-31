@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.classrooms.ClassroomsListActivity">
+    tools:context=".activity.classrooms.ClassroomsListActivity"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/reviewableSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reviewableRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager" />
+        app:layoutManager="LinearLayoutManager"
+        android:layout_margin="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
