@@ -42,6 +42,6 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun goToMain() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, UserProfileActivity::class.java))
     }
 }

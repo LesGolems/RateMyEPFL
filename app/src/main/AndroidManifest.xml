@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
+            android:name=".activity.UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.course.CourseListActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
