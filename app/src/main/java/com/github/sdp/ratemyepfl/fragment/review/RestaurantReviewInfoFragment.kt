@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.RestaurantInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -16,11 +16,11 @@ Fragment displayed all relevant information for a restaurant
 class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_review_info) {
 
     // Gets the shared view model
-    private val viewModel by activityViewModels<ReviewViewModel>()
+    private val viewModel by activityViewModels<RestaurantInfoViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getReviewable().observe(viewLifecycleOwner) {
+        viewModel.restaurant.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.id_restaurant_info).text = it?.toString()
         }
     }

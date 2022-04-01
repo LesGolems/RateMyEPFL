@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.CourseInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -16,12 +16,12 @@ Fragment displayed all relevant information for a Course
 class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) {
 
     // Gets the shared view model
-    private val viewModel by activityViewModels<ReviewViewModel>()
+    private val viewModel by activityViewModels<CourseInfoViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getReviewable().observe(viewLifecycleOwner) { reviewable ->
-            view.findViewById<TextView>(R.id.id_course_info).text = reviewable?.toString()
+        viewModel.course.observe(viewLifecycleOwner) { course ->
+            view.findViewById<TextView>(R.id.id_course_info).text = course?.toString()
         }
     }
 }

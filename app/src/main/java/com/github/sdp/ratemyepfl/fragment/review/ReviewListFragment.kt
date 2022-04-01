@@ -43,7 +43,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             swipeRefresher.isRefreshing = false
         }
 
-        viewModel.getReviews().observe(viewLifecycleOwner) {
+        viewModel.reviews.observe(viewLifecycleOwner) {
             it?.let {
                 reviewsAdapter.submitList(it.toMutableList())
             }
