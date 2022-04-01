@@ -8,7 +8,7 @@ import com.github.sdp.ratemyepfl.database.ItemRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import kotlinx.coroutines.launch
 
-sealed class ReviewableListViewModel<T : Reviewable>(private val repository: ItemRepository<T>) :
+sealed class ReviewableListViewModel<T : Reviewable>(protected val repository: ItemRepository<T>) :
     ViewModel() {
     private var items = MutableLiveData<List<T>>()
 
@@ -20,10 +20,6 @@ sealed class ReviewableListViewModel<T : Reviewable>(private val repository: Ite
 
     fun getItemsAsLiveData(): LiveData<List<T>> {
         return items
-    }
-
-    suspend fun getItems() : List<T> {
-        return repository.getItems()
     }
 
 }

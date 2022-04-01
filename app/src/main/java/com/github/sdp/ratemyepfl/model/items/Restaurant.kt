@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class Restaurant(
     override val id: String,
     val occupancy: Int = 0,
-    val latitude: Long = 0,
-    val longitude: Long = 0
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0
 ) : Reviewable() {
 
     override fun toString(): String {

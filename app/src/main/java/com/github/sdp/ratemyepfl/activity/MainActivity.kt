@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
@@ -25,7 +26,7 @@ import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     private lateinit var locationManager: LocationManager
     private val restaurantListViewModel: RestaurantListViewModel by viewModels()
-    private val locationPermissionCode = 2
+    private val locationPermissionCode = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,16 +117,20 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED)
         ) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                locationPermissionCode
+            )
         }
-            if ((ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED)
-            ) {
-                // send location updates to this LocationListener
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
-            }
+        if ((ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED)
+        ) {
+            // send location updates to this LocationListener
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 5f, this)
+        }
     }
 
 
@@ -133,9 +138,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
-        /*runBlocking {
-            restaurantListViewModel.updateRestaurantsOccupancy(location)
-        }*/
+        restaurantListViewModel.updateRestaurantsOccupancy(location)
         TODO("Update restaurant filter by distance")
     }
 
