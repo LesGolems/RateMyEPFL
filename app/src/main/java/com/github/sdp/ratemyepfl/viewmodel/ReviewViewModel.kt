@@ -3,12 +3,9 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepository
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 /**
@@ -20,18 +17,12 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val reviewableExtra: String? =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review>>()
-
-    // Reviewable
-    private val reviewable = MutableLiveData(reviewableExtra?.let { serialized ->
-        Json.decodeFromString<Reviewable>(serialized)
-    })
-
-    val id = reviewable.value?.id
 
     init {
         updateReviewsList()
@@ -73,12 +64,5 @@ open class ReviewViewModel @Inject constructor(
      */
     fun getReviews(): LiveData<List<Review>> {
         return reviewsLiveData
-    }
-
-    /**
-     * Returns the current reviewed item as LiveData
-     */
-    fun getReviewable(): LiveData<Reviewable?> {
-        return reviewable
     }
 }

@@ -10,10 +10,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
 import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragmentTest
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -26,7 +25,6 @@ import org.junit.Test
 @HiltAndroidTest
 class RoomReviewActivityTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
-    private val classroom = Classroom("Fake")
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -35,7 +33,7 @@ class RoomReviewActivityTest {
     fun setUp() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, ItemSerializer.serialize(classroom))
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
     }
 
@@ -46,8 +44,9 @@ class RoomReviewActivityTest {
 
     @Test
     fun isIdVisibleOnActivityLaunch() {
+        val fakeRoom = FakeClassroomRepository.DEFAULT_ROOM
         onView(withId(R.id.id_room_info))
-            .check(matches(withText(classroom.toString())))
+            .check(matches(withText(fakeRoom.toString())))
     }
 
     /* This tests depends on the Review activity layout, so it doesn't work when launching
