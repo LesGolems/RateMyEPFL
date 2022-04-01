@@ -11,3 +11,5 @@ exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
+- "/utils/scripts/"
+- "**/dependencyinjection/"
