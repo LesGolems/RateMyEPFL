@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -43,7 +44,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
         mainFragment = findViewById(R.id.mainActivityFragmentContainer)
 
         setupNavigation()
-        startLocationService()
+
+        val button: Button = findViewById(R.id.getLocation)
+        button.setOnClickListener {
+            startLocationService()
+        }
     }
 
     /**
@@ -111,14 +116,16 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED)
         ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionCode
-            )
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
         }
-        // send location updates to this LocationListener
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+            if ((ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED)
+            ) {
+                // send location updates to this LocationListener
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+            }
     }
 
 
@@ -126,9 +133,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
-        runBlocking {
+        /*runBlocking {
             restaurantListViewModel.updateRestaurantsOccupancy(location)
-        }
+        }*/
         TODO("Update restaurant filter by distance")
     }
 
