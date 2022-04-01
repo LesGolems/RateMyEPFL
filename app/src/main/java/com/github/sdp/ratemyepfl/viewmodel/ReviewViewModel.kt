@@ -17,12 +17,20 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    companion object{
+        const val NO_GRADE = 10
+    }
+
     // Id
     val id: String =
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
     // Reviews
     private val reviewsLiveData = MutableLiveData<List<Review>>()
+
+    val numReviews : LiveData<Int> = computeNumReviews()
+
+    val overallGrade : LiveData<Int> = computeOverallGrade()
 
     init {
         updateReviewsList()
@@ -38,7 +46,7 @@ open class ReviewViewModel @Inject constructor(
     /**
      * Returns the numbers of reviews of the current reviewed item as LiveData
      */
-    fun getNumReviews(): LiveData<Int> {
+    private fun computeNumReviews(): LiveData<Int> {
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->
@@ -50,11 +58,12 @@ open class ReviewViewModel @Inject constructor(
      * Returns the overall grade of the current reviewed item as LiveData
      * (Note that, for concurrency issues, we calculate the overall grade using the list of reviews)
      */
-    fun getOverallGrade(): LiveData<Int> {
+    private fun computeOverallGrade(): LiveData<Int> {
         return Transformations.switchMap(
             reviewsLiveData
         ) { reviewList ->
-            val sumOfRates = reviewList.map { it.rating.toValue() }.sum()
+            if(reviewList.isEmpty()) MutableLiveData(NO_GRADE)
+            val sumOfRates = reviewList.sumOf { it.rating.toValue() }
             MutableLiveData(sumOfRates / reviewList.size)
         }
     }
