@@ -20,10 +20,12 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterfa
                 id = "ELA 2",
             )
         )
+
+        val DEFAULT_ROOM = Classroom(id = "CM3")
     }
 
 
     override suspend fun getClassrooms(): List<Classroom> = CLASSROOM_LIST
 
-    override suspend fun getRoomById(id: String): Classroom = Classroom(id = "CM3")
+    override suspend fun getRoomById(id: String): Classroom = DEFAULT_ROOM
 }
