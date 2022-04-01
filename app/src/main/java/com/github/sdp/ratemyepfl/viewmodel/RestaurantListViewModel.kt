@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) : ViewModel() {
+class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) :
+    ViewModel() {
 
     private val precision: Double = 0.5
 
     private val nearbyRestaurants: List<Restaurant> = listOf()
-    private val insideRestaurant: Restaurant? = null
+    private var insideRestaurantId: String? = null
 
     private var items = MutableLiveData<List<Restaurant>>()
 
@@ -31,22 +32,24 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
         return items
     }
 
-    fun getRestaurants(): LiveData<List<Restaurant>> {
-        return getItemsAsLiveData()
-    }
 
     fun getRestaurantByLocation(location: Location): LiveData<List<Restaurant>> {
         TODO()
     }
 
     fun updateRestaurantsOccupancy(l: Location) {
-        // this there is only one close restaurant
-
         viewModelScope.launch {
-            val id = findCloseRestaurantID(l) ?: return@launch
-
-            //update occupancy
-
+            val id = findCloseRestaurantID(l)
+            if (id != insideRestaurantId) {
+                insideRestaurantId = if (id == null) {
+                    repository.decrementOccupancy(insideRestaurantId!!)
+                    null
+                } else {
+                    repository.incrementOccupancy(id)
+                    repository.decrementOccupancy(insideRestaurantId!!)
+                    id
+                }
+            }
         }
     }
 

@@ -5,17 +5,19 @@ import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface, Repository(RESTAURANT_COLLECTION_PATH) {
+class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
+    Repository(RESTAURANT_COLLECTION_PATH) {
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-            val builder = Restaurant.Builder()
-                .setId(id)
-
             return try {
-                builder.build()
+                val occupancy = (get("occupancy") as Int?) ?: 0
+                val lat = getDouble("latitude") ?: 0.0
+                val lon = getDouble("longitude") ?: 0.0
+
+                return Restaurant(id, occupancy, lat, lon)
             } catch (e: IllegalStateException) {
                 null
             }
@@ -29,4 +31,13 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
     }
 
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
+
+    suspend fun incrementOccupancy(id: String) {
+
+    }
+
+    suspend fun decrementOccupancy(id: String) {
+
+    }
+
 }
