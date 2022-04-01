@@ -3,16 +3,14 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import com.google.common.collect.Ordering
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
     ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ListActivityUtils.diffCallback<Reviewable>()),
@@ -28,7 +26,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
 
         init {
             reviewableView.isClickable = true
-            reviewableTextView.setOnClickListener {
+            reviewableView.findViewById<LinearLayout>(R.id.reviewableItemLayout).setOnClickListener {
                 currentReviewable?.let {
                     onClick(it)
                 }
@@ -59,8 +57,14 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
-    fun setData(list: MutableList<Reviewable>?) {
-        this.list = list!!
+    /**
+     * Replace the current list content with [data]
+     *
+     * @param data: a list of items that are [Reviewable]
+     *
+     */
+    fun setData(data: List<Reviewable>) {
+        this.list = data.toMutableList()
         submitList(list)
     }
 
@@ -100,12 +104,15 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         filteredList
     }
 
-    fun sortAlphabetically(increasing: Boolean) {
-        val sortedList = mutableListOf<Reviewable>()
-        sortedList.addAll(list)
-
-        sortedList.sortBy { it.id }
-        if (!increasing) {
+    /**
+     * Sort the adapted list alphabetically, in the A-Z order by default
+     *
+     * @param reversedOrder: if true, sort following the Z-A order (
+     */
+    fun sortAlphabetically(reversedOrder: Boolean = false) {
+        val sortedList: MutableList<Reviewable> = list.toMutableList()
+        sortedList.sortBy{ item -> item.id}
+        if(reversedOrder) {
             sortedList.reverse()
         }
         setData(sortedList)
@@ -123,4 +130,5 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         })
         filteredList
     }
+
 }

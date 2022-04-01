@@ -15,7 +15,7 @@ class ClassroomsListActivity : ReviewableListActivity<Classroom>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getItemsAsLiveData().observe(this) {
+        viewModel.classrooms.observe(this) {
             it?.let {
                 reviewableAdapter.setData(it.toMutableList())
             }

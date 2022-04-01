@@ -25,11 +25,11 @@ class RestaurantListActivity : ReviewableListActivity<Restaurant>() {
     }
 
     override fun getMenuString(): Int {
-        return R.menu.restaurant_options_menu
+        return R.menu.default_filter_menu
     }
 
     override fun getSearchViewString(): Int {
-        return R.id.restaurantSearchView
+        return 0
     }
 
     override fun getLayoutId(): Int {

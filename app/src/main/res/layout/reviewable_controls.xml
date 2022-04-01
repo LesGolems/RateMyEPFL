@@ -8,13 +8,13 @@
         android:id="@+id/reviewableSearchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/toggleButton"
+        app:layout_constraintEnd_toStartOf="@+id/filterMenuButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         style="@style/IconOnly"
-        android:id="@+id/toggleButton"
+        android:id="@+id/filterMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:iconTint="@color/black"

@@ -15,15 +15,11 @@ import javax.inject.Inject
 class ClassroomListViewModel @Inject constructor(repository: ClassroomRepositoryInterface) :
     ViewModel() {
 
-    private var items = MutableLiveData<List<Classroom>>()
+    val classrooms = MutableLiveData<List<Classroom>>()
 
     init {
         viewModelScope.launch {
-            items.value = repository.getClassrooms()
+            classrooms.value = repository.getClassrooms()
         }
-    }
-
-    fun getItemsAsLiveData(): LiveData<List<Classroom>> {
-        return items
     }
 }

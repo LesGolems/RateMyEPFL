@@ -42,11 +42,11 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.increasingOrder -> {
-            reviewableAdapter.sortAlphabetically(true)
+            reviewableAdapter.sortAlphabetically()
             true
         }
         R.id.decreasingOrder -> {
-            reviewableAdapter.sortAlphabetically(false)
+            reviewableAdapter.sortAlphabetically(true)
             true
         }
         else -> {

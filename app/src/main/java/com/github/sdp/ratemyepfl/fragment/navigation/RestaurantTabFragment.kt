@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
@@ -12,26 +13,16 @@ class RestaurantTabFragment : ReviewableTabFragment() {
 
     private val viewModel: RestaurantListViewModel by viewModels()
 
+    override val reviewActivityLayoutId: Int = R.layout.activity_restaurant_review
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getItemsAsLiveData().observe(viewLifecycleOwner) {
-            it?.let {
-                reviewableAdapter.setData(it.toMutableList())
-            }
+        viewModel.getItemsAsLiveData().observe(viewLifecycleOwner) { restaurants ->
+            reviewableAdapter.setData(restaurants)
         }
-
     }
 
-    override fun getMenuString(): Int {
-        return R.menu.restaurant_options_menu
-    }
+    override fun onContextItemSelected(item: MenuItem): Boolean = super.onContextItemSelected(item)
 
-    override fun getSearchViewString(): Int {
-        return R.id.restaurantSearchView
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_restaurant_review
-    }
 }

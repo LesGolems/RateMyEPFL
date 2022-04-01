@@ -17,10 +17,8 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getItemsAsLiveData().observe(this) {
-            it?.let {
-                reviewableAdapter.setData(it.toMutableList())
-            }
+        viewModel.courses.observe(this) { courses ->
+            reviewableAdapter.setData(courses)
         }
     }
 
@@ -39,7 +37,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     }
 
     override fun getSearchViewString(): Int {
-        return R.id.courseSearchView
+        return 0
     }
 
     override fun getLayoutId(): Int {
