@@ -26,7 +26,7 @@ open class ReviewViewModel @Inject constructor(
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
     // Reviews
-    private val reviewsLiveData = MutableLiveData<List<Review>>()
+    val reviews = MutableLiveData<List<Review>>()
 
     val numReviews : LiveData<Int> = computeNumReviews()
 
@@ -38,7 +38,7 @@ open class ReviewViewModel @Inject constructor(
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.postValue(reviewRepo.getByReviewableId(id))
+            reviews.postValue(reviewRepo.getByReviewableId(id))
         }
     }
 
@@ -48,7 +48,7 @@ open class ReviewViewModel @Inject constructor(
      */
     private fun computeNumReviews(): LiveData<Int> {
         return Transformations.switchMap(
-            reviewsLiveData
+            reviews
         ) { reviewList ->
             MutableLiveData(reviewList.size)
         }
@@ -60,18 +60,11 @@ open class ReviewViewModel @Inject constructor(
      */
     private fun computeOverallGrade(): LiveData<Int> {
         return Transformations.switchMap(
-            reviewsLiveData
+            reviews
         ) { reviewList ->
             if(reviewList.isEmpty()) MutableLiveData(NO_GRADE)
             val sumOfRates = reviewList.sumOf { it.rating.toValue() }
             MutableLiveData(sumOfRates / reviewList.size)
         }
-    }
-
-    /**
-     * Returns the list of review as LiveData
-     */
-    fun getReviews(): LiveData<List<Review>> {
-        return reviewsLiveData
     }
 }
