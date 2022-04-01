@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Course
 import javax.inject.Inject
 
-class FakeCourseRepository @Inject constructor() : ItemRepository<Course> {
+class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
 
     companion object {
         val COURSE_LIST = listOf(
@@ -54,8 +54,8 @@ class FakeCourseRepository @Inject constructor() : ItemRepository<Course> {
     }
 
 
-    override suspend fun getItems(): List<Course> = COURSE_LIST
+    override suspend fun getCourses(): List<Course> = COURSE_LIST
 
-    override suspend fun getItemById(id: String): Course = COURSE_BY_ID
+    override suspend fun getCourseById(id: String): Course = COURSE_BY_ID
 
 }
