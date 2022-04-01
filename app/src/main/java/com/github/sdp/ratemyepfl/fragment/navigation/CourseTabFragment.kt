@@ -7,9 +7,10 @@ import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
-class CourseTabFragment : ReviewableTabFragment(R.layout.fragment_course_tab) {
+class CourseTabFragment : ReviewableTabFragment() {
 
     private val viewModel: CourseListViewModel by viewModels()
 

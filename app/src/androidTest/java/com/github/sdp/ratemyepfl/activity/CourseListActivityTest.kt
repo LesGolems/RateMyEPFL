@@ -35,12 +35,12 @@ class CourseListActivityTest {
     }
 
     @Test
-    fun firesAnIntentWhenUserClicksOnReviewButton() {
+    fun firesAnIntentWhenUserClicksOnAnItem() {
         init()
         onView(withId(R.id.reviewableRecyclerView))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, clickOnViewChild(R.id.reviewableButton)
+                    0, clickOnViewChild(R.id.reviewableId)
                 )
             )
         intended(toPackage("com.github.sdp.ratemyepfl"))

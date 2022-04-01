@@ -1,9 +1,14 @@
 package com.github.sdp.ratemyepfl.utils
 
 import android.view.View
+import android.widget.TextView
+import androidx.core.view.get
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
+import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
@@ -30,8 +35,11 @@ object CustomViewActions {
 
     fun pressesTab(tabPosition: Int) = createViewAction<TabLayout> { _, view ->
         (view as TabLayout).getTabAt(tabPosition)?.select()
-
     }
 
+    fun  getInRecyclerView(item: Int, retrieve: (String?) -> Unit) = createViewAction<RecyclerView> { _, view ->
+        val selected = (view as RecyclerView).get(0).findViewById<TextView>(R.id.reviewableId).text
+        retrieve(selected.toString())
+    }
 
 }

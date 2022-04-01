@@ -26,5 +26,4 @@ class ClassroomRepository @Inject constructor() :
     override fun toItem(snapshot: DocumentSnapshot): Classroom? =
         snapshot.toClassroom()
 
-
 }

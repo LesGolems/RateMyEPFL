@@ -10,9 +10,9 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
-private typealias TabHandler = (TabLayout.Tab?) -> Unit
-
+@AndroidEntryPoint
 class ReviewFragment : Fragment(R.layout.fragment_review) {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2

@@ -24,11 +24,11 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         RecyclerView.ViewHolder(reviewableView) {
 
         private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
-        private val reviewBut: Button = reviewableView.findViewById(R.id.reviewableButton)
         private var currentReviewable: Reviewable? = null
 
         init {
-            reviewBut.setOnClickListener {
+            reviewableView.isClickable = true
+            reviewableTextView.setOnClickListener {
                 currentReviewable?.let {
                     onClick(it)
                 }

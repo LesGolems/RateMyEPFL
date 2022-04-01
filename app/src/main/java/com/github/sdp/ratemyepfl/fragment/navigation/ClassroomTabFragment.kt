@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ClassroomTabFragment : ReviewableTabFragment(R.layout.fragment_classroom_tab) {
+class ClassroomTabFragment : ReviewableTabFragment() {
 
     private val viewModel: ClassroomListViewModel by viewModels()
 

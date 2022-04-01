@@ -22,5 +22,7 @@ class RestaurantRepository @Inject constructor() :
         }
     }
 
+    fun newFunction(){}
+
     override fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
 }

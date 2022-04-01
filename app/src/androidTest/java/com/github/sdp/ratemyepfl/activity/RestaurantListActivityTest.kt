@@ -43,12 +43,12 @@ class RestaurantListActivityTest {
     }
 
     @Test
-    fun firesAnIntentWhenUserClicksOnReviewButton() {
+    fun firesAnIntentWhenUserClicksOnAnItem() {
         Intents.init()
         Espresso.onView(ViewMatchers.withId(R.id.reviewableRecyclerView))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, com.github.sdp.ratemyepfl.utils.clickOnViewChild(R.id.reviewableButton)
+                    0, com.github.sdp.ratemyepfl.utils.clickOnViewChild(R.id.reviewableId)
                 )
             )
         Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))

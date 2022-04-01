@@ -8,7 +8,7 @@ import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RestaurantTabFragment : ReviewableTabFragment(R.layout.fragment_restaurant_tab) {
+class RestaurantTabFragment : ReviewableTabFragment() {
 
     private val viewModel: RestaurantListViewModel by viewModels()
 

@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +14,10 @@ import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.ListActivityUtils
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-@AndroidEntryPoint
-sealed class ReviewableTabFragment constructor(layout: Int) : Fragment(layout) {
+abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list) {
     protected lateinit var reviewableAdapter: ReviewableAdapter
     protected lateinit var recyclerView: RecyclerView
 

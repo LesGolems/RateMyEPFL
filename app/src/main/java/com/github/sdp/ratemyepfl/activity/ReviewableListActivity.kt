@@ -21,7 +21,7 @@ abstract class ReviewableListActivity<T : Reviewable> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reviewable_list)
+        setContentView(R.layout.layout_reviewable_list)
 
         recyclerView = findViewById(R.id.reviewableRecyclerView)
 
