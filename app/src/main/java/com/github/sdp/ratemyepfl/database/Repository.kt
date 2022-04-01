@@ -9,6 +9,10 @@ sealed class Repository(collectionPath: String) {
     protected val collection = FirebaseFirestore.getInstance()
         .collection(collectionPath)
 
+    companion object {
+        const val DEFAULT_LIMIT: Long = 50
+    }
+
     /**
      * Retrieve a given number of items from the collection
      *

@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import javax.inject.Inject
 
-class FakeClassroomRepository @Inject constructor() : ItemRepository<Classroom> {
+class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterface {
 
     companion object {
         val CLASSROOM_LIST = listOf(
@@ -23,7 +23,7 @@ class FakeClassroomRepository @Inject constructor() : ItemRepository<Classroom> 
     }
 
 
-    override suspend fun getItems(): List<Classroom> = CLASSROOM_LIST
+    override suspend fun getClassrooms(): List<Classroom> = CLASSROOM_LIST
 
-    override suspend fun getItemById(id: String): Classroom = Classroom(id = "CM3")
+    override suspend fun getRoomById(id: String): Classroom = Classroom(id = "CM3")
 }

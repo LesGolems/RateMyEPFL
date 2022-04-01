@@ -4,8 +4,8 @@ import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor() :
-    ItemRepositoryImpl<Restaurant>(RESTAURANT_COLLECTION_PATH) {
+class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
+    Repository(RESTAURANT_COLLECTION_PATH) {
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
@@ -22,7 +22,11 @@ class RestaurantRepository @Inject constructor() :
         }
     }
 
-    fun newFunction(){}
+    fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
 
-    override fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
+    override suspend fun getRestaurants(): List<Restaurant> {
+        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
+    }
+
+    override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 }
