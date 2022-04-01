@@ -13,14 +13,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewActivity
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.items.RestaurantItem
 import com.github.sdp.ratemyepfl.utils.PermissionUtils.isPermissionGranted
+import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -48,9 +51,10 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
 
     private var permissionDenied = false
     private lateinit var map: GoogleMap
-    private lateinit var mClusterManager: ClusterManager<RestaurantItem>
+    private lateinit var rClusterManager: ClusterManager<RestaurantItem>
+    private val restaurantViewModel: RestaurantListViewModel by viewModels()
 
-    private inner class ItemRenderer: DefaultClusterRenderer<RestaurantItem>(applicationContext, map, mClusterManager) {
+    private inner class ItemRenderer: DefaultClusterRenderer<RestaurantItem>(applicationContext, map, rClusterManager) {
 
         override fun onBeforeClusterItemRendered(item: RestaurantItem, markerOptions: MarkerOptions) {
             markerOptions
@@ -91,26 +95,35 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
                 .title("EPFL")
         )
 
-        mClusterManager = ClusterManager(this, googleMap)
-        mClusterManager.renderer = ItemRenderer()
+        rClusterManager = ClusterManager(this, googleMap)
+        rClusterManager.renderer = ItemRenderer()
 
-        googleMap.setOnMarkerClickListener(mClusterManager)
-        googleMap.setOnCameraIdleListener(mClusterManager)
-        googleMap.setOnInfoWindowClickListener(mClusterManager)
+        googleMap.setOnMarkerClickListener(rClusterManager)
+        googleMap.setOnCameraIdleListener(rClusterManager)
+        googleMap.setOnInfoWindowClickListener(rClusterManager)
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
 
-        mClusterManager.setOnClusterClickListener(this)
-        mClusterManager.setOnClusterInfoWindowClickListener(this)
-        mClusterManager.setOnClusterItemClickListener(this)
-        mClusterManager.setOnClusterItemInfoWindowClickListener(this)
+        rClusterManager.setOnClusterClickListener(this)
+        rClusterManager.setOnClusterInfoWindowClickListener(this)
+        rClusterManager.setOnClusterItemClickListener(this)
+        rClusterManager.setOnClusterItemInfoWindowClickListener(this)
 
-        mClusterManager.addItem(RestaurantItem(LatLng(46.519718, 6.564781), "Niki", R.drawable.niki))
-        mClusterManager.addItem(RestaurantItem(LatLng(46.518, 6.564), "Niki", R.drawable.niki))
-
-        mClusterManager.cluster()
+        restaurantViewModel.getRestaurants().observe(this) {
+            it?.let {
+                addRestaurants(rClusterManager, it)
+            }
+        }
 
         enableMyLocation()
+    }
+
+    private fun addRestaurants(clusterManager: ClusterManager<RestaurantItem>, restaurants: List<Restaurant>) {
+        clusterManager.clearItems()
+        for (r in restaurants) {
+            clusterManager.addItem(RestaurantItem(LatLng(r.lat, r.long), r.id, R.drawable.niki))
+        }
+        clusterManager.cluster()
     }
 
     @SuppressLint("MissingPermission")
@@ -127,16 +140,6 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         }
     }
 
-    override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "Bringing you home...", Toast.LENGTH_SHORT).show()
-        return false
-    }
-
-    override fun onMyLocationClick(location: Location) {
-        Toast.makeText(this, "Latitude: ${location.latitude}\nLongitude: ${location.longitude}",
-            Toast.LENGTH_LONG).show()
-    }
-
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode != PERMISSION_REQUEST_CODE) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -147,6 +150,16 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         } else {
             permissionDenied = true
         }
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "Bringing you home...", Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+    override fun onMyLocationClick(location: Location) {
+        Toast.makeText(this, "Latitude: ${location.latitude}\nLongitude: ${location.longitude}",
+            Toast.LENGTH_LONG).show()
     }
 
     override fun onResumeFragments() {

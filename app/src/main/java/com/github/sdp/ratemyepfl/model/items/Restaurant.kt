@@ -6,17 +6,21 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Restaurant(
     override val id: String,
+    val lat: Double,
+    val long: Double
 ) : Reviewable(){
 
     override fun toString(): String {
-        return "$id"
+        return id
     }
 
     companion object {
         fun DocumentSnapshot.toRestaurant() : Restaurant? {
             return try {
-                Restaurant(id)
-            } catch(e:Exception){
+                val lat: Double = getString("lat")!!.toDouble()
+                val long: Double = getString("long")!!.toDouble()
+                Restaurant(id, lat, long)
+            } catch(e: Exception){
                 null
             }
         }
