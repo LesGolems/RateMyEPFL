@@ -3,21 +3,33 @@ package com.github.sdp.ratemyepfl.viewmodel
 import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.ItemRepository
 import com.github.sdp.ratemyepfl.database.RestaurantRepository
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RestaurantListViewModel @Inject constructor(repository: RestaurantRepository) :
-    ReviewableListViewModel<Restaurant>(repository) {
+class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) : ViewModel() {
 
     private val precision: Double = 0.5
 
     private val nearbyRestaurants: List<Restaurant> = listOf()
     private val insideRestaurant: Restaurant? = null
+
+    private var items = MutableLiveData<List<Restaurant>>()
+
+    init {
+        viewModelScope.launch {
+            items.value = repository.getRestaurants()
+        }
+    }
+
+    fun getItemsAsLiveData(): LiveData<List<Restaurant>> {
+        return items
+    }
 
     fun getRestaurants(): LiveData<List<Restaurant>> {
         return getItemsAsLiveData()
@@ -32,13 +44,14 @@ class RestaurantListViewModel @Inject constructor(repository: RestaurantReposito
 
         viewModelScope.launch {
             val id = findCloseRestaurantID(l) ?: return@launch
+
             //update occupancy
 
         }
     }
 
     private suspend fun findCloseRestaurantID(l: Location): String? {
-        repository.getItems().map { r ->
+        repository.getRestaurants().map { r ->
             if (isClose(l.latitude, r.latitude, l.longitude, r.longitude)) {
                 return r.id
             }
