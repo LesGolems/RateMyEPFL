@@ -16,16 +16,15 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseRepo(repo: CourseRepository): ItemRepository<Course>
+    abstract fun provideCourseRepo(repo: CourseRepository): CourseRepositoryInterface
 
     @Singleton
     @Binds
-    abstract fun provideClassroomRepo(repo: ClassroomRepository): ItemRepository<Classroom>
+    abstract fun provideClassroomRepo(repo: ClassroomRepository): ClassroomRepositoryInterface
 
     @Singleton
     @Binds
-    abstract fun provideRestaurantRepo(repo: RestaurantRepository): ItemRepository<Restaurant>
-
+    abstract fun provideRestaurantRepo(repo: RestaurantRepository): RestaurantRepositoryInterface
     @Singleton
     @Binds
     abstract fun provideReviewRepo(repo: ReviewsRepositoryImpl): ReviewsRepository
