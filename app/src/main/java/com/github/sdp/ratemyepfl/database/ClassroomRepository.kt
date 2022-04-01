@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
 class ClassroomRepository @Inject constructor() :
-    ItemRepositoryImpl<Classroom>(CLASSROOM_COLLECTION_PATH) {
+    ClassroomRepositoryInterface, Repository(CLASSROOM_COLLECTION_PATH) {
 
     companion object {
         const val CLASSROOM_COLLECTION_PATH = "rooms"
@@ -23,8 +23,11 @@ class ClassroomRepository @Inject constructor() :
         }
     }
 
-    override fun toItem(snapshot: DocumentSnapshot): Classroom? =
-        snapshot.toClassroom()
+    fun toItem(snapshot: DocumentSnapshot): Classroom? = snapshot.toClassroom()
 
+    override suspend fun getClassrooms(): List<Classroom> {
+        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
+    }
 
+    override suspend fun getRoomById(id: String): Classroom? = toItem(getById(id))
 }
