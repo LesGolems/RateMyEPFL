@@ -7,22 +7,29 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserDatabase @Inject constructor() : UserRepository {
+class UserDatabase constructor() : UserRepository {
 
     companion object {
-        const val USER_COLLECTION_PATH = "users"
-
-        private fun collection(): CollectionReference {
-            return FirebaseFirestore.getInstance().collection(USER_COLLECTION_PATH)
-        }
+        val instance = UserDatabase()
     }
 
-    override suspend fun getUserByUid(uid: String): User {
-        return collection()
+    val USER_COLLECTION_PATH = "users"
+
+    private fun collection(): CollectionReference {
+        return FirebaseFirestore.getInstance().collection(USER_COLLECTION_PATH)
+    }
+
+    override suspend fun getUserByUid(uid: String): User? {
+        val document = collection()
             .document(uid)
             .get()
             .await()
-            .toUser()
+
+        return if (document.exists()) {
+            document.toUser()
+        } else {
+            null
+        }
     }
 
     override suspend fun getUsersByUsername(username: String): List<User> {
@@ -46,12 +53,17 @@ class UserDatabase @Inject constructor() : UserRepository {
         collection()
             .document(user.uid)
             .set(user.toHashMap())
+            .addOnFailureListener{
+                it.printStackTrace()
+            }
+            .await()
     }
 
     override suspend fun delete(uid: String) {
         collection()
             .document(uid)
             .delete()
+            .await()
     }
 
 }

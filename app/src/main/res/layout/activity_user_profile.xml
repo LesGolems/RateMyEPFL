@@ -12,15 +12,20 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@color/purple_200">
+            android:layout_height="350dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:background="@raw/background"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="175dp"
                 android:layout_height="175dp"
-                android:src="@drawable/blank_profile_picture"
+                android:background="@drawable/blank_profile_picture"
                 android:layout_centerInParent="true"
                 app:civ_border_width="5dp"
                 app:civ_border_color="#FFFFFF"/>
@@ -37,15 +42,30 @@
                 app:civ_border_width="5dp"
                 app:civ_border_color="#fc8403"/>
 
+            <EditText
+                android:id="@+id/username_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:hint="username"
+                android:textAlignment="center"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:layout_margin="15dp"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:id="@+id/emailField"
+            >
 
             <ImageView
                 android:layout_width="35dp"
@@ -53,25 +73,37 @@
                 android:id="@+id/emailIcon"
                 android:background="@drawable/fui_ic_googleg_color_24dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/emailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@id/emailIcon"
+                android:background="@android:color/transparent"
+                android:inputType="textEmailAddress"
                 android:hint="email"
                 android:textSize="25sp"
                 android:layout_marginStart="50dp"/>
 
             <View
+                android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="20dp"
                 android:layout_below="@+id/emailText"
-                android:background="@color/browser_actions_bg_grey"
-                android:id="@+id/divider"/>
+                android:layout_marginTop="20dp"
+                android:background="@color/browser_actions_bg_grey" />
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/modify_profile_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="40dp"
+        android:background="@drawable/circular_button"
+        android:src="@drawable/ic_modify_profile_icon"/>
 
 </RelativeLayout>
