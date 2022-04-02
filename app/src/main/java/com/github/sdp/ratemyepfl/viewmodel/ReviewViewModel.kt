@@ -18,7 +18,7 @@ open class ReviewViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        const val NO_GRADE = 10
+        const val NO_GRADE = 0
     }
 
     // Id
@@ -63,7 +63,7 @@ open class ReviewViewModel @Inject constructor(
             reviews
         ) { reviewList ->
             if (reviewList.isEmpty()) {
-                MutableLiveData(0)
+                MutableLiveData(NO_GRADE)
             } else {
                 val sumOfRates = reviewList.sumOf { it.rating.toValue() }
                 MutableLiveData(sumOfRates / reviewList.size)
