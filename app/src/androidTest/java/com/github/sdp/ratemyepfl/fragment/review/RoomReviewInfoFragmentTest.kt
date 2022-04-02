@@ -1,18 +1,17 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.review
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragmentTest
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.database.FakeCourseRepository
+import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -21,9 +20,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 @HiltAndroidTest
-class RoomReviewActivityTest {
+class RoomReviewInfoFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
 
     @get:Rule(order = 0)
@@ -43,9 +41,26 @@ class RoomReviewActivityTest {
     }
 
     @Test
-    fun isIdVisibleOnActivityLaunch() {
+    fun allInformationCorrectlyDisplayed() {
         val fakeRoom = FakeClassroomRepository.DEFAULT_ROOM
+        val fakeReviewList = FakeReviewsRepository.fakeList
+        val numReviewText = "(${fakeReviewList.size} reviews)"
         onView(withId(R.id.roomIdInfo))
-            .check(matches(withText(fakeRoom.toString())))
+            .check(matches(withText(fakeRoom.id)))
+        onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
     }
+
+    @Test
+    fun noReviewDisplayed(){
+        FakeReviewsRepository.reviewList = listOf()
+
+        // Refresh
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.roomReviewInfoFragment))
+
+        val numReviewText = "(No review submitted)"
+        onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
+        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+    }
+
 }
