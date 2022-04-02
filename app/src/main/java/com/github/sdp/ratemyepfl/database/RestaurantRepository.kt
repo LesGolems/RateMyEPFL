@@ -1,8 +1,9 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
 import javax.inject.Inject
 
 class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
@@ -32,19 +33,27 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
 
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 
-    suspend fun incrementOccupancy(id: String) {
-        var occupancy = getRestaurantById(id)?.occupancy
-        if (occupancy != null) {
-            occupancy += 1
-            collection.document(id).update("occupancy", occupancy)
+    fun incrementOccupancy(id: String) {
+        val docRef = collection.document(id)
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+            val occupancy = snapshot.get("occupancy") as Int?
+            if (occupancy != null){
+                transaction.update(docRef, "occupancy", occupancy + 1)
+            }
+            null
         }
     }
 
     suspend fun decrementOccupancy(id: String) {
-        var occupancy = getRestaurantById(id)?.occupancy
-        if (occupancy != null) {
-            occupancy -= 1
-            collection.document(id).update("occupancy", occupancy)
+        val docRef = collection.document(id)
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+            val occupancy = snapshot.get("occupancy") as Int?
+            if (occupancy != null){
+                transaction.update(docRef, "occupancy", occupancy - 1)
+            }
+            null
         }
     }
 

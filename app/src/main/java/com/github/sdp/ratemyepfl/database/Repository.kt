@@ -6,8 +6,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
 sealed class Repository(collectionPath: String) {
-    protected val collection = FirebaseFirestore.getInstance()
-        .collection(collectionPath)
+    protected val db = FirebaseFirestore.getInstance()
+    protected val collection = db.collection(collectionPath)
 
     companion object {
         const val DEFAULT_LIMIT: Long = 50
