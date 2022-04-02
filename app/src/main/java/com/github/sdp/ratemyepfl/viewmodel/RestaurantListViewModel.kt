@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.database.RestaurantRepository
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.google.firebase.firestore.Transaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) :
     ViewModel() {
 
-    private val precision: Double = 0.5
+    private val precision: Double = 0.0001
 
     private val nearbyRestaurants: List<Restaurant> = listOf()
     private var insideRestaurantId: String? = null

@@ -33,11 +33,19 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 
     suspend fun incrementOccupancy(id: String) {
-
+        var occupancy = getRestaurantById(id)?.occupancy
+        if (occupancy != null) {
+            occupancy += 1
+            collection.document(id).update("occupancy", occupancy)
+        }
     }
 
     suspend fun decrementOccupancy(id: String) {
-
+        var occupancy = getRestaurantById(id)?.occupancy
+        if (occupancy != null) {
+            occupancy -= 1
+            collection.document(id).update("occupancy", occupancy)
+        }
     }
 
 }
