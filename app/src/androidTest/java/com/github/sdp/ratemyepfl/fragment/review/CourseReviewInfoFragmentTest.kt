@@ -44,7 +44,7 @@ class CourseReviewInfoFragmentTest {
         val fakeCourse = FakeCourseRepository.COURSE_BY_ID
         val fakeReviewList = FakeReviewsRepository.fakeList
         val numReviewText = "(${fakeReviewList.size} reviews)"
-        onView(withId(R.id.courseIdInfo))
+        onView(withId(R.id.courseId))
             .check(matches(withText(fakeCourse.id)))
         onView(withId(R.id.courseNumReview)).check(matches(withText(numReviewText)))
     }

@@ -10,7 +10,7 @@
         android:id="@+id/courseIcon"
         android:layout_width="118dp"
         android:layout_height="118dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="80dp"
         android:contentDescription="@string/course_content_description"
         android:src="@drawable/ic_book_open_page_variant"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/courseIdInfo"
+        android:id="@+id/courseId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -31,20 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/courseIcon" />
 
-    <RatingBar
-        android:id="@+id/courseRatingBar"
-        style="@android:style/Widget.Material.RatingBar"
-        android:layout_width="240dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="140dp"
-        android:isIndicator="true"
-        android:progressTint="@color/purple_500"
-        android:secondaryProgressTint="@color/purple_200"
-        android:stepSize="0.1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseIdInfo" />
-
     <TextView
         android:id="@+id/courseNumReview"
         android:layout_width="wrap_content"
@@ -54,5 +40,59 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/courseRatingBar" />
+
+    <TextView
+        android:id="@+id/courseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="45dp"
+        android:text="@string/course_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseId" />
+
+    <TextView
+        android:id="@+id/courseTeacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/course_teacher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseTitle" />
+
+    <TextView
+        android:id="@+id/courseSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/course_section"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseTeacher" />
+
+    <TextView
+        android:id="@+id/courseCredits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/course_credits"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseSection" />
+
+    <RatingBar
+        android:id="@+id/courseRatingBar"
+        style="@android:style/Widget.Material.RatingBar"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="35dp"
+        android:isIndicator="true"
+        android:progressTint="@color/purple_500"
+        android:secondaryProgressTint="@color/purple_200"
+        android:stepSize="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseCredits" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

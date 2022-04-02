@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.CourseInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,7 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.course.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.courseIdInfo).text = it?.id
+            setUpCourseInfo(view, it)
         }
         viewModel.overallGrade.observe(viewLifecycleOwner) {
             view.findViewById<RatingBar>(R.id.courseRatingBar).rating = it.toFloat()
@@ -38,6 +39,14 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         } else {
             getString(R.string.num_reviews, numReview.toString())
         }
+    }
+
+    private fun setUpCourseInfo(view: View, course : Course){
+        view.findViewById<TextView>(R.id.courseId).text = course.id
+        view.findViewById<TextView>(R.id.courseTitle).text = getString(R.string.course_title, course.title)
+        view.findViewById<TextView>(R.id.courseTeacher).text = getString(R.string.course_teacher, course.teacher)
+        view.findViewById<TextView>(R.id.courseSection).text = getString(R.string.course_section, course.section)
+        view.findViewById<TextView>(R.id.courseCredits).text = getString(R.string.course_credits, course.credits.toString())
     }
 
     override fun onResume() {
