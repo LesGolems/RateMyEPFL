@@ -40,8 +40,8 @@ class CourseReviewActivityTest {
     @Test
     fun isIdVisibleOnActivityLaunch() {
         val fakeCourse = FakeCourseRepository.COURSE_BY_ID
-        onView(withId(R.id.id_course_info))
-            .check(matches(withText(fakeCourse.toString())))
+        onView(withId(R.id.courseIdInfo))
+            .check(matches(withText(fakeCourse.id)))
     }
 
 }

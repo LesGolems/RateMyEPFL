@@ -12,7 +12,7 @@
         android:layout_height="118dp"
         android:layout_marginTop="125dp"
         android:contentDescription="@string/restaurant_content_description"
-        android:src="@drawable/ic_dining_black_24dp"
+        android:src="@drawable/ic_silverware_fork_knife"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

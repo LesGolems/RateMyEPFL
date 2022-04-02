@@ -10,10 +10,11 @@
         android:id="@+id/roomIcon"
         android:layout_width="118dp"
         android:layout_height="118dp"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="124dp"
         android:contentDescription="@string/room_content_description"
         android:src="@drawable/ic_table_chair"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -65,6 +65,7 @@
     <string name="text_end_reviews">reviews</string>
     <string name="restaurant_content_description">restaurant icon</string>
     <string name="num_reviews">(%s reviews)</string>
-    <string name="zero_num_reviews">(No reviews submitted)</string>
+    <string name="zero_num_reviews">(No review submitted)</string>
     <string name="room_content_description">room icon</string>
+    <string name="course_content_description">course icon</string>
 </resources>
