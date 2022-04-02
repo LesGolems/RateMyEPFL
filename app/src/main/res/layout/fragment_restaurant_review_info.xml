@@ -1,14 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.review.RestaurantReviewInfoFragment">
 
-    <TextView
-        android:id="@+id/id_restaurant_info"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/restaurantIcon"
+        android:layout_width="118dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="125dp"
+        android:contentDescription="@string/restaurant_content_description"
+        android:src="@drawable/ic_dining_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/restaurantIdInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/default_id_text"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:typeface="monospace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantIcon" />
+
+    <RatingBar
+        android:id="@+id/restaurantRatingBar"
+        style="@android:style/Widget.Material.RatingBar"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="140dp"
+        android:isIndicator="true"
+        android:progressTint="@color/purple_500"
+        android:secondaryProgressTint="@color/purple_200"
+        android:stepSize="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantIdInfo" />
+
+    <TextView
+        android:id="@+id/restaurantNumReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/num_reviews"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantRatingBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

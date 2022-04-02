@@ -17,7 +17,7 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    companion object{
+    companion object {
         const val NO_GRADE = 10
     }
 
@@ -28,9 +28,9 @@ open class ReviewViewModel @Inject constructor(
     // Reviews
     val reviews = MutableLiveData<List<Review>>()
 
-    val numReviews : LiveData<Int> = computeNumReviews()
+    val numReviews: LiveData<Int> = computeNumReviews()
 
-    val overallGrade : LiveData<Int> = computeOverallGrade()
+    val overallGrade: LiveData<Int> = computeOverallGrade()
 
     init {
         updateReviewsList()
@@ -62,9 +62,12 @@ open class ReviewViewModel @Inject constructor(
         return Transformations.switchMap(
             reviews
         ) { reviewList ->
-            if(reviewList.isEmpty()) MutableLiveData(NO_GRADE)
-            val sumOfRates = reviewList.sumOf { it.rating.toValue() }
-            MutableLiveData(sumOfRates / reviewList.size)
+            if (reviewList.isEmpty()) {
+                MutableLiveData(0)
+            } else {
+                val sumOfRates = reviewList.sumOf { it.rating.toValue() }
+                MutableLiveData(sumOfRates / reviewList.size)
+            }
         }
     }
 }

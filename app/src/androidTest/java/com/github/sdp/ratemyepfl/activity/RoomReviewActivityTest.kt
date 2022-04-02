@@ -45,7 +45,7 @@ class RoomReviewActivityTest {
     @Test
     fun isIdVisibleOnActivityLaunch() {
         val fakeRoom = FakeClassroomRepository.DEFAULT_ROOM
-        onView(withId(R.id.id_room_info))
+        onView(withId(R.id.roomIdInfo))
             .check(matches(withText(fakeRoom.toString())))
     }
 }

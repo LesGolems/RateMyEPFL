@@ -40,7 +40,7 @@ class RestaurantReviewActivityTest {
     @Test
     fun isIdVisibleOnActivityLaunch() {
         val fakeRestaurant = FakeRestaurantRepository.DEFAULT_RESTAURANT
-        onView(withId(R.id.id_restaurant_info))
+        onView(withId(R.id.restaurantIdInfo))
             .check(matches(ViewMatchers.withText(fakeRestaurant.toString())))
     }
 
