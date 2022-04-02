@@ -22,11 +22,14 @@ import com.github.sdp.ratemyepfl.activity.AddReviewActivity
 import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.items.RestaurantItem
+import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.github.sdp.ratemyepfl.utils.PermissionUtils.isPermissionGranted
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -34,7 +37,6 @@ import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener,
@@ -59,10 +61,12 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         override fun onBeforeClusterItemRendered(item: RestaurantItem, markerOptions: MarkerOptions) {
             markerOptions
                 .title(item.name)
+                .icon(BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker))
         }
 
         override fun onClusterItemUpdated(item: RestaurantItem, marker: Marker) {
             marker.title = item.name
+            marker.showInfoWindow()
         }
 
         override fun onBeforeClusterRendered(@NonNull cluster: Cluster<RestaurantItem>,
@@ -88,12 +92,8 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val epfl = LatLng(46.52, 6.57)
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(epfl)
-                .title("EPFL")
-        )
+
+        addEPFL()
 
         rClusterManager = ClusterManager(this, googleMap)
         rClusterManager.renderer = ItemRenderer()
@@ -118,10 +118,26 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         enableMyLocation()
     }
 
+    private fun addEPFL() {
+        val epfl = LatLng(46.52, 6.57)
+        map.addMarker(
+            MarkerOptions()
+                .position(epfl)
+                .title("EPFL")
+                .icon(BitmapDescriptorFactory.fromResource(R.raw.school_marker))
+        )
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(epfl, 16f))
+    }
+
     private fun addRestaurants(clusterManager: ClusterManager<RestaurantItem>, restaurants: List<Restaurant>) {
         clusterManager.clearItems()
         for (r in restaurants) {
-            clusterManager.addItem(RestaurantItem(LatLng(r.lat, r.long), r.id, R.drawable.niki))
+            clusterManager.addItem(
+                RestaurantItem(
+                    LatLng(r.lat, r.long),
+                    r.id,
+                    MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki)) // Arbitrary default value
+            )
         }
         clusterManager.cluster()
     }
@@ -229,7 +245,7 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         // Nothing for now
     }
 
-    fun displayReviews(item: RestaurantItem){
+    private fun displayReviews(item: RestaurantItem){
         val intent = Intent(this, RestaurantReviewActivity::class.java)
         intent.putExtra(AddReviewActivity.EXTRA_ITEM_REVIEWED, item.name)
         startActivity(intent)

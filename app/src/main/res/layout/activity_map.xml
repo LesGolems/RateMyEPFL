@@ -40,11 +40,20 @@
             android:visibility="gone"
             android:text="@string/review_text_button" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@+id/reviewableButton"
+            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/listDivider" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardClusterItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/reviewableButton"
+            android:layout_below="@id/divider"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="10dp">
@@ -54,7 +63,7 @@
                 android:layout_width="@dimen/clusterItemWidth"
                 android:layout_height="@dimen/clusterItemHeight"
                 android:visibility="gone"
-                android:src="@drawable/niki" />
+                android:src="@raw/niki" />
 
         </androidx.cardview.widget.CardView>
 

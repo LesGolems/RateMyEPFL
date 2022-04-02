@@ -4,12 +4,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 
-class RestaurantItem(private val mPosition: LatLng,
+class RestaurantItem(private val position: LatLng,
                      val name: String,
                      val photo: Int) : ClusterItem {
 
     override fun getPosition(): LatLng {
-        return mPosition
+        return position
     }
 
     override fun getTitle(): String {
