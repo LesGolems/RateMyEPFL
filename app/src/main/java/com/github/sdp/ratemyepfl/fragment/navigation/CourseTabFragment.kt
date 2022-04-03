@@ -20,7 +20,7 @@ class CourseTabFragment : ReviewableTabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.courses.observe(viewLifecycleOwner) { courses ->
-            reviewableAdapter.setData(courses)
+            reviewableAdapter.submitData(courses)
         }
     }
 

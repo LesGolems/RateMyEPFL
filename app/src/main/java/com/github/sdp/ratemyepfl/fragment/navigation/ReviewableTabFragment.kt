@@ -1,16 +1,12 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.SearchView
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +26,7 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchBar: SearchView
-    private lateinit var filterMenuButton: Button
+    private lateinit var filterButton: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,11 +37,9 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
             DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
         )
 
-        filterMenuButton = view.findViewById(R.id.filterMenuButton)
-        registerForContextMenu(filterMenuButton)
-
+        filterButton = view.findViewById(R.id.filterMenuButton)
         searchBar = view.findViewById(R.id.reviewableSearchView)
-        setupSearch()
+        setupControls()
     }
 
     override fun onCreateContextMenu(
@@ -68,12 +62,20 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
             true
         }
         else -> {
-            super.onOptionsItemSelected(item)
+            super.onContextItemSelected(item)
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setupSearch() {
+    private fun setupControls() {
+        registerForContextMenu(filterButton)
+        var sorted = true
+        filterButton.setOnClickListener {
+            reviewableAdapter.sortAlphabetically(sorted) {
+                recyclerView.scrollToPosition(0)
+            }
+            sorted = !sorted
+        }
+
         searchBar.setOnClickListener { (it as SearchView).onActionViewExpanded() }
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -81,24 +83,14 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                recyclerView.scrollToPosition(0)
                 reviewableAdapter.filter.filter(newText)
                 return true
             }
         })
 
-        // Collapse the search bar when the users clicks on the filter button
-        //onTouchCollapseSearchBar(filterMenuButton)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun onTouchCollapseSearchBar(view: View) {
-        if (view !is SearchView) {
-            view.setOnTouchListener { _, _ ->
-                searchBar.onActionViewCollapsed()
-                true
-            }
-        }
-    }
 
     /**
      * Starts a [ReviewActivity] for the corresponding [Reviewable].
@@ -114,38 +106,15 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
         startActivity(intent)
     }
 
-    companion object {
-        const val NUMBER_OF_TABS = 3
-        const val COURSE_TAB_NAME = "Course"
-        const val CLASSROOM_TAB_NAME = "Classroom"
-        const val RESTAURANT_TAB_NAME = "Restaurant"
+    enum class TAB(name: String) {
+        COURSE("Course"),
+        CLASSROOM("Classroom"),
+        RESTAURANT("Restaurant");
 
-        /**
-         * Converts a position to the corresponding tab name
-         *
-         * @param position: index of the tab
-         *
-         * @return the corresponding name, (with COURSE_TAB_NAME as default)
-         */
-        fun fromPositionToTabName(position: Int): String = when (position) {
-            0 -> COURSE_TAB_NAME
-            1 -> CLASSROOM_TAB_NAME
-            2 -> RESTAURANT_TAB_NAME
-            else -> COURSE_TAB_NAME
-        }
-
-        /**
-         * Converts a position to the corresponding tab fragment
-         *
-         * @param position: the tab index of the fragment
-         *
-         * @return the corresponding fragment (with CourseTabFragment as default)
-         */
-        fun fromPositionToFragment(position: Int): Fragment = when (position) {
-            0 -> CourseTabFragment()
-            2 -> RestaurantTabFragment()
-            1 -> ClassroomTabFragment()
-            else -> CourseTabFragment()
+        fun toFragment() = when(this) {
+            COURSE -> CourseTabFragment()
+            CLASSROOM -> ClassroomTabFragment()
+            RESTAURANT -> RestaurantTabFragment()
         }
     }
 }

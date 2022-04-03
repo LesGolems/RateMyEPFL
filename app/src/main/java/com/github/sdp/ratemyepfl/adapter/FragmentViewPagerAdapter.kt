@@ -2,12 +2,14 @@ package com.github.sdp.ratemyepfl.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.adapter.FragmentViewHolder
 import com.github.sdp.ratemyepfl.fragment.navigation.ReviewableTabFragment
 
-class ReviewableViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = ReviewableTabFragment.NUMBER_OF_TABS
+class FragmentViewPagerAdapter(private val fragments: List<Fragment>, fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+    override fun getItemCount(): Int = fragments.size
 
     override fun createFragment(position: Int): Fragment =
-        ReviewableTabFragment.fromPositionToFragment(position)
+        fragments[position]
 
 }

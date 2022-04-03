@@ -18,7 +18,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
         super.onCreate(savedInstanceState)
 
         viewModel.courses.observe(this) { courses ->
-            reviewableAdapter.setData(courses)
+            reviewableAdapter.submitList(courses)
         }
     }
 

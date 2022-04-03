@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -19,10 +20,8 @@ class RestaurantTabFragment : ReviewableTabFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getItemsAsLiveData().observe(viewLifecycleOwner) { restaurants ->
-            reviewableAdapter.setData(restaurants)
+            reviewableAdapter.submitData(restaurants)
         }
     }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean = super.onContextItemSelected(item)
 
 }

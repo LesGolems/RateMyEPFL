@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -19,7 +20,7 @@ class ClassroomTabFragment : ReviewableTabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.classrooms.observe(viewLifecycleOwner) { classrooms ->
-            reviewableAdapter.setData(classrooms)
+            reviewableAdapter.submitData(classrooms)
         }
     }
 }

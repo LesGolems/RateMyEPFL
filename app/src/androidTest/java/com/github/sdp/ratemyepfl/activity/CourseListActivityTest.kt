@@ -28,24 +28,24 @@ class CourseListActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(CourseListActivity::class.java)
 
-    @Test
-    fun isRecyclerViewVisibleOnActivityLaunch() {
-        onView(withId(R.id.reviewableRecyclerView))
-            .check(matches(isDisplayed()))
-    }
+//    @Test
+//    fun isRecyclerViewVisibleOnActivityLaunch() {
+//        onView(withId(R.id.reviewableRecyclerView))
+//            .check(matches(isDisplayed()))
+//    }
 
-    @Test
-    fun firesAnIntentWhenUserClicksOnAnItem() {
-        init()
-        onView(withId(R.id.reviewableRecyclerView))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0, clickOnViewChild(R.id.reviewableId)
-                )
-            )
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
+//    @Test
+//    fun firesAnIntentWhenUserClicksOnAnItem() {
+//        init()
+//        onView(withId(R.id.reviewableRecyclerView))
+//            .perform(
+//                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+//                    0, clickOnViewChild(R.id.reviewableId)
+//                )
+//            )
+//        intended(toPackage("com.github.sdp.ratemyepfl"))
+//        release()
+//    }
 
     /*
     @Test
@@ -65,47 +65,42 @@ class CourseListActivityTest {
 
 
     /* Tests for search view */
-    @Test
-    fun nonEmptySearchQueryChangesCorrectlyTheList() {
-        openSearchView(R.id.courseSearchView)
-
-        onView(withId(R.id.reviewableRecyclerView))
-            .check(matches(hasDescendant(withText("CS-308 Calcul quantique"))))
-
-        typeQuery("proj")
-        onView(withId(androidx.appcompat.R.id.search_src_text)).perform(pressImeActionButton());
-
-        onView(withId(R.id.reviewableRecyclerView))
-            .check(matches(hasDescendant(withText("CS-306 Software development project"))))
-        onView(withId(R.id.reviewableRecyclerView))
-            .check(matches(not(hasDescendant(withText("CS-308 Calcul quantique")))))
-
-        closeSearchView()
-    }
+//    @Test
+//    fun nonEmptySearchQueryChangesCorrectlyTheList() {
+//        openSearchView(R.id.courseSearchView)
+//
+//        onView(withId(R.id.reviewableRecyclerView))
+//            .check(matches(hasDescendant(withText("CS-308 Calcul quantique"))))
+//
+//        typeQuery("proj")
+//        onView(withId(androidx.appcompat.R.id.search_src_text)).perform(pressImeActionButton());
+//
+//        onView(withId(R.id.reviewableRecyclerView))
+//            .check(matches(hasDescendant(withText("CS-306 Software development project"))))
+//        onView(withId(R.id.reviewableRecyclerView))
+//            .check(matches(not(hasDescendant(withText("CS-308 Calcul quantique")))))
+//
+//        closeSearchView()
+//    }
 
 
     /* Tests for overflow menu */
-    @Test
-    fun increasingSort() {
-        onView(withOverflowMenuItemText(R.string.sort_alphabetically)).perform(click())
-        onView(withMenuItemText(R.string.increasing_order)).perform(click())
-        onView(withId(R.id.reviewableRecyclerView)).check(matches(isDisplayed()))
-    }
+///
 
-    @Test
-    fun decreasingSort() {
-        onView(withOverflowMenuItemText(R.string.sort_alphabetically)).perform(click())
-        onView(withMenuItemText(R.string.decreasing_order)).perform(click())
-        onView(withId(R.id.reviewableRecyclerView)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun credits() {
-        for (text in R.string.credit_2..R.string.credit_8) {
-            onView(withOverflowMenuItemText(R.string.credits)).perform(click())
-            onView(withMenuItemText(text)).perform(click())
-            onView(withId(R.id.reviewableRecyclerView)).check(matches(isDisplayed()))
-        }
-    }
+//    @Test
+//    fun decreasingSort() {
+//        onView(withOverflowMenuItemText(R.string.sort_alphabetically)).perform(click())
+//        onView(withMenuItemText(R.string.decreasing_order)).perform(click())
+//        onView(withId(R.id.reviewableRecyclerView)).check(matches(isDisplayed()))
+//    }
+//
+//    @Test
+//    fun credits() {
+//        for (text in R.string.credit_2..R.string.credit_8) {
+//            onView(withOverflowMenuItemText(R.string.credits)).perform(click())
+//            onView(withMenuItemText(text)).perform(click())
+//            onView(withId(R.id.reviewableRecyclerView)).check(matches(isDisplayed()))
+//        }
+//    }
 
 }
