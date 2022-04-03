@@ -114,6 +114,9 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         googleMap.setOnInfoWindowClickListener(rClusterManager)
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
+        googleMap.setOnMapClickListener {
+            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        }
 
         rClusterManager.setOnClusterClickListener(this)
         rClusterManager.setOnClusterInfoWindowClickListener(this)
