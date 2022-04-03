@@ -8,7 +8,6 @@ import android.location.Location
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -36,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,6 +54,11 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     private var permissionDenied = false
     private lateinit var map: GoogleMap
     private lateinit var rClusterManager: ClusterManager<RestaurantItem>
+    private lateinit var slidingLayout: SlidingUpPanelLayout
+    private lateinit var titleView: TextView
+    private lateinit var reviewButton: Button
+    private lateinit var photoView: ImageView
+
     private val restaurantViewModel: RestaurantListViewModel by viewModels()
 
     private inner class ItemRenderer: DefaultClusterRenderer<RestaurantItem>(applicationContext, map, rClusterManager) {
@@ -88,6 +93,12 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         setContentView(R.layout.activity_map)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
+
+        titleView = findViewById(R.id.titleClusterItem)
+        reviewButton = findViewById(R.id.reviewableButton)
+        photoView = findViewById(R.id.photoClusterItem)
+        slidingLayout = findViewById(R.id.sliding_map)
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -226,17 +237,10 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
     }
 
     override fun onClusterItemClick(item: RestaurantItem): Boolean {
-        val titleView: TextView = findViewById(R.id.titleClusterItem)
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         titleView.text = item.name
-        titleView.visibility = View.VISIBLE
-
-        val reviewButton: Button = findViewById(R.id.reviewableButton)
         reviewButton.setOnClickListener { displayReviews(item) }
-        reviewButton.visibility = View.VISIBLE
-
-        val photoView: ImageView = findViewById(R.id.photoClusterItem)
         photoView.setImageResource(item.photo)
-        photoView.visibility = View.VISIBLE
 
         return true
     }

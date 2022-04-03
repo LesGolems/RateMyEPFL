@@ -7,7 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoShadowHeight="4dp"
     sothree:umanoDragView="@id/dragView">
+
 
     <fragment
         android:id="@+id/map"
@@ -28,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_alignBaseline="@id/reviewableButton"
-            android:visibility="gone"
             android:text="@string/title_review_list" />
 
         <Button
@@ -37,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:visibility="gone"
             android:text="@string/review_text_button" />
 
         <View
@@ -62,7 +63,6 @@
                 android:id="@+id/photoClusterItem"
                 android:layout_width="@dimen/clusterItemWidth"
                 android:layout_height="@dimen/clusterItemHeight"
-                android:visibility="gone"
                 android:src="@raw/niki" />
 
         </androidx.cardview.widget.CardView>
