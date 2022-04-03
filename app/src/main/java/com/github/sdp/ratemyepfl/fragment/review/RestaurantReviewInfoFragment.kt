@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.fragment.review
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,7 +22,27 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.id_restaurant_info).text = it?.toString()
+            view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
         }
+        viewModel.overallGrade.observe(viewLifecycleOwner) {
+            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.toFloat()
+        }
+        viewModel.numReviews.observe(viewLifecycleOwner) {
+            view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it)
+        }
+    }
+
+    private fun getNumReviewString(numReview: Int): String {
+        return if (numReview == 0) {
+            getString(R.string.zero_num_reviews)
+        } else {
+            getString(R.string.num_reviews, numReview.toString())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateRestaurant()
+        viewModel.updateReviewsList()
     }
 }
