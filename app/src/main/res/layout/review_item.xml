@@ -47,7 +47,9 @@
         android:layout_below="@id/dateReview"
         android:layout_toStartOf="@id/likeCount"
         android:background="@color/white"
-        android:src="@drawable/ic_like" />
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_like"
+        android:contentDescription="@string/i_like_this_review" />
 
     <TextView
         android:id="@+id/likeCount"
@@ -65,7 +67,9 @@
         android:layout_below="@id/dateReview"
         android:layout_toStartOf="@id/dislikeCount"
         android:background="@color/white"
-        android:src="@drawable/ic_dislike" />
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_dislike"
+        android:contentDescription="@string/i_don_t_like_this_review" />
 
     <TextView
         android:id="@+id/dislikeCount"

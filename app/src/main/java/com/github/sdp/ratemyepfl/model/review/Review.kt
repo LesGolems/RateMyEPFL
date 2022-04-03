@@ -18,7 +18,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val reviewableId: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate,
-    val author: User? = null
+    val author: User? = null,
+    var opinion: ReviewOpinion = ReviewOpinion.NO_OPINION
 ) {
     companion object {
         /**
