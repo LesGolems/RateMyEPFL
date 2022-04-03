@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Transaction
 import javax.inject.Inject
 
 class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
@@ -45,7 +43,7 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         }
     }
 
-    suspend fun decrementOccupancy(id: String) {
+    fun decrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
