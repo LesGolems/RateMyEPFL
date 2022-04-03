@@ -60,4 +60,5 @@
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
     <string name="image_seen_in_detail">Image seen in detail</string>
+    <string name="photo_of_an_epfl_room">Photo of an EPFL room</string>
 </resources>
