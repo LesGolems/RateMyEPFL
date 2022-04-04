@@ -21,14 +21,17 @@ class UserProfileViewModel(
     val imageStorage: Storage<ImageFile>,
     val userDatabase: UserRepository
     ) : ViewModel() {
-    
-    private val username : MutableLiveData<String?> = MutableLiveData(null)
-    private val email : MutableLiveData<String?> = MutableLiveData(null)
+
     private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)
+    private var username : MutableLiveData<String?> = MutableLiveData(null)
+    private var email : MutableLiveData<String?> = MutableLiveData(null)
+    private var nextUsername : String? = null
+    private var nextEmail : String? = null
 
     init {
         if (currentUser.isLoggedIn()) {
-            viewModelScope.launch { 
+
+            viewModelScope.launch {
                 val user = currentUser.getUserId()?.let { userDatabase.getUserByUid(it) }
                 if (user != null) {
                     username.postValue(user.username)
@@ -38,7 +41,7 @@ class UserProfileViewModel(
                     email.postValue(currentUser.getEmail())
                 }
             }
-            
+
             viewModelScope.launch { 
                 val imageFile = currentUser.getUserId()?.let { imageStorage.get(it) }
                 if (imageFile != null) {
@@ -62,26 +65,24 @@ class UserProfileViewModel(
 
     fun changeUsername(newUsername: String) {
         if (newUsername.length > 12) {
-            discardChanges()
             throw IllegalArgumentException("$newUsername should be at most 12 characters long.")
         } else if (newUsername.length < 4) {
-            discardChanges()
             throw IllegalArgumentException("Username should be at least 4 characters long.")
+        } else if (username.value != newUsername) {
+            nextUsername = newUsername
         }
-        username.postValue(newUsername)
     }
 
     fun changeEmail(newEmail: String) {
         if (newEmail.split("@").size != 2) {
-            discardChanges()
             throw IllegalArgumentException("Wrong email format.")
+        } else if (email.value != newEmail) {
+            nextEmail = newEmail
         }
-        email.postValue(newEmail)
     }
 
     fun changeProfilePicture(newImage: ImageFile) {
         if (newImage.size > imageStorage.MAX_ITEM_SIZE) {
-            discardChanges()
             throw IllegalArgumentException("Picture size should be less than ${imageStorage.MAX_ITEM_SIZE}.")
         }
         picture.postValue(newImage)
@@ -100,10 +101,10 @@ class UserProfileViewModel(
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()
-                if (id != null){
-                    val user = User(id, username.value, email.value, null)
-                    userDatabase.update(user)
-                }
+                val user = User(id!!, nextUsername, nextEmail, picture.value?.id + ".jpg")
+                userDatabase.update(user)
+                username.postValue(nextUsername)
+                email.postValue(nextEmail)
             }
         }
     }

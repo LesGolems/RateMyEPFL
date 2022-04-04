@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -18,9 +17,7 @@ import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.database.UserDatabase
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
-import com.google.firebase.auth.FirebaseAuth
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
 class UserProfileActivity : AppCompatActivity() {
@@ -54,13 +51,9 @@ class UserProfileActivity : AppCompatActivity() {
             profilePicture.setImageBitmap(it?.data)
         })
 
-        viewModel.username().observe(this, Observer {
-            usernameText.setText(it.orEmpty())
-        })
+        viewModel.username().observe(this) { usernameText.setText(it.orEmpty()) }
 
-        viewModel.email().observe(this, Observer {
-            emailText.setText(it.orEmpty())
-        })
+        viewModel.email().observe(this) { emailText.setText(it.orEmpty()) }
 
         emailText.isEnabled = false
         usernameText.isEnabled = false
@@ -92,7 +85,7 @@ class UserProfileActivity : AppCompatActivity() {
                 viewModel.changeEmail(emailText.text.toString())
                 viewModel.submitChanges()
             } catch (e: Exception) {
-                e.printStackTrace()
+                viewModel.discardChanges()
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }

@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import android.util.Log
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.model.user.User.Companion.toUser
 import com.google.firebase.firestore.CollectionReference
@@ -53,9 +54,6 @@ class UserDatabase constructor() : UserRepository {
         collection()
             .document(user.uid)
             .set(user.toHashMap())
-            .addOnFailureListener{
-                it.printStackTrace()
-            }
             .await()
     }
 
