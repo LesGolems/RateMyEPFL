@@ -1,10 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomListViewModel
@@ -19,8 +16,9 @@ class ClassroomTabFragment : ReviewableTabFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.classrooms.observe(viewLifecycleOwner) { classrooms ->
-            reviewableAdapter.submitData(classrooms)
-        }
+        viewModel.classrooms
+            .observe(viewLifecycleOwner) { classrooms ->
+                reviewableAdapter.submitData(classrooms)
+            }
     }
 }

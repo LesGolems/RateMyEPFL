@@ -5,13 +5,13 @@ import com.github.sdp.ratemyepfl.fragment.navigation.util.ReviewableTabFragmentT
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class ClassroomTabFragmentTest {
-
-    val container = ReviewableTabFragmentTestContainer(ClassroomTabFragment::class)
+class CourseTabFragmentTest {
+    val container = ReviewableTabFragmentTestContainer(CourseTabFragment::class)
     @get:Rule
     val hiltAndroidTestRule = HiltAndroidRule(this)
 

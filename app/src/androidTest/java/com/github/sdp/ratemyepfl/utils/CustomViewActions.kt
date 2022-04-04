@@ -1,11 +1,16 @@
 package com.github.sdp.ratemyepfl.utils
 
 import android.view.View
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Reviewable
@@ -42,4 +47,35 @@ object CustomViewActions {
         retrieve(selected.toString())
     }
 
+    /**
+     * Defines the behavior to test a search bar
+     */
+    class SearchAction() {
+        /**
+         * Write the [request] inside the search view
+         */
+        fun type(request: String) {
+            onSearchBar()
+                .perform(ViewActions.typeText(request))
+        }
+
+        fun startSearch() {
+            onSearchBar()
+                .perform(ViewActions.click())
+        }
+
+        fun finishSearch() {
+            Espresso.closeSoftKeyboard()
+        }
+
+        fun query(request: String) {
+            startSearch()
+            type(request)
+            finishSearch()
+        }
+
+        companion object {
+            fun onSearchBar(): ViewInteraction = onView(ViewMatchers.isAssignableFrom(SearchView::class.java))
+        }
+    }
 }

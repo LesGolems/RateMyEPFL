@@ -25,8 +25,6 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
     abstract val reviewActivityLayoutId: Int
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var searchBar: SearchView
-    private lateinit var filterButton: Button
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,45 +35,60 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
             DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
         )
 
-        filterButton = view.findViewById(R.id.filterMenuButton)
-        searchBar = view.findViewById(R.id.reviewableSearchView)
-        setupControls()
+        setupSearchBar(view)
+        setupControls(view)
     }
 
-    override fun onCreateContextMenu(
-        menu: ContextMenu,
-        v: View,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        activity?.menuInflater?.inflate(filterMenuId, menu)
-        super.onCreateContextMenu(menu, v, menuInfo)
-    }
+//    override fun onCreateContextMenu(
+//        menu: ContextMenu,
+//        v: View,
+//        menuInfo: ContextMenu.ContextMenuInfo?
+//    ) {
+//        activity?.menuInflater?.inflate(filterMenuId, menu)
+//        super.onCreateContextMenu(menu, v, menuInfo)
+//    }
+//
+//
+//    override fun onContextItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+//        R.id.increasingOrder -> {
+//            reviewableAdapter.sortAlphabetically()
+//            true
+//        }
+//        R.id.decreasingOrder -> {
+//            reviewableAdapter.sortAlphabetically(true)
+//            true
+//        }
+//        else -> {
+//            super.onContextItemSelected(item)
+//        }
+//    }
 
-
-    override fun onContextItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.increasingOrder -> {
-            reviewableAdapter.sortAlphabetically()
-            true
-        }
-        R.id.decreasingOrder -> {
-            reviewableAdapter.sortAlphabetically(true)
-            true
-        }
-        else -> {
-            super.onContextItemSelected(item)
-        }
-    }
-
-    private fun setupControls() {
-        registerForContextMenu(filterButton)
+    /**
+     * Define the behavior for the control buttons
+     *
+     * @param view: View where the control are applied. The view must possess
+     * the button [R.id.filterMenuButton]
+     */
+    private fun setupControls(view: View) {
+//        registerForContextMenu(filterButton)
+        val filterButton: Button = view.findViewById(R.id.filterMenuButton)
         var sorted = true
+        // Temporary implementation of the filter
         filterButton.setOnClickListener {
             reviewableAdapter.sortAlphabetically(sorted) {
                 recyclerView.scrollToPosition(0)
             }
             sorted = !sorted
         }
+    }
 
+    /**
+     * Setup the search bar
+     *
+     * @param view: where the search bar is set up
+     */
+    private fun setupSearchBar(view: View) {
+        val searchBar: SearchView = view.findViewById(R.id.reviewableSearchView)
         searchBar.setOnClickListener { (it as SearchView).onActionViewExpanded() }
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -88,9 +101,7 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
                 return true
             }
         })
-
     }
-
 
     /**
      * Starts a [ReviewActivity] for the corresponding [Reviewable].
@@ -106,12 +117,20 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
         startActivity(intent)
     }
 
+    /**
+     * Describe the tabs that inherit this fragment
+     *
+     * @param name: Name of the tab that will be displayed on the [TabLayout]
+     */
     enum class TAB(name: String) {
         COURSE("Course"),
         CLASSROOM("Classroom"),
         RESTAURANT("Restaurant");
 
-        fun toFragment() = when(this) {
+        /**
+         * Return the corresponding fragment associated to the tab
+         */
+        fun toFragment() = when (this) {
             COURSE -> CourseTabFragment()
             CLASSROOM -> ClassroomTabFragment()
             RESTAURANT -> RestaurantTabFragment()
