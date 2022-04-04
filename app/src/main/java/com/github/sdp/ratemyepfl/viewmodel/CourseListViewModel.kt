@@ -24,4 +24,5 @@ class CourseListViewModel @Inject constructor(repository: CourseRepositoryInterf
         }
     }
 
+
 }

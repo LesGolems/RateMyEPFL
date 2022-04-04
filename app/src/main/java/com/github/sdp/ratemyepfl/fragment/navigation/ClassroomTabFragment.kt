@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,5 +21,11 @@ class ClassroomTabFragment : ReviewableTabFragment() {
             .observe(viewLifecycleOwner) { classrooms ->
                 reviewableAdapter.submitData(classrooms)
             }
+    }
+
+    override fun onResume() {
+        // BUGFIX
+        viewModel.classrooms.postValue(viewModel.classrooms.value ?: listOf())
+        super.onResume()
     }
 }

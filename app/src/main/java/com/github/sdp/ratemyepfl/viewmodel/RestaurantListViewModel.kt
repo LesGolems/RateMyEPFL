@@ -14,15 +14,12 @@ import javax.inject.Inject
 class RestaurantListViewModel @Inject constructor(repository: RestaurantRepositoryInterface) :
     ViewModel() {
 
-    private var items = MutableLiveData<List<Restaurant>>()
+    val restaurants = MutableLiveData<List<Restaurant>>()
 
     init {
         viewModelScope.launch {
-            items.value = repository.getRestaurants()
+            restaurants.value = repository.getRestaurants()
         }
     }
 
-    fun getItemsAsLiveData(): LiveData<List<Restaurant>> {
-        return items
-    }
 }

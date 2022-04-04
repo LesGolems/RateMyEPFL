@@ -19,9 +19,15 @@ class RestaurantTabFragment : ReviewableTabFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getItemsAsLiveData().observe(viewLifecycleOwner) { restaurants ->
+        viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
             reviewableAdapter.submitData(restaurants)
         }
+    }
+
+    override fun onResume() {
+        // BUGFIX
+        viewModel.restaurants.postValue(viewModel.restaurants.value ?: listOf())
+        super.onResume()
     }
 
 }

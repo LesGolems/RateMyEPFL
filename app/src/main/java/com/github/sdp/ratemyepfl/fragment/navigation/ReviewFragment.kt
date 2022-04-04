@@ -22,11 +22,11 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
 
         tabLayout = view.findViewById(R.id.reviewTabLayout)
         viewPager = view.findViewById(R.id.reviewTabViewPager)
-
         val fragments = ReviewableTabFragment.TAB.values()
             .map { it.toFragment() }
             .toList()
 
+        viewPager.offscreenPageLimit = fragments.size
         val viewPagerAdapter = FragmentViewPagerAdapter(fragments, this)
         viewPager.adapter = viewPagerAdapter
 
