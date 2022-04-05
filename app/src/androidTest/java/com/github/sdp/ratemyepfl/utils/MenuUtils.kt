@@ -40,7 +40,7 @@ fun openSearchView(@StringRes searchViewId: Int) {
 /**
  * Writes a query on the view that is opened by clicking on the search view
  */
-fun typeQuery(@NonNull query: String?) {
+fun typeQuery(@NonNull query: String) {
     onView(withId(R.id.search_src_text)).perform(
         typeText(query),
         closeSoftKeyboard()

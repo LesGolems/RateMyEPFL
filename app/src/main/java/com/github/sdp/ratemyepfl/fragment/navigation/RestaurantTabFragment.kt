@@ -2,20 +2,30 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.restaurants.RestaurantListActivity
+import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class RestaurantTabFragment : TabFragment(R.layout.fragment_restaurant_tab) {
-    private lateinit var restaurantButton: Button
+@AndroidEntryPoint
+class RestaurantTabFragment : ReviewableTabFragment() {
+
+    private val viewModel: RestaurantListViewModel by viewModels()
+
+    override val reviewActivityLayoutId: Int = R.layout.activity_restaurant_review
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        restaurantButton = view.findViewById<Button?>(R.id.restaurantTabButton).apply {
-            setOnClickListener {
-                displayContent<RestaurantListActivity>()
-            }
+        viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
+            reviewableAdapter.submitData(restaurants)
         }
-
     }
+
+    override fun onResume() {
+        // BUGFIX
+        viewModel.restaurants.postValue(viewModel.restaurants.value ?: listOf())
+        super.onResume()
+    }
+
 }
