@@ -43,17 +43,4 @@ class UserTest {
         assertEquals("user@email.ch", user.email)
         assertEquals("https://www.pictures.com/?q=coolpic", user.picture)
     }
-
-    @Test
-    fun toHashMapWorks() {
-        val userHash = User(
-            "12345",
-            "Jean",
-            "user@email.ch",
-            "https://www.pictures.com/?q=coolpic"
-        ).toHashMap()
-        assertEquals(userHash[User.USERNAME_FIELD], "Jean")
-        assertEquals(userHash[User.EMAIL_FIELD], "user@email.ch")
-        assertEquals(userHash[User.PICTURE_FIELD], "https://www.pictures.com/?q=coolpic")
-    }
 }
