@@ -34,7 +34,7 @@ class UserProfileActivity : AppCompatActivity() {
     private val viewModel = UserProfileViewModel(
         currentUser,
         ImageStorage.instance,
-        UserDatabase()
+        UserDatabase.instance
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
