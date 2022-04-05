@@ -11,6 +11,8 @@ class RestaurantRepositoryTest {
     @Test
     fun returnsARestaurantForCompleteSnapshot() {
         val fake = "fake"
+        val lat = 0.0
+        val long = 0.0
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
@@ -18,6 +20,8 @@ class RestaurantRepositoryTest {
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
             .setId(fake)
+            .setLat(lat)
+            .setLong(long)
             .build()
         assertEquals(fakeRestaurant, restaurant)
 
@@ -25,7 +29,6 @@ class RestaurantRepositoryTest {
 
     @Test
     fun toItemReturnsNullForInCompleteSnapshot() {
-        val fake = "fake"
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
 
         Mockito.`when`(snapshot.id).thenReturn(null)
