@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import com.github.sdp.ratemyepfl.database.ReviewsRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -39,29 +39,6 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          */
         fun deserialize(review: String): Review = Json.decodeFromString(review)
 
-        /**
-         * Converts a json data into a Review
-         *
-         * @return the review if the json contains the necessary data, null otherwise
-         */
-        fun DocumentSnapshot.toReview(): Review? {
-            val rating: ReviewRating? = getString("rating")?.let { rating ->
-                ReviewRating.valueOf(rating)
-            }
-            val title: String? = getString("title")
-            val comment: String? = getString("comment")
-            val reviewableId: String? = getString("reviewableId")
-            val date: LocalDate? = LocalDate.parse(getString("date"))
-            return if (rating != null &&
-                title != null &&
-                comment != null &&
-                reviewableId != null &&
-                date != null
-            ) {
-                Review(id, rating, title, comment, reviewableId, date)
-            } else null
-        }
-
         private const val TAG = "review"
     }
 
@@ -70,8 +47,11 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     @OptIn(ExperimentalSerializationApi::class)
     fun toHashMap(): HashMap<String, String> {
         return hashMapOf(
-            "title" to title, "rating" to rating.toString(),
-            "comment" to comment, "reviewableId" to reviewableId, "date" to date.toString()
+            ReviewsRepositoryImpl.TITLE_FIELD_NAME to title,
+            ReviewsRepositoryImpl.RATING_FIELD_NAME to rating.toString(),
+            ReviewsRepositoryImpl.COMMENT_FIELD_NAME to comment,
+            ReviewsRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
+            ReviewsRepositoryImpl.DATE_FIELD_NAME to date.toString()
         )
     }
 
@@ -93,7 +73,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param id: the new id of the review
          * @return this
          */
-        fun setId(id: String) = apply {
+        fun setId(id: String?) = apply {
             this.id = id
         }
 
@@ -102,7 +82,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param rating: the new rating of the review
          * @return this
          */
-        fun setRating(rating: ReviewRating) = apply {
+        fun setRating(rating: ReviewRating?) = apply {
             this.rating = rating
         }
 
@@ -111,7 +91,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param title: the new title of the review
          * @return this
          */
-        fun setTitle(title: String) = apply {
+        fun setTitle(title: String?) = apply {
             this.title = title
         }
 
@@ -120,7 +100,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param comment: the new comment of the review
          * @return this
          */
-        fun setComment(comment: String) = apply {
+        fun setComment(comment: String?) = apply {
             this.comment = comment
         }
 
@@ -130,7 +110,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param id: reviewed item id
          * @return this
          */
-        fun setReviewableID(id: String) = apply {
+        fun setReviewableID(id: String?) = apply {
             this.reviewableId = id
         }
 
@@ -140,7 +120,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param date: the new date of the review
          * @return this
          */
-        fun setDate(date: LocalDate) = apply {
+        fun setDate(date: LocalDate?) = apply {
             this.date = date
         }
 
