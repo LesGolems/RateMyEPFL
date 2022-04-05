@@ -16,6 +16,8 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
+        Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
 
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
