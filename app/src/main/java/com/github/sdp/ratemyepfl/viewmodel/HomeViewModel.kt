@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     lateinit var user: ConnectedUser
 
     @Inject
-    lateinit var auth: Authenticator
+    lateinit var auth: GoogleAuthenticator
 
     val isUserLoggedIn: LiveData<Boolean> = MutableLiveData(false)
 

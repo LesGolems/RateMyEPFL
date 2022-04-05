@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SplashScreen : AppCompatActivity() {
 
     @Inject
-    lateinit var auth: Authenticator
+    lateinit var auth: GoogleAuthenticator
 
     @Inject
     lateinit var user: ConnectedUser
