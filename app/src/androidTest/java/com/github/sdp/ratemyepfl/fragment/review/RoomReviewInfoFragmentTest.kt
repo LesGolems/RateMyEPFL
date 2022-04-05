@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -51,7 +50,7 @@ class RoomReviewInfoFragmentTest {
     }
 
     @Test
-    fun noReviewDisplayed(){
+    fun noReviewDisplayed() {
         FakeReviewsRepository.reviewList = listOf()
 
         // Refresh

@@ -13,6 +13,8 @@ data class Restaurant(
 
     /**
      * Builder to create a restaurant step by step
+     * Mandatory fields are:
+     *  - [id]
      */
     class Builder : ReviewableBuilder<Restaurant> {
         private var id: String? = null

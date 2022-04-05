@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,15 +13,12 @@ import javax.inject.Inject
 class RestaurantListViewModel @Inject constructor(repository: RestaurantRepositoryInterface) :
     ViewModel() {
 
-    private var items = MutableLiveData<List<Restaurant>>()
+    val restaurants = MutableLiveData<List<Restaurant>>()
 
     init {
         viewModelScope.launch {
-            items.value = repository.getRestaurants()
+            restaurants.value = repository.getRestaurants()
         }
     }
 
-    fun getItemsAsLiveData(): LiveData<List<Restaurant>> {
-        return items
-    }
 }

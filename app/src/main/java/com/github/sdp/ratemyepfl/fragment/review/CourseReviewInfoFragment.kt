@@ -41,12 +41,16 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         }
     }
 
-    private fun setUpCourseInfo(view: View, course : Course){
+    private fun setUpCourseInfo(view: View, course: Course) {
         view.findViewById<TextView>(R.id.courseId).text = course.id
-        view.findViewById<TextView>(R.id.courseTitle).text = getString(R.string.course_title, course.title)
-        view.findViewById<TextView>(R.id.courseTeacher).text = getString(R.string.course_teacher, course.teacher)
-        view.findViewById<TextView>(R.id.courseSection).text = getString(R.string.course_section, course.section)
-        view.findViewById<TextView>(R.id.courseCredits).text = getString(R.string.course_credits, course.credits.toString())
+        view.findViewById<TextView>(R.id.courseTitle).text =
+            getString(R.string.course_title, course.title)
+        view.findViewById<TextView>(R.id.courseTeacher).text =
+            getString(R.string.course_teacher, course.teacher)
+        view.findViewById<TextView>(R.id.courseSection).text =
+            getString(R.string.course_section, course.section)
+        view.findViewById<TextView>(R.id.courseCredits).text =
+            getString(R.string.course_credits, course.credits.toString())
     }
 
     override fun onResume() {

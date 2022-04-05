@@ -12,6 +12,7 @@ import java.time.LocalDate
 
 @Serializable
 data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
+    val id: String?,
     val rating: ReviewRating,
     val title: String,
     val comment: String,
@@ -57,7 +58,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
                 reviewableId != null &&
                 date != null
             ) {
-                Review(rating, title, comment, reviewableId, date)
+                Review(id, rating, title, comment, reviewableId, date)
             } else null
         }
 
@@ -80,12 +81,22 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
      * must specify every property of the review.
      */
     data class Builder(
+        private var id: String? = null,
         private var rating: ReviewRating? = null,
         private var title: String? = null,
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
     ) {
+        /**
+         * Sets the id of the review
+         * @param id: the new id of the review
+         * @return this
+         */
+        fun setId(id: String) = apply {
+            this.id = id
+        }
+
         /**
          * Sets the rating of the review
          * @param rating: the new rating of the review
@@ -139,6 +150,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
+            val id = this.id
             val rate = this.rating
             val title = this.title
             val comment = this.comment
@@ -147,7 +159,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
 
             if (rate != null && title != null && comment != null && reviewableId != null && date != null) {
                 return Review(
-                    rate, title, comment, reviewableId, date
+                    id, rate, title, comment, reviewableId, date
                 )
             } else throw IllegalStateException("Cannot build a review made of null elements")
         }
