@@ -43,7 +43,8 @@ object ViewPagerAction {
             val isForward = direction == Direction.FORWARD
             val swipeAction: ViewAction
             if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                swipeAction = if (isForward == vp.isRtl()) ViewActions.swipeRight() else ViewActions.swipeLeft()
+                swipeAction =
+                    if (isForward == vp.isRtl()) ViewActions.swipeRight() else ViewActions.swipeLeft()
             } else {
                 swipeAction = if (isForward) ViewActions.swipeUp() else ViewActions.swipeDown()
             }

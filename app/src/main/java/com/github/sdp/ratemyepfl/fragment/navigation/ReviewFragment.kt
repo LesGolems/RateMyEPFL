@@ -1,9 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
@@ -37,11 +35,4 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
         }.attach()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 }

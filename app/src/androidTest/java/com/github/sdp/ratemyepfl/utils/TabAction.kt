@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.utils
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions

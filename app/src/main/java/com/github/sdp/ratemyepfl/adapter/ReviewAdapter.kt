@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
+import com.github.sdp.ratemyepfl.model.review.Review
 
 class ReviewAdapter :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {

@@ -119,9 +119,9 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
      * @param tabName: Name of the tab that will be displayed on the [TabLayout]
      */
     enum class TAB(val tabName: String) {
-        COURSE("Course"),
-        CLASSROOM("Classroom"),
-        RESTAURANT("Restaurant");
+        COURSE("Courses"),
+        CLASSROOM("Classrooms"),
+        RESTAURANT("Restaurants");
 
         /**
          * Return the corresponding fragment associated to the tab

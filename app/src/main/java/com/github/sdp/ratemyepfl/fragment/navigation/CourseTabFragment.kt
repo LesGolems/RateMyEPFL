@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R

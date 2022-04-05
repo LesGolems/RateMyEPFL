@@ -1,11 +1,9 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassroom
 import com.github.sdp.ratemyepfl.database.RestaurantRepository.Companion.toRestaurant
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito
 

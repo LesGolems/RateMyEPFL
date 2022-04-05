@@ -62,7 +62,7 @@ class CourseReviewInfoFragmentTest {
     }
 
     @Test
-    fun noReviewDisplayed(){
+    fun noReviewDisplayed() {
         FakeReviewsRepository.reviewList = listOf()
 
         // Refresh

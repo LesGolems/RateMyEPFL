@@ -22,16 +22,20 @@ class AdapterUtilTest {
     @Test
     fun sameContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
-            .areContentsTheSame(Item("id1", "content", "some garbade"),
-            Item("id2", "content", "a lot of garbage"))
+            .areContentsTheSame(
+                Item("id1", "content", "some garbade"),
+                Item("id2", "content", "a lot of garbage")
+            )
         assertEquals(true, diff)
     }
 
     @Test
     fun differentContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
-            .areContentsTheSame(Item("id1", "content1", "some garbade"),
-                Item("id2", "content2", "a lot of garbage"))
+            .areContentsTheSame(
+                Item("id1", "content1", "some garbade"),
+                Item("id2", "content2", "a lot of garbage")
+            )
         assertEquals(false, diff)
     }
 

@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
@@ -51,7 +50,7 @@ class RestaurantReviewInfoFragmentTest {
     }
 
     @Test
-    fun noReviewDisplayed(){
+    fun noReviewDisplayed() {
         FakeReviewsRepository.reviewList = listOf()
 
         // Refresh

@@ -13,7 +13,6 @@ import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
@@ -42,15 +41,17 @@ object CustomViewActions {
         (view as TabLayout).getTabAt(tabPosition)?.select()
     }
 
-    fun  getInRecyclerView(item: Int, retrieve: (String?) -> Unit) = createViewAction<RecyclerView> { _, view ->
-        val selected = (view as RecyclerView).get(0).findViewById<TextView>(R.id.reviewableId).text
-        retrieve(selected.toString())
-    }
+    fun getInRecyclerView(item: Int, retrieve: (String?) -> Unit) =
+        createViewAction<RecyclerView> { _, view ->
+            val selected =
+                (view as RecyclerView).get(0).findViewById<TextView>(R.id.reviewableId).text
+            retrieve(selected.toString())
+        }
 
     /**
      * Defines the behavior to test a search bar
      */
-    class SearchAction() {
+    object SearchAction {
         /**
          * Write the [request] inside the search view
          */
@@ -74,8 +75,7 @@ object CustomViewActions {
             finishSearch()
         }
 
-        companion object {
-            fun onSearchBar(): ViewInteraction = onView(ViewMatchers.isAssignableFrom(SearchView::class.java))
-        }
+        fun onSearchBar(): ViewInteraction =
+            onView(ViewMatchers.isAssignableFrom(SearchView::class.java))
     }
 }

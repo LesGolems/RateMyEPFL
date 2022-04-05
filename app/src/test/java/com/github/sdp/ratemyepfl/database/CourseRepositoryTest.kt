@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.database.CourseRepository.Companion.toCourse
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito
 
@@ -17,7 +17,8 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.TITLE_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepository.SECTION_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME)).thenReturn(fakeCredit)
+        Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME))
+            .thenReturn(fakeCredit)
 
         val course: Course? = snapshot.toCourse()
         val fakeCourse = Course(fake, fake, fake, fakeCredit.toInt(), fake)

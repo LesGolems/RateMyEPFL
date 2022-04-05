@@ -12,6 +12,7 @@ import org.junit.Test
 class ClassroomTabFragmentTest {
 
     val container = ReviewableTabFragmentTestContainer(ClassroomTabFragment::class)
+
     @get:Rule
     val hiltAndroidTestRule = HiltAndroidRule(this)
 
