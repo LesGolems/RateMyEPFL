@@ -8,8 +8,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserDatabase constructor() : UserRepository {
+class UserDatabase private constructor() : UserRepository {
 
+    /**
+     * The UserDatabase follows the singleton principle
+     */
     companion object {
         val instance = UserDatabase()
     }
@@ -20,6 +23,10 @@ class UserDatabase constructor() : UserRepository {
         return FirebaseFirestore.getInstance().collection(USER_COLLECTION_PATH)
     }
 
+    /**
+     * Retrieves a User object by their [uid].
+     * Returns null in case of error.
+     */
     override suspend fun getUserByUid(uid: String): User? {
         val document = collection()
             .document(uid)
@@ -33,6 +40,9 @@ class UserDatabase constructor() : UserRepository {
         }
     }
 
+    /**
+     * Retrieves a list of Users with the same [username].
+     */
     override suspend fun getUsersByUsername(username: String): List<User> {
         return collection()
             .whereEqualTo(User.USERNAME_FIELD, username)
@@ -42,6 +52,9 @@ class UserDatabase constructor() : UserRepository {
             .mapNotNull { obj -> obj.toUser() }
     }
 
+    /**
+     * Retrieves a User by its [email] address.
+     */
     override suspend fun getUserByEmail(email: String): User {
         return collection()
             .whereEqualTo(User.EMAIL_FIELD, email)
@@ -50,6 +63,10 @@ class UserDatabase constructor() : UserRepository {
             .mapNotNull { obj -> obj.toUser() }[0]
     }
 
+    /**
+     * Updates the [user] in the collection.
+     * If the [user] isn't already part of it, it is added to the collection.
+     */
     override suspend fun update(user: User) {
         collection()
             .document(user.uid)
@@ -57,6 +74,9 @@ class UserDatabase constructor() : UserRepository {
             .await()
     }
 
+    /**
+     * Deletes the User by its [uid]
+     */
     override suspend fun delete(uid: String) {
         collection()
             .document(uid)

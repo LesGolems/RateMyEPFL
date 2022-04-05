@@ -13,9 +13,11 @@ import java.lang.Exception
 
 class ImageStorage private constructor() : Storage<ImageFile> {
 
+    /**
+     * The ImageStorage follows the singleton design pattern.
+     */
     companion object {
         val instance = ImageStorage()
-        const val MAX_IMAGE_SIZE: Long = 1024*1024
     }
 
     private fun storageReference() : StorageReference {
@@ -24,26 +26,41 @@ class ImageStorage private constructor() : Storage<ImageFile> {
             .child("images")
     }
 
-    override val MAX_ITEM_SIZE: Long
-        get() = MAX_IMAGE_SIZE
+    // Maximum supported size for an image by Firebase Storage
+    override val MAX_ITEM_SIZE: Long = 1024*1024
 
+    /**
+     * Returns the ImageFile for the given [id].
+     * Returns null in case of errors.
+     */
     override suspend fun get(id: String): ImageFile? {
         return try {
             val ba = storageReference()
                 .child("$id.jpg")
-                .getBytes(MAX_IMAGE_SIZE)
+                .getBytes(MAX_ITEM_SIZE)
+                .addOnSuccessListener {
+                    Log.i("ImageStorage: ", "Successfully read item $id")
+                }
+                .addOnFailureListener{
+                    Log.e("ImageStorage: ", "Failed to read item $id", it.cause)
+                }
                 .await()
 
             val bitmap = BitmapFactory.decodeByteArray(ba, 0, ba.size)
             ImageFile(id, bitmap)
+
         } catch (e: StorageException) {
             null
         }
     }
 
+    /**
+     * Adds an [item] to the collection.
+     * Throws an IllegalArgumentException if the item is too big for the collection.
+     */
     override suspend fun put(item: ImageFile) {
-        if (item.size > MAX_IMAGE_SIZE) {
-            throw Exception("Image size should be less than $MAX_IMAGE_SIZE bytes.")
+        if (item.size > MAX_ITEM_SIZE) {
+            throw IllegalArgumentException("Image size should be less than $MAX_ITEM_SIZE bytes.")
         }
 
         val baos = ByteArrayOutputStream()
@@ -51,10 +68,28 @@ class ImageStorage private constructor() : Storage<ImageFile> {
 
         storageReference().child(item.id + ".jpg")
             .putBytes(baos.toByteArray())
+            .addOnSuccessListener {
+                Log.i("ImageStorage: ", "Successfully added item ${item.id}")
+            }
+            .addOnFailureListener{
+                Log.e("ImageStorage: ", "Failed to add item ${item.id}", it.cause)
+            }
             .await()
     }
 
+    /**
+     * Removes an [item] from the collection.
+     */
     override suspend fun remove(item: ImageFile) {
-        storageReference().child(item.id + ".jpg").delete()
+        storageReference()
+            .child(item.id + ".jpg")
+            .delete()
+            .addOnSuccessListener {
+                Log.i("ImageStorage: ", "Successfully deleted item ${item.id}")
+            }
+            .addOnFailureListener{
+                Log.e("ImageStorage: ", "Failed to delete item ${item.id}", it.cause)
+            }
+            .await()
     }
 }
