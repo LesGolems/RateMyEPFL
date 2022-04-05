@@ -37,7 +37,8 @@ class HomeFragmentTest {
             R.string.home_page_hello_user_text,
             HomeFragment.VISITOR_NAME
         )
-        HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<HomeFragment> {
+        }
 
         onView(withId(R.id.homePageHelloUserText)).check(matches(withText(welcomeMsg)))
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGIN)))
