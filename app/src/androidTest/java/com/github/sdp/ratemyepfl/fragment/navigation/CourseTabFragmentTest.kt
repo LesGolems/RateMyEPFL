@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
+import com.github.sdp.ratemyepfl.database.FakeCourseRepository
 import com.github.sdp.ratemyepfl.fragment.navigation.util.ReviewableTabFragmentTestContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -30,7 +31,7 @@ class CourseTabFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun searchingForTheLastItemDisplaysIt() {
-        container.searchFor(FakeClassroomRepository.CLASSROOM_LIST.last().toString())
+        container.searchFor(FakeCourseRepository.COURSE_LIST.last().toString())
     }
 
     @ExperimentalCoroutinesApi

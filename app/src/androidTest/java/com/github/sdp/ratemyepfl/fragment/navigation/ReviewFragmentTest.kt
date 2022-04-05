@@ -26,6 +26,7 @@ class ReviewFragmentTest {
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         onView(withText(ReviewableTabFragment.TAB.COURSE.name)).perform(click())
+        checkCourse()
     }
 
     @ExperimentalCoroutinesApi
@@ -39,6 +40,15 @@ class ReviewFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
+        val scenario =
+            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        onView(withText(ReviewableTabFragment.TAB.RESTAURANT.name)).perform(click())
+        checkRestaurant()
+    }
+
+
+    @ExperimentalCoroutinesApi
     fun loadsClassroomFragmentWhenUsersSwipeToTheRightClassroomTab() {
         TODO("Implement a swipe")
     }
