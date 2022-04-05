@@ -60,4 +60,17 @@
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
     <string name="home_page_description">Home</string>
+    <string name="restaurant_category">Restaurant</string>
+    <string name="default_id_text">Default id text</string>
+    <string name="restaurant_num_reviews">This restaurant received </string>
+    <string name="text_end_reviews">reviews</string>
+    <string name="restaurant_content_description">restaurant icon</string>
+    <string name="num_reviews">(%s reviews)</string>
+    <string name="zero_num_reviews">(No review submitted)</string>
+    <string name="room_content_description">room icon</string>
+    <string name="course_content_description">course icon</string>
+    <string name="course_title">Title : %s</string>
+    <string name="course_teacher">Teacher : %s</string>
+    <string name="course_section">Section : %s</string>
+    <string name="course_credits">Credits : %s</string>
 </resources>

@@ -18,5 +18,5 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
 
     override suspend fun getRestaurants(): List<Restaurant> = RESTAURANT_LIST
 
-    override suspend fun getRestaurantById(id: String): Restaurant = Restaurant(id = "Roulotte du Soleil")
+    override suspend fun getRestaurantById(id: String): Restaurant = DEFAULT_RESTAURANT
 }

@@ -111,7 +111,7 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
             ReviewActivity.EXTRA_ITEM_REVIEWED,
-            Json.encodeToString<Reviewable>(reviewable)
+            reviewable.id
         )
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, reviewActivityLayoutId)
         startActivity(intent)

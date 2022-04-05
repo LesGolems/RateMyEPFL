@@ -19,6 +19,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "com.github.sdp.ratemyepfl.dependencyinjection.CustomTestRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
