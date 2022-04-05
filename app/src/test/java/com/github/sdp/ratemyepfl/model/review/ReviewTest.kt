@@ -20,6 +20,7 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfRateIsNull() {
         val builder = Review.Builder()
+            .setId("Fake")
             .setComment("Hello")
             .setTitle("Hello")
             .setReviewableID("ID")
