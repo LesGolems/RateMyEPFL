@@ -28,10 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
@@ -103,6 +100,7 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.maps_style))
 
         addEPFL()
 
@@ -114,8 +112,11 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         googleMap.setOnInfoWindowClickListener(rClusterManager)
         googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
+
         googleMap.setOnMapClickListener {
-            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            }
         }
 
         rClusterManager.setOnClusterClickListener(this)
