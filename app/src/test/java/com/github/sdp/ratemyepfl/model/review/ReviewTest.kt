@@ -7,9 +7,9 @@ import java.time.LocalDate
 
 class ReviewTest {
     val EXPECTED_REVIEW =
-        Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
+        Review("Fake", ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
     val EXPECTED_JSON =
-        "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
+        "{\"id\":\"Fake\",\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
 
     @Test
     fun test() {
