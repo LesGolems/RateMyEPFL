@@ -13,7 +13,9 @@ data class Classroom(
     }
 
     /**
-     * Builder to create a restaurant step by step
+     * Builder to create a restaurant step by step.
+     * Mandatory fields are:
+     *  - [id]
      */
     class Builder : ReviewableBuilder<Classroom> {
         private var id: String? = null

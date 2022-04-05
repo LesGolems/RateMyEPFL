@@ -21,6 +21,12 @@ data class Course(
 
     /**
      * Builder to create a course step by step
+     * Mandatory fields are:
+     * - [id]
+     * - [title]
+     * - [section]
+     * - [teacher]
+     * - [credits]
      */
     class Builder : ReviewableBuilder<Course> {
         private var title: String? = null
