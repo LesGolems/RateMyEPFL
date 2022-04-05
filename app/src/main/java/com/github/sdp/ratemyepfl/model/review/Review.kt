@@ -130,7 +130,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
-            val id = this asMandatory id
+            val id = this.id
             val rate = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment
