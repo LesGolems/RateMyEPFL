@@ -26,7 +26,7 @@ class ReviewFragmentTest {
     @Test
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        TabAction.selectTab(ReviewableTabFragment.TAB.COURSE.name)
+        TabAction.selectTab(ReviewableTabFragment.TAB.COURSE.tabName)
         checkCourse()
     }
 
@@ -35,7 +35,7 @@ class ReviewFragmentTest {
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        TabAction.selectTab(ReviewableTabFragment.TAB.CLASSROOM.name)
+        TabAction.selectTab(ReviewableTabFragment.TAB.CLASSROOM.tabName)
         checkClassroom()
     }
 
@@ -44,7 +44,7 @@ class ReviewFragmentTest {
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        TabAction.selectTab(ReviewableTabFragment.TAB.RESTAURANT.name)
+        TabAction.selectTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
         checkRestaurant()
     }
 
@@ -74,7 +74,7 @@ class ReviewFragmentTest {
     fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.name)
+        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         ViewPagerAction.swipePrevious()
         checkClassroom()
@@ -85,7 +85,7 @@ class ReviewFragmentTest {
     fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.name)
+        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         ViewPagerAction.apply { swipePrevious() }.swipePrevious()
         checkCourse()

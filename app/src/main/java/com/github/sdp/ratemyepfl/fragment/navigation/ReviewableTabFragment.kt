@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.SearchView
@@ -14,8 +12,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list) {
 
@@ -120,9 +116,9 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
     /**
      * Describe the tabs that inherit this fragment
      *
-     * @param name: Name of the tab that will be displayed on the [TabLayout]
+     * @param tabName: Name of the tab that will be displayed on the [TabLayout]
      */
-    enum class TAB(name: String) {
+    enum class TAB(val tabName: String) {
         COURSE("Course"),
         CLASSROOM("Classroom"),
         RESTAURANT("Restaurant");

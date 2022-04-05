@@ -33,7 +33,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = ReviewableTabFragment.TAB
                 .values()[position]
-                .name
+                .tabName
         }.attach()
     }
 
