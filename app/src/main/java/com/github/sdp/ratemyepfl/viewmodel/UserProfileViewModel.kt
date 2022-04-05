@@ -1,11 +1,4 @@
 package com.github.sdp.ratemyepfl.viewmodel
-
-import android.content.ContentValues
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,16 +10,17 @@ import com.github.sdp.ratemyepfl.model.user.User
 import kotlinx.coroutines.launch
 
 class UserProfileViewModel(
-    val currentUser: ConnectedUser,
-    val imageStorage: Storage<ImageFile>,
-    val userDatabase: UserRepository
+    private val currentUser: ConnectedUser,
+    private val imageStorage: Storage<ImageFile>,
+    private val userDatabase: UserRepository
     ) : ViewModel() {
 
     private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)
-    private var username : MutableLiveData<String?> = MutableLiveData(null)
-    private var email : MutableLiveData<String?> = MutableLiveData(null)
-    private var nextUsername : String? = null
-    private var nextEmail : String? = null
+    private val username : MutableLiveData<String?> = MutableLiveData(null)
+    private val email : MutableLiveData<String?> = MutableLiveData(null)
+
+    private var newUsername : String? = null
+    private var newEmail : String? = null
 
     init {
         if (currentUser.isLoggedIn()) {
@@ -48,6 +42,7 @@ class UserProfileViewModel(
                     picture.postValue(imageFile)
                 }
             }
+
         }
     }
 
@@ -68,17 +63,15 @@ class UserProfileViewModel(
             throw IllegalArgumentException("$newUsername should be at most 12 characters long.")
         } else if (newUsername.length < 4) {
             throw IllegalArgumentException("Username should be at least 4 characters long.")
-        } else if (username.value != newUsername) {
-            nextUsername = newUsername
         }
+        this.newUsername = newUsername
     }
 
     fun changeEmail(newEmail: String) {
         if (newEmail.split("@").size != 2) {
             throw IllegalArgumentException("Wrong email format.")
-        } else if (email.value != newEmail) {
-            nextEmail = newEmail
         }
+            this.newEmail = newEmail
     }
 
     fun changeProfilePicture(newImage: ImageFile) {
@@ -101,10 +94,10 @@ class UserProfileViewModel(
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()
-                val user = User(id!!, nextUsername, nextEmail, picture.value?.id + ".jpg")
+                val user = User(id!!, newUsername, newEmail)
+                newUsername?.let { username.postValue(it) }
+                newEmail?.let { email.postValue(it) }
                 userDatabase.update(user)
-                username.postValue(nextUsername)
-                email.postValue(nextEmail)
             }
         }
     }

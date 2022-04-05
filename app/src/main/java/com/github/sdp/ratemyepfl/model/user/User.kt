@@ -33,12 +33,4 @@ data class User(
         email = user.getEmail()!!,
         picture = user.getProfilePictureUrl()!!
     )
-
-    fun toHashMap(): HashMap<String, String?> {
-        return hashMapOf(
-            USERNAME_FIELD to username,
-            EMAIL_FIELD to email,
-            PICTURE_FIELD to picture
-        )
-    }
 }

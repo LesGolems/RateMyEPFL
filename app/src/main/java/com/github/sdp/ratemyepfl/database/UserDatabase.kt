@@ -1,12 +1,10 @@
 package com.github.sdp.ratemyepfl.database
 
-import android.util.Log
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.model.user.User.Companion.toUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
 
 class UserDatabase private constructor() : UserRepository {
 
@@ -70,7 +68,7 @@ class UserDatabase private constructor() : UserRepository {
     override suspend fun update(user: User) {
         collection()
             .document(user.uid)
-            .set(user.toHashMap())
+            .set(user)
             .await()
     }
 

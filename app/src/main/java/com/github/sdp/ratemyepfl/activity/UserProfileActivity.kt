@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Observer
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
 import com.github.sdp.ratemyepfl.database.ImageStorage
@@ -31,7 +30,8 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var modifyButton: ImageButton
 
     private val currentUser = ConnectedUserImpl()
-    private val viewModel = UserProfileViewModel(
+    private val viewModel =
+        UserProfileViewModel(
         currentUser,
         ImageStorage.instance,
         UserDatabase.instance
@@ -47,13 +47,21 @@ class UserProfileActivity : AppCompatActivity() {
         usernameText = findViewById(R.id.username_text)
         modifyButton = findViewById(R.id.modify_profile_button)
 
-        viewModel.picture().observe(this, Observer {
+        viewModel.picture().observe(this) {
             profilePicture.setImageBitmap(it?.data)
-        })
+        }
 
-        viewModel.username().observe(this) { usernameText.setText(it.orEmpty()) }
+        viewModel.username().observe(this) {
+            if (!it.isNullOrEmpty()) {
+                usernameText.setText(it)
+            }
+        }
 
-        viewModel.email().observe(this) { emailText.setText(it.orEmpty()) }
+        viewModel.email().observe(this) {
+            if (!it.isNullOrEmpty()) {
+                emailText.setText(it)
+            }
+        }
 
         emailText.isEnabled = false
         usernameText.isEnabled = false
@@ -77,9 +85,6 @@ class UserProfileActivity : AppCompatActivity() {
             it.isActivated = true
         } else {
             cameraIcon.visibility = View.GONE
-            emailText.isEnabled = false
-            usernameText.isEnabled = false
-            it.isActivated = false
             try {
                 viewModel.changeUsername(usernameText.text.toString())
                 viewModel.changeEmail(emailText.text.toString())
@@ -88,6 +93,9 @@ class UserProfileActivity : AppCompatActivity() {
                 viewModel.discardChanges()
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
+            emailText.isEnabled = false
+            usernameText.isEnabled = false
+            it.isActivated = false
         }
     }
 
