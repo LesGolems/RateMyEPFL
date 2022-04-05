@@ -55,18 +55,16 @@ class ReviewableTabFragmentTestContainer<T : ReviewableTabFragment> constructor(
     @ExperimentalCoroutinesApi
     fun searchFor(item: String) {
         createScenario()
-        val searchAction = CustomViewActions.SearchAction()
-        searchAction.query(item)
+        CustomViewActions.SearchAction.query(item)
         onRecyclerView().check(matches(hasDescendant(withText(item))))
     }
 
     @ExperimentalCoroutinesApi
     fun nonEmptySuccessfulQuery() {
         createScenario()
-        val searchAction = CustomViewActions.SearchAction()
         getList()?.size?.run {
             val item = getItem(max(this - 1, 0))
-            searchAction.query(item.toString())
+            CustomViewActions.SearchAction.query(item.toString())
             onRecyclerView().check(
                 matches(hasDescendant(withText(item.toString())))
             )
@@ -76,9 +74,8 @@ class ReviewableTabFragmentTestContainer<T : ReviewableTabFragment> constructor(
     @ExperimentalCoroutinesApi
     fun emptyQuery() {
         createScenario()
-        val searchAction = CustomViewActions.SearchAction()
         getList()?.size?.run {
-            searchAction.query("")
+            CustomViewActions.SearchAction.query("")
             for (i in 0..min(getList()?.size ?: 0, 2)) {
                 onRecyclerView().check(
                     matches(hasDescendant(withText(getItem(i).toString())))
