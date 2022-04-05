@@ -4,12 +4,13 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
 import com.github.sdp.ratemyepfl.database.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
+import com.github.sdp.ratemyepfl.utils.TabAction
+import com.github.sdp.ratemyepfl.utils.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +26,7 @@ class ReviewFragmentTest {
     @Test
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        onView(withText(ReviewableTabFragment.TAB.COURSE.name)).perform(click())
+        TabAction.selectTab(ReviewableTabFragment.TAB.COURSE.name)
         checkCourse()
     }
 
@@ -34,7 +35,7 @@ class ReviewFragmentTest {
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        onView(withText(ReviewableTabFragment.TAB.CLASSROOM.name)).perform(click())
+        TabAction.selectTab(ReviewableTabFragment.TAB.CLASSROOM.name)
         checkClassroom()
     }
 
@@ -43,15 +44,53 @@ class ReviewFragmentTest {
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
         val scenario =
             HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
-        onView(withText(ReviewableTabFragment.TAB.RESTAURANT.name)).perform(click())
+        TabAction.selectTab(ReviewableTabFragment.TAB.RESTAURANT.name)
         checkRestaurant()
     }
 
 
     @ExperimentalCoroutinesApi
-    fun loadsClassroomFragmentWhenUsersSwipeToTheRightClassroomTab() {
-        TODO("Implement a swipe")
+    @Test
+    fun loadsClassroomFragmentWhenUsersSwipeToTheRightOfCourseTab() {
+        val scenario =
+            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> { }
+        ViewPagerAction.swipeNext()
+        checkClassroom()
     }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun loadsRestaurantFragmentWhenUsersSwipeToTheRightOfClassroomTab() {
+        val scenario =
+            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        ViewPagerAction.apply {
+            swipeNext()
+        }.swipeNext()
+        checkRestaurant()
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
+        val scenario =
+            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.name)
+            .perform(click())
+        ViewPagerAction.swipePrevious()
+        checkClassroom()
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
+        val scenario =
+            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.name)
+            .perform(click())
+        ViewPagerAction.apply { swipePrevious() }.swipePrevious()
+        checkCourse()
+    }
+
 
     private fun checkClassroom() {
         onView(withText(FakeClassroomRepository.CLASSROOM_LIST[0].toString())).check(
