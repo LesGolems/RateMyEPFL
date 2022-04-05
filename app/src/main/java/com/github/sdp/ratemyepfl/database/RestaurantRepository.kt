@@ -9,10 +9,14 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
+        const val LATITUDE_FIELD_NAME = "lat"
+        const val LONGITUDE_FIELD_NAME = "long"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
             val builder = Restaurant.Builder()
                 .setId(id)
+                .setLat(getString(LATITUDE_FIELD_NAME)?.toDouble())
+                .setLong(getString(LONGITUDE_FIELD_NAME)?.toDouble())
 
             return try {
                 builder.build()
