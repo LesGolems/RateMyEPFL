@@ -26,7 +26,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForRestaurant() {
-        val t: Reviewable = Restaurant("a")
+        val t: Reviewable = Restaurant("a", 0.0, 0.0)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)

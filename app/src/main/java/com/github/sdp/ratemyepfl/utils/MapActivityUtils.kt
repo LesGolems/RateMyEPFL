@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.R
 
 class MapActivityUtils {
     companion object {
-        val PHOTO_MAPPING = mapOf<String, Int>(
+        val PHOTO_MAPPING = mapOf(
             "Arcadie" to R.raw.arcadie,
             "Epicure" to R.raw.epicure,
             "Niki" to R.raw.niki,
