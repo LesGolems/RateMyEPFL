@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.ReviewsRepositoryImpl
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.github.sdp.ratemyepfl.model.user.User
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -47,11 +47,11 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     @OptIn(ExperimentalSerializationApi::class)
     fun toHashMap(): HashMap<String, String> {
         return hashMapOf(
-            ReviewsRepositoryImpl.TITLE_FIELD_NAME to title,
-            ReviewsRepositoryImpl.RATING_FIELD_NAME to rating.toString(),
-            ReviewsRepositoryImpl.COMMENT_FIELD_NAME to comment,
-            ReviewsRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewsRepositoryImpl.DATE_FIELD_NAME to date.toString()
+            ReviewRepository.TITLE_FIELD_NAME to title,
+            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepository.COMMENT_FIELD_NAME to comment,
+            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
+            ReviewRepository.DATE_FIELD_NAME to date.toString()
         )
     }
 

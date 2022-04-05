@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.ReviewsRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepository,
+    private val reviewRepo: ReviewRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

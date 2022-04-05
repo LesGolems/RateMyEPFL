@@ -28,5 +28,5 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewsRepository
+    abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepositoryInterface
 }

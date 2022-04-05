@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
-import com.github.sdp.ratemyepfl.database.ReviewsRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClassroomInfoViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepository,
+    private val reviewRepo: ReviewRepositoryInterface,
     private val roomRepo: ClassroomRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : ReviewViewModel(

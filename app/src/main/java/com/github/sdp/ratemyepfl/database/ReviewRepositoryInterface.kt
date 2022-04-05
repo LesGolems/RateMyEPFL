@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
 
-interface ReviewsRepository {
+interface ReviewRepositoryInterface {
     /**
      * Add a review to the repository
      *

@@ -7,7 +7,7 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository,
+class ReviewRepository @Inject constructor() : ReviewRepositoryInterface,
     Repository(REVIEW_COLLECTION_PATH) {
 
     companion object {
@@ -18,11 +18,6 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository,
         const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
         const val DATE_FIELD_NAME = "date"
 
-        /**
-         * Converts a json data into a Review
-         *
-         * @return the review if the json contains the necessary data, null otherwise
-         */
         fun DocumentSnapshot.toReview(): Review? {
             val builder = Review.Builder()
                 .setId(id)
@@ -68,7 +63,6 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository,
     suspend fun getByDate(date: LocalDate): List<Review> {
         return getBy(DATE_FIELD_NAME, date.toString())
     }
-
 
     private suspend fun getBy(fieldName: String, value: String): List<Review> {
         return collection

@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.database.ReviewsRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 
 class AddReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepository
+    private val reviewRepo: ReviewRepositoryInterface
 ) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
