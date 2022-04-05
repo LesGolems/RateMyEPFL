@@ -106,7 +106,7 @@ class MapActivity : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListen
         initializeClusterManager()
         initializeMap()
 
-        restaurantViewModel.getItemsAsLiveData().observe(this) {
+        restaurantViewModel.restaurants.observe(this) {
             it?.let {
                 addRestaurants(rClusterManager, it)
             }
