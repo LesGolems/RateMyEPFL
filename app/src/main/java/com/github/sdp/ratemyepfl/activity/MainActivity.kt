@@ -2,21 +2,17 @@ package com.github.sdp.ratemyepfl.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.map.MapActivity
-import com.github.sdp.ratemyepfl.auth.Authenticator
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint

@@ -1,68 +1,73 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
-import com.github.sdp.ratemyepfl.activity.AddReviewActivity
-import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
-import com.github.sdp.ratemyepfl.database.ReviewsRepositoryInterface
-import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.database.ReviewsRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * General view model for all activities/fragments of the review part of the app
+ */
 @HiltViewModel
 open class ReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepositoryInterface,
-    private val itemRepo: ItemsRepositoryInterface,
+    private val reviewRepo: ReviewsRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val id: String? = savedStateHandle.get<String>(AddReviewActivity.EXTRA_ITEM_REVIEWED)
+    companion object {
+        const val NO_GRADE = 0
+    }
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
     // Reviews
-    private val reviewsLiveData = MutableLiveData<List<Review>>()
-    // Reviewable
-    private val reviewable = MutableLiveData<Reviewable?>()
+    val reviews = MutableLiveData<List<Review>>()
+
+    val numReviews: LiveData<Int> = computeNumReviews()
+
+    val overallGrade: LiveData<Int> = computeOverallGrade()
 
     init {
-        updateReviewable()
         updateReviewsList()
     }
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviewsLiveData.value = reviewRepo.getByReviewableId(id)
+            reviews.postValue(reviewRepo.getByReviewableId(id))
         }
     }
 
-    fun updateReviewable() {
-        viewModelScope.launch {
-            reviewable.value = itemRepo.getById(id)
-        }
-    }
 
-    fun getNumReviews(): LiveData<Int>{
+    /**
+     * Returns the numbers of reviews of the current reviewed item as LiveData
+     */
+    private fun computeNumReviews(): LiveData<Int> {
         return Transformations.switchMap(
-            reviewsLiveData
+            reviews
         ) { reviewList ->
             MutableLiveData(reviewList.size)
         }
     }
 
-    fun getOverallGrade(): LiveData<Int>{
+    /**
+     * Returns the overall grade of the current reviewed item as LiveData
+     * (Note that, for concurrency issues, we calculate the overall grade using the list of reviews)
+     */
+    private fun computeOverallGrade(): LiveData<Int> {
         return Transformations.switchMap(
-            reviewsLiveData
+            reviews
         ) { reviewList ->
-            val sumOfRates = reviewList.map { it.rating.toValue() }.sum()
-            MutableLiveData(sumOfRates/reviewList.size)
+            if (reviewList.isEmpty()) {
+                MutableLiveData(NO_GRADE)
+            } else {
+                val sumOfRates = reviewList.sumOf { it.rating.toValue() }
+                MutableLiveData(sumOfRates / reviewList.size)
+            }
         }
-    }
-
-    fun getReviews(): LiveData<List<Review>> {
-        return reviewsLiveData
-    }
-
-    fun getReviewable(): LiveData<Reviewable?> {
-        return reviewable
     }
 }

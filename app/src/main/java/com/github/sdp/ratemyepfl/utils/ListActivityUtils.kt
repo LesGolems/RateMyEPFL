@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.utils
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 
 class ListActivityUtils {
@@ -25,6 +24,7 @@ class ListActivityUtils {
             })
         }
 
+        /*
         fun createOnScrollListener(
             onScrollUp: () -> Unit,
             onScrollDown: () -> Unit
@@ -40,7 +40,7 @@ class ListActivityUtils {
                     }
                 }
             }
-
+        */
         fun <T> diffCallback() = object : DiffUtil.ItemCallback<T>() {
             override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
                 return oldItem == newItem

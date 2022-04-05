@@ -4,25 +4,25 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
     val EXPECTED_ROOM = Classroom("CE 1 3", "Auditorium")
-    val EXPECTED_JSON =
-        "{\"id\":\"CE 1 3\",\"type\":\"Auditorium\"}"
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
         val r = Classroom("CO1")
         assertEquals("CO1", r.id)
-        assertEquals(null, r.type)
+        assertEquals(null, r.roomKind)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val r = Classroom("CM 1 4","Auditorium")
+        val r = Classroom("CM 1 4", "Auditorium")
         assertEquals("CM 1 4", r.id)
-        assertEquals("Auditorium", r.type)
+        assertEquals("Auditorium", r.roomKind)
     }
 
     @Test
@@ -35,5 +35,27 @@ class ClassroomTest {
     fun deserializationWorks() {
         val course = Json.decodeFromString<Classroom>(EXPECTED_JSON)
         assertEquals(EXPECTED_ROOM, course)
+    }
+
+    @Test
+    fun builderThrowsForMissingId() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setRoomKind(fake)
+            .setId(null)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderSucceedsForMissingNonMandatoryProperties() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setId(fake)
+
+        val classroom = Classroom(fake)
+        assertEquals(classroom, builder.build())
     }
 }

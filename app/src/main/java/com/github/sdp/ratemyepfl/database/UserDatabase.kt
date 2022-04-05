@@ -12,7 +12,7 @@ class UserDatabase @Inject constructor() : UserRepository {
     companion object {
         const val USER_COLLECTION_PATH = "users"
 
-        private fun collection() : CollectionReference {
+        private fun collection(): CollectionReference {
             return FirebaseFirestore.getInstance().collection(USER_COLLECTION_PATH)
         }
     }

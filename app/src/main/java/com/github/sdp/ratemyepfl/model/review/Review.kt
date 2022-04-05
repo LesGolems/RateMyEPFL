@@ -1,8 +1,7 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import android.util.Log
-import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
+import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -38,18 +37,27 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          */
         fun deserialize(review: String): Review = Json.decodeFromString(review)
 
+        /**
+         * Converts a json data into a Review
+         *
+         * @return the review if the json contains the necessary data, null otherwise
+         */
         fun DocumentSnapshot.toReview(): Review? {
-            return try {
-                val rating = ReviewRating.valueOf(getString("rating")!!)
-                val title = getString("title")!!
-                val comment = getString("comment")!!
-                val reviewableId = getString("reviewableId")!!
-                val date = LocalDate.parse(getString("date")!!)
-                Review(rating, title, comment, reviewableId, date)
-            } catch (e: Exception) {
-                Log.e(TAG, "Error converting course review", e)
-                null
+            val rating: ReviewRating? = getString("rating")?.let { rating ->
+                ReviewRating.valueOf(rating)
             }
+            val title: String? = getString("title")
+            val comment: String? = getString("comment")
+            val reviewableId: String? = getString("reviewableId")
+            val date: LocalDate? = LocalDate.parse(getString("date"))
+            return if (rating != null &&
+                title != null &&
+                comment != null &&
+                reviewableId != null &&
+                date != null
+            ) {
+                Review(rating, title, comment, reviewableId, date)
+            } else null
         }
 
         private const val TAG = "review"

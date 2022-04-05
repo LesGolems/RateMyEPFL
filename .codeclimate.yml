@@ -1,4 +1,15 @@
+version: "2"
+checks:
+  similar-code:
+    config:
+      threshold: 100
+  identical-code:
+    config:
+      threshold: 100
+
 exclude_patterns:
 - "**/test/"
 - "**/androidTest/"
 - "**test"
+- "/utils/scripts/"
+- "**/dependencyinjection/"

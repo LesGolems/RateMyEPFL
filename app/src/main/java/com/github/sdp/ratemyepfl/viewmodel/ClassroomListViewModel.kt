@@ -4,26 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.ItemsRepositoryInterface
+import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomsListViewModel @Inject constructor(private val repository: ItemsRepositoryInterface) :
+class ClassroomListViewModel @Inject constructor(repository: ClassroomRepositoryInterface) :
     ViewModel() {
 
-    private var roomsLiveData = MutableLiveData<List<Classroom>>()
+    private var items = MutableLiveData<List<Classroom>>()
 
     init {
         viewModelScope.launch {
-            roomsLiveData.value = repository.getClassrooms()
+            items.value = repository.getClassrooms()
         }
     }
 
-    fun getRooms(): LiveData<List<Classroom>> {
-        return roomsLiveData
+    fun getItemsAsLiveData(): LiveData<List<Classroom>> {
+        return items
     }
-
 }

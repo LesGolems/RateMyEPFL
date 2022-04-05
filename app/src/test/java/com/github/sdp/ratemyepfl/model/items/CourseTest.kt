@@ -4,13 +4,13 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class CourseTest {
 
     val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306")
-    val EXPECTED_JSON =
-        "{\"title\":\"SDP\",\"section\":\"IC\",\"teacher\":\"Candea\",\"credits\":4,\"id\":\"CS-306\"}"
+    val EXPECTED_JSON = Json.encodeToString(EXPECTED_COURSE)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
@@ -26,7 +26,7 @@ class CourseTest {
     @Test
     fun constructorWithAllValuesWorks() {
         val c = Course(
-            "SDP", "IC", "Candea", 4, "CS-306","bachelor", "Fall", "During the semester", "ENG"
+            "SDP", "IC", "Candea", 4, "CS-306", "bachelor", "Fall", "During the semester", "ENG"
         )
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
@@ -54,5 +54,119 @@ class CourseTest {
     fun deserializationWorks() {
         val course = Json.decodeFromString<Course>(EXPECTED_JSON)
         assertEquals(EXPECTED_COURSE, course)
+    }
+
+    @Test
+    fun builderThrowsForMissingId() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setTitle(fake)
+            .setCredits(0)
+            .setCycle(fake)
+            .setGrading(fake)
+            .setLanguage(fake)
+            .setSection(fake)
+            .setSession(fake)
+            .setTeacher(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingTitle() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setId(fake)
+            .setCredits(0)
+            .setCycle(fake)
+            .setGrading(fake)
+            .setLanguage(fake)
+            .setSection(fake)
+            .setSession(fake)
+            .setTeacher(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingTeacher() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setId(fake)
+            .setTitle(fake)
+            .setCredits(0)
+            .setCycle(fake)
+            .setGrading(fake)
+            .setLanguage(fake)
+            .setSection(fake)
+            .setSession(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingCredits() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setId(fake)
+            .setTitle(fake)
+            .setCycle(fake)
+            .setGrading(fake)
+            .setLanguage(fake)
+            .setSection(fake)
+            .setSession(fake)
+            .setTeacher(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingSection() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setId(fake)
+            .setTitle(fake)
+            .setCredits(0)
+            .setCycle(fake)
+            .setGrading(fake)
+            .setLanguage(fake)
+            .setSession(fake)
+            .setTeacher(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderSucceedForMissingNonMandatoryProperties() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setId(fake)
+            .setTitle(fake)
+            .setCredits(0)
+            .setSection(fake)
+            .setTeacher(fake)
+
+
+        val course = Course(fake, fake, fake, 0, fake)
+        assertEquals(course, builder.build())
+    }
+
+    @Test
+    fun asMandatoryThrowsForNullValue() {
+        val builder = Course.Builder()
+
+        assertThrows(IllegalStateException::class.java) {
+            builder asMandatory null
+        }
     }
 }

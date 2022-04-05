@@ -1,16 +1,11 @@
 package com.github.sdp.ratemyepfl.activity.course
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.AddReviewActivity
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.activity.ReviewableListActivity
-import com.github.sdp.ratemyepfl.activity.classrooms.RoomReviewActivity
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +17,7 @@ class CourseListActivity : ReviewableListActivity<Course>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.getCourses().observe(this) {
+        viewModel.getItemsAsLiveData().observe(this) {
             it?.let {
                 reviewableAdapter.setData(it.toMutableList())
             }
@@ -39,13 +34,15 @@ class CourseListActivity : ReviewableListActivity<Course>() {
         }
     }
 
-    override fun getReviewClass(): Class<ReviewActivity> = CourseReviewActivity::class.java as Class<ReviewActivity>
-
     override fun getMenuString(): Int {
         return R.menu.courses_options_menu
     }
 
     override fun getSearchViewString(): Int {
         return R.id.courseSearchView
+    }
+
+    override fun getLayoutId(): Int {
+        return R.layout.activity_course_review
     }
 }

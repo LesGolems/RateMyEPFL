@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -14,17 +13,32 @@ data class Restaurant(
         return id
     }
 
-    companion object {
-        fun DocumentSnapshot.toRestaurant() : Restaurant? {
-            return try {
-                val lat: Double = getString("lat")!!.toDouble()
-                val long: Double = getString("long")!!.toDouble()
-                Restaurant(id, lat, long)
-            } catch(e: Exception){
-                null
-            }
+    /**
+     * Builder to create a restaurant step by step
+     */
+    class Builder : ReviewableBuilder<Restaurant> {
+        private var id: String? = null
+        private var lat: Double? = null
+        private var long: Double? = null
+
+        fun setId(id: String?) = apply {
+            this.id = id
+        }
+
+        fun setLat(lat: Double?) = apply {
+            this.lat = lat
+        }
+
+        fun setLong(long: Double?) = apply {
+            this.long = long
+        }
+
+        override fun build(): Restaurant {
+            val id = this asMandatory id
+            val lat = this asMandatory lat
+            val long = this asMandatory long
+            return Restaurant(id, lat, long)
         }
     }
 
-    override val collectionPath = "restaurants"
 }

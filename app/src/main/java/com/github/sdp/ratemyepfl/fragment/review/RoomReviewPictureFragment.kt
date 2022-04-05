@@ -1,13 +1,14 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.github.sdp.ratemyepfl.R
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+TODO
+ */
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 
