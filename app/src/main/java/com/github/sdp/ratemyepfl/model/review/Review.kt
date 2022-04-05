@@ -130,18 +130,17 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
-            val id = this.id
-            val rate = this.rating
-            val title = this.title
-            val comment = this.comment
-            val reviewableId = this.reviewableId
-            val date = this.date
+            val id = this asMandatory id
+            val rate = this asMandatory rating
+            val title = this asMandatory title
+            val comment = this asMandatory comment
+            val reviewableId = this asMandatory reviewableId
+            val date = this asMandatory date
 
-            if (rate != null && title != null && comment != null && reviewableId != null && date != null) {
-                return Review(
-                    id, rate, title, comment, reviewableId, date
-                )
-            } else throw IllegalStateException("Cannot build a review made of null elements")
+            return Review(id, rate, title, comment, reviewableId, date)
         }
+
+        private infix fun <T> asMandatory(field: T?): T =
+            field ?: throw IllegalStateException("A mandatory field cannot be null")
     }
 }
