@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
-    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ListActivityUtils.diffCallback<Reviewable>()),
+    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(AdapterUtil.diffCallback<Reviewable>()),
     Filterable {
 
     private var list: List<Reviewable> = listOf()
@@ -117,18 +117,19 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         submitList(sortedList, commitCallback)
     }
 
-    fun filterByCredit(credit: CharSequence?) {
-        courseCreditsFilter.filter(credit)
-    }
-
-    private val courseCreditsFilter = getFilterMethod { query ->
-        val queryInt = query.toString()
-            .toInt()
-        val filteredList = mutableListOf<Reviewable>()
-        filteredList.addAll(list.filter { item ->
-            (item as Course).credits == queryInt
-        })
-        filteredList
-    }
+//    TODO("ADD BACK THOSE WHEN IMPLEMENTATION IS DONE"
+//    fun filterByCredit(credit: CharSequence?) {
+//        courseCreditsFilter.filter(credit)
+//    }
+//
+//    private val courseCreditsFilter = getFilterMethod { query ->
+//        val queryInt = query.toString()
+//            .toInt()
+//        val filteredList = mutableListOf<Reviewable>()
+//        filteredList.addAll(list.filter { item ->
+//            (item as Course).credits == queryInt
+//        })
+//        filteredList
+//    }
 
 }

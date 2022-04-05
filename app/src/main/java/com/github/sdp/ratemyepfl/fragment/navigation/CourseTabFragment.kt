@@ -24,16 +24,15 @@ class CourseTabFragment : ReviewableTabFragment() {
             }
     }
 
-
-    override fun onContextItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.credit_2, R.id.credit_3, R.id.credit_4, R.id.credit_5, R.id.credit_6, R.id.credit_7, R.id.credit_8 -> {
-            reviewableAdapter.filterByCredit(item.title)
-            true
-        }
-        else -> {
-            super.onContextItemSelected(item)
-        }
-    }
+//    override fun onContextItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+//        R.id.credit_2, R.id.credit_3, R.id.credit_4, R.id.credit_5, R.id.credit_6, R.id.credit_7, R.id.credit_8 -> {
+//            reviewableAdapter.filterByCredit(item.title)
+//            true
+//        }
+//        else -> {
+//            super.onContextItemSelected(item)
+//        }
+//    }
 
     override fun onResume() {
         // BUGFIX

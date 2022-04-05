@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 
 class ReviewAdapter :
-    ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(ListActivityUtils.diffCallback<Review>()) {
+    ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
 
     /**
      * Provide a reference to the type of views that you are using
