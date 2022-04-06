@@ -13,7 +13,7 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
     }
 
     override fun add(value: Review) {
-        collection.document(value.title)
+        collection.document()
             .set(value.toHashMap())
     }
 

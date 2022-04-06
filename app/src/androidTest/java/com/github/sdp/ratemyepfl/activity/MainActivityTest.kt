@@ -1,24 +1,26 @@
 package com.github.sdp.ratemyepfl.activity
 
-import androidx.fragment.app.Fragment
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.fragment.navigation.EventFragment
-import com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment
-import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
-import com.github.sdp.ratemyepfl.fragment.navigation.ReviewFragment
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
+import com.github.sdp.ratemyepfl.utils.TestUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Assert.assertEquals
+import org.hamcrest.BaseMatcher
+import org.hamcrest.Description
+import org.hamcrest.Matcher
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 
 @HiltAndroidTest
 class MainActivityTest {
@@ -29,118 +31,100 @@ class MainActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
+    @Before
+    fun setup() {
 
-    @Test
-    fun navigateHomePageAddsTheCorrectFragment() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.homeNavItem))
-        testRule.scenario.onActivity { activity ->
-            val fragment: Fragment? =
-                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
-            assertEquals(true, fragment is HomeFragment)
-        }
     }
 
+    //    /**
+//     * Template test to a BottomNavigationView
+//     * The old style with supportFragmentManager does not work since we do not use the
+//     * manager anymore
+//     */
+    @Test
+    fun navigateHomePageAddsTheCorrectFragment() {
+        navigate(Destination.REVIEW)
+        navigate(Destination.HOME)
+        checkHomePage()
+    }
+
+    //
+    @Test
+    fun pressesBackReturnsToHome() {
+        navigate(Destination.REVIEW)
+        navigate(Destination.EVENT)
+        navigate(Destination.MAP)
+        Espresso.pressBack()
+        checkHomePage()
+    }
+
+    private fun checkHomePage() = checkPage(Destination.HOME)
+    private fun checkReviewPage() = checkPage(Destination.REVIEW)
+    private fun checkEventPage() = checkPage(Destination.EVENT)
+    private fun checkMapPage() = checkPage(Destination.MAP)
+
+    private fun checkPage(destination: Destination) =
+        onView(first(withText(destination.getString()))).check(
+            matches(isDisplayed())
+        )
+
+    private fun navigate(destination: Destination): ViewInteraction =
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(destination.id))
+
+    enum class Destination(val id: Int, val stringId: Int) {
+        HOME(R.id.home, R.string.home_nav_title),
+        REVIEW(R.id.review, R.string.reviews_nav_title),
+        EVENT(R.id.event, R.string.event_page_title),
+        MAP(R.id.map, R.string.map_nav_title);
+
+        fun getString() = TestUtils.getString(stringId)
+    }
+
+
+    //
     @Test
     fun navigateToReviewAddsTheCorrectFragment() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
-        testRule.scenario.onActivity { activity ->
-            val fragment: Fragment? =
-                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
-            assertEquals(true, fragment is ReviewFragment)
-        }
+        navigate(Destination.REVIEW)
+        checkReviewPage()
     }
 
     @Test
     fun navigateToEventPageAddsTheCorrectFragment() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.eventNavItem))
-        testRule.scenario.onActivity { activity ->
-            val fragment: Fragment? =
-                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
-            assertEquals(true, fragment is EventFragment)
-        }
+        navigate(Destination.EVENT)
+        checkEventPage()
     }
 
     @Test
     fun navigateToMapPageAddsTheCorrectFragment() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.mapNavItem))
-        testRule.scenario.onActivity { activity ->
-            val fragment: Fragment? =
-                activity.supportFragmentManager.findFragmentById(R.id.mainActivityFragmentContainer)
-            assertEquals(true, fragment is MapFragment)
-        }
+        navigate(Destination.MAP)
+        checkMapPage()
     }
 
-    @Test
-    fun testCourseButton() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
-        init()
-        onView(withId(R.id.courseTabButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
-    @Test
-    fun testClassroomButton() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
-        init()
-        onView(withId(R.id.reviewTabLayout)).perform(CustomViewActions.pressesTab(1))
-        onView(withId(R.id.classroomTabButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
-    @Test
-    fun testRestaurantButton() {
-        onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(R.id.reviewNavItem))
-        init()
-        onView(withId(R.id.reviewTabLayout)).perform(CustomViewActions.pressesTab(2))
-        onView(withId(R.id.restaurantTabButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
-    }
-
-    /*
     @Test
     fun firesAnIntentWhenUserPressesMapButton() {
         init()
-        onView(withId(R.id.mapButton))
+        navigate(Destination.MAP)
+        onView(withId(R.id.mapTabButton))
             .perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
 
-    @Test
-    fun emailDisplayedWhenUserLoggedIn() {
-        FakeConnectedUser.loggedIn = true
-        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+    private fun <T> first(matcher: Matcher<T>): Matcher<T>? {
+        return object : BaseMatcher<T>() {
+            var isFirst = true
+            override fun matches(item: Any): Boolean {
+                if (isFirst && matcher.matches(item)) {
+                    isFirst = false
+                    return true
+                }
+                return false
+            }
 
-        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
-        onView(withId(R.id.userText)).check(matches(withText("user@email.com")))
-        scenario.close()
+            override fun describeTo(description: Description) {
+                description.appendText("should return first matching item")
+            }
+        }
     }
-
-    @Test
-    fun logoutGoesToSplashScreen() {
-        init()
-        FakeConnectedUser.loggedIn = true
-        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
-        onView(withId(R.id.logoutButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        scenario.close()
-        release()
-    }
-
-    @Test
-    fun visitorDisplayedWhenLoggedOut() {
-        FakeConnectedUser.loggedIn = false
-        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
-        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
-        onView(withId(R.id.userText)).check(matches(withText("Visitor")))
-        scenario.close()
-    }
-
-     */
-
 
 }

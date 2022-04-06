@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ImageDetailActivity
-import com.github.sdp.ratemyepfl.utils.ListActivityUtils
+import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 
 class PhotoAdapter :
-    ListAdapter<Int, PhotoAdapter.PhotoViewHolder>(ListActivityUtils.diffCallback<Int>()) {
+    ListAdapter<Int, PhotoAdapter.PhotoViewHolder>(AdapterUtil.diffCallback<Int>()) {
 
     private var imageIdList = mutableListOf<Int>()
 

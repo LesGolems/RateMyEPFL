@@ -4,7 +4,8 @@ import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
-class CourseRepository @Inject constructor() : ItemRepositoryImpl<Course>(COURSE_COLLECTION_PATH) {
+class CourseRepository @Inject constructor() : CourseRepositoryInterface,
+    Repository(COURSE_COLLECTION_PATH) {
 
     companion object {
         const val COURSE_COLLECTION_PATH = "courses"
@@ -29,6 +30,12 @@ class CourseRepository @Inject constructor() : ItemRepositoryImpl<Course>(COURSE
         }
     }
 
-    override fun toItem(snapshot: DocumentSnapshot): Course? = snapshot.toCourse()
+    fun toItem(snapshot: DocumentSnapshot): Course? = snapshot.toCourse()
+
+    override suspend fun getCourses(): List<Course> {
+        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
+    }
+
+    override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
 
 }

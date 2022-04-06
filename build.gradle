@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.6.10'
-    ext.hilt_version = '2.40'
+    ext.hilt_version = '2.41'
     repositories {
         google()
         mavenCentral()
@@ -10,6 +10,8 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath 'com.google.gms:google-services:4.3.10'
+        def nav_version = "2.4.1"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
     }
 }
 

@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
 import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
@@ -17,9 +16,5 @@ abstract class AuthModule {
     @Singleton
     @Binds
     abstract fun provideConnectedUser(user: ConnectedUserImpl): ConnectedUser
-
-    @Singleton
-    @Binds
-    abstract fun provideAuthenticator(user: GoogleAuthenticator): Authenticator
 
 }
