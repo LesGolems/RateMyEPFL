@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -24,6 +25,8 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -44,7 +47,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.mainNavHostContainer
         ) as NavHostFragment
-
 
         navController = navHostFragment.navController
 
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
             // send location updates to this LocationListener
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 5f, this)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0f, this)
         }
     }
 
@@ -99,8 +101,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
+        Toast.makeText(this, "Location : ${location.latitude}, ${location.longitude}", Toast.LENGTH_SHORT).show()
         restaurantListViewModel.updateRestaurantsOccupancy(location)
-        TODO("Update restaurant filter by distance")
     }
 
 

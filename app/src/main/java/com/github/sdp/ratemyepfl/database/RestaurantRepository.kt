@@ -13,9 +13,9 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         const val LONGITUDE_FIELD_NAME = "long"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-                val occupancy = (get("occupancy") as Long?)?.toInt() ?: 0
-                val lat = getDouble("latitude") ?: 0.0
-                val lon = getDouble("longitude") ?: 0.0
+                val occupancy = getString("occupancy")?.toInt() ?: 0
+                val lat = getString("lat")?.toDouble() ?: 0.0
+                val lon = getString("long")?.toDouble() ?: 0.0
 
                 return Restaurant(id, occupancy, lat, lon)
         }
@@ -33,9 +33,9 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.get("occupancy") as Int?
+            val occupancy = snapshot.getString("occupancy")?.toInt()
             if (occupancy != null){
-                transaction.update(docRef, "occupancy", occupancy + 1)
+                transaction.update(docRef, "occupancy", (occupancy + 1).toString())
             }
             null
         }
@@ -45,9 +45,9 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.get("occupancy") as Int?
+            val occupancy = snapshot.getString("occupancy")?.toInt()
             if (occupancy != null){
-                transaction.update(docRef, "occupancy", occupancy - 1)
+                transaction.update(docRef, "occupancy", (occupancy - 1).toString())
             }
             null
         }

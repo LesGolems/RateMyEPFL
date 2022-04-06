@@ -11,6 +11,7 @@ import com.google.firebase.firestore.Transaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.abs
 
 @HiltViewModel
 class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) :
@@ -48,7 +49,9 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
                     null
                 } else {
                     repository.incrementOccupancy(id)
-                    repository.decrementOccupancy(insideRestaurantId!!)
+                    if (insideRestaurantId != null){
+                        repository.decrementOccupancy(insideRestaurantId!!)
+                    }
                     id
                 }
             }
@@ -65,7 +68,7 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
     }
 
     private fun isClose(lat1: Double, lat2: Double, long1: Double, long2: Double): Boolean {
-        return (lat1 - lat2 < precision) && (long1 - long2 < precision)
+        return (abs(lat1 - lat2) < precision) && (abs(long1 - long2) < precision)
     }
 
 }
