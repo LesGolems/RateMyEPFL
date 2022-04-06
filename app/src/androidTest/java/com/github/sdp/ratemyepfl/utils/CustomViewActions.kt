@@ -4,6 +4,7 @@ import android.graphics.Point
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
+import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.view.get
@@ -13,6 +14,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
@@ -47,6 +49,27 @@ object CustomViewActions {
                 (view as RecyclerView).get(0).findViewById<TextView>(R.id.reviewableId).text
             retrieve(selected.toString())
         }
+
+    object RatingAction {
+        private fun performSetRating(value: Float) = object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return ViewMatchers.isAssignableFrom(RatingBar::class.java)
+            }
+
+            override fun getDescription(): String {
+                return "Custom view action to set rating."
+            }
+
+            override fun perform(uiController: UiController?, view: View?) {
+                val ratingBar = view as RatingBar
+                ratingBar.rating = value
+            }
+
+        }
+
+        fun performSetRating(rating: ReviewRating) =
+            performSetRating(rating.rating.toFloat())
+    }
 
     /**
      * Defines the behavior to test a search bar
