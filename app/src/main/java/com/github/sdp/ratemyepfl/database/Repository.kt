@@ -46,8 +46,8 @@ sealed class Repository(collectionPath: String) {
         val docRef = collection.document(id)
         db.runTransaction {
             val snapshot = it.get(docRef)
-            val numReviews = snapshot.getString("numReviews")?.toInt()
-            val averageGrade = snapshot.getString("averageGrade")?.toInt()
+            val numReviews = snapshot.getString(NUM_REVIEWS_FIELD)?.toInt()
+            val averageGrade = snapshot.getString(AVERAGE_GRADE_FIELD)?.toInt()
             if (numReviews != null && averageGrade != null) {
                 val newNumReviews = numReviews + 1
                 val newAverageGrade = (averageGrade + rating.toValue()) / newNumReviews
