@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.database.RestaurantRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,6 +29,12 @@ class RestaurantInfoViewModel @Inject constructor(
     fun updateRestaurant() {
         viewModelScope.launch {
             restaurant.postValue(restaurantRepo.getRestaurantById(id))
+        }
+    }
+
+    fun updateRating(rating: ReviewRating){
+        viewModelScope.launch {
+            restaurantRepo.updateRestaurantRating(id, rating)
         }
     }
 }

@@ -8,13 +8,11 @@ import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
-import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +22,7 @@ import javax.inject.Inject
 Fragment for the review creation, shared for every reviewable item
  */
 @AndroidEntryPoint
-class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
+abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     companion object {
         const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
@@ -46,17 +44,13 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var ratingBar: RatingBar
     private lateinit var comment: TextInputEditText
     private lateinit var title: TextInputEditText
-    private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
     private lateinit var doneButton: Button
 
     @Inject
     lateinit var auth: ConnectedUser
 
-    private val viewModel: AddReviewViewModel by viewModels()
-
-    // Gets the shared view model
-    private val activityViewModel by activityViewModels<ReviewViewModel>()
+    protected val addReviewViewModel: AddReviewViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,10 +59,9 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         ratingBar = view.findViewById(R.id.reviewRatingBar)
         comment = view.findViewById(R.id.addReviewComment)
         title = view.findViewById(R.id.addReviewTitle)
-        reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
 
-        viewModel.rating.observe(viewLifecycleOwner) { rating ->
+        addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text =
                 getString(
                     R.string.overall_score_review,
@@ -76,7 +69,6 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 )
         }
 
-        reviewIndicationTitle.text = getString(R.string.title_review, activityViewModel.id)
         setupListeners()
     }
 
@@ -87,15 +79,15 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
         ratingBar.setOnRatingBarChangeListener { _, float, _ ->
             val rating = ReviewRating.fromValue(float)
-            viewModel.setRating(rating)
+            addReviewViewModel.setRating(rating)
         }
 
         comment.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
-            viewModel.setComment(text?.toString())
+            addReviewViewModel.setComment(text?.toString())
         })
 
         title.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
-            viewModel.setTitle(text?.toString())
+            addReviewViewModel.setTitle(text?.toString())
         })
     }
 
@@ -111,7 +103,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
             )
                 .setAnchorView(R.id.reviewNavigationView)
                 .show()
-        } else if (viewModel.submitReview(activityViewModel.id)) {
+        } else if (submitReview()) {
             reset()
             // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
@@ -140,4 +132,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         if (actualValue == null || actualValue == "") layout.error = errorMessage
     }
 
+    /**
+     * Submits the review and update the reviewable item rating on the database
+     */
+    abstract fun submitReview(): Boolean
 }

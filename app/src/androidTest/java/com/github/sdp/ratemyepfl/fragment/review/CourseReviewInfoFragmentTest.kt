@@ -66,7 +66,7 @@ class CourseReviewInfoFragmentTest {
         FakeReviewsRepository.reviewList = listOf()
 
         // Refresh
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
         onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
