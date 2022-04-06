@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.utils.withMenuItemText
 import com.github.sdp.ratemyepfl.utils.withOverflowMenuItemText
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -23,7 +24,7 @@ import org.junit.Test
 class MapFragmentTest {
 
     @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
+    val hiltAndroidRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -38,6 +39,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun isMapVisibleOnActivityLaunch() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         onView(withId(R.id.map))
             .check(matches(isDisplayed()))
@@ -46,6 +48,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun changesTypeCorrectlyWhenUserClicksOnStandard() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
         onView(withMenuItemText(R.string.standard_type)).perform(click())
@@ -56,6 +59,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun changesTypeCorrectlyWhenUserClicksOnSatellite() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
         onView(withMenuItemText(R.string.satellite_type)).perform(click())
@@ -66,6 +70,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun changesTypeCorrectlyWhenUserClicksOnHybrid() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
         onView(withMenuItemText(R.string.hybrid_type)).perform(click())
@@ -76,6 +81,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun changesTypeCorrectlyWhenUserClicksOnTerrain() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
         onView(withMenuItemText(R.string.terrain_type)).perform(click())
@@ -86,6 +92,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun clickOnMarker() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         val uiDevice = UiDevice.getInstance(getInstrumentation())
         val kebab = uiDevice.findObject(
