@@ -9,6 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchIn
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchOut
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -54,6 +56,20 @@ class ImageDetailActivityTest {
     fun imageDisplayedIsTheCorrectOne() {
         onView(withId(R.id.detailImageView)).check(
             matches(withDrawable(PHOTO_ID))
+        )
+    }
+
+    @Test
+    fun imageIsZoomedInWhenUserPinchesOut() {
+        onView(withId(R.id.detailImageView)).perform(
+            pinchOut()
+        )
+    }
+
+    @Test
+    fun imageIsZoomedOutWhenUserPinchesIn() {
+        onView(withId(R.id.detailImageView)).perform(
+            pinchIn()
         )
     }
 
