@@ -15,9 +15,9 @@ class ClassroomRepository @Inject constructor() :
         fun DocumentSnapshot.toClassroom(): Classroom? {
             val builder = Classroom.Builder()
                 .setId(id)
+                .setRoomKind(getString(ROOM_KIND_FIELD))
                 .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
                 .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
-                .setRoomKind(getString(ROOM_KIND_FIELD))
 
             return try {
                 builder.build()
