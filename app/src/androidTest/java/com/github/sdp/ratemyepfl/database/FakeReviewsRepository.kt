@@ -68,7 +68,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepository {
 
         var reviewList = fakeList
 
-        val fakePhotoList = listOf(
+        val PHOTO_LIST = listOf(
             R.drawable.room3,
             R.drawable.room1,
             R.drawable.room4,
@@ -77,7 +77,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepository {
             R.drawable.room6
         )
 
-        var photoList = fakePhotoList
+        var photoList = PHOTO_LIST
     }
 
     override fun add(value: Review) {}
