@@ -15,7 +15,10 @@ class ClassroomRepository @Inject constructor() :
         fun DocumentSnapshot.toClassroom(): Classroom? {
             val builder = Classroom.Builder()
                 .setId(id)
+                .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
+                .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
                 .setRoomKind(getString(ROOM_KIND_FIELD))
+
             return try {
                 builder.build()
             } catch (e: IllegalStateException) {
@@ -33,4 +36,5 @@ class ClassroomRepository @Inject constructor() :
     override suspend fun getRoomById(id: String): Classroom? = toItem(getById(id))
 
     override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+
 }

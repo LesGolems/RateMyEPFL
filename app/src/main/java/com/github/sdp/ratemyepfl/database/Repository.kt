@@ -12,6 +12,8 @@ sealed class Repository(collectionPath: String) {
 
     companion object {
         const val DEFAULT_LIMIT: Long = 50
+        const val NUM_REVIEWS_FIELD = "numReviews"
+        const val AVERAGE_GRADE_FIELD = "averageGrade"
     }
 
     /**

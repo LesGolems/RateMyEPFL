@@ -18,6 +18,8 @@ class CourseRepository @Inject constructor() : CourseRepositoryInterface,
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
                 .setId(id)
+                .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
+                .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
@@ -39,6 +41,6 @@ class CourseRepository @Inject constructor() : CourseRepositoryInterface,
 
     override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
 
-    override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+    override fun updateCourseRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
 }
