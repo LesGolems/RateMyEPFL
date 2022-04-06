@@ -8,18 +8,18 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class RestaurantTest {
-    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 46.52, 6.569)
+    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 0, 46.52, 6.569)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_RESTAURANT)
 
     @Test
     fun defaultConstructorWorks() {
-        val r = Restaurant("Arcadie", 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569)
         assertEquals("Arcadie", r.id)
     }
 
     @Test
     fun paramConstructorWorks() {
-        val r = Restaurant("Arcadie", 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569)
         assertEquals("Arcadie", r.id)
     }
 
@@ -60,7 +60,7 @@ class RestaurantTest {
             .setLat(lat)
             .setLong(long)
 
-        val restaurant = Restaurant(fake, lat, long)
+        val restaurant = Restaurant(fake, 0, lat, long)
         assertEquals(restaurant, builder.build())
     }
 }

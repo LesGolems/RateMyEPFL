@@ -4,10 +4,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-<<<<<<< HEAD
-=======
 import org.junit.Assert.assertEquals
->>>>>>> main
 import org.junit.Test
 
 class ItemSerializerTest {
@@ -29,7 +26,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForRestaurant() {
-        val t: Reviewable = Restaurant("a", 0.0, 0.0)
+        val t: Reviewable = Restaurant("a", 0, 0.0, 0.0)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
