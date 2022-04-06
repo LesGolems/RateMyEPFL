@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
+import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,8 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     private val viewModel by activityViewModels<ReviewViewModel>()
 
+    private val picViewModel by activityViewModels<ClassroomPictureViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -35,7 +38,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         photoAdapter = PhotoAdapter()
         photoRecyclerView.adapter = photoAdapter
 
-        viewModel.photos.observe(viewLifecycleOwner) {
+        picViewModel.photos.observe(viewLifecycleOwner) {
             it?.let {
                 photoAdapter.setData(it.toMutableList())
             }
@@ -44,6 +47,6 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     override fun onResume() {
         super.onResume()
-        viewModel.updatePhotosList()
+        picViewModel.updatePhotosList()
     }
 }

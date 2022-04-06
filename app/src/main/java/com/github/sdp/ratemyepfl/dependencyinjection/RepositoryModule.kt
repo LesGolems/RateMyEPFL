@@ -27,4 +27,8 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideReviewRepo(repo: ReviewsRepositoryImpl): ReviewsRepository
 
+    @Singleton
+    @Binds
+    abstract fun providePictureRepo(repo: PictureRepository): PictureRepositoryInterface
+
 }

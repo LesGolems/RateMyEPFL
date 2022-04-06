@@ -6,5 +6,4 @@ interface ReviewsRepository {
     fun add(value: Review)
     suspend fun get(): List<Review>
     suspend fun getByReviewableId(id: String?): List<Review>
-    suspend fun getPhotosByReviewableId(id: String?): List<Int>
 }

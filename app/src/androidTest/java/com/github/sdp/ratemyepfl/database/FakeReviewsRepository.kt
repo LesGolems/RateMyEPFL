@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
@@ -67,17 +66,6 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepository {
         )
 
         var reviewList = fakeList
-
-        val PHOTO_LIST = listOf(
-            R.drawable.room3,
-            R.drawable.room1,
-            R.drawable.room4,
-            R.drawable.room2,
-            R.drawable.room5,
-            R.drawable.room6
-        )
-
-        var photoList = PHOTO_LIST
     }
 
     override fun add(value: Review) {}
@@ -88,9 +76,5 @@ class FakeReviewsRepository @Inject constructor() : ReviewsRepository {
 
     override suspend fun getByReviewableId(id: String?): List<Review> {
         return reviewList
-    }
-
-    override suspend fun getPhotosByReviewableId(id: String?): List<Int> {
-        return photoList
     }
 }

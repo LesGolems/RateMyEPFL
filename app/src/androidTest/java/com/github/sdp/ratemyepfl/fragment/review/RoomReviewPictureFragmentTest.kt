@@ -13,7 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
-import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.FakePictureRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -53,13 +53,13 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun imageGridSizeIsCorrect() {
         onView(withId(R.id.photoRecyclerView)).check(
-            matches(hasChildCount(FakeReviewsRepository.PHOTO_LIST.size))
+            matches(hasChildCount(FakePictureRepository.PHOTO_LIST.size))
         )
     }
 
     @Test
     fun imageGridIsCorrectlyDisplayed() {
-        for (id: Int in FakeReviewsRepository.PHOTO_LIST) {
+        for (id: Int in FakePictureRepository.PHOTO_LIST) {
             onView(withId(R.id.photoRecyclerView)).check(
                 matches(
                     hasDescendant(withDrawable(id))

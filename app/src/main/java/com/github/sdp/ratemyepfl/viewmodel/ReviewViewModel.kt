@@ -32,23 +32,13 @@ open class ReviewViewModel @Inject constructor(
 
     val overallGrade: LiveData<Int> = computeOverallGrade()
 
-    // Photos
-    val photos = MutableLiveData<List<Int>>()
-
     init {
         updateReviewsList()
-        updatePhotosList()
     }
 
     fun updateReviewsList() {
         viewModelScope.launch {
             reviews.postValue(reviewRepo.getByReviewableId(id))
-        }
-    }
-
-    fun updatePhotosList() {
-        viewModelScope.launch {
-            photos.postValue(reviewRepo.getPhotosByReviewableId(id))
         }
     }
 
