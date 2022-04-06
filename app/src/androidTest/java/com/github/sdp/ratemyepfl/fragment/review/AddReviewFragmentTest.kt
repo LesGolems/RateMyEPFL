@@ -9,7 +9,6 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -18,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -37,6 +37,7 @@ class AddReviewFragmentTest {
 
     @Before
     fun setUp() {
+        FakeConnectedUser.loggedIn = true
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review) // can be any
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
@@ -87,17 +88,37 @@ class AddReviewFragmentTest {
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
-            AddReviewFragmentTest.performSetRating(
+            performSetRating(
                 ReviewRating.GOOD
             )
         )
-        onView(withId(R.id.addReviewComment)).perform(ViewActions.typeText(comment))
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
-        onView(withId(R.id.addReviewTitle)).perform(ViewActions.typeText(title))
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
-        onView(withId(R.id.doneButton)).perform(ViewActions.click())
+        onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.addReviewComment)).check(matches(withText("")))
         onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
+    }
+
+    @Test
+    fun userNotConnectedNoReset() {
+        FakeConnectedUser.loggedIn = false
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
+        val comment = "Good"
+        val title = "Good title"
+        onView(withId(R.id.reviewRatingBar)).perform(
+            performSetRating(
+                ReviewRating.GOOD
+            )
+        )
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
+        onView(withId(R.id.addReviewTitle)).check(matches(withText(title)))
     }
 
     companion object {

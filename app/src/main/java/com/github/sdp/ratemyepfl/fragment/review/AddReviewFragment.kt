@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /*
 Fragment for the review creation, shared for every reviewable item
@@ -47,6 +49,9 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var reviewIndicationTitle: TextView
     private lateinit var scoreTextView: TextView
     private lateinit var doneButton: Button
+
+    @Inject
+    lateinit var auth: ConnectedUser
 
     private val viewModel: AddReviewViewModel by viewModels()
 
@@ -98,7 +103,15 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (viewModel.submitReview(activityViewModel.id)) {
+        if (!auth.isLoggedIn()) {
+            Snackbar.make(
+                requireView(),
+                "You need to login to be able to review",
+                Snackbar.LENGTH_SHORT
+            )
+                .setAnchorView(R.id.reviewNavigationView)
+                .show()
+        } else if (viewModel.submitReview(activityViewModel.id)) {
             reset()
             // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
