@@ -55,7 +55,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
             )
         )
 
-        val COURSE_BY_ID = Course(
+        val COURSE_WITH_REVIEWS = Course(
             title = "Software development project",
             section = "IC",
             teacher = "George Candea",
@@ -64,12 +64,24 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
             numReviews = 15,
             averageGrade = 2.5
         )
+
+        val COURSE_WITHOUT_REVIEWS = Course(
+            title = "Software development project",
+            section = "IC",
+            teacher = "George Candea",
+            credits = 4,
+            id = "CS-306",
+            numReviews = 0,
+            averageGrade = 0.0
+        )
+
+        var courseById = COURSE_WITH_REVIEWS
     }
 
 
     override suspend fun getCourses(): List<Course> = COURSE_LIST
 
-    override suspend fun getCourseById(id: String): Course = COURSE_BY_ID
+    override suspend fun getCourseById(id: String): Course = courseById
 
     override fun updateCourseRating(id: String, rating: ReviewRating) {
     }

@@ -26,24 +26,26 @@ class RoomReviewInfoFragmentTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @Before
-    fun setUp() {
+    @After
+    fun clean() {
+        scenario.close()
+    }
+
+    private fun launch(){
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
     }
 
-    @After
-    fun clean() {
-        scenario.close()
-    }
-
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRoom = FakeClassroomRepository.DEFAULT_ROOM
-        val fakeReviewList = FakeReviewsRepository.fakeList
-        val numReviewText = "(${fakeReviewList.size} reviews)"
+        val fakeRoom = FakeClassroomRepository.ROOM_WITH_REVIEWS
+        FakeClassroomRepository.roomById = fakeRoom
+
+        launch()
+
+        val numReviewText = "(${fakeRoom.numReviews} reviews)"
         onView(withId(R.id.roomIdInfo))
             .check(matches(withText(fakeRoom.id)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
@@ -51,7 +53,10 @@ class RoomReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeReviewsRepository.reviewList = listOf()
+        val fakeRoom = FakeClassroomRepository.ROOM_WITHOUT_REVIEWS
+        FakeClassroomRepository.roomById = fakeRoom
+
+        launch()
 
         // Refresh
         onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))

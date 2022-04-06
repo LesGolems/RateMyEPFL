@@ -26,24 +26,26 @@ class RestaurantReviewInfoFragmentTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @Before
-    fun setUp() {
+    @After
+    fun clean() {
+        scenario.close()
+    }
+
+    private fun launch() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
     }
 
-    @After
-    fun clean() {
-        scenario.close()
-    }
-
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.DEFAULT_RESTAURANT
-        val fakeReviewList = FakeReviewsRepository.fakeList
-        val numReviewText = "(${fakeReviewList.size} reviews)"
+        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITH_REVIEWS
+        FakeRestaurantRepository.restaurantById = fakeRestaurant
+        val numReviewText = "(${fakeRestaurant.numReviews} reviews)"
+
+        launch()
+
         onView(withId(R.id.restaurantIdInfo))
             .check(matches(withText(fakeRestaurant.id)))
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))
@@ -51,7 +53,10 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeReviewsRepository.reviewList = listOf()
+        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITHOUT_REVIEWS
+        FakeRestaurantRepository.restaurantById = fakeRestaurant
+
+        launch()
 
         // Refresh
         onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
