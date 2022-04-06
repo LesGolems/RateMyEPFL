@@ -1,11 +1,11 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
-class CourseRepository @Inject constructor() : CourseRepositoryInterface, Repository(COURSE_COLLECTION_PATH) {
+class CourseRepository @Inject constructor() : CourseRepositoryInterface,
+    Repository(COURSE_COLLECTION_PATH) {
 
     companion object {
         const val COURSE_COLLECTION_PATH = "courses"

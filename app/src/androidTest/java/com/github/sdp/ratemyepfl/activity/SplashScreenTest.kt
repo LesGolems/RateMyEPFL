@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -9,8 +7,9 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.uiautomator.UiDevice
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -34,7 +33,6 @@ class SplashScreenTest {
         init()
         FakeConnectedUser.loggedIn = true
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
-        //intent.putExtra("source", "test")
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
         scenario.close()
@@ -59,10 +57,11 @@ class SplashScreenTest {
         FakeConnectedUser.loggedIn = false
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
+        FakeConnectedUser.loggedIn = true
         onView(withId(R.id.loginButton)).perform(click())
-        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, Intent())
-        intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
-        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
+        intended(IntentMatchers.hasComponent("com.firebase.ui.auth.KickoffActivity"))
+        val device = UiDevice.getInstance(getInstrumentation())
+        device.pressBack()
         scenario.close()
         release()
     }

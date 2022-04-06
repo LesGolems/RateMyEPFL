@@ -22,10 +22,11 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
     private var insideRestaurantId: String? = null
 
     private var items = MutableLiveData<List<Restaurant>>()
+    val restaurants = MutableLiveData<List<Restaurant>>()
 
     init {
         viewModelScope.launch {
-            items.value = repository.getRestaurants()
+            restaurants.value = repository.getRestaurants()
         }
     }
 
@@ -56,7 +57,7 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
 
     private suspend fun findCloseRestaurantID(l: Location): String? {
         repository.getRestaurants().map { r ->
-            if (isClose(l.latitude, r.latitude, l.longitude, r.longitude)) {
+            if (isClose(l.latitude, r.lat, l.longitude, r.long)) {
                 return r.id
             }
         }

@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.auth.Authenticator
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.auth.FakeAuthenticator
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import dagger.Binds
 import dagger.Module
@@ -21,7 +19,4 @@ abstract class FakeAuthModule {
     @Binds
     abstract fun provideConnectedUser(user: FakeConnectedUser): ConnectedUser
 
-    @Singleton
-    @Binds
-    abstract fun provideAuthenticator(auth: FakeAuthenticator): Authenticator
 }

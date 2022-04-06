@@ -50,7 +50,7 @@
     <string name="home_page_title">HOME PAGE</string>
     <string name="home_page_hello_user_text">Hello %s !</string>
     <string name="logout_fab_content_description">Logout</string>
-    <string name="event_page_title">EVENT PAGE</string>
+    <string name="event_page_title">Event</string>
     <string name="info_review_icon">Info</string>
     <string name="list_review_icon">Reviews</string>
     <string name="pictures_review_icon">Pictures</string>
@@ -59,6 +59,7 @@
     <string name="todo">TODO</string>
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
+    <string name="home_page_description">Home</string>
     <string name="restaurant_category">Restaurant</string>
     <string name="default_id_text">Default id text</string>
     <string name="restaurant_num_reviews">This restaurant received </string>

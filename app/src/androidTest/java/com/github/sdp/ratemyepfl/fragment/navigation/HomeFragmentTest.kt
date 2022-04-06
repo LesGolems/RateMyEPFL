@@ -37,7 +37,8 @@ class HomeFragmentTest {
             R.string.home_page_hello_user_text,
             HomeFragment.VISITOR_NAME
         )
-        HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<HomeFragment> {
+        }
 
         onView(withId(R.id.homePageHelloUserText)).check(matches(withText(welcomeMsg)))
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGIN)))
@@ -59,7 +60,6 @@ class HomeFragmentTest {
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGOUT)))
     }
 
-
     @ExperimentalCoroutinesApi
     @Test
     fun updateToLoginWhenUserPressesLogout() {
@@ -67,7 +67,7 @@ class HomeFragmentTest {
         val email = "john@example.com"
         FakeConnectedUser.email = email
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
-
+        FakeConnectedUser.loggedIn = false
         onView(withId(R.id.homePageConnectionButton)).perform(click())
             .check(matches(withText(HomeFragment.LOGIN)))
 
@@ -95,7 +95,7 @@ class HomeFragmentTest {
             HomeFragment.VISITOR_NAME
         )
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
-
+        FakeConnectedUser.loggedIn = false
         onView(withId(R.id.homePageConnectionButton)).perform(click())
         onView(withId(R.id.homePageHelloUserText)).check(
             matches(withText(welcomeMsg))

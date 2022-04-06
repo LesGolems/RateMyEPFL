@@ -15,17 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".activity.course.CourseListActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
             android:name=".activity.ReviewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.classrooms.ClassroomsListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.restaurants.RestaurantListActivity"
             android:exported="false" />
 
         <meta-data
