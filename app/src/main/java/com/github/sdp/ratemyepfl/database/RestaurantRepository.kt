@@ -11,15 +11,11 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-            return try {
                 val occupancy = (get("occupancy") as Int?) ?: 0
                 val lat = getDouble("latitude") ?: 0.0
                 val lon = getDouble("longitude") ?: 0.0
 
                 return Restaurant(id, occupancy, lat, lon)
-            } catch (e: IllegalStateException) {
-                null
-            }
         }
     }
 
