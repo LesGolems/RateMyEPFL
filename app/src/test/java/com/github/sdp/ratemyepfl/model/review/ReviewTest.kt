@@ -183,28 +183,4 @@ class ReviewTest {
         val serializedReview = EXPECTED_REVIEW.serialize()
         assertEquals(serializedReview, EXPECTED_JSON)
     }
-
-    @Test
-    fun toHashMapWorksCorrectly() {
-        val rate = ReviewRating.GOOD
-        val title = "My title"
-        val comment = "My comment"
-        val reviewableId = "Id"
-        val date = LocalDate.of(2022, 3, 8)
-
-        val review = Review.Builder()
-            .setRating(rate)
-            .setTitle(title)
-            .setComment(comment)
-            .setReviewableID(reviewableId)
-            .setDate(date)
-            .build()
-
-        val hm = review.toHashMap()
-        assertEquals(hm["title"], title)
-        assertEquals(hm["rating"], rate.toString())
-        assertEquals(hm["comment"], comment)
-        assertEquals(hm["reviewableId"], reviewableId)
-        assertEquals(hm["date"], date.toString())
-    }
 }

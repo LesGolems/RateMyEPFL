@@ -61,14 +61,11 @@ class AddReviewViewModel @Inject constructor(
         if (title == null || title == "") return false
         if (rating == null) return false
 
-        val review = Review.Builder()
-            .setRating(rating)
-            .setTitle(title)
-            .setComment(comment)
-            .setReviewableID(id)
-            .setDate(date)
-            .build()
-        reviewRepo.add(review)
+        val reviewHashMap = hashMapOf(
+            "title" to title, "rating" to rating.toString(),
+            "comment" to comment, "reviewableId" to id, "date" to date.toString()
+        )
+        reviewRepo.add(reviewHashMap)
         return true
     }
 }

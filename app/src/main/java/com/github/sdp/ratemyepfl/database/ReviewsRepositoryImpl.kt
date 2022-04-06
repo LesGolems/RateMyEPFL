@@ -12,9 +12,9 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
         const val COLLECTION_PATH = "reviews"
     }
 
-    override fun add(value: Review) {
+    override fun add(value: HashMap<String, String>) {
         collection.document()
-            .set(value.toHashMap())
+            .set(value)
     }
 
     override suspend fun get(): List<Review> {
