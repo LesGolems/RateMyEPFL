@@ -7,7 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.github.sdp.ratemyepfl.R
@@ -78,8 +78,21 @@ class MapActivityTest {
             .check(matches(isDisplayed()))
     }
 
+    @Test
+    fun clickOnMarker() {
+        grantPermission()
+        val uiDevice = UiDevice.getInstance(getInstrumentation())
+        val kebab = uiDevice.findObject(
+            UiSelector()
+                .descriptionContains("Roulotte du Soleil")
+        )
+        kebab.click()
+        onView(withId(R.id.map))
+            .check(matches(isDisplayed()))
+    }
+
     private fun grantPermission() {
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val instrumentation = getInstrumentation()
         if (Build.VERSION.SDK_INT >= 23) {
             val allowPermission = UiDevice.getInstance(instrumentation).findObject(
                 UiSelector().text(
@@ -98,14 +111,16 @@ class MapActivityTest {
     }
 
     private fun denyPermission() {
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val instrumentation = getInstrumentation()
         if (Build.VERSION.SDK_INT >= 23) {
-            val denyPermission = UiDevice.getInstance(instrumentation).findObject(UiSelector().text(
-                when {
-                    Build.VERSION.SDK_INT in 24..28 -> "DENY"
-                    else -> "Deny"
-                }
-            ))
+            val denyPermission = UiDevice.getInstance(instrumentation).findObject(
+                UiSelector().text(
+                    when (Build.VERSION.SDK_INT) {
+                        in 24..28 -> "DENY"
+                        else -> "Deny"
+                    }
+                )
+            )
             if (denyPermission.exists()) {
                 denyPermission.click()
             }
