@@ -43,16 +43,16 @@ sealed class Repository(collectionPath: String) {
      *  @param rating: rating of the review being added
      */
     protected fun updateRating(id: String, rating: ReviewRating) {
-        val roomRef = collection.document(id)
+        val docRef = collection.document(id)
         db.runTransaction {
-            val snapshot = it.get(roomRef)
+            val snapshot = it.get(docRef)
             val numReviews = snapshot.getString("numReviews")?.toInt()
             val averageGrade = snapshot.getString("averageGrade")?.toInt()
             if (numReviews != null && averageGrade != null) {
                 val newNumReviews = numReviews + 1
                 val newAverageGrade = (averageGrade + rating.toValue()) / newNumReviews
                 it.update(
-                    roomRef, "numReviews", newNumReviews.toString(),
+                    docRef, "numReviews", newNumReviews.toString(),
                     "averageGrade", newAverageGrade.toString()
                 )
             }
