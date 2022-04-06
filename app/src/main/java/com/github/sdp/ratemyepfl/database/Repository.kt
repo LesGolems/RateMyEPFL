@@ -52,8 +52,8 @@ sealed class Repository(collectionPath: String) {
                 val newNumReviews = numReviews + 1
                 val newAverageGrade = (averageGrade + rating.toValue()) / newNumReviews
                 it.update(
-                    roomRef, "numReviews", newNumReviews,
-                    "averageGrade", newAverageGrade
+                    roomRef, "numReviews", newNumReviews.toString(),
+                    "averageGrade", newAverageGrade.toString()
                 )
             }
         }
