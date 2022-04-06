@@ -24,5 +24,5 @@ interface CourseRepositoryInterface {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    fun updateClassroomRating(id: String, rating: ReviewRating)
+    fun updateCourseRating(id: String, rating: ReviewRating)
 }
