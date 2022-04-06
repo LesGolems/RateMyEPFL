@@ -22,12 +22,10 @@ class PhotoAdapter :
 
         private val imageView: ImageView =
             photoView.findViewById(R.id.photoImageView)
-        /*private val description: TextView =
-            photoView.findViewById(R.id.photoDescription)*/
 
         fun bind(@DrawableRes photoId: Int) {
             imageView.setImageResource(photoId)
-            imageView.tag = photoId // Use the tag because there is no method imageView.resourceId
+            imageView.tag = photoId // There is no method imageView.resourceId
             imageView.setOnClickListener {
                 seeDetails(it)
             }
@@ -58,6 +56,9 @@ class PhotoAdapter :
         submitList(list)
     }
 
+    /**
+     * Display the clicked photo in fullscreen
+     */
     private fun seeDetails(view: View) {
         val intent = Intent(view.context, ImageDetailActivity::class.java)
         intent.putExtra(ImageDetailActivity.EXTRA_PHOTO_DISPLAYED, view.tag as Int)

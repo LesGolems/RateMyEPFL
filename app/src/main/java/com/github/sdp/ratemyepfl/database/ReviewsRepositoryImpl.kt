@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.Review.Companion.toReview
 import kotlinx.coroutines.tasks.await
@@ -10,6 +11,16 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
 
     companion object {
         const val COLLECTION_PATH = "reviews"
+
+        // Fake photo ids
+        private val FAKE_PHOTOS = listOf(
+            R.drawable.room3,
+            R.drawable.room1,
+            R.drawable.room4,
+            R.drawable.room2,
+            R.drawable.room5,
+            R.drawable.room6
+        )
     }
 
     override fun add(value: Review) {
@@ -25,6 +36,11 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
 
     override suspend fun getByReviewableId(id: String?): List<Review> {
         return getBy("reviewableId", id.orEmpty())
+    }
+
+    // Not linked to Firebase Storage yet
+    override suspend fun getPhotosByReviewableId(id: String?): List<Int> {
+        return FAKE_PHOTOS
     }
 
     suspend fun getByRate(rate: Int): List<Review> {

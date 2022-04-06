@@ -35,10 +35,15 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         photoAdapter = PhotoAdapter()
         photoRecyclerView.adapter = photoAdapter
 
-        viewModel.getPhotos().observe(viewLifecycleOwner) {
+        viewModel.photos.observe(viewLifecycleOwner) {
             it?.let {
                 photoAdapter.setData(it.toMutableList())
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updatePhotosList()
     }
 }

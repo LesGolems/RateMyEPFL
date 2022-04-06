@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.*
-import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.ReviewsRepository
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -31,25 +30,25 @@ open class ReviewViewModel @Inject constructor(
 
     val numReviews: LiveData<Int> = computeNumReviews()
 
-    // Fake photo ids
-    private val fakePhotoIds = listOf(
-        R.drawable.room3,
-        R.drawable.room1,
-        R.drawable.room4,
-        R.drawable.room2,
-        R.drawable.room5,
-        R.drawable.room6
-    )
-
     val overallGrade: LiveData<Int> = computeOverallGrade()
+
+    // Photos
+    val photos = MutableLiveData<List<Int>>()
 
     init {
         updateReviewsList()
+        updatePhotosList()
     }
 
     fun updateReviewsList() {
         viewModelScope.launch {
             reviews.postValue(reviewRepo.getByReviewableId(id))
+        }
+    }
+
+    fun updatePhotosList() {
+        viewModelScope.launch {
+            photos.postValue(reviewRepo.getPhotosByReviewableId(id))
         }
     }
 
@@ -82,10 +81,4 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Returns the list of photos as LiveData
-     */
-    fun getPhotos(): LiveData<List<Int>> {
-        return MutableLiveData(fakePhotoIds)
-    }
 }
