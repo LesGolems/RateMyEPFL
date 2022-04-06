@@ -7,12 +7,12 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
 
     companion object {
         val RESTAURANT_LIST = listOf(
-            Restaurant(id = "Roulotte du Soleil", 1.0, 2.0),
-            Restaurant(id = "Arcadie", 3.0, 4.0),
-            Restaurant(id = "Takinoa", 5.0, 6.0)
+            Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0),
+            Restaurant(id = "Arcadie", 0, 3.0, 4.0),
+            Restaurant(id = "Takinoa", 0, 5.0, 6.0)
         )
 
-        val DEFAULT_RESTAURANT = Restaurant(id = "Roulotte du Soleil", 1.0, 2.0)
+        val DEFAULT_RESTAURANT = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0)
     }
 
 

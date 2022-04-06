@@ -8,7 +8,7 @@ data class Restaurant(
     val occupancy: Int = 0,
     val lat: Double = 0.0,
     val long: Double = 0.0
-) : Reviewable(){
+) : Reviewable() {
 
     override fun toString(): String {
         return id

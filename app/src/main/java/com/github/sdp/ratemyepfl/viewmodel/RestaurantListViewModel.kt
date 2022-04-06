@@ -2,12 +2,11 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import android.location.Location
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.RestaurantRepository
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.database.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.google.firebase.firestore.Transaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +48,7 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
                     null
                 } else {
                     repository.incrementOccupancy(id)
-                    if (insideRestaurantId != null){
+                    if (insideRestaurantId != null) {
                         repository.decrementOccupancy(insideRestaurantId!!)
                     }
                     id

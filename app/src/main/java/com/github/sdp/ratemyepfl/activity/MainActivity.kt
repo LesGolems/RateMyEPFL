@@ -7,8 +7,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,8 +23,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -62,7 +58,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        startLocationService()
+        //startLocationService()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -101,7 +97,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
-        Toast.makeText(this, "Location : ${location.latitude}, ${location.longitude}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "Location : ${location.latitude}, ${location.longitude}",
+            Toast.LENGTH_SHORT
+        ).show()
         restaurantListViewModel.updateRestaurantsOccupancy(location)
     }
 
