@@ -20,7 +20,9 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate,
     val author: User? = null,
-    var opinion: ReviewOpinion = ReviewOpinion.NO_OPINION
+    var opinion: ReviewOpinion = ReviewOpinion.NO_OPINION,
+    var likes: Long = 0,
+    var dislikes: Long = 0
 ) {
     companion object {
         /**
@@ -45,13 +47,15 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     fun serialize(): String = Companion.serialize(this)
 
     @OptIn(ExperimentalSerializationApi::class)
-    fun toHashMap(): HashMap<String, String> {
+    fun toHashMap(): HashMap<String, Any> {
         return hashMapOf(
             ReviewRepository.TITLE_FIELD_NAME to title,
             ReviewRepository.RATING_FIELD_NAME to rating.toString(),
             ReviewRepository.COMMENT_FIELD_NAME to comment,
             ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewRepository.DATE_FIELD_NAME to date.toString()
+            ReviewRepository.DATE_FIELD_NAME to date.toString(),
+            ReviewRepository.LIKES_FIELD_NAME to likes,
+            ReviewRepository.DISLIKES_FIELD_NAME to dislikes
         )
     }
 
@@ -67,6 +71,9 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
+        private var opinion: ReviewOpinion? = null,
+        private var likes: Long? = null,
+        private var dislikes: Long? = null,
     ) {
         /**
          * Sets the id of the review
@@ -124,6 +131,18 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             this.date = date
         }
 
+        fun setOpinion(opinion: ReviewOpinion?) = apply {
+            this.opinion = opinion
+        }
+
+        fun setLikes(likes: Long?) = apply {
+            this.likes = likes
+        }
+
+        fun setDislikes(dislikes: Long?) = apply {
+            this.dislikes = dislikes
+        }
+
         /**
          * Builds the corresponding CourseReview
          *
@@ -136,8 +155,21 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
+            val opinion = this.opinion ?: ReviewOpinion.NO_OPINION
+            val likes = this.likes ?: 0
+            val dislikes = this.dislikes ?: 0
 
-            return Review(id, rate, title, comment, reviewableId, date)
+            return Review(
+                id,
+                rate,
+                title,
+                comment,
+                reviewableId,
+                date,
+                opinion = opinion,
+                likes = likes,
+                dislikes = dislikes
+            )
         }
 
         private infix fun <T> asMandatory(field: T?): T =

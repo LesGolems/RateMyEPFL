@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 
 interface ReviewRepositoryInterface {
     /**
@@ -29,4 +30,9 @@ interface ReviewRepositoryInterface {
      * @return the list non-null reviews of the reviewable
      */
     suspend fun getByReviewableId(id: String?): List<Review>
+
+    fun updateLikes(id: String, quantity: Int)
+    fun updateDislikes(id: String, quantity: Int)
+    suspend fun getOpinion(id: String): ReviewOpinion?
+    suspend fun setOpinion(id: String, opinion: ReviewOpinion)
 }

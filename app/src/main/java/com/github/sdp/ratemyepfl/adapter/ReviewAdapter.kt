@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,12 @@ import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 
-class ReviewAdapter :
+class ReviewAdapter(
+    private val onLikeClick: (Review, Int) -> Unit,
+    private val onDislikeClick: (Review, Int) -> Unit,
+    private val onOpinionRequest: (Review) -> ReviewOpinion?,
+    private val setOpinion: (Review, ReviewOpinion) -> Unit,
+) :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
 
     /**
@@ -22,24 +28,14 @@ class ReviewAdapter :
     inner class ReviewViewHolder(reviewView: View) :
         RecyclerView.ViewHolder(reviewView) {
 
-        private val rateView: TextView =
-            reviewView.findViewById(R.id.rateReview)
-        private val commentView: TextView =
-            reviewView.findViewById(R.id.commentReview)
-        private val dateView: TextView =
-            reviewView.findViewById(R.id.dateReview)
-        private val titleView: TextView =
-            reviewView.findViewById(R.id.titleReview)
-
-        private var likeButton: ImageButton =
-            reviewView.findViewById(R.id.likeButton)
-        private var dislikeButton: ImageButton =
-            reviewView.findViewById(R.id.dislikeButton)
-
-        private var likeCountTextView: TextView =
-            reviewView.findViewById(R.id.likeCount)
-        private var dislikeCountTextView: TextView =
-            reviewView.findViewById(R.id.dislikeCount)
+        private val titleView: TextView = reviewView.findViewById(R.id.titleReview)
+        private val rateView: TextView = reviewView.findViewById(R.id.rateReview)
+        private val commentView: TextView = reviewView.findViewById(R.id.commentReview)
+        private val dateView: TextView = reviewView.findViewById(R.id.dateReview)
+        private val likesTextView: TextView = reviewView.findViewById(R.id.likeCount)
+        private val dislikesTextView: TextView = reviewView.findViewById(R.id.dislikeCount)
+        private val likeButton: ImageButton = reviewView.findViewById(R.id.likeButton)
+        private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
 
         private var currentReview: Review? = null
 
@@ -50,36 +46,68 @@ class ReviewAdapter :
             rateView.text = review.rating.toString()
             commentView.text = review.comment
             dateView.text = review.date.toString()
+            likesTextView.text = review.likes.toString()
+            dislikesTextView.text = review.dislikes.toString()
 
-            likeCountTextView.text = "0"
-            dislikeCountTextView.text = "0"
-
+            /* Like button logic */
             likeButton.setOnClickListener {
-                if (review.opinion == ReviewOpinion.LIKED) {
-                    review.opinion = ReviewOpinion.NO_OPINION
+                val opinion: ReviewOpinion? = currentReview?.let { r -> onOpinionRequest(r) }
+                Log.d("OPINION (L): ", opinion.toString())
+
+                /* Remove the like from a liked review */
+                if (opinion == ReviewOpinion.LIKED) {
                     likeButton.setImageResource(R.drawable.ic_like)
-                } else {
-                    if (review.opinion == ReviewOpinion.DISLIKED) {
-                        dislikeButton.setImageResource(R.drawable.ic_dislike)
+                    currentReview?.let { r ->
+                        onLikeClick(r, -1)
+                        setOpinion(r, ReviewOpinion.NO_OPINION)
                     }
-                    review.opinion = ReviewOpinion.LIKED
+                } else {
+                    /* Like a review that was not liked before */
                     likeButton.setImageResource(R.drawable.ic_like_toggled)
-                }
-            }
-
-            dislikeButton.setOnClickListener {
-                if (review.opinion == ReviewOpinion.DISLIKED) {
-                    review.opinion = ReviewOpinion.NO_OPINION
-                    dislikeButton.setImageResource(R.drawable.ic_dislike)
-                } else {
-                    if (review.opinion == ReviewOpinion.LIKED) {
-                        likeButton.setImageResource(R.drawable.ic_like)
+                    currentReview?.let { r ->
+                        onLikeClick(r, 1)
+                        setOpinion(r, ReviewOpinion.LIKED)
                     }
-                    review.opinion = ReviewOpinion.DISLIKED
-                    dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
+                    /* Like a disliked review */
+                    if (opinion == ReviewOpinion.DISLIKED) {
+                        dislikeButton.setImageResource(R.drawable.ic_dislike)
+                        currentReview?.let { r ->
+                            onDislikeClick(r, -1)
+                            setOpinion(r, ReviewOpinion.LIKED)
+                        }
+                    }
                 }
             }
 
+            /* Dislike button logic */
+            dislikeButton.setOnClickListener {
+                val opinion = currentReview?.let { r -> onOpinionRequest(r) }
+                Log.d("OPINION (D): ", opinion.toString())
+
+                /* Remove the dislike from a disliked review */
+                if (opinion == ReviewOpinion.DISLIKED) {
+                    dislikeButton.setImageResource(R.drawable.ic_dislike)
+                    currentReview?.let { r ->
+                        onDislikeClick(r, -1)
+                        setOpinion(r, ReviewOpinion.NO_OPINION)
+                    }
+                } else {
+                    /* Dislike a review that was not disliked before */
+                    dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
+                    currentReview?.let { r ->
+                        onDislikeClick(r, 1)
+                        setOpinion(r, ReviewOpinion.DISLIKED)
+                    }
+                    /* Dislike a liked review */
+                    if (opinion == ReviewOpinion.LIKED) {
+                        likeButton.setImageResource(R.drawable.ic_like)
+                        currentReview?.let { r ->
+                            onLikeClick(r, -1)
+                            setOpinion(r, ReviewOpinion.DISLIKED)
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,6 +32,8 @@ open class ReviewViewModel @Inject constructor(
     val numReviews: LiveData<Int> = computeNumReviews()
 
     val overallGrade: LiveData<Int> = computeOverallGrade()
+
+    val currentReview = MutableLiveData<Review>()
 
     init {
         updateReviewsList()
@@ -70,4 +73,32 @@ open class ReviewViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateCurrentReview(review: Review) {
+        viewModelScope.launch {
+            currentReview.postValue(reviewRepo.getReviewById(review.id!!))
+        }
+    }
+
+    fun getOpinion(review: Review): ReviewOpinion? {
+        viewModelScope.launch {
+            currentReview.postValue(reviewRepo.getReviewById(review.id!!))
+        }
+        return currentReview.value?.opinion
+    }
+
+    fun setOpinion(review: Review, opinion: ReviewOpinion) {
+        viewModelScope.launch {
+            review.id?.let { reviewRepo.setOpinion(it, opinion) }
+        }
+    }
+
+    fun updateLikes(id: String, quantity: Int) {
+        reviewRepo.updateLikes(id, quantity)
+    }
+
+    fun updateDislikes(id: String, quantity: Int) {
+        reviewRepo.updateDislikes(id, quantity)
+    }
+
 }

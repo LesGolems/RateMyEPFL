@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 Fragment for the list of reviews, shared among all reviewed items
  */
 class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
-    private lateinit var reviewsAdapter: ReviewAdapter
+    private lateinit var reviewAdapter: ReviewAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
 
@@ -31,8 +31,19 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         // List of reviews
         recyclerView = view.findViewById(R.id.reviewRecyclerView)
 
-        reviewsAdapter = ReviewAdapter()
-        recyclerView.adapter = reviewsAdapter
+        reviewAdapter = ReviewAdapter(
+            { r, i ->
+                viewModel.updateLikes(r.id!!, i)
+                viewModel.updateReviewsList()
+            },
+            { r, i ->
+                viewModel.updateDislikes(r.id!!, i)
+                viewModel.updateReviewsList()
+            },
+            { r -> viewModel.getOpinion(r) },
+            { r, o -> viewModel.setOpinion(r, o) }
+        )
+        recyclerView.adapter = reviewAdapter
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
@@ -45,7 +56,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
         viewModel.reviews.observe(viewLifecycleOwner) {
             it?.let {
-                reviewsAdapter.submitList(it.toMutableList())
+                reviewAdapter.submitList(it.toMutableList())
             }
         }
     }
