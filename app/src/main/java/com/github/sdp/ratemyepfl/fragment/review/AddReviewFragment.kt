@@ -95,15 +95,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (!auth.isLoggedIn()) {
-            Snackbar.make(
-                requireView(),
-                "You need to login to be able to review",
-                Snackbar.LENGTH_SHORT
-            )
-                .setAnchorView(R.id.reviewNavigationView)
-                .show()
-        } else if (submitReview()) {
+        if (checkLogin() && submitReview()) {
             reset()
             // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
@@ -136,4 +128,26 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      * Submits the review and update the reviewable item rating on the database
      */
     abstract fun submitReview(): Boolean
+
+    /**
+     * Checks if current user is logged in, if not display a warning
+     */
+    private fun checkLogin(): Boolean {
+        if (!auth.isLoggedIn()) {
+            Snackbar.make(
+                requireView(),
+                "You need to login to be able to review",
+                Snackbar.LENGTH_SHORT
+            )
+                .setAnchorView(R.id.reviewNavigationView)
+                .show()
+            return false
+        }
+        return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkLogin()
+    }
 }
