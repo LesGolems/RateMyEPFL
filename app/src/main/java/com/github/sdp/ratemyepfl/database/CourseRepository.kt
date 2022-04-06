@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
@@ -37,5 +38,7 @@ class CourseRepository @Inject constructor() : CourseRepositoryInterface,
     }
 
     override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
+
+    override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
 }

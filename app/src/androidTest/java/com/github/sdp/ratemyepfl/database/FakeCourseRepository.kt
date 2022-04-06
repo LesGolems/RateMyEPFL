@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import javax.inject.Inject
 
 class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
@@ -57,5 +58,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
     override suspend fun getCourses(): List<Course> = COURSE_LIST
 
     override suspend fun getCourseById(id: String): Course = COURSE_BY_ID
+    override fun updateClassroomRating(id: String, rating: ReviewRating) {
+    }
 
 }

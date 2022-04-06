@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import javax.inject.Inject
 
 class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterface {
@@ -28,4 +29,7 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterfa
     override suspend fun getClassrooms(): List<Classroom> = CLASSROOM_LIST
 
     override suspend fun getRoomById(id: String): Classroom = DEFAULT_ROOM
+
+    override fun updateClassroomRating(id: String, rating: ReviewRating) {
+    }
 }

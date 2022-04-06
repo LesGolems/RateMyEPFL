@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
@@ -30,4 +31,6 @@ class ClassroomRepository @Inject constructor() :
     }
 
     override suspend fun getRoomById(id: String): Classroom? = toItem(getById(id))
+
+    override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 }
