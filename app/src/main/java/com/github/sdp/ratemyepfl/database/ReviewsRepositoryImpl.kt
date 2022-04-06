@@ -27,6 +27,7 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
         return getBy("reviewableId", id.orEmpty())
     }
 
+
     suspend fun getByRate(rate: Int): List<Review> {
         return getBy("rate", rate.toString())
     }
