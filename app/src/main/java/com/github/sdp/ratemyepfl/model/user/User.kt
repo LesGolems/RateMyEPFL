@@ -9,7 +9,7 @@ data class User(
     val uid: String,
     val username: String?,
     val email: String?,
-    val picture: String?
+    val picture: String? = "$uid.jpg"
 ) {
     companion object {
 
@@ -20,9 +20,9 @@ data class User(
         fun DocumentSnapshot.toUser(): User {
             return User(
                 uid = id,
-                username = getString(USERNAME_FIELD)!!,
-                email = getString(EMAIL_FIELD)!!,
-                picture = getString(PICTURE_FIELD)!!
+                username = getString(USERNAME_FIELD),
+                email = getString(EMAIL_FIELD),
+                picture = getString(PICTURE_FIELD)
             )
         }
     }
@@ -33,12 +33,4 @@ data class User(
         email = user.getEmail()!!,
         picture = user.getProfilePictureUrl()!!
     )
-
-    fun toHashMap(): HashMap<String, String?> {
-        return hashMapOf(
-            USERNAME_FIELD to username,
-            EMAIL_FIELD to email,
-            PICTURE_FIELD to picture
-        )
-    }
 }
