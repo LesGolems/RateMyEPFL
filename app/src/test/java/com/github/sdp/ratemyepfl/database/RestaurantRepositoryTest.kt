@@ -31,13 +31,14 @@ class RestaurantRepositoryTest {
 
     @Test
     fun toItemReturnsNullForInCompleteSnapshot() {
+        val fake = "fake"
+        val lat = 0.0
+        val long = 0.0
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
 
-        Mockito.`when`(snapshot.id).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepository.TITLE_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepository.SECTION_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
+        Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
 
         val restaurant = snapshot.toRestaurant()
         assertEquals(null, restaurant)
