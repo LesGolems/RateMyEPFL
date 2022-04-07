@@ -44,23 +44,22 @@ open class ReviewListViewModel @Inject constructor(
     fun updateLikers(review: Review) {
         if (!auth.isLoggedIn()) return
 
-        val uid = auth.getUserId()
-
+        val uid = auth.getUserId() ?: return
         if (review.likers.contains(uid)) {
-            reviewRepo.removeLiker(review.id, uid!!)
+            reviewRepo.removeLiker(review.id, uid)
         } else {
-            reviewRepo.addLiker(review.id, uid!!)
+            reviewRepo.addLiker(review.id, uid)
         }
     }
 
     fun updateDislikers(review: Review) {
         if (!auth.isLoggedIn()) return
 
-        val uid = auth.getUserId()
+        val uid = auth.getUserId() ?: return
         if (review.dislikers.contains(uid)) {
-            reviewRepo.removeDisliker(review.id, uid!!)
+            reviewRepo.removeDisliker(review.id, uid)
         } else {
-            reviewRepo.addDisliker(review.id, uid!!)
+            reviewRepo.addDisliker(review.id, uid)
         }
     }
 }
