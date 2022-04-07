@@ -11,4 +11,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Reviewable {
     abstract val id: String
+    abstract val numReviews: Int
+    abstract val averageGrade: Double
 }

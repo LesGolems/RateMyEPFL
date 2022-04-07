@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
-import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,8 +21,6 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     private lateinit var photoAdapter: PhotoAdapter
     private lateinit var photoRecyclerView: RecyclerView
-
-    private val viewModel by activityViewModels<ReviewViewModel>()
 
     private val picViewModel by activityViewModels<ClassroomPictureViewModel>()
 

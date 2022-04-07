@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface CourseRepositoryInterface {
     /**
@@ -16,4 +17,12 @@ interface CourseRepositoryInterface {
      * @return the course if found, otherwise null
      */
     suspend fun getCourseById(id: String): Course?
+
+    /**
+     * Updates the rating of the course using a transaction for concurrency
+     *
+     *  @param id : id of the reviewed item
+     *  @param rating: rating of the review being added
+     */
+    fun updateCourseRating(id: String, rating: ReviewRating)
 }

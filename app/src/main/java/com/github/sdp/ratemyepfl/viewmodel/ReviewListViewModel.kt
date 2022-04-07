@@ -5,17 +5,18 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
 import com.github.sdp.ratemyepfl.database.ReviewsRepository
-import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * General view model for all activities/fragments of the review part of the app
+ */
 @HiltViewModel
-class ClassroomInfoViewModel @Inject constructor(
-    private val roomRepo: ClassroomRepositoryInterface,
+open class ReviewListViewModel @Inject constructor(
+    private val reviewRepo: ReviewsRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -23,21 +24,16 @@ class ClassroomInfoViewModel @Inject constructor(
     val id: String =
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
-    val room = MutableLiveData<Classroom>()
+    // Reviews
+    val reviews = MutableLiveData<List<Review>>()
 
     init {
-        updateRoom()
+        updateReviewsList()
     }
 
-    fun updateRoom() {
+    fun updateReviewsList() {
         viewModelScope.launch {
-            room.postValue(roomRepo.getRoomById(id))
-        }
-    }
-
-    fun updateRating(rating: ReviewRating) {
-        viewModelScope.launch {
-            roomRepo.updateClassroomRating(id, rating)
+            reviews.postValue(reviewRepo.getByReviewableId(id))
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import javax.inject.Inject
 
@@ -16,7 +17,9 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
             val occupancy = getString("occupancy")?.toInt() ?: 0
             val lat = getString("lat")?.toDouble() ?: 0.0
             val lon = getString("long")?.toDouble() ?: 0.0
-            return Restaurant(id, occupancy, lat, lon)
+            val numReviews = getString("numReviews")?.toInt() ?: 0
+            val averageGrade = getString("averageGrade")?.toDouble() ?: 0.0
+            return Restaurant(id, occupancy, lat, lon, numReviews, averageGrade)
         }
     }
 
@@ -51,5 +54,7 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
             null
         }
     }
+
+    override fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
 }
