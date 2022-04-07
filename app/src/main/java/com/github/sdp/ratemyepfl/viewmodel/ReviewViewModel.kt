@@ -1,7 +1,9 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
@@ -18,6 +20,10 @@ open class ReviewViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    @Inject
+    lateinit var auth: ConnectedUser
+    //var opinion: ReviewOpinion = ReviewOpinion.NO_OPINION
+
     companion object {
         const val NO_GRADE = 0
     }
@@ -33,7 +39,7 @@ open class ReviewViewModel @Inject constructor(
 
     val overallGrade: LiveData<Int> = computeOverallGrade()
 
-    val currentReview = MutableLiveData<Review>()
+    val FAKE_UID = "FAKE ID"
 
     init {
         updateReviewsList()
@@ -74,31 +80,36 @@ open class ReviewViewModel @Inject constructor(
         }
     }
 
-    fun updateCurrentReview(review: Review) {
-        viewModelScope.launch {
-            currentReview.postValue(reviewRepo.getReviewById(review.id!!))
+    /*fun setOpinion(review: Review) {
+        if (!auth.isLoggedIn())
+            opinion = ReviewOpinion.NO_OPINION
+        //val uid = auth.getUserId()
+        if (review.likers.contains(FAKE_UID))
+            opinion = ReviewOpinion.LIKED
+        if (review.dislikers.contains(FAKE_UID))
+            opinion = ReviewOpinion.DISLIKED
+        Log.d("opinion", opinion.name)
+    }
+    fun getOpinion(review: Review): ReviewOpinion {
+        return opinion
+    }*/
+
+    fun updateLikers(review: Review) {
+        //val uid = auth.getUserId()
+        if (review.likers.contains(FAKE_UID)) {
+            reviewRepo.removeLiker(review.id!!, FAKE_UID)
+        } else {
+            reviewRepo.addLiker(review.id!!, FAKE_UID)
         }
     }
 
-    fun getOpinion(review: Review): ReviewOpinion? {
-        viewModelScope.launch {
-            currentReview.postValue(reviewRepo.getReviewById(review.id!!))
+    fun updateDislikers(review: Review) {
+        //val uid = auth.getUserId()
+        if (review.dislikers.contains(FAKE_UID)) {
+            reviewRepo.removeDisliker(review.id!!, FAKE_UID)
+        } else {
+            reviewRepo.addDisliker(review.id!!, FAKE_UID)
         }
-        return currentReview.value?.opinion
-    }
-
-    fun setOpinion(review: Review, opinion: ReviewOpinion) {
-        viewModelScope.launch {
-            review.id?.let { reviewRepo.setOpinion(it, opinion) }
-        }
-    }
-
-    fun updateLikes(id: String, quantity: Int) {
-        reviewRepo.updateLikes(id, quantity)
-    }
-
-    fun updateDislikes(id: String, quantity: Int) {
-        reviewRepo.updateDislikes(id, quantity)
     }
 
 }

@@ -20,9 +20,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate,
     val author: User? = null,
-    var opinion: ReviewOpinion = ReviewOpinion.NO_OPINION,
-    var likes: Long = 0,
-    var dislikes: Long = 0
+    var likers: List<String> = listOf(),
+    var dislikers: List<String> = listOf()
 ) {
     companion object {
         /**
@@ -54,8 +53,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             ReviewRepository.COMMENT_FIELD_NAME to comment,
             ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
             ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.LIKES_FIELD_NAME to likes,
-            ReviewRepository.DISLIKES_FIELD_NAME to dislikes
+            ReviewRepository.LIKERS_FIELD_NAME to likers,
+            ReviewRepository.DISLIKERS_FIELD_NAME to dislikers
         )
     }
 
@@ -71,9 +70,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
-        private var opinion: ReviewOpinion? = null,
-        private var likes: Long? = null,
-        private var dislikes: Long? = null,
+        private var likers: List<String>? = null,
+        private var dislikers: List<String>? = null
     ) {
         /**
          * Sets the id of the review
@@ -131,16 +129,12 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             this.date = date
         }
 
-        fun setOpinion(opinion: ReviewOpinion?) = apply {
-            this.opinion = opinion
+        fun setLikers(likers: List<String>) = apply {
+            this.likers = likers
         }
 
-        fun setLikes(likes: Long?) = apply {
-            this.likes = likes
-        }
-
-        fun setDislikes(dislikes: Long?) = apply {
-            this.dislikes = dislikes
+        fun setDislikers(dislikers: List<String>) = apply {
+            this.dislikers = dislikers
         }
 
         /**
@@ -155,9 +149,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
-            val opinion = this.opinion ?: ReviewOpinion.NO_OPINION
-            val likes = this.likes ?: 0
-            val dislikes = this.dislikes ?: 0
+            val likers = this.likers ?: listOf()
+            val dislikers = this.dislikers ?: listOf()
 
             return Review(
                 id,
@@ -166,9 +159,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
                 comment,
                 reviewableId,
                 date,
-                opinion = opinion,
-                likes = likes,
-                dislikes = dislikes
+                likers = likers,
+                dislikers = dislikers
             )
         }
 

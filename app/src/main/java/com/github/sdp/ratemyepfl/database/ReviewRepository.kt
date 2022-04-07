@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.tasks.await
@@ -20,8 +19,8 @@ class ReviewRepository @Inject constructor() : ReviewRepositoryInterface,
         const val COMMENT_FIELD_NAME = "comment"
         const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
         const val DATE_FIELD_NAME = "date"
-        const val LIKES_FIELD_NAME = "likes"
-        const val DISLIKES_FIELD_NAME = "dislikes"
+        const val LIKERS_FIELD_NAME = "likers"
+        const val DISLIKERS_FIELD_NAME = "dislikers"
 
         fun DocumentSnapshot.toReview(): Review? {
             val builder = Review.Builder()
@@ -31,8 +30,8 @@ class ReviewRepository @Inject constructor() : ReviewRepositoryInterface,
                 .setComment(getString(COMMENT_FIELD_NAME))
                 .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
-                .setLikes(get(LIKES_FIELD_NAME) as Long)
-                .setDislikes(get(DISLIKES_FIELD_NAME) as Long)
+                .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
+                .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
 
             return try {
                 builder.build()
@@ -71,30 +70,25 @@ class ReviewRepository @Inject constructor() : ReviewRepositoryInterface,
         return getBy(DATE_FIELD_NAME, date.toString())
     }
 
-    private fun updateFieldQuantity(reviewId: String, field: String, quantity: Int) {
-        val reviewRef = collection.document(reviewId)
-        reviewRef.update(field, FieldValue.increment(quantity.toLong()))
+    override fun addLiker(id: String, uid: String) {
+        val reviewRef = collection.document(id)
+        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayUnion(uid))
     }
 
-    override fun updateLikes(id: String, quantity: Int) {
-        updateFieldQuantity(id, LIKES_FIELD_NAME, quantity)
+    override fun removeLiker(id: String, uid: String) {
+        val reviewRef = collection.document(id)
+        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayRemove(uid))
     }
 
-    override fun updateDislikes(id: String, quantity: Int) {
-        updateFieldQuantity(id, DISLIKES_FIELD_NAME, quantity)
+    override fun addDisliker(id: String, uid: String) {
+        val reviewRef = collection.document(id)
+        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayUnion(uid))
     }
 
-    override suspend fun getOpinion(id: String): ReviewOpinion? {
-        return getReviewById(id)?.opinion
+    override fun removeDisliker(id: String, uid: String) {
+        val reviewRef = collection.document(id)
+        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayRemove(uid))
     }
-
-    override suspend fun setOpinion(id: String, opinion: ReviewOpinion) {
-        getReviewById(id)?.opinion = opinion
-    }
-
-    /*suspend fun getLikers(id: String): List<User> {
-
-    }*/
 
     private suspend fun getBy(fieldName: String, value: String): List<Review> {
         return collection

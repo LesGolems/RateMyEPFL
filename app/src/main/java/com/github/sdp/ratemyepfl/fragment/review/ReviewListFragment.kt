@@ -32,16 +32,21 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         recyclerView = view.findViewById(R.id.reviewRecyclerView)
 
         reviewAdapter = ReviewAdapter(
-            { r, i ->
-                viewModel.updateLikes(r.id!!, i)
+            { r ->
+                viewModel.updateLikers(r)
                 viewModel.updateReviewsList()
             },
-            { r, i ->
-                viewModel.updateDislikes(r.id!!, i)
+            { r ->
+                viewModel.updateDislikers(r)
                 viewModel.updateReviewsList()
+            }/*,
+            { r ->
+                viewModel.getOpinion(r)
             },
-            { r -> viewModel.getOpinion(r) },
-            { r, o -> viewModel.setOpinion(r, o) }
+            { r ->
+                viewModel.setOpinion(r)
+                viewModel.updateReviewsList()
+            }*/
         )
         recyclerView.adapter = reviewAdapter
 
@@ -56,7 +61,8 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
         viewModel.reviews.observe(viewLifecycleOwner) {
             it?.let {
-                reviewAdapter.submitList(it.toMutableList())
+                // Displays the most liked reviews first
+                reviewAdapter.submitList(it.toMutableList().sortedBy { r -> -r.likers.size })
             }
         }
     }

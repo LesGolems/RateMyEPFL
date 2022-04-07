@@ -67,8 +67,8 @@ class AddReviewViewModel @Inject constructor(
             .setComment(comment)
             .setReviewableID(id)
             .setDate(date)
-            .setLikes(0)
-            .setDislikes(0)
+            .setLikers(listOf())
+            .setDislikers(listOf())
             .build()
         reviewRepo.add(review)
         return true
