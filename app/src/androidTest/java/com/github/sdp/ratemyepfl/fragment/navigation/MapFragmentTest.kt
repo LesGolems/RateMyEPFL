@@ -6,7 +6,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -72,8 +72,8 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun clickOnReviewButton() {
-        init()
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
+        init()
         grantPermission()
         val uiDevice = UiDevice.getInstance(getInstrumentation())
         val kebab = uiDevice.findObject(
@@ -83,7 +83,7 @@ class MapFragmentTest {
         kebab.click()
         onView(withId(R.id.reviewableButton))
             .perform(click())
-        intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl.activity.ReviewActivity"))
+        intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
 
