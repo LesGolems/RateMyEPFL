@@ -86,7 +86,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
         var reviewList = fakeList
     }
 
-    override fun add(value: HashMap<String, String>) {}
+    override fun add(value: HashMap<String, Any>) {}
 
     override suspend fun getReviews(): List<Review> {
         return reviewList
