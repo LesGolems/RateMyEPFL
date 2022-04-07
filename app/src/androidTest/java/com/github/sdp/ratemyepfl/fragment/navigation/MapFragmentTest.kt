@@ -45,6 +45,7 @@ class MapFragmentTest {
             .check(matches(isDisplayed()))
     }
 
+    /* Redundant for now, but may be useful later
     @ExperimentalCoroutinesApi
     @Test
     fun isMapVisibleIfDenyingPermission() {
@@ -53,6 +54,7 @@ class MapFragmentTest {
         onView(withId(R.id.map))
             .check(matches(isDisplayed()))
     }
+     */
 
     @ExperimentalCoroutinesApi
     @Test
