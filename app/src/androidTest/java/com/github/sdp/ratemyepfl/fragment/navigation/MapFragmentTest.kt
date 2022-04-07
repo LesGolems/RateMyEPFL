@@ -83,6 +83,7 @@ class MapFragmentTest {
                 .descriptionContains("Roulotte du Soleil")
         )
         kebab.click()
+        Thread.sleep(500)
         onView(withId(R.id.reviewableButton))
             .perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
