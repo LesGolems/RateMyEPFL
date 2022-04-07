@@ -5,8 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -73,6 +72,7 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun clickOnReviewButton() {
+        init()
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
         val uiDevice = UiDevice.getInstance(getInstrumentation())
