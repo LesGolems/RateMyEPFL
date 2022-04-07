@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:21.0.3'
     implementation 'com.google.firebase:firebase-firestore:24.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.firebase:firebase-common-ktx:20.1.0'
@@ -140,6 +141,8 @@ dependencies {
     // Coroutines test
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
 
+    // Circular ImageVIew
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     // Mockito
     testImplementation("org.mockito:mockito-core:4.4.0")
     testImplementation "org.mockito.kotlin:mockito-kotlin:3.2.0"

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.UserProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:background="@raw/background"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:background="@drawable/blank_profile_picture"
+                android:layout_centerInParent="true"
+                app:civ_border_width="5dp"
+                app:civ_border_color="#FFFFFF"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/modify_profile_image_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignEnd="@id/profile_image"
+                android:layout_alignBottom="@id/profile_image"
+                android:src="@drawable/camera_icon"
+                android:layout_centerInParent="true"
+                app:civ_border_width="5dp"
+                app:civ_border_color="#fc8403"/>
+
+            <EditText
+                android:id="@+id/username_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:hint="username"
+                android:textAlignment="center"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                android:selectAllOnFocus="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_margin="15dp"
+            android:background="@color/white"
+            android:id="@+id/emailField"
+            >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:id="@+id/emailIcon"
+                android:background="@drawable/fui_ic_googleg_color_24dp"/>
+
+            <EditText
+                android:id="@+id/emailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/emailIcon"
+                android:background="@android:color/transparent"
+                android:inputType="textEmailAddress"
+                android:hint="email"
+                android:textSize="25sp"
+                android:layout_marginStart="50dp"
+                android:selectAllOnFocus="true"/>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/emailText"
+                android:layout_marginTop="20dp"
+                android:background="@color/browser_actions_bg_grey" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/modify_profile_button"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="40dp"
+        android:background="@drawable/circular_button"
+        android:src="@drawable/ic_modify_profile_icon"/>
+
+</RelativeLayout>
