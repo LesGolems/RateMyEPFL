@@ -69,6 +69,7 @@ class HomeFragmentTest {
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
         FakeConnectedUser.loggedIn = false
         onView(withId(R.id.homePageConnectionButton)).perform(click())
+        Thread.sleep(2000)
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGIN)))
     }
 
@@ -96,6 +97,7 @@ class HomeFragmentTest {
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
         FakeConnectedUser.loggedIn = false
         onView(withId(R.id.homePageConnectionButton)).perform(click())
+        Thread.sleep(2000)
         onView(withId(R.id.homePageHelloUserText)).check(
             matches(withText(welcomeMsg))
         )

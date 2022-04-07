@@ -17,6 +17,7 @@ import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -74,6 +75,8 @@ class MapFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun clickOnReviewButton() {
+
+        runTest {  }
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         init()
         grantPermission()
@@ -83,7 +86,7 @@ class MapFragmentTest {
                 .descriptionContains("Roulotte du Soleil")
         )
         kebab.click()
-        Thread.sleep(500)
+        Thread.sleep(2000)
         onView(withId(R.id.reviewableButton))
             .perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
