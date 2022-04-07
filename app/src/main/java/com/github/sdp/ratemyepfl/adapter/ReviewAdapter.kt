@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,10 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
 
-class ReviewAdapter :
+class ReviewAdapter(
+    private val onLikeClick: (Review) -> Unit,
+    private val onDislikeClick: (Review) -> Unit,
+) :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
 
     /**
@@ -20,16 +24,17 @@ class ReviewAdapter :
     inner class ReviewViewHolder(reviewView: View) :
         RecyclerView.ViewHolder(reviewView) {
 
-        private val rateView: TextView =
-            reviewView.findViewById(R.id.rateReview)
-        private val commentView: TextView =
-            reviewView.findViewById(R.id.commentReview)
-        private val dateView: TextView =
-            reviewView.findViewById(R.id.dateReview)
-        private val titleView: TextView =
-            reviewView.findViewById(R.id.titleReview)
-        private var currentReview: Review? = null
+        private val titleView: TextView = reviewView.findViewById(R.id.titleReview)
+        private val rateView: TextView = reviewView.findViewById(R.id.rateReview)
+        private val commentView: TextView = reviewView.findViewById(R.id.commentReview)
+        private val dateView: TextView = reviewView.findViewById(R.id.dateReview)
 
+        private val likesTextView: TextView = reviewView.findViewById(R.id.likeCount)
+        private val dislikesTextView: TextView = reviewView.findViewById(R.id.dislikeCount)
+        private val likeButton: ImageButton = reviewView.findViewById(R.id.likeButton)
+        private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
+
+        private lateinit var currentReview: Review
 
         fun bind(review: Review) {
             currentReview = review
@@ -37,6 +42,19 @@ class ReviewAdapter :
             rateView.text = review.rating.toString()
             commentView.text = review.comment
             dateView.text = review.date.toString()
+
+            likesTextView.text = review.likers.size.toString()
+            dislikesTextView.text = review.dislikers.size.toString()
+
+            /* Dislike button logic */
+            dislikeButton.setOnClickListener {
+                onDislikeClick(currentReview)
+            }
+
+            /* Like button logic */
+            likeButton.setOnClickListener {
+                onLikeClick(currentReview)
+            }
         }
     }
 

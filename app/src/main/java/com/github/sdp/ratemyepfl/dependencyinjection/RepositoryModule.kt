@@ -26,7 +26,7 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideReviewRepo(repo: ReviewsRepositoryImpl): ReviewsRepository
+    abstract fun provideReviewRepo(repo: ReviewRepository): ReviewRepositoryInterface
 
     @Singleton
     @Binds

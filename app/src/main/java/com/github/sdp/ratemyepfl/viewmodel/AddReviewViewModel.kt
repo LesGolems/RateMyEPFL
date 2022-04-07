@@ -2,8 +2,8 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.database.ReviewsRepository
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -17,7 +17,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewsRepository
+    private val reviewRepo: ReviewRepositoryInterface
 ) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
@@ -61,8 +61,13 @@ class AddReviewViewModel @Inject constructor(
         if (rating == null) return null
 
         val reviewHashMap = hashMapOf(
-            "title" to title, "rating" to rating.toString(),
-            "comment" to comment, "reviewableId" to id, "date" to date.toString()
+            ReviewRepository.TITLE_FIELD_NAME to title,
+            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepository.COMMENT_FIELD_NAME to comment,
+            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
+            ReviewRepository.DATE_FIELD_NAME to date.toString(),
+            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
+            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
         )
         reviewRepo.add(reviewHashMap)
         return rating

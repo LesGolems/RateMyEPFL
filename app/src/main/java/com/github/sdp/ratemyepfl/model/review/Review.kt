@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -19,7 +19,9 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val reviewableId: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate,
-    val author: User? = null
+    val author: User? = null,
+    var likers: List<String> = listOf(),
+    var dislikers: List<String> = listOf()
 ) {
     companion object {
         /**
@@ -38,29 +40,6 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          */
         fun deserialize(review: String): Review = Json.decodeFromString(review)
 
-        /**
-         * Converts a json data into a Review
-         *
-         * @return the review if the json contains the necessary data, null otherwise
-         */
-        fun DocumentSnapshot.toReview(): Review? {
-            val rating: ReviewRating? = getString("rating")?.let { rating ->
-                ReviewRating.valueOf(rating)
-            }
-            val title: String? = getString("title")
-            val comment: String? = getString("comment")
-            val reviewableId: String? = getString("reviewableId")
-            val date: LocalDate? = LocalDate.parse(getString("date"))
-            return if (rating != null &&
-                title != null &&
-                comment != null &&
-                reviewableId != null &&
-                date != null
-            ) {
-                Review(id, rating, title, comment, reviewableId, date)
-            } else null
-        }
-
         private const val TAG = "review"
     }
 
@@ -78,13 +57,15 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
+        private var likers: List<String>? = null,
+        private var dislikers: List<String>? = null
     ) {
         /**
          * Sets the id of the review
          * @param id: the new id of the review
          * @return this
          */
-        fun setId(id: String) = apply {
+        fun setId(id: String?) = apply {
             this.id = id
         }
 
@@ -93,7 +74,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param rating: the new rating of the review
          * @return this
          */
-        fun setRating(rating: ReviewRating) = apply {
+        fun setRating(rating: ReviewRating?) = apply {
             this.rating = rating
         }
 
@@ -102,7 +83,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param title: the new title of the review
          * @return this
          */
-        fun setTitle(title: String) = apply {
+        fun setTitle(title: String?) = apply {
             this.title = title
         }
 
@@ -111,7 +92,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param comment: the new comment of the review
          * @return this
          */
-        fun setComment(comment: String) = apply {
+        fun setComment(comment: String?) = apply {
             this.comment = comment
         }
 
@@ -121,7 +102,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param id: reviewed item id
          * @return this
          */
-        fun setReviewableID(id: String) = apply {
+        fun setReviewableID(id: String?) = apply {
             this.reviewableId = id
         }
 
@@ -131,8 +112,16 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param date: the new date of the review
          * @return this
          */
-        fun setDate(date: LocalDate) = apply {
+        fun setDate(date: LocalDate?) = apply {
             this.date = date
+        }
+
+        fun setLikers(likers: List<String>) = apply {
+            this.likers = likers
+        }
+
+        fun setDislikers(dislikers: List<String>) = apply {
+            this.dislikers = dislikers
         }
 
         /**
@@ -141,18 +130,28 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
-            val id = this.id
-            val rate = this.rating
-            val title = this.title
-            val comment = this.comment
-            val reviewableId = this.reviewableId
-            val date = this.date
+            val id = this asMandatory id
+            val rate = this asMandatory rating
+            val title = this asMandatory title
+            val comment = this asMandatory comment
+            val reviewableId = this asMandatory reviewableId
+            val date = this asMandatory date
+            val likers = this.likers ?: listOf()
+            val dislikers = this.dislikers ?: listOf()
 
-            if (id != null && rate != null && title != null && comment != null && reviewableId != null && date != null) {
-                return Review(
-                    id, rate, title, comment, reviewableId, date
-                )
-            } else throw IllegalStateException("Cannot build a review made of null elements")
+            return Review(
+                id,
+                rate,
+                title,
+                comment,
+                reviewableId,
+                date,
+                likers = likers,
+                dislikers = dislikers
+            )
         }
+
+        private infix fun <T> asMandatory(field: T?): T =
+            field ?: throw IllegalStateException("A mandatory field cannot be null")
     }
 }
