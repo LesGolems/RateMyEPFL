@@ -23,12 +23,8 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         super.onViewCreated(view, savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
-        }
-        viewModel.overallGrade.observe(viewLifecycleOwner) {
-            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.toFloat()
-        }
-        viewModel.numReviews.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it)
+            view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it.numReviews)
+            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.averageGrade.toFloat()
         }
     }
 
@@ -43,6 +39,5 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     override fun onResume() {
         super.onResume()
         viewModel.updateRestaurant()
-        viewModel.updateReviewsList()
     }
 }

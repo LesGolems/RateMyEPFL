@@ -29,6 +29,10 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.ImageDetailActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen"
+            android:exported="false"/>
+        <activity
             android:name=".activity.SplashScreen"
             android:exported="true">
             <intent-filter>

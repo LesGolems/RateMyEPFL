@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface RestaurantRepositoryInterface {
     /**
@@ -16,4 +17,12 @@ interface RestaurantRepositoryInterface {
      * @return the restaurant if found, otherwise null
      */
     suspend fun getRestaurantById(id: String): Restaurant?
+
+    /**
+     * Updates the rating of the restaurant using a transaction for concurrency
+     *
+     *  @param id : id of the reviewed item
+     *  @param rating: rating of the review being added
+     */
+    fun updateRestaurantRating(id: String, rating: ReviewRating)
 }

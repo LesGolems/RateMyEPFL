@@ -9,6 +9,8 @@ data class Course(
     val teacher: String,
     val credits: Int,
     override val id: String,
+    override val numReviews: Int,
+    override val averageGrade: Double,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
@@ -34,6 +36,8 @@ data class Course(
         private var teacher: String? = null
         private var credits: Int? = null
         private var id: String? = null
+        private var numReviews: Int? = null
+        private var averageGrade: Double? = null
         private var cycle: String? = null
         private var session: String? = null
         private var grading: String? = null
@@ -59,6 +63,14 @@ data class Course(
             this.id = id
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
+        fun setAverageGrade(averageGrade: Double?) = apply {
+            this.averageGrade = averageGrade
+        }
+
         fun setCycle(cycle: String?) = apply {
             this.cycle = cycle
         }
@@ -81,8 +93,10 @@ data class Course(
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
             val id = this asMandatory id
+            val numReviews = this asMandatory numReviews
+            val averageGrade = this asMandatory averageGrade
 
-            return Course(title, section, teacher, credits, id, cycle, session, grading, language)
+            return Course(title, section, teacher, credits, id, numReviews, averageGrade, cycle, session, grading, language)
         }
 
     }
