@@ -31,7 +31,8 @@ class MainActivityTest {
     val testRule = ActivityScenarioRule(MainActivity::class.java)
 
     @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
+    val grantPermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @Before
     fun setup() {

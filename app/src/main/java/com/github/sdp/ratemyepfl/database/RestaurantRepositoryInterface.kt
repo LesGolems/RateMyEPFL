@@ -19,7 +19,19 @@ interface RestaurantRepositoryInterface {
     suspend fun getRestaurantById(id: String): Restaurant?
 
     /**
-     * Updates the rating of the restaurant using a transaction for concurrency
+     *  Increment occupancy of given restaurant
+     */
+    fun incrementOccupancy(id: String)
+
+
+    /**
+     *  Decrement occupancy of given restaurant
+     */
+    fun decrementOccupancy(id: String)
+
+
+    /**
+     *  Updates the rating of the restaurant using a transaction for concurrency
      *
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
