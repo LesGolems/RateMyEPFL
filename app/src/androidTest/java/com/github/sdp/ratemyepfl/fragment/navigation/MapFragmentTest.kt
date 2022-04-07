@@ -3,7 +3,11 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -44,6 +48,15 @@ class MapFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun isMapVisibleIfDenyingPermission() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
+        denyPermission()
+        onView(withId(R.id.map))
+            .check(matches(isDisplayed()))
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun clickOnMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
@@ -53,6 +66,40 @@ class MapFragmentTest {
                 .descriptionContains("Roulotte du Soleil")
         )
         kebab.click()
+        onView(withId(R.id.map))
+            .check(matches(isDisplayed()))
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun clickOnReviewButton() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
+        grantPermission()
+        val uiDevice = UiDevice.getInstance(getInstrumentation())
+        val kebab = uiDevice.findObject(
+            UiSelector()
+                .descriptionContains("Roulotte du Soleil")
+        )
+        kebab.click()
+        onView(withId(R.id.reviewableButton))
+            .perform(click())
+        intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl.activity.ReviewActivity"))
+        release()
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun clickOnMapAfterMarker() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
+        grantPermission()
+        val uiDevice = UiDevice.getInstance(getInstrumentation())
+        val kebab = uiDevice.findObject(
+            UiSelector()
+                .descriptionContains("Roulotte du Soleil")
+        )
+        kebab.click()
+        onView(withId(R.id.map))
+            .perform(click())
         onView(withId(R.id.map))
             .check(matches(isDisplayed()))
     }
