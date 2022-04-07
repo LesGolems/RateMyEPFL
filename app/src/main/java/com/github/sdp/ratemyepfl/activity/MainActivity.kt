@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        //startLocationService()
+        startLocationService()
     }
 
     override fun onSupportNavigateUp(): Boolean {

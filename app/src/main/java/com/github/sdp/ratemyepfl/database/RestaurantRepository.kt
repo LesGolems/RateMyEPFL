@@ -16,11 +16,7 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
             val occupancy = getString("occupancy")?.toInt() ?: 0
             val lat = getString("lat")?.toDouble() ?: 0.0
             val lon = getString("long")?.toDouble() ?: 0.0
-
-            if(id != null)
-                return Restaurant(id, occupancy, lat, lon)
-
-            return null
+            return Restaurant(id, occupancy, lat, lon)
         }
     }
 
