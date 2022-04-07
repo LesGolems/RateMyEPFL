@@ -13,11 +13,13 @@ class RestaurantRepositoryTest {
         val fake = "fake"
         val lat = 0.0
         val long = 0.0
+        val occupancy = 0
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
         Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
+        Mockito.`when`(snapshot.getString("occupancy")).thenReturn(occupancy.toString())
 
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
@@ -26,6 +28,6 @@ class RestaurantRepositoryTest {
             .setLong(long)
             .build()
         assertEquals(fakeRestaurant, restaurant)
-
     }
+
 }

@@ -28,7 +28,7 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
 
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 
-    fun incrementOccupancy(id: String) {
+    override fun incrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
@@ -40,7 +40,7 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
         }
     }
 
-    fun decrementOccupancy(id: String) {
+    override fun decrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)

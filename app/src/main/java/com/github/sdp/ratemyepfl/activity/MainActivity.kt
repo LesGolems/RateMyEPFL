@@ -97,11 +97,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Receives location updates
      */
     override fun onLocationChanged(location: Location) {
-        Toast.makeText(
-            this,
-            "Location : ${location.latitude}, ${location.longitude}",
-            Toast.LENGTH_SHORT
-        ).show()
         restaurantListViewModel.updateRestaurantsOccupancy(location)
     }
 

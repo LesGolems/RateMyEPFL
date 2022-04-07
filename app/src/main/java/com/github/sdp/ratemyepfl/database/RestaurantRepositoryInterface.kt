@@ -16,4 +16,17 @@ interface RestaurantRepositoryInterface {
      * @return the restaurant if found, otherwise null
      */
     suspend fun getRestaurantById(id: String): Restaurant?
+
+    /**
+     *  Increment occupancy of given restaurant
+     */
+    fun incrementOccupancy(id: String)
+
+
+    /**
+     *  Decrement occupancy of given restaurant
+     */
+    fun decrementOccupancy(id: String)
+
+
 }

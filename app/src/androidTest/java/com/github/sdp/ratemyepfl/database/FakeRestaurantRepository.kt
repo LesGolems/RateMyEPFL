@@ -19,4 +19,12 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
     override suspend fun getRestaurants(): List<Restaurant> = RESTAURANT_LIST
 
     override suspend fun getRestaurantById(id: String): Restaurant = DEFAULT_RESTAURANT
+
+    override fun incrementOccupancy(id: String) {
+    }
+
+    override fun decrementOccupancy(id: String) {
+    }
+
+
 }
