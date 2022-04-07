@@ -21,8 +21,7 @@
         android:label="fragment_room_review_picture"
         tools:layout="@layout/fragment_room_review_picture" />
     <fragment
-        android:id="@+id/addReviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
-        android:label="fragment_add_review"
-        tools:layout="@layout/fragment_add_review" />
+        android:id="@+id/addClassroomReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddClassroomReviewFragment"
+        android:label="AddClassroomReviewFragment" />
 </navigation>

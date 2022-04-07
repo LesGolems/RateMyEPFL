@@ -23,12 +23,8 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.room.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.roomIdInfo).text = it?.toString()
-        }
-        viewModel.overallGrade.observe(viewLifecycleOwner) {
-            view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.toFloat()
-        }
-        viewModel.numReviews.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.roomNumReview).text = getNumReviewString(it)
+            view.findViewById<TextView>(R.id.roomNumReview).text = getNumReviewString(it.numReviews)
+            view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.averageGrade.toFloat()
         }
     }
 
@@ -43,6 +39,5 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     override fun onResume() {
         super.onResume()
         viewModel.updateRoom()
-        viewModel.updateReviewsList()
     }
 }

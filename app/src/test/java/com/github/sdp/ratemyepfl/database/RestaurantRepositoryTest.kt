@@ -16,12 +16,16 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn("2.5")
         Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
         Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
 
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
             .setId(fake)
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
             .build()
@@ -38,6 +42,8 @@ class RestaurantRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.SECTION_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn(null)
 
         val restaurant = snapshot.toRestaurant()
         assertEquals(null, restaurant)
