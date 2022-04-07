@@ -5,15 +5,11 @@ import com.github.sdp.ratemyepfl.model.user.User.Companion.toUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserDatabase private constructor() : UserRepository {
-
-    /**
-     * The UserDatabase follows the singleton principle
-     */
-    companion object {
-        val instance = UserDatabase()
-    }
+@Singleton
+class UserDatabase @Inject constructor() : UserRepository {
 
     val USER_COLLECTION_PATH = "users"
 

@@ -9,16 +9,21 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
 import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.database.UserDatabase
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserProfileActivity : AppCompatActivity() {
 
     val SELECT_IMAGE = 1044
@@ -29,13 +34,10 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var usernameText: EditText
     private lateinit var modifyButton: ImageButton
 
-    private val currentUser = ConnectedUserImpl()
-    private val viewModel =
-        UserProfileViewModel(
-        currentUser,
-        ImageStorage.instance,
-        UserDatabase.instance
-    )
+    @Inject
+    lateinit var currentUser : ConnectedUser
+
+    private val viewModel by viewModels<UserProfileViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,21 +54,16 @@ class UserProfileActivity : AppCompatActivity() {
         }
 
         viewModel.username().observe(this) {
-            if (!it.isNullOrEmpty()) {
-                usernameText.setText(it)
-            }
+            usernameText.setText(it.orEmpty())
         }
 
         viewModel.email().observe(this) {
-            if (!it.isNullOrEmpty()) {
-                emailText.setText(it)
-            }
+            emailText.setText(it.orEmpty())
         }
 
-        emailText.isEnabled = false
-        usernameText.isEnabled = false
+        enableModifications(false)
+
         cameraIcon.setOnClickListener(updatePicture)
-        cameraIcon.visibility = View.INVISIBLE
         modifyButton.setOnClickListener(updateProfile)
     }
 
@@ -79,12 +76,8 @@ class UserProfileActivity : AppCompatActivity() {
 
     val updateProfile = View.OnClickListener {
         if (!it.isActivated) {
-            cameraIcon.visibility = View.VISIBLE
-            emailText.isEnabled = true
-            usernameText.isEnabled = true
-            it.isActivated = true
+                enableModifications(true)
         } else {
-            cameraIcon.visibility = View.GONE
             try {
                 viewModel.changeUsername(usernameText.text.toString())
                 viewModel.changeEmail(emailText.text.toString())
@@ -93,10 +86,20 @@ class UserProfileActivity : AppCompatActivity() {
                 viewModel.discardChanges()
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
-            emailText.isEnabled = false
-            usernameText.isEnabled = false
-            it.isActivated = false
+            enableModifications(false)
         }
+    }
+
+    private fun enableModifications(boolean: Boolean) {
+        cameraIcon.isEnabled = boolean
+        if (boolean) {
+            cameraIcon.visibility = View.VISIBLE
+        } else {
+            cameraIcon.visibility = View.GONE
+        }
+        emailText.isEnabled = boolean
+        usernameText.isEnabled = boolean
+        modifyButton.isActivated = boolean
     }
 
     // mediastore methods are deprecated but the replacement requires another API

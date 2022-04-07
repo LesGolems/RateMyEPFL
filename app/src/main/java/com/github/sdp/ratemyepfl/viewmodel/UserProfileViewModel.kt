@@ -7,12 +7,15 @@ import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserProfileViewModel(
-    private val currentUser: ConnectedUser,
-    private val imageStorage: Storage<ImageFile>,
-    private val userDatabase: UserRepository
+@HiltViewModel
+class UserProfileViewModel @Inject constructor(
+    val currentUser: ConnectedUser,
+    val imageStorage: Storage<ImageFile>,
+    val userDatabase: UserRepository
     ) : ViewModel() {
 
     private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)

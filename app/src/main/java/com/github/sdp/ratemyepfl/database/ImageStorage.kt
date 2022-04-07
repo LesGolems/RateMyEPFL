@@ -9,16 +9,11 @@ import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ImageStorage private constructor() : Storage<ImageFile> {
-
-    /**
-     * The ImageStorage follows the singleton design pattern.
-     */
-    companion object {
-        val instance = ImageStorage()
-    }
+@Singleton
+class ImageStorage @Inject constructor() : Storage<ImageFile> {
 
     private fun storageReference() : StorageReference {
         return FirebaseStorage.getInstance()

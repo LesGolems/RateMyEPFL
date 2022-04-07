@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
@@ -32,4 +33,12 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewsRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideUserRepo(repo: FakeUserRepository): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideImageRepo(repo: FakeImageStorage): Storage<ImageFile>
 }
