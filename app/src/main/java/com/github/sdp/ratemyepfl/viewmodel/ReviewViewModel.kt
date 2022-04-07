@@ -39,7 +39,7 @@ open class ReviewViewModel @Inject constructor(
 
     val overallGrade: LiveData<Int> = computeOverallGrade()
 
-    val FAKE_UID = "FAKE ID"
+    //val FAKE_UID = "FAKE ID"
 
     init {
         updateReviewsList()
@@ -95,20 +95,20 @@ open class ReviewViewModel @Inject constructor(
     }*/
 
     fun updateLikers(review: Review) {
-        //val uid = auth.getUserId()
-        if (review.likers.contains(FAKE_UID)) {
-            reviewRepo.removeLiker(review.id!!, FAKE_UID)
+        val uid = auth.getUserId()
+        if (review.likers.contains(uid)) {
+            reviewRepo.removeLiker(review.id!!, uid!!)
         } else {
-            reviewRepo.addLiker(review.id!!, FAKE_UID)
+            reviewRepo.addLiker(review.id!!, uid!!)
         }
     }
 
     fun updateDislikers(review: Review) {
-        //val uid = auth.getUserId()
-        if (review.dislikers.contains(FAKE_UID)) {
-            reviewRepo.removeDisliker(review.id!!, FAKE_UID)
+        val uid = auth.getUserId()
+        if (review.dislikers.contains(uid)) {
+            reviewRepo.removeDisliker(review.id!!, uid!!)
         } else {
-            reviewRepo.addDisliker(review.id!!, FAKE_UID)
+            reviewRepo.addDisliker(review.id!!, uid!!)
         }
     }
 
