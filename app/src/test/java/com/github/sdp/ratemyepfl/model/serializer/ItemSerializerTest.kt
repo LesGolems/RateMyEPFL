@@ -10,7 +10,7 @@ import org.junit.Test
 class ItemSerializerTest {
     @Test
     fun serializationTestForClassroom() {
-        val t: Reviewable = Classroom("a")
+        val t: Reviewable = Classroom("a", 15, 2.5)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
@@ -18,7 +18,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForCourse() {
-        val t: Reviewable = Course("", "", "", 0, "")
+        val t: Reviewable = Course("", "", "", 0, "", 15, 2.5)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
@@ -26,7 +26,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForRestaurant() {
-        val t: Reviewable = Restaurant("a", 0.0, 0.0)
+        val t: Reviewable = Restaurant("a", 0, 0.0, 0.0, 15, 2.5)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
@@ -36,6 +36,8 @@ class ItemSerializerTest {
     fun serializationFailsForInvalidParameters() {
         val t: Reviewable = Restaurant.Builder()
             .setId("fake")
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
             .setLat(0.0)
             .setLong(0.0)
             .build()

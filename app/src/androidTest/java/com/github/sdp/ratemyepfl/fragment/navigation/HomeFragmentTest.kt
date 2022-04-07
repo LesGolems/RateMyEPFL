@@ -69,8 +69,7 @@ class HomeFragmentTest {
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
         FakeConnectedUser.loggedIn = false
         onView(withId(R.id.homePageConnectionButton)).perform(click())
-            .check(matches(withText(HomeFragment.LOGIN)))
-
+        onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGIN)))
     }
 
     @ExperimentalCoroutinesApi

@@ -19,9 +19,11 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME))
             .thenReturn(fakeCredit)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn("2.5")
 
         val course: Course? = snapshot.toCourse()
-        val fakeCourse = Course(fake, fake, fake, fakeCredit.toInt(), fake)
+        val fakeCourse = Course(fake, fake, fake, fakeCredit.toInt(), fake, 15, 2.5)
         assertEquals(fakeCourse, course)
 
     }
@@ -37,6 +39,8 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.SECTION_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn(null)
 
         val course: Course? = snapshot.toCourse()
         assertEquals(null, course)

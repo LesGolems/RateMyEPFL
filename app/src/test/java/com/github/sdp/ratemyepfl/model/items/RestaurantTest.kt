@@ -8,19 +8,23 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class RestaurantTest {
-    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 46.52, 6.569)
+    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_RESTAURANT)
 
     @Test
     fun defaultConstructorWorks() {
-        val r = Restaurant("Arcadie", 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
         assertEquals("Arcadie", r.id)
+        assertEquals(15, r.numReviews)
+        assertEquals(2.5, r.averageGrade, 0.01)
     }
 
     @Test
     fun paramConstructorWorks() {
-        val r = Restaurant("Arcadie", 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
         assertEquals("Arcadie", r.id)
+        assertEquals(15, r.numReviews)
+        assertEquals(2.5, r.averageGrade, 0.01)
     }
 
     @Test
@@ -43,7 +47,31 @@ class RestaurantTest {
     @Test
     fun builderThrowsForMissingId() {
         val builder = Restaurant.Builder()
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
             .setId(null)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingNumReviews() {
+        val builder = Restaurant.Builder()
+            .setAverageGrade(2.5)
+            .setId("Fake")
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingAverageGrade() {
+        val builder = Restaurant.Builder()
+            .setNumReviews(15)
+            .setId("Fake")
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -57,10 +85,12 @@ class RestaurantTest {
         val long = 0.0
         val builder = Restaurant.Builder()
             .setId(fake)
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
 
-        val restaurant = Restaurant(fake, lat, long)
+        val restaurant = Restaurant(fake, 0, lat, long, 15, 2.5)
         assertEquals(restaurant, builder.build())
     }
 }

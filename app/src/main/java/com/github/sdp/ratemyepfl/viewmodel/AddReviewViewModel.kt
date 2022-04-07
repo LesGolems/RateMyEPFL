@@ -16,7 +16,6 @@ import javax.inject.Inject
  *               the savedStateHandle
  */
 @HiltViewModel
-
 class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewsRepository
 ) : ViewModel() {
@@ -49,26 +48,23 @@ class AddReviewViewModel @Inject constructor(
     /**
      * Builds and submits the review to the database
      *
-     * @return true if it succeeds to build the review, false otherwise
+     * @return the rating of the review or null if the construction didn't work
      */
-    fun submitReview(id: String): Boolean {
+    fun submitReview(id: String): ReviewRating? {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        if (comment == null || comment == "") return false
-        if (title == null || title == "") return false
-        if (rating == null) return false
+        if (comment == null || comment == "") return null
+        if (title == null || title == "") return null
+        if (rating == null) return null
 
-        val review = Review.Builder()
-            .setRating(rating)
-            .setTitle(title)
-            .setComment(comment)
-            .setReviewableID(id)
-            .setDate(date)
-            .build()
-        reviewRepo.add(review)
-        return true
+        val reviewHashMap = hashMapOf(
+            "title" to title, "rating" to rating.toString(),
+            "comment" to comment, "reviewableId" to id, "date" to date.toString()
+        )
+        reviewRepo.add(reviewHashMap)
+        return rating
     }
 }
