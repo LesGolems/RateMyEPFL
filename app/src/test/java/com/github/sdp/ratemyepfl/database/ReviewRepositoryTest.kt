@@ -6,15 +6,12 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 import java.time.LocalDate
 
-@RunWith(MockitoJUnitRunner::class)
 class ReviewRepositoryTest {
 
-    /*@Test
+    @Test
     fun toItemReturnsAReviewForCompleteSnapshot() {
         val fakeId = "fake"
         val fakeRating = "AVERAGE"
@@ -22,6 +19,8 @@ class ReviewRepositoryTest {
         val fakeComment = "My comment"
         val fakeReviewableId = "CS-666"
         val fakeDate = "2022-04-05"
+        val fakeLikers = listOf("liker Id")
+        val fakeDislikers = listOf("disliker Id")
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id)
@@ -36,19 +35,23 @@ class ReviewRepositoryTest {
             .thenReturn(fakeReviewableId)
         Mockito.`when`(snapshot.getString(ReviewRepository.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(ReviewRepository.LIKERS_FIELD_NAME) as List<String>)
-            .thenReturn(listOf())
+        Mockito.`when`(snapshot.get(ReviewRepository.LIKERS_FIELD_NAME))
+            .thenReturn(fakeLikers)
+        Mockito.`when`(snapshot.get(ReviewRepository.DISLIKERS_FIELD_NAME))
+            .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()
-        val fakeReview =
-            Review(
-                fakeId,
-                ReviewRating.valueOf(fakeRating),
-                fakeTitle,
-                fakeComment,
-                fakeReviewableId,
-                LocalDate.parse(fakeDate)
-            )
+        val fakeReview = Review.Builder()
+            .setId(fakeId)
+            .setRating(ReviewRating.valueOf(fakeRating))
+            .setTitle(fakeTitle)
+            .setComment(fakeComment)
+            .setReviewableID(fakeReviewableId)
+            .setDate(LocalDate.parse(fakeDate))
+            .setLikers(fakeLikers)
+            .setDislikers(fakeDislikers)
+            .build()
+
         assertEquals(review, fakeReview)
     }
 
@@ -60,6 +63,8 @@ class ReviewRepositoryTest {
         val fakeComment = "My comment"
         val fakeReviewableId = null
         val fakeDate = "2022-04-05"
+        val fakeLikers = listOf("liker Id")
+        val fakeDislikers = listOf("disliker Id")
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id)
@@ -74,8 +79,12 @@ class ReviewRepositoryTest {
             .thenReturn(fakeReviewableId)
         Mockito.`when`(snapshot.getString(ReviewRepository.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
+        Mockito.`when`(snapshot.get(ReviewRepository.LIKERS_FIELD_NAME))
+            .thenReturn(fakeLikers)
+        Mockito.`when`(snapshot.get(ReviewRepository.DISLIKERS_FIELD_NAME))
+            .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()
         assertEquals(null, review)
-    }*/
+    }
 }
