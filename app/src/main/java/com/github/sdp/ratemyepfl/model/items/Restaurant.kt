@@ -5,11 +5,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Restaurant(
     override val id: String,
+    val occupancy: Int,
+    val lat: Double,
+    val long: Double,
     override val numReviews: Int,
     override val averageGrade: Double,
-    val lat: Double,
-    val long: Double
-) : Reviewable(){
+) : Reviewable() {
 
     override fun toString(): String {
         return id
@@ -53,7 +54,7 @@ data class Restaurant(
             val averageGrade = this asMandatory averageGrade
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(id, numReviews, averageGrade, lat, long)
+            return Restaurant(id, 0, lat, long, numReviews, averageGrade)
         }
     }
 

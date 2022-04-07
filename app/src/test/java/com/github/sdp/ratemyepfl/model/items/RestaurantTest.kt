@@ -8,12 +8,12 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class RestaurantTest {
-    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 15, 2.5, 46.52, 6.569)
+    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_RESTAURANT)
 
     @Test
     fun defaultConstructorWorks() {
-        val r = Restaurant("Arcadie", 15, 2.5, 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
         assertEquals("Arcadie", r.id)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
@@ -21,7 +21,7 @@ class RestaurantTest {
 
     @Test
     fun paramConstructorWorks() {
-        val r = Restaurant("Arcadie", 15, 2.5, 46.52, 6.569)
+        val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
         assertEquals("Arcadie", r.id)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
@@ -90,7 +90,7 @@ class RestaurantTest {
             .setLat(lat)
             .setLong(long)
 
-        val restaurant = Restaurant(fake, 15, 2.5, lat, long)
+        val restaurant = Restaurant(fake, 0, lat, long, 15, 2.5)
         assertEquals(restaurant, builder.build())
     }
 }
