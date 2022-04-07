@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.SplashScreen
+import com.github.sdp.ratemyepfl.activity.UserProfileActivity
 import com.github.sdp.ratemyepfl.viewmodel.HomeViewModel
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var helloUser: TextView
     private lateinit var connectionButton: MaterialButton
+    private lateinit var userProfileButton: MaterialButton
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -25,6 +27,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         helloUser = view.findViewById(R.id.homePageHelloUserText)
         connectionButton = view.findViewById(R.id.homePageConnectionButton)
+        userProfileButton = view.findViewById(R.id.user_profile_button)
+
+        setupUserProfileButton()
         setupConnectionButton()
         setupUser()
     }
@@ -54,6 +59,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     viewModel.signOut(requireContext())
                 } else {
                     startActivity(Intent(context, SplashScreen::class.java))
+                }
+            }
+        }
+    }
+
+    private fun setupUserProfileButton() {
+        userProfileButton.setOnClickListener {
+            if (context != null) {
+                if (viewModel.isUserLoggedIn()) {
+                    startActivity(Intent(context, UserProfileActivity::class.java))
                 }
             }
         }

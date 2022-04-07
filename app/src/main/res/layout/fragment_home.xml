@@ -32,6 +32,22 @@
         app:layout_constraintTop_toBottomOf="@+id/homePageTitle" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/user_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:text="My Profile"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:icon="@drawable/ic_add_circle_white_24dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homePageHelloUserText"
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/homePageConnectionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,6 +60,6 @@
         app:iconTint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homePageHelloUserText"
+        app:layout_constraintTop_toBottomOf="@+id/user_profile_button"
         app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
