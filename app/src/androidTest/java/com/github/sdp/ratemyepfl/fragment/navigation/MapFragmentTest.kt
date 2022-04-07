@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -12,8 +11,6 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.utils.withMenuItemText
-import com.github.sdp.ratemyepfl.utils.withOverflowMenuItemText
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,50 +38,6 @@ class MapFragmentTest {
     fun isMapVisibleOnActivityLaunch() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         grantPermission()
-        onView(withId(R.id.map))
-            .check(matches(isDisplayed()))
-    }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun changesTypeCorrectlyWhenUserClicksOnStandard() {
-        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        grantPermission()
-        onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
-        onView(withMenuItemText(R.string.standard_type)).perform(click())
-        onView(withId(R.id.map))
-            .check(matches(isDisplayed()))
-    }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun changesTypeCorrectlyWhenUserClicksOnSatellite() {
-        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        grantPermission()
-        onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
-        onView(withMenuItemText(R.string.satellite_type)).perform(click())
-        onView(withId(R.id.map))
-            .check(matches(isDisplayed()))
-    }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun changesTypeCorrectlyWhenUserClicksOnHybrid() {
-        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        grantPermission()
-        onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
-        onView(withMenuItemText(R.string.hybrid_type)).perform(click())
-        onView(withId(R.id.map))
-            .check(matches(isDisplayed()))
-    }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun changesTypeCorrectlyWhenUserClicksOnTerrain() {
-        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        grantPermission()
-        onView(withOverflowMenuItemText(R.string.change_map_type)).perform(click())
-        onView(withMenuItemText(R.string.terrain_type)).perform(click())
         onView(withId(R.id.map))
             .check(matches(isDisplayed()))
     }
