@@ -71,11 +71,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 )
         }
 
-        activityViewModel.getReviewable().observe(viewLifecycleOwner) {
-            reviewIndicationTitle.text = getString(R.string.title_review, it?.toString())
-
-        }
-
+        reviewIndicationTitle.text = getString(R.string.title_review, activityViewModel.id)
         setupListeners()
     }
 
@@ -102,7 +98,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (viewModel.submitReview(activityViewModel.getReviewable().value)) {
+        if (viewModel.submitReview(activityViewModel.id)) {
             reset()
             // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
@@ -118,7 +114,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     /**
      * Once a review is submitted all the information are reset to default
      */
-    private fun reset(){
+    private fun reset() {
         title.setText("")
         comment.setText("")
         ratingBar.rating = 0f
@@ -127,8 +123,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     /**
      * Helper method to set the error message when an input is empty, i.e invalid
      */
-    private fun setError(layout : TextInputEditText, actualValue : String?, errorMessage : String){
-        if(actualValue == null || actualValue == "") layout.error = errorMessage
+    private fun setError(layout: TextInputEditText, actualValue: String?, errorMessage: String) {
+        if (actualValue == null || actualValue == "") layout.error = errorMessage
     }
 
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/event"
+    android:label="@string/event_page_title"
+    app:startDestination="@id/eventFragment">
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.navigation.EventFragment"
+        android:label="@string/event_page_title"
+        tools:layout="@layout/fragment_event" />
+</navigation>

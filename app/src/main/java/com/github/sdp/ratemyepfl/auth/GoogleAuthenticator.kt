@@ -10,9 +10,9 @@ import javax.inject.Inject
 /*
 Implementation of the authenticator using Google Sign In
 */
-class GoogleAuthenticator @Inject constructor() : Authenticator {
+class GoogleAuthenticator @Inject constructor() {
 
-    override fun signIn(activity: AppCompatActivity) {
+    fun signIn(activity: AppCompatActivity) {
         val providers = arrayListOf(
             AuthUI.IdpConfig.GoogleBuilder().build()
         )
@@ -26,7 +26,7 @@ class GoogleAuthenticator @Inject constructor() : Authenticator {
         activity.startActivity(intent)
     }
 
-    override fun signOut(context: Context): Task<Void> {
+    fun signOut(context: Context): Task<Void> {
         return AuthUI.getInstance().signOut(context)
     }
 }

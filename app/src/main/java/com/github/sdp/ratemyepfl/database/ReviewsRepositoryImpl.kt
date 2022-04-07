@@ -13,7 +13,7 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
     }
 
     override fun add(value: Review) {
-        collection.document(value.title)
+        collection.document()
             .set(value.toHashMap())
     }
 
@@ -26,6 +26,7 @@ class ReviewsRepositoryImpl @Inject constructor() : ReviewsRepository, Repositor
     override suspend fun getByReviewableId(id: String?): List<Review> {
         return getBy("reviewableId", id.orEmpty())
     }
+
 
     suspend fun getByRate(rate: Int): List<Review> {
         return getBy("rate", rate.toString())

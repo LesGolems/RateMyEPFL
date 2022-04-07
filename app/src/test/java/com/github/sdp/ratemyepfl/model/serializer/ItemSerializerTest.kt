@@ -26,9 +26,24 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForRestaurant() {
-        val t: Reviewable = Restaurant("a")
+        val t: Reviewable = Restaurant("a", 0.0, 0.0)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
+    }
+
+    @Test
+    fun serializationFailsForInvalidParameters() {
+        val t: Reviewable = Restaurant.Builder()
+            .setId("fake")
+            .setLat(0.0)
+            .setLong(0.0)
+            .build()
+        val ser: String = "bad serialization"
+
+        assertEquals(
+            null,
+            ItemSerializer.deserialize(ser)
+        )
     }
 }

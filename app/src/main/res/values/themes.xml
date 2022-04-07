@@ -14,5 +14,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!-- Theme displayed when a photo is zoomed in/out -->
+    <style name="Theme.AppCompat.DayNight.NoActionBar.FullScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
 </resources>

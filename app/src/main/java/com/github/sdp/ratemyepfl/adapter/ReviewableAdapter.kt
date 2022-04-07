@@ -3,36 +3,41 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.utils.ListActivityUtils
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
-    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(ListActivityUtils.diffCallback<Reviewable>()),
+    ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(AdapterUtil.diffCallback<Reviewable>()),
     Filterable {
 
-    private var list = mutableListOf<Reviewable>()
+    private var list: List<Reviewable> = listOf()
+
+    fun submitData(data: List<Reviewable>, commitCallback: (() -> Unit) = {}) {
+        list = data.toList()
+        submitList(list, commitCallback)
+    }
 
     inner class ReviewableViewHolder(reviewableView: View) :
         RecyclerView.ViewHolder(reviewableView) {
 
         private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
-        private val reviewBut: Button = reviewableView.findViewById(R.id.reviewableButton)
         private var currentReviewable: Reviewable? = null
 
         init {
-            reviewBut.setOnClickListener {
-                currentReviewable?.let {
-                    onClick(it)
+            reviewableView.isClickable = true
+            reviewableView.findViewById<LinearLayout>(R.id.reviewableItemLayout)
+                .setOnClickListener {
+                    currentReviewable?.let {
+                        onClick(it)
+                    }
                 }
-            }
         }
 
         /* Bind room id. */
@@ -59,11 +64,6 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
-    fun setData(list: MutableList<Reviewable>?) {
-        this.list = list!!
-        submitList(list)
-    }
-
     override fun getFilter(): Filter {
         return reviewableSearchFilter
     }
@@ -86,7 +86,8 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
             }
 
             override fun publishResults(query: CharSequence?, searchResults: FilterResults?) {
-                submitList(searchResults!!.values as MutableList<Reviewable>)
+                searchResults?.values
+                    ?.run { submitList(this as List<Reviewable>) }
             }
         }
     }
@@ -94,33 +95,40 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
     private val reviewableSearchFilter = getFilterMethod { query ->
         val queryLower = query.toString().lowercase()
         val filteredList = mutableListOf<Reviewable>()
-        filteredList.addAll(list.filter {
-            it.toString().lowercase().contains(queryLower)
+        filteredList.addAll(list.filter { item ->
+            item.toString()
+                .lowercase()
+                .contains(queryLower)
         })
         filteredList
     }
 
-    fun sortAlphabetically(increasing: Boolean) {
-        val sortedList = mutableListOf<Reviewable>()
-        sortedList.addAll(list)
+    /**
+     * Sort the adapted list alphabetically, in the A-Z order by default
+     *
+     * @param reversedOrder: if true, sort following the Z-A order
+     * @param commitCallback: callback to execute when the sort has been committed, default null
+     */
+    fun sortAlphabetically(reversedOrder: Boolean = false, commitCallback: (() -> Unit)? = {}) {
+        val sortedList = list.sortedBy { item -> item.id }
+            .let { if (reversedOrder) it.reversed() else it }
 
-        sortedList.sortBy { it.id }
-        if (!increasing) {
-            sortedList.reverse()
-        }
-        setData(sortedList)
+        submitList(sortedList, commitCallback)
     }
 
-    fun filterByCredit(credit: CharSequence?) {
-        courseCreditsFilter.filter(credit)
-    }
+//    TODO("ADD BACK THOSE WHEN IMPLEMENTATION IS DONE"
+//    fun filterByCredit(credit: CharSequence?) {
+//        courseCreditsFilter.filter(credit)
+//    }
+//
+//    private val courseCreditsFilter = getFilterMethod { query ->
+//        val queryInt = query.toString()
+//            .toInt()
+//        val filteredList = mutableListOf<Reviewable>()
+//        filteredList.addAll(list.filter { item ->
+//            (item as Course).credits == queryInt
+//        })
+//        filteredList
+//    }
 
-    private val courseCreditsFilter = getFilterMethod { query ->
-        val queryInt = query.toString().toInt()
-        val filteredList = mutableListOf<Reviewable>()
-        filteredList.addAll(list.filter {
-            (it as Course).credits == queryInt
-        })
-        filteredList
-    }
 }

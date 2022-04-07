@@ -7,9 +7,9 @@ import java.time.LocalDate
 
 class ReviewTest {
     val EXPECTED_REVIEW =
-        Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
+        Review("Fake", ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
     val EXPECTED_JSON =
-        "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
+        "{\"id\":\"Fake\",\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
 
     @Test
     fun test() {
@@ -20,6 +20,7 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfRateIsNull() {
         val builder = Review.Builder()
+            .setId("Fake")
             .setComment("Hello")
             .setTitle("Hello")
             .setReviewableID("ID")
@@ -171,7 +172,7 @@ class ReviewTest {
             .setDate(LocalDate.of(2020, 3, 8))
             .build()
 
-        val serializedReview = Review.serialize(review)
+        val serializedReview = review.serialize()
         val deserializedReview = Review.deserialize(serializedReview)
 
         assertEquals(review, deserializedReview)

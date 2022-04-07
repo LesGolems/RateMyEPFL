@@ -18,17 +18,7 @@
             android:name=".activity.UserProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.course.CourseListActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
             android:name=".activity.ReviewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.classrooms.ClassroomsListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.restaurants.RestaurantListActivity"
             android:exported="false" />
 
         <meta-data
@@ -44,6 +34,10 @@
         <activity
             android:name=".activity.map.MapActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.ImageDetailActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen"
+            android:exported="false"/>
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">

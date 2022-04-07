@@ -2,9 +2,6 @@ package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,15 +14,15 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseRepo(repo: CourseRepository): ItemRepository<Course>
+    abstract fun provideCourseRepo(repo: CourseRepository): CourseRepositoryInterface
 
     @Singleton
     @Binds
-    abstract fun provideClassroomRepo(repo: ClassroomRepository): ItemRepository<Classroom>
+    abstract fun provideClassroomRepo(repo: ClassroomRepository): ClassroomRepositoryInterface
 
     @Singleton
     @Binds
-    abstract fun provideRestaurantRepo(repo: RestaurantRepository): ItemRepository<Restaurant>
+    abstract fun provideRestaurantRepo(repo: RestaurantRepository): RestaurantRepositoryInterface
 
     @Singleton
     @Binds
@@ -39,4 +36,7 @@ abstract class RepositoryModule {
     @Binds
     abstract fun provideImageStorage(repo: ImageStorage): Storage<ImageFile>
 
+    @Singleton
+    @Binds
+    abstract fun providePictureRepo(repo: PictureRepository): PictureRepositoryInterface
 }
