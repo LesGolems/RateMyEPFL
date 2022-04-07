@@ -4,10 +4,7 @@ import android.Manifest
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
@@ -104,16 +101,6 @@ class MainActivityTest {
     fun navigateToMapPageAddsTheCorrectFragment() {
         navigate(Destination.MAP)
         checkMapPage()
-    }
-
-    @Test
-    fun firesAnIntentWhenUserPressesMapButton() {
-        init()
-        navigate(Destination.MAP)
-        onView(withId(R.id.mapTabButton))
-            .perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
-        release()
     }
 
     private fun <T> first(matcher: Matcher<T>): Matcher<T>? {
