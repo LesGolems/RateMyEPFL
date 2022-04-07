@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 
 interface ReviewRepositoryInterface {
     /**
