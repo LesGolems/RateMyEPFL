@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.model.user.User
 
 interface UserRepository {
 
-    suspend fun getUserByUid(uid: String): User
+    suspend fun getUserByUid(uid: String): User?
 
     suspend fun getUsersByUsername(username: String): List<User>
 

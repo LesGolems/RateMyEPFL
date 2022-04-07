@@ -39,7 +39,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
                 .setDate(LocalDate.now())
                 .setDislikers(listOf(FAKE_UID_1, FAKE_UID_2, FAKE_UID_3))
                 .build(),
-            Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")                .setId("Fake id")
+            Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
                 .setId("Fake")
                 .setComment("Regardez comme il ondule. En forêt Amazonienne, je prendrais ce type pour un serpent... Il a tout du reptile !")
                 .setRating(ReviewRating.GOOD)
@@ -86,7 +86,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
         var reviewList = fakeList
     }
 
-    override fun add(value: Review) {}
+    override fun add(value: HashMap<String, String>) {}
 
     override suspend fun getReviews(): List<Review> {
         return reviewList

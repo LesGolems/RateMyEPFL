@@ -12,7 +12,7 @@ import java.time.LocalDate
 
 @Serializable
 data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
-    val id: String?,
+    val id: String,
     val rating: ReviewRating,
     val title: String,
     val comment: String,
@@ -44,19 +44,6 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     }
 
     fun serialize(): String = Companion.serialize(this)
-
-    @OptIn(ExperimentalSerializationApi::class)
-    fun toHashMap(): HashMap<String, Any> {
-        return hashMapOf(
-            ReviewRepository.TITLE_FIELD_NAME to title,
-            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepository.COMMENT_FIELD_NAME to comment,
-            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.LIKERS_FIELD_NAME to likers,
-            ReviewRepository.DISLIKERS_FIELD_NAME to dislikers
-        )
-    }
 
     /**
      * Allows to create a ReviewRating incrementally.
@@ -143,7 +130,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
-            val id = this.id
+            val id = this asMandatory id
             val rate = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment

@@ -8,20 +8,24 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
-    val EXPECTED_ROOM = Classroom("CE 1 3", "Auditorium")
+    val EXPECTED_ROOM = Classroom("CE 1 3", 15, 2.5, "Auditorium")
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
-        val r = Classroom("CO1")
+        val r = Classroom("CO1", 15, 2.5)
         assertEquals("CO1", r.id)
+        assertEquals(15, r.numReviews)
+        assertEquals(2.5, r.averageGrade, 0.01)
         assertEquals(null, r.roomKind)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val r = Classroom("CM 1 4", "Auditorium")
+        val r = Classroom("CM 1 4", 15, 2.5, "Auditorium")
         assertEquals("CM 1 4", r.id)
+        assertEquals(15, r.numReviews)
+        assertEquals(2.5, r.averageGrade, 0.01)
         assertEquals("Auditorium", r.roomKind)
     }
 
@@ -41,8 +45,36 @@ class ClassroomTest {
     fun builderThrowsForMissingId() {
         val fake = "Fake"
         val builder = Classroom.Builder()
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
             .setRoomKind(fake)
             .setId(null)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingNumReviews() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setAverageGrade(2.5)
+            .setRoomKind(fake)
+            .setId(fake)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingAverageGrade() {
+        val fake = "Fake"
+        val builder = Classroom.Builder()
+            .setNumReviews(15)
+            .setRoomKind(fake)
+            .setId(fake)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -54,8 +86,10 @@ class ClassroomTest {
         val fake = "Fake"
         val builder = Classroom.Builder()
             .setId(fake)
+            .setNumReviews(15)
+            .setAverageGrade(2.5)
 
-        val classroom = Classroom(fake)
+        val classroom = Classroom(fake, 15, 2.5)
         assertEquals(classroom, builder.build())
     }
 }

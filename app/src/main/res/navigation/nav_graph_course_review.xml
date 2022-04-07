@@ -16,8 +16,7 @@
         android:label="fragment_course_review_list"
         tools:layout="@layout/fragment_review_list" />
     <fragment
-        android:id="@+id/addReviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
-        android:label="fragment_add_review"
-        tools:layout="@layout/fragment_add_review" />
+        android:id="@+id/addCourseReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddCourseReviewFragment"
+        android:label="AddCourseReviewFragment" />
 </navigation>

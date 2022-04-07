@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
@@ -29,4 +30,17 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepositoryInterface
+
+
+    @Singleton
+    @Binds
+    abstract fun provideUserRepo(repo: FakeUserRepository): UserRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideImageRepo(repo: FakeImageStorage): Storage<ImageFile>
+
+    @Singleton
+    @Binds
+    abstract fun providePictureRepo(repo: FakePictureRepository): PictureRepositoryInterface
 }

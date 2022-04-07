@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface ClassroomRepositoryInterface {
     /**
@@ -16,4 +17,12 @@ interface ClassroomRepositoryInterface {
      * @return the rooms if found, otherwise null
      */
     suspend fun getRoomById(id: String): Classroom?
+
+    /**
+     * Updates the rating of the classroom using a transaction for concurrency
+     *
+     *  @param id : id of the reviewed item
+     *  @param rating: rating of the review being added
+     */
+    fun updateClassroomRating(id: String, rating: ReviewRating)
 }

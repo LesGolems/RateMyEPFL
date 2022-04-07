@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
-import com.github.sdp.ratemyepfl.viewmodel.ReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 
 /*
 Fragment for the list of reviews, shared among all reviewed items
@@ -20,7 +20,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var swipeRefresher: SwipeRefreshLayout
 
     // Gets the shared view model
-    private val viewModel by activityViewModels<ReviewViewModel>()
+    private val viewModel by activityViewModels<ReviewListViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

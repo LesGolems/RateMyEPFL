@@ -64,7 +64,7 @@ class ReviewableTabFragmentTestContainer<T : ReviewableTabFragment> constructor(
         createScenario()
         getList()?.size?.run {
             val item = getItem(max(this - 1, 0))
-            CustomViewActions.SearchAction.query(item.toString())
+            CustomViewActions.SearchAction.query(item.toString() + "\n")
             onRecyclerView().check(
                 matches(hasDescendant(withText(item.toString())))
             )

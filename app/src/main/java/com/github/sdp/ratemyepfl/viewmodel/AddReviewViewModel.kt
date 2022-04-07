@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -16,7 +17,6 @@ import javax.inject.Inject
  *               the savedStateHandle
  */
 @HiltViewModel
-
 class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepositoryInterface
 ) : ViewModel() {
@@ -49,19 +49,19 @@ class AddReviewViewModel @Inject constructor(
     /**
      * Builds and submits the review to the database
      *
-     * @return true if it succeeds to build the review, false otherwise
+     * @return the rating of the review or null if the construction didn't work
      */
-    fun submitReview(id: String): Boolean {
+    fun submitReview(id: String): ReviewRating? {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
         val date = date ?: LocalDate.now()
 
-        if (comment == null || comment == "") return false
-        if (title == null || title == "") return false
-        if (rating == null) return false
+        if (comment == null || comment == "") return null
+        if (title == null || title == "") return null
+        if (rating == null) return null
 
-        val review = Review.Builder()
+        /*val review = Review.Builder()
             .setRating(rating)
             .setTitle(title)
             .setComment(comment)
@@ -71,6 +71,18 @@ class AddReviewViewModel @Inject constructor(
             .setDislikers(listOf())
             .build()
         reviewRepo.add(review)
-        return true
+        return true*/
+
+        val reviewHashMap = hashMapOf(
+            ReviewRepository.TITLE_FIELD_NAME to title,
+            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepository.COMMENT_FIELD_NAME to comment,
+            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
+            ReviewRepository.DATE_FIELD_NAME to date.toString(),
+            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
+            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
+        )
+        reviewRepo.add(reviewHashMap)
+        return rating
     }
 }
