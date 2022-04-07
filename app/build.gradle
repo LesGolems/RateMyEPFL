@@ -22,6 +22,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunnerArguments clearPackageData: 'true'
+        testInstrumentationRunnerArguments userTestStorageService: 'true'
     }
 
     buildTypes {
@@ -152,6 +153,7 @@ dependencies {
 
     androidTestImplementation('androidx.test.uiautomator:uiautomator:2.2.0')
     androidTestUtil 'androidx.test:orchestrator:1.4.1'
+    androidTestUtil 'androidx.test.services:test-services:1.4.2-alpha02'
 }
 
 configurations.all {
