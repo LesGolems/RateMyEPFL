@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
-import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -60,18 +59,6 @@ class AddReviewViewModel @Inject constructor(
         if (comment == null || comment == "") return null
         if (title == null || title == "") return null
         if (rating == null) return null
-
-        /*val review = Review.Builder()
-            .setRating(rating)
-            .setTitle(title)
-            .setComment(comment)
-            .setReviewableID(id)
-            .setDate(date)
-            .setLikers(listOf())
-            .setDislikers(listOf())
-            .build()
-        reviewRepo.add(review)
-        return true*/
 
         val reviewHashMap = hashMapOf(
             ReviewRepository.TITLE_FIELD_NAME to title,

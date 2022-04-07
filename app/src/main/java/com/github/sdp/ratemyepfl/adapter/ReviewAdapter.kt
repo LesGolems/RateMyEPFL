@@ -10,13 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewOpinion
 
 class ReviewAdapter(
     private val onLikeClick: (Review) -> Unit,
     private val onDislikeClick: (Review) -> Unit,
-    /*private val onOpinionRequest: (Review) -> ReviewOpinion,
-    private val setOpinion: (Review) -> Unit,*/
 ) :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
 
@@ -37,7 +34,6 @@ class ReviewAdapter(
         private val likeButton: ImageButton = reviewView.findViewById(R.id.likeButton)
         private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
 
-        private lateinit var opinion: ReviewOpinion
         private lateinit var currentReview: Review
 
         fun bind(review: Review) {
@@ -53,31 +49,12 @@ class ReviewAdapter(
             /* Dislike button logic */
             dislikeButton.setOnClickListener {
                 onDislikeClick(currentReview)
-                //setOpinion(currentReview)
             }
 
             /* Like button logic */
             likeButton.setOnClickListener {
                 onLikeClick(currentReview)
-                //setOpinion(currentReview)
             }
-
-            /*opinion = onOpinionRequest(review)
-
-            when (opinion) {
-                ReviewOpinion.NO_OPINION -> {
-                    likeButton.setImageResource(R.drawable.ic_like)
-                    dislikeButton.setImageResource(R.drawable.ic_dislike)
-                }
-                ReviewOpinion.LIKED -> {
-                    likeButton.setImageResource(R.drawable.ic_like_toggled)
-                    dislikeButton.setImageResource(R.drawable.ic_dislike)
-                }
-                else -> {
-                    likeButton.setImageResource(R.drawable.ic_like)
-                    dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
-                }
-            }*/
         }
     }
 

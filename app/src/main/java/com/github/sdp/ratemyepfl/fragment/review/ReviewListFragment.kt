@@ -39,14 +39,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             { r ->
                 viewModel.updateDislikers(r)
                 viewModel.updateReviewsList()
-            }/*,
-            { r ->
-                viewModel.getOpinion(r)
-            },
-            { r ->
-                viewModel.setOpinion(r)
-                viewModel.updateReviewsList()
-            }*/
+            }
         )
         recyclerView.adapter = reviewAdapter
 
