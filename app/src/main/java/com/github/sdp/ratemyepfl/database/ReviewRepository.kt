@@ -4,12 +4,13 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewRepository @Inject constructor() : ReviewRepositoryInterface,
-    Repository(REVIEW_COLLECTION_PATH) {
+class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepositoryInterface,
+    Repository(db, REVIEW_COLLECTION_PATH) {
 
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"

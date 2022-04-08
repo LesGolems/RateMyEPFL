@@ -6,8 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
-sealed class Repository(collectionPath: String) {
-    protected val db = FirebaseFirestore.getInstance()
+sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
     protected val collection = db.collection(collectionPath)
 
     companion object {

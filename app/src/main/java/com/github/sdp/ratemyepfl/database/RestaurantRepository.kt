@@ -3,10 +3,11 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
-    Repository(RESTAURANT_COLLECTION_PATH) {
+class RestaurantRepository @Inject constructor(db : FirebaseFirestore) : RestaurantRepositoryInterface,
+    Repository(db, RESTAURANT_COLLECTION_PATH) {
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"

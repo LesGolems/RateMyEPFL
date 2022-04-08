@@ -3,10 +3,11 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class CourseRepository @Inject constructor() : CourseRepositoryInterface,
-    Repository(COURSE_COLLECTION_PATH) {
+class CourseRepository @Inject constructor(db : FirebaseFirestore) : CourseRepositoryInterface,
+    Repository(db, COURSE_COLLECTION_PATH) {
 
     companion object {
         const val COURSE_COLLECTION_PATH = "courses"

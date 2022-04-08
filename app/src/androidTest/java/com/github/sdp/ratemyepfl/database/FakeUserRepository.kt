@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 
-class FakeUserRepository @Inject constructor() : UserRepository {
+class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
 
     private val users = HashMap<String, User>()
 
