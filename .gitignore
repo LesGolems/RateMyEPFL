@@ -10,3 +10,4 @@
 local.properties
 firestore-debug.log
 ui-debug.log
+firebase-debug.log
