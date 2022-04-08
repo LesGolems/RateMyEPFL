@@ -31,7 +31,11 @@ data class Course(
             "teacher" to teacher,
             "credits" to credits.toString(),
             "numReviews" to numReviews.toString(),
-            "averageGrade" to averageGrade.toString()
+            "averageGrade" to averageGrade.toString(),
+            "cycle" to cycle,
+            "session" to session,
+            "grading" to grading,
+            "language" to language
         )
     }
 

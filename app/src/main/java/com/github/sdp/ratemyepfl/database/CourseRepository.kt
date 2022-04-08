@@ -16,6 +16,11 @@ class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseReposi
         const val SECTION_FIELD_NAME = "section"
         const val TEACHER_FIELD_NAME = "teacher"
         const val CREDITS_FIELD_NAME = "credits"
+        const val CYCLE_FIELD_NAME = "cycle"
+        const val SESSION_FIELD_NAME = "session"
+        const val GRADING_FIELD_NAME = "grading"
+        const val LANGUAGE_FIELD_NAME = "language"
+
 
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
@@ -26,6 +31,10 @@ class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseReposi
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
                 .setCredits(getString(CREDITS_FIELD_NAME)?.toInt())
+                .setCycle(getString(CYCLE_FIELD_NAME))
+                .setSession(getString(SESSION_FIELD_NAME))
+                .setGrading(getString(GRADING_FIELD_NAME))
+                .setLanguage(getString(LANGUAGE_FIELD_NAME))
 
             return try {
                 builder.build()
