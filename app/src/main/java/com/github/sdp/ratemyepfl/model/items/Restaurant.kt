@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.RestaurantRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,11 +23,11 @@ data class Restaurant(
      */
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            "occupancy" to occupancy.toString(),
-            "lat" to lat.toString(),
-            "long" to long.toString(),
-            "numReviews" to numReviews.toString(),
-            "averageGrade" to averageGrade.toString()
+            RestaurantRepository.OCCUPANCY_FIELD_NAME to occupancy.toString(),
+            RestaurantRepository.LATITUDE_FIELD_NAME to lat.toString(),
+            RestaurantRepository.LONGITUDE_FIELD_NAME to long.toString(),
+            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
+            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString()
         )
     }
 

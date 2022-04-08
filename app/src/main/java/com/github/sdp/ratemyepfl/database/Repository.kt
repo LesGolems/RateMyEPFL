@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
@@ -13,8 +12,8 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
 
     companion object {
         const val DEFAULT_LIMIT: Long = 50
-        const val NUM_REVIEWS_FIELD = "numReviews"
-        const val AVERAGE_GRADE_FIELD = "averageGrade"
+        const val NUM_REVIEWS_FIELD_NAME = "numReviews"
+        const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
     }
 
     /**
@@ -37,18 +36,19 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
         return collection.document(id).get().await()
     }
 
+
     /**
      * Updates the rating of a reviewable item using a transaction for concurrency
      *
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    protected fun updateRating(id: String, rating: ReviewRating): Task<Unit> {
+    protected suspend fun updateRating(id: String, rating: ReviewRating) {
         val docRef = collection.document(id)
-        return db.runTransaction {
+        db.runTransaction {
             val snapshot = it.get(docRef)
-            val numReviews = snapshot.getString(NUM_REVIEWS_FIELD)?.toInt()
-            val averageGrade = snapshot.getString(AVERAGE_GRADE_FIELD)?.toDouble()
+            val numReviews = snapshot.getString(NUM_REVIEWS_FIELD_NAME)?.toInt()
+            val averageGrade = snapshot.getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble()
             if (numReviews != null && averageGrade != null) {
                 val newNumReviews = numReviews + 1
                 val newAverageGrade = averageGrade + (rating.toValue() - averageGrade) / newNumReviews
@@ -57,7 +57,7 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
                     "averageGrade", newAverageGrade.toString()
                 )
             }
-        }
+        }.await()
     }
 
     /**

@@ -13,16 +13,16 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
 
     companion object {
         const val USER_COLLECTION_PATH = "users"
-        const val USERNAME_FIELD = "username"
-        const val EMAIL_FIELD = "email"
-        const val PICTURE_FIELD = "picture"
+        const val USERNAME_FIELD_NAME = "username"
+        const val EMAIL_FIELD_NAME = "email"
+        const val PICTURE_FIELD_NAME = "picture"
 
         fun DocumentSnapshot.toUser(): User {
             return User(
                 uid = id,
-                username = getString(USERNAME_FIELD),
-                email = getString(EMAIL_FIELD),
-                picture = getString(PICTURE_FIELD)
+                username = getString(USERNAME_FIELD_NAME),
+                email = getString(EMAIL_FIELD_NAME),
+                picture = getString(PICTURE_FIELD_NAME)
             )
         }
     }
@@ -35,28 +35,25 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
      */
     override suspend fun getUserByUid(uid: String): User? = toItem(getById(uid))
 
+    private suspend fun getBy(fieldName: String, value: String): List<User> {
+        return collection
+            .whereEqualTo(fieldName, value)
+            .get()
+            .await()
+            .mapNotNull { obj -> toItem(obj) }
+    }
+
     /**
      * Retrieves a list of Users with the same [username].
      */
-    override suspend fun getUsersByUsername(username: String): List<User> {
-        return collection
-            .whereEqualTo(USERNAME_FIELD, username)
-            .limit(50)
-            .get()
-            .await()
-            .mapNotNull { obj -> obj.toUser() }
-    }
+    override suspend fun getUsersByUsername(username: String): List<User> = getBy(
+        USERNAME_FIELD_NAME, username
+    )
 
     /**
      * Retrieves a User by its [email] address.
      */
-    override suspend fun getUserByEmail(email: String): User {
-        return collection
-            .whereEqualTo(EMAIL_FIELD, email)
-            .get()
-            .await()
-            .mapNotNull { obj -> obj.toUser() }[0]
-    }
+    override suspend fun getUserByEmail(email: String): User = getBy(EMAIL_FIELD_NAME, email)[0]
 
     /**
      * Updates the [user] in the collection.

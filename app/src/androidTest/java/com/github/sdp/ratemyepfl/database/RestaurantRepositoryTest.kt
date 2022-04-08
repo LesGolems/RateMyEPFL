@@ -1,12 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.RestaurantRepository.Companion.toRestaurant
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.*
@@ -15,6 +15,7 @@ import org.junit.Assert.assertNotNull
 import org.mockito.Mockito
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class RestaurantRepositoryTest {
     private val testRestaurant = Restaurant(
@@ -71,7 +72,7 @@ class RestaurantRepositoryTest {
     @Test
     fun updateRestaurantRatingWorks() {
         runTest {
-            restaurantRepo.updateRestaurantRating(testRestaurant.id, ReviewRating.EXCELLENT).await()
+            restaurantRepo.updateRestaurantRating(testRestaurant.id, ReviewRating.EXCELLENT)
             val restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
             assertNotNull(restaurant)
             assertEquals(restaurant!!.id, testRestaurant.id)
@@ -92,8 +93,8 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
         Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
         Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
         Mockito.`when`(snapshot.getString("occupancy")).thenReturn(occupancy.toString())

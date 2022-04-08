@@ -4,12 +4,90 @@ import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.toReview
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.*
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.Assert.assertNotNull
 import org.mockito.Mockito
 import java.time.LocalDate
+import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@HiltAndroidTest
 class ReviewRepositoryTest {
+    val testReview = Review(
+        "Fake id",
+        ReviewRating.EXCELLENT,
+        "title",
+        "comment",
+        "Fake reviewable id",
+        LocalDate.of(2022, 4, 8)
+    )
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var reviewRepo: ReviewRepository
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        reviewRepo.add(testReview)
+    }
+
+    @After
+    fun clean() {
+        reviewRepo.remove(testReview.id)
+    }
+
+    @Test
+    fun getReviewsWorks() {
+        runTest {
+            val reviews = reviewRepo.getReviews()
+            assertEquals(reviews.size, 1)
+
+            val review = reviews[0]
+            assertEquals(review.id, testReview.id)
+            assertEquals(review.title, testReview.title)
+            assertEquals(review.rating.toString(), testReview.rating.toString())
+            assertEquals(review.comment, testReview.comment)
+            assertEquals(review.reviewableId, testReview.reviewableId)
+            assertEquals(review.date, testReview.date)
+        }
+    }
+
+    @Test
+    fun getReviewByIdWorks() {
+        runTest {
+            val review = reviewRepo.getReviewById(testReview.id)
+            assertNotNull(review)
+            assertEquals(review!!.id, testReview.id)
+            assertEquals(review.title, testReview.title)
+            assertEquals(review.rating.toString(), testReview.rating.toString())
+            assertEquals(review.comment, testReview.comment)
+            assertEquals(review.reviewableId, testReview.reviewableId)
+            assertEquals(review.date, testReview.date)
+        }
+    }
+
+    @Test
+    fun getReviewByReviewableIdWorks() {
+        runTest {
+            val reviews = reviewRepo.getByReviewableId(testReview.reviewableId)
+            assertEquals(reviews.size, 1)
+            val review = reviews[0]
+            assertEquals(review.id, testReview.id)
+            assertEquals(review.title, testReview.title)
+            assertEquals(review.rating.toString(), testReview.rating.toString())
+            assertEquals(review.comment, testReview.comment)
+            assertEquals(review.reviewableId, testReview.reviewableId)
+            assertEquals(review.date, testReview.date)
+        }
+    }
 
     @Test
     fun toItemReturnsAReviewForCompleteSnapshot() {

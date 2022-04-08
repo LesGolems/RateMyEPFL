@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.model.user
 
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.UserRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,4 +18,15 @@ data class User(
         email = user.getEmail()!!,
         picture = user.getProfilePictureUrl()!!
     )
+
+    /**
+     * Creates an hash map of the user
+     */
+    fun toHashMap(): HashMap<String, Any?>{
+        return hashMapOf(
+            UserRepository.USERNAME_FIELD_NAME to username,
+            UserRepository.EMAIL_FIELD_NAME to email,
+            UserRepository.PICTURE_FIELD_NAME to picture
+        )
+    }
 }

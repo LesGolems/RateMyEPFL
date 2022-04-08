@@ -66,6 +66,7 @@ class AddReviewViewModel @Inject constructor(
             ReviewRepository.COMMENT_FIELD_NAME to comment,
             ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
             ReviewRepository.DATE_FIELD_NAME to date.toString(),
+            ReviewRepository.UID_FIELD_NAME to null, // will add the user next sprint
             ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
             ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
         )

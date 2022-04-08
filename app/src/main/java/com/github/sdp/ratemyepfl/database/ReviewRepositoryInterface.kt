@@ -7,7 +7,7 @@ interface ReviewRepositoryInterface {
      * Add a review to the repository
      *
      */
-    fun add(value: HashMap<String, Any>)
+    fun add(value: HashMap<String, Any?>)
 
     /**
      * Retrieve the reviews from the repository

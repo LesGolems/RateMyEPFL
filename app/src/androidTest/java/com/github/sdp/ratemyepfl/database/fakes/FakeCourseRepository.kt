@@ -86,5 +86,5 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
 
     override suspend fun getCourseById(id: String): Course = courseById
 
-    override fun updateCourseRating(id: String, rating: ReviewRating): Task<Unit> = Tasks.forResult(null)
+    override suspend fun updateCourseRating(id: String, rating: ReviewRating) = run {}
 }

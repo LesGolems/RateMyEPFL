@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.database.ClassroomRepository
+import com.github.sdp.ratemyepfl.database.Repository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,13 +17,13 @@ data class Classroom(
     }
 
     /**
-     * Creates an hash map of the Classroom, to add it to the DB
+     * Creates an hash map of the Classroom
      */
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            "numReviews" to numReviews.toString(),
-            "averageGrade" to averageGrade.toString(),
-            "roomKind" to roomKind
+            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
+            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
+            ClassroomRepository.ROOM_KIND_FIELD to roomKind
         )
     }
 

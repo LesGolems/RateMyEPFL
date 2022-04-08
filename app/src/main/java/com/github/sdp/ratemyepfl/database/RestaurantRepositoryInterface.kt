@@ -37,5 +37,5 @@ interface RestaurantRepositoryInterface {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    fun updateRestaurantRating(id: String, rating: ReviewRating): Task<Unit>
+    suspend fun updateRestaurantRating(id: String, rating: ReviewRating)
 }

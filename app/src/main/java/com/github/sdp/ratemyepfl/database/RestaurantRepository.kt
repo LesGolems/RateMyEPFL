@@ -15,13 +15,14 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
         const val LATITUDE_FIELD_NAME = "lat"
         const val LONGITUDE_FIELD_NAME = "long"
+        const val OCCUPANCY_FIELD_NAME = "occupancy"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-            val occupancy = getString("occupancy")?.toInt() ?: 0
-            val lat = getString("lat")?.toDouble() ?: 0.0
-            val lon = getString("long")?.toDouble() ?: 0.0
-            val numReviews = getString("numReviews")?.toInt() ?: 0
-            val averageGrade = getString("averageGrade")?.toDouble() ?: 0.0
+            val occupancy = getString(OCCUPANCY_FIELD_NAME)?.toInt() ?: 0
+            val lat = getString(LATITUDE_FIELD_NAME)?.toDouble() ?: 0.0
+            val lon = getString(LONGITUDE_FIELD_NAME)?.toDouble() ?: 0.0
+            val numReviews = getString(NUM_REVIEWS_FIELD_NAME)?.toInt() ?: 0
+            val averageGrade = getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble() ?: 0.0
             return Restaurant(id, occupancy, lat, lon, numReviews, averageGrade)
         }
     }
@@ -58,7 +59,7 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         }
     }
 
-    override fun updateRestaurantRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
     fun add(restaurant: Restaurant) {
         collection.document(restaurant.id).set(restaurant.toHashMap())

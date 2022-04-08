@@ -36,5 +36,5 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
     }
 
 
-    override fun updateRestaurantRating(id: String, rating: ReviewRating): Task<Unit> = Tasks.forResult(null)
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = run {}
 }

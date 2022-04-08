@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.*
@@ -14,6 +15,7 @@ import org.junit.Assert.assertNotNull
 import org.mockito.Mockito
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class CourseRepositoryTest {
     private val testCourse = Course(
@@ -82,7 +84,7 @@ class CourseRepositoryTest {
     @Test
     fun updateCourseRatingWorks() {
         runTest {
-            courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT).await()
+            courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT)
             val course = courseRepo.getCourseById(testCourse.id)
             assertNotNull(course)
             assertEquals(course!!.id, testCourse.id)
@@ -111,8 +113,8 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME))
             .thenReturn(fakeCredit)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
 
         val course: Course? = snapshot.toCourse()
         val fakeCourse = Course(fake, fake, fake, fakeCredit.toInt(), fake, 15, 2.5)
@@ -130,8 +132,8 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepository.SECTION_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.TEACHER_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepository.CREDITS_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn(null)
 
         val course: Course? = snapshot.toCourse()
         assertEquals(null, course)

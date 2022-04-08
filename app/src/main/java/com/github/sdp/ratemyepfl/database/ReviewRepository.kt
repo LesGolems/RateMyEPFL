@@ -19,6 +19,7 @@ class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepos
         const val COMMENT_FIELD_NAME = "comment"
         const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
         const val DATE_FIELD_NAME = "date"
+        const val UID_FIELD_NAME = "uid"
         const val LIKERS_FIELD_NAME = "likers"
         const val DISLIKERS_FIELD_NAME = "dislikers"
 
@@ -35,6 +36,7 @@ class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepos
                 .setComment(getString(COMMENT_FIELD_NAME))
                 .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
+                .setUid(getString(UID_FIELD_NAME))
                 .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
                 .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
 
@@ -46,33 +48,31 @@ class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepos
         }
     }
 
-    override fun add(value: HashMap<String, Any>) {
+    /**
+     * Add a review to the DB, letting the DB create an unique id
+     * @param value : an hashMap of the review
+     */
+    override fun add(value: HashMap<String, Any?>) {
         collection.document().set(value)
     }
 
-    fun remove(value: Review) {
-        collection.document(value.id).delete()
+    /**
+     * MOSTLY FOR TESTS
+     * Add a complete review to the DB
+     * @param review : an hashMap of the review
+     */
+    fun add(review: Review) {
+        collection.document(review.id).set(review.toHashMap())
     }
 
     override suspend fun getReviews(): List<Review> {
-        return collection
-            .get()
-            .await()
-            .mapNotNull { obj -> toItem(obj) }
-    }
-
-    override suspend fun getByReviewableId(id: String?): List<Review> {
-        return getBy(REVIEWABLE_ID_FIELD_NAME, id.orEmpty())
+        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
     }
 
     override suspend fun getReviewById(id: String): Review? = toItem(getById(id))
 
-    suspend fun getByRate(rate: Int): List<Review> {
-        return getBy(RATING_FIELD_NAME, rate.toString())
-    }
-
-    suspend fun getByDate(date: LocalDate): List<Review> {
-        return getBy(DATE_FIELD_NAME, date.toString())
+    override suspend fun getByReviewableId(id: String?): List<Review> {
+        return getBy(REVIEWABLE_ID_FIELD_NAME, id.orEmpty())
     }
 
     private suspend fun getBy(fieldName: String, value: String): List<Review> {

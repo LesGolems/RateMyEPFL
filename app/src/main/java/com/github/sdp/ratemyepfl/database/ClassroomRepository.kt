@@ -18,8 +18,8 @@ class ClassroomRepository @Inject constructor(db : FirebaseFirestore) :
             val builder = Classroom.Builder()
                 .setId(id)
                 .setRoomKind(getString(ROOM_KIND_FIELD))
-                .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
-                .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
+                .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
+                .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
 
             return try {
                 builder.build()
@@ -37,7 +37,7 @@ class ClassroomRepository @Inject constructor(db : FirebaseFirestore) :
 
     override suspend fun getRoomById(id: String): Classroom? = toItem(getById(id))
 
-    override fun updateClassroomRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
+    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
     fun add(room : Classroom){
         collection.document(room.id).set(room.toHashMap())

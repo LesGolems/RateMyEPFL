@@ -25,8 +25,8 @@ class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseReposi
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
                 .setId(id)
-                .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
-                .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
+                .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
+                .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
@@ -52,7 +52,7 @@ class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseReposi
 
     override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
 
-    override fun updateCourseRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
+    override suspend fun updateCourseRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
     fun add(course: Course) {
         collection.document(course.id).set(course.toHashMap())

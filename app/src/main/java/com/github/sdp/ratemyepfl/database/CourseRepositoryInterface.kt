@@ -25,5 +25,5 @@ interface CourseRepositoryInterface {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    fun updateCourseRating(id: String, rating: ReviewRating): Task<Unit>
+    suspend fun updateCourseRating(id: String, rating: ReviewRating)
 }

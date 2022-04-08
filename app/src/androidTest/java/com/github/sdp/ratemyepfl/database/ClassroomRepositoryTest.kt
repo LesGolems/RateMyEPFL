@@ -4,9 +4,9 @@ import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassr
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -19,6 +19,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ClassroomRepositoryTest {
     private val testRoom = Classroom("Fake id", 0, 0.0)
@@ -67,7 +68,7 @@ class ClassroomRepositoryTest {
     @Test
     fun updateRoomRatingWorks() {
         runTest {
-            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT).await()
+            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
             val room = roomRepo.getRoomById(testRoom.id)
             assertNotNull(room)
             assertEquals(room!!.id, testRoom.id)
@@ -83,8 +84,8 @@ class ClassroomRepositoryTest {
         val snapshot = mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString(ClassroomRepository.ROOM_KIND_FIELD)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
 
         val classroom: Classroom? = snapshot.toClassroom()
         val fakeClassroom = Classroom(fake, 15, 2.5, fake)
@@ -97,8 +98,8 @@ class ClassroomRepositoryTest {
         val snapshot = mock(DocumentSnapshot::class.java)
 
         Mockito.`when`(snapshot.id).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn(null)
 
         val classroom: Classroom? = snapshot.toClassroom()
         assertEquals(null, classroom)
