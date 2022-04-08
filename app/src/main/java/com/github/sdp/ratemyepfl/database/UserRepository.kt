@@ -67,16 +67,6 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
     }
 
     /**
-     * Deletes the User by its [uid]
-     */
-    override suspend fun delete(uid: String) {
-        collection
-            .document(uid)
-            .delete()
-            .await()
-    }
-
-    /**
      * Add the user to the DB
      */
     fun add(user: User) {

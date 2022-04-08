@@ -12,5 +12,4 @@ interface UserRepositoryInterface {
 
     suspend fun update(user: User)
 
-    suspend fun delete(uid: String)
 }

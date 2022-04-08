@@ -33,8 +33,4 @@ class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
         users.put(user.uid, user)
     }
 
-    override suspend fun delete(uid: String) {
-        users.remove(uid)
-    }
-
 }
