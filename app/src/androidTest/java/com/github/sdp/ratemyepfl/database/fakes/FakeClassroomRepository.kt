@@ -44,5 +44,5 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterfa
 
     override suspend fun getRoomById(id: String): Classroom = roomById
 
-    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) = run { }
+    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {}
 }

@@ -29,12 +29,12 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
 
     override suspend fun getRestaurantById(id: String): Restaurant = restaurantById
 
-    override fun incrementOccupancy(id: String) {
+    override suspend fun incrementOccupancy(id: String) {
     }
 
-    override fun decrementOccupancy(id: String) {
+    override suspend fun decrementOccupancy(id: String) {
     }
 
 
-    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = run {}
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
 }

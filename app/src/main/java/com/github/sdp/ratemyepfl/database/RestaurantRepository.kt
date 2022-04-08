@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
@@ -35,7 +36,7 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
 
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 
-    override fun incrementOccupancy(id: String) {
+    override suspend fun incrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
@@ -44,10 +45,10 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
                 transaction.update(docRef, "occupancy", (occupancy + 1).toString())
             }
             null
-        }
+        }.await()
     }
 
-    override fun decrementOccupancy(id: String) {
+    override suspend fun decrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
@@ -56,7 +57,7 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
                 transaction.update(docRef, "occupancy", (occupancy - 1).toString())
             }
             null
-        }
+        }.await()
     }
 
     override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)

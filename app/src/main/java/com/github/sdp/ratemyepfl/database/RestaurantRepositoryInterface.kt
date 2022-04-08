@@ -22,13 +22,13 @@ interface RestaurantRepositoryInterface {
     /**
      *  Increment occupancy of given restaurant
      */
-    fun incrementOccupancy(id: String)
+    suspend fun incrementOccupancy(id: String)
 
 
     /**
      *  Decrement occupancy of given restaurant
      */
-    fun decrementOccupancy(id: String)
+    suspend fun decrementOccupancy(id: String)
 
 
     /**
