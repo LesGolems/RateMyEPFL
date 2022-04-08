@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class ClassroomRepository @Inject constructor(db : FirebaseFirestore) :
 
     override suspend fun getRoomById(id: String): Classroom? = toItem(getById(id))
 
-    override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+    override fun updateClassroomRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
 
     fun add(room : Classroom){
         collection.document(room.id).set(room.toHashMap())

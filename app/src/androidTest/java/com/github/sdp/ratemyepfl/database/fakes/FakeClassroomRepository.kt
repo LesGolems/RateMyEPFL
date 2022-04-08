@@ -3,6 +3,8 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
 class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterface {
@@ -42,6 +44,5 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterfa
 
     override suspend fun getRoomById(id: String): Classroom = roomById
 
-    override fun updateClassroomRating(id: String, rating: ReviewRating) {
-    }
+    override fun updateClassroomRating(id: String, rating: ReviewRating): Task<Unit> = Tasks.forResult(null)
 }

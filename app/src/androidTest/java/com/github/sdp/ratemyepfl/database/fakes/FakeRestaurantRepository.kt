@@ -3,6 +3,8 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.database.RestaurantRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
 class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInterface {
@@ -34,7 +36,5 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
     }
 
 
-    override fun updateRestaurantRating(id: String, rating: ReviewRating) {
-
-    }
+    override fun updateRestaurantRating(id: String, rating: ReviewRating): Task<Unit> = Tasks.forResult(null)
 }

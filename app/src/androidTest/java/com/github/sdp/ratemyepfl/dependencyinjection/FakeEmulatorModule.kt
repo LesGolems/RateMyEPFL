@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import java.lang.IllegalStateException
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,11 @@ object FakeEmulatorModule {
     @Provides
     fun providesFirestore(): FirebaseFirestore {
         val firestore = Firebase.firestore
-        firestore.useEmulator("10.0.2.2", 8080)
+        try {
+            firestore.useEmulator("10.0.2.2", 8080)
+        }catch (e : IllegalStateException){
+            // Already correct emulator
+        }
         val settings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(false)
             .build()

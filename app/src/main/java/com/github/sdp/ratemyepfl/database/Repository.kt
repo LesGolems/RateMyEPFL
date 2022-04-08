@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -41,9 +43,9 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    protected fun updateRating(id: String, rating: ReviewRating) {
+    protected fun updateRating(id: String, rating: ReviewRating): Task<Unit> {
         val docRef = collection.document(id)
-        db.runTransaction {
+        return db.runTransaction {
             val snapshot = it.get(docRef)
             val numReviews = snapshot.getString(NUM_REVIEWS_FIELD)?.toInt()
             val averageGrade = snapshot.getString(AVERAGE_GRADE_FIELD)?.toDouble()

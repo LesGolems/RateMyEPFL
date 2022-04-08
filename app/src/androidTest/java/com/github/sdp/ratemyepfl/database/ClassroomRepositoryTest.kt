@@ -4,8 +4,10 @@ import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassr
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -65,7 +67,7 @@ class ClassroomRepositoryTest {
     @Test
     fun updateRoomRatingWorks() {
         runTest {
-            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
+            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT).await()
             val room = roomRepo.getRoomById(testRoom.id)
             assertNotNull(room)
             assertEquals(room!!.id, testRoom.id)
