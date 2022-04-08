@@ -1,5 +1,6 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate

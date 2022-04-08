@@ -6,7 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class CourseRepository @Inject constructor(db : FirebaseFirestore) : CourseRepositoryInterface,
+class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseRepositoryInterface,
     Repository(db, COURSE_COLLECTION_PATH) {
 
     companion object {
@@ -43,5 +43,9 @@ class CourseRepository @Inject constructor(db : FirebaseFirestore) : CourseRepos
     override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
 
     override fun updateCourseRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+
+    fun add(course: Course) {
+        collection.document(course.id).set(course)
+    }
 
 }

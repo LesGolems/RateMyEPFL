@@ -15,6 +15,17 @@ data class Classroom(
     }
 
     /**
+     * Creates an hash map of the Classroom, to add it to the DB
+     */
+    fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "numReviews" to numReviews.toString(),
+            "averageGrade" to averageGrade.toString(),
+            "roomKind" to roomKind
+        )
+    }
+
+    /**
      * Builder to create a restaurant step by step.
      * Mandatory fields are:
      *  - [id]

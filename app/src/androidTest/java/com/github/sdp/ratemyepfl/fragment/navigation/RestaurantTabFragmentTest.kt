@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
-import com.github.sdp.ratemyepfl.database.FakeRestaurantRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.fragment.navigation.util.ReviewableTabFragmentTestContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

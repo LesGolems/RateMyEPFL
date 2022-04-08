@@ -13,7 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
-import com.github.sdp.ratemyepfl.database.FakePictureRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakePictureRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule

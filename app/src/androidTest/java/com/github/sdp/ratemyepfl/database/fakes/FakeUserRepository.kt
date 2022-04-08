@@ -1,5 +1,6 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 

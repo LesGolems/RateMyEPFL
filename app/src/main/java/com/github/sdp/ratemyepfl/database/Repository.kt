@@ -57,4 +57,11 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
             }
         }
     }
+
+    /**
+     * @param id : the identifier of the item to delete
+     */
+    fun remove(id : String){
+        collection.document(id).delete()
+    }
 }

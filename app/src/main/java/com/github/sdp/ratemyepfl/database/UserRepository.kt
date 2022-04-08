@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(db : FirebaseFirestore) : UserRepositoryInterface,
+class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface,
     Repository(db, USER_COLLECTION_PATH) {
 
     companion object {
@@ -79,4 +79,7 @@ class UserRepository @Inject constructor(db : FirebaseFirestore) : UserRepositor
             .await()
     }
 
+    fun add(user: User) {
+        collection.document(user.uid).set(user)
+    }
 }

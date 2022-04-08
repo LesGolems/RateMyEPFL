@@ -6,7 +6,8 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor(db : FirebaseFirestore) : RestaurantRepositoryInterface,
+class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
+    RestaurantRepositoryInterface,
     Repository(db, RESTAURANT_COLLECTION_PATH) {
 
     companion object {
@@ -58,4 +59,7 @@ class RestaurantRepository @Inject constructor(db : FirebaseFirestore) : Restaur
 
     override fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
+    fun add(restaurant: Restaurant) {
+        collection.document(restaurant.id).set(restaurant)
+    }
 }

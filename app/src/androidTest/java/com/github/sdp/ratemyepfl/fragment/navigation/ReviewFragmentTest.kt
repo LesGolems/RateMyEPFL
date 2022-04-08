@@ -5,9 +5,9 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.FakeCourseRepository
-import com.github.sdp.ratemyepfl.database.FakeRestaurantRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.utils.TabAction
 import com.github.sdp.ratemyepfl.utils.ViewPagerAction

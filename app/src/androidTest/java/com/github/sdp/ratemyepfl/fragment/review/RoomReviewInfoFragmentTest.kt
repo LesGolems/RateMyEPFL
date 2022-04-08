@@ -9,13 +9,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 

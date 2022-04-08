@@ -38,4 +38,7 @@ class ClassroomRepository @Inject constructor(db : FirebaseFirestore) :
 
     override fun updateClassroomRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
+    fun add(room : Classroom){
+        collection.document(room.id).set(room.toHashMap())
+    }
 }

@@ -10,9 +10,9 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.FakeCourseRepository
-import com.github.sdp.ratemyepfl.database.FakeRestaurantRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.fragment.navigation.ClassroomTabFragment
 import com.github.sdp.ratemyepfl.fragment.navigation.CourseTabFragment

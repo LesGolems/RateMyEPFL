@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.dependencyinjection
+package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile

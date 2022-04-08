@@ -1,5 +1,6 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import javax.inject.Inject

@@ -1,43 +1,82 @@
 package com.github.sdp.ratemyepfl.database
 
-import androidx.test.platform.app.InstrumentationRegistry
 import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassroom
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.google.firebase.FirebaseApp
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
-import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import javax.inject.Inject
 
 @HiltAndroidTest
 class ClassroomRepositoryTest {
+    private val testRoom = Classroom("Fake id", 0, 0.0)
 
-    companion object {
-        @BeforeClass
-        fun setUp() {
-            val firestore = Firebase.firestore
-            firestore.useEmulator("10.0.2.2", 8080)
-            val settings = FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(false)
-                .build()
-            firestore.firestoreSettings = settings
-            roomRepo = ClassroomRepository(firestore)
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var roomRepo: ClassroomRepository
+
+    @Before
+    fun setup() {
+        hiltRule.inject()
+        roomRepo.add(testRoom)
+    }
+
+    @After
+    fun clean(){
+        roomRepo.remove(testRoom.id)
+    }
+
+    @Test
+    fun getRoomsWorks() {
+        runTest {
+            val rooms = roomRepo.getClassrooms()
+            assertEquals(rooms.size, 1)
+
+            val room = rooms[0]
+            assertEquals(room.id, testRoom.id)
+            assertEquals(room.numReviews, testRoom.numReviews)
+            assertEquals(room.averageGrade, testRoom.averageGrade, 0.1)
         }
+    }
 
-        private lateinit var roomRepo: ClassroomRepository
+    @Test
+    fun getRoomByIdWorks() {
+        runTest {
+            val room = roomRepo.getRoomById(testRoom.id)
+            assertNotNull(room)
+            assertEquals(room!!.id, testRoom.id)
+            assertEquals(room.numReviews, testRoom.numReviews)
+            assertEquals(room.averageGrade, testRoom.averageGrade, 0.1)
+        }
+    }
+
+    @Test
+    fun updateRoomRatingWorks() {
+        runTest {
+            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
+            val room = roomRepo.getRoomById(testRoom.id)
+            assertNotNull(room)
+            assertEquals(room!!.id, testRoom.id)
+            assertEquals(room.numReviews, 1)
+            assertEquals(room.averageGrade, 5.0, 0.1)
+        }
     }
 
     @Test
     fun toItemReturnsAClassroomForCompleteSnapshot() {
         val fake = "fake"
-        val fakeCredit = "0"
 
         val snapshot = mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
@@ -53,8 +92,7 @@ class ClassroomRepositoryTest {
 
     @Test
     fun toItemReturnsNullForInCompleteSnapshot() {
-        val fake = "fake"
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
+        val snapshot = mock(DocumentSnapshot::class.java)
 
         Mockito.`when`(snapshot.id).thenReturn(null)
         Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD)).thenReturn(null)
