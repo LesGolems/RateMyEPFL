@@ -33,7 +33,7 @@ check_android_task:
     ./cc-test-reporter before-build
   check_script: |
     chmod +x firebase
-    ./firebase emulators:exec --import ./test-data './gradlew check connectedCheck'
+    ./firebase emulators:exec './gradlew check connectedCheck'
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/
     ./cc-test-reporter format-coverage ./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml --input-type jacoco
