@@ -75,7 +75,9 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.4.0')
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.4.0'){
+        exclude module: "protobuf-lite"
+    }
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     // for asynchronous livedata
     //implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'

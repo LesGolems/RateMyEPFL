@@ -1,17 +1,39 @@
 package com.github.sdp.ratemyepfl.database
 
+import androidx.test.platform.app.InstrumentationRegistry
 import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassroom
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@HiltAndroidTest
 class ClassroomRepositoryTest {
+
+    companion object {
+        @BeforeClass
+        fun setUp() {
+            val firestore = Firebase.firestore
+            firestore.useEmulator("10.0.2.2", 8080)
+            val settings = FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build()
+            firestore.firestoreSettings = settings
+            roomRepo = ClassroomRepository(firestore)
+        }
+
+        private lateinit var roomRepo: ClassroomRepository
+    }
+
     @Test
     fun toItemReturnsAClassroomForCompleteSnapshot() {
         val fake = "fake"
