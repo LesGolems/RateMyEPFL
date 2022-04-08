@@ -31,7 +31,7 @@ check_android_task:
     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
-  check_script:
+  check_script: |
     chmod +x firebase
     ./firebase emulators:exec './gradlew check connectedCheck'
   report_codeclimate_script: |
