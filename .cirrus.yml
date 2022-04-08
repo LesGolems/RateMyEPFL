@@ -15,7 +15,7 @@ check_android_task:
     echo no | avdmanager create avd --force --name test --abi "$TARGET/$ARCH" --package "system-images;android-$API_LEVEL;$TARGET;$ARCH"
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
-  download_firabase_cli_script:
+  download_firebase_cli_script:
     curl -sL firebase.tools | bash
   build_script: |
     chmod +x gradlew
