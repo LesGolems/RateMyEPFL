@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.CourseRepository.Companion.toCourse
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,18 +33,7 @@ class UserRepository @Inject constructor(db : FirebaseFirestore) : UserRepositor
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
      */
-    override suspend fun getUserByUid(uid: String): User? {
-        val document = collection
-            .document(uid)
-            .get()
-            .await()
-
-        return if (document.exists()) {
-            document.toUser()
-        } else {
-            null
-        }
-    }
+    override suspend fun getUserByUid(uid: String): User? = toItem(getById(uid))
 
     /**
      * Retrieves a list of Users with the same [username].
