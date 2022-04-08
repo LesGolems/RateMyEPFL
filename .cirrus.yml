@@ -16,7 +16,7 @@ check_android_task:
   start_emulator_background_script:
     $ANDROID_SDK_ROOT/emulator/emulator -avd test -no-window -gpu swiftshader_indirect -no-snapshot -no-audio -no-boot-anim -camera-back none
   download_firebase_cli_script:
-    curl -Lo ./firebase_bin https://firebase.tools/bin/linux/latest
+    curl -Lo ./firebase https://firebase.tools/bin/linux/latest
   build_script: |
     chmod +x gradlew
     ./gradlew assembleDebugAndroidTest
@@ -32,8 +32,8 @@ check_android_task:
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
   check_script:
-    chmod +x firebase_bin
-    firebase emulators:exec './gradlew check connectedCheck'
+    chmod +x firebase
+    ./firebase emulators:exec './gradlew check connectedCheck'
   report_codeclimate_script: |
     export JACOCO_SOURCE_PATH=app/src/main/java/
     ./cc-test-reporter format-coverage ./app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml --input-type jacoco
