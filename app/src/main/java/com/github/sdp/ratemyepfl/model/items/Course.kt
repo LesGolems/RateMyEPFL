@@ -22,6 +22,20 @@ data class Course(
     }
 
     /**
+     * Creates an hash map of the Course, to add it to the DB
+     */
+    fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "title" to title,
+            "section" to section,
+            "teacher" to teacher,
+            "credits" to credits.toString(),
+            "numReviews" to numReviews.toString(),
+            "averageGrade" to averageGrade.toString()
+        )
+    }
+
+    /**
      * Builder to create a course step by step
      * Mandatory fields are:
      * - [id]

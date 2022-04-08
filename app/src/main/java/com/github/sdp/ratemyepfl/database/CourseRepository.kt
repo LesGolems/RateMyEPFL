@@ -46,7 +46,7 @@ class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseReposi
     override fun updateCourseRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
 
     fun add(course: Course) {
-        collection.document(course.id).set(course)
+        collection.document(course.id).set(course.toHashMap())
     }
 
 }
