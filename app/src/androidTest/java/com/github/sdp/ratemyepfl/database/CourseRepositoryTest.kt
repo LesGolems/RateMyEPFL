@@ -10,6 +10,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.mockito.Mockito
 import javax.inject.Inject
 
@@ -63,7 +64,7 @@ class CourseRepositoryTest {
     fun getCourseByIdWorks() {
         runTest {
             val course = courseRepo.getCourseById(testCourse.id)
-            Assert.assertNotNull(course)
+            assertNotNull(course)
             assertEquals(course!!.id, testCourse.id)
             assertEquals(course.title, testCourse.title)
             assertEquals(course.section, testCourse.section)
@@ -83,7 +84,7 @@ class CourseRepositoryTest {
         runTest {
             courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT).await()
             val course = courseRepo.getCourseById(testCourse.id)
-            Assert.assertNotNull(course)
+            assertNotNull(course)
             assertEquals(course!!.id, testCourse.id)
             assertEquals(course.title, testCourse.title)
             assertEquals(course.section, testCourse.section)

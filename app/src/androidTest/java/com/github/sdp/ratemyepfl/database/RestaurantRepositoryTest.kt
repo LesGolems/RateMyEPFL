@@ -11,89 +11,75 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.mockito.Mockito
 import javax.inject.Inject
 
 @HiltAndroidTest
-class RestaurantRepositoryTest /*{
-    private val testCourse = Course(
-        "title", "section", "teacher",
-        7, "Fake id", 0, 0.0)
+class RestaurantRepositoryTest {
+    private val testRestaurant = Restaurant(
+        "Fake id", 0, 0.0,
+        0.0,  0, 0.0)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var courseRepo: CourseRepository
+    lateinit var restaurantRepo: RestaurantRepository
 
     @Before
     fun setup() {
         hiltRule.inject()
-        courseRepo.add(testCourse)
+        restaurantRepo.add(testRestaurant)
     }
 
     @After
     fun clean(){
-        courseRepo.remove(testCourse.id)
+        restaurantRepo.remove(testRestaurant.id)
     }
 
     @Test
-    fun getCoursesWorks() {
+    fun getRestaurantsWorks() {
         runTest {
-            val courses = courseRepo.getCourses()
-            assertEquals(courses.size, 1)
+            val restaurants = restaurantRepo.getRestaurants()
+            assertEquals(restaurants.size, 1)
 
-            val course = courses[0]
-            assertEquals(course.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews, testCourse.numReviews)
-            assertEquals(course.averageGrade, testCourse.averageGrade, 0.1)
+            val restaurant = restaurants[0]
+            assertEquals(restaurant.id, testRestaurant.id)
+            assertEquals(restaurant.lat, testRestaurant.lat, 0.1)
+            assertEquals(restaurant.long, testRestaurant.long, 0.1)
+            assertEquals(restaurant.occupancy, testRestaurant.occupancy)
+            assertEquals(restaurant.numReviews, restaurant.numReviews)
+            assertEquals(restaurant.averageGrade, restaurant.averageGrade, 0.1)
         }
     }
 
     @Test
-    fun getCourseByIdWorks() {
+    fun getRestaurantByIdWorks() {
         runTest {
-            val course = courseRepo.getCourseById(testCourse.id)
-            Assert.assertNotNull(course)
-            assertEquals(course!!.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews, testCourse.numReviews)
-            assertEquals(course.averageGrade, testCourse.averageGrade, 0.1)
+            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            assertNotNull(restaurant)
+            assertEquals(restaurant!!.id, testRestaurant.id)
+            assertEquals(restaurant.lat, testRestaurant.lat, 0.1)
+            assertEquals(restaurant.long, testRestaurant.long, 0.1)
+            assertEquals(restaurant.occupancy, testRestaurant.occupancy)
+            assertEquals(restaurant.numReviews, restaurant.numReviews)
+            assertEquals(restaurant.averageGrade, restaurant.averageGrade, 0.1)
         }
     }
 
     @Test
-    fun updateCourseRatingWorks() {
+    fun updateRestaurantRatingWorks() {
         runTest {
-            courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT).await()
-            val course = courseRepo.getCourseById(testCourse.id)
-            Assert.assertNotNull(course)
-            assertEquals(course!!.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews, 1)
-            assertEquals(course.averageGrade, 5.0, 0.1)
+            restaurantRepo.updateRestaurantRating(testRestaurant.id, ReviewRating.EXCELLENT).await()
+            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            assertNotNull(restaurant)
+            assertEquals(restaurant!!.id, testRestaurant.id)
+            assertEquals(restaurant.lat, testRestaurant.lat, 0.1)
+            assertEquals(restaurant.long, testRestaurant.long, 0.1)
+            assertEquals(restaurant.occupancy, testRestaurant.occupancy)
+            assertEquals(restaurant.numReviews, restaurant.numReviews)
+            assertEquals(restaurant.averageGrade, restaurant.averageGrade, 0.1)
         }
     }
 
@@ -123,4 +109,4 @@ class RestaurantRepositoryTest /*{
         assertEquals(fakeRestaurant, restaurant)
     }
 
-}*/
+}

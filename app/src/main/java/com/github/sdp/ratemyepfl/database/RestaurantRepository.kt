@@ -61,6 +61,6 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
     override fun updateRestaurantRating(id: String, rating: ReviewRating): Task<Unit> = updateRating(id, rating)
 
     fun add(restaurant: Restaurant) {
-        collection.document(restaurant.id).set(restaurant)
+        collection.document(restaurant.id).set(restaurant.toHashMap())
     }
 }
