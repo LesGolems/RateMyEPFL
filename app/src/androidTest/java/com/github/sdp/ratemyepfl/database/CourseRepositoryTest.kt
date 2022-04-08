@@ -7,11 +7,13 @@ import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mockito
 import javax.inject.Inject
 
@@ -37,28 +39,24 @@ class CourseRepositoryTest {
     }
 
     @After
-    fun clean(){
+    fun clean() {
         courseRepo.remove(testCourse.id)
     }
 
     @Test
     fun getCoursesWorks() {
         runTest {
-            val courses = courseRepo.getCourses()
-            assertEquals(courses.size, 1)
+            val course = courseRepo.getCourses()[0]
 
-            val course = courses[0]
-            assertEquals(course.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews, testCourse.numReviews)
-            assertEquals(course.averageGrade, testCourse.averageGrade, 0.1)
+            assertEquals(testCourse.id, course.id)
+            assertEquals(testCourse.title, course.title)
+            assertEquals(testCourse.section, course.section)
+            assertEquals(testCourse.teacher, course.teacher)
+            assertEquals(testCourse.credits, course.credits)
+            assertEquals(testCourse.cycle, course.cycle)
+            assertEquals(testCourse.session, course.session)
+            assertEquals(testCourse.grading, course.grading)
+            assertEquals(testCourse.language, course.language)
         }
     }
 
@@ -67,17 +65,15 @@ class CourseRepositoryTest {
         runTest {
             val course = courseRepo.getCourseById(testCourse.id)
             assertNotNull(course)
-            assertEquals(course!!.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews, testCourse.numReviews)
-            assertEquals(course.averageGrade, testCourse.averageGrade, 0.1)
+            assertEquals(testCourse.id, course!!.id)
+            assertEquals(testCourse.title, course.title)
+            assertEquals(testCourse.section, course.section)
+            assertEquals(testCourse.teacher, course.teacher)
+            assertEquals(testCourse.credits, course.credits)
+            assertEquals(testCourse.cycle, course.cycle)
+            assertEquals(testCourse.session, course.session)
+            assertEquals(testCourse.grading, course.grading)
+            assertEquals(testCourse.language, course.language)
         }
     }
 
@@ -87,17 +83,9 @@ class CourseRepositoryTest {
             courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT)
             val course = courseRepo.getCourseById(testCourse.id)
             assertNotNull(course)
-            assertEquals(course!!.id, testCourse.id)
-            assertEquals(course.title, testCourse.title)
-            assertEquals(course.section, testCourse.section)
-            assertEquals(course.teacher, testCourse.teacher)
-            assertEquals(course.credits, testCourse.credits)
-            assertEquals(course.cycle, testCourse.cycle)
-            assertEquals(course.session, testCourse.session)
-            assertEquals(course.grading, testCourse.grading)
-            assertEquals(course.language, testCourse.language)
-            assertEquals(course.numReviews,1)
-            assertEquals(course.averageGrade, 5.0, 0.1)
+            assertEquals(testCourse.id, course!!.id)
+            assertEquals(1, course.numReviews)
+            assertEquals(5.0, course.averageGrade, 0.1)
         }
     }
 

@@ -44,13 +44,8 @@ class ClassroomRepositoryTest {
     @Test
     fun getRoomsWorks() {
         runTest {
-            val rooms = roomRepo.getClassrooms()
-            assertEquals(rooms.size, 1)
-
-            val room = rooms[0]
-            assertEquals(room.id, testRoom.id)
-            assertEquals(room.numReviews, testRoom.numReviews)
-            assertEquals(room.averageGrade, testRoom.averageGrade, 0.1)
+            val room = roomRepo.getClassrooms()[0]
+            assertEquals(testRoom.id, room.id)
         }
     }
 
@@ -59,9 +54,7 @@ class ClassroomRepositoryTest {
         runTest {
             val room = roomRepo.getRoomById(testRoom.id)
             assertNotNull(room)
-            assertEquals(room!!.id, testRoom.id)
-            assertEquals(room.numReviews, testRoom.numReviews)
-            assertEquals(room.averageGrade, testRoom.averageGrade, 0.1)
+            assertEquals(testRoom.id, room!!.id)
         }
     }
 
@@ -71,9 +64,9 @@ class ClassroomRepositoryTest {
             roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
             val room = roomRepo.getRoomById(testRoom.id)
             assertNotNull(room)
-            assertEquals(room!!.id, testRoom.id)
-            assertEquals(room.numReviews, 1)
-            assertEquals(room.averageGrade, 5.0, 0.1)
+            assertEquals(testRoom.id, room!!.id)
+            assertEquals(1, room.numReviews)
+            assertEquals(5.0, room.averageGrade, 0.1)
         }
     }
 

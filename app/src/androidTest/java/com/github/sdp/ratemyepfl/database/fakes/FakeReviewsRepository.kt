@@ -106,19 +106,19 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
         return reviewList
     }
 
-    override fun addLiker(id: String, uid: String) {
+    override suspend fun addLiker(id: String, uid: String) {
         reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, uid)
     }
 
-    override fun removeLiker(id: String, uid: String) {
+    override suspend fun removeLiker(id: String, uid: String) {
         reviewList[0].likers = listOf(FAKE_UID_1)
     }
 
-    override fun addDisliker(id: String, uid: String) {
+    override suspend fun addDisliker(id: String, uid: String) {
         reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
     }
 
-    override fun removeDisliker(id: String, uid: String) {
+    override suspend fun removeDisliker(id: String, uid: String) {
         reviewList[0].dislikers = listOf(FAKE_UID_4)
     }
 }

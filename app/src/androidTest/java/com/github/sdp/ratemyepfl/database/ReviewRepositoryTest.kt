@@ -8,9 +8,12 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mockito
 import java.time.LocalDate
 import javax.inject.Inject
@@ -45,18 +48,33 @@ class ReviewRepositoryTest {
     }
 
     @Test
+    fun addWithHashmapWorks() {
+        runTest {
+            reviewRepo.add(testReview.toHashMap())
+            val reviews = reviewRepo.getReviews()
+            val firstReview = reviews[0]
+            val secondReview = reviews[1]
+            assertEquals(2, reviews.size)
+            var idToRemove = ""
+            idToRemove = if(firstReview.id == testReview.id){
+                secondReview.id
+            } else {
+                firstReview.id
+            }
+            reviewRepo.remove(idToRemove)
+        }
+    }
+
+    @Test
     fun getReviewsWorks() {
         runTest {
-            val reviews = reviewRepo.getReviews()
-            assertEquals(reviews.size, 1)
-
-            val review = reviews[0]
-            assertEquals(review.id, testReview.id)
-            assertEquals(review.title, testReview.title)
-            assertEquals(review.rating.toString(), testReview.rating.toString())
-            assertEquals(review.comment, testReview.comment)
-            assertEquals(review.reviewableId, testReview.reviewableId)
-            assertEquals(review.date, testReview.date)
+            val review = reviewRepo.getReviews()[0]
+            assertEquals(testReview.id, review.id)
+            assertEquals(testReview.title, review.title)
+            assertEquals(testReview.comment, review.comment)
+            assertEquals(testReview.rating.toString(), review.rating.toString())
+            assertEquals(testReview.reviewableId, review.reviewableId)
+            assertEquals(testReview.date, review.date)
         }
     }
 
@@ -65,27 +83,61 @@ class ReviewRepositoryTest {
         runTest {
             val review = reviewRepo.getReviewById(testReview.id)
             assertNotNull(review)
-            assertEquals(review!!.id, testReview.id)
-            assertEquals(review.title, testReview.title)
-            assertEquals(review.rating.toString(), testReview.rating.toString())
-            assertEquals(review.comment, testReview.comment)
-            assertEquals(review.reviewableId, testReview.reviewableId)
-            assertEquals(review.date, testReview.date)
+            assertEquals(testReview.id, review!!.id)
+            assertEquals(testReview.title, review.title)
+            assertEquals(testReview.comment, review.comment)
+            assertEquals(testReview.rating.toString(), review.rating.toString())
+            assertEquals(testReview.reviewableId, review.reviewableId)
+            assertEquals(testReview.date, review.date)
         }
     }
 
     @Test
     fun getReviewByReviewableIdWorks() {
         runTest {
-            val reviews = reviewRepo.getByReviewableId(testReview.reviewableId)
-            assertEquals(reviews.size, 1)
-            val review = reviews[0]
-            assertEquals(review.id, testReview.id)
-            assertEquals(review.title, testReview.title)
-            assertEquals(review.rating.toString(), testReview.rating.toString())
-            assertEquals(review.comment, testReview.comment)
-            assertEquals(review.reviewableId, testReview.reviewableId)
-            assertEquals(review.date, testReview.date)
+            val review = reviewRepo.getByReviewableId(testReview.reviewableId)[0]
+            assertEquals(testReview.id, review.id)
+            assertEquals(testReview.title, review.title)
+            assertEquals(testReview.comment, review.comment)
+            assertEquals(testReview.rating.toString(), review.rating.toString())
+            assertEquals(testReview.reviewableId, review.reviewableId)
+            assertEquals(testReview.date, review.date)
+        }
+    }
+
+    @Test
+    fun likersWorks() {
+        runTest {
+            reviewRepo.addLiker(testReview.id, "Fake uid")
+            var review = reviewRepo.getReviewById(testReview.id)
+            assertNotNull(review)
+            assertEquals(testReview.id, review!!.id,)
+            assertEquals(1, review.likers.size)
+            assertEquals("Fake uid", review.likers[0])
+
+            reviewRepo.removeLiker(testReview.id, "Fake uid")
+            review = reviewRepo.getReviewById(testReview.id)
+            assertNotNull(review)
+            assertEquals(testReview.id, review!!.id)
+            assertEquals(0, review.likers.size, )
+        }
+    }
+
+    @Test
+    fun dislikersWorks() {
+        runTest {
+            reviewRepo.addDisliker(testReview.id, "Fake uid")
+            var review = reviewRepo.getReviewById(testReview.id)
+            assertNotNull(review)
+            assertEquals(testReview.id, review!!.id,)
+            assertEquals(1, review.dislikers.size)
+            assertEquals("Fake uid", review.dislikers[0])
+
+            reviewRepo.removeDisliker(testReview.id, "Fake uid")
+            review = reviewRepo.getReviewById(testReview.id)
+            assertNotNull(review)
+            assertEquals(testReview.id, review!!.id)
+            assertEquals(0, review.dislikers.size, )
         }
     }
 

@@ -63,7 +63,7 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .build()
         )
-        Thread.sleep(500) // if no wait, the new list is direclty displayed
+        Thread.sleep(2000) // if no wait, the new list is direclty displayed
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
         onView(withId(R.id.reviewRecyclerView))
             .check(matches(hasChildCount(1)))

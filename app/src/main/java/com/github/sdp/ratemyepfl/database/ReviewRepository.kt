@@ -85,23 +85,23 @@ class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepos
 
     private fun toItem(snapshot: DocumentSnapshot): Review? = snapshot.toReview()
 
-    override fun addLiker(id: String, uid: String) {
+    override suspend fun addLiker(id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayUnion(uid))
+        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayUnion(uid)).await()
     }
 
-    override fun removeLiker(id: String, uid: String) {
+    override suspend fun removeLiker(id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayRemove(uid))
+        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayRemove(uid)).await()
     }
 
-    override fun addDisliker(id: String, uid: String) {
+    override suspend fun addDisliker(id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayUnion(uid))
+        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayUnion(uid)).await()
     }
 
-    override fun removeDisliker(id: String, uid: String) {
+    override suspend fun removeDisliker(id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayRemove(uid))
+        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayRemove(uid)).await()
     }
 }

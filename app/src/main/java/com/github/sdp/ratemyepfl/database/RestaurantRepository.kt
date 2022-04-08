@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -40,9 +39,9 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getString("occupancy")?.toInt()
+            val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
-                transaction.update(docRef, "occupancy", (occupancy + 1).toString())
+                transaction.update(docRef, OCCUPANCY_FIELD_NAME, (occupancy + 1).toString())
             }
             null
         }.await()
@@ -52,9 +51,9 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getString("occupancy")?.toInt()
+            val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
-                transaction.update(docRef, "occupancy", (occupancy - 1).toString())
+                transaction.update(docRef, OCCUPANCY_FIELD_NAME, (occupancy - 1).toString())
             }
             null
         }.await()

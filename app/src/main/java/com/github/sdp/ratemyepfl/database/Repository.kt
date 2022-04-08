@@ -32,7 +32,7 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
      *
      * @param id: the unique identifier (or key) of the object to retrieve
      */
-    suspend fun getById(id: String): DocumentSnapshot {
+    protected suspend fun getById(id: String): DocumentSnapshot {
         return collection.document(id).get().await()
     }
 

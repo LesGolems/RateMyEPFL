@@ -62,7 +62,7 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
     override suspend fun update(user: User) {
         collection
             .document(user.uid)
-            .set(user)
+            .set(user.toHashMap())
             .await()
     }
 
@@ -76,7 +76,10 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
             .await()
     }
 
+    /**
+     * Add the user to the DB
+     */
     fun add(user: User) {
-        collection.document(user.uid).set(user)
+        collection.document(user.uid).set(user.toHashMap())
     }
 }

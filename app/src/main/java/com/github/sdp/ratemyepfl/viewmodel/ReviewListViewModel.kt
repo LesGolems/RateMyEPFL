@@ -45,10 +45,12 @@ open class ReviewListViewModel @Inject constructor(
         if (!auth.isLoggedIn()) return
 
         val uid = auth.getUserId() ?: return
-        if (review.likers.contains(uid)) {
-            reviewRepo.removeLiker(review.id, uid)
-        } else {
-            reviewRepo.addLiker(review.id, uid)
+        viewModelScope.launch {
+            if (review.likers.contains(uid)) {
+                reviewRepo.removeLiker(review.id, uid)
+            } else {
+                reviewRepo.addLiker(review.id, uid)
+            }
         }
     }
 
@@ -56,10 +58,12 @@ open class ReviewListViewModel @Inject constructor(
         if (!auth.isLoggedIn()) return
 
         val uid = auth.getUserId() ?: return
-        if (review.dislikers.contains(uid)) {
-            reviewRepo.removeDisliker(review.id, uid)
-        } else {
-            reviewRepo.addDisliker(review.id, uid)
+        viewModelScope.launch {
+            if (review.dislikers.contains(uid)) {
+                reviewRepo.removeDisliker(review.id, uid)
+            } else {
+                reviewRepo.addDisliker(review.id, uid)
+            }
         }
     }
 }
