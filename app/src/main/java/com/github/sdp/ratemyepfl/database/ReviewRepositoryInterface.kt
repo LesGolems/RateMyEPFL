@@ -30,9 +30,6 @@ interface ReviewRepositoryInterface {
      */
     suspend fun getByReviewableId(id: String?): List<Review>
 
-    suspend fun addLiker(id: String, uid: String)
-    suspend fun removeLiker(id: String, uid: String)
-    suspend fun addDisliker(id: String, uid: String)
-    suspend fun removeDisliker(id: String, uid: String)
-
+    suspend fun addUidInArray(fieldName: String, id: String, uid: String)
+    suspend fun removeUidInArray(fieldName: String, id: String, uid: String)
 }

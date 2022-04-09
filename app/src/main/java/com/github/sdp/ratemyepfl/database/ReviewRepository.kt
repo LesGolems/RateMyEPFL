@@ -9,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepositoryInterface,
+class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewRepositoryInterface,
     Repository(db, REVIEW_COLLECTION_PATH) {
 
     companion object {
@@ -85,23 +85,13 @@ class ReviewRepository @Inject constructor(db : FirebaseFirestore) : ReviewRepos
 
     private fun toItem(snapshot: DocumentSnapshot): Review? = snapshot.toReview()
 
-    override suspend fun addLiker(id: String, uid: String) {
+    override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayUnion(uid)).await()
+        reviewRef.update(fieldName, FieldValue.arrayUnion(uid)).await()
     }
 
-    override suspend fun removeLiker(id: String, uid: String) {
+    override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
         val reviewRef = collection.document(id)
-        reviewRef.update(LIKERS_FIELD_NAME, FieldValue.arrayRemove(uid)).await()
-    }
-
-    override suspend fun addDisliker(id: String, uid: String) {
-        val reviewRef = collection.document(id)
-        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayUnion(uid)).await()
-    }
-
-    override suspend fun removeDisliker(id: String, uid: String) {
-        val reviewRef = collection.document(id)
-        reviewRef.update(DISLIKERS_FIELD_NAME, FieldValue.arrayRemove(uid)).await()
+        reviewRef.update(fieldName, FieldValue.arrayRemove(uid)).await()
     }
 }

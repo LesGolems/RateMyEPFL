@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 
 /*
@@ -33,11 +34,11 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
         reviewAdapter = ReviewAdapter(
             { r ->
-                viewModel.updateLikers(r)
+                viewModel.updateVotes(r, r.likers, ReviewRepository.LIKERS_FIELD_NAME)
                 viewModel.updateReviewsList()
             },
             { r ->
-                viewModel.updateDislikers(r)
+                viewModel.updateVotes(r, r.dislikers, ReviewRepository.DISLIKERS_FIELD_NAME)
                 viewModel.updateReviewsList()
             }
         )

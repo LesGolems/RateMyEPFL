@@ -41,28 +41,15 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    fun updateLikers(review: Review) {
+    fun updateVotes(review: Review, array: List<String>, fieldName : String){
         if (!auth.isLoggedIn()) return
 
         val uid = auth.getUserId() ?: return
         viewModelScope.launch {
-            if (review.likers.contains(uid)) {
-                reviewRepo.removeLiker(review.id, uid)
+            if (array.contains(uid)) {
+                reviewRepo.removeUidInArray(fieldName, review.id, uid)
             } else {
-                reviewRepo.addLiker(review.id, uid)
-            }
-        }
-    }
-
-    fun updateDislikers(review: Review) {
-        if (!auth.isLoggedIn()) return
-
-        val uid = auth.getUserId() ?: return
-        viewModelScope.launch {
-            if (review.dislikers.contains(uid)) {
-                reviewRepo.removeDisliker(review.id, uid)
-            } else {
-                reviewRepo.addDisliker(review.id, uid)
+                reviewRepo.addUidInArray(fieldName, review.id, uid)
             }
         }
     }
