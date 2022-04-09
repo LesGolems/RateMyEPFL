@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.DISLIKERS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.LIKERS_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.toReview
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -56,7 +58,7 @@ class ReviewRepositoryTest {
             val secondReview = reviews[1]
             assertEquals(2, reviews.size)
             var idToRemove = ""
-            idToRemove = if(firstReview.id == testReview.id){
+            idToRemove = if (firstReview.id == testReview.id) {
                 secondReview.id
             } else {
                 firstReview.id
@@ -108,36 +110,36 @@ class ReviewRepositoryTest {
     @Test
     fun likersWorks() {
         runTest {
-            reviewRepo.addLiker(testReview.id, "Fake uid")
+            reviewRepo.addUidInArray(LIKERS_FIELD_NAME, testReview.id, "Fake uid")
             var review = reviewRepo.getReviewById(testReview.id)
             assertNotNull(review)
-            assertEquals(testReview.id, review!!.id,)
+            assertEquals(testReview.id, review!!.id)
             assertEquals(1, review.likers.size)
             assertEquals("Fake uid", review.likers[0])
 
-            reviewRepo.removeLiker(testReview.id, "Fake uid")
+            reviewRepo.removeUidInArray(LIKERS_FIELD_NAME, testReview.id, "Fake uid")
             review = reviewRepo.getReviewById(testReview.id)
             assertNotNull(review)
             assertEquals(testReview.id, review!!.id)
-            assertEquals(0, review.likers.size, )
+            assertEquals(0, review.likers.size)
         }
     }
 
     @Test
     fun dislikersWorks() {
         runTest {
-            reviewRepo.addDisliker(testReview.id, "Fake uid")
+            reviewRepo.addUidInArray(DISLIKERS_FIELD_NAME, testReview.id, "Fake uid")
             var review = reviewRepo.getReviewById(testReview.id)
             assertNotNull(review)
-            assertEquals(testReview.id, review!!.id,)
+            assertEquals(testReview.id, review!!.id)
             assertEquals(1, review.dislikers.size)
             assertEquals("Fake uid", review.dislikers[0])
 
-            reviewRepo.removeDisliker(testReview.id, "Fake uid")
+            reviewRepo.removeUidInArray(DISLIKERS_FIELD_NAME, testReview.id, "Fake uid")
             review = reviewRepo.getReviewById(testReview.id)
             assertNotNull(review)
             assertEquals(testReview.id, review!!.id)
-            assertEquals(0, review.dislikers.size, )
+            assertEquals(0, review.dislikers.size)
         }
     }
 
