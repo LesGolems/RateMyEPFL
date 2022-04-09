@@ -78,6 +78,10 @@ dependencies {
     androidTestImplementation('androidx.test.espresso:espresso-contrib:3.4.0'){
         exclude module: "protobuf-lite"
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
     // for asynchronous livedata
     //implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
