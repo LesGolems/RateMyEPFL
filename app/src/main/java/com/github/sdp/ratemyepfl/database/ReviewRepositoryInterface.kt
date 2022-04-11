@@ -7,7 +7,7 @@ interface ReviewRepositoryInterface {
      * Add a review to the repository
      *
      */
-    fun add(value: HashMap<String, Any>)
+    fun add(value: HashMap<String, Any?>)
 
     /**
      * Retrieve the reviews from the repository
@@ -30,9 +30,6 @@ interface ReviewRepositoryInterface {
      */
     suspend fun getByReviewableId(id: String?): List<Review>
 
-    fun addLiker(id: String, uid: String)
-    fun removeLiker(id: String, uid: String)
-    fun addDisliker(id: String, uid: String)
-    fun removeDisliker(id: String, uid: String)
-
+    suspend fun addUidInArray(fieldName: String, id: String, uid: String)
+    suspend fun removeUidInArray(fieldName: String, id: String, uid: String)
 }

@@ -3,22 +3,26 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface,
-    Repository(RESTAURANT_COLLECTION_PATH) {
+class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
+    RestaurantRepositoryInterface,
+    Repository(db, RESTAURANT_COLLECTION_PATH) {
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
         const val LATITUDE_FIELD_NAME = "lat"
         const val LONGITUDE_FIELD_NAME = "long"
+        const val OCCUPANCY_FIELD_NAME = "occupancy"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-            val occupancy = getString("occupancy")?.toInt() ?: 0
-            val lat = getString("lat")?.toDouble() ?: 0.0
-            val lon = getString("long")?.toDouble() ?: 0.0
-            val numReviews = getString("numReviews")?.toInt() ?: 0
-            val averageGrade = getString("averageGrade")?.toDouble() ?: 0.0
+            val occupancy = getString(OCCUPANCY_FIELD_NAME)?.toInt() ?: 0
+            val lat = getString(LATITUDE_FIELD_NAME)?.toDouble() ?: 0.0
+            val lon = getString(LONGITUDE_FIELD_NAME)?.toDouble() ?: 0.0
+            val numReviews = getString(NUM_REVIEWS_FIELD_NAME)?.toInt() ?: 0
+            val averageGrade = getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble() ?: 0.0
             return Restaurant(id, occupancy, lat, lon, numReviews, averageGrade)
         }
     }
@@ -31,30 +35,33 @@ class RestaurantRepository @Inject constructor() : RestaurantRepositoryInterface
 
     override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
 
-    override fun incrementOccupancy(id: String) {
+    override suspend fun incrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getString("occupancy")?.toInt()
+            val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
-                transaction.update(docRef, "occupancy", (occupancy + 1).toString())
+                transaction.update(docRef, OCCUPANCY_FIELD_NAME, (occupancy + 1).toString())
             }
             null
-        }
+        }.await()
     }
 
-    override fun decrementOccupancy(id: String) {
+    override suspend fun decrementOccupancy(id: String) {
         val docRef = collection.document(id)
         db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getString("occupancy")?.toInt()
+            val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
-                transaction.update(docRef, "occupancy", (occupancy - 1).toString())
+                transaction.update(docRef, OCCUPANCY_FIELD_NAME, (occupancy - 1).toString())
             }
             null
-        }
+        }.await()
     }
 
-    override fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
+    fun add(restaurant: Restaurant) {
+        collection.document(restaurant.id).set(restaurant.toHashMap())
+    }
 }

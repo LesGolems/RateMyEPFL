@@ -1,9 +1,10 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 
-class FakeUserRepository @Inject constructor() : UserRepository {
+class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
 
     private val users = HashMap<String, User>()
 
@@ -30,10 +31,6 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     override suspend fun update(user: User) {
         users.put(user.uid, user)
-    }
-
-    override suspend fun delete(uid: String) {
-        users.remove(uid)
     }
 
 }

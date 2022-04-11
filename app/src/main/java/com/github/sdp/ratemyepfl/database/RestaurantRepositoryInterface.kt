@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 
 interface RestaurantRepositoryInterface {
     /**
@@ -21,13 +22,13 @@ interface RestaurantRepositoryInterface {
     /**
      *  Increment occupancy of given restaurant
      */
-    fun incrementOccupancy(id: String)
+    suspend fun incrementOccupancy(id: String)
 
 
     /**
      *  Decrement occupancy of given restaurant
      */
-    fun decrementOccupancy(id: String)
+    suspend fun decrementOccupancy(id: String)
 
 
     /**
@@ -36,5 +37,5 @@ interface RestaurantRepositoryInterface {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    fun updateRestaurantRating(id: String, rating: ReviewRating)
+    suspend fun updateRestaurantRating(id: String, rating: ReviewRating)
 }

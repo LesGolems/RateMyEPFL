@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.database.CourseRepository
+import com.github.sdp.ratemyepfl.database.Repository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,6 +21,24 @@ data class Course(
 
     override fun toString(): String {
         return "$id $title"
+    }
+
+    /**
+     * Creates an hash map of the Course
+     */
+    fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            CourseRepository.TITLE_FIELD_NAME to title,
+            CourseRepository.SECTION_FIELD_NAME to section,
+            CourseRepository.TEACHER_FIELD_NAME to teacher,
+            CourseRepository.CREDITS_FIELD_NAME to credits.toString(),
+            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
+            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
+            CourseRepository.CYCLE_FIELD_NAME to cycle,
+            CourseRepository.SESSION_FIELD_NAME to session,
+            CourseRepository.GRADING_FIELD_NAME to grading,
+            CourseRepository.LANGUAGE_FIELD_NAME to language
+        )
     }
 
     /**

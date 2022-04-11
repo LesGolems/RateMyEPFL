@@ -1,7 +1,10 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.RestaurantRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
 class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInterface {
@@ -26,14 +29,12 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
 
     override suspend fun getRestaurantById(id: String): Restaurant = restaurantById
 
-    override fun incrementOccupancy(id: String) {
+    override suspend fun incrementOccupancy(id: String) {
     }
 
-    override fun decrementOccupancy(id: String) {
+    override suspend fun decrementOccupancy(id: String) {
     }
 
 
-    override fun updateRestaurantRating(id: String, rating: ReviewRating) {
-
-    }
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
 }

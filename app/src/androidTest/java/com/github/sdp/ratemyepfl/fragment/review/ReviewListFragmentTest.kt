@@ -11,14 +11,13 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
-import com.github.sdp.ratemyepfl.database.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
@@ -64,7 +63,7 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .build()
         )
-        Thread.sleep(500) // if no wait, the new list is direclty displayed
+        Thread.sleep(2000) // if no wait, the new list is direclty displayed
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
         onView(withId(R.id.reviewRecyclerView))
             .check(matches(hasChildCount(1)))

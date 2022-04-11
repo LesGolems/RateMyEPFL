@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 
 interface CourseRepositoryInterface {
     /**
@@ -24,5 +25,5 @@ interface CourseRepositoryInterface {
      *  @param id : id of the reviewed item
      *  @param rating: rating of the review being added
      */
-    fun updateCourseRating(id: String, rating: ReviewRating)
+    suspend fun updateCourseRating(id: String, rating: ReviewRating)
 }

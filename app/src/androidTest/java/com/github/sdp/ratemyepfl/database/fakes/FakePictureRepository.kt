@@ -1,6 +1,7 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.database.PictureRepositoryInterface
 import javax.inject.Inject
 
 class FakePictureRepository @Inject constructor() : PictureRepositoryInterface {

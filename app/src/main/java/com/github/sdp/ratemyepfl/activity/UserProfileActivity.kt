@@ -13,9 +13,6 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.auth.ConnectedUserImpl
-import com.github.sdp.ratemyepfl.database.ImageStorage
-import com.github.sdp.ratemyepfl.database.UserDatabase
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.user
 
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.google.firebase.firestore.DocumentSnapshot
+import com.github.sdp.ratemyepfl.database.UserRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,21 +11,6 @@ data class User(
     val email: String?,
     val picture: String? = "$uid.jpg"
 ) {
-    companion object {
-
-        const val USERNAME_FIELD = "username"
-        const val EMAIL_FIELD = "email"
-        const val PICTURE_FIELD = "picture"
-
-        fun DocumentSnapshot.toUser(): User {
-            return User(
-                uid = id,
-                username = getString(USERNAME_FIELD),
-                email = getString(EMAIL_FIELD),
-                picture = getString(PICTURE_FIELD)
-            )
-        }
-    }
 
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
@@ -33,4 +18,15 @@ data class User(
         email = user.getEmail()!!,
         picture = user.getProfilePictureUrl()!!
     )
+
+    /**
+     * Creates an hash map of the user
+     */
+    fun toHashMap(): HashMap<String, Any?>{
+        return hashMapOf(
+            UserRepository.USERNAME_FIELD_NAME to username,
+            UserRepository.EMAIL_FIELD_NAME to email,
+            UserRepository.PICTURE_FIELD_NAME to picture
+        )
+    }
 }

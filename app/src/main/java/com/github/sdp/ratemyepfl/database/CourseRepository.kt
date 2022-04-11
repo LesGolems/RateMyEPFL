@@ -2,11 +2,13 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
-class CourseRepository @Inject constructor() : CourseRepositoryInterface,
-    Repository(COURSE_COLLECTION_PATH) {
+class CourseRepository @Inject constructor(db: FirebaseFirestore) : CourseRepositoryInterface,
+    Repository(db, COURSE_COLLECTION_PATH) {
 
     companion object {
         const val COURSE_COLLECTION_PATH = "courses"
@@ -14,16 +16,25 @@ class CourseRepository @Inject constructor() : CourseRepositoryInterface,
         const val SECTION_FIELD_NAME = "section"
         const val TEACHER_FIELD_NAME = "teacher"
         const val CREDITS_FIELD_NAME = "credits"
+        const val CYCLE_FIELD_NAME = "cycle"
+        const val SESSION_FIELD_NAME = "session"
+        const val GRADING_FIELD_NAME = "grading"
+        const val LANGUAGE_FIELD_NAME = "language"
+
 
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
                 .setId(id)
-                .setNumReviews(getString(NUM_REVIEWS_FIELD)?.toInt())
-                .setAverageGrade(getString(AVERAGE_GRADE_FIELD)?.toDouble())
+                .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
+                .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
                 .setCredits(getString(CREDITS_FIELD_NAME)?.toInt())
+                .setCycle(getString(CYCLE_FIELD_NAME))
+                .setSession(getString(SESSION_FIELD_NAME))
+                .setGrading(getString(GRADING_FIELD_NAME))
+                .setLanguage(getString(LANGUAGE_FIELD_NAME))
 
             return try {
                 builder.build()
@@ -41,6 +52,10 @@ class CourseRepository @Inject constructor() : CourseRepositoryInterface,
 
     override suspend fun getCourseById(id: String): Course? = toItem(getById(id))
 
-    override fun updateCourseRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+    override suspend fun updateCourseRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+
+    fun add(course: Course) {
+        collection.document(course.id).set(course.toHashMap())
+    }
 
 }

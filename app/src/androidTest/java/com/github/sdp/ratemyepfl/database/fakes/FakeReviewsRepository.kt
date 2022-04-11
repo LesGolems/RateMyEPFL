@@ -1,5 +1,7 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDate
@@ -86,7 +88,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
         var reviewList = fakeList
     }
 
-    override fun add(value: HashMap<String, Any>) {}
+    override fun add(value: HashMap<String, Any?>) {}
 
     override suspend fun getReviews(): List<Review> {
         return reviewList
@@ -105,19 +107,19 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
         return reviewList
     }
 
-    override fun addLiker(id: String, uid: String) {
-        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, uid)
+    override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
+        if (fieldName == ReviewRepository.LIKERS_FIELD_NAME) {
+            reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, uid)
+        } else {
+            reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
+        }
     }
 
-    override fun removeLiker(id: String, uid: String) {
-        reviewList[0].likers = listOf(FAKE_UID_1)
-    }
-
-    override fun addDisliker(id: String, uid: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
-    }
-
-    override fun removeDisliker(id: String, uid: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_4)
+    override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
+        if (fieldName == ReviewRepository.LIKERS_FIELD_NAME) {
+            reviewList[0].likers = listOf(FAKE_UID_1)
+        } else {
+            reviewList[0].dislikers = listOf(FAKE_UID_4)
+        }
     }
 }

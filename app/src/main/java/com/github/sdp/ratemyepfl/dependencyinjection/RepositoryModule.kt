@@ -30,7 +30,7 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideUserRepo(repo: UserDatabase): UserRepository
+    abstract fun provideUserRepo(repo: UserRepository): UserRepositoryInterface
 
     @Singleton
     @Binds

@@ -1,7 +1,10 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.CourseRepositoryInterface
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import javax.inject.Inject
 
 class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
@@ -83,7 +86,5 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
 
     override suspend fun getCourseById(id: String): Course = courseById
 
-    override fun updateCourseRating(id: String, rating: ReviewRating) {
-    }
-
+    override suspend fun updateCourseRating(id: String, rating: ReviewRating) {}
 }

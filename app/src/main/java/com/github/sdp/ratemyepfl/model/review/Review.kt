@@ -19,7 +19,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val reviewableId: String,
     @Serializable(with = LocalDateSerializer::class)
     val date: LocalDate,
-    val author: User? = null,
+    val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
 ) {
@@ -46,6 +46,22 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     fun serialize(): String = Companion.serialize(this)
 
     /**
+     * Creates a hash map of the review
+     */
+    fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            ReviewRepository.TITLE_FIELD_NAME to title,
+            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepository.COMMENT_FIELD_NAME to comment,
+            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
+            ReviewRepository.DATE_FIELD_NAME to date.toString(),
+            ReviewRepository.UID_FIELD_NAME to uid,
+            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
+            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
+        )
+    }
+
+    /**
      * Allows to create a ReviewRating incrementally.
      * NB: Even if a user can create a review incrementally, he
      * must specify every property of the review.
@@ -57,6 +73,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
+        private var uid: String? = null,
         private var likers: List<String>? = null,
         private var dislikers: List<String>? = null
     ) {
@@ -106,6 +123,14 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             this.reviewableId = id
         }
 
+        /**
+         * Sets the uid of the author of the review
+         * @param uid: uid of author
+         * @return this
+         */
+        fun setUid(uid: String?) = apply {
+            this.uid = uid
+        }
 
         /**
          * Sets the date of publication the review
@@ -136,6 +161,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
+            val uid = this.uid
             val likers = this.likers ?: listOf()
             val dislikers = this.dislikers ?: listOf()
 
@@ -146,6 +172,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
                 comment,
                 reviewableId,
                 date,
+                uid,
                 likers = likers,
                 dislikers = dislikers
             )
