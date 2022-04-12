@@ -17,7 +17,7 @@ Les Golems donnent leur avis sur l'EPFL.
 
 ## Run tests
 
-To run all the test of the project, you need to first setupt the Firebase CLI :
+You need to install Firebase CLI :
 
 ```
 curl -sL https://firebase.tools | bash
