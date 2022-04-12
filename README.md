@@ -23,7 +23,7 @@ You need to install Firebase CLI :
 curl -sL https://firebase.tools | bash
 ```
 
-Then login using a Google auth: 
+Then login using Google auth: 
 
 ```
 firebase login
