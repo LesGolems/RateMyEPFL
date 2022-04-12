@@ -9,21 +9,21 @@ Les Golems donnent leur avis sur l'EPFL.
 
 To run all the test of the project, you need to first setupt the Firebase CLI :
 
-'''
+```
 curl -sL https://firebase.tools | bash
-'''
+```
 
 Then login using a Google auth: 
 
-'''
+```
 firebase login
-'''
+```
 
 Now that everything is setup, to run the tests, use the following command : 
 
-'''
+```
 firebase emulators:exec './gradlew connectedCheck'
-'''
+```
 
 | Name                 | Email |
 |----------------------|-------|
