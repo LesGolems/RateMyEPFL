@@ -23,13 +23,7 @@ You need to install Firebase CLI :
 curl -sL https://firebase.tools | bash
 ```
 
-Then login using Google auth: 
-
-```
-firebase login
-```
-
-Now that everything is setup, to run the tests, use the following command : 
+And run the following command : 
 
 ```
 firebase emulators:exec './gradlew connectedCheck'
