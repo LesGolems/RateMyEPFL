@@ -5,6 +5,16 @@
 
 Les Golems donnent leur avis sur l'EPFL.
 
+
+| Name                 | Email |
+|----------------------|-------|
+| Mathias Bouilloud | mathias.bouilloud@epfl.ch
+| Julien Mettler   | julien.mettler@epfl.ch |
+| Emilien Guandalino  | emilien.guandalino@epfl.ch |
+| Alexandre Messmer        | alexandre.messmer@epfl.ch |
+| Nicolas Matekalo   | nicolas.matekalo@epfl.ch |
+| Souleyman Boudouh | souleyman.boudouh@epfl.ch |
+
 ## Run tests
 
 To run all the test of the project, you need to first setupt the Firebase CLI :
@@ -24,13 +34,3 @@ Now that everything is setup, to run the tests, use the following command :
 ```
 firebase emulators:exec './gradlew connectedCheck'
 ```
-
-| Name                 | Email |
-|----------------------|-------|
-| Mathias Bouilloud | mathias.bouilloud@epfl.ch
-| Julien Mettler   | julien.mettler@epfl.ch |
-| Emilien Guandalino  | emilien.guandalino@epfl.ch |
-| Alexandre Messmer        | alexandre.messmer@epfl.ch |
-| Nicolas Matekalo   | nicolas.matekalo@epfl.ch |
-| Souleyman Boudouh | souleyman.boudouh@epfl.ch |
-
