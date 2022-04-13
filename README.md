@@ -5,6 +5,7 @@
 
 Les Golems donnent leur avis sur l'EPFL.
 
+
 | Name                 | Email |
 |----------------------|-------|
 | Mathias Bouilloud | mathias.bouilloud@epfl.ch
@@ -14,3 +15,16 @@ Les Golems donnent leur avis sur l'EPFL.
 | Nicolas Matekalo   | nicolas.matekalo@epfl.ch |
 | Souleyman Boudouh | souleyman.boudouh@epfl.ch |
 
+## Run tests
+
+You need to install Firebase CLI :
+
+```
+curl -sL https://firebase.tools | bash
+```
+
+And run the following command : 
+
+```
+firebase emulators:exec './gradlew connectedCheck'
+```
