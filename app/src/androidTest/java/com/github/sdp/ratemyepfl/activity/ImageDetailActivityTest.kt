@@ -30,7 +30,7 @@ class ImageDetailActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(ImageDetailActivity::class.java)
 
-    private val PHOTO_ID = R.drawable.room1
+    private val PHOTO_ID = R.raw.room1
 
     @Before
     fun setUp() {
