@@ -25,7 +25,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="175dp"
                 android:layout_height="175dp"
-                android:background="@drawable/blank_profile_picture"
+                android:background="@raw/blank_profile_picture"
                 android:layout_centerInParent="true"
                 app:civ_border_width="5dp"
                 app:civ_border_color="#FFFFFF"/>
@@ -37,7 +37,7 @@
                 android:layout_height="50dp"
                 android:layout_alignEnd="@id/profile_image"
                 android:layout_alignBottom="@id/profile_image"
-                android:src="@drawable/camera_icon"
+                android:src="@raw/camera_icon"
                 android:layout_centerInParent="true"
                 app:civ_border_width="5dp"
                 app:civ_border_color="#fc8403"/>

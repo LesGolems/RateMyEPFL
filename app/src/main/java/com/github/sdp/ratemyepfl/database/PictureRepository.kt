@@ -8,12 +8,12 @@ class PictureRepository @Inject constructor() : PictureRepositoryInterface {
     companion object {
         // Fake photo ids
         private val FAKE_PHOTOS = listOf(
-            R.drawable.room3,
-            R.drawable.room1,
-            R.drawable.room4,
-            R.drawable.room2,
-            R.drawable.room5,
-            R.drawable.room6
+            R.raw.room3,
+            R.raw.room1,
+            R.raw.room4,
+            R.raw.room2,
+            R.raw.room5,
+            R.raw.room6
         )
     }
 
