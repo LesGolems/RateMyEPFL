@@ -49,13 +49,14 @@
                 android:layout_below="@id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:background="@android:color/transparent"
-                android:hint="username"
+                android:hint="@string/username"
                 android:textAlignment="center"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textSize="50sp"
                 android:textStyle="bold"
-                android:selectAllOnFocus="true"/>
+                android:selectAllOnFocus="true"
+                android:autofillHints="" />
 
         </RelativeLayout>
 
@@ -69,10 +70,11 @@
             >
 
             <ImageView
+                android:id="@+id/emailIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:id="@+id/emailIcon"
-                android:background="@drawable/fui_ic_googleg_color_24dp"/>
+                android:background="@drawable/fui_ic_googleg_color_24dp"
+                android:contentDescription="@string/gmail_icon" />
 
             <EditText
                 android:id="@+id/emailText"
@@ -81,10 +83,11 @@
                 android:layout_alignStart="@id/emailIcon"
                 android:background="@android:color/transparent"
                 android:inputType="textEmailAddress"
-                android:hint="email"
+                android:hint="@string/email"
                 android:textSize="25sp"
                 android:layout_marginStart="50dp"
-                android:selectAllOnFocus="true"/>
+                android:selectAllOnFocus="true"
+                android:autofillHints="" />
 
             <View
                 android:id="@+id/divider1"
@@ -106,6 +109,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="40dp"
         android:background="@drawable/circular_button"
-        android:src="@drawable/ic_modify_profile_icon"/>
+        android:src="@drawable/ic_modify_profile_icon"
+        android:contentDescription="@string/modify_profile_icon" />
 
 </RelativeLayout>

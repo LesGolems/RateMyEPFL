@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            android:text="@string/review_text_button" />
+            android:text="@string/review_text_button"
+            tools:ignore="RelativeOverlap" />
 
         <View
             android:id="@+id/divider"
@@ -63,7 +64,7 @@
                 android:id="@+id/photoClusterItem"
                 android:layout_width="@dimen/clusterItemWidth"
                 android:layout_height="@dimen/clusterItemHeight"
-                android:src="@raw/niki" />
+                android:contentDescription="@string/photo_cluster_item" />
 
         </androidx.cardview.widget.CardView>
 
