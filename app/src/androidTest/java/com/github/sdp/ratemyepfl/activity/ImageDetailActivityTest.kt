@@ -32,8 +32,9 @@ class ImageDetailActivityTest {
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(ImageDetailActivity::class.java)
 
-    private val pictureId = R.drawable.room1
+    private val pictureId = R.raw.room1
     private val picture = ImageFile("fake Id", drawableToBitmap(pictureId))
+
 
     @Before
     fun setUp() {

@@ -55,9 +55,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
-    implementation platform('com.google.firebase:firebase-bom:29.1.0')
+    implementation platform('com.google.firebase:firebase-bom:29.3.1')
     implementation 'com.google.firebase:firebase-auth:21.0.3'
-    implementation 'com.google.firebase:firebase-firestore:24.1.0'
+    implementation 'com.google.firebase:firebase-firestore:24.1.1'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -80,13 +80,11 @@ dependencies {
     }
 
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    // for asynchronous livedata
-    //implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
 
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
 
     //for await() method in Repositories
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0'
@@ -100,6 +98,7 @@ dependencies {
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     def lifecycle_version = "2.4.1"
+    // for asynchronous livedata
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     //noinspection GradleDependency
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
@@ -123,7 +122,7 @@ dependencies {
 
     debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
 
-    def nav_version = "2.4.1"
+    def nav_version = "2.4.2"
 
     // Kotlin
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
