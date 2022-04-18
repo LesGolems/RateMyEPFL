@@ -16,7 +16,7 @@ class UserProfileViewModel @Inject constructor(
     val currentUser: ConnectedUser,
     val imageStorage: Storage<ImageFile>,
     val userDatabase: UserRepositoryInterface
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)
     private val username : MutableLiveData<String?> = MutableLiveData(null)
@@ -39,7 +39,7 @@ class UserProfileViewModel @Inject constructor(
                 }
             }
 
-            viewModelScope.launch { 
+            viewModelScope.launch {
                 val imageFile = currentUser.getUserId()?.let { imageStorage.get(it) }
                 if (imageFile != null) {
                     picture.postValue(imageFile)
@@ -74,7 +74,7 @@ class UserProfileViewModel @Inject constructor(
         if (newEmail.split("@").size != 2) {
             throw IllegalArgumentException("Wrong email format.")
         }
-            this.newEmail = newEmail
+        this.newEmail = newEmail
     }
 
     fun changeProfilePicture(newImage: ImageFile) {
@@ -93,7 +93,7 @@ class UserProfileViewModel @Inject constructor(
     fun submitChanges() {
         if (currentUser.isLoggedIn()) {
             viewModelScope.launch {
-                picture.value?.let { imageStorage.put(it) }
+                picture.value?.let { imageStorage.add(it) }
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()

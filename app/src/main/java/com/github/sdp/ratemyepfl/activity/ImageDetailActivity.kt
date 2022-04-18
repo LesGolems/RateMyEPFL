@@ -1,11 +1,11 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.github.sdp.ratemyepfl.R
 import kotlin.math.max
 import kotlin.math.min
@@ -13,7 +13,7 @@ import kotlin.math.min
 class ImageDetailActivity : AppCompatActivity() {
 
     companion object {
-        const val EXTRA_PHOTO_DISPLAYED: String = "com.github.sdp.extra_image_displayed"
+        var pictureDisplayed: Bitmap? = null
         private const val MIN_SCALE_FACTOR = 0.5f // Zoom out limit
         private const val MAX_SCALE_FACTOR = 5.0f // Zoom in limit
     }
@@ -37,12 +37,10 @@ class ImageDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
-        
-        val photoId = intent.getIntExtra(EXTRA_PHOTO_DISPLAYED, 0)
 
         // The image seen in details
         imageView = findViewById(R.id.detailImageView)
-        imageView.setImageResource(photoId)
+        imageView.setImageBitmap(pictureDisplayed)
 
         // Detects the pinching of the fingers to zoom in/out the image
         mScaleDetector = ScaleGestureDetector(this, scaleListener)

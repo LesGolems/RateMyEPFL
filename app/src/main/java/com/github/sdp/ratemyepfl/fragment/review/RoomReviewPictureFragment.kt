@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
+import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +19,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         private const val NUM_COLUMNS = 2
     }
 
-    private lateinit var photoAdapter: PhotoAdapter
+    private lateinit var pictureAdapter: RoomPictureAdapter
     private lateinit var photoRecyclerView: RecyclerView
 
     private val picViewModel by activityViewModels<ClassroomPictureViewModel>()
@@ -32,13 +32,11 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
             StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
         photoRecyclerView.layoutManager = gridLayoutManager
 
-        photoAdapter = PhotoAdapter()
-        photoRecyclerView.adapter = photoAdapter
+        pictureAdapter = RoomPictureAdapter()
+        photoRecyclerView.adapter = pictureAdapter
 
-        picViewModel.photos.observe(viewLifecycleOwner) {
-            it?.let {
-                photoAdapter.setData(it.toMutableList())
-            }
+        picViewModel.pictures.observe(viewLifecycleOwner) {
+            pictureAdapter.setData(it.toMutableList())
         }
     }
 
