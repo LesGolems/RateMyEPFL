@@ -1,14 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">RateMyEPFL</string>
     <string name="title_review">What do you think about %s</string>
     <string name="comment_edit_text">Your opinion</string>
     <string name="done_button_text">DONE</string>
-    <string name="logout">Logout</string>
-    <string name="courses">Courses</string>
-    <string name="classrooms">Classrooms</string>
-    <string name="map">Map</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
-    <string name="search">Search</string>
     <string name="increasing_order">A-Z</string>
     <string name="decreasing_order">Z-A</string>
     <string name="credits">Credits</string>
@@ -16,7 +11,6 @@
     <string name="visitor_text">Continue as a visitor</string>
     <string name="logo_text">RATE MY</string>
     <string name="overall_score_review">Overall score: %s</string>
-    <string name="add_review_fab_course_review_list">Give my opinion</string>
     <string name="credit_2">2</string>
     <string name="credit_3">3</string>
     <string name="credit_4">4</string>
@@ -31,22 +25,11 @@
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
     <string name="title_edit_text">Give a title to your review</string>
-    <string name="change_map_type">Change map type</string>
-    <string name="standard_type">Standard</string>
-    <string name="satellite_type">Satellite</string>
-    <string name="hybrid_type">Hybrid</string>
-    <string name="terrain_type">Terrain</string>
-    <string name="maps_api_key">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
+    <string name="maps_api_key" tools:ignore="TypographyDashes,Typos">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
     <string name="home_nav_title">Home</string>
     <string name="reviews_nav_title">Reviews</string>
     <string name="events_nav_item">Events</string>
     <string name="map_nav_title">Map</string>
-    <string name="course_tab_item_title">Courses</string>
-    <string name="classroom_tab_item_title">Classrooms</string>
-    <string name="restaurant_tab_item_title">Restaurants</string>
-    <string name="button_course_tab_fragment">Display courses</string>
-    <string name="button_classroom_tab_fragment">Display classrooms</string>
-    <string name="button_map_tab_fragment">Display map</string>
     <string name="home_page_title">HOME PAGE</string>
     <string name="home_page_hello_user_text">Hello %s !</string>
     <string name="logout_fab_content_description">Logout</string>
@@ -54,18 +37,11 @@
     <string name="info_review_icon">Info</string>
     <string name="list_review_icon">Reviews</string>
     <string name="pictures_review_icon">Pictures</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="display_restaurants_tab_button">Display restaurants</string>
-    <string name="todo">TODO</string>
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
     <string name="image_seen_in_detail">Image seen in detail</string>
     <string name="photo_of_an_epfl_room">Photo of an EPFL room</string>
-    <string name="home_page_description">Home</string>
-    <string name="restaurant_category">Restaurant</string>
     <string name="default_id_text">Default id text</string>
-    <string name="restaurant_num_reviews">This restaurant received </string>
-    <string name="text_end_reviews">reviews</string>
     <string name="restaurant_content_description">restaurant icon</string>
     <string name="num_reviews">(%s reviews)</string>
     <string name="zero_num_reviews">(No review submitted)</string>
@@ -77,5 +53,10 @@
     <string name="course_credits">Credits : %s</string>
     <string name="i_like_this_review">I like this review</string>
     <string name="i_don_t_like_this_review">I don\'t like this review</string>
-    <string name="my_profile_string">My Profile</string>
+    <string name="my_profile">My Profile</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="modify_profile_icon">Modify profile icon</string>
+    <string name="gmail_icon">Gmail icon</string>
+    <string name="photo_cluster_item">Photo of cluster item</string>
 </resources>
