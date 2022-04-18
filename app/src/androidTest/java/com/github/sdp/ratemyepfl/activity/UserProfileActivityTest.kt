@@ -1,13 +1,22 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.app.Activity
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
+import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
@@ -20,6 +29,9 @@ class UserProfileActivityTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @get:Rule(order = 1)
     val testRule = ActivityScenarioRule(UserProfileActivity::class.java)
@@ -130,5 +142,25 @@ class UserProfileActivityTest {
 
         onView(withId(R.id.modify_profile_button)).perform(click())
         onView(withId(R.id.emailText)).check(matches(withText(not(newEmail))))
+    }
+
+    @Test
+    fun changePictureWorks() {
+        init()
+        val activity = getActivity(testRule)
+        savePickedImage(activity)
+        val imgGalleryResult = createImageGallerySetResultStub(activity)
+        intending(hasAction(Intent.ACTION_GET_CONTENT)).respondWith(imgGalleryResult)
+        onView(withId(R.id.modify_profile_button)).perform(click())
+        onView(withId(R.id.modify_profile_image_button)).perform(click())
+        release()
+    }
+
+    fun <A : Activity> getActivity(activityRule: ActivityScenarioRule<A>): A {
+        var activity: A? = null
+        activityRule.scenario.onActivity {
+            activity = it
+        }
+        return activity!!
     }
 }
