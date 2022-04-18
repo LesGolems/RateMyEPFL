@@ -16,7 +16,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class UserRepositoryTest {
-    private val testUser = User("Fake uid", "username", "email", "picture")
+    private val testUser = User("Fake uid", "username", "email")
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -38,7 +38,7 @@ class UserRepositoryTest {
     @Test
     fun updateUserWorks(){
         runTest {
-            userRepo.update(User("Fake uid", "username new", "email", "picture"))
+            userRepo.update(User("Fake uid", "username new", "email"))
             val user = userRepo.getUserByUid(testUser.uid)
             assertEquals(testUser.uid, user!!.uid, )
             assertEquals("username new", user.username)
@@ -53,7 +53,6 @@ class UserRepositoryTest {
             assertEquals(testUser.uid, user!!.uid)
             assertEquals(testUser.username, user.username)
             assertEquals(testUser.email, user.email)
-            assertEquals(testUser.picture, user.picture)
         }
     }
 
@@ -65,7 +64,6 @@ class UserRepositoryTest {
             assertEquals(testUser.uid, user.uid)
             assertEquals(testUser.username, user.username)
             assertEquals(testUser.email, user.email)
-            assertEquals(testUser.picture, user.picture)
         }
     }
 
@@ -77,7 +75,6 @@ class UserRepositoryTest {
             assertEquals(testUser.uid, user.uid)
             assertEquals(testUser.username, user.username)
             assertEquals(testUser.email, user.email)
-            assertEquals(testUser.picture, user.picture)
         }
     }
 
