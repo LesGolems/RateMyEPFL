@@ -50,12 +50,12 @@
                 android:layout_centerHorizontal="true"
                 android:background="@android:color/transparent"
                 android:hint="username"
-                android:textAlignment="center"
                 android:inputType="text"
+                android:selectAllOnFocus="true"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="50sp"
-                android:textStyle="bold"
-                android:selectAllOnFocus="true"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
