@@ -20,28 +20,28 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     }
 
     private lateinit var pictureAdapter: RoomPictureAdapter
-    private lateinit var photoRecyclerView: RecyclerView
+    private lateinit var pictureRecyclerView: RecyclerView
 
-    private val picViewModel by activityViewModels<ClassroomPictureViewModel>()
+    private val pictureViewModel by activityViewModels<ClassroomPictureViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        photoRecyclerView = view.findViewById(R.id.photoRecyclerView)
+        pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
         val gridLayoutManager =
             StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
-        photoRecyclerView.layoutManager = gridLayoutManager
+        pictureRecyclerView.layoutManager = gridLayoutManager
 
         pictureAdapter = RoomPictureAdapter()
-        photoRecyclerView.adapter = pictureAdapter
+        pictureRecyclerView.adapter = pictureAdapter
 
-        picViewModel.pictures.observe(viewLifecycleOwner) {
+        pictureViewModel.pictures.observe(viewLifecycleOwner) {
             pictureAdapter.setData(it.toMutableList())
         }
     }
 
     override fun onResume() {
         super.onResume()
-        picViewModel.updatePhotosList()
+        pictureViewModel.updatePicturesList()
     }
 }

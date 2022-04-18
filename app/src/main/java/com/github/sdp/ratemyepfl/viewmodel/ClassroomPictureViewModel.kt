@@ -24,10 +24,10 @@ open class ClassroomPictureViewModel @Inject constructor(
     val pictures = MutableLiveData<List<ImageFile?>>()
 
     init {
-        updatePhotosList()
+        updatePicturesList()
     }
 
-    fun updatePhotosList() {
+    fun updatePicturesList() {
         viewModelScope.launch {
             pictures.postValue(imageStorage.getByDirectory(id))
         }

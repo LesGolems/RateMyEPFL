@@ -30,7 +30,6 @@ interface Storage<T> {
 
     /**
      * Returns all the items in the sub-directory [dir].
-     * Returns null in case of errors.
      */
     suspend fun getByDirectory(dir: String): List<T>
 

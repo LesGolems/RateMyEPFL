@@ -46,13 +46,13 @@ class RoomReviewPictureFragmentTest {
 
     @Test
     fun imageGridIsVisible() {
-        onView(withId(R.id.photoRecyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
         scenario.close()
     }
 
     @Test
     fun imageGridSizeIsCorrect() {
-        onView(withId(R.id.photoRecyclerView)).check(
+        onView(withId(R.id.pictureRecyclerView)).check(
             matches(hasChildCount(FakeImageStorage.pictures.size))
         )
     }
@@ -60,7 +60,7 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun imageGridIsCorrectlyDisplayed() {
         for (id: Int in FakeImageStorage.pictureIds) {
-            onView(withId(R.id.photoRecyclerView)).check(
+            onView(withId(R.id.pictureRecyclerView)).check(
                 matches(
                     hasDescendant(withDrawable(id))
                 )
@@ -71,7 +71,7 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun firesAnIntentWhenUserClicksOnAnImage() {
         init()
-        onView(withId(R.id.photoRecyclerView)).perform(
+        onView(withId(R.id.pictureRecyclerView)).perform(
             actionOnItemAtPosition<RoomPictureAdapter.RoomPictureViewHolder>(0, click())
         )
         intended(toPackage("com.github.sdp.ratemyepfl"))

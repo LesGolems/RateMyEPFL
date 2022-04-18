@@ -17,11 +17,11 @@ class RoomPictureAdapter :
 
     private var imageList = mutableListOf<ImageFile?>()
 
-    inner class RoomPictureViewHolder(photoView: View) :
-        RecyclerView.ViewHolder(photoView) {
+    inner class RoomPictureViewHolder(pictureView: View) :
+        RecyclerView.ViewHolder(pictureView) {
 
         private val imageView: ImageView =
-            photoView.findViewById(R.id.photoImageView)
+            pictureView.findViewById(R.id.pictureImageView)
 
         fun bind(img: ImageFile) {
             imageView.setImageBitmap(img.data)
@@ -37,7 +37,7 @@ class RoomPictureAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomPictureViewHolder {
         return RoomPictureViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.room_photo_item,
+                R.layout.room_picture_item,
                 parent,
                 false
             )
