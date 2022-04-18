@@ -9,14 +9,12 @@ data class User(
     val uid: String,
     val username: String?,
     val email: String?,
-    val picture: String? = "$uid.jpg"
 ) {
 
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,
         email = user.getEmail()!!,
-        picture = user.getProfilePictureUrl()!!
     )
 
     /**
@@ -26,7 +24,7 @@ data class User(
         return hashMapOf(
             UserRepository.USERNAME_FIELD_NAME to username,
             UserRepository.EMAIL_FIELD_NAME to email,
-            UserRepository.PICTURE_FIELD_NAME to picture
+            UserRepository.PICTURE_FIELD_NAME to "$uid.jpg"
         )
     }
 }
