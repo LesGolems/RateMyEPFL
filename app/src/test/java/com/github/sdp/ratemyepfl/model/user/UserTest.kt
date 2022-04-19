@@ -21,10 +21,6 @@ class UserTest {
                 return "Jean"
             }
 
-            override fun getProfilePictureUrl(): String? {
-                return "https://www.pictures.com/?q=coolpic"
-            }
-
             override fun isLoggedIn(): Boolean {
                 return true
             }

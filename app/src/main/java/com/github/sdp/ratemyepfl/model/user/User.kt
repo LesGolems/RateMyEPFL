@@ -24,7 +24,6 @@ data class User(
         return hashMapOf(
             UserRepository.USERNAME_FIELD_NAME to username,
             UserRepository.EMAIL_FIELD_NAME to email,
-            UserRepository.PICTURE_FIELD_NAME to "$uid.jpg"
         )
     }
 }
