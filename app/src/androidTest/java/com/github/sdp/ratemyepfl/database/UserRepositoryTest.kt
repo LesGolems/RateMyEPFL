@@ -32,7 +32,7 @@ class UserRepositoryTest {
 
     @After
     fun clean() {
-        userRepo.remove(testUser.uid)
+        //userRepo.remove(testUser.uid)
     }
 
     @Test

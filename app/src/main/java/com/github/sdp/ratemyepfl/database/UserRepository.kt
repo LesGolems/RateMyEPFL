@@ -8,8 +8,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface,
-    Repository(db, USER_COLLECTION_PATH) {
+class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface {
+
+    val repository = RepositoryImpl(db, USER_COLLECTION_PATH)
 
     companion object {
         const val USER_COLLECTION_PATH = "users"
@@ -27,21 +28,21 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
         }
     }
 
-    fun toItem(snapshot: DocumentSnapshot): User? = snapshot.toUser()
-
     /**
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
      */
-    override suspend fun getUserByUid(uid: String): User? = toItem(getById(uid))
+    override suspend fun getUserByUid(uid: String): User = repository
+        .getById(uid)
+        .toUser()
 
-    private suspend fun getBy(fieldName: String, value: String): List<User> {
-        return collection
+    private suspend fun getBy(fieldName: String, value: String): List<User> =
+        repository
+            .collection
             .whereEqualTo(fieldName, value)
             .get()
             .await()
-            .mapNotNull { obj -> toItem(obj) }
-    }
+            .mapNotNull { obj -> obj.toUser() }
 
     /**
      * Retrieves a list of Users with the same [username].
@@ -60,7 +61,8 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
      * If the [user] isn't already part of it, it is added to the collection.
      */
     override suspend fun update(user: User) {
-        collection
+        repository
+            .collection
             .document(user.uid)
             .set(user.toHashMap())
             .await()
@@ -70,6 +72,9 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
      * Add the user to the DB
      */
     fun add(user: User) {
-        collection.document(user.uid).set(user.toHashMap())
+        repository
+            .collection
+            .document(user.uid)
+            .set(user.toHashMap())
     }
 }

@@ -1,7 +1,8 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.CourseRepository
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.FirestoreItem
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,7 +18,7 @@ data class Course(
     val session: String? = null,
     val grading: String? = null,
     val language: String? = null
-) : Reviewable() {
+) : Reviewable(), FirestoreItem {
 
     override fun toString(): String {
         return "$id $title"
@@ -26,18 +27,18 @@ data class Course(
     /**
      * Creates an hash map of the Course
      */
-    fun toHashMap(): HashMap<String, Any?> {
+    override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            CourseRepository.TITLE_FIELD_NAME to title,
-            CourseRepository.SECTION_FIELD_NAME to section,
-            CourseRepository.TEACHER_FIELD_NAME to teacher,
-            CourseRepository.CREDITS_FIELD_NAME to credits.toString(),
-            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            CourseRepository.CYCLE_FIELD_NAME to cycle,
-            CourseRepository.SESSION_FIELD_NAME to session,
-            CourseRepository.GRADING_FIELD_NAME to grading,
-            CourseRepository.LANGUAGE_FIELD_NAME to language
+            CourseRepositoryImpl.TITLE_FIELD_NAME to title,
+            CourseRepositoryImpl.SECTION_FIELD_NAME to section,
+            CourseRepositoryImpl.TEACHER_FIELD_NAME to teacher,
+            CourseRepositoryImpl.CREDITS_FIELD_NAME to credits.toString(),
+            ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
+            ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
+            CourseRepositoryImpl.CYCLE_FIELD_NAME to cycle,
+            CourseRepositoryImpl.SESSION_FIELD_NAME to session,
+            CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
+            CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
         )
     }
 

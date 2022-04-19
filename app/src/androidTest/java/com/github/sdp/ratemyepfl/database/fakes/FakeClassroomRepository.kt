@@ -1,13 +1,14 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.ClassroomRepositoryInterface
+import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.QueryState
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterface {
+class FakeClassroomRepository @Inject constructor() : ClassroomRepository {
 
     companion object {
         val CLASSROOM_LIST = listOf(
@@ -45,4 +46,16 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepositoryInterfa
     override suspend fun getRoomById(id: String): Classroom = roomById
 
     override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {}
+
+    override fun search(pattern: String): QueryResult<List<Classroom>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadMostRated(number: Long): QueryResult<List<Classroom>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadBestRated(number: Long): QueryResult<List<Classroom>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
 }

@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.Repository.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -9,8 +10,9 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewRepositoryInterface,
-    Repository(db, REVIEW_COLLECTION_PATH) {
+class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewRepositoryInterface {
+
+    val repository: RepositoryImpl = RepositoryImpl(db, REVIEW_COLLECTION_PATH)
 
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"
@@ -53,7 +55,14 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
      * @param value : an hashMap of the review
      */
     override fun add(value: HashMap<String, Any?>) {
-        collection.document().set(value)
+        repository
+            .collection
+            .document()
+            .set(value)
+    }
+
+    override fun remove(reviewId: String) {
+        repository.remove(reviewId)
     }
 
     /**
@@ -62,36 +71,44 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
      * @param review : an hashMap of the review
      */
     fun add(review: Review) {
-        collection.document(review.id).set(review.toHashMap())
+        repository
+            .collection
+            .document(review.id)
+            .set(review.toHashMap())
     }
 
-    override suspend fun getReviews(): List<Review> {
-        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
-    }
+    override suspend fun getReviews(): List<Review> =
+        repository.take(DEFAULT_QUERY_LIMIT).mapNotNull { obj -> obj.toReview() }
 
-    override suspend fun getReviewById(id: String): Review? = toItem(getById(id))
+
+    override suspend fun getReviewById(id: String): Review? = repository
+        .getById(id)
+        .toReview()
 
     override suspend fun getByReviewableId(id: String?): List<Review> {
         return getBy(REVIEWABLE_ID_FIELD_NAME, id.orEmpty())
     }
 
     private suspend fun getBy(fieldName: String, value: String): List<Review> {
-        return collection
+        return repository
+            .collection
             .whereEqualTo(fieldName, value)
             .get()
             .await()
-            .mapNotNull { obj -> toItem(obj) }
+            .mapNotNull { obj -> obj.toReview() }
     }
 
-    private fun toItem(snapshot: DocumentSnapshot): Review? = snapshot.toReview()
-
     override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = collection.document(id)
+        val reviewRef = repository
+            .collection
+            .document(id)
         reviewRef.update(fieldName, FieldValue.arrayUnion(uid)).await()
     }
 
     override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = collection.document(id)
+        val reviewRef = repository
+            .collection
+            .document(id)
         reviewRef.update(fieldName, FieldValue.arrayRemove(uid)).await()
     }
 }

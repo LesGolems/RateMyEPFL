@@ -1,13 +1,14 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.RestaurantRepository.Companion.toRestaurant
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.*
 import org.junit.Assert.assertEquals
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-class RestaurantRepositoryTest {
+class RestaurantRepositoryImplTest {
     private val testRestaurant = Restaurant(
         "Fake id", 1, 0.0,
         0.0,  0, 0.0)
@@ -26,7 +27,7 @@ class RestaurantRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var restaurantRepo: RestaurantRepository
+    lateinit var restaurantRepo: RestaurantRepositoryImpl
 
     @Before
     fun setup() {
@@ -36,7 +37,7 @@ class RestaurantRepositoryTest {
 
     @After
     fun clean(){
-        restaurantRepo.remove(testRestaurant.id)
+        //restaurantRepo.remove(testRestaurant.id)
     }
 
     @Test
@@ -101,8 +102,8 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
+        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
         Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
         Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
         Mockito.`when`(snapshot.getString("occupancy")).thenReturn(occupancy.toString())

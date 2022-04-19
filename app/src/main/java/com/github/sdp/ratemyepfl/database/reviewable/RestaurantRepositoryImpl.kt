@@ -1,15 +1,29 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.QueryResult.Companion.mapEach
+import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
-    RestaurantRepositoryInterface,
-    Repository(db, RESTAURANT_COLLECTION_PATH) {
+class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaurant>) :
+    RestaurantRepository, ReviewableRepository<Restaurant> by repository {
+
+    @Inject
+    constructor(db: FirebaseFirestore) : this(
+        ReviewableRepositoryImpl(
+            db,
+            RESTAURANT_COLLECTION_PATH
+        ) { documentSnapshot ->
+            documentSnapshot.toRestaurant()
+        })
 
     companion object {
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
@@ -27,17 +41,17 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         }
     }
 
-    fun toItem(snapshot: DocumentSnapshot): Restaurant? = snapshot.toRestaurant()
-
     override suspend fun getRestaurants(): List<Restaurant> {
-        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
+        return repository.take(Repository.DEFAULT_QUERY_LIMIT)
+            .mapNotNull { obj -> obj.toRestaurant() }
     }
 
-    override suspend fun getRestaurantById(id: String): Restaurant? = toItem(getById(id))
+    override suspend fun getRestaurantById(id: String): Restaurant? =
+        repository.getById(id).toRestaurant()
 
     override suspend fun incrementOccupancy(id: String) {
-        val docRef = collection.document(id)
-        db.runTransaction { transaction ->
+        val docRef = repository.collection.document(id)
+        repository.database.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
             val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
@@ -48,8 +62,8 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
     }
 
     override suspend fun decrementOccupancy(id: String) {
-        val docRef = collection.document(id)
-        db.runTransaction { transaction ->
+        val docRef = repository.collection.document(id)
+        repository.database.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
             val occupancy = snapshot.getString(OCCUPANCY_FIELD_NAME)?.toInt()
             if (occupancy != null) {
@@ -59,9 +73,14 @@ class RestaurantRepository @Inject constructor(db: FirebaseFirestore) :
         }.await()
     }
 
-    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) = updateRating(id, rating)
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) =
+        repository.updateRating(id, rating)
 
     fun add(restaurant: Restaurant) {
-        collection.document(restaurant.id).set(restaurant.toHashMap())
+        repository.collection.document(restaurant.id).set(restaurant.toHashMap())
     }
+
+    override fun search(pattern: String): QueryResult<List<Restaurant>> =
+        repository.search(pattern)
+
 }

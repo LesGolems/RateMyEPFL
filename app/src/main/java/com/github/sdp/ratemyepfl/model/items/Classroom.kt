@@ -1,7 +1,8 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.ClassroomRepository
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.FirestoreItem
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,7 +11,7 @@ data class Classroom(
     override val numReviews: Int,
     override val averageGrade: Double,
     val roomKind: String? = null,
-) : Reviewable() {
+) : Reviewable(), FirestoreItem {
 
     override fun toString(): String {
         return id
@@ -19,11 +20,11 @@ data class Classroom(
     /**
      * Creates an hash map of the Classroom
      */
-    fun toHashMap(): HashMap<String, Any?> {
+    override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            ClassroomRepository.ROOM_KIND_FIELD to roomKind
+            ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
+            ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
+            ClassroomRepositoryImpl.ROOM_KIND_FIELD to roomKind
         )
     }
 

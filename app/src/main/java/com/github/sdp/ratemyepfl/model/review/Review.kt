@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import com.github.sdp.ratemyepfl.database.FirestoreItem
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.github.sdp.ratemyepfl.model.user.User
@@ -22,7 +23,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
-) {
+) : FirestoreItem{
     companion object {
         /**
          * Function to serialize a Review easily, based on kotlin serialization plugin.
@@ -48,7 +49,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     /**
      * Creates a hash map of the review
      */
-    fun toHashMap(): HashMap<String, Any?> {
+    override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
             ReviewRepository.TITLE_FIELD_NAME to title,
             ReviewRepository.RATING_FIELD_NAME to rating.toString(),

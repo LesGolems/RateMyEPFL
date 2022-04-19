@@ -2,6 +2,9 @@ package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.database.fakes.*
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module
@@ -18,15 +21,15 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseRepo(repo: FakeCourseRepository): CourseRepositoryInterface
+    abstract fun provideCourseRepo(repo: FakeCourseRepository): CourseRepository
 
     @Singleton
     @Binds
-    abstract fun provideClassroomRepo(repo: FakeClassroomRepository): ClassroomRepositoryInterface
+    abstract fun provideClassroomRepo(repo: FakeClassroomRepository): ClassroomRepository
 
     @Singleton
     @Binds
-    abstract fun provideRestaurantRepo(repo: FakeRestaurantRepository): RestaurantRepositoryInterface
+    abstract fun provideRestaurantRepo(repo: FakeRestaurantRepository): RestaurantRepository
 
     @Singleton
     @Binds

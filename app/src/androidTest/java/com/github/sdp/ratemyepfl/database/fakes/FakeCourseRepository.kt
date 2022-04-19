@@ -1,13 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.CourseRepositoryInterface
+import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.QueryState
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
+class FakeCourseRepository @Inject constructor() : CourseRepository {
 
     companion object {
         val COURSE_LIST = listOf(
@@ -87,4 +89,16 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
     override suspend fun getCourseById(id: String): Course = courseById
 
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) {}
+
+    override fun search(pattern: String): QueryResult<List<Course>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadMostRated(number: Long): QueryResult<List<Course>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadBestRated(number: Long): QueryResult<List<Course>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
 }

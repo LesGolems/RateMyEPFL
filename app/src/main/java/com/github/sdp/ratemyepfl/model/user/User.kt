@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.model.user
 
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.FirestoreItem
 import com.github.sdp.ratemyepfl.database.UserRepository
 import kotlinx.serialization.Serializable
 
@@ -10,7 +11,7 @@ data class User(
     val username: String?,
     val email: String?,
     val picture: String? = "$uid.jpg"
-) {
+) : FirestoreItem {
 
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
@@ -22,7 +23,7 @@ data class User(
     /**
      * Creates an hash map of the user
      */
-    fun toHashMap(): HashMap<String, Any?>{
+    override fun toHashMap(): HashMap<String, Any?>{
         return hashMapOf(
             UserRepository.USERNAME_FIELD_NAME to username,
             UserRepository.EMAIL_FIELD_NAME to email,

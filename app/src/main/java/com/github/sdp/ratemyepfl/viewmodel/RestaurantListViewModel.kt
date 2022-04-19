@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.RestaurantRepository
-import com.github.sdp.ratemyepfl.database.RestaurantRepositoryInterface
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +13,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @HiltViewModel
-class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepositoryInterface) :
+class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) :
     ViewModel() {
 
     private val precision: Double = 0.0001

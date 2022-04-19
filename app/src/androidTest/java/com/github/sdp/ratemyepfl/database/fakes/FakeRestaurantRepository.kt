@@ -1,13 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.RestaurantRepositoryInterface
+import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.QueryState
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInterface {
+class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
 
     companion object {
         val RESTAURANT_LIST = listOf(
@@ -37,4 +39,16 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
 
 
     override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
+
+    override fun search(pattern: String): QueryResult<List<Restaurant>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadMostRated(number: Long): QueryResult<List<Restaurant>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
+
+    override fun loadBestRated(number: Long): QueryResult<List<Restaurant>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
 }

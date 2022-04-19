@@ -10,6 +10,13 @@ interface ReviewRepositoryInterface {
     fun add(value: HashMap<String, Any?>)
 
     /**
+     * Remove a review from the repository
+     *
+     * @param reviewId: the id of the review to remove
+     */
+    fun remove(reviewId: String)
+
+    /**
      * Retrieve the reviews from the repository
      *
      * @return a list of non-null reviews
