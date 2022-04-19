@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.utils
 
 import android.app.Activity
 import android.app.Instrumentation
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
@@ -66,12 +68,23 @@ object TestUtils {
     }
 
     /**
-     * Code to test gallery, found : https://proandroiddev.com/testing-camera-and-galley-intents-with-espresso-218eb9f59da9
+     * Returns the test current activity
      */
-    fun savePickedImage(activity: Activity) {
-        val bm = drawableToBitmap(R.raw.pp)
+    fun <A : Activity> getActivity(activityRule: ActivityScenarioRule<A>): A {
+        var activity: A? = null
+        activityRule.scenario.onActivity {
+            activity = it
+        }
+        return activity!!
+    }
+
+    /**
+     * Code to test gallery : https://proandroiddev.com/testing-camera-and-galley-intents-with-espresso-218eb9f59da9
+     */
+    fun savePickedImage(activity: Activity, resId: Int) {
+        val bm = BitmapFactory.decodeResource(activity.resources, resId)
         val dir = activity.externalCacheDir
-        val file = File(dir?.path, "pickImageResult.jpg")
+        val file = File(dir?.path, "pickImageResult.jpeg")
         val outStream: FileOutputStream?
         try {
             outStream = FileOutputStream(file)
@@ -88,18 +101,11 @@ object TestUtils {
     }
 
     fun createImageGallerySetResultStub(activity: Activity): Instrumentation.ActivityResult {
-        val bundle = Bundle()
-        val parcels = ArrayList<Parcelable>()
         val resultData = Intent()
         val dir = activity.externalCacheDir
         val file = File(dir?.path, "pickImageResult.jpeg")
         val uri = Uri.fromFile(file)
-        val parcelable1 = uri as Parcelable
-        parcels.add(parcelable1)
-        bundle.putParcelableArrayList(Intent.EXTRA_STREAM, parcels)
-        resultData.putExtras(bundle)
+        resultData.data = uri
         return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
     }
-
-
 }
