@@ -31,8 +31,7 @@ class HomeFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun displayTheCorrectTextWhenUserIsNotLoggedIn() {
-        FakeConnectedUser.loggedIn = false
-        FakeConnectedUser.email = null
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         val welcomeMsg = ApplicationProvider.getApplicationContext<Context>().resources.getString(
             R.string.home_page_hello_user_text,
             HomeFragment.VISITOR_NAME
@@ -47,9 +46,8 @@ class HomeFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun displayTheCorrectTextWhenUserIsLoggedIn() {
-        FakeConnectedUser.loggedIn = true
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val email = "john@example.com"
-        FakeConnectedUser.email = email
         val welcomeMsg = ApplicationProvider.getApplicationContext<Context>().resources.getString(
             R.string.home_page_hello_user_text,
             email
@@ -63,11 +61,9 @@ class HomeFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun updateToLoginWhenUserPressesLogout() {
-        FakeConnectedUser.loggedIn = true
-        val email = "john@example.com"
-        FakeConnectedUser.email = email
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         onView(withId(R.id.homePageConnectionButton)).perform(click())
         Thread.sleep(2000)
         onView(withId(R.id.homePageConnectionButton)).check(matches(withText(HomeFragment.LOGIN)))
@@ -76,7 +72,7 @@ class HomeFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loginGoesToSplashScreen() {
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         init()
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
         onView(withId(R.id.homePageConnectionButton)).perform(click())
@@ -87,15 +83,13 @@ class HomeFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun updateToVisitorWhenUserPressesLogout() {
-        FakeConnectedUser.loggedIn = true
-        val email = "john@example.com"
-        FakeConnectedUser.email = email
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val welcomeMsg = ApplicationProvider.getApplicationContext<Context>().resources.getString(
             R.string.home_page_hello_user_text,
             HomeFragment.VISITOR_NAME
         )
         HiltUtils.launchFragmentInHiltContainer<HomeFragment> {}
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         onView(withId(R.id.homePageConnectionButton)).perform(click())
         Thread.sleep(2000)
         onView(withId(R.id.homePageHelloUserText)).check(

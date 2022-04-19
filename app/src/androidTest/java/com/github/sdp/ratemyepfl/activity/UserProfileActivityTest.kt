@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.PerformException
@@ -13,17 +15,21 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
 class UserProfileActivityTest {
+    lateinit var scenario: ActivityScenario<UserProfileActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -31,8 +37,17 @@ class UserProfileActivityTest {
     @get:Rule(order = 1)
     var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-    @get:Rule(order = 2)
-    val testRule = ActivityScenarioRule(UserProfileActivity::class.java)
+    @Before
+    fun setUp(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
+    }
+
+    @After
+    fun clean(){
+        scenario.close()
+    }
 
     @Test
     fun userProfileVisibleOnLaunch() {
@@ -145,7 +160,7 @@ class UserProfileActivityTest {
     @Test
     fun changeFailsForBigPicture() {
         init()
-        val activity = getActivity(testRule)
+        val activity = getActivity(scenario)
         savePickedImage(activity, R.raw.pp)
         val imgGalleryResult = createImageGallerySetResultStub(activity)
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
@@ -157,7 +172,7 @@ class UserProfileActivityTest {
     @Test
     fun changePictureWorks() {
         init()
-        val activity = getActivity(testRule)
+        val activity = getActivity(scenario)
         savePickedImage(activity, R.raw.pp1)
         val imgGalleryResult = createImageGallerySetResultStub(activity)
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)

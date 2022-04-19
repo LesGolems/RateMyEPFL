@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
+import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
@@ -70,9 +71,9 @@ object TestUtils {
     /**
      * Returns the test current activity
      */
-    fun <A : Activity> getActivity(activityRule: ActivityScenarioRule<A>): A {
+    fun <A : Activity> getActivity(scenario: ActivityScenario<A>): A {
         var activity: A? = null
-        activityRule.scenario.onActivity {
+        scenario.onActivity {
             activity = it
         }
         return activity!!
