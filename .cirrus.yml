@@ -28,7 +28,7 @@ check_android_task:
     adb shell settings put global transition_animation_scale 0.0
     adb shell settings put global animator_duration_scale 0.0
   install_app_script:
-    ./gradlew install installDebug
+    ./gradlew installDebug
   allow_mock_location_script:
     adb shell appops set com.github.sdp.ratemyepfl android:mock_location allow
   prepare_codeclimate_script: |
