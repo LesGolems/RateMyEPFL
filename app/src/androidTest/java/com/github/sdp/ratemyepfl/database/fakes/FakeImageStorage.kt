@@ -42,8 +42,8 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
         images[item.id] = item
     }
 
-    override suspend fun remove(item: ImageFile) {
-        images.remove(item.id)
+    override suspend fun remove(id: String) {
+        images.remove(id)
     }
 
     override suspend fun getByDirectory(dir: String): List<ImageFile> {
@@ -52,5 +52,9 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {
         TODO("Will be implemented in my second Sprint task")
+    }
+
+    override suspend fun removeInDirectory(id: String, dir: String) {
+        TODO("Not yet implemented")
     }
 }

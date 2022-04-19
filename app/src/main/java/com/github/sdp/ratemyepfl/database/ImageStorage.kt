@@ -31,16 +31,10 @@ class ImageStorage @Inject constructor() : Storage<ImageFile> {
         addImage(item, item.id)
     }
 
-    override suspend fun remove(item: ImageFile) {
+    override suspend fun remove(path: String) {
         storageRef
-            .child("${item.id}$FILE_EXTENSION")
+            .child("${path}$FILE_EXTENSION")
             .delete()
-            .addOnSuccessListener {
-                Log.i("ImageStorage: ", "Successfully deleted item ${item.id}")
-            }
-            .addOnFailureListener {
-                Log.e("ImageStorage: ", "Failed to delete item ${item.id}", it.cause)
-            }
             .await()
     }
 
@@ -57,6 +51,10 @@ class ImageStorage @Inject constructor() : Storage<ImageFile> {
         addImage(item, "$dir/${item.id}")
     }
 
+    override suspend fun removeInDirectory(id: String, dir: String) {
+        remove("$dir/${id}")
+    }
+
     /**
      * Returns the [ImageFile] at the reference [imageRef].
      */
@@ -66,12 +64,6 @@ class ImageStorage @Inject constructor() : Storage<ImageFile> {
 
             val byteArray = imageRef
                 .getBytes(MAX_ITEM_SIZE)
-                .addOnSuccessListener {
-                    Log.i("ImageStorage: ", "Successfully read item $id")
-                }
-                .addOnFailureListener {
-                    Log.e("ImageStorage: ", "Failed to read item $id", it.cause)
-                }
                 .await()
 
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
@@ -95,12 +87,6 @@ class ImageStorage @Inject constructor() : Storage<ImageFile> {
         storageRef
             .child("$path$FILE_EXTENSION")
             .putBytes(stream.toByteArray())
-            .addOnSuccessListener {
-                Log.i("ImageStorage: ", "Successfully added item ${item.id}")
-            }
-            .addOnFailureListener {
-                Log.e("ImageStorage: ", "Failed to add item ${item.id}", it.cause)
-            }
             .await()
     }
 }
