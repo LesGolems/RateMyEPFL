@@ -2,20 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
 
-interface ReviewRepositoryInterface {
-    /**
-     * Add a review to the repository
-     *
-     */
-    fun add(value: HashMap<String, Any?>)
-
-    /**
-     * Remove a review from the repository
-     *
-     * @param reviewId: the id of the review to remove
-     */
-    fun remove(reviewId: String)
-
+interface ReviewRepositoryInterface : Repository<Review> {
     /**
      * Retrieve the reviews from the repository
      *

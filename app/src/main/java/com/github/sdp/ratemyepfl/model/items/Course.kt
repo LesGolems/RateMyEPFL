@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.FirestoreItem
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
@@ -11,19 +10,20 @@ data class Course(
     val section: String,
     val teacher: String,
     val credits: Int,
-    override val id: String,
+    val courseCode: String,
     override val numReviews: Int,
     override val averageGrade: Double,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
     val language: String? = null
-) : Reviewable(), FirestoreItem {
+) : Reviewable() {
 
     override fun toString(): String {
-        return "$id $title"
+        return "$courseCode $title"
     }
 
+    override fun getId(): String = courseCode
     /**
      * Creates an hash map of the Course
      */
@@ -45,7 +45,7 @@ data class Course(
     /**
      * Builder to create a course step by step
      * Mandatory fields are:
-     * - [id]
+     * - [courseCode]
      * - [title]
      * - [section]
      * - [teacher]
@@ -56,7 +56,7 @@ data class Course(
         private var section: String? = null
         private var teacher: String? = null
         private var credits: Int? = null
-        private var id: String? = null
+        private var courseCode: String? = null
         private var numReviews: Int? = null
         private var averageGrade: Double? = null
         private var cycle: String? = null
@@ -80,8 +80,8 @@ data class Course(
             this.credits = credits
         }
 
-        fun setId(id: String?) = apply {
-            this.id = id
+        fun setCourseCode(courseCode: String?) = apply {
+            this.courseCode = courseCode
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -113,11 +113,11 @@ data class Course(
             val section = this asMandatory section
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
-            val id = this asMandatory id
+            val courseCode = this asMandatory courseCode
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
 
-            return Course(title, section, teacher, credits, id, numReviews, averageGrade, cycle, session, grading, language)
+            return Course(title, section, teacher, credits, courseCode, numReviews, averageGrade, cycle, session, grading, language)
         }
 
     }

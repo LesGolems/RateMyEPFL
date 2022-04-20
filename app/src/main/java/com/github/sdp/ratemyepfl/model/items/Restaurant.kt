@@ -1,24 +1,24 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.FirestoreItem
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Restaurant(
-    override val id: String,
+    val name: String,
     val occupancy: Int,
     val lat: Double,
     val long: Double,
     override val numReviews: Int,
     override val averageGrade: Double,
-) : Reviewable(), FirestoreItem {
+) : Reviewable() {
 
     override fun toString(): String {
-        return id
+        return name
     }
 
+    override fun getId(): String = name
     /**
      * Creates an hash map of the Course, to add it to the DB
      */
@@ -38,14 +38,14 @@ data class Restaurant(
      *  - [id]
      */
     class Builder : ReviewableBuilder<Restaurant> {
-        private var id: String? = null
+        private var name: String? = null
         private var numReviews: Int? = null
         private var averageGrade: Double? = null
         private var lat: Double? = null
         private var long: Double? = null
 
-        fun setId(id: String?) = apply {
-            this.id = id
+        fun setName(name: String?) = apply {
+            this.name = name
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -65,12 +65,12 @@ data class Restaurant(
         }
 
         override fun build(): Restaurant {
-            val id = this asMandatory id
+            val name = this asMandatory name
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(id, 0, lat, long, numReviews, averageGrade)
+            return Restaurant(name, 0, lat, long, numReviews, averageGrade)
         }
     }
 

@@ -56,7 +56,6 @@ class ReviewListFragmentTest {
     fun swipeRefreshes() {
         FakeReviewsRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setId("Fake")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")

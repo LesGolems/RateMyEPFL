@@ -46,7 +46,7 @@ class RestaurantReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.restaurantIdInfo))
-            .check(matches(withText(fakeRestaurant.id)))
+            .check(matches(withText(fakeRestaurant.name)))
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))
     }
 

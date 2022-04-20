@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.database.QueryResult
 import com.github.sdp.ratemyepfl.database.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import kotlinx.coroutines.flow.flow
@@ -18,7 +17,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "George Candea",
                 credits = 4,
-                id = "CS-306",
+                courseCode = "CS-306",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -27,7 +26,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "Nicolas Macris",
                 credits = 4,
-                id = "CS-308",
+                courseCode = "CS-308",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -36,7 +35,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "Boi Faltings",
                 credits = 4,
-                id = "CS-330",
+                courseCode = "CS-330",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -45,7 +44,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "René Beuchat",
                 credits = 3,
-                id = "CS-309",
+                courseCode = "CS-309",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -54,7 +53,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "Christoph Koch",
                 credits = 4,
-                id = "CS-332",
+                courseCode = "CS-332",
                 numReviews = 15,
                 averageGrade = 2.5
             )
@@ -65,7 +64,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
             section = "IC",
             teacher = "George Candea",
             credits = 4,
-            id = "CS-306",
+            courseCode = "CS-306",
             numReviews = 15,
             averageGrade = 2.5
         )
@@ -75,7 +74,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
             section = "IC",
             teacher = "George Candea",
             credits = 4,
-            id = "CS-306",
+            courseCode = "CS-306",
             numReviews = 0,
             averageGrade = 0.0
         )

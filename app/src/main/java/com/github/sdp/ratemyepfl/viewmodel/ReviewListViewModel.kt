@@ -47,9 +47,9 @@ open class ReviewListViewModel @Inject constructor(
         val uid = auth.getUserId() ?: return
         viewModelScope.launch {
             if (array.contains(uid)) {
-                reviewRepo.removeUidInArray(fieldName, review.id, uid)
+                reviewRepo.removeUidInArray(fieldName, review.getId(), uid)
             } else {
-                reviewRepo.addUidInArray(fieldName, review.id, uid)
+                reviewRepo.addUidInArray(fieldName, review.getId(), uid)
             }
         }
     }

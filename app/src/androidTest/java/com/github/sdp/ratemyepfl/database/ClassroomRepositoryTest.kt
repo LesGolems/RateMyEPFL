@@ -34,38 +34,38 @@ class ClassroomRepositoryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        roomRepo.add(testRoom)
+        roomRepo.addAsync(testRoom)
     }
 
     @After
     fun clean(){
-        //roomRepo.remove(testRoom.id)
+        roomRepo.removeAsync(testRoom.name)
     }
 
     @Test
     fun getRoomsWorks() {
         runTest {
             val room = roomRepo.getClassrooms()[0]
-            assertEquals(testRoom.id, room.id)
+            assertEquals(testRoom.name, room.name)
         }
     }
 
     @Test
     fun getRoomByIdWorks() {
         runTest {
-            val room = roomRepo.getRoomById(testRoom.id)
+            val room = roomRepo.getRoomById(testRoom.name)
             assertNotNull(room)
-            assertEquals(testRoom.id, room!!.id)
+            assertEquals(testRoom.name, room!!.name)
         }
     }
 
     @Test
     fun updateRoomRatingWorks() {
         runTest {
-            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
-            val room = roomRepo.getRoomById(testRoom.id)
+            roomRepo.updateClassroomRating(testRoom.name, ReviewRating.EXCELLENT)
+            val room = roomRepo.getRoomById(testRoom.name)
             assertNotNull(room)
-            assertEquals(testRoom.id, room!!.id)
+            assertEquals(testRoom.name, room!!.name)
             assertEquals(1, room.numReviews)
             assertEquals(5.0, room.averageGrade, 0.1)
         }

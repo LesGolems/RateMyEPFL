@@ -163,8 +163,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
             clusterManager.addItem(
                 RestaurantItem(
                     LatLng(r.lat, r.long),
-                    r.id,
-                    MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki)) // Arbitrary default value
+                    r.name,
+                    MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.name, R.raw.niki)) // Arbitrary default value
             )
         }
         clusterManager.cluster()

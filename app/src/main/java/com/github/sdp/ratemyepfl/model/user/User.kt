@@ -20,6 +20,8 @@ data class User(
         picture = user.getProfilePictureUrl()!!
     )
 
+    override fun getId(): String = uid
+
     /**
      * Creates an hash map of the user
      */

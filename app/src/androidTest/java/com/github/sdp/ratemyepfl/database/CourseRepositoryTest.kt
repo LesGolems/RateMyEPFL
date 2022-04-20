@@ -37,7 +37,7 @@ class CourseRepositoryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        courseRepo.add(testCourse)
+        courseRepo.addAsync(testCourse)
     }
 
     @After
@@ -50,7 +50,7 @@ class CourseRepositoryTest {
         runTest {
             val course = courseRepo.getCourses()[0]
 
-            assertEquals(testCourse.id, course.id)
+            assertEquals(testCourse.courseCode, course.courseCode)
             assertEquals(testCourse.title, course.title)
             assertEquals(testCourse.section, course.section)
             assertEquals(testCourse.teacher, course.teacher)
@@ -65,9 +65,9 @@ class CourseRepositoryTest {
     @Test
     fun getCourseByIdWorks() {
         runTest {
-            val course = courseRepo.getCourseById(testCourse.id)
+            val course = courseRepo.getCourseById(testCourse.courseCode)
             assertNotNull(course)
-            assertEquals(testCourse.id, course!!.id)
+            assertEquals(testCourse.courseCode, course!!.courseCode)
             assertEquals(testCourse.title, course.title)
             assertEquals(testCourse.section, course.section)
             assertEquals(testCourse.teacher, course.teacher)
@@ -82,10 +82,10 @@ class CourseRepositoryTest {
     @Test
     fun updateCourseRatingWorks() {
         runTest {
-            courseRepo.updateCourseRating(testCourse.id, ReviewRating.EXCELLENT)
-            val course = courseRepo.getCourseById(testCourse.id)
+            courseRepo.updateCourseRating(testCourse.courseCode, ReviewRating.EXCELLENT)
+            val course = courseRepo.getCourseById(testCourse.courseCode)
             assertNotNull(course)
-            assertEquals(testCourse.id, course!!.id)
+            assertEquals(testCourse.courseCode, course!!.courseCode)
             assertEquals(1, course.numReviews)
             assertEquals(5.0, course.averageGrade, 0.1)
         }

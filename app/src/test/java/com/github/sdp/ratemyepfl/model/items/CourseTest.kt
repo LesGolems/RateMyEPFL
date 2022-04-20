@@ -19,7 +19,7 @@ class CourseTest {
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
-        assertEquals("CS-306", c.id)
+        assertEquals("CS-306", c.courseCode)
         assertEquals(15, c.numReviews)
         assertEquals(2.5, c.averageGrade, 0.01)
         assertEquals(null, c.cycle)
@@ -34,7 +34,7 @@ class CourseTest {
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
-        assertEquals("CS-306", c.id)
+        assertEquals("CS-306", c.courseCode)
         assertEquals(15, c.numReviews)
         assertEquals(2.5, c.averageGrade, 0.01)
         assertEquals("bachelor", c.cycle)
@@ -84,7 +84,7 @@ class CourseTest {
     fun builderThrowsForMissingTitle() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setCredits(0)
             .setCycle(fake)
             .setGrading(fake)
@@ -104,7 +104,7 @@ class CourseTest {
     fun builderThrowsForMissingTeacher() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCredits(0)
             .setCycle(fake)
@@ -124,7 +124,7 @@ class CourseTest {
     fun builderThrowsForMissingCredits() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCycle(fake)
             .setGrading(fake)
@@ -144,7 +144,7 @@ class CourseTest {
     fun builderThrowsForMissingSection() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCredits(0)
             .setCycle(fake)
@@ -164,7 +164,7 @@ class CourseTest {
     fun builderThrowsForMissingNumReviews() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCredits(0)
             .setCycle(fake)
@@ -172,7 +172,7 @@ class CourseTest {
             .setLanguage(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setId(fake)
+            .setCourseCode(fake)
             .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
@@ -184,7 +184,7 @@ class CourseTest {
     fun builderThrowsForMissingAverageGrade() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCredits(0)
             .setCycle(fake)
@@ -192,7 +192,7 @@ class CourseTest {
             .setLanguage(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setId(fake)
+            .setCourseCode(fake)
             .setNumReviews(15)
 
         assertThrows(IllegalStateException::class.java) {
@@ -205,7 +205,7 @@ class CourseTest {
     fun builderSucceedForMissingNonMandatoryProperties() {
         val fake = "fake"
         val builder = Course.Builder()
-            .setId(fake)
+            .setCourseCode(fake)
             .setTitle(fake)
             .setCredits(0)
             .setSection(fake)

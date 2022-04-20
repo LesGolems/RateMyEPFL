@@ -2,10 +2,11 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.lang.IllegalStateException
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -23,7 +24,6 @@ class AddReviewViewModel @Inject constructor(
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
-    private var date: LocalDate? = null
 
     /**
      * Set the rating entered by the user
@@ -54,23 +54,23 @@ class AddReviewViewModel @Inject constructor(
         val rating = rating.value
         val comment = comment.value
         val title = title.value
-        val date = date ?: LocalDate.now()
+        val date = LocalDate.now()
 
         if (comment == null || comment == "") return null
         if (title == null || title == "") return null
         if (rating == null) return null
 
-        val reviewHashMap = hashMapOf(
-            ReviewRepository.TITLE_FIELD_NAME to title,
-            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepository.COMMENT_FIELD_NAME to comment,
-            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
-            ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.UID_FIELD_NAME to null, // will add the user next sprint
-            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
-            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
-        )
-        reviewRepo.add(reviewHashMap)
+        val builder = Review.Builder()
+            .setTitle(title)
+            .setRating(rating)
+            .setComment(comment)
+            .setReviewableID(id)
+            .setDate(date)
+        try {
+            val review = builder.build()
+            reviewRepo.addAsync(review)
+        } catch (e: IllegalStateException) { }
+
         return rating
     }
 }

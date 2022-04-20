@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.database.FirestoreItem
 import kotlinx.serialization.Serializable
 
 /**
@@ -9,8 +10,7 @@ import kotlinx.serialization.Serializable
  * the serialization
  */
 @Serializable
-sealed class Reviewable {
-    abstract val id: String
+sealed class Reviewable : FirestoreItem {
     abstract val numReviews: Int
     abstract val averageGrade: Double
 }

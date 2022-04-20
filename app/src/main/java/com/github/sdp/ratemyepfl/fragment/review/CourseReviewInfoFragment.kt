@@ -36,7 +36,7 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
     }
 
     private fun setUpCourseInfo(view: View, course: Course) {
-        view.findViewById<TextView>(R.id.courseId).text = course.id
+        view.findViewById<TextView>(R.id.courseId).text = course.courseCode
         view.findViewById<TextView>(R.id.courseTitle).text =
             getString(R.string.course_title, course.title)
         view.findViewById<TextView>(R.id.courseTeacher).text =

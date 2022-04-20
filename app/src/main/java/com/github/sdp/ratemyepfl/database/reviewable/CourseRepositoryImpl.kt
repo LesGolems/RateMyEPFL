@@ -2,12 +2,11 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.QueryResult
 import com.github.sdp.ratemyepfl.database.QueryResult.Companion.asQueryResult
-import com.github.sdp.ratemyepfl.database.QueryResult.Companion.mapEach
+import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.Repository.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +14,7 @@ import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 
 class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
-    ReviewableRepository<Course> by repository {
+    ReviewableRepository<Course> by repository, Repository<Course> by repository {
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
@@ -40,7 +39,7 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
 
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
-                .setId(id)
+                .setCourseCode(id)
                 .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
                 .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
                 .setTitle(getString(TITLE_FIELD_NAME))
@@ -76,10 +75,6 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) =
         repository
             .updateRating(id, rating)
-
-    fun add(course: Course) {
-        repository.add(course)
-    }
 
     override fun search(pattern: String): QueryResult<List<Course>> {
         val byId = repository.search(pattern)

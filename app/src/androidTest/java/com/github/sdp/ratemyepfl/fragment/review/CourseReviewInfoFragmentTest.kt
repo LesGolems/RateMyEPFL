@@ -50,7 +50,7 @@ class CourseReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.courseId))
-            .check(matches(withText(fakeCourse.id)))
+            .check(matches(withText(fakeCourse.courseCode)))
         onView(withId(R.id.courseTitle))
             .check(matches(withText(titleText)))
         onView(withId(R.id.courseTeacher))

@@ -6,13 +6,16 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
-class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewRepositoryInterface {
+class ReviewRepository(val repository: RepositoryImpl<Review>) : ReviewRepositoryInterface,
+    Repository<Review> by repository {
 
-    val repository: RepositoryImpl = RepositoryImpl(db, REVIEW_COLLECTION_PATH)
+    @Inject
+    constructor(db: FirebaseFirestore) : this(RepositoryImpl<Review>(db, REVIEW_COLLECTION_PATH))
 
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"
@@ -32,7 +35,6 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
          */
         fun DocumentSnapshot.toReview(): Review? {
             val builder = Review.Builder()
-                .setId(id)
                 .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setComment(getString(COMMENT_FIELD_NAME))
@@ -44,6 +46,7 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
 
             return try {
                 builder.build()
+                    .withId(id)
             } catch (e: IllegalStateException) {
                 null
             }
@@ -51,39 +54,38 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
     }
 
     /**
-     * Add a review to the DB, letting the DB create an unique id
-     * @param value : an hashMap of the review
+     * Add a [Review] with an auto-generated ID. If you want to provide an id, please use the second
+     * method.
+     *
+     * @param item: the [Review] to add
      */
-    override fun add(value: HashMap<String, Any?>) {
-        repository
+    override fun addAsync(item: Review): Deferred<Void> {
+        val document = repository
             .collection
             .document()
-            .set(value)
-    }
 
-    override fun remove(reviewId: String) {
-        repository.remove(reviewId)
+        return addAsync(item, document.id)
     }
 
     /**
-     * MOSTLY FOR TESTS
-     * Add a complete review to the DB
-     * @param review : an hashMap of the review
+     * Add a [Review] with a provided id. This should be used carefully as it may overwrite data.
+     *
+     * @param review: [Review] to add
+     * @param withId: a provided unique identifier
+     *
      */
-    fun add(review: Review) {
-        repository
-            .collection
-            .document(review.id)
-            .set(review.toHashMap())
-    }
+    fun addAsync(review: Review, withId: String) =
+        repository.addAsync(review.withId(withId))
+
 
     override suspend fun getReviews(): List<Review> =
-        repository.take(DEFAULT_QUERY_LIMIT).mapNotNull { obj -> obj.toReview() }
+        repository.take(DEFAULT_QUERY_LIMIT).mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
 
 
     override suspend fun getReviewById(id: String): Review? = repository
         .getById(id)
         .toReview()
+        ?.withId(id)
 
     override suspend fun getByReviewableId(id: String?): List<Review> {
         return getBy(REVIEWABLE_ID_FIELD_NAME, id.orEmpty())
@@ -95,7 +97,7 @@ class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewReposi
             .whereEqualTo(fieldName, value)
             .get()
             .await()
-            .mapNotNull { obj -> obj.toReview() }
+            .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
     }
 
     override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {

@@ -11,21 +11,25 @@ import com.google.firebase.firestore.Query
  * @param repository: the repository to decorate with [load]
  * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
-class LoaderRepositoryImpl<T>(
-    val repository: Repository,
+class LoaderRepositoryImpl<T: FirestoreItem>(
+    val repository: RepositoryImpl<T>,
     private val transform: (DocumentSnapshot) -> T?
-) : Repository by repository, LoaderRepository<T> {
+) : Repository<T> by repository, LoaderRepository<T> {
+
+    val collection = repository.collection
+    val database = repository.database
 
     private val loadedData: HashMap<Query, List<T>> = hashMapOf()
 
     override fun load(query: Query, number: Long): QueryResult<List<T>> {
         val updatedQuery = query.startAfter(loadedData[query])
-        return execute(updatedQuery, number) { querySnapshot ->
+        return repository.execute(updatedQuery, number) { querySnapshot ->
             querySnapshot.mapNotNull { document ->
                 transform(document)
             }
         }.mapResult { data ->
-            updateData(query, data) }
+            updateData(query, data)
+        }
     }
 
     /**

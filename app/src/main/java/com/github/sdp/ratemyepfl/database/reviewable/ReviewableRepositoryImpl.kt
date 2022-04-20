@@ -16,7 +16,7 @@ private const val SUFFIX_MATCHER = "\uf8ff"
  */
 class ReviewableRepositoryImpl<T: Reviewable>(
     val repository: LoaderRepositoryImpl<T>,
-) : ReviewableRepository<T>, Repository by repository, LoaderRepository<T> by repository {
+) : ReviewableRepository<T>, Repository<T> by repository, LoaderRepository<T> by repository {
 
     constructor(
         database: FirebaseFirestore,
@@ -26,8 +26,8 @@ class ReviewableRepositoryImpl<T: Reviewable>(
         LoaderRepositoryImpl(RepositoryImpl(database, collectionPath), transform)
     )
 
-    val collection = repository.collection()
-    val database = repository.database()
+    val collection = repository.collection
+    val database = repository.database
 
     companion object {
         const val NUM_REVIEWS_FIELD_NAME = "numReviews"

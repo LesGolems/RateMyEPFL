@@ -3,20 +3,36 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.database.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.Repository.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.Repository.Companion.MAX_QUERY_LIMIT
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.asDeferred
 import kotlinx.coroutines.tasks.await
 import java.lang.Long.min
 
-class RepositoryImpl(val database: FirebaseFirestore, collectionPath: String) : Repository {
+class RepositoryImpl<T : FirestoreItem>(val database: FirebaseFirestore, collectionPath: String) :
+    Repository<T> {
     val collection = database.collection(collectionPath)
 
     override suspend fun take(number: Long): QuerySnapshot {
         return collection.limit(number).get().await()
     }
 
-    override fun <U> execute(
+    /**
+     * Execute the given query and returns the result as a flow. This limit the number of item
+     * retrieved from the database.
+     *
+     * @param query: the query to execute
+     * @param limit: the maximal number of item to retrieved, [DEFAULT_QUERY_LIMIT] by default.
+     * @param transformation: transformation (or mapping) to apply to the [QuerySnapshot]
+     * Cannot exceed [MAX_QUERY_LIMIT]
+     *
+     * @return a flow containing the result wrapped inside a [QueryState]
+     */
+    fun <U> execute(
         query: Query,
         limit: Long,
         transformation: (QuerySnapshot) -> U
@@ -57,18 +73,16 @@ class RepositoryImpl(val database: FirebaseFirestore, collectionPath: String) : 
         collection.document(id).get().await()
 
 
-    override fun remove(id: String) {
-        collection.document(id).delete()
-    }
+    override fun removeAsync(id: String) = collection
+        .document(id)
+        .delete()
+        .asDeferred()
 
-    override fun add(item: FirestoreItem) {
+
+    override fun addAsync(item: T) =
         collection
-            .document()
+            .document(item.getId())
             .set(item.toHashMap())
-    }
-
-    override fun collection(): CollectionReference = collection
-
-    override fun database(): FirebaseFirestore = database
+            .asDeferred()
 
 }

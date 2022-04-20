@@ -32,7 +32,7 @@ class RestaurantRepositoryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        restaurantRepo.add(testRestaurant)
+        restaurantRepo.addAsync(testRestaurant)
     }
 
     @After
@@ -47,7 +47,7 @@ class RestaurantRepositoryTest {
             assertEquals(restaurants.size, 1)
 
             val restaurant = restaurants[0]
-            assertEquals(testRestaurant.id, restaurant.id)
+            assertEquals(testRestaurant.name, restaurant.name)
             assertEquals(testRestaurant.lat, restaurant.lat, 0.1)
             assertEquals(testRestaurant.long, restaurant.long, 0.1)
         }
@@ -56,9 +56,9 @@ class RestaurantRepositoryTest {
     @Test
     fun getRestaurantByIdWorks() {
         runTest {
-            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.id, restaurant!!.id)
+            assertEquals(testRestaurant.name, restaurant!!.name)
             assertEquals(testRestaurant.lat, restaurant.lat, 0.1)
             assertEquals(testRestaurant.long, restaurant.long, 0.1)
         }
@@ -67,10 +67,10 @@ class RestaurantRepositoryTest {
     @Test
     fun updateRestaurantRatingWorks() {
         runTest {
-            restaurantRepo.updateRestaurantRating(testRestaurant.id, ReviewRating.EXCELLENT)
-            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            restaurantRepo.updateRestaurantRating(testRestaurant.name, ReviewRating.EXCELLENT)
+            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.id, restaurant!!.id)
+            assertEquals(testRestaurant.name, restaurant!!.name)
             assertEquals(1, restaurant.numReviews)
             assertEquals(5.0, restaurant.averageGrade, 0.1)
         }
@@ -79,16 +79,16 @@ class RestaurantRepositoryTest {
     @Test
     fun occupancyWorks() {
         runTest {
-            restaurantRepo.incrementOccupancy(testRestaurant.id)
-            var restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            restaurantRepo.incrementOccupancy(testRestaurant.name)
+            var restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.id, restaurant!!.id)
+            assertEquals(testRestaurant.name, restaurant!!.name)
             assertEquals(2, restaurant.occupancy)
 
-            restaurantRepo.decrementOccupancy(testRestaurant.id)
-            restaurant = restaurantRepo.getRestaurantById(testRestaurant.id)
+            restaurantRepo.decrementOccupancy(testRestaurant.name)
+            restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.id, restaurant!!.id)
+            assertEquals(testRestaurant.name, restaurant!!.name)
             assertEquals(1, restaurant.occupancy)
         }
     }
@@ -110,7 +110,7 @@ class RestaurantRepositoryTest {
 
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
-            .setId(fake)
+            .setName(fake)
             .setNumReviews(15)
             .setAverageGrade(2.5)
             .setLat(lat)

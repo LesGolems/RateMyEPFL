@@ -60,7 +60,7 @@ class RestaurantListViewModel @Inject constructor(private val repository: Restau
     private suspend fun findCloseRestaurantID(l: Location): String? {
         repository.getRestaurants().map { r ->
             if (isClose(l.latitude, r.lat, l.longitude, r.long)) {
-                return r.id
+                return r.name
             }
         }
         return null

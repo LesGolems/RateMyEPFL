@@ -1,12 +1,10 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.QueryResult
-import com.github.sdp.ratemyepfl.database.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,7 +12,8 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaurant>) :
-    RestaurantRepository, ReviewableRepository<Restaurant> by repository {
+    RestaurantRepository, ReviewableRepository<Restaurant> by repository,
+    Repository<Restaurant> by repository {
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
@@ -75,10 +74,6 @@ class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaura
 
     override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) =
         repository.updateRating(id, rating)
-
-    fun add(restaurant: Restaurant) {
-        repository.collection.document(restaurant.id).set(restaurant.toHashMap())
-    }
 
     override fun search(pattern: String): QueryResult<List<Restaurant>> =
         repository.search(pattern)

@@ -110,7 +110,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
      * @param commitCallback: callback to execute when the sort has been committed, default null
      */
     fun sortAlphabetically(reversedOrder: Boolean = false, commitCallback: (() -> Unit)? = {}) {
-        val sortedList = list.sortedBy { item -> item.id }
+        val sortedList = list.sortedBy { item -> item.toString() }
             .let { if (reversedOrder) it.reversed() else it }
 
         submitList(sortedList, commitCallback)

@@ -1,22 +1,20 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.FirestoreItem
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Classroom(
-    override val id: String,
+    val name: String,
     override val numReviews: Int,
     override val averageGrade: Double,
     val roomKind: String? = null,
-) : Reviewable(), FirestoreItem {
+) : Reviewable() {
 
-    override fun toString(): String {
-        return id
-    }
+    override fun toString(): String = name
 
+    override fun getId(): String = name
     /**
      * Creates an hash map of the Classroom
      */
@@ -31,16 +29,16 @@ data class Classroom(
     /**
      * Builder to create a restaurant step by step.
      * Mandatory fields are:
-     *  - [id]
+     *  - [name]
      */
     class Builder : ReviewableBuilder<Classroom> {
-        private var id: String? = null
+        private var name: String? = null
         private var numReviews: Int? = null
         private var averageGrade: Double? = null
         private var roomKind: String? = null
 
-        fun setId(id: String?) = apply {
-            this.id = id
+        fun setName(id: String?) = apply {
+            this.name = id
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -56,10 +54,10 @@ data class Classroom(
         }
 
         override fun build(): Classroom {
-            val id = this asMandatory id
+            val name = this asMandatory name
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
-            return Classroom(id, numReviews, averageGrade, roomKind)
+            return Classroom(name, numReviews, averageGrade, roomKind)
         }
     }
 
