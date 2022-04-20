@@ -8,11 +8,10 @@ class UserTest {
 
     @Test
     fun constructorWithAllFieldsWorks() {
-        val user = User("12345", "Jean", "user@email.ch", "https://www.pictures.com/?q=coolpic")
+        val user = User("12345", "Jean", "user@email.ch")
         assertEquals("12345", user.uid)
         assertEquals("Jean", user.username)
         assertEquals("user@email.ch", user.email)
-        assertEquals("https://www.pictures.com/?q=coolpic", user.picture)
     }
 
     @Test
@@ -20,10 +19,6 @@ class UserTest {
         val user = User(object : ConnectedUser {
             override fun getUsername(): String? {
                 return "Jean"
-            }
-
-            override fun getProfilePictureUrl(): String? {
-                return "https://www.pictures.com/?q=coolpic"
             }
 
             override fun isLoggedIn(): Boolean {
@@ -41,6 +36,5 @@ class UserTest {
         assertEquals("12345", user.uid)
         assertEquals("Jean", user.username)
         assertEquals("user@email.ch", user.email)
-        assertEquals("https://www.pictures.com/?q=coolpic", user.picture)
     }
 }

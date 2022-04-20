@@ -41,8 +41,6 @@
     <string name="review_sent_text">Your review was submitted !</string>
     <string name="image_seen_in_detail">Image seen in detail</string>
     <string name="picture_of_an_epfl_room">Picture of an EPFL room</string>
-    <string name="home_page_description">Home</string>
-    <string name="restaurant_category">Restaurant</string>
     <string name="default_id_text">Default id text</string>
     <string name="restaurant_content_description">restaurant icon</string>
     <string name="num_reviews">(%s reviews)</string>
