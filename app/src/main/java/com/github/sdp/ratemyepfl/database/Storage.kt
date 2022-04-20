@@ -6,11 +6,36 @@ package com.github.sdp.ratemyepfl.database
  */
 interface Storage<T> {
 
+    /**
+     * Maximum supported size (in bytes) for an image by Firebase Storage
+     */
     val MAX_ITEM_SIZE: Long
 
-    suspend fun get(id: String) : T?
+    /**
+     * Returns the item for the given [id].
+     * Returns null in case of errors.
+     */
+    suspend fun get(id: String): T?
 
-    suspend fun put(item: T)
+    /**
+     * Adds [item] to the collection.
+     * Throws an IllegalArgumentException if the item is too big for the collection.
+     */
+    suspend fun add(item: T)
 
+    /**
+     * Removes [item] from the collection.
+     */
     suspend fun remove(item: T)
+
+    /**
+     * Returns all the items in the sub-directory [dir].
+     */
+    suspend fun getByDirectory(dir: String): List<T>
+
+    /**
+     * Adds [item] to the collection in the sub-directory [dir].
+     * Throws an IllegalArgumentException if the item is too big for the collection.
+     */
+    suspend fun addInDirectory(item: T, dir: String)
 }

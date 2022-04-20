@@ -24,6 +24,4 @@ interface ConnectedUser {
     fun getEmail(): String?
 
     fun getUsername(): String?
-
-    fun getProfilePictureUrl(): String?
 }

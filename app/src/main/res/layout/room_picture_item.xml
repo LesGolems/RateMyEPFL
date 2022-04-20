@@ -20,12 +20,12 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/photoImageView"
+                android:id="@+id/pictureImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/photo_of_an_epfl_room"
+                android:contentDescription="@string/picture_of_an_epfl_room"
                 android:foreground="?android:attr/selectableItemBackground"
                 />
 

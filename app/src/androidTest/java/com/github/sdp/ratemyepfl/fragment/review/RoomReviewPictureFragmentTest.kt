@@ -12,8 +12,8 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
-import com.github.sdp.ratemyepfl.database.fakes.FakePictureRepository
+import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -46,21 +46,21 @@ class RoomReviewPictureFragmentTest {
 
     @Test
     fun imageGridIsVisible() {
-        onView(withId(R.id.photoRecyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
         scenario.close()
     }
 
     @Test
     fun imageGridSizeIsCorrect() {
-        onView(withId(R.id.photoRecyclerView)).check(
-            matches(hasChildCount(FakePictureRepository.PHOTO_LIST.size))
+        onView(withId(R.id.pictureRecyclerView)).check(
+            matches(hasChildCount(FakeImageStorage.pictures.size))
         )
     }
 
     @Test
     fun imageGridIsCorrectlyDisplayed() {
-        for (id: Int in FakePictureRepository.PHOTO_LIST) {
-            onView(withId(R.id.photoRecyclerView)).check(
+        for (id: Int in FakeImageStorage.pictureIds) {
+            onView(withId(R.id.pictureRecyclerView)).check(
                 matches(
                     hasDescendant(withDrawable(id))
                 )
@@ -71,8 +71,8 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun firesAnIntentWhenUserClicksOnAnImage() {
         init()
-        onView(withId(R.id.photoRecyclerView)).perform(
-            actionOnItemAtPosition<PhotoAdapter.PhotoViewHolder>(0, click())
+        onView(withId(R.id.pictureRecyclerView)).perform(
+            actionOnItemAtPosition<RoomPictureAdapter.RoomPictureViewHolder>(0, click())
         )
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
