@@ -43,12 +43,4 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
     override fun search(pattern: String): QueryResult<List<Restaurant>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }
     )
-
-    override fun loadMostRated(number: Long): QueryResult<List<Restaurant>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
-
-    override fun loadBestRated(number: Long): QueryResult<List<Restaurant>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }

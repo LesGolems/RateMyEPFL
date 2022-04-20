@@ -50,12 +50,4 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepository {
     override fun search(pattern: String): QueryResult<List<Classroom>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }
     )
-
-    override fun loadMostRated(number: Long): QueryResult<List<Classroom>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
-
-    override fun loadBestRated(number: Long): QueryResult<List<Classroom>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }

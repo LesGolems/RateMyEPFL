@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-class ClassroomRepositoryImplTest {
+class ClassroomRepositoryTest {
     private val testRoom = Classroom("Fake id", 0, 0.0)
 
     @get:Rule

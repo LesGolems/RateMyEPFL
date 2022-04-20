@@ -1,11 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.map
 
 /**
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
- * the contained [Flow]
+ * the contained [Flow] (e.g., you can collect the value as with a [Flow])
  */
 class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<T>> by result {
 

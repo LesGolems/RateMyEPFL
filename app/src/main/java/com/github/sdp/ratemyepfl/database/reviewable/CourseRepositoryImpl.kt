@@ -81,16 +81,12 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
         repository.add(course)
     }
 
-    private val fromReviewable: (Reviewable) -> Course = { it as Course }
-
     override fun search(pattern: String): QueryResult<List<Course>> {
         val byId = repository.search(pattern)
         val byTitle = repository.search(pattern, TITLE_FIELD_NAME)
         // Merge the two flows and map the content to Course
         return listOf(byId, byTitle).merge()
             .asQueryResult()
-            .mapEach(fromReviewable)
-
     }
 
 

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-class RestaurantRepositoryImplTest {
+class RestaurantRepositoryTest {
     private val testRestaurant = Restaurant(
         "Fake id", 1, 0.0,
         0.0,  0, 0.0)

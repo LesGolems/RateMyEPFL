@@ -60,8 +60,6 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
             .set(room.toHashMap())
     }
 
-    private val fromReviewable: (Reviewable) -> Classroom = { it as Classroom }
-
     override fun search(pattern: String): QueryResult<List<Classroom>> =
         repository.search(pattern)
 

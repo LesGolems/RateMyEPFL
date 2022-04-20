@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-class CourseRepositoryImplTest {
+class CourseRepositoryTest {
     private val testCourse = Course(
         "title", "section", "teacher",
         7, "Fake id", 0, 0.0, "cycle", "session",

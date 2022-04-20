@@ -93,12 +93,4 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
     override fun search(pattern: String): QueryResult<List<Course>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }
     )
-
-    override fun loadMostRated(number: Long): QueryResult<List<Course>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
-
-    override fun loadBestRated(number: Long): QueryResult<List<Course>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }
