@@ -16,8 +16,6 @@ class FakeConnectedUser @Inject constructor() : ConnectedUser {
 
     override fun getUsername(): String? = if (instance != Instance.LOGGED_OUT) instance.user?.username else null
 
-    override fun getProfilePictureUrl(): String? = null
-
     enum class Instance(val user: User?) {
         LOGGED_OUT(null), FAKE_USER_1(fakeUser1), FAKE_USER_2(fakeUser2)
     }
