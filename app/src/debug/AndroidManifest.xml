@@ -14,4 +14,6 @@
             android:exported="true" />
     </application>
 
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="ProtectedPermissions" />
 </manifest>
