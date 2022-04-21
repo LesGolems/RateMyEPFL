@@ -6,7 +6,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.RatingBar
+import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
@@ -16,6 +18,7 @@ import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 import javax.inject.Inject
 
 /*
@@ -46,6 +49,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var title: TextInputEditText
     private lateinit var scoreTextView: TextView
     private lateinit var doneButton: Button
+    private lateinit var anonymousSwitch: SwitchCompat
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -60,6 +64,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         comment = view.findViewById(R.id.addReviewComment)
         title = view.findViewById(R.id.addReviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
+        anonymousSwitch = view.findViewById(R.id.anonymous_switch)
 
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text =
@@ -89,18 +94,31 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         title.addTextChangedListener(onTextChangedTextWatcher { text, _, _, _ ->
             addReviewViewModel.setTitle(text?.toString())
         })
+
+        anonymousSwitch.setOnCheckedChangeListener { _, b ->
+            addReviewViewModel.setAnonymous(b)
+        }
     }
 
     /**
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (checkLogin() && submitReview()) {
-            reset()
-            // Bar that will appear at the bottom of the screen
-            Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
-                .setAnchorView(R.id.reviewNavigationView)
-                .show()
+        if (checkLogin()) {
+            try {
+                submitReview()
+                reset()
+                // Bar that will appear at the bottom of the screen
+                Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(R.id.reviewNavigationView)
+                    .show()
+            } catch (e: Exception) {
+                e.message?.let {
+                    Snackbar.make(requireView(), it, Snackbar.LENGTH_LONG)
+                        .setAnchorView(R.id.reviewNavigationView)
+                        .show()
+                }
+            }
         } else {
             setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
             setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)

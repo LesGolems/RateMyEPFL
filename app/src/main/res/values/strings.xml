@@ -78,4 +78,5 @@
     <string name="i_like_this_review">I like this review</string>
     <string name="i_don_t_like_this_review">I don\'t like this review</string>
     <string name="my_profile_string">My Profile</string>
+    <string name="anonymous">Anonymous</string>
 </resources>
