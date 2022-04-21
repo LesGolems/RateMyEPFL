@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.floor
 
 /*
 Fragment displayed all relevant information for a restaurant
@@ -24,13 +25,21 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         super.onViewCreated(view, savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it.numReviews)
-            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.averageGrade.toFloat()
+            view.findViewById<TextView>(R.id.restaurantNumReview).text =
+                getNumReviewString(it.numReviews)
+            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
+                it.averageGrade.toFloat()
             val n = occupancyMetric(it)
+            view.findViewById<RatingBar>(R.id.occupancyMetric).rating = n.toFloat()
+            val str = if (n <= 2) {
+                "Clear"
+            } else if (n <= 4) {
+                "Busy"
+            } else {
+                "Full"
+            }
+            view.findViewById<TextView>(R.id.occupancyRating).text = str
         }
-
-
-
     }
 
     private fun getNumReviewString(numReview: Int): String {
@@ -41,13 +50,13 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         }
     }
 
-    private fun occupancyMetric(restaurant : Restaurant) : Int {
-        if(restaurant.occupancy < 0.33 * restaurant.MAX_OCCUPANCY){
-            return 0
-        } else if (restaurant.occupancy < 0.66 * restaurant.MAX_OCCUPANCY){
-            return 1
-        }
-        return 2
+    /**
+     * Interpolates occupancy to a ratio between 1 and 5
+     */
+    private fun occupancyMetric(restaurant: Restaurant): Int {
+        val ratio = restaurant.MAX_OCCUPANCY / 5
+        val n = restaurant.occupancy / ratio
+        return 1 + n
     }
 
     override fun onResume() {
