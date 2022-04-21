@@ -54,4 +54,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantRatingBar" />
 
+    <RatingBar
+        android:id="@+id/occupancyRatingBar"
+        style="@android:style/Widget.Material.RatingBar"
+        android:layout_width="140dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
+        android:isIndicator="true"
+        android:progressTint="@color/purple_500"
+        android:secondaryProgressTint="@color/purple_200"
+        android:stepSize="0.1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantNumReview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

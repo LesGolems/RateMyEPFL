@@ -25,6 +25,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
             view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
             view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it.numReviews)
             view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.averageGrade.toFloat()
+            view.findViewById<RatingBar>(R.id.occupancyRatingBar).rating = it.occupancy.toFloat()
         }
     }
 
