@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,12 +19,12 @@ class UserProfileViewModel @Inject constructor(
     val userDatabase: UserRepositoryInterface
 ) : ViewModel() {
 
-    private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)
-    private val username : MutableLiveData<String?> = MutableLiveData(null)
-    private val email : MutableLiveData<String?> = MutableLiveData(null)
+    private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
+    private val username: MutableLiveData<String?> = MutableLiveData(null)
+    private val email: MutableLiveData<String?> = MutableLiveData(null)
 
-    private var newUsername : String? = null
-    private var newEmail : String? = null
+    private var newUsername: String? = null
+    private var newEmail: String? = null
 
     init {
         if (currentUser.isLoggedIn()) {
@@ -49,15 +50,15 @@ class UserProfileViewModel @Inject constructor(
         }
     }
 
-    fun username() : MutableLiveData<String?> {
+    fun username(): MutableLiveData<String?> {
         return username
     }
 
-    fun email() : MutableLiveData<String?> {
+    fun email(): MutableLiveData<String?> {
         return email
     }
 
-    fun picture() : MutableLiveData<ImageFile?> {
+    fun picture(): MutableLiveData<ImageFile?> {
         return picture
     }
 

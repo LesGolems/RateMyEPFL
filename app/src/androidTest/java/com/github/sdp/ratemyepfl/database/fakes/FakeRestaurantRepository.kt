@@ -13,7 +13,7 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
         val RESTAURANT_LIST = listOf(
             Restaurant(id = "Roulotte du Soleil", 0, 46.519214, 6.567553, 15, 2.5),
             Restaurant(id = "Arcadie", 0, 46.520625, 6.569403, 8, 3.0),
-            Restaurant(id = "Takinoa", 0, 5.0, 6.0, 1, 4.0)
+            Restaurant(id = "Takinoa", 0, 46.518236, 6.568110, 1, 4.0)
         )
 
         val DEFAULT_RESTAURANT = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
@@ -22,6 +22,8 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
         val RESTAURANT_WITHOUT_REVIEWS = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
 
         var restaurantById = RESTAURANT_WITH_REVIEWS
+
+        var occupancyCounter = 0
     }
 
 
@@ -30,9 +32,11 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
     override suspend fun getRestaurantById(id: String): Restaurant = restaurantById
 
     override suspend fun incrementOccupancy(id: String) {
+        occupancyCounter += 1
     }
 
     override suspend fun decrementOccupancy(id: String) {
+        occupancyCounter -= 1
     }
 
 

@@ -1,14 +1,21 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.Manifest
+import android.content.Context
+import android.location.Criteria
+import android.location.Location
+import android.location.LocationManager
+import android.os.SystemClock
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.github.sdp.ratemyepfl.utils.TestUtils
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -16,6 +23,8 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.BaseMatcher
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,6 +32,9 @@ import org.junit.Test
 
 @HiltAndroidTest
 class MainActivityTest {
+    private val providerName = LocationManager.GPS_PROVIDER
+    private lateinit var mContext: Context
+    private lateinit var mManager: LocationManager
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -33,11 +45,6 @@ class MainActivityTest {
     @get:Rule
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
-
-    @Before
-    fun setup() {
-
-    }
 
     //    /**
 //     * Template test to a BottomNavigationView
@@ -118,6 +125,47 @@ class MainActivityTest {
                 description.appendText("should return first matching item")
             }
         }
+    }
+
+    fun updateLocation(latitude : Double, longitude:Double){
+        val location = Location(providerName)
+        location.setLatitude(latitude)
+        location.setLongitude(longitude)
+        location.setAccuracy(1.0f)
+        location.setTime(System.currentTimeMillis())
+        location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos())
+        mManager.setTestProviderLocation(providerName, location)
+    }
+
+    @Test
+    fun locationWorks(){
+        mContext = getInstrumentation().targetContext
+        mManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        mManager.addTestProvider(providerName, true, //requiresNetwork,
+            false, // requiresSatellite,
+            true,  // requiresCell,
+            false, // hasMonetaryCost,
+            false, // supportsAltitude,
+            false, // supportsSpeed,
+            false, // supportsBearing,
+            Criteria.POWER_MEDIUM, // powerRequirement
+            Criteria.ACCURACY_FINE); // accuracy
+        mManager.setTestProviderEnabled(providerName, true)
+
+
+        FakeRestaurantRepository.occupancyCounter = 0
+        updateLocation(46.519214, 6.567553)
+        Thread.sleep(2000)
+        assertEquals(1, FakeRestaurantRepository.occupancyCounter)
+        Thread.sleep(2000)
+        updateLocation(46.520625, 6.569403)
+        assertEquals(1, FakeRestaurantRepository.occupancyCounter)
+        Thread.sleep(2000)
+        updateLocation(5.0, 6.0)
+        Thread.sleep(2000)
+        assertEquals(0, FakeRestaurantRepository.occupancyCounter)
+
+        mManager.removeTestProvider(providerName)
     }
 
 }

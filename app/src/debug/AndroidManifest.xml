@@ -3,10 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.github.sdp.ratemyepfl">
 
-    <application tools:ignore="MissingApplicationIcon">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="MockLocation,ProtectedPermissions" />
+
+    <application
+        android:usesCleartextTraffic="true"
+        tools:ignore="MissingApplicationIcon">
         <activity
             android:name=".activity.HiltTestActivity"
             android:exported="true" />
     </application>
+
 
 </manifest>
