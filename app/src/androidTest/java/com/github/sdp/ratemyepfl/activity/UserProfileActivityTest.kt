@@ -1,28 +1,53 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.content.Intent
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.PerformException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
+import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
+import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
+import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 @HiltAndroidTest
 class UserProfileActivityTest {
+    lateinit var scenario: ActivityScenario<UserProfileActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(UserProfileActivity::class.java)
+    var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    @Before
+    fun setUp(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
+    }
+
+    @After
+    fun clean(){
+        scenario.close()
+    }
 
     @Test
     fun userProfileVisibleOnLaunch() {
@@ -130,5 +155,41 @@ class UserProfileActivityTest {
 
         onView(withId(R.id.modify_profile_button)).perform(click())
         onView(withId(R.id.emailText)).check(matches(withText(not(newEmail))))
+    }
+
+    @Test
+    fun changeFailsForBigPicture() {
+        init()
+        val activity = getActivity(scenario)
+        savePickedImage(activity, R.raw.pp)
+        val imgGalleryResult = createImageGallerySetResultStub(activity)
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
+        onView(withId(R.id.modify_profile_button)).perform(click())
+        onView(withId(R.id.modify_profile_image_button)).perform(click())
+        release()
+    }
+
+    @Test
+    fun changePictureWorks() {
+        init()
+        val activity = getActivity(scenario)
+        savePickedImage(activity, R.raw.pp1)
+        val imgGalleryResult = createImageGallerySetResultStub(activity)
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
+        onView(withId(R.id.modify_profile_button)).perform(click())
+        onView(withId(R.id.modify_profile_image_button)).perform(click())
+        release()
+    }
+
+    @Test
+    fun userLoggedInButNotInDBWorks(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        val intent = Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
+        val scenario2: ActivityScenario<UserProfileActivity> = ActivityScenario.launch(intent)
+        val username = FakeConnectedUser.instance.user!!.username!!.split(" ")[0]
+        val email = FakeConnectedUser.instance.user!!.email
+        onView(withId(R.id.username_text)).check(matches(withText(username)))
+        onView(withId(R.id.emailText)).check(matches(withText(email)))
+        scenario2.close()
     }
 }

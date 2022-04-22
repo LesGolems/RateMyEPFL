@@ -24,9 +24,9 @@ interface Storage<T> {
     suspend fun add(item: T)
 
     /**
-     * Removes [item] from the collection.
+     * Removes item with [id] from the collection.
      */
-    suspend fun remove(item: T)
+    suspend fun remove(id: String)
 
     /**
      * Returns all the items in the sub-directory [dir].
@@ -38,4 +38,10 @@ interface Storage<T> {
      * Throws an IllegalArgumentException if the item is too big for the collection.
      */
     suspend fun addInDirectory(item: T, dir: String)
+
+
+    /**
+     * Removes item with [id] from the collection in the sub-directory [dir].
+     */
+    suspend fun removeInDirectory(id: String, dir: String)
 }
