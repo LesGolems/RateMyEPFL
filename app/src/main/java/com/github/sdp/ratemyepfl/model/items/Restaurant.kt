@@ -19,7 +19,7 @@ data class Restaurant(
     }
 
     /**
-     * Creates an hash map of the Course, to add it to the DB
+     * Creates an hash map of the Restaurant, to add it to the DB
      */
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
