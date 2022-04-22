@@ -10,7 +10,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.floor
 
 /*
 Fragment displayed all relevant information for a restaurant
@@ -31,14 +30,17 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
                 it.averageGrade.toFloat()
             val n = occupancyMetric(it)
             view.findViewById<RatingBar>(R.id.occupancyMetric).rating = n.toFloat()
-            val str = if (n <= 2) {
-                "Clear"
-            } else if (n <= 4) {
-                "Busy"
-            } else {
-                "Full"
+            view.findViewById<TextView>(R.id.occupancyRating).text = when {
+                n <= 2 -> {
+                    "Clear"
+                }
+                n <= 4 -> {
+                    "Busy"
+                }
+                else -> {
+                    "Full"
+                }
             }
-            view.findViewById<TextView>(R.id.occupancyRating).text = str
         }
     }
 
