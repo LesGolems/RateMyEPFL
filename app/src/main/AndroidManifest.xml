@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".RateMyEPFLApplication"
         android:allowBackup="true"
@@ -14,6 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
+        <activity
+            android:name=".activity.CameraActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.UserProfileActivity"
             android:exported="false" />
@@ -33,8 +39,8 @@
             android:exported="false" />
         <activity
             android:name=".activity.ImageDetailActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">
