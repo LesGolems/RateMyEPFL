@@ -10,13 +10,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
+import com.github.sdp.ratemyepfl.model.user.User
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(
     val likeListener: OnVoteClickListener,
     val dislikeListener: OnVoteClickListener
 ) :
-    ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
+    ListAdapter<ReviewWithAuthor, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<ReviewWithAuthor>()) {
 
     fun interface OnVoteClickListener {
         fun onClick(review: Review)
@@ -39,10 +43,16 @@ class ReviewAdapter(
         private val likeButton: ImageButton = reviewView.findViewById(R.id.likeButton)
         private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
 
-        private lateinit var currentReview: Review
+        private val authorUsername: TextView = reviewView.findViewById(R.id.author_username)
+        private val authorProfilePicture: CircleImageView = reviewView.findViewById(R.id.author_profile_picture)
 
-        fun bind(review: Review) {
-            currentReview = review
+        private lateinit var review: Review
+
+        fun bind(reviewWithAuthor: ReviewWithAuthor) {
+            review = reviewWithAuthor.review
+            val author = reviewWithAuthor.author
+            val image = reviewWithAuthor.image
+
             titleView.text = review.title
             rateView.text = review.rating.toString()
             commentView.text = review.comment
@@ -59,6 +69,14 @@ class ReviewAdapter(
             /* Like button logic */
             likeButton.setOnClickListener {
                 likeListener.onClick(review)
+            }
+
+            author?.let {
+                authorUsername.setText(it.username)
+            }
+
+            image?.let {
+                authorProfilePicture.setImageBitmap(it.data)
             }
         }
     }

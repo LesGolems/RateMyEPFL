@@ -8,7 +8,11 @@ import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
     private val reviewRepo: ReviewRepositoryInterface,
+    private val userRepo: UserRepositoryInterface,
+    private val imageStorage: Storage<ImageFile>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -27,7 +33,7 @@ open class ReviewListViewModel @Inject constructor(
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
     // Reviews
-    val reviews = MutableLiveData<List<Review>>()
+    val reviews = MutableLiveData<List<ReviewWithAuthor>>()
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -40,7 +46,14 @@ open class ReviewListViewModel @Inject constructor(
         viewModelScope.launch {
             reviews.postValue(reviewRepo.getByReviewableId(id)
                 .toMutableList()
-                .sortedBy { r -> -r.likers.size })
+                .map { review ->
+                    ReviewWithAuthor(
+                        review,
+                        review.uid?.let { userRepo.getUserByUid(it) },
+                        review.uid?.let { imageStorage.get(it) }
+                    )
+                }
+                .sortedBy { rwa -> -rwa.review.likers.size })
         }
     }
 
@@ -59,7 +72,7 @@ open class ReviewListViewModel @Inject constructor(
 
     fun sortByVotes() {
         reviews.value?.let {
-            reviews.postValue(it.sortedBy { review -> -review.likers.size })
+            reviews.postValue(it.sortedBy { rwa -> -rwa.review.likers.size })
         }
     }
 
