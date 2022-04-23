@@ -1,7 +1,10 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.EventRepository
 import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.utils.MapActivityUtils
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
 class Event(
@@ -13,7 +16,7 @@ class Event(
     val lat: Double,
     val long: Double,
     val date: LocalDateTime
-) : Reviewable() {
+) : Reviewable(), Displayable {
 
     override fun toString(): String {
         return id
@@ -31,6 +34,14 @@ class Event(
             EventRepository.DATE_FIELD_NAME to date.toString(),
             Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
             Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString()
+        )
+    }
+
+    override fun toMapItem(): MapItem {
+        return EventItem(
+            this,
+            MapActivityUtils.PHOTO_MAPPING.getOrDefault(id, R.raw.niki), // Arbitrary default value
+            BitmapDescriptorFactory.fromResource(R.raw.event_marker)
         )
     }
 

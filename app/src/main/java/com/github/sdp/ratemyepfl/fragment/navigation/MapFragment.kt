@@ -15,8 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.*
-import com.github.sdp.ratemyepfl.utils.MapActivityUtils
+import com.github.sdp.ratemyepfl.model.items.Displayable
+import com.github.sdp.ratemyepfl.model.items.MapItem
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.viewmodel.EventListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
@@ -122,23 +122,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     /**
      * Update list of markers
      */
-    private fun listsObserver(reviewables: List<Reviewable>) {
-        val items = reviewables.map { r ->
-            when (r.javaClass) {
-                Event::class.java ->
-                    EventItem(
-                        r as Event,
-                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
-                        BitmapDescriptorFactory.fromResource(R.raw.event_marker)
-                    )
-                else ->
-                    RestaurantItem(
-                        r as Restaurant,
-                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
-                        BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
-                    )
-            }
-        }
+    private fun listsObserver(disp: List<Displayable>) {
+        val items = disp.map { d -> d.toMapItem() }
         addItems(rClusterManager, items)
     }
 
