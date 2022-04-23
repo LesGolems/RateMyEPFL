@@ -13,7 +13,7 @@
         android:orientation="vertical"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/startReviewFAB"
+        android:id="@+id/addPhotoFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

@@ -61,4 +61,6 @@
     <string name="photo_cluster_item">Photo of cluster item</string>
     <string name="take_photo">Take photo</string>
     <string name="OccupancyMessage">%s</string>
+    <string name="photo_taken">Photo taken</string>
+    <string name="upload_ok">OK</string>
 </resources>

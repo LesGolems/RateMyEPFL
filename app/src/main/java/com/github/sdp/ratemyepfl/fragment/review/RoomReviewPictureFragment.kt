@@ -42,8 +42,9 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
             pictureAdapter.setData(it.toMutableList())
         }
 
-        view.findViewById<ExtendedFloatingActionButton>(R.id.startReviewFAB).setOnClickListener {
+        view.findViewById<ExtendedFloatingActionButton>(R.id.addPhotoFAB).setOnClickListener {
             val intent = Intent(context, CameraActivity::class.java)
+            intent.putExtra("ID", pictureViewModel.id)
             startActivity(intent)
         }
     }
