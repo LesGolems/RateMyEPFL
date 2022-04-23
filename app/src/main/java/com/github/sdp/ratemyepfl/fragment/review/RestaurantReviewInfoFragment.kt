@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +24,23 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         super.onViewCreated(view, savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.restaurantNumReview).text = getNumReviewString(it.numReviews)
-            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating = it.averageGrade.toFloat()
+            view.findViewById<TextView>(R.id.restaurantNumReview).text =
+                getNumReviewString(it.numReviews)
+            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
+                it.averageGrade.toFloat()
+            val n = occupancyMetric(it)
+            view.findViewById<RatingBar>(R.id.occupancyMetric).rating = n.toFloat()
+            view.findViewById<TextView>(R.id.occupancyRating).text = when {
+                n <= 2 -> {
+                    "Clear"
+                }
+                n <= 4 -> {
+                    "Busy"
+                }
+                else -> {
+                    "Full"
+                }
+            }
         }
     }
 
@@ -34,6 +50,15 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         } else {
             getString(R.string.num_reviews, numReview.toString())
         }
+    }
+
+    /**
+     * Interpolates occupancy to a ratio between 1 and 5
+     */
+    private fun occupancyMetric(restaurant: Restaurant): Int {
+        val ratio = restaurant.MAX_OCCUPANCY / 5
+        val n = restaurant.occupancy / ratio
+        return 1 + n
     }
 
     override fun onResume() {

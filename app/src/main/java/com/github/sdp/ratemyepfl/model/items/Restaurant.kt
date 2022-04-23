@@ -14,6 +14,8 @@ data class Restaurant(
     override val averageGrade: Double,
 ) : Reviewable() {
 
+    public val MAX_OCCUPANCY = 50;
+
     override fun toString(): String {
         return id
     }
