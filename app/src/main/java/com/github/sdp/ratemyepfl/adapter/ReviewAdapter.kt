@@ -71,13 +71,9 @@ class ReviewAdapter(
                 likeListener.onClick(review)
             }
 
-            author?.let {
-                authorUsername.setText(it.username)
-            }
+            authorUsername.setText(author?.username.orEmpty())
 
-            image?.let {
-                authorProfilePicture.setImageBitmap(it.data)
-            }
+            authorProfilePicture.setImageBitmap(image?.data)
         }
     }
 
