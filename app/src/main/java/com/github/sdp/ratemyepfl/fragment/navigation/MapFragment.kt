@@ -105,18 +105,44 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         initializeMap()
 
         restaurantViewModel.restaurants.observe(this) {
-            it?.let {
-                addRestaurants(rClusterManager, it)
+            it?.let { l ->
+                restaurantsObserver(l)
             }
         }
 
         eventListViewModel.events.observe(this) {
-            it?.let {
-                addEvents(rClusterManager, it)
+            it?.let { l ->
+                eventsObserver(l)
             }
         }
 
         enableMyLocation()
+    }
+
+    /**
+     * Update restaurant markers
+     */
+    private fun restaurantsObserver(restaurants: List<Restaurant>) {
+        val rs = restaurants.map { r ->
+            RestaurantItem(r,
+                MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
+                BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
+            )
+        }
+        addItems(rClusterManager, rs)
+    }
+
+    /**
+     * Update event markers
+     */
+    private fun eventsObserver(events: List<Event>) {
+        val es = events.map { e ->
+            EventItem(e,
+                MapActivityUtils.PHOTO_MAPPING.getOrDefault(e.id, R.raw.niki), // Arbitrary default value
+                BitmapDescriptorFactory.fromResource(R.raw.event_marker)
+            )
+        }
+        addItems(rClusterManager, es)
     }
 
     /**
@@ -160,38 +186,13 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     }
 
     /**
-     * Add restaurants from the database to the cluster
+     * Add items (restaurants, events) to the cluster
      */
-    private fun addRestaurants(clusterManager: ClusterManager<MapItem>, restaurants: List<Restaurant>) {
+    private fun addItems(clusterManager: ClusterManager<MapItem>, items: List<MapItem>) {
         val markerIds = clusterManager.markerCollection.markers.map { it.id }
-        for (r in restaurants) {
-            if (!markerIds.contains(r.id)) {
-                clusterManager.addItem(
-                    RestaurantItem(
-                        r,
-                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
-                        BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
-                    )
-                )
-            }
-        }
-        clusterManager.cluster()
-    }
-
-    /**
-     * Add events from the database to the cluster
-     */
-    private fun addEvents(clusterManager: ClusterManager<MapItem>, events: List<Event>) {
-        val markerIds = clusterManager.markerCollection.markers.map { it.id }
-        for (e in events) {
-            if (!markerIds.contains(e.id)) {
-                clusterManager.addItem(
-                    EventItem(
-                        e,
-                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(e.id, R.raw.niki), // Arbitrary default value
-                        BitmapDescriptorFactory.fromResource(R.raw.event_marker)
-                    )
-                )
+        for (i in items) {
+            if (!markerIds.contains(i.name)) {
+                clusterManager.addItem(i)
             }
         }
         clusterManager.cluster()
