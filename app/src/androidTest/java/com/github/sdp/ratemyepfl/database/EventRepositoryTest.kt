@@ -74,13 +74,13 @@ class EventRepositoryTest {
             var event = eventRepo.getEventById(testEvent.id)
             assertNotNull(event)
             assertEquals(testEvent.id, event!!.id)
-            assertEquals(2, event.numParticipants)
+            assertEquals(1, event.numParticipants)
 
             eventRepo.decrementParticipants(testEvent.id)
             event = eventRepo.getEventById(testEvent.id)
             assertNotNull(event)
             assertEquals(testEvent.id, event!!.id)
-            assertEquals(1, event.numParticipants)
+            assertEquals(0, event.numParticipants)
         }
     }
 
