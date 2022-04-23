@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
@@ -12,10 +13,14 @@ import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
 
 class ReviewAdapter(
-    private val onLikeClick: (Review) -> Unit,
-    private val onDislikeClick: (Review) -> Unit,
+    val likeListener: OnVoteClickListener,
+    val dislikeListener: OnVoteClickListener
 ) :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<Review>()) {
+
+    fun interface OnVoteClickListener {
+        fun onClick(review: Review)
+    }
 
     /**
      * Provide a reference to the type of views that you are using
@@ -48,12 +53,12 @@ class ReviewAdapter(
 
             /* Dislike button logic */
             dislikeButton.setOnClickListener {
-                onDislikeClick(currentReview)
+                dislikeListener.onClick(review)
             }
 
             /* Like button logic */
             likeButton.setOnClickListener {
-                onLikeClick(currentReview)
+                likeListener.onClick(review)
             }
         }
     }

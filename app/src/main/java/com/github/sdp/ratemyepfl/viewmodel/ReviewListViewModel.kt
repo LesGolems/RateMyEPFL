@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +38,9 @@ open class ReviewListViewModel @Inject constructor(
 
     fun updateReviewsList() {
         viewModelScope.launch {
-            reviews.postValue(reviewRepo.getByReviewableId(id))
+            reviews.postValue(reviewRepo.getByReviewableId(id)
+                .toMutableList()
+                .sortedBy { r -> -r.likers.size })
         }
     }
 
@@ -52,5 +55,21 @@ open class ReviewListViewModel @Inject constructor(
                 reviewRepo.addUidInArray(fieldName, review.id, uid)
             }
         }
+    }
+
+    fun sortByVotes() {
+        reviews.value?.let {
+            reviews.postValue(it.sortedBy { review -> -review.likers.size })
+        }
+    }
+
+    fun updateLikes(review: Review) {
+        updateVotes(review, review.likers, ReviewRepository.LIKERS_FIELD_NAME)
+        updateReviewsList()
+    }
+
+    fun updateDislikes(review: Review) {
+        updateVotes(review, review.dislikers, ReviewRepository.DISLIKERS_FIELD_NAME)
+        updateReviewsList()
     }
 }
