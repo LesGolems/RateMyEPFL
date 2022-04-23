@@ -29,7 +29,7 @@ class SplashScreenTest {
     @Test
     fun userLoggedInGoesToMain() {
         init()
-        FakeConnectedUser.loggedIn = true
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
@@ -40,7 +40,7 @@ class SplashScreenTest {
     @Test
     fun userPressingVisitorGoesToMain() {
         init()
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         onView(withId(R.id.visitorButton)).perform(click())
@@ -52,7 +52,7 @@ class SplashScreenTest {
     @Test
     fun userPressingLogInGoesToGoogle() {
         init()
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         onView(withId(R.id.loginButton)).perform(click())

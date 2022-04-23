@@ -12,6 +12,7 @@ class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
         users.put("56789", User("56789", "Marc", "Marc.Antoine@gmail.com"))
         users.put("18189", User("18189", "Charolais", "Etienne.cdp@gmail.com"))
         users.put("30220", User("30220", "x_sasuke9", "Celestin.Renaut@gmail.com"))
+        users.put("12345", User("12345", "John Smith", "john@example.com"))
     }
 
     override suspend fun getUserByUid(uid: String): User? {

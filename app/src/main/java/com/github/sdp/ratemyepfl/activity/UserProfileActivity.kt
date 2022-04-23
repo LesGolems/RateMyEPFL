@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.activity
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -11,13 +10,13 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
-import java.lang.Exception
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,7 +31,7 @@ class UserProfileActivity : AppCompatActivity() {
     private lateinit var modifyButton: ImageButton
 
     @Inject
-    lateinit var currentUser : ConnectedUser
+    lateinit var currentUser: ConnectedUser
 
     private val viewModel by viewModels<UserProfileViewModel>()
 
@@ -73,7 +72,7 @@ class UserProfileActivity : AppCompatActivity() {
 
     val updateProfile = View.OnClickListener {
         if (!it.isActivated) {
-                enableModifications(true)
+            enableModifications(true)
         } else {
             try {
                 viewModel.changeUsername(usernameText.text.toString())
@@ -104,16 +103,21 @@ class UserProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when(requestCode) {
+        when (requestCode) {
             SELECT_IMAGE -> {
                 if (resultCode == RESULT_OK && data != null) {
                     val photoUri = data.data
                     val source = ImageDecoder.createSource(this.contentResolver, photoUri!!)
                     val bitmap = ImageDecoder.decodeBitmap(source)
                     val image = ImageFile(currentUser.getUserId()!!, bitmap)
-                    viewModel.changeProfilePicture(image)
+                    try {
+                        viewModel.changeProfilePicture(image)
+                    } catch (e: Exception) {
+                        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 }
+
