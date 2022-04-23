@@ -3,10 +3,12 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class EventRepository @Inject constructor(db: FirebaseFirestore) :
+    EventRepositoryInterface,
     Repository(db, EVENT_COLLECTION_PATH) {
 
     companion object {
@@ -27,5 +29,31 @@ class EventRepository @Inject constructor(db: FirebaseFirestore) :
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
             return Event(id, numReviews, averageGrade, numParticipants, limitParticipants, lat, long, date)
         }
+    }
+
+    fun toItem(snapshot: DocumentSnapshot): Event? = snapshot.toEvent()
+
+    override suspend fun getEvents(): List<Event> = take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
+
+    override suspend fun getEventById(id: String): Event? = toItem(getById(id))
+
+    override suspend fun incrementParticipants(id: String) {
+        changeParticipants(id, 1)
+    }
+
+    override suspend fun decrementParticipants(id: String) {
+        changeParticipants(id, -1)
+    }
+
+    private suspend fun changeParticipants(id: String, incDec: Int) {
+        val docRef = collection.document(id)
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+            val numParticipants = snapshot.getString(NUMBER_PARTICIPANTS_FIELD_NAME)?.toInt()
+            if (numParticipants != null) {
+                transaction.update(docRef, NUMBER_PARTICIPANTS_FIELD_NAME, (numParticipants + incDec).toString())
+            }
+            null
+        }.await()
     }
 }
