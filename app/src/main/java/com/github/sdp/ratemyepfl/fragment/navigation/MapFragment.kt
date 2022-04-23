@@ -106,13 +106,13 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
 
         restaurantViewModel.restaurants.observe(this) {
             it?.let { l ->
-                restaurantsObserver(l)
+                listsObserver(l)
             }
         }
 
         eventListViewModel.events.observe(this) {
             it?.let { l ->
-                eventsObserver(l)
+                listsObserver(l)
             }
         }
 
@@ -120,29 +120,26 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     }
 
     /**
-     * Update restaurant markers
+     * Update list of markers
      */
-    private fun restaurantsObserver(restaurants: List<Restaurant>) {
-        val rs = restaurants.map { r ->
-            RestaurantItem(r,
-                MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
-                BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
-            )
+    private fun listsObserver(reviewables: List<Reviewable>) {
+        val items = reviewables.map { r ->
+            when (r.javaClass) {
+                Event::class.java ->
+                    EventItem(
+                        r as Event,
+                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
+                        BitmapDescriptorFactory.fromResource(R.raw.event_marker)
+                    )
+                else ->
+                    RestaurantItem(
+                        r as Restaurant,
+                        MapActivityUtils.PHOTO_MAPPING.getOrDefault(r.id, R.raw.niki), // Arbitrary default value
+                        BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
+                    )
+            }
         }
-        addItems(rClusterManager, rs)
-    }
-
-    /**
-     * Update event markers
-     */
-    private fun eventsObserver(events: List<Event>) {
-        val es = events.map { e ->
-            EventItem(e,
-                MapActivityUtils.PHOTO_MAPPING.getOrDefault(e.id, R.raw.niki), // Arbitrary default value
-                BitmapDescriptorFactory.fromResource(R.raw.event_marker)
-            )
-        }
-        addItems(rClusterManager, es)
+        addItems(rClusterManager, items)
     }
 
     /**
