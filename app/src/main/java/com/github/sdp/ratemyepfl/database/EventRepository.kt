@@ -56,4 +56,8 @@ class EventRepository @Inject constructor(db: FirebaseFirestore) :
             null
         }.await()
     }
+
+    fun add(event: Event) {
+        collection.document(event.id).set(event.toHashMap())
+    }
 }
