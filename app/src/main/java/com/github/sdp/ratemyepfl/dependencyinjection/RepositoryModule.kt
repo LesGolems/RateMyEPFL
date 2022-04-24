@@ -26,6 +26,10 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideEventRepo(repo: EventRepository): EventRepositoryInterface
+
+    @Singleton
+    @Binds
     abstract fun provideReviewRepo(repo: ReviewRepository): ReviewRepositoryInterface
 
     @Singleton
