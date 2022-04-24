@@ -1,7 +1,10 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RestaurantRepository
+import com.github.sdp.ratemyepfl.utils.MapActivityUtils
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,7 +15,7 @@ data class Restaurant(
     val long: Double,
     override val numReviews: Int,
     override val averageGrade: Double,
-) : Reviewable() {
+) : Reviewable(), Displayable {
 
     public val MAX_OCCUPANCY = 50;
 
@@ -21,7 +24,7 @@ data class Restaurant(
     }
 
     /**
-     * Creates an hash map of the Course, to add it to the DB
+     * Creates an hash map of the Restaurant, to add it to the DB
      */
     fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
@@ -30,6 +33,14 @@ data class Restaurant(
             RestaurantRepository.LONGITUDE_FIELD_NAME to long.toString(),
             Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
             Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString()
+        )
+    }
+
+    override fun toMapItem(): MapItem {
+        return RestaurantItem(
+            this,
+            MapActivityUtils.PHOTO_MAPPING.getOrDefault(id, R.raw.niki), // Arbitrary default value
+            BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
         )
     }
 
