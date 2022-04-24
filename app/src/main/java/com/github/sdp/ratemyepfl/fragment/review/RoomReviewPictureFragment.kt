@@ -3,25 +3,29 @@ package com.github.sdp.ratemyepfl.fragment.review
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.ImageUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
+import java.io.File
 
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
@@ -38,6 +42,8 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     private lateinit var capturePhotoFAB: FloatingActionButton
     private lateinit var selectPhotoFAB: FloatingActionButton
+
+    private lateinit var currentPhotoPath: String
 
     private val pictureViewModel by activityViewModels<ClassroomPictureViewModel>()
 
@@ -67,6 +73,12 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
         capturePhotoFAB.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            val photoFile = createImageFile()
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(), "com.github.sdp.ratemyepfl.fileprovider", photoFile
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            intent.putExtra("return-data", true)
             startActivityForResult(intent, CAPTURE_PHOTO)
         }
     }
@@ -87,8 +99,8 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
                 }
             }
             CAPTURE_PHOTO -> {
-                if (resultCode == RESULT_OK && data != null) {
-                    val bitmap = data.extras?.get("data") as Bitmap
+                if (resultCode == RESULT_OK) {
+                    val bitmap = BitmapFactory.decodeFile(currentPhotoPath)
                     uploadPicture(bitmap)
                 }
             }
@@ -100,13 +112,22 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         pictureViewModel.updatePicturesList()
     }
 
+
     private fun uploadPicture(bitmap: Bitmap) {
-        val id = ImageUtils.createImageId()
+        val id = ImageUtils.timeStamp()
         try {
             pictureViewModel.uploadPicture(ImageFile(id, bitmap))
-            Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG)
+                .show()
         } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun createImageFile(): File {
+        val id = ImageUtils.timeStamp()
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(id, ImageStorage.FILE_EXTENSION, storageDir)
+            .apply { currentPhotoPath = absolutePath }
     }
 }

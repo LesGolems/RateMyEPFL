@@ -2,23 +2,18 @@ package com.github.sdp.ratemyepfl.utils
 
 import android.app.Activity
 import android.app.Instrumentation
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.net.Uri
-import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.github.sdp.ratemyepfl.R
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import java.io.File

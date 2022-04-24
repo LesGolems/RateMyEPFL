@@ -5,12 +5,12 @@ import java.util.*
 
 object ImageUtils {
 
-    // year-Month-day-Hour-minute-second-milliseconds
-    private const val FILENAME_FORMAT = "yy-MM-dd-HH-mm-ss-SSS"
+    // year-Month-day-Hour-minute-second-Milliseconds
+    const val FILENAME_FORMAT = "yy-MM-dd-HH-mm-ss-SSS"
 
     /**
      * Create a time-stamped name for an image
      */
-    fun createImageId(): String =
+    fun timeStamp(): String =
         SimpleDateFormat(FILENAME_FORMAT, Locale.getDefault()).format(System.currentTimeMillis())
 }
