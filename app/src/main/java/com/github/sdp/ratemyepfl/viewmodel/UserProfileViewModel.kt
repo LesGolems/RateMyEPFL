@@ -67,6 +67,10 @@ class UserProfileViewModel @Inject constructor(
         TODO()
     }
 
+    fun addClass(c : Class){
+        TODO()
+    }
+
     fun changeUsername(newUsername: String) {
         if (newUsername.length > 12) {
             throw IllegalArgumentException("$newUsername should be at most 12 characters long.")

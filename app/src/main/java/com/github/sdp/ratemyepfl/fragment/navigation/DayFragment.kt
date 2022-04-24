@@ -3,14 +3,12 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.adapter.ClassAdapter
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +21,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         super.onViewCreated(view, savedInstanceState)
 
         val day = arguments?.get("day").toString()
-        val timetable = arguments?.get("timetable")
+        val timetable = arguments?.getSerializable("timetable")
 
         message = view.findViewById(R.id.dayString)
         message.text = day
@@ -31,7 +29,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         if(day == null || timetable == null) return
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        //recyclerView.adapter =
+        recyclerView.adapter = ClassAdapter(day, timetable as List<Class>)
     }
 
     enum class DAYS(val day: String) {

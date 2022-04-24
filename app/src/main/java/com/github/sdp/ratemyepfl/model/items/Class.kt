@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model.items
 
-class Class (
+data class Class (
     val id: Int? = null,
     val name: String? = null,
     val teacher: String? = null,

@@ -26,25 +26,29 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
         tabLayout = view.findViewById(R.id.timetableTabLayout)
         viewPager = view.findViewById(R.id.timetableTabViewPager)
 
-        val timetable = viewModel.timetable().value!!
+        val timetable = viewModel.timetable().value
 
-        // get timetable and load proper timetable for each day in fragment
+        if (timetable != null && timetable.isNotEmpty()) {
+            val fragments = DayFragment.DAYS.values()
+                .map {
+                    val classes =
+                        timetable.filter { c -> c.day == it.ordinal }.toCollection(ArrayList())
+                    it.toFragment(it.day, classes)
+                }
+                .toList()
 
-        val fragments = DayFragment.DAYS.values()
-            .map { it.toFragment(it.day, timetable) }
-            .toList()
+            val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+            viewPager.currentItem = if (today in 0..4) today else 0
 
-        val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2
-        viewPager.currentItem = if (today in 0..4) today else 0
+            viewPager.offscreenPageLimit = fragments.size
+            val viewPagerAdapter = FragmentViewPagerAdapter(fragments, this)
+            viewPager.adapter = viewPagerAdapter
 
-        viewPager.offscreenPageLimit = fragments.size
-        val viewPagerAdapter = FragmentViewPagerAdapter(fragments, this)
-        viewPager.adapter = viewPagerAdapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = DayFragment.DAYS
-                .values()[position]
-                .day
-        }.attach()
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = DayFragment.DAYS
+                    .values()[position]
+                    .day
+            }.attach()
+        }
     }
 }
