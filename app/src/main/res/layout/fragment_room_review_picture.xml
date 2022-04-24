@@ -13,6 +13,20 @@
         android:orientation="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/selectPhotoFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/button_for_selecting_a_photo_from_the_gallery"
+        android:elevation="50dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/capturePhotoFAB"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/capturePhotoFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,21 +38,6 @@
         android:src="@android:drawable/ic_menu_camera"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/selectPhotoFAB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/button_for_selecting_a_photo_from_the_gallery"
-        android:elevation="50dp"
-        android:src="@android:drawable/ic_menu_gallery"
-        app:borderWidth="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/capturePhotoFAB"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
