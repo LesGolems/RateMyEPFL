@@ -29,7 +29,7 @@ class LoaderRepositoryImplTest {
     val hiltRule = HiltAndroidRule(this)
 
     private val items = (0..30)
-        .map { Item(it.toString(), it % 3) }
+        .map { Item(it.toString(), it) }
         .toList()
 
     private lateinit var query0: OrderedQuery
@@ -37,12 +37,12 @@ class LoaderRepositoryImplTest {
     private lateinit var query2: OrderedQuery
 
     private val items0: List<Item> = items.filter {
-        it.data == 0
+        it.data in 0..9
     }
 
-    private val items1 = items.filter { it.data == 1 }
+    private val items1 = items.filter { it.data in 10..19 }
 
-    private val items2 = items.filter { it.data == 2 }
+    private val items2 = items.filter { it.data in 20..30 }
 
 
     @Before
@@ -60,17 +60,18 @@ class LoaderRepositoryImplTest {
 
         query0 = repository
             .query()
-            .whereEqualTo(Item.DATA_FIELD, 0)
+            .whereLessThan(Item.DATA_FIELD, 10)
             .orderBy(Item.DATA_FIELD)
 
         query1 = repository
             .query()
-            .whereEqualTo(Item.DATA_FIELD, 1)
+            .whereGreaterThanOrEqualTo(Item.DATA_FIELD, 10)
+            .whereLessThan(Item.DATA_FIELD, 20)
             .orderBy(Item.DATA_FIELD)
 
         query2 = repository
             .query()
-            .whereEqualTo(Item.DATA_FIELD, 2)
+            .whereGreaterThanOrEqualTo(Item.DATA_FIELD, 20)
             .orderBy(Item.DATA_FIELD)
     }
 
@@ -107,7 +108,7 @@ class LoaderRepositoryImplTest {
                                     is QueryState.Loading -> {}
                                     is QueryState.Success -> {
                                         assertEquals(true, items0.containsAll(it.data))
-                                        assertEquals(l2.data, it.data)
+                                        assertEquals(6, l2.data.size)
                                     }
                                 }
                             }

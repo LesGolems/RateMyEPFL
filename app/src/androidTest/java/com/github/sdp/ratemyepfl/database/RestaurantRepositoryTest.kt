@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
@@ -102,6 +103,7 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString(RestaurantRepositoryImpl.NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
         Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
@@ -115,6 +117,7 @@ class RestaurantRepositoryTest {
             .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
+            .setOccupancy(0)
             .build()
         assertEquals(fakeRestaurant, restaurant)
     }

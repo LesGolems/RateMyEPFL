@@ -21,7 +21,7 @@ data class Classroom(
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            ClassroomRepositoryImpl.NAME_FIELD_NAME to name,
+            ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME to name,
             ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
             ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
             ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind

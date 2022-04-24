@@ -2,17 +2,18 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.MAX_QUERY_LIMIT
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 
 
 /**
- * A query ordered on exactly one field
+ * A query ordered on provided fields
  */
-data class OrderedQuery(private val query: FirebaseQuery, val field: String) {
+data class OrderedQuery(private val query: FirebaseQuery, val fields: List<String>) {
 
     private fun orderedQuery(query: FirebaseQuery) =
-        OrderedQuery(query, field)
+        OrderedQuery(query, fields)
+
+    constructor(query: FirebaseQuery, vararg fields: String) : this(query, fields.toList())
 
     companion object {
         private const val SUFFIX_MATCHER = "\uf8ff"
@@ -159,17 +160,42 @@ data class OrderedQuery(private val query: FirebaseQuery, val field: String) {
         Query(query).execute(limit)
 
 
-    fun startAt(value: Any?) =
-        orderedQuery(query.startAt(value))
+    fun startAt(values: List<Any?>) =
+        orderedQuery(query.startAt(*check(values)))
 
-    fun startAfter(value: Any?) =
-        orderedQuery(query.startAfter(value))
+    fun startAfter(values: List<Any?>) =
+        orderedQuery(query.startAfter(*check(values)))
 
-    fun endAt(value: Any?) =
-        orderedQuery(query.endAt(value))
+    fun endAt(values: List<Any?>) =
+        orderedQuery(query.endAt(*check(values)))
 
-    fun endBefore(value: Any?) =
-        orderedQuery(query.endBefore(value))
+    fun endBefore(values: List<Any?>) =
+        orderedQuery(query.endBefore(*check(values)))
+
+    fun startAt(vararg values: Any?) = startAt(values.toList())
+    fun startAfter(vararg values: Any?) = startAfter(values.toList())
+    fun endAt(vararg values: Any?) = endAt(values.toList())
+    fun endBefore(vararg values: Any?) = endBefore(values.toList())
+
+    private fun check(values: List<Any?>): Array<Any?> =
+        if (values.size != fields.size)
+            throw IllegalArgumentException("Must provide the same number of fields (here ${fields.size}")
+        else values.toTypedArray()
+
+    /**
+     * Creates and returns a new Query with the additional filter that documents must contain the
+     * specified field, and ordered on the provided field.
+     *
+     * @param field: the field to order
+     * @param direction: the direction f the order, ascending by default
+     *
+     * @return an [OrderedQuery]
+     */
+    fun orderBy(
+        field: String,
+        direction: com.google.firebase.firestore.Query.Direction = com.google.firebase.firestore.Query.Direction.ASCENDING
+    ): OrderedQuery =
+        OrderedQuery(query.orderBy(field, direction), fields + field)
 
     /**
      * Return a new [OrderedQuery] where the documents matches a given prefix in a given field.

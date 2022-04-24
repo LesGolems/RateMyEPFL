@@ -27,11 +27,11 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
     companion object {
         const val CLASSROOM_COLLECTION_PATH = "rooms"
         const val ROOM_KIND_FIELD_NAME = "roomKind"
-        const val NAME_FIELD_NAME = "name"
+        const val ROOM_NAME_FIELD_NAME = "name"
 
         fun DocumentSnapshot.toClassroom(): Classroom? {
             val builder = Classroom.Builder()
-                .setName(getString(NAME_FIELD_NAME))
+                .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
                 .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
                 .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
@@ -56,7 +56,7 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
             .updateRating(id, rating)
     
     override fun search(pattern: String): QueryResult<List<Classroom>> =
-        repository.search(pattern, NAME_FIELD_NAME)
+        repository.search(pattern, ROOM_NAME_FIELD_NAME)
 
 
 }

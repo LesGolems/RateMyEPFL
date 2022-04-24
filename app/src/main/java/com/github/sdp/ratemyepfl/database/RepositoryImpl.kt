@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 
-import com.github.sdp.ratemyepfl.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot

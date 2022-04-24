@@ -78,6 +78,7 @@ class ClassroomRepositoryTest {
 
         val snapshot = mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
@@ -93,6 +94,8 @@ class ClassroomRepositoryTest {
         val snapshot = mock(DocumentSnapshot::class.java)
 
         Mockito.`when`(snapshot.id).thenReturn(null)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn(null)
 

@@ -37,11 +37,11 @@ data class Restaurant(
     /**
      * Builder to create a restaurant step by step
      * Mandatory fields are:
-     *  - [id]
+     *  - [name]
      */
     class Builder(
         private var name: String? = null,
-        private var occupancy: Int? = null,
+        private var occupancy: Int? = 0,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var numReviews: Int? = null,

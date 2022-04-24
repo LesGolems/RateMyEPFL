@@ -91,7 +91,7 @@ class QueryTest {
                     }
                 }
             }
-        assertEquals(6, l.size)
+        assertEquals(6, l.toSet().size)
     }
 
     @Test
