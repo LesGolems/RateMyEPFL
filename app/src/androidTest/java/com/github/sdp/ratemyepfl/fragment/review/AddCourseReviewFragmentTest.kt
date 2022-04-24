@@ -8,8 +8,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
@@ -37,6 +36,7 @@ class AddCourseReviewFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
     }
 
     @After
@@ -46,7 +46,6 @@ class AddCourseReviewFragmentTest {
 
     @Test
     fun nullGradeNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val comment = "Good"
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
@@ -56,7 +55,6 @@ class AddCourseReviewFragmentTest {
 
     @Test
     fun nullCommentNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val title = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(click())
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
@@ -67,7 +65,6 @@ class AddCourseReviewFragmentTest {
 
     @Test
     fun nullTitleNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val comment = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
@@ -79,7 +76,6 @@ class AddCourseReviewFragmentTest {
 
     @Test
     fun nonNullArgumentsResetsAddReview() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
@@ -99,7 +95,6 @@ class AddCourseReviewFragmentTest {
     @Test
     fun userNotConnectedNoReset() {
         FakeConnectedUser.loggedIn = false
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
@@ -114,5 +109,40 @@ class AddCourseReviewFragmentTest {
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
         onView(withId(R.id.addReviewTitle)).check(matches(withText(title)))
+    }
+
+    @Test
+    fun anonymousSwitchIsDisplayedAndUncheckedOnLoad() {
+        onView(withId(R.id.anonymous_switch)).check(matches(isDisplayed()))
+        onView(withId(R.id.anonymous_switch)).check(matches(withText("Anonymous")))
+        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
+    }
+
+    @Test
+    fun anonymousSwitchWorks() {
+        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.anonymous_switch)).check(matches(isChecked()))
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
+    }
+
+    @Test
+    fun anonymousReviewWorks() {
+        val comment = "Good"
+        val title = "Good title"
+        onView(withId(R.id.reviewRatingBar)).perform(
+            performSetRating(
+                ReviewRating.GOOD
+            )
+        )
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
+        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
     }
 }
