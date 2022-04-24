@@ -104,4 +104,9 @@ class RoomReviewPictureFragmentTest {
         release()
     }
 
+    @Test
+    fun startCamera() {
+        onView(withId(R.id.capturePhotoFAB)).perform(click())
+    }
+
 }

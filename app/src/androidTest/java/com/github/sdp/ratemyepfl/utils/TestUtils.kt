@@ -28,10 +28,10 @@ object TestUtils {
     /**
      * Turns a drawable into a bitmap
      */
-    fun drawableToBitmap(@DrawableRes drawableId: Int): Bitmap {
+    fun resourceToBitmap(resourceId: Int): Bitmap {
         return BitmapFactory.decodeResource(
             ApplicationProvider.getApplicationContext<Context>().resources,
-            drawableId
+            resourceId
         )
     }
 

@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
+import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.*
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltAndroidTest
 class ImageStorageTest {
-    val pic = ImageFile("testPic", drawableToBitmap(R.raw.pp1))
-    val bigPic = ImageFile("testPic2", drawableToBitmap(R.raw.arcadie))
+    val pic = ImageFile("testPic", resourceToBitmap(R.raw.pp1))
+    val bigPic = ImageFile("testPic2", resourceToBitmap(R.raw.arcadie))
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
