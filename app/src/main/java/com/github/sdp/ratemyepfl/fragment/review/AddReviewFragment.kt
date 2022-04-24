@@ -104,26 +104,18 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (checkLogin()) {
-            try {
-                submitReview()
-                reset()
-                // Bar that will appear at the bottom of the screen
-                Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(R.id.reviewNavigationView)
-                    .show()
-            } catch (e: Exception) {
-                e.message?.let {
-                    Snackbar.make(requireView(), it, Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.reviewNavigationView)
-                        .show()
-                }
-            }
+        if (checkLogin() && submitReview()) {
+            reset()
+            // Bar that will appear at the bottom of the screen
+            Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.reviewNavigationView)
+                .show()
         } else {
             setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
             setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
     }
+
 
 
     /**

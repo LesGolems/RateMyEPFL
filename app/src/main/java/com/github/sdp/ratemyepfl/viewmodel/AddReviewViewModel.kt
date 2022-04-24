@@ -71,13 +71,13 @@ class AddReviewViewModel @Inject constructor(
 
         // only connected users may add reviews
         if (!connectedUser.isLoggedIn()) {
-            throw IllegalStateException("You must be connected to add a review.")
+            return null
         } else if (comment == null || comment == "") {
-            throw IllegalStateException("You must add a comment.")
+            return null
         } else if (title == null || title == "") {
-            throw IllegalStateException("You must add a title.")
+            return null
         } else if (rating == null) {
-            throw IllegalStateException("You must add a star rating.")
+            return null
         }
 
         if (!anonymous.value!!) {
