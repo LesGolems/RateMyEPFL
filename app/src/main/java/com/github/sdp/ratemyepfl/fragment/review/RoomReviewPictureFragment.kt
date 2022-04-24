@@ -63,24 +63,10 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         }
 
         selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
-        selectPhotoFAB.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select a picture"), SELECT_PHOTO)
-        }
+        selectPhotoFAB.setOnClickListener { startGallery() }
 
         capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
-        capturePhotoFAB.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val photoFile = createImageFile()
-            val photoUri = FileProvider.getUriForFile(
-                requireContext(), "com.github.sdp.ratemyepfl.fileprovider", photoFile
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            intent.putExtra("return-data", true)
-            startActivityForResult(intent, CAPTURE_PHOTO)
-        }
+        capturePhotoFAB.setOnClickListener { startCamera() }
     }
 
     @Deprecated("Deprecated in Java")
@@ -112,6 +98,22 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         pictureViewModel.updatePicturesList()
     }
 
+    private fun startGallery() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select a picture"), SELECT_PHOTO)
+    }
+
+    private fun startCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoFile = createImageFile()
+        val photoUri = FileProvider.getUriForFile(
+            requireContext(), "com.github.sdp.ratemyepfl.fileprovider", photoFile
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(intent, CAPTURE_PHOTO)
+    }
 
     private fun uploadPicture(bitmap: Bitmap) {
         val id = ImageUtils.timeStamp()
