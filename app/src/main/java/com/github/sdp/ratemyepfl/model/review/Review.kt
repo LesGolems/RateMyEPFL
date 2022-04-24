@@ -23,7 +23,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     var dislikers: List<String> = listOf()
 ) : FirestoreItem {
 
-    private var id: String = UNKNOWN_ID
+    // By default, the id of the review is a hash of this review
+    private var id: String = this.hashCode().toString()
 
     companion object {
         /**
@@ -42,7 +43,6 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          */
         fun deserialize(review: String): Review = Json.decodeFromString(review)
 
-        const val UNKNOWN_ID = "Unknown"
     }
 
     fun serialize(): String = Companion.serialize(this)

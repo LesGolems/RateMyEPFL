@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.QueryResult
-import com.github.sdp.ratemyepfl.database.QueryState
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

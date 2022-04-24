@@ -9,6 +9,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -41,14 +42,14 @@ class ReviewRepositoryTest {
     fun setup() {
         hiltRule.inject()
         runTest {
-            reviewRepo.addAsync(testReview, testReview.getId()).await()
+            reviewRepo.addWithId(testReview, testReview.getId()).await()
         }
     }
 
     @After
     fun clean() {
         runTest {
-            reviewRepo.removeAsync(testReview.getId()).await()
+            reviewRepo.remove(testReview.getId()).await()
         }
     }
 

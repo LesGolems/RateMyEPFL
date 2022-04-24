@@ -15,14 +15,16 @@ data class Classroom(
     override fun toString(): String = name
 
     override fun getId(): String = name
+
     /**
      * Creates an hash map of the Classroom
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
+            ClassroomRepositoryImpl.NAME_FIELD_NAME to name,
             ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
             ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            ClassroomRepositoryImpl.ROOM_KIND_FIELD to roomKind
+            ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind
         )
     }
 
@@ -31,11 +33,12 @@ data class Classroom(
      * Mandatory fields are:
      *  - [name]
      */
-    class Builder : ReviewableBuilder<Classroom> {
-        private var name: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var roomKind: String? = null
+    class Builder(
+        private var name: String? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+        private var roomKind: String? = null,
+    ) : ReviewableBuilder<Classroom> {
 
         fun setName(id: String?) = apply {
             this.name = id

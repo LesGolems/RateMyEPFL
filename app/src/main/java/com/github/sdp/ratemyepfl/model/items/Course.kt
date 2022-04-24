@@ -24,6 +24,7 @@ data class Course(
     }
 
     override fun getId(): String = courseCode
+
     /**
      * Creates an hash map of the Course
      */
@@ -33,6 +34,7 @@ data class Course(
             CourseRepositoryImpl.SECTION_FIELD_NAME to section,
             CourseRepositoryImpl.TEACHER_FIELD_NAME to teacher,
             CourseRepositoryImpl.CREDITS_FIELD_NAME to credits.toString(),
+            CourseRepositoryImpl.COURSE_CODE_FIELD_NAME to courseCode,
             ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
             ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
             CourseRepositoryImpl.CYCLE_FIELD_NAME to cycle,
@@ -51,18 +53,20 @@ data class Course(
      * - [teacher]
      * - [credits]
      */
-    class Builder : ReviewableBuilder<Course> {
-        private var title: String? = null
-        private var section: String? = null
-        private var teacher: String? = null
-        private var credits: Int? = null
-        private var courseCode: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var cycle: String? = null
-        private var session: String? = null
-        private var grading: String? = null
-        private var language: String? = null
+    class Builder(
+        private var title: String? = null,
+        private var section: String? = null,
+        private var teacher: String? = null,
+        private var credits: Int? = null,
+        private var courseCode: String? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+        private var cycle: String? = null,
+        private var session: String? = null,
+        private var grading: String? = null,
+        private var language: String? = null,
+    ) : ReviewableBuilder<Course> {
+
 
         fun setTitle(title: String?) = apply {
             this.title = title
@@ -117,7 +121,19 @@ data class Course(
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
 
-            return Course(title, section, teacher, credits, courseCode, numReviews, averageGrade, cycle, session, grading, language)
+            return Course(
+                title,
+                section,
+                teacher,
+                credits,
+                courseCode,
+                numReviews,
+                averageGrade,
+                cycle,
+                session,
+                grading,
+                language
+            )
         }
 
     }

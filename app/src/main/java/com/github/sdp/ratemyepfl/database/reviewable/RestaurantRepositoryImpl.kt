@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.query.Query
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
@@ -25,23 +26,26 @@ class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaura
         })
 
     companion object {
+        const val NAME_FIELD_NAME: String = "name"
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
         const val LATITUDE_FIELD_NAME = "lat"
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? {
-            val occupancy = getString(OCCUPANCY_FIELD_NAME)?.toInt() ?: 0
-            val lat = getString(LATITUDE_FIELD_NAME)?.toDouble() ?: 0.0
-            val lon = getString(LONGITUDE_FIELD_NAME)?.toDouble() ?: 0.0
-            val numReviews = getString(NUM_REVIEWS_FIELD_NAME)?.toInt() ?: 0
-            val averageGrade = getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble() ?: 0.0
-            return Restaurant(id, occupancy, lat, lon, numReviews, averageGrade)
+            val name = getString(NAME_FIELD_NAME)
+            val occupancy = getString(OCCUPANCY_FIELD_NAME)?.toInt()
+            val lat = getString(LATITUDE_FIELD_NAME)?.toDouble()
+            val lon = getString(LONGITUDE_FIELD_NAME)?.toDouble()
+            val numReviews = getString(NUM_REVIEWS_FIELD_NAME)?.toInt()
+            val averageGrade = getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble()
+            return Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
+                .build()
         }
     }
 
     override suspend fun getRestaurants(): List<Restaurant> {
-        return repository.take(Repository.DEFAULT_QUERY_LIMIT)
+        return repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
             .mapNotNull { obj -> obj.toRestaurant() }
     }
 
@@ -76,6 +80,6 @@ class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaura
         repository.updateRating(id, rating)
 
     override fun search(pattern: String): QueryResult<List<Restaurant>> =
-        repository.search(pattern)
+        repository.search(pattern, NAME_FIELD_NAME)
 
 }

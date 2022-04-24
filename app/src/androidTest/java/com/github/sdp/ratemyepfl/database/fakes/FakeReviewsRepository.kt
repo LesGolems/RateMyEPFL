@@ -1,14 +1,12 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.QueryResult
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.flow.flow
 import org.mockito.Mockito
 import java.time.LocalDate
 import javax.inject.Inject
@@ -126,7 +124,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
     override suspend fun getById(id: String): DocumentSnapshot =
         Mockito.mock(DocumentSnapshot::class.java)
 
-    override fun removeAsync(id: String): Deferred<Void> = Mockito.mock(Deferred::class.java) as Deferred<Void>
+    override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
 
-    override fun addAsync(item: Review) = Mockito.mock(Deferred::class.java) as Deferred<Void>
+    override fun add(item: Review) = Mockito.mock(Task::class.java) as Task<Void>
 }

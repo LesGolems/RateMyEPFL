@@ -32,7 +32,7 @@ class RestaurantRepositoryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        restaurantRepo.addAsync(testRestaurant)
+        restaurantRepo.add(testRestaurant)
     }
 
     @After

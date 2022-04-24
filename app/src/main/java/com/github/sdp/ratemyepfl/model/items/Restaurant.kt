@@ -19,11 +19,13 @@ data class Restaurant(
     }
 
     override fun getId(): String = name
+
     /**
      * Creates an hash map of the Course, to add it to the DB
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
+            RestaurantRepositoryImpl.NAME_FIELD_NAME to name,
             RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy.toString(),
             RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat.toString(),
             RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long.toString(),
@@ -37,12 +39,15 @@ data class Restaurant(
      * Mandatory fields are:
      *  - [id]
      */
-    class Builder : ReviewableBuilder<Restaurant> {
-        private var name: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var lat: Double? = null
-        private var long: Double? = null
+    class Builder(
+        private var name: String? = null,
+        private var occupancy: Int? = null,
+        private var lat: Double? = null,
+        private var long: Double? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+    ) : ReviewableBuilder<Restaurant> {
+
 
         fun setName(name: String?) = apply {
             this.name = name
@@ -64,13 +69,18 @@ data class Restaurant(
             this.long = long
         }
 
+        fun setOccupancy(occupancy: Int?) = apply {
+            this.occupancy = occupancy
+        }
+
         override fun build(): Restaurant {
             val name = this asMandatory name
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
+            val occupancy = this asMandatory occupancy
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(name, 0, lat, long, numReviews, averageGrade)
+            return Restaurant(name, occupancy, lat, long, numReviews, averageGrade)
         }
     }
 

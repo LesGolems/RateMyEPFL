@@ -37,7 +37,7 @@ class CourseRepositoryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        courseRepo.addAsync(testCourse)
+        courseRepo.add(testCourse)
     }
 
     @After

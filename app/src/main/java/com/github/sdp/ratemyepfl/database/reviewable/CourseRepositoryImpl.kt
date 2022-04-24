@@ -1,9 +1,9 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.QueryResult
-import com.github.sdp.ratemyepfl.database.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.Repository
-import com.github.sdp.ratemyepfl.database.Repository.Companion.DEFAULT_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Course
@@ -26,6 +26,7 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
         })
 
     companion object {
+        const val COURSE_CODE_FIELD_NAME: String = "course_code"
         const val COURSE_COLLECTION_PATH = "courses"
         const val TITLE_FIELD_NAME = "title"
         const val SECTION_FIELD_NAME = "section"
@@ -39,7 +40,7 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
 
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
-                .setCourseCode(id)
+                .setCourseCode(getString(COURSE_CODE_FIELD_NAME))
                 .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
                 .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
                 .setTitle(getString(TITLE_FIELD_NAME))
@@ -66,7 +67,7 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
     )
     override suspend fun getCourses(): List<Course> =
         repository
-            .take(DEFAULT_QUERY_LIMIT).mapNotNull { obj -> obj.toCourse() }
+            .take(DEFAULT_QUERY_LIMIT.toLong()).mapNotNull { obj -> obj.toCourse() }
 
     override suspend fun getCourseById(id: String): Course? =
         repository
@@ -77,7 +78,7 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
             .updateRating(id, rating)
 
     override fun search(pattern: String): QueryResult<List<Course>> {
-        val byId = repository.search(pattern)
+        val byId = repository.search(pattern, COURSE_CODE_FIELD_NAME)
         val byTitle = repository.search(pattern, TITLE_FIELD_NAME)
         // Merge the two flows and map the content to Course
         return listOf(byId, byTitle).merge()

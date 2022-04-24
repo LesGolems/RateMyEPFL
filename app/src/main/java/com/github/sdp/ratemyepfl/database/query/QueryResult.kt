@@ -1,7 +1,6 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.query
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.map
 
 /**

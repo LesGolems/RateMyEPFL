@@ -1,12 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.Repository.Companion.DEFAULT_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
@@ -59,12 +59,12 @@ class ReviewRepository(val repository: RepositoryImpl<Review>) : ReviewRepositor
      *
      * @param item: the [Review] to add
      */
-    override fun addAsync(item: Review): Deferred<Void> {
+    override fun add(item: Review): Task<Void> {
         val document = repository
             .collection
             .document()
 
-        return addAsync(item, document.id)
+        return addWithId(item, document.id)
     }
 
     /**
@@ -74,12 +74,13 @@ class ReviewRepository(val repository: RepositoryImpl<Review>) : ReviewRepositor
      * @param withId: a provided unique identifier
      *
      */
-    fun addAsync(review: Review, withId: String) =
-        repository.addAsync(review.withId(withId))
+    fun addWithId(review: Review, withId: String) =
+        repository.add(review.withId(withId))
 
 
     override suspend fun getReviews(): List<Review> =
-        repository.take(DEFAULT_QUERY_LIMIT).mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
+        repository.take(DEFAULT_QUERY_LIMIT.toLong())
+            .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
 
 
     override suspend fun getReviewById(id: String): Review? = repository

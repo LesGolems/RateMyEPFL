@@ -68,7 +68,7 @@ class AddReviewViewModel @Inject constructor(
             .setDate(date)
         try {
             val review = builder.build()
-            reviewRepo.addAsync(review)
+            reviewRepo.add(review)
         } catch (e: IllegalStateException) { }
 
         return rating

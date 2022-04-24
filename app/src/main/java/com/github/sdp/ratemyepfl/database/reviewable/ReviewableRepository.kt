@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 
 /**
@@ -15,7 +15,7 @@ interface ReviewableRepository<T: Reviewable> {
      *
      * @return a [QueryResult] containing the result as a list of reviewable
      */
-    fun loadMostRated(number: Long): QueryResult<List<T>>
+    fun loadMostRated(number: Int): QueryResult<List<T>>
 
     /**
      * Load a given number of [Reviewable] by decreasing average grade.
@@ -24,5 +24,5 @@ interface ReviewableRepository<T: Reviewable> {
      *
      * @return a [QueryResult] containing the result as a list of reviewable
      */
-    fun loadBestRated(number: Long): QueryResult<List<T>>
+    fun loadBestRated(number: Int): QueryResult<List<T>>
 }

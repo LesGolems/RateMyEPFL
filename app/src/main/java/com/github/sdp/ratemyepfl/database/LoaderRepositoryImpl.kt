@@ -1,7 +1,11 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.FirebaseQuery
+import com.github.sdp.ratemyepfl.database.query.OrderedQuery
+import com.github.sdp.ratemyepfl.database.query.Query
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.Query
 
 /**
  * Defines a repository that loads data on-the-fly. It abstracts the loading of the data in such a
@@ -16,17 +20,17 @@ class LoaderRepositoryImpl<T: FirestoreItem>(
     private val transform: (DocumentSnapshot) -> T?
 ) : Repository<T> by repository, LoaderRepository<T> {
 
-    val collection = repository.collection
-    val database = repository.database
+    internal val collection = repository.collection
+    internal val database = repository.database
 
-    private val loadedData: HashMap<Query, List<T>> = hashMapOf()
+    private val loadedData: HashMap<OrderedQuery, List<T>> = hashMapOf()
+    private val lastLoaded: HashMap<OrderedQuery, DocumentSnapshot> = hashMapOf()
 
-    override fun load(query: Query, number: Long): QueryResult<List<T>> {
-        val updatedQuery = query.startAfter(loadedData[query])
-        return repository.execute(updatedQuery, number) { querySnapshot ->
-            querySnapshot.mapNotNull { document ->
-                transform(document)
-            }
+    override fun load(query: OrderedQuery, number: Int): QueryResult<List<T>> {
+        val updatedQuery = query.startAfter(lastLoaded[query]?.get(query.field))
+        return updatedQuery.execute(number)
+            .mapResult { querySnapshot ->
+            querySnapshot.documents.filterNotNull()
         }.mapResult { data ->
             updateData(query, data)
         }
@@ -39,10 +43,21 @@ class LoaderRepositoryImpl<T: FirestoreItem>(
      *
      * @return a list containing the data loaded so far
      */
-    private fun updateData(query: Query, data: List<T>): List<T> {
+    private fun updateData(query: OrderedQuery, data: List<DocumentSnapshot>): List<T> {
         val loaded = loadedData.getOrDefault(query, listOf())
-        val updated = loaded + data
-        loadedData[query] = updated
-        return updated
+        return if (data.isNotEmpty()) {
+            val last = data.last()
+            val updated = loaded + data.mapNotNull(transform)
+            loadedData[query] = updated
+            lastLoaded[query] = last
+            updated
+        } else loaded
     }
+
+    /**
+     * Creates a new query to execute
+     *
+     * @return a query on the repository [CollectionReference]
+     */
+    fun query(): Query = repository.query()
 }

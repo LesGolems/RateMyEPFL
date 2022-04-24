@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.QueryResult
+import com.github.sdp.ratemyepfl.database.query.Query
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
@@ -25,12 +26,13 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
 
     companion object {
         const val CLASSROOM_COLLECTION_PATH = "rooms"
-        const val ROOM_KIND_FIELD = "roomKind"
+        const val ROOM_KIND_FIELD_NAME = "roomKind"
+        const val NAME_FIELD_NAME = "name"
 
         fun DocumentSnapshot.toClassroom(): Classroom? {
             val builder = Classroom.Builder()
-                .setName(id)
-                .setRoomKind(getString(ROOM_KIND_FIELD))
+                .setName(getString(NAME_FIELD_NAME))
+                .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
                 .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
                 .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
 
@@ -43,7 +45,7 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
     }
 
     override suspend fun getClassrooms(): List<Classroom> {
-        return repository.take(Repository.DEFAULT_QUERY_LIMIT)
+        return repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
             .mapNotNull { obj -> obj.toClassroom() }
     }
 
@@ -54,7 +56,7 @@ class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom
             .updateRating(id, rating)
     
     override fun search(pattern: String): QueryResult<List<Classroom>> =
-        repository.search(pattern)
+        repository.search(pattern, NAME_FIELD_NAME)
 
 
 }

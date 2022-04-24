@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+
 interface SearchableRepository<T> {
 
     /**
@@ -12,6 +14,6 @@ interface SearchableRepository<T> {
     fun search(pattern: String): QueryResult<List<T>>
 
     companion object {
-        const val LIMIT_QUERY_SEARCH: Long = 5
+        const val LIMIT_QUERY_SEARCH = 5
     }
 }

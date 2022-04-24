@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.query
 
 //typealias QueryResult<T> = Flow<QueryState<T>>
 

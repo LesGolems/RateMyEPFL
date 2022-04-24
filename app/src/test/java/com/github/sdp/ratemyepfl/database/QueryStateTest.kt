@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.QueryState
 import org.junit.Assert.*
 import org.junit.Test
 
