@@ -50,6 +50,7 @@ class AddCourseReviewFragmentTest {
         val comment = "Good"
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
+        onView(withId(R.id.anonymous_switch)).perform(click())
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
     }
