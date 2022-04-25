@@ -12,8 +12,8 @@
         android:id="@+id/reviewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="@string/title_review"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline4"
@@ -23,8 +23,8 @@
         android:id="@+id/overallScoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:text="@string/overall_score_review"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="0dp"
         android:progressTint="@color/purple_500"
@@ -50,8 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="@string/title_edit_text"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addReviewTitle"
@@ -66,8 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="@string/comment_edit_text"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addReviewComment"
@@ -82,8 +82,8 @@
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
         android:id="@+id/anonymous_switch"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:padding="4dp"
+        android:switchPadding="10dp"
         android:text="@string/anonymous">
     </androidx.appcompat.widget.SwitchCompat>
 
