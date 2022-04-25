@@ -63,11 +63,11 @@ class UserProfileViewModel @Inject constructor(
         return picture
     }
 
-    fun timetable(): MutableLiveData<ArrayList<Class>?>{
+    fun timetable(): MutableLiveData<ArrayList<Class>?> {
         TODO()
     }
 
-    fun addClass(c : Class){
+    fun addClass(c: Class) {
         TODO()
     }
 
