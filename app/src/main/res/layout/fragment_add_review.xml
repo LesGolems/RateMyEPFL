@@ -77,6 +77,16 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:id="@+id/anonymous_switch"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/anonymous">
+    </androidx.appcompat.widget.SwitchCompat>
+
     <Button
         android:id="@+id/doneButton"
         style="?attr/materialButtonOutlinedStyle"
@@ -84,16 +94,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/done_button_text" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:id="@+id/anonymous_switch"
-        android:padding="4dp"
-        android:switchPadding="10dp"
-        android:text="@string/anonymous">
-    </androidx.appcompat.widget.SwitchCompat>
-
 
 </LinearLayout>
