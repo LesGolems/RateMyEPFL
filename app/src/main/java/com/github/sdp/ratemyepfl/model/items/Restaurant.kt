@@ -24,14 +24,12 @@ data class Restaurant(
      * Creates an hash map of the Course, to add it to the DB
      */
     override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            RestaurantRepositoryImpl.NAME_FIELD_NAME to name,
-            RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy.toString(),
-            RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat.toString(),
-            RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long.toString(),
-            ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString()
-        )
+        return hashMapOf<String, Any?>(
+            RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME to name,
+            RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy,
+            RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat,
+            RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long,
+        ).apply { putAll(super.toHashMap()) }
     }
 
     /**

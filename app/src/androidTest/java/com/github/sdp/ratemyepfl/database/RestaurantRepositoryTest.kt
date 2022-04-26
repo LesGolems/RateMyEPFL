@@ -1,19 +1,23 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.mockito.Mockito
 import javax.inject.Inject
 
@@ -22,7 +26,8 @@ import javax.inject.Inject
 class RestaurantRepositoryTest {
     private val testRestaurant = Restaurant(
         "Fake id", 1, 0.0,
-        0.0,  0, 0.0)
+        0.0, 0, 0.0
+    )
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -37,8 +42,15 @@ class RestaurantRepositoryTest {
     }
 
     @After
-    fun clean(){
+    fun clean() {
         //restaurantRepo.remove(testRestaurant.id)
+    }
+
+    @Test
+    fun conversionTest() = runTest {
+        restaurantRepo.add(testRestaurant).await()
+        val c = restaurantRepo.getRestaurantById(testRestaurant.getId())
+        assertEquals(testRestaurant, c)
     }
 
     @Test
@@ -103,12 +115,18 @@ class RestaurantRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(RestaurantRepositoryImpl.NAME_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
-        Mockito.`when`(snapshot.getString("lat")).thenReturn(lat.toString())
-        Mockito.`when`(snapshot.getString("long")).thenReturn(long.toString())
-        Mockito.`when`(snapshot.getString("occupancy")).thenReturn(occupancy.toString())
+        Mockito.`when`(snapshot.getString(RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME))
+            .thenReturn(fake)
+        Mockito.`when`(
+            snapshot.getField<Int>(
+                ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME
+            )
+        ).thenReturn(15)
+        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+            .thenReturn(2.5)
+        Mockito.`when`(snapshot.getDouble("lat")).thenReturn(lat)
+        Mockito.`when`(snapshot.getDouble("long")).thenReturn(long)
+        Mockito.`when`(snapshot.getField<Int>("occupancy")).thenReturn(occupancy)
 
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()

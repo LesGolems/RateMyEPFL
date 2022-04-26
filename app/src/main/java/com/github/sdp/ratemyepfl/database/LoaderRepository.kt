@@ -13,11 +13,10 @@ interface LoaderRepository<T> {
      * beginning (e.g, if you already loaded 5 elements, it returns 7 elements when
      * you attempt to load 2 more elements)
      *
-     * @param query: the query to execute. It should be ordered on one field, i.e., have
-     * exactly one orderBy clause
+     * @param query: the query to execute. It must be ordered.
      * @param number: the number of items to load
      *
      * @return a [QueryResult] containing the result
      */
-    fun load(query: OrderedQuery, number: Int): QueryResult<List<T>>
+    fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>>
 }

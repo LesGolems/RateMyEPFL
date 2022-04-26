@@ -29,19 +29,17 @@ data class Course(
      * Creates an hash map of the Course
      */
     override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
+        return hashMapOf<String, Any?>(
             CourseRepositoryImpl.TITLE_FIELD_NAME to title,
             CourseRepositoryImpl.SECTION_FIELD_NAME to section,
             CourseRepositoryImpl.TEACHER_FIELD_NAME to teacher,
-            CourseRepositoryImpl.CREDITS_FIELD_NAME to credits.toString(),
+            CourseRepositoryImpl.CREDITS_FIELD_NAME to credits,
             CourseRepositoryImpl.COURSE_CODE_FIELD_NAME to courseCode,
-            ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
             CourseRepositoryImpl.CYCLE_FIELD_NAME to cycle,
             CourseRepositoryImpl.SESSION_FIELD_NAME to session,
             CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
             CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
-        )
+        ).apply { putAll(super.toHashMap()) }
     }
 
     /**

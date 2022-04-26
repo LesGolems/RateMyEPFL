@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.flow.merge
 import javax.inject.Inject
 
@@ -20,7 +21,8 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
     constructor(db: FirebaseFirestore) : this(
         ReviewableRepositoryImpl(
             db,
-            COURSE_COLLECTION_PATH
+            COURSE_COLLECTION_PATH,
+            COURSE_CODE_FIELD_NAME,
         ) { documentSnapshot ->
             documentSnapshot.toCourse()
         })
@@ -41,12 +43,12 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
         fun DocumentSnapshot.toCourse(): Course? {
             val builder = Course.Builder()
                 .setCourseCode(getString(COURSE_CODE_FIELD_NAME))
-                .setNumReviews(getString(NUM_REVIEWS_FIELD_NAME)?.toInt())
-                .setAverageGrade(getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble())
+                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
+                .setAverageGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
-                .setCredits(getString(CREDITS_FIELD_NAME)?.toInt())
+                .setCredits(getField<Int>(CREDITS_FIELD_NAME))
                 .setCycle(getString(CYCLE_FIELD_NAME))
                 .setSession(getString(SESSION_FIELD_NAME))
                 .setGrading(getString(GRADING_FIELD_NAME))
@@ -77,9 +79,9 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
         repository
             .updateRating(id, rating)
 
-    override fun search(pattern: String): QueryResult<List<Course>> {
-        val byId = repository.search(pattern, COURSE_CODE_FIELD_NAME)
-        val byTitle = repository.search(pattern, TITLE_FIELD_NAME)
+    override fun search(prefix: String): QueryResult<List<Course>> {
+        val byId = repository.search(COURSE_CODE_FIELD_NAME, prefix)
+        val byTitle = repository.search(TITLE_FIELD_NAME, prefix)
         // Merge the two flows and map the content to Course
         return listOf(byId, byTitle).merge()
             .asQueryResult()

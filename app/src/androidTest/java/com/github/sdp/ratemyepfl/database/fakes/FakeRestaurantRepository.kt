@@ -39,7 +39,7 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
 
     override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
 
-    override fun search(pattern: String): QueryResult<List<Restaurant>> = QueryResult(
+    override fun search(prefix: String): QueryResult<List<Restaurant>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }
     )
 }

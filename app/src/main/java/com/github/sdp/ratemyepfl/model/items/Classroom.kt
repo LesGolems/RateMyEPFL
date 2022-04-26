@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -19,14 +18,11 @@ data class Classroom(
     /**
      * Creates an hash map of the Classroom
      */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME to name,
-            ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind
-        )
-    }
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+        ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME to name,
+        ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind
+    ).apply { this.putAll(super.toHashMap()) }
+
 
     /**
      * Builder to create a restaurant step by step.

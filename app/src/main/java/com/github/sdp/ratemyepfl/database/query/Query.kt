@@ -15,8 +15,8 @@ typealias FirebaseQuery = com.google.firebase.firestore.Query
 data class Query(private val query: FirebaseQuery) {
 
     companion object {
-        const val MAX_QUERY_LIMIT = 50
-        const val DEFAULT_QUERY_LIMIT = 10
+        const val MAX_QUERY_LIMIT = 50u
+        const val DEFAULT_QUERY_LIMIT = 10u
     }
 
     /**
@@ -155,7 +155,7 @@ data class Query(private val query: FirebaseQuery) {
      * @return a flow containing the result wrapped inside a [QueryState]
      */
     fun execute(
-        limit: Int = DEFAULT_QUERY_LIMIT,
+        limit: UInt = DEFAULT_QUERY_LIMIT,
     ): QueryResult<QuerySnapshot> =
         flow {
             // Initiate the query by loading some data

@@ -45,14 +45,14 @@ class QueryTest {
 
     @Test
     fun executesSuccessfullyReturnsTheResult() = runTest {
-        val l = 4
+        val l = 4u
         repository.query()
             .execute(l)
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw Exception("Test should succeed")
                     is QueryState.Loading -> {}
-                    is QueryState.Success -> assertEquals(l, it.data.size())
+                    is QueryState.Success -> assertEquals(l.toInt(), it.data.size())
                 }
             }
 
@@ -64,7 +64,7 @@ class QueryTest {
         var s: DocumentSnapshot? = null
         repository.query()
             .orderBy(Item.DATA_FIELD)
-            .execute(3)
+            .execute(3u)
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw Exception("Test should succeed")
@@ -79,7 +79,7 @@ class QueryTest {
         repository.query()
             .orderBy(Item.DATA_FIELD)
             .startAfter(s?.get(Item.DATA_FIELD))
-            .execute(3)
+            .execute(3u)
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw Exception("Test should succeed")
@@ -117,12 +117,12 @@ class QueryTest {
 
         runTest {
             repository.query()
-                .execute(size)
+                .execute(size.toUInt())
                 .collect {
                     when (it) {
                         is QueryState.Failure -> throw Exception("Test should succeed")
                         is QueryState.Loading -> {}
-                        is QueryState.Success -> assertEquals(Query.MAX_QUERY_LIMIT, it.data.size())
+                        is QueryState.Success -> assertEquals(Query.MAX_QUERY_LIMIT.toInt(), it.data.size())
                     }
                 }
 

@@ -2,14 +2,16 @@ package com.github.sdp.ratemyepfl.database
 
 
 import com.github.sdp.ratemyepfl.database.query.Query
+import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 class RepositoryImpl<T : FirestoreItem>(val database: FirebaseFirestore, collectionPath: String) :
-    Repository<T> {
+    Repository<T>, Queryable {
     internal val collection = database.collection(collectionPath)
 
     override suspend fun take(number: Long): QuerySnapshot {
@@ -21,7 +23,7 @@ class RepositoryImpl<T : FirestoreItem>(val database: FirebaseFirestore, collect
      *
      * @return a query on the repository [CollectionReference]
      */
-    fun query(): Query = Query(collection)
+    override fun query(): Query = Query(collection)
 
 
     override suspend fun getById(id: String): DocumentSnapshot =

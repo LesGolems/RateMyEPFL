@@ -12,6 +12,7 @@ import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,6 +52,11 @@ class LoaderRepositoryImplTest {
         reset()
     }
 
+    @After
+    fun teardown() {
+        clearRepo()
+    }
+
     private fun reset() {
         repository = LoaderRepositoryImpl(RepositoryImpl(db, "loaderTest")) {
             it.toItem()
@@ -77,7 +83,7 @@ class LoaderRepositoryImplTest {
 
     @Test
     fun firstLoadCorrectlyReturnsAskedData() = runTest {
-        repository.load(query0, 10000)
+        repository.load(query0, 10000u)
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw Exception("Should succeed")
@@ -93,7 +99,7 @@ class LoaderRepositoryImplTest {
     @Test
     fun subsequentLoadShouldCacheResult() = runTest { 
         reset()
-        repository.load(query0, 3)
+        repository.load(query0, 3u)
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw Exception("Should succeed")
@@ -101,7 +107,7 @@ class LoaderRepositoryImplTest {
                     is QueryState.Success -> {
                         assertEquals(true, items0.containsAll(it.data))
                         assertEquals(3, it.data.size)
-                        repository.load(query0, 3)
+                        repository.load(query0, 3u)
                             .collect { l2 ->
                                 when (l2) {
                                     is QueryState.Failure -> throw Exception("Should succeed")

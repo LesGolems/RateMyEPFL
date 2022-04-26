@@ -1,20 +1,25 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.util.Item
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
+import com.google.common.util.concurrent.Futures
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import javax.inject.Inject
+import kotlin.coroutines.Continuation
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
@@ -33,6 +38,11 @@ class RepositoryImplTest {
     fun setup() {
         hiltRule.inject()
         repository = RepositoryImpl<Item>(db, "repositoryTest")
+    }
+
+    @After
+    fun teardown() {
+        clearRepo()
     }
 
     private val initialItems = (0..10)
@@ -106,6 +116,19 @@ class RepositoryImplTest {
         )
     }
 
+    @Test
+    fun queryReturnsAnExecutableQuery() = runTest {
+        repository.add(initialItems[0]).await()
+        repository.query()
+            .execute(1u)
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> assertEquals(1, it.data.size())
+                }
+            }
+    }
 
     private fun clearRepo() = runTest {
         val list = repository.collection

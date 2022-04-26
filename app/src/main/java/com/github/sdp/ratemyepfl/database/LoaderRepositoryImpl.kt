@@ -1,9 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
-import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.google.firebase.firestore.CollectionReference
+import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.firebase.firestore.DocumentSnapshot
 
 /**
@@ -14,10 +13,10 @@ import com.google.firebase.firestore.DocumentSnapshot
  * @param repository: the repository to decorate with [load]
  * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
-class LoaderRepositoryImpl<T: FirestoreItem>(
+class LoaderRepositoryImpl<T : FirestoreItem>(
     val repository: RepositoryImpl<T>,
-    private val transform: (DocumentSnapshot) -> T?
-) : Repository<T> by repository, LoaderRepository<T> {
+    val transform: (DocumentSnapshot) -> T?
+) : Repository<T> by repository, LoaderRepository<T>, Queryable by repository {
 
     internal val collection = repository.collection
     internal val database = repository.database
@@ -25,16 +24,17 @@ class LoaderRepositoryImpl<T: FirestoreItem>(
     private val loadedData: HashMap<OrderedQuery, List<T>> = hashMapOf()
     private val lastLoaded: HashMap<OrderedQuery, DocumentSnapshot> = hashMapOf()
 
-    override fun load(query: OrderedQuery, number: Int): QueryResult<List<T>> {
-        val lastLoaded = query.fields.map { lastLoaded[query]?.get(it) }
-        val updatedQuery = query.startAfter(lastLoaded)
-        return updatedQuery.execute(number)
-            .mapResult { querySnapshot ->
-            querySnapshot.documents.filterNotNull()
-        }.mapResult { data ->
-            updateData(query, data)
+    override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> {
+            val lastLoaded = query.fields.map { lastLoaded[query]?.get(it) }
+            val updatedQuery = query.startAfter(lastLoaded)
+            return updatedQuery.execute(number)
+                .mapResult { querySnapshot ->
+                    querySnapshot.documents.filterNotNull()
+                }.mapResult { data ->
+                    updateData(query, data)
+                }
         }
-    }
+
 
     /**
      * Add data to the loaded data
@@ -53,11 +53,4 @@ class LoaderRepositoryImpl<T: FirestoreItem>(
             updated
         } else loaded
     }
-
-    /**
-     * Creates a new query to execute
-     *
-     * @return a query on the repository [CollectionReference]
-     */
-    fun query(): Query = repository.query()
 }

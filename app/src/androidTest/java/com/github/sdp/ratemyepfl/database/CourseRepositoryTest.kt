@@ -6,9 +6,11 @@ import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -43,6 +45,13 @@ class CourseRepositoryTest {
     @After
     fun clean() {
         //courseRepo.remove(testCourse.id)
+    }
+
+    @Test
+    fun conversionTest() = runTest {
+        courseRepo.add(testCourse).await()
+        val c = courseRepo.getCourseById(testCourse.getId())
+        assertEquals(testCourse, c)
     }
 
     @Test
@@ -94,21 +103,24 @@ class CourseRepositoryTest {
     @Test
     fun toItemReturnsACourseForCompleteSnapshot() {
         val fake = "fake"
-        val fakeCredit = "0"
+        val fakeCredit = 0
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TITLE_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.SECTION_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TEACHER_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.CREDITS_FIELD_NAME))
+        Mockito.`when`(snapshot.getField<Int>(CourseRepositoryImpl.CREDITS_FIELD_NAME))
             .thenReturn(fakeCredit)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME))
+            .thenReturn(fake)
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+            .thenReturn(15)
+        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+            .thenReturn(2.5)
 
         val course: Course? = snapshot.toCourse()
-        val fakeCourse = Course(fake, fake, fake, fakeCredit.toInt(), fake, 15, 2.5)
+        val fakeCourse = Course(fake, fake, fake, fakeCredit, fake, 15, 2.5)
         assertEquals(fakeCourse, course)
 
     }
@@ -123,9 +135,12 @@ class CourseRepositoryTest {
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.SECTION_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TEACHER_FIELD_NAME)).thenReturn(null)
         Mockito.`when`(snapshot.getString(CourseRepositoryImpl.CREDITS_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME))
+            .thenReturn(null)
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+            .thenReturn(null)
+        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+            .thenReturn(null)
 
         val course: Course? = snapshot.toCourse()
         assertEquals(null, course)
