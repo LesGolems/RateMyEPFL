@@ -52,10 +52,10 @@
                 android:hint="@string/username"
                 android:textAlignment="center"
                 android:inputType="text"
+                android:selectAllOnFocus="true"
                 android:textColor="@color/black"
                 android:textSize="50sp"
                 android:textStyle="bold"
-                android:selectAllOnFocus="true"
                 android:autofillHints="" />
 
         </RelativeLayout>

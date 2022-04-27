@@ -1,24 +1,31 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.content.Intent
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
+import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -94,5 +101,42 @@ class ReviewListFragmentTest {
                 }
             )
         )
+    }
+
+    @Test
+    fun usernamesOfAuthorsAreDisplayed() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+        val username2 = FakeUserRepository.userMap[FakeUserRepository.UID2]?.username
+        val username3 = FakeUserRepository.userMap[FakeUserRepository.UID3]?.username
+        onView(withText(username1)).check(matches(isDisplayed()))
+        onView(withText(username2)).check(matches(isDisplayed()))
+        onView(withText(username3)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun profilePicturesOfAuthorsAreDisplayed() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+        // load the picture
+        FakeImageStorage.images.put(
+            FakeUserRepository.UID1,
+            ImageFile(
+                "${FakeUserRepository.UID1}.jpg",
+                drawableToBitmap(R.drawable.fake_profile_picture)
+            )
+        )
+        // then refresh
+        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        // then check if displayed
+        onView(
+            hasSibling(
+                allOf(
+                    withId(R.id.author_username),
+                    withText(username1)
+                )
+            )
+        ).check(matches(allOf(
+            withDrawable(R.drawable.fake_profile_picture),
+            isDisplayed()
+        )))
     }
 }
