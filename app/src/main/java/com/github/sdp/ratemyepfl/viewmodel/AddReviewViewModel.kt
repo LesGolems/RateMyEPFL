@@ -2,10 +2,15 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -17,12 +22,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewRepositoryInterface
+    private val reviewRepo: ReviewRepositoryInterface,
+    private val connectedUser: ConnectedUser
 ) : ViewModel() {
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
+    var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
     private var date: LocalDate? = null
 
     /**
@@ -45,20 +52,37 @@ class AddReviewViewModel @Inject constructor(
      */
     fun setComment(comment: String?) = this.comment.postValue(comment)
 
+    fun setAnonymous(anonymous: Boolean) {
+        this.anonymous.postValue(anonymous)
+    }
+
     /**
      * Builds and submits the review to the database
      *
      * @return the rating of the review or null if the construction didn't work
+     * @throws IllegalStateException if the user is not connected, or if one of the fields is empty
      */
     fun submitReview(id: String): ReviewRating? {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
         val date = date ?: LocalDate.now()
+        var uid: String? = null
 
-        if (comment == null || comment == "") return null
-        if (title == null || title == "") return null
-        if (rating == null) return null
+        // only connected users may add reviews
+        if (!connectedUser.isLoggedIn()) {
+            return null
+        } else if (comment == null || comment == "") {
+            return null
+        } else if (title == null || title == "") {
+            return null
+        } else if (rating == null) {
+            return null
+        }
+
+        if (!anonymous.value!!) {
+            uid = connectedUser.getUserId()
+        }
 
         val reviewHashMap = hashMapOf(
             ReviewRepository.TITLE_FIELD_NAME to title,
@@ -66,11 +90,15 @@ class AddReviewViewModel @Inject constructor(
             ReviewRepository.COMMENT_FIELD_NAME to comment,
             ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
             ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.UID_FIELD_NAME to null, // will add the user next sprint
+            ReviewRepository.UID_FIELD_NAME to uid, // will add the user next sprint
             ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
             ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
         )
-        reviewRepo.add(reviewHashMap)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            reviewRepo.add(reviewHashMap)
+        }
+
         return rating
     }
 }

@@ -7,13 +7,14 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
 import javax.inject.Inject
 
 class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
-    private val images = HashMap<String, ImageFile>()
-
+  
     init {
         images.put("12345", ImageFile("12345", drawableToBitmap(R.raw.pp1)))
     }
 
     companion object {
+        val images = HashMap<String, ImageFile>()
+
         val pictureIds = listOf(
             R.raw.room3,
             R.raw.room1,

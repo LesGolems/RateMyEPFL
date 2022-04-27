@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.fragment.review
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -33,15 +34,10 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         recyclerView = view.findViewById(R.id.reviewRecyclerView)
 
         reviewAdapter = ReviewAdapter(
-            { r ->
-                viewModel.updateVotes(r, r.likers, ReviewRepository.LIKERS_FIELD_NAME)
-                viewModel.updateReviewsList()
-            },
-            { r ->
-                viewModel.updateVotes(r, r.dislikers, ReviewRepository.DISLIKERS_FIELD_NAME)
-                viewModel.updateReviewsList()
-            }
+            { review -> viewModel.updateLikes(review) },
+            { review -> viewModel.updateDislikes(review) }
         )
+
         recyclerView.adapter = reviewAdapter
 
         recyclerView.addItemDecoration(
@@ -54,10 +50,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
 
         viewModel.reviews.observe(viewLifecycleOwner) {
-            it?.let {
-                // Displays the most liked reviews first
-                reviewAdapter.submitList(it.toMutableList().sortedBy { r -> -r.likers.size })
-            }
+            it?.let { reviewAdapter.submitList(it) }
         }
     }
 

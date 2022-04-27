@@ -24,6 +24,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
                 .setDate(LocalDate.now())
                 .setLikers(listOf(FAKE_UID_1, FAKE_UID_2))
                 .setDislikers(listOf(FAKE_UID_3, FAKE_UID_4))
+                .setUid(FakeUserRepository.UID1)
                 .build(),
             Review.Builder().setTitle("SA PARLE CASH")
                 .setId("Fake")
@@ -32,6 +33,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
                 .setReviewableID("CS-453")
                 .setDate(LocalDate.now())
                 .setLikers(listOf(FAKE_UID_1, FAKE_UID_2, FAKE_UID_3))
+                .setUid(FakeUserRepository.UID2)
                 .build(),
             Review.Builder().setTitle("Allez-y, je pense à quel chiffre là ?")
                 .setId("Fake")
@@ -40,6 +42,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
                 .setReviewableID("CS-007")
                 .setDate(LocalDate.now())
                 .setDislikers(listOf(FAKE_UID_1, FAKE_UID_2, FAKE_UID_3))
+                .setUid(FakeUserRepository.UID3)
                 .build(),
             Review.Builder().setTitle("Ce mec ne fait qu'un avec le serpent")
                 .setId("Fake")
