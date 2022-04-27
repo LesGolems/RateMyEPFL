@@ -11,7 +11,9 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.reduce
+import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
 class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
@@ -79,11 +81,14 @@ class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : C
         repository
             .updateRating(id, rating)
 
+
     override fun search(prefix: String): QueryResult<List<Course>> {
         val byId = repository.search(COURSE_CODE_FIELD_NAME, prefix)
         val byTitle = repository.search(TITLE_FIELD_NAME, prefix)
         // Merge the two flows and map the content to Course
-        return listOf(byId, byTitle).merge()
+        return byId.zip(byTitle) { x, y ->
+            x.flatMap { ids -> y.map { titles -> ids.plus(titles) } }
+        }
             .asQueryResult()
     }
 

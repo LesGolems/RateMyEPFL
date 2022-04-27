@@ -205,4 +205,39 @@ class ReviewRepositoryTest {
         val review: Review? = snapshot.toReview()
         assertEquals(null, review)
     }
+
+    @Test
+    fun addWithIdRegisterWithTheGivenId() = runTest {
+        val id = "id"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        val fetched = reviewRepo.getById(id).toReview()
+        assertEquals(review, fetched)
+    }
+
+    @Test
+    fun addWithoutIdUsesARandomOne() = runTest {
+        val title = "addRandom"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            title,
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8)
+        )
+
+        reviewRepo.add(review).await()
+
+        val fetched = reviewRepo.getReviews()
+            .first { it.title == title }
+        assertEquals(review, fetched)
+    }
 }

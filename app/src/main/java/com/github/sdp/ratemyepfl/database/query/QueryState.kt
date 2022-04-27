@@ -38,4 +38,18 @@ sealed class QueryState<T> {
             success(op(this.data))
     }
 
+    /**
+     * Map the data and flatten it.
+     *
+     * @param op: operation that mapped the data to a [QueryState]
+     */
+    fun <U> flatMap(op: (T) -> QueryState<U>): QueryState<U> = when (this) {
+        is Failure ->
+            failure(this.errorMessage)
+        is Loading ->
+            loading()
+        is Success -> op(this.data)
+    }
+
+
 }
