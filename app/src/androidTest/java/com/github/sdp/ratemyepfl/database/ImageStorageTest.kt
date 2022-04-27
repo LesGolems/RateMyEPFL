@@ -15,7 +15,6 @@ import javax.inject.Inject
 @HiltAndroidTest
 class ImageStorageTest {
     val pic = ImageFile("testPic", resourceToBitmap(R.raw.pp1))
-    val bigPic = ImageFile("testPic2", resourceToBitmap(R.raw.arcadie))
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -49,13 +48,6 @@ class ImageStorageTest {
             assertEquals(pic.id, image.id)
             assertEquals(pic.size, image.size)
             imageStorage.removeInDirectory(pic.id, "test")
-        }
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun imageTooBigFails() {
-        runTest {
-            imageStorage.add(bigPic)
         }
     }
 

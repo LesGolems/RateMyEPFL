@@ -103,17 +103,6 @@ class RoomReviewPictureFragmentTest {
     }
 
     @Test
-    fun selectLargePhotoFails() {
-        init()
-        val activity = getActivity(scenario)
-        savePickedImage(activity, R.raw.room1)
-        val imgGalleryResult = createImageGallerySetResultStub(activity)
-        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
-        onView(withId(R.id.selectPhotoFAB)).perform(click())
-        release()
-    }
-
-    @Test
     fun startCamera() {
         onView(withId(R.id.capturePhotoFAB)).perform(click())
     }

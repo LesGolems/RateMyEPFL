@@ -34,9 +34,6 @@ open class ClassroomPictureViewModel @Inject constructor(
     }
 
     fun uploadPicture(image: ImageFile) {
-        if (image.size > imageStorage.MAX_ITEM_SIZE) {
-            throw IllegalArgumentException("Picture size should be less than ${imageStorage.MAX_ITEM_SIZE} bytes.")
-        }
         viewModelScope.launch {
             imageStorage.addInDirectory(image, id)
         }

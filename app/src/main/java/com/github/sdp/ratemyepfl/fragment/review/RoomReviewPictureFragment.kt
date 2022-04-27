@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
+
 @AndroidEntryPoint
 class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture) {
 
@@ -117,13 +118,9 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     private fun uploadPicture(bitmap: Bitmap) {
         val id = ImageUtils.timeStamp()
-        try {
-            pictureViewModel.uploadPicture(ImageFile(id, bitmap))
-            Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG)
-                .show()
-        } catch (e: Exception) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
-        }
+        pictureViewModel.uploadPicture(ImageFile(id, bitmap))
+        Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG)
+            .show()
     }
 
     private fun createImageFile(): File {

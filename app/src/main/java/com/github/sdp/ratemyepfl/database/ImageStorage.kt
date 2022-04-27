@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<ImageFile> {
     private val storageRef = storage.reference.child("images")
 
-    override val MAX_ITEM_SIZE: Long = 10 * 1024 * 1024 // 1 MB
+    override val MAX_ITEM_SIZE: Long = 1024 * 1024 // 1 MB
 
     companion object {
         const val FILE_EXTENSION: String = ".jpg" // JPEG images
@@ -76,10 +76,6 @@ class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<Image
      * Adds [item] to the collection at location [path].
      */
     private suspend fun addImage(item: ImageFile, path: String) {
-        if (item.size > MAX_ITEM_SIZE) {
-            throw IllegalArgumentException("Image size should be less than $MAX_ITEM_SIZE bytes.")
-        }
-
         val stream = ByteArrayOutputStream()
         item.data.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 

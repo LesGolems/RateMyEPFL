@@ -158,18 +158,6 @@ class UserProfileActivityTest {
     }
 
     @Test
-    fun changeFailsForBigPicture() {
-        init()
-        val activity = getActivity(scenario)
-        savePickedImage(activity, R.raw.pp)
-        val imgGalleryResult = createImageGallerySetResultStub(activity)
-        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
-        onView(withId(R.id.modify_profile_button)).perform(click())
-        onView(withId(R.id.modify_profile_image_button)).perform(click())
-        release()
-    }
-
-    @Test
     fun changePictureWorks() {
         init()
         val activity = getActivity(scenario)
