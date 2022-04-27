@@ -1,13 +1,11 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.content.Intent
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
@@ -20,7 +18,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
-import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
+import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -121,7 +119,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                drawableToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.drawable.fake_profile_picture)
             )
         )
         // then refresh
