@@ -6,13 +6,19 @@ import javax.inject.Inject
 
 class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
 
-    private val users = HashMap<String, User>()
+    companion object {
+        val UID1 = "56789"
+        val UID2 = "18189"
+        val UID3 = "30220"
 
-    init {
-        users.put("56789", User("56789", "Marc", "Marc.Antoine@gmail.com"))
-        users.put("18189", User("18189", "Charolais", "Etienne.cdp@gmail.com"))
-        users.put("30220", User("30220", "x_sasuke9", "Celestin.Renaut@gmail.com"))
+        val userMap = mapOf(
+            UID1 to User(UID1, "Marc", "Marc.Antoine@gmail.com"),
+            UID2 to User(UID2, "Charolais", "Etienne.cdp@gmail.com"),
+            UID3 to User(UID3, "x_sasuke9", "Celestin.Renaut@gmail.com")
+        )
     }
+
+    val users = userMap.toMutableMap()
 
     override suspend fun getUserByUid(uid: String): User? {
         if (users.containsKey(uid)) {
