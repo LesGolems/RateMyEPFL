@@ -30,6 +30,10 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepositoryInterface
+
+    @Singleton
+    @Binds
     abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepositoryInterface
 
 
@@ -40,8 +44,4 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideImageRepo(repo: FakeImageStorage): Storage<ImageFile>
-
-    @Singleton
-    @Binds
-    abstract fun providePictureRepo(repo: FakePictureRepository): PictureRepositoryInterface
 }

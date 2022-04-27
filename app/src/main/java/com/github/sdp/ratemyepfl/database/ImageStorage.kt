@@ -13,78 +13,80 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImageStorage @Inject constructor() : Storage<ImageFile> {
+class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<ImageFile> {
+    private val storageRef = storage.reference.child("images")
 
-    private fun storageReference() : StorageReference {
-        return FirebaseStorage.getInstance()
-            .reference
-            .child("images")
+    override val MAX_ITEM_SIZE: Long = 1024 * 1024 // 1 MB
+
+    companion object {
+        const val FILE_EXTENSION: String = ".jpg" // JPEG images
     }
 
-    // Maximum supported size for an image by Firebase Storage
-    override val MAX_ITEM_SIZE: Long = 1024*1024
+    override suspend fun get(id: String): ImageFile? {
+        val imageRef = storageRef.child("$id$FILE_EXTENSION")
+        return getImage(imageRef)
+    }
+
+    override suspend fun add(item: ImageFile) {
+        addImage(item, item.id)
+    }
+
+    override suspend fun remove(path: String) {
+        storageRef
+            .child("${path}$FILE_EXTENSION")
+            .delete()
+            .await()
+    }
+
+    override suspend fun getByDirectory(dir: String): List<ImageFile> {
+        return storageRef
+            .child(dir)
+            .listAll()
+            .await()
+            .items
+            .mapNotNull { getImage(it) }
+    }
+
+    override suspend fun addInDirectory(item: ImageFile, dir: String) {
+        addImage(item, "$dir/${item.id}")
+    }
+
+    override suspend fun removeInDirectory(id: String, dir: String) {
+        remove("$dir/${id}")
+    }
 
     /**
-     * Returns the ImageFile for the given [id].
-     * Returns null in case of errors.
+     * Returns the [ImageFile] at the reference [imageRef].
      */
-    override suspend fun get(id: String): ImageFile? {
+    private suspend fun getImage(imageRef: StorageReference): ImageFile? {
         return try {
-            val ba = storageReference()
-                .child("$id.jpg")
+            val id = imageRef.name.dropLast(FILE_EXTENSION.length)
+
+            val byteArray = imageRef
                 .getBytes(MAX_ITEM_SIZE)
-                .addOnSuccessListener {
-                    Log.i("ImageStorage: ", "Successfully read item $id")
-                }
-                .addOnFailureListener{
-                    Log.e("ImageStorage: ", "Failed to read item $id", it.cause)
-                }
                 .await()
 
-            val bitmap = BitmapFactory.decodeByteArray(ba, 0, ba.size)
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
             ImageFile(id, bitmap)
-
         } catch (e: StorageException) {
             null
         }
     }
 
     /**
-     * Adds an [item] to the collection.
-     * Throws an IllegalArgumentException if the item is too big for the collection.
+     * Adds [item] to the collection at location [path].
      */
-    override suspend fun put(item: ImageFile) {
+    private suspend fun addImage(item: ImageFile, path: String) {
         if (item.size > MAX_ITEM_SIZE) {
             throw IllegalArgumentException("Image size should be less than $MAX_ITEM_SIZE bytes.")
         }
 
-        val baos = ByteArrayOutputStream()
-        item.data.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val stream = ByteArrayOutputStream()
+        item.data.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 
-        storageReference().child(item.id + ".jpg")
-            .putBytes(baos.toByteArray())
-            .addOnSuccessListener {
-                Log.i("ImageStorage: ", "Successfully added item ${item.id}")
-            }
-            .addOnFailureListener{
-                Log.e("ImageStorage: ", "Failed to add item ${item.id}", it.cause)
-            }
-            .await()
-    }
-
-    /**
-     * Removes an [item] from the collection.
-     */
-    override suspend fun remove(item: ImageFile) {
-        storageReference()
-            .child(item.id + ".jpg")
-            .delete()
-            .addOnSuccessListener {
-                Log.i("ImageStorage: ", "Successfully deleted item ${item.id}")
-            }
-            .addOnFailureListener{
-                Log.e("ImageStorage: ", "Failed to delete item ${item.id}", it.cause)
-            }
+        storageRef
+            .child("$path$FILE_EXTENSION")
+            .putBytes(stream.toByteArray())
             .await()
     }
 }

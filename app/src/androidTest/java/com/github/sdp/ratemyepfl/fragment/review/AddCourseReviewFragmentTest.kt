@@ -31,7 +31,7 @@ class AddCourseReviewFragmentTest {
 
     @Before
     fun setUp() {
-        FakeConnectedUser.loggedIn = true
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
@@ -94,7 +94,8 @@ class AddCourseReviewFragmentTest {
 
     @Test
     fun userNotConnectedNoReset() {
-        FakeConnectedUser.loggedIn = false
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addCourseReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(

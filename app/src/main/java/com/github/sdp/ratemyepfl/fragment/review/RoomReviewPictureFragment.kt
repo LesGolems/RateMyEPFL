@@ -7,7 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.PhotoAdapter
+import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,31 +19,29 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         private const val NUM_COLUMNS = 2
     }
 
-    private lateinit var photoAdapter: PhotoAdapter
-    private lateinit var photoRecyclerView: RecyclerView
+    private lateinit var pictureAdapter: RoomPictureAdapter
+    private lateinit var pictureRecyclerView: RecyclerView
 
-    private val picViewModel by activityViewModels<ClassroomPictureViewModel>()
+    private val pictureViewModel by activityViewModels<ClassroomPictureViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        photoRecyclerView = view.findViewById(R.id.photoRecyclerView)
+        pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
         val gridLayoutManager =
             StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
-        photoRecyclerView.layoutManager = gridLayoutManager
+        pictureRecyclerView.layoutManager = gridLayoutManager
 
-        photoAdapter = PhotoAdapter()
-        photoRecyclerView.adapter = photoAdapter
+        pictureAdapter = RoomPictureAdapter()
+        pictureRecyclerView.adapter = pictureAdapter
 
-        picViewModel.photos.observe(viewLifecycleOwner) {
-            it?.let {
-                photoAdapter.setData(it.toMutableList())
-            }
+        pictureViewModel.pictures.observe(viewLifecycleOwner) {
+            pictureAdapter.setData(it.toMutableList())
         }
     }
 
     override fun onResume() {
         super.onResume()
-        picViewModel.updatePhotosList()
+        pictureViewModel.updatePicturesList()
     }
 }

@@ -5,5 +5,4 @@
 
     <dimen name="clusterItemWidth">384dp</dimen>
     <dimen name="clusterItemHeight">216dp</dimen>
-    <dimen name="itemPadding">2dp</dimen>
 </resources>

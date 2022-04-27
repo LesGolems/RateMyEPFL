@@ -17,13 +17,19 @@ Les Golems donnent leur avis sur l'EPFL.
 
 ## Run tests
 
-You need to install Firebase CLI :
+You need to allow our app to mock the phone's location by going to the Developper Options and for 'Select mock location app' select RateMyEPFL. If the app is not shown when trying to select you can use the following command :
+
+```
+adb shell appops set com.github.sdp.ratemyepfl android:mock_location allow
+```
+
+You also need to install Firebase CLI :
 
 ```
 curl -sL https://firebase.tools | bash
 ```
 
-And run the following command : 
+And finally you can run the following command :
 
 ```
 firebase emulators:exec './gradlew connectedCheck'
