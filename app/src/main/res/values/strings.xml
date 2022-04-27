@@ -62,4 +62,6 @@
     <string name="gmail_icon">Gmail icon</string>
     <string name="photo_cluster_item">Photo of cluster item</string>
     <string name="OccupancyMessage">%s</string>
+    <string name="button_for_capturing_a_photo_from_the_camera">Button for capturing a photo from the camera</string>
+    <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
 </resources>

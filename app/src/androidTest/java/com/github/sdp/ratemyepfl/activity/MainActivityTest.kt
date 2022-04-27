@@ -127,7 +127,7 @@ class MainActivityTest {
         }
     }
 
-    fun updateLocation(latitude : Double, longitude:Double){
+    fun updateLocation(latitude: Double, longitude: Double) {
         val location = Location(providerName)
         location.setLatitude(latitude)
         location.setLongitude(longitude)
@@ -138,10 +138,11 @@ class MainActivityTest {
     }
 
     @Test
-    fun locationWorks(){
+    fun locationWorks() {
         mContext = getInstrumentation().targetContext
         mManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        mManager.addTestProvider(providerName, true, //requiresNetwork,
+        mManager.addTestProvider(
+            providerName, true, //requiresNetwork,
             false, // requiresSatellite,
             true,  // requiresCell,
             false, // hasMonetaryCost,
@@ -149,7 +150,8 @@ class MainActivityTest {
             false, // supportsSpeed,
             false, // supportsBearing,
             Criteria.POWER_MEDIUM, // powerRequirement
-            Criteria.ACCURACY_FINE); // accuracy
+            Criteria.ACCURACY_FINE
+        ); // accuracy
         mManager.setTestProviderEnabled(providerName, true)
 
 

@@ -32,4 +32,10 @@ open class ClassroomPictureViewModel @Inject constructor(
             pictures.postValue(imageStorage.getByDirectory(id))
         }
     }
+
+    fun uploadPicture(image: ImageFile) {
+        viewModelScope.launch {
+            imageStorage.addInDirectory(image, id)
+        }
+    }
 }
