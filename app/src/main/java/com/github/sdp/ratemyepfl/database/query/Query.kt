@@ -79,6 +79,9 @@ data class Query(private val query: FirebaseQuery) {
      * specified field and the value does not equal the specified value. A Query can have only one
      * [whereNotEqualTo] filter, and it cannot be combined with [whereNotIn].
      *
+     * ***NOTE: For some reason, executing it returns an additional document with garbage data. Please
+     * take this into account when you convert the result.***
+     *
      * @param field: the field to filter
      * @param value: the value to filter with
      *
@@ -184,7 +187,7 @@ data class Query(private val query: FirebaseQuery) {
         field: String,
         direction: com.google.firebase.firestore.Query.Direction = com.google.firebase.firestore.Query.Direction.ASCENDING
     ): OrderedQuery =
-        OrderedQuery(query.orderBy(field, direction), field)
+        OrderedQuery(query.orderBy(field, direction), OrderedQuery.OrderedField(field, direction))
 
     /**
      * Return a new [OrderedQuery] where the documents matches a given prefix in a given field.

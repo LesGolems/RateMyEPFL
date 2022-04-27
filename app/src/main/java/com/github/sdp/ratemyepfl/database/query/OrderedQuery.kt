@@ -1,19 +1,24 @@
 package com.github.sdp.ratemyepfl.database.query
 
+import com.github.sdp.ratemyepfl.database.query.OrderedQuery.OrderedField.Companion.names
+import com.github.sdp.ratemyepfl.database.query.OrderedQuery.OrderedField.Companion.orders
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.MAX_QUERY_LIMIT
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Query.Direction.ASCENDING
+import com.google.firebase.firestore.Query.Direction.DESCENDING
 
+typealias OrderDirection = com.google.firebase.firestore.Query.Direction
 
 /**
  * A query ordered on provided fields
  */
-data class OrderedQuery(private val query: FirebaseQuery, val fields: List<String>) {
+data class OrderedQuery(private val query: FirebaseQuery, val fields: List<OrderedField>) {
 
     private fun orderedQuery(query: FirebaseQuery) =
         OrderedQuery(query, fields)
 
-    constructor(query: FirebaseQuery, vararg fields: String) : this(query, fields.toList())
+    constructor(query: FirebaseQuery, vararg fields: OrderedField) : this(query, fields.toList())
 
     companion object {
         private const val SUFFIX_MATCHER = "\uf8ff"
@@ -161,13 +166,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that starts at the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that starts at the given tuple
      */
@@ -176,13 +181,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that starts after the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that starts after the given tuple
      */
@@ -191,13 +196,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that ends at the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that ends at the given tuple
      */
@@ -206,13 +211,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that ends before the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that ends before the given tuple
      */
@@ -221,13 +226,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that starts at the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that starts at the given tuple
      */
@@ -235,13 +240,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that starts after the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that starts after the given tuple
      */
@@ -249,13 +254,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that ends at the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that ends at the given tuple
      */
@@ -263,13 +268,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
 
     /**
      * Creates and returns a new [OrderedQuery] that ends before the provided fields relative to the
-     * order of the query. The order of the field values must match the order of [fields] that
+     * order of the query. The order of the field values must match the order of [names] that
      * define the order of the [OrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
-     * [fields]
+     * [names]
      *
      * @return an [OrderedQuery] that ends before the given tuple
      */
@@ -294,25 +299,32 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
         direction: com.google.firebase.firestore.Query.Direction =
             com.google.firebase.firestore.Query.Direction.ASCENDING
     ): OrderedQuery =
-        if (fields.contains(field))
+        if (fields.names().contains(field))
             throw IllegalArgumentException("Cannot order the query twice on the same field ($field)")
         else
-            OrderedQuery(query.orderBy(field, direction), fields + field)
+            OrderedQuery(query.orderBy(field, direction), fields + OrderedField(field, direction))
 
     /**
      * Return a new [OrderedQuery] where the documents matches a given prefix in the ordered
-     * [fields]. The ordered [fields] must only contain [String] values.
+     * [names]. The ordered [names] must only contain [String] values.
      *
      * @param prefixes: the prefixes that the fields must match
      *
      * @return an [OrderedQuery] that only contain values matching the prefix
+     *
+     * @throws IllegalStateException if one of the fields is ordered by [DESCENDING]
      */
-    fun match(prefixes: List<String?>) = startAt(prefixes)
-        .endAt(prefixes.map { it?.plus(SUFFIX_MATCHER) })
+    fun match(prefixes: List<String?>): OrderedQuery {
+        if (fields.orders().any { it == OrderDirection.DESCENDING }) {
+            throw IllegalStateException("Cannot match on a descending order")
+        }
+        return startAt(prefixes)
+            .endAt(prefixes.map { it?.plus(SUFFIX_MATCHER) })
+    }
 
     /**
      * Return a new [OrderedQuery] where the documents matches a given prefix in the ordered
-     * [fields]. The ordered [fields] must only contain [String] values.
+     * [names]. The ordered [names] must only contain [String] values, and must be [ASCENDING].
      *
      * @param prefixes: the prefixes that the fields must match
      *
@@ -320,5 +332,14 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Strin
      */
     fun match(vararg prefixes: String?) = match(prefixes.toList())
 
+    data class OrderedField(val name: String, val order: OrderDirection) {
+        companion object {
+            fun List<OrderedField>.names(): List<String> =
+                map { it.name }
+
+            fun List<OrderedField>.orders(): List<OrderDirection> =
+                map { it.order }
+        }
+    }
 
 }

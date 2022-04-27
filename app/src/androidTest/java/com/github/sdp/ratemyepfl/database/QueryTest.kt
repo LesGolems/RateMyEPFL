@@ -4,6 +4,8 @@ import com.github.sdp.ratemyepfl.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.util.Item
+import com.github.sdp.ratemyepfl.database.util.Item.Companion.DATA_FIELD
+import com.github.sdp.ratemyepfl.database.util.Item.Companion.ID_FIELD
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore

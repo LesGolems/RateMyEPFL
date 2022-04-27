@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.database.query
 
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
+import com.github.sdp.ratemyepfl.database.util.ArrayItem
+import com.github.sdp.ratemyepfl.database.util.ArrayItem.Companion.toArrayItem
 import com.github.sdp.ratemyepfl.database.util.Item
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
@@ -29,6 +31,10 @@ class QueryTest {
 
     private lateinit var query: Query
 
+    private lateinit var arrayCollection: CollectionReference
+
+    private lateinit var arrayQuery: Query
+
     @get:Rule
     val hiltAndroidRule = HiltAndroidRule(this)
 
@@ -36,18 +42,31 @@ class QueryTest {
         .map { Item(it.toString(), it) }
         .toList()
 
+    private val arrayItems = listOf(
+        ArrayItem("id1", listOf(0, 1, 2, 3)),
+        ArrayItem("id2", listOf(4, 1, 2, 3)),
+        ArrayItem("id3", listOf(5, 1, 2, 3)),
+        ArrayItem("id4", listOf(8, 1, 2, 3))
+    )
+
     @Before
     fun setup() {
         hiltAndroidRule.inject()
         collection = db.collection("query_test")
-        items.map { collection.document(it.getId()).set(it) }
+        items.map { collection.document(it.getId()).set(it.toHashMap()) }
             .forEach { runTest { it.await() } }
         query = Query(collection)
+
+        arrayCollection = db.collection("query_test_array")
+        arrayItems.map { arrayCollection.document().set(it.toHashMap()) }
+            .forEach { runTest { it.await() } }
+        arrayQuery = Query(arrayCollection)
     }
 
     @After
     fun tearDown() {
         RepositoryUtil.clear(collection)
+        RepositoryUtil.clear(arrayCollection)
     }
 
     @Test
@@ -58,46 +77,111 @@ class QueryTest {
 
     @Test
     fun whereGreaterThan() {
+        checkQuery(
+            query.whereGreaterThan(Item.DATA_FIELD, 9),
+            listOf(items.last())
+        )
     }
 
     @Test
     fun whereGreaterThanOrEqualTo() {
+        checkQuery(query.whereGreaterThanOrEqualTo(Item.DATA_FIELD, 9),
+            items.filter { it.data >= 9 })
     }
 
     @Test
     fun whereLessThan() {
+        checkQuery(query.whereLessThan(Item.DATA_FIELD, 3),
+            items.filter { it.data < 3 })
     }
 
     @Test
     fun whereLessThanOrEqualTo() {
+        checkQuery(query.whereLessThanOrEqualTo(Item.DATA_FIELD, 3),
+            items.filter { it.data <= 3 })
     }
 
     @Test
     fun whereNotEqualTo() {
+        checkQuery(query.whereNotEqualTo(Item.DATA_FIELD, 10),
+            items.filter { it.data != 10 })
     }
 
     @Test
     fun whereIn() {
+        val required = (0..3).toList()
+        checkQuery(query.whereIn(Item.DATA_FIELD, required),
+            items.filter { it.data in required })
     }
 
     @Test
     fun whereNotIn() {
+        val required = (0..3).toList()
+        checkQuery(query.whereNotIn(Item.DATA_FIELD, required),
+            items.filter { it.data !in required })
     }
 
     @Test
-    fun whereArrayContains() {
+    fun whereArrayContains() = runTest {
+        arrayQuery.whereArrayContains(ArrayItem.DATA_FIELD, 3)
+            .execute(10u)
+            .mapResult { it.mapNotNull { it.toArrayItem().toString() } }
+            .collect {
+                if (it is QueryState.Success) {
+                    assertEquals(4, it.data.size)
+                }
+            }
     }
 
     @Test
-    fun whereArrayContainsAny() {
+    fun whereArrayContainsAny() = runTest {
+        val required = listOf(5, 8)
+        arrayQuery.whereArrayContainsAny(ArrayItem.DATA_FIELD, required)
+            .execute(10u)
+            .mapResult { it.mapNotNull { it.toArrayItem() } }
+            .collect {
+                if (it is QueryState.Success) {
+                    assertEquals(2, it.data.size)
+                }
+            }
     }
 
     @Test
-    fun execute() {
+    fun execute() = runTest {
+        query.execute()
+            .collect {
+                if (it is QueryState.Success) {
+                    assertEquals(Query.DEFAULT_QUERY_LIMIT.toInt(), it.data.size())
+                }
+            }
+
+        query.execute(10000u)
+            .collect {
+                if (it is QueryState.Success) {
+                    assertEquals(true, it.data.size() <= Query.MAX_QUERY_LIMIT.toInt())
+                }
+            }
     }
 
     @Test
     fun orderBy() {
+        checkQuery(query.orderBy(Item.DATA_FIELD),
+            items.sortedBy { it.data })
+    }
+
+    @Test
+    fun orderByReverse() = runTest {
+        query.orderBy(
+            Item.DATA_FIELD,
+            com.google.firebase.firestore.Query.Direction.DESCENDING
+        ).execute(1000u)
+            .mapResult { it.mapNotNull { it.toItem() } }
+            .collect {
+                if (it is QueryState.Success) {
+                    assertEquals(items.sortedBy { -it.data }, it.data)
+                }
+            }
+
     }
 
     @Test
@@ -129,4 +213,45 @@ class QueryTest {
 
 
     }
+
+    private fun checkQuery(query: Query, expected: List<Item>) = runTest {
+        query.execute(items.size.toUInt())
+            .mapResult {
+                it.mapNotNull {
+                    try {
+                        it.toItem()
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> assertEquals(expected, it.data)
+                }
+            }
+    }
+
+    private fun checkQuery(query: OrderedQuery, expected: List<Item>) = runTest {
+        query.execute(items.size.toUInt())
+            .mapResult {
+                it.mapNotNull {
+                    try {
+                        it.toItem()
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> assertEquals(expected, it.data)
+                }
+            }
+    }
+
 }

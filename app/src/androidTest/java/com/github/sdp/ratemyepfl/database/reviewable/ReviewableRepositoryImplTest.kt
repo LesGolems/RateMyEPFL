@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Compan
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
@@ -130,6 +131,81 @@ class ReviewableRepositoryImplTest {
                     is QueryState.Success -> assertEquals(sortedCourses.take(7), it.data)
                 }
             }
+    }
+
+    @Test
+    fun loadMostRatedReturnsCourseWith5Reviews() = runTest {
+        repository.loadMostRated(3u)
+            .mapEach { it.numReviews }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> {
+                        assertEquals(3, it.data.size)
+                        it.data
+                            .forEach { numReviews -> assertEquals(5, numReviews) }
+                    }
+                }
+            }
+        repository.loadMostRated(20u)
+            .mapEach { it.numReviews }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> {
+                        val sorted = it.data.sortedBy { n -> n }.reversed()
+                        assertEquals(sorted, it.data)
+                        assertEquals(23, it.data.size)
+                    }
+                }
+            }
+
+    }
+
+    @Test
+    fun test() = runTest {
+        val query = repository.query()
+            .orderBy(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME, Query.Direction.DESCENDING)
+        repository.load(query, 10u)
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> {}
+                    is QueryState.Loading -> {}
+                    is QueryState.Success ->
+                        assertEquals(10, it.data.size)
+                }
+            }
+    }
+
+    @Test
+    fun loadBestRatedReturnsCourseWith5Reviews() = runTest {
+        repository.loadBestRated(3u)
+            .mapEach { it.averageGrade }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success ->
+                        it.data
+                            .forEach { grade -> assertEquals(5.0, grade) }
+                }
+            }
+        repository.loadBestRated(20u)
+            .mapEach { it.averageGrade }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception()
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> {
+                        val sorted = it.data.sortedBy { n -> n }.reversed()
+                        assertEquals(sorted, it.data)
+                        assertEquals(23, it.data.size)
+                    }
+                }
+            }
+
     }
 
     private suspend fun onTeacherSearch(

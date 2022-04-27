@@ -68,6 +68,7 @@ class LoaderRepositoryImplTest {
             .query()
             .whereLessThan(Item.DATA_FIELD, 10)
             .orderBy(Item.DATA_FIELD)
+            .orderBy(Item.ID_FIELD)
 
         query1 = repository
             .query()

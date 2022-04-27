@@ -74,8 +74,7 @@ class ReviewableRepositoryImpl<T : Reviewable>(
             }.await()
     }
 
-    private val queryMostRated = repository
-        .query()
+    private val queryMostRated = query()
         .orderBy(NUM_REVIEWS_FIELD_NAME, Query.Direction.DESCENDING)
         .orderBy(idFieldName)
 
@@ -91,7 +90,11 @@ class ReviewableRepositoryImpl<T : Reviewable>(
      *
      * @return a [QueryResult] containing the result as a list of reviewable
      */
-    override fun loadMostRated(number: UInt): QueryResult<List<T>> = load(queryMostRated, number)
+    override fun loadMostRated(number: UInt): QueryResult<List<T>> = load(
+        query()
+            .orderBy(NUM_REVIEWS_FIELD_NAME, Query.Direction.DESCENDING)
+            .orderBy(idFieldName), number
+    )
 
     /**
      * Load a given number of [Reviewable] by decreasing average grade.

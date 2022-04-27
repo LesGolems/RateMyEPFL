@@ -27,11 +27,15 @@ data class Item(private val id: String, val data: Int) :
         const val DATA_FIELD = "data"
 
         fun DocumentSnapshot.toItem(): Item? {
-            val id: String = id
-            val data = getField<Int>("data")
+            return try {
+                val id: String = id
+                val data = getField<Int>(DATA_FIELD)
 
-            return Builder(id, data)
-                .build()
+                Builder(id, data)
+                    .build()
+            } catch(e: Exception) {
+                null
+            }
         }
 
 
