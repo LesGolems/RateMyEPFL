@@ -12,9 +12,9 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
 
     companion object {
         val RESTAURANT_LIST = listOf(
-            Restaurant(name = "Roulotte du Soleil", 0, 46.519214, 6.567553, 15, 2.5),
-            Restaurant(name = "Arcadie", 0, 46.520625, 6.569403, 8, 3.0),
-            Restaurant(name = "Takinoa", 0, 5.0, 6.0, 1, 4.0)
+            Restaurant("Roulotte du Soleil", 0, 46.519214, 6.567553, 15, 2.5),
+            Restaurant("Arcadie", 0, 46.520625, 6.569403, 8, 3.0),
+            Restaurant("Takinoa", 0, 46.518236, 6.568110, 1, 4.0)
         )
 
         val DEFAULT_RESTAURANT = Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
@@ -23,6 +23,8 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
         val RESTAURANT_WITHOUT_REVIEWS = Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
 
         var restaurantById = RESTAURANT_WITH_REVIEWS
+
+        var occupancyCounter = 0
     }
 
 
@@ -31,9 +33,11 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
     override suspend fun getRestaurantById(id: String): Restaurant = restaurantById
 
     override suspend fun incrementOccupancy(id: String) {
+        occupancyCounter += 1
     }
 
     override suspend fun decrementOccupancy(id: String) {
+        occupancyCounter -= 1
     }
 
 

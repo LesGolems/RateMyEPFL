@@ -27,6 +27,10 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideEventRepo(repo: EventRepository): EventRepositoryInterface
+
+    @Singleton
+    @Binds
     abstract fun provideReviewRepo(repo: ReviewRepository): ReviewRepositoryInterface
 
     @Singleton
@@ -36,8 +40,4 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun provideImageStorage(repo: ImageStorage): Storage<ImageFile>
-
-    @Singleton
-    @Binds
-    abstract fun providePictureRepo(repo: PictureRepository): PictureRepositoryInterface
 }

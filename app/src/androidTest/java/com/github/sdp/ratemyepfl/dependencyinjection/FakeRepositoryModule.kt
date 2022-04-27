@@ -1,9 +1,6 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.PictureRepositoryInterface
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
-import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.database.fakes.*
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
@@ -36,6 +33,10 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepositoryInterface
+
+    @Singleton
+    @Binds
     abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepositoryInterface
 
 
@@ -46,8 +47,4 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideImageRepo(repo: FakeImageStorage): Storage<ImageFile>
-
-    @Singleton
-    @Binds
-    abstract fun providePictureRepo(repo: FakePictureRepository): PictureRepositoryInterface
 }

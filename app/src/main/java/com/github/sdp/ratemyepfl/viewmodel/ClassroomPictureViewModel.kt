@@ -5,31 +5,31 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.PictureRepositoryInterface
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 open class ClassroomPictureViewModel @Inject constructor(
-    private val pictureRepo: PictureRepositoryInterface,
+    private val imageStorage: Storage<ImageFile>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    // Classroom Id
-    val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+    // Room id
+    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
-    // Photos
-    val photos = MutableLiveData<List<Int>>()
+    // Room pictures
+    val pictures = MutableLiveData<List<ImageFile?>>()
 
     init {
-        updatePhotosList()
+        updatePicturesList()
     }
 
-    fun updatePhotosList() {
+    fun updatePicturesList() {
         viewModelScope.launch {
-            photos.postValue(pictureRepo.getPhotosByClassroomId(id))
+            pictures.postValue(imageStorage.getByDirectory(id))
         }
     }
 }

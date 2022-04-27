@@ -2,6 +2,10 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.utils.MapActivityUtils
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,7 +16,11 @@ data class Restaurant(
     val long: Double,
     override val numReviews: Int,
     override val averageGrade: Double,
-) : Reviewable() {
+) : Reviewable(), Displayable {
+
+    companion object {
+        const val MAX_OCCUPANCY = 50
+    }
 
     override fun toString(): String {
         return name
@@ -21,7 +29,7 @@ data class Restaurant(
     override fun getId(): String = name
 
     /**
-     * Creates an hash map of the Course, to add it to the DB
+     * Creates an hash map of the Restaurant, to add it to the DB
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf<String, Any?>(
@@ -30,6 +38,14 @@ data class Restaurant(
             RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat,
             RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         ).apply { putAll(super.toHashMap()) }
+    }
+
+    override fun toMapItem(): MapItem {
+        return RestaurantItem(
+            this,
+            MapActivityUtils.PHOTO_MAPPING.getOrDefault(getId(), R.raw.niki), // Arbitrary default value
+            BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
+        )
     }
 
     /**

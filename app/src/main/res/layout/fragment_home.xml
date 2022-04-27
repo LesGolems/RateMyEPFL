@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="16dp"
-        android:text="My Profile"
+        android:text="@string/my_profile"
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
         app:icon="@drawable/ic_add_circle_white_24dp"

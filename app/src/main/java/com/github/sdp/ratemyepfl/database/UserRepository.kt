@@ -23,7 +23,6 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
                 uid = id,
                 username = getString(USERNAME_FIELD_NAME),
                 email = getString(EMAIL_FIELD_NAME),
-                picture = getString(PICTURE_FIELD_NAME)
             )
         }
     }

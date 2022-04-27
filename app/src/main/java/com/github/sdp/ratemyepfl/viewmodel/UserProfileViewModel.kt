@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,14 +17,14 @@ class UserProfileViewModel @Inject constructor(
     val currentUser: ConnectedUser,
     val imageStorage: Storage<ImageFile>,
     val userDatabase: UserRepositoryInterface
-    ) : ViewModel() {
+) : ViewModel() {
 
-    private val picture : MutableLiveData<ImageFile?> = MutableLiveData(null)
-    private val username : MutableLiveData<String?> = MutableLiveData(null)
-    private val email : MutableLiveData<String?> = MutableLiveData(null)
+    private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
+    private val username: MutableLiveData<String?> = MutableLiveData(null)
+    private val email: MutableLiveData<String?> = MutableLiveData(null)
 
-    private var newUsername : String? = null
-    private var newEmail : String? = null
+    private var newUsername: String? = null
+    private var newEmail: String? = null
 
     init {
         if (currentUser.isLoggedIn()) {
@@ -39,7 +40,7 @@ class UserProfileViewModel @Inject constructor(
                 }
             }
 
-            viewModelScope.launch { 
+            viewModelScope.launch {
                 val imageFile = currentUser.getUserId()?.let { imageStorage.get(it) }
                 if (imageFile != null) {
                     picture.postValue(imageFile)
@@ -49,15 +50,15 @@ class UserProfileViewModel @Inject constructor(
         }
     }
 
-    fun username() : MutableLiveData<String?> {
+    fun username(): MutableLiveData<String?> {
         return username
     }
 
-    fun email() : MutableLiveData<String?> {
+    fun email(): MutableLiveData<String?> {
         return email
     }
 
-    fun picture() : MutableLiveData<ImageFile?> {
+    fun picture(): MutableLiveData<ImageFile?> {
         return picture
     }
 
@@ -74,7 +75,7 @@ class UserProfileViewModel @Inject constructor(
         if (newEmail.split("@").size != 2) {
             throw IllegalArgumentException("Wrong email format.")
         }
-            this.newEmail = newEmail
+        this.newEmail = newEmail
     }
 
     fun changeProfilePicture(newImage: ImageFile) {
@@ -93,7 +94,7 @@ class UserProfileViewModel @Inject constructor(
     fun submitChanges() {
         if (currentUser.isLoggedIn()) {
             viewModelScope.launch {
-                picture.value?.let { imageStorage.put(it) }
+                picture.value?.let { imageStorage.add(it) }
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()

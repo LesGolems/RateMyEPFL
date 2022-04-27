@@ -17,7 +17,6 @@ data class User(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,
         email = user.getEmail()!!,
-        picture = user.getProfilePictureUrl()!!
     )
 
     override fun getId(): String = uid
@@ -29,7 +28,6 @@ data class User(
         return hashMapOf(
             UserRepository.USERNAME_FIELD_NAME to username,
             UserRepository.EMAIL_FIELD_NAME to email,
-            UserRepository.PICTURE_FIELD_NAME to picture
         )
     }
 }
