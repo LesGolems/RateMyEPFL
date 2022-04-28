@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.review.RoomReviewInfoFragment">
+    tools:context=".fragment.review.EventReviewInfoFragment">
 
     <ImageView
-        android:id="@+id/roomIcon"
+        android:id="@+id/eventIcon"
         android:layout_width="118dp"
         android:layout_height="118dp"
         android:layout_marginTop="124dp"
-        android:contentDescription="@string/room_content_description"
-        android:src="@drawable/ic_table_chair"
+        android:contentDescription="@string/event_content_description"
+        android:src="@drawable/ic_baseline_event_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/roomIdInfo"
+        android:id="@+id/eventIdInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -29,10 +29,10 @@
         android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/eventIcon" />
 
     <RatingBar
-        android:id="@+id/roomRatingBar"
+        android:id="@+id/eventRatingBar"
         style="@android:style/Widget.Material.RatingBar"
         android:layout_width="240dp"
         android:layout_height="56dp"
@@ -43,16 +43,16 @@
         android:stepSize="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomIdInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/eventIdInfo" />
 
     <TextView
-        android:id="@+id/roomNumReview"
+        android:id="@+id/eventNumReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/num_reviews"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/roomRatingBar" />
+        app:layout_constraintTop_toBottomOf="@+id/eventRatingBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

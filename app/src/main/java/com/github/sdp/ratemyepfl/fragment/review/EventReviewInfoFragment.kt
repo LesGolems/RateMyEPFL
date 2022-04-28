@@ -18,9 +18,9 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.event.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.roomIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.roomNumReview).text = getNumReviewString(it.numReviews)
-            view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.averageGrade.toFloat()
+            view.findViewById<TextView>(R.id.eventIdInfo).text = it?.toString()
+            view.findViewById<TextView>(R.id.eventNumReview).text = getNumReviewString(it.numReviews)
+            view.findViewById<RatingBar>(R.id.eventRatingBar).rating = it.averageGrade.toFloat()
         }
     }
 

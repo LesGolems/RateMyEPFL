@@ -49,6 +49,7 @@
     <string name="zero_num_reviews">(No review submitted)</string>
     <string name="room_content_description">room icon</string>
     <string name="course_content_description">course icon</string>
+    <string name="event_content_description">event icon</string>
     <string name="course_title">Title : %s</string>
     <string name="course_teacher">Teacher : %s</string>
     <string name="course_section">Section : %s</string>

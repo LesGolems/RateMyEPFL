@@ -17,7 +17,8 @@ class EventAdapter(private val onClick: (Event) -> Unit,
                    private val unregisterListener: (Event) -> Unit) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
 
-    private var isRegistered = false
+    // Temporary solution but will change and will check database directly instead
+    private var registerMap: Map<String, Boolean> = mapOf()
 
     inner class EventViewHolder(eventView: View) :
         RecyclerView.ViewHolder(eventView) {
@@ -44,29 +45,53 @@ class EventAdapter(private val onClick: (Event) -> Unit,
         private fun setUpRegisterButton(event: Event) {
             // Check registration locally but in the future it will be recorded on the database
             // TODO(MODIFICATION)
+            if (registerMap[event.id] == true) {
+                registeredBehavior()
+            } else {
+                unregisteredBehavior()
+            }
+
             registerButton.setOnClickListener {
-                if (!isRegistered) {
+                if (registerMap[event.id] == false) {
                     if (registerListener(event) && event.numParticipants < event.limitParticipants) {
-                        registerButton.text = UNREGISTER
-                        registerButton.setIconResource(R.drawable.ic_logout_black_24dp)
-                        isRegistered = true
+                        registeredBehavior()
+                        registerMap = registerMap.plus(Pair(event.id, true))
                     }
                 } else {
                     unregisterListener(event)
-                    registerButton.text = REGISTER
-                    registerButton.setIconResource(R.drawable.ic_login_black_24dp)
-                    isRegistered = false
+                    unregisteredBehavior()
+                    registerMap = registerMap.plus(Pair(event.id, false))
                 }
             }
         }
 
         /**
+         * Set the correct info about the button when the user is registered
+         */
+        private fun registeredBehavior() {
+            registerButton.text = UNREGISTER
+            registerButton.setIconResource(R.drawable.ic_logout_black_24dp)
+        }
+
+        /**
+         * Set the correct info about the button when the user is unregistered
+         */
+        private fun unregisteredBehavior() {
+            registerButton.text = REGISTER
+            registerButton.setIconResource(R.drawable.ic_login_black_24dp)
+        }
+
+        /**
          * Bind event
          */
-        fun bind(event: Event) {
+        fun bind(event: Event, position: Int) {
             currentEvent = event
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
+
+            if (!registerMap.containsKey(event.id)) {
+                registerMap = registerMap.plus(Pair(event.id, false))
+            }
             setUpRegisterButton(event)
         }
     }
@@ -83,7 +108,7 @@ class EventAdapter(private val onClick: (Event) -> Unit,
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = getItem(position)
-        holder.bind(event)
+        holder.bind(event, position)
     }
 
     companion object {

@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.EventRepository.Companion.toEvent
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -81,6 +82,18 @@ class EventRepositoryTest {
             assertNotNull(event)
             assertEquals(testEvent.id, event!!.id)
             assertEquals(0, event.numParticipants)
+        }
+    }
+
+    @Test
+    fun updateEventRatingWorks() {
+        runTest {
+            eventRepo.updateEventRating(testEvent.id, ReviewRating.EXCELLENT)
+            val event = eventRepo.getEventById(testEvent.id)
+            assertNotNull(event)
+            assertEquals(testEvent.id, event!!.id)
+            assertEquals(1, event.numReviews)
+            assertEquals(5.0, event.averageGrade, 0.1)
         }
     }
 
