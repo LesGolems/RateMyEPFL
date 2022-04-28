@@ -8,6 +8,19 @@ import java.util.concurrent.CompletableFuture
 /**
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
  * the contained [Flow] (e.g., you can collect the value as with a [Flow])
+ *
+ * *How to use it:*
+ * ```
+ * val queryResult: QueryResult
+ * queryResult.collect {
+ *      when (it) {
+ *          is Success -> {}
+ *          is Loading -> {}
+ *          is Failure -> {}
+ *      }
+ * }
+ * ```
+ *
  */
 class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<T>> by result {
     /**
