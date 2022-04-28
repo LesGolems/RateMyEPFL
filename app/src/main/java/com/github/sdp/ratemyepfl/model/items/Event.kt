@@ -22,6 +22,10 @@ class Event(
         return id
     }
 
+    fun showParticipation(): String {
+        return "Participants: $numParticipants/$limitParticipants"
+    }
+
     /**
      * Creates an hash map of the Event, to add it to the DB
      */
