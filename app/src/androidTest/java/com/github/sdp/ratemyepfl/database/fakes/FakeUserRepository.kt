@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 
@@ -14,10 +15,10 @@ class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
         val UID4 = "12345"
 
         val userMap = mapOf(
-            UID1 to User(UID1, "Marc", "Marc.Antoine@gmail.com"),
-            UID2 to User(UID2, "Charolais", "Etienne.cdp@gmail.com"),
-            UID3 to User(UID3, "x_sasuke9", "Celestin.Renaut@gmail.com"),
-            UID4 to User("12345", "John Smith", "john@example.com")
+            UID1 to User(UID1, "Marc", "Marc.Antoine@gmail.com", ArrayList<Class>()),
+            UID2 to User(UID2, "Charolais", "Etienne.cdp@gmail.com", ArrayList<Class>()),
+            UID3 to User(UID3, "x_sasuke9", "Celestin.Renaut@gmail.com", ArrayList<Class>()),
+            UID4 to User("12345", "John Smith", "john@example.com", ArrayList<Class>())
         )
     }
 

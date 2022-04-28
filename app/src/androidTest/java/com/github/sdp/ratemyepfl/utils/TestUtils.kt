@@ -14,10 +14,9 @@ import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import de.hdodenhof.circleimageview.CircleImageView
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.github.sdp.ratemyepfl.R
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.hamcrest.Description
+import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import java.io.File
 import java.io.FileNotFoundException
@@ -106,5 +105,27 @@ object TestUtils {
         val uri = Uri.fromFile(file)
         resultData.data = uri
         return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
+    }
+
+    fun isExpanded(): Matcher<in View>? = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("SlidingUpPanel that is expanded")
+        }
+
+        override fun matchesSafely(item: View): Boolean {
+            return item is SlidingUpPanelLayout &&
+                    item.panelState == SlidingUpPanelLayout.PanelState.EXPANDED
+        }
+    }
+
+    fun isHidden(): Matcher<in View>? = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description) {
+            description.appendText("SlidingUpPanel that is hidden")
+        }
+
+        override fun matchesSafely(item: View): Boolean {
+            return item is SlidingUpPanelLayout
+                    && item.panelState == SlidingUpPanelLayout.PanelState.HIDDEN
+        }
     }
 }
