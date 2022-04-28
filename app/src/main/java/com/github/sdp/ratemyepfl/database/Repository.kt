@@ -4,7 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 
-interface Repository<T : FirestoreItem> {
+interface Repository<T : RepositoryItem> {
 
     /**
      * Retrieve a given number of items from the collection

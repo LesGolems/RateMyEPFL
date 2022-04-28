@@ -1,13 +1,13 @@
 package com.github.sdp.ratemyepfl.database.util
 
-import com.github.sdp.ratemyepfl.database.FirestoreItem
+import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Item(private val id: String, val data: Int) :
-    FirestoreItem {
+    RepositoryItem {
     override fun getId(): String = id
 
     override fun toHashMap(): HashMap<String, Any?> =

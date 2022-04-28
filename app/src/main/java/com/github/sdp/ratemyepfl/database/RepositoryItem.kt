@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 
-interface FirestoreItem {
+interface RepositoryItem {
 
     /** Unique id of the item **/
     fun getId(): String

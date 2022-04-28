@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.user
 
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.database.FirestoreItem
+import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.github.sdp.ratemyepfl.database.UserRepository
 import kotlinx.serialization.Serializable
 
@@ -11,7 +11,7 @@ data class User(
     val username: String?,
     val email: String?,
     val picture: String? = "$uid.jpg"
-) : FirestoreItem {
+) : RepositoryItem {
 
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,

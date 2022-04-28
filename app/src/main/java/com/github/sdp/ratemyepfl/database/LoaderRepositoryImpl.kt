@@ -14,7 +14,7 @@ import com.google.firebase.firestore.DocumentSnapshot
  * @param repository: the repository to decorate with [load]
  * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
-class LoaderRepositoryImpl<T : FirestoreItem>(
+class LoaderRepositoryImpl<T : RepositoryItem>(
     val repository: RepositoryImpl<T>,
     val transform: (DocumentSnapshot) -> T?
 ) : Repository<T> by repository, LoaderRepository<T>, Queryable by repository {

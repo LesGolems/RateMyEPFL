@@ -7,10 +7,9 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
-class RepositoryImpl<T : FirestoreItem>(val database: FirebaseFirestore, collectionPath: String) :
+class RepositoryImpl<T : RepositoryItem>(val database: FirebaseFirestore, collectionPath: String) :
     Repository<T>, Queryable {
     internal val collection = database.collection(collectionPath)
 

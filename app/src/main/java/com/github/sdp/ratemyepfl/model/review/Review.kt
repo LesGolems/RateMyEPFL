@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.FirestoreItem
+import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -21,7 +21,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
-) : FirestoreItem {
+) : RepositoryItem {
 
     // By default, the id of the review is a hash of this review
     private var id: String = this.hashCode().toString()
