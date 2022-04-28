@@ -43,8 +43,8 @@ class CourseRepositoryTest {
     }
 
     @After
-    fun clean() {
-        //courseRepo.remove(testCourse.id)
+    fun clean() = runTest {
+        courseRepo.remove(testCourse.getId()).await()
     }
 
     @Test

@@ -98,6 +98,7 @@ class CourseRepositoryImplTest {
                     is QueryState.Failure -> throw Exception("Should succeed")
                     is QueryState.Loading -> x += 1
                     is QueryState.Success -> {
+                        assertEquals(1, it.data.size)
                         assertEquals(personalizedCourse, it.data.first())
                     }
                 }
