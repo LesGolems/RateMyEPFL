@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.model.user
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.items.Class
+import com.google.gson.Gson
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,9 +24,11 @@ data class User(
      * Creates an hash map of the user
      */
     fun toHashMap(): HashMap<String, Any?>{
+        val json = Gson().toJson(timetable)
         return hashMapOf(
             UserRepository.USERNAME_FIELD_NAME to username,
             UserRepository.EMAIL_FIELD_NAME to email,
+            UserRepository.TIMETABLE_FIELD_NAME to json
         )
     }
 }
