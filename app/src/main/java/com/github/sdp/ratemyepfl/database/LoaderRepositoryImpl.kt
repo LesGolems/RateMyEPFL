@@ -15,12 +15,8 @@ import com.google.firebase.firestore.DocumentSnapshot
  * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
 class LoaderRepositoryImpl<T : RepositoryItem>(
-    val repository: RepositoryImpl<T>,
-    val transform: (DocumentSnapshot) -> T?
-) : Repository<T> by repository, LoaderRepository<T>, Queryable by repository {
-
-    internal val collection = repository.collection
-    internal val database = repository.database
+    val repository: Repository<T>,
+) : Repository<T> by repository, LoaderRepository<T> {
 
     private val loadedData: HashMap<OrderedQuery, List<T>> = hashMapOf()
     private val lastLoaded: HashMap<OrderedQuery, DocumentSnapshot> = hashMapOf()
@@ -51,7 +47,7 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
         val loaded = loadedData.getOrDefault(query, listOf())
         return if (data.isNotEmpty()) {
             val last = data.last()
-            val updated = loaded + data.mapNotNull(transform)
+            val updated = loaded + data.mapNotNull { transform(it) }
             loadedData[query] = updated
             lastLoaded[query] = last
             updated

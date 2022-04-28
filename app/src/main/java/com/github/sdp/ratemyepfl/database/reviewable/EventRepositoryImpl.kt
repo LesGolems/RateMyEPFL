@@ -1,5 +1,6 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
@@ -16,15 +17,20 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class EventRepository(val repository: RepositoryImpl<Event>) :
-    EventRepositoryInterface,
-    Repository<Event> by repository {
+class EventRepositoryImpl private constructor(val repository: ReviewableRepositoryImpl<Event>) :
+    EventRepository,
+    Repository<Event> by repository, ReviewableRepository<Event> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(RepositoryImpl(db, EVENT_COLLECTION_PATH))
+    constructor(db: FirebaseFirestore) : this(
+        ReviewableRepositoryImpl(
+            db,
+            EVENT_COLLECTION_PATH,
+            NAME_FIELD_NAME,
+        ) { documentSnapshot ->
+            documentSnapshot.toEvent()
+        })
 
-    private val collection = repository.collection
-    private val db = repository.database
 
     companion object {
         const val NAME_FIELD_NAME: String = "name"
@@ -83,19 +89,9 @@ class EventRepository(val repository: RepositoryImpl<Event>) :
         }
     }
 
-    private fun changeParticipants(id: String, incDec: Int): Task<Transaction> {
-        val docRef = collection.document(id)
-        return db.runTransaction { transaction ->
-            val snapshot = transaction.get(docRef)
-            snapshot.getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
-                ?.let { number ->
-                    transaction.update(
-                        docRef,
-                        NUMBER_PARTICIPANTS_FIELD_NAME,
-                        (number + incDec)
-                    )
-                }
+    private fun changeParticipants(id: String, incDec: Int): Task<Transaction> =
+        repository.update(id) { event ->
+            event.copy(numParticipants = event.numParticipants + incDec)
         }
-    }
 
 }

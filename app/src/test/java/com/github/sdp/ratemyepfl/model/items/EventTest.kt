@@ -1,8 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.EventRepository
-import com.github.sdp.ratemyepfl.database.EventRepository.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -16,11 +15,11 @@ class EventTest {
         64, 70, 46.52, 6.569, DATE)
     private val EXPECTED_HASH_MAP = hashMapOf(
         NAME_FIELD_NAME to EXPECTED_EVENT.name,
-        EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,
-        EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.limitParticipants,
-        EventRepository.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
-        EventRepository.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
-        EventRepository.DATE_FIELD_NAME to DATE.toString(),
+        EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,
+        EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.limitParticipants,
+        EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
+        EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
+        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
         ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to EXPECTED_EVENT.numReviews,
         ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.averageGrade
     )

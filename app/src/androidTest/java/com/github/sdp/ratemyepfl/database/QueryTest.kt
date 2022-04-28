@@ -4,17 +4,15 @@ import com.github.sdp.ratemyepfl.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.util.Item
-import com.github.sdp.ratemyepfl.database.util.Item.Companion.DATA_FIELD
-import com.github.sdp.ratemyepfl.database.util.Item.Companion.ID_FIELD
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +35,7 @@ class QueryTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        repository = RepositoryImpl<Item>(db, "repositoryTest")
+        repository = RepositoryImpl<Item>(db, "repositoryTest") { it.toItem() }
         runTest { initialItems.forEach { repository.add(it) } }
     }
 
@@ -124,7 +122,10 @@ class QueryTest {
                     when (it) {
                         is QueryState.Failure -> throw Exception("Test should succeed")
                         is QueryState.Loading -> {}
-                        is QueryState.Success -> assertEquals(Query.MAX_QUERY_LIMIT.toInt(), it.data.size())
+                        is QueryState.Success -> assertEquals(
+                            Query.MAX_QUERY_LIMIT.toInt(),
+                            it.data.size()
+                        )
                     }
                 }
 

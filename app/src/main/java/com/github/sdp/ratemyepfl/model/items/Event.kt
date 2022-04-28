@@ -1,12 +1,12 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.EventRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
-class Event(
+data class Event(
     val name: String,
     override val numReviews: Int,
     override val averageGrade: Double,
@@ -23,12 +23,12 @@ class Event(
 
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf<String, Any?>(
-            EventRepository.NAME_FIELD_NAME to name,
-            EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
-            EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
-            EventRepository.LATITUDE_FIELD_NAME to lat,
-            EventRepository.LONGITUDE_FIELD_NAME to long,
-            EventRepository.DATE_FIELD_NAME to date.toString(),
+            EventRepositoryImpl.NAME_FIELD_NAME to name,
+            EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
+            EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
+            EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
+            EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
+            EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
         ).apply { putAll(super.toHashMap()) }
     }
 

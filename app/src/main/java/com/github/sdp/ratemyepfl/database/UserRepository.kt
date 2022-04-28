@@ -10,7 +10,9 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface {
 
-    val repository = RepositoryImpl<User>(db, USER_COLLECTION_PATH)
+    val repository = RepositoryImpl<User>(db, USER_COLLECTION_PATH) {
+        it.toUser()
+    }
 
     companion object {
         const val USER_COLLECTION_PATH = "users"

@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class ClassroomRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Classroom>) :
@@ -53,9 +54,16 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
 
     override suspend fun getRoomById(id: String): Classroom? = repository.getById(id).toClassroom()
 
-    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) =
+    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {
         repository
-            .updateRating(id, rating)
+            .update(id) { classroom ->
+                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+                    classroom,
+                    rating
+                )
+                classroom.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
+            }.await()
+    }
 
     override fun search(prefix: String): QueryResult<List<Classroom>> =
         repository.search(ROOM_NAME_FIELD_NAME, prefix)

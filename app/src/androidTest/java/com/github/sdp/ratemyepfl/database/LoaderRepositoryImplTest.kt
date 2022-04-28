@@ -1,28 +1,30 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.util.Item
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
+import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
+@ExperimentalCoroutinesApi
 class LoaderRepositoryImplTest {
     @Inject
     lateinit var db: FirebaseFirestore
+
+    val collectionPath = "loaderTest"
 
     private lateinit var repository: LoaderRepositoryImpl<Item>
 
@@ -58,9 +60,9 @@ class LoaderRepositoryImplTest {
     }
 
     private fun reset() {
-        repository = LoaderRepositoryImpl(RepositoryImpl(db, "loaderTest")) {
+        repository = LoaderRepositoryImpl(RepositoryImpl(db, collectionPath) {
             it.toItem()
-        }
+        })
         val query = items.map { repository.add(it) }
         query.forEach { runTest { it.await() } }
 
@@ -98,7 +100,7 @@ class LoaderRepositoryImplTest {
     }
 
     @Test
-    fun subsequentLoadShouldCacheResult() = runTest { 
+    fun subsequentLoadShouldCacheResult() = runTest {
         reset()
         repository.load(query0, 3u)
             .collect {
@@ -125,16 +127,6 @@ class LoaderRepositoryImplTest {
     }
 
     private fun clearRepo() = runTest {
-        val list = repository
-            .repository
-            .collection
-            .get()
-            .await()
-            .documents
-            .map { it.id }
-
-        list.forEach {
-            repository.remove(it).await()
-        }
+        RepositoryUtil.clear(db.collection(collectionPath))
     }
 }

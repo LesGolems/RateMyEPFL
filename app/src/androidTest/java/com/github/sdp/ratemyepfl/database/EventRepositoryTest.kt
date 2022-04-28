@@ -1,7 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.EventRepository.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.EventRepository.Companion.toEvent
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
@@ -34,7 +35,7 @@ class EventRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var eventRepo: EventRepository
+    lateinit var eventRepo: EventRepositoryImpl
 
     @Before
     fun setup() {
@@ -102,11 +103,11 @@ class EventRepositoryTest {
         Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
         Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
-        Mockito.`when`(snapshot.getDouble(EventRepository.LATITUDE_FIELD_NAME)).thenReturn(lat)
-        Mockito.`when`(snapshot.getDouble(EventRepository.LONGITUDE_FIELD_NAME)).thenReturn(long)
-        Mockito.`when`(snapshot.getField<Int>(EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants)
-        Mockito.`when`(snapshot.getField<Int>(EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants)
-        Mockito.`when`(snapshot.getString(EventRepository.DATE_FIELD_NAME)).thenReturn(date.toString())
+        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
+        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME)).thenReturn(long)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants)
+        Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME)).thenReturn(date.toString())
 
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()

@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.database.fakes.*
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
@@ -33,7 +34,7 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepositoryInterface
+    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepository
 
     @Singleton
     @Binds

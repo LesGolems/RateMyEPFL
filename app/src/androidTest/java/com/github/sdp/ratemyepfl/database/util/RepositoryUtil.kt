@@ -7,6 +7,7 @@ import kotlinx.coroutines.test.runTest
 
 @ExperimentalCoroutinesApi
 object RepositoryUtil {
+
     fun clear(collection: CollectionReference) = runTest {
         collection.get().await()
             .mapNotNull { it.id }

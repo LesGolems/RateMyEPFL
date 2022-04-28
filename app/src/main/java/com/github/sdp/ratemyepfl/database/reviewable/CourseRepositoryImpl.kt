@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.query.QueryResult
@@ -7,6 +8,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryRes
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,6 +16,7 @@ import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
@@ -42,7 +45,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
         const val LANGUAGE_FIELD_NAME = "language"
 
 
-        fun DocumentSnapshot.toCourse(): Course? {
+        fun DocumentSnapshot.toCourse(): Course? = try {
             val builder = Course.Builder()
                 .setCourseCode(getString(COURSE_CODE_FIELD_NAME))
                 .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
@@ -56,19 +59,16 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
 
-            return try {
                 builder.build()
             } catch (e: IllegalStateException) {
                 null
+            } catch (e: Exception) {
+                e.printStackTrace()
+                throw DatabaseException("Failed to convert the document into restaurant (from $e)")
             }
-        }
 
     }
 
-    @Deprecated(
-        "This function has no signification anymore. Use load and its derived " +
-                "functions instead"
-    )
     override suspend fun getCourses(): List<Course> =
         repository
             .take(DEFAULT_QUERY_LIMIT.toLong()).mapNotNull { obj -> obj.toCourse() }
@@ -77,9 +77,14 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
         repository
             .getById(id).toCourse()
 
-    override suspend fun updateCourseRating(id: String, rating: ReviewRating) =
+    override suspend fun updateCourseRating(id: String, rating: ReviewRating) {
         repository
-            .updateRating(id, rating)
+            .update(id) { course ->
+                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(course, rating)
+                course.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
+            }.await()
+    }
+
 
 
     override fun search(prefix: String): QueryResult<List<Course>> {

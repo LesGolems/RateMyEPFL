@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
@@ -34,20 +35,22 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
 
-        fun DocumentSnapshot.toRestaurant(): Restaurant? {
+        fun DocumentSnapshot.toRestaurant(): Restaurant? = try {
             val name = getString(RESTAURANT_NAME_FIELD_NAME)
             val occupancy = getField<Int>(OCCUPANCY_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val lon = getDouble(LONGITUDE_FIELD_NAME)
             val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
             val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
-            return try {
-                Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
-                    .build()
-            } catch (e: IllegalStateException) {
-                null
-            }
+            Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
+                .build()
+        } catch (e: IllegalStateException) {
+            null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw DatabaseException("Failed to convert the document into restaurant (from $e)")
         }
+
     }
 
     override suspend fun getRestaurants(): List<Restaurant> {
@@ -59,31 +62,26 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
         repository.getById(id).toRestaurant()
 
     override suspend fun incrementOccupancy(id: String) {
-        val docRef = repository.collection.document(id)
-        repository.database.runTransaction { transaction ->
-            val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getField<Int>(OCCUPANCY_FIELD_NAME)
-            if (occupancy != null) {
-                transaction.update(docRef, OCCUPANCY_FIELD_NAME, occupancy + 1)
-            }
-            null
+        repository.update(id) { restaurant ->
+            restaurant.copy(occupancy = restaurant.occupancy + 1)
         }.await()
     }
 
     override suspend fun decrementOccupancy(id: String) {
-        val docRef = repository.collection.document(id)
-        repository.database.runTransaction { transaction ->
-            val snapshot = transaction.get(docRef)
-            val occupancy = snapshot.getField<Int>(OCCUPANCY_FIELD_NAME)
-            if (occupancy != null) {
-                transaction.update(docRef, OCCUPANCY_FIELD_NAME, occupancy - 1)
-            }
-            null
+        repository.update(id) { restaurant ->
+            restaurant.copy(occupancy = restaurant.occupancy - 1)
         }.await()
     }
 
-    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) =
-        repository.updateRating(id, rating)
+    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {
+        repository.update(id) { restaurant ->
+            val (updatedNumReview, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+                restaurant,
+                rating
+            )
+            restaurant.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
+        }.await()
+    }
 
     override fun search(prefix: String): QueryResult<List<Restaurant>> =
         repository.search(RESTAURANT_NAME_FIELD_NAME, prefix)

@@ -11,8 +11,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
@@ -298,7 +297,7 @@ class OrderedQueryTest {
                 when (it) {
                     is QueryState.Failure -> throw Exception()
                     is QueryState.Loading -> {}
-                    is QueryState.Success -> Assert.assertEquals(expected, it.data)
+                    is QueryState.Success -> assertEquals(expected, it.data)
                 }
             }
     }

@@ -6,14 +6,11 @@ import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.SearchableRepository.Companion.LIMIT_QUERY_SEARCH
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.Queryable
-import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.getField
-import kotlinx.coroutines.tasks.await
 
 
 /**
@@ -25,8 +22,12 @@ import kotlinx.coroutines.tasks.await
 class ReviewableRepositoryImpl<T : Reviewable> private constructor(
     private val repository: LoaderRepositoryImpl<T>,
     private val idFieldName: String,
-) : ReviewableRepository<T>, Repository<T> by repository, LoaderRepository<T> by repository,
-    Queryable by repository {
+) : ReviewableRepository<T>, Repository<T> by repository, LoaderRepository<T> by repository {
+
+    constructor(repository: Repository<T>, idFieldName: String) : this(
+        LoaderRepositoryImpl(repository),
+        idFieldName
+    )
 
     constructor(
         database: FirebaseFirestore,
@@ -34,46 +35,33 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
         idFieldName: String,
         transform: (DocumentSnapshot) -> T?
     ) : this(
-        LoaderRepositoryImpl(RepositoryImpl(database, collectionPath), transform),
+        LoaderRepositoryImpl(RepositoryImpl(database, collectionPath, transform)),
         idFieldName
     )
-
-    private val transform = repository.transform
-
-    internal val collection = repository
-        .collection
-    internal val database = repository
-        .database
 
     companion object {
         const val NUM_REVIEWS_FIELD_NAME = "numReviews"
         const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
+
+        /**
+         * Compute the updated rating of the provided item if we add the provided rating.
+         *
+         *  @param item: the item for which we compute
+         *  @param rating: rating to add the the item
+         *
+         *  @return a [Pair] containing the computed number of reviews and average grade.
+         */
+        inline fun<reified T: Reviewable> computeUpdatedRating(item: T, rating: ReviewRating): Pair<Int, Double> {
+            val numReviews = item.numReviews
+            val averageGrade = item.averageGrade
+            val newNumReviews = numReviews + 1
+            val newAverageGrade: Double =
+                averageGrade + (rating.toValue() - averageGrade) / newNumReviews
+
+            return Pair(newNumReviews, newAverageGrade)
+        }
     }
 
-    /**
-     * Updates the rating of a reviewable item using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateRating(id: String, rating: ReviewRating) {
-        val docRef = collection
-            .document(id)
-        return database
-            .runTransaction {
-                val snapshot = it.get(docRef)
-                val numReviews: Int? = snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)
-                val averageGrade: Double? = snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)
-                if (numReviews != null && averageGrade != null) {
-                    val newNumReviews = numReviews + 1
-                    val newAverageGrade: Double =
-                        averageGrade + (rating.toValue() - averageGrade) / newNumReviews
-                    it.update(
-                        docRef, NUM_REVIEWS_FIELD_NAME, newNumReviews
-                    ).update(docRef, AVERAGE_GRADE_FIELD_NAME, newAverageGrade)
-                }
-            }.await()
-    }
 
     private val queryMostRated = query()
         .orderBy(NUM_REVIEWS_FIELD_NAME, Query.Direction.DESCENDING)
@@ -121,7 +109,7 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
             .query()
             .match(field, prefix)
             .execute(LIMIT_QUERY_SEARCH)
-            .mapResult { it.mapNotNull(transform) }
+            .mapResult { it.mapNotNull { document -> transform(document)} }
 
 
 }

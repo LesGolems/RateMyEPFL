@@ -1,11 +1,11 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.EventRepositoryInterface
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class FakeEventRepository @Inject constructor() : EventRepositoryInterface {
+class FakeEventRepository @Inject constructor() : EventRepository {
 
     companion object {
         val DATE = LocalDateTime.now()

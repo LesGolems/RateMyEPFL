@@ -1,11 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Transaction
 
-interface Repository<T : RepositoryItem> {
+interface Repository<T : RepositoryItem> : Queryable {
 
     /**
      * Retrieve a given number of items from the collection
@@ -36,15 +37,22 @@ interface Repository<T : RepositoryItem> {
      */
     fun add(item: T): Task<Void>
 
-//    /**
-//     * Update the [field] of the document with the provided [id] by transforming the data.
-//     *
-//     * @param id: The id of the document to edit
-//     * @param field: the field of the document to edit
-//     * @param transform: the transform to apply to the stored data
-//     *
-//     * @return
-//     */
-//    fun update(id: String, field: String, transform: (T) -> T): Task<Transaction>
+    /**
+     * Update the the document with the provided [id] by transforming the data.
+     *
+     * @param id: The id of the document to edit
+     * @param transform: the transform to apply to the stored data
+     *
+     * @return
+     */
+    fun update(id: String, transform: (T) -> T): Task<Transaction>
 
+    /**
+     * Transform fetched [DocumentSnapshot] into [T]
+     *
+     * @param document: document to convert
+     *
+     * @return the converted document, or null if it is not valid
+     */
+    fun transform(document: DocumentSnapshot): T?
 }

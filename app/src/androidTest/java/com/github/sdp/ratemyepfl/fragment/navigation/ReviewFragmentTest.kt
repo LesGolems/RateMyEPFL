@@ -33,8 +33,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         TabAction.selectTab(ReviewableTabFragment.TAB.CLASSROOM.tabName)
         checkClassroom()
     }
@@ -42,8 +41,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         TabAction.selectTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
         checkRestaurant()
     }
@@ -52,8 +50,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheRightOfCourseTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> { }
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> { }
         ViewPagerAction.swipeNext()
         checkClassroom()
     }
@@ -61,8 +58,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersSwipeToTheRightOfClassroomTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         ViewPagerAction.apply {
             swipeNext()
         }.swipeNext()
@@ -72,8 +68,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         ViewPagerAction.swipePrevious()
@@ -83,8 +78,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
-        val scenario =
-            HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         ViewPagerAction.apply { swipePrevious() }.swipePrevious()

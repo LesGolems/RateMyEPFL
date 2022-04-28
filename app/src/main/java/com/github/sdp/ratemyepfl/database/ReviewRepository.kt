@@ -15,7 +15,9 @@ class ReviewRepository(val repository: RepositoryImpl<Review>) : ReviewRepositor
     Repository<Review> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(RepositoryImpl<Review>(db, REVIEW_COLLECTION_PATH))
+    constructor(db: FirebaseFirestore) : this(RepositoryImpl<Review>(db, REVIEW_COLLECTION_PATH) {
+        it.toReview()
+    })
 
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"

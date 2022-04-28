@@ -1,12 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.toReview
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
+import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Transaction
 import org.mockito.Mockito
 import java.time.LocalDate
 import javax.inject.Inject
@@ -130,4 +133,13 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
     override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
 
     override fun add(item: Review) = Mockito.mock(Task::class.java) as Task<Void>
+    override fun update(id: String, transform: (Review) -> Review): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
+    }
+
+    override fun transform(document: DocumentSnapshot): Review? =
+        document.toReview()
+
+
+    override fun query(): Query = Mockito.mock(Query::class.java)
 }

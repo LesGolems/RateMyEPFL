@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.database.util
 import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.google.firebase.firestore.DocumentSnapshot
 
+@Suppress("UNCHECKED_CAST")
 data class ArrayItem(private val id: String, val data: List<Int>) : RepositoryItem {
 
     companion object {

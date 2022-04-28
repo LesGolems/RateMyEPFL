@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -89,7 +90,7 @@ class ReviewableRepositoryImplTest {
 
     @After
     fun teardown() {
-        RepositoryUtil.clear(repository.collection)
+        RepositoryUtil.clear(db.collection("reviewableTest"))
     }
 
     @Test
