@@ -11,4 +11,6 @@
     <color name="orange">#FF8C00</color>
     <color name="red">#FF0000</color>
     <color name="green">#66FF00</color>
+    <color name="yellow">#ffff00</color>
+    <color name="dark_orange">#FF6100</color>
 </resources>

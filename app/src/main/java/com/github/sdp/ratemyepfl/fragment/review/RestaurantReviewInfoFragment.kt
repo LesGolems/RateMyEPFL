@@ -39,11 +39,17 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
 
     private fun setupOccupancyUI(view: View, n: Int) {
         occupancyBar.progressTintList = when {
-            n <= 2 -> {
+            n == 1 -> {
                 ColorStateList.valueOf(resources.getColor(R.color.green))
             }
-            n <= 4 -> {
+            n == 2 -> {
+                ColorStateList.valueOf(resources.getColor(R.color.yellow))
+            }
+            n == 3 -> {
                 ColorStateList.valueOf(resources.getColor(R.color.orange))
+            }
+            n == 4 -> {
+                ColorStateList.valueOf(resources.getColor(R.color.dark_orange))
             }
             else -> {
                 ColorStateList.valueOf(resources.getColor(R.color.red))
