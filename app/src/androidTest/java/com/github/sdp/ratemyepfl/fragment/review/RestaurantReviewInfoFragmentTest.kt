@@ -51,6 +51,36 @@ class RestaurantReviewInfoFragmentTest {
     }
 
     @Test
+    fun noOccupancyDisplayed() {
+        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_NO_OCCUPANCY
+
+        launch()
+
+        onView(withId(R.id.occupancyRating))
+            .check(matches(withText("Clear")))
+    }
+
+    @Test
+    fun midOccupancyDisplayed() {
+        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_MEDIUM_OCCUPANCY
+
+        launch()
+
+        onView(withId(R.id.occupancyRating))
+            .check(matches(withText("Busy")))
+    }
+
+    @Test
+    fun fullOccupancyDisplayed() {
+        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_FULL_OCCUPANCY
+
+        launch()
+
+        onView(withId(R.id.occupancyRating))
+            .check(matches(withText("Full")))
+    }
+
+    @Test
     fun noReviewDisplayed() {
         val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITHOUT_REVIEWS
         FakeRestaurantRepository.restaurantById = fakeRestaurant
