@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
-class CourseRepositoryImpl(val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
+class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
     ReviewableRepository<Course> by repository, Repository<Course> by repository {
 
     @Inject

@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
-class ClassroomRepositoryImpl(val repository: ReviewableRepositoryImpl<Classroom>) :
+class ClassroomRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Classroom>) :
     ClassroomRepository, ReviewableRepository<Classroom> by repository,
     Repository<Classroom> by repository {
 

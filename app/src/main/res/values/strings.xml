@@ -53,6 +53,8 @@
     <string name="course_credits">Credits : %s</string>
     <string name="i_like_this_review">I like this review</string>
     <string name="i_don_t_like_this_review">I don\'t like this review</string>
+    <string name="my_profile_string">My Profile</string>
+    <string name="anonymous">Anonymous</string>
     <string name="my_profile">My Profile</string>
     <string name="username">username</string>
     <string name="email">email</string>
@@ -60,4 +62,6 @@
     <string name="gmail_icon">Gmail icon</string>
     <string name="photo_cluster_item">Photo of cluster item</string>
     <string name="OccupancyMessage">%s</string>
+    <string name="button_for_capturing_a_photo_from_the_camera">Button for capturing a photo from the camera</string>
+    <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
 </resources>

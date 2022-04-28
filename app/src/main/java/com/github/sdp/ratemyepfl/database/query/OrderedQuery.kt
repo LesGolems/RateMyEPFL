@@ -11,7 +11,8 @@ import com.google.firebase.firestore.Query.Direction.DESCENDING
 typealias OrderDirection = com.google.firebase.firestore.Query.Direction
 
 /**
- * A query ordered on provided fields
+ * A query ordered on provided fields. The query is order by the order of the fields in
+ * [fields].
  */
 data class OrderedQuery(private val query: FirebaseQuery, val fields: List<OrderedField>) {
 
@@ -334,9 +335,20 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
 
     data class OrderedField(val name: String, val order: OrderDirection) {
         companion object {
+
+            /**
+             * Returns the names of the [OrderedField]
+             *
+             * @return a [List] of names
+             */
             fun List<OrderedField>.names(): List<String> =
                 map { it.name }
 
+            /**
+             * Returns the orders of the [OrderedField]
+             *
+             * @return a [List] of orders
+             */
             fun List<OrderedField>.orders(): List<OrderDirection> =
                 map { it.order }
         }

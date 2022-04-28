@@ -79,9 +79,6 @@ class UserProfileViewModel @Inject constructor(
     }
 
     fun changeProfilePicture(newImage: ImageFile) {
-        if (newImage.size > imageStorage.MAX_ITEM_SIZE) {
-            throw IllegalArgumentException("Picture size should be less than ${imageStorage.MAX_ITEM_SIZE}.")
-        }
         picture.postValue(newImage)
     }
 

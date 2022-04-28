@@ -4,8 +4,14 @@ import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LI
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
+import com.google.firebase.firestore.ktx.getField
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -15,12 +21,13 @@ class EventRepository(val repository: RepositoryImpl<Event>) :
     Repository<Event> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore): this(RepositoryImpl(db, EVENT_COLLECTION_PATH))
+    constructor(db: FirebaseFirestore) : this(RepositoryImpl(db, EVENT_COLLECTION_PATH))
 
     private val collection = repository.collection
     private val db = repository.database
 
     companion object {
+        const val NAME_FIELD_NAME: String = "name"
         const val EVENT_COLLECTION_PATH = "events"
         const val LATITUDE_FIELD_NAME = "lat"
         const val LONGITUDE_FIELD_NAME = "long"
@@ -29,14 +36,29 @@ class EventRepository(val repository: RepositoryImpl<Event>) :
         const val DATE_FIELD_NAME = "date"
 
         fun DocumentSnapshot.toEvent(): Event? {
-            val lat = getString(LATITUDE_FIELD_NAME)?.toDouble() ?: 0.0
-            val long = getString(LONGITUDE_FIELD_NAME)?.toDouble() ?: 0.0
-            val numReviews = getString(NUM_REVIEWS_FIELD_NAME)?.toInt() ?: 0
-            val averageGrade = getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble() ?: 0.0
-            val numParticipants = getString(NUMBER_PARTICIPANTS_FIELD_NAME)?.toInt() ?: 0
-            val limitParticipants = getString(LIMIT_PARTICIPANTS_FIELD_NAME)?.toInt() ?: 0
+            val name = getString(NAME_FIELD_NAME)
+            val lat = getDouble(LATITUDE_FIELD_NAME)
+            val long = getDouble(LONGITUDE_FIELD_NAME)
+            val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
+            val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
+            val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
+            val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
-            return Event(id, numReviews, averageGrade, numParticipants, limitParticipants, lat, long, date)
+            return try {
+                Event.Builder(
+                    name,
+                    numReviews,
+                    averageGrade,
+                    numParticipants,
+                    limitParticipants,
+                    lat,
+                    long,
+                    date
+                )
+                    .build()
+            } catch (e: IllegalStateException) {
+                null
+            }
         }
     }
 
@@ -46,23 +68,34 @@ class EventRepository(val repository: RepositoryImpl<Event>) :
     override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
 
     override suspend fun incrementParticipants(id: String) {
-        changeParticipants(id, 1)
+        coroutineScope {
+            this.launch(Dispatchers.IO) {
+                changeParticipants(id, 1).await()
+            }
+        }
     }
 
     override suspend fun decrementParticipants(id: String) {
-        changeParticipants(id, -1)
+        coroutineScope {
+            this.launch(Dispatchers.IO) {
+                changeParticipants(id, -1).await()
+            }
+        }
     }
 
-    private suspend fun changeParticipants(id: String, incDec: Int) {
+    private fun changeParticipants(id: String, incDec: Int): Task<Transaction> {
         val docRef = collection.document(id)
-        db.runTransaction { transaction ->
+        return db.runTransaction { transaction ->
             val snapshot = transaction.get(docRef)
-            val numParticipants = snapshot.getString(NUMBER_PARTICIPANTS_FIELD_NAME)?.toInt()
-            if (numParticipants != null) {
-                transaction.update(docRef, NUMBER_PARTICIPANTS_FIELD_NAME, (numParticipants + incDec).toString())
-            }
-            null
-        }.await()
+            snapshot.getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
+                ?.let { number ->
+                    transaction.update(
+                        docRef,
+                        NUMBER_PARTICIPANTS_FIELD_NAME,
+                        (number + incDec)
+                    )
+                }
+        }
     }
 
 }

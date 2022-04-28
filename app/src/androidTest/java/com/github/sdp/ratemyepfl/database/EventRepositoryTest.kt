@@ -1,10 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.EventRepository.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.EventRepository.Companion.toEvent
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -97,17 +99,18 @@ class EventRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
-        Mockito.`when`(snapshot.getString(EventRepository.LATITUDE_FIELD_NAME)).thenReturn(lat.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.LONGITUDE_FIELD_NAME)).thenReturn(long.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants.toString())
+        Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
+        Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
+        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
+        Mockito.`when`(snapshot.getDouble(EventRepository.LATITUDE_FIELD_NAME)).thenReturn(lat)
+        Mockito.`when`(snapshot.getDouble(EventRepository.LONGITUDE_FIELD_NAME)).thenReturn(long)
+        Mockito.`when`(snapshot.getField<Int>(EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants)
+        Mockito.`when`(snapshot.getField<Int>(EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants)
         Mockito.`when`(snapshot.getString(EventRepository.DATE_FIELD_NAME)).thenReturn(date.toString())
 
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()
-            .setId(fake)
+            .name(fake)
             .setNumReviews(15)
             .setAverageGrade(2.5)
             .setLat(lat)

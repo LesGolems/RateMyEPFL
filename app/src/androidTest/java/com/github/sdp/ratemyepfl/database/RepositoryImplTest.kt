@@ -141,4 +141,23 @@ class RepositoryImplTest {
             repository.remove(it).await()
         }
     }
+
+    @Test
+    fun updateTest() = runTest {
+        clearRepo()
+        val item = Item("0", 0)
+        repository.add(item).await()
+        val docRef = repository
+            .collection
+            .document(item.getId())
+        repository.database
+            .runTransaction {
+                val snapshot = it.get(docRef)
+                val data = snapshot.toItem()!!
+                it.update(docRef, Item(data.getId(), 1).toHashMap())
+            }.await()
+        val x = repository.getById(item.getId()).toItem()
+
+        assertEquals(1, x?.data)
+    }
 }

@@ -10,7 +10,7 @@ import kotlin.math.min
 typealias FirebaseQuery = com.google.firebase.firestore.Query
 
 /**
- * Define extension methods for [FirebaseQuery]
+ * Define extension methods for [FirebaseQuery].
  */
 data class Query(private val query: FirebaseQuery) {
 

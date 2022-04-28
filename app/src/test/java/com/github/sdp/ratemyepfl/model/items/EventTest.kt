@@ -1,5 +1,9 @@
 package com.github.sdp.ratemyepfl.model.items
 
+import com.github.sdp.ratemyepfl.database.EventRepository
+import com.github.sdp.ratemyepfl.database.EventRepository.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -11,13 +15,14 @@ class EventTest {
     private val EXPECTED_EVENT = Event(ID, 10, 4.0,
         64, 70, 46.52, 6.569, DATE)
     private val EXPECTED_HASH_MAP = hashMapOf(
-        "numParticipants" to "64",
-        "limitParticipants" to "70",
-        "lat" to "46.52",
-        "long" to "6.569",
-        "date" to DATE.toString(),
-        "numReviews" to "10",
-        "averageGrade" to "4.0"
+        NAME_FIELD_NAME to EXPECTED_EVENT.name,
+        EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,
+        EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.limitParticipants,
+        EventRepository.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
+        EventRepository.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
+        EventRepository.DATE_FIELD_NAME to DATE.toString(),
+        ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to EXPECTED_EVENT.numReviews,
+        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.averageGrade
     )
 
     @Test
@@ -47,7 +52,7 @@ class EventTest {
         val builder = Event.Builder()
             .setNumReviews(10)
             .setAverageGrade(4.0)
-            .setId(null)
+            .name(null)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -60,7 +65,7 @@ class EventTest {
         val lat = 0.0
         val long = 0.0
         val builder = Event.Builder()
-            .setId(fake)
+            .name(fake)
             .setNumReviews(10)
             .setAverageGrade(4.0)
             .setLat(lat)

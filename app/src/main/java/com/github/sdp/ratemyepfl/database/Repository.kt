@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.database
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.Transaction
 
 interface Repository<T : RepositoryItem> {
 
@@ -34,5 +35,16 @@ interface Repository<T : RepositoryItem> {
      * @param item: object to add
      */
     fun add(item: T): Task<Void>
+
+//    /**
+//     * Update the [field] of the document with the provided [id] by transforming the data.
+//     *
+//     * @param id: The id of the document to edit
+//     * @param field: the field of the document to edit
+//     * @param transform: the transform to apply to the stored data
+//     *
+//     * @return
+//     */
+//    fun update(id: String, field: String, transform: (T) -> T): Task<Transaction>
 
 }

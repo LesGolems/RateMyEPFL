@@ -22,11 +22,12 @@ import kotlinx.coroutines.tasks.await
  * @param repository: a [LoaderRepositoryImpl] to decorate
  * @param idFieldName: the name of the field that holds the id of the [Reviewable]
  */
-class ReviewableRepositoryImpl<T : Reviewable>(
-    val repository: LoaderRepositoryImpl<T>,
-    val idFieldName: String,
+class ReviewableRepositoryImpl<T : Reviewable> private constructor(
+    private val repository: LoaderRepositoryImpl<T>,
+    private val idFieldName: String,
 ) : ReviewableRepository<T>, Repository<T> by repository, LoaderRepository<T> by repository,
     Queryable by repository {
+
     constructor(
         database: FirebaseFirestore,
         collectionPath: String,
@@ -58,7 +59,7 @@ class ReviewableRepositoryImpl<T : Reviewable>(
     suspend fun updateRating(id: String, rating: ReviewRating) {
         val docRef = collection
             .document(id)
-        database
+        return database
             .runTransaction {
                 val snapshot = it.get(docRef)
                 val numReviews: Int? = snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)

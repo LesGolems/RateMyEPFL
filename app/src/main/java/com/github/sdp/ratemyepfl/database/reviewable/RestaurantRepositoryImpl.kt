@@ -13,7 +13,7 @@ import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaurant>) :
+class RestaurantRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Restaurant>) :
     RestaurantRepository, ReviewableRepository<Restaurant> by repository,
     Repository<Restaurant> by repository {
 
@@ -41,8 +41,12 @@ class RestaurantRepositoryImpl(val repository: ReviewableRepositoryImpl<Restaura
             val lon = getDouble(LONGITUDE_FIELD_NAME)
             val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
             val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
-            return Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
-                .build()
+            return try {
+                Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
+                    .build()
+            } catch (e: IllegalStateException) {
+                null
+            }
         }
     }
 
