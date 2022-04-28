@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         // Setup the top level destinations with an ActionBar
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.reviewFragment, R.id.eventFragment, R.id.mapFragment)
+            setOf(R.id.homeFragment, R.id.reviewFragment, R.id.eventFragment, R.id.mapFragment, R.id.timetableFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
