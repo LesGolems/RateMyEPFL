@@ -3,9 +3,12 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
+import com.github.sdp.ratemyepfl.model.items.Class
+import java.lang.Exception
 
 @Singleton
 class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface,
@@ -16,12 +19,16 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
         const val USERNAME_FIELD_NAME = "username"
         const val EMAIL_FIELD_NAME = "email"
         const val PICTURE_FIELD_NAME = "picture"
+        const val TIMETABLE_FIELD_NAME = "timetable"
 
         fun DocumentSnapshot.toUser(): User {
             return User(
                 uid = id,
                 username = getString(USERNAME_FIELD_NAME),
                 email = getString(EMAIL_FIELD_NAME),
+                timetable = Gson().fromJson(
+                    getString(TIMETABLE_FIELD_NAME) ?: "", Array<Class>::class.java
+                ).toCollection(ArrayList())
             )
         }
     }

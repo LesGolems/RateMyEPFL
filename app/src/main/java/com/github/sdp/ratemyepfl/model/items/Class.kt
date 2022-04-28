@@ -1,14 +1,18 @@
 package com.github.sdp.ratemyepfl.model.items
 
-data class Class (
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Class(
     val id: Int? = null,
     val name: String? = null,
     val teacher: String? = null,
-    val room: Classroom? = null,
+    val room: String? = null,
     val day: Int? = null,
     val start: Int? = null,
-    val end: Int? = null) {
+    val end: Int? = null
+) {
 
-    val duration = (end ?: 0) - (start ?: 0)
+    fun duration() = (end ?: 0) - (start ?: 0)
 
 }

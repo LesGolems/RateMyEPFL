@@ -44,7 +44,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         TUESDAY("Tuesday"),
         WEDNESDAY("Wednesday"),
         THURSDAY("Thursday"),
-        FRIDAY("Fryday");
+        FRIDAY("Friday");
 
         fun toFragment(day: String, timetable: ArrayList<Class>): DayFragment {
             val frag = DayFragment()

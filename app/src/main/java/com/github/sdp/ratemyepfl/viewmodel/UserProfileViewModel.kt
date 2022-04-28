@@ -23,6 +23,7 @@ class UserProfileViewModel @Inject constructor(
     private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
     private val username: MutableLiveData<String?> = MutableLiveData(null)
     private val email: MutableLiveData<String?> = MutableLiveData(null)
+    var timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
     private var newUsername: String? = null
     private var newEmail: String? = null
@@ -35,6 +36,7 @@ class UserProfileViewModel @Inject constructor(
                 if (user != null) {
                     username.postValue(user.username)
                     email.postValue(user.email)
+                    timetable.postValue(user.timetable)
                 } else {
                     username.postValue(currentUser.getUsername()!!.split(" ")[0])
                     email.postValue(currentUser.getEmail())
@@ -64,7 +66,7 @@ class UserProfileViewModel @Inject constructor(
     }
 
     fun timetable(): MutableLiveData<ArrayList<Class>?> {
-        TODO()
+        return timetable
     }
 
     fun addClass(c: Class) {

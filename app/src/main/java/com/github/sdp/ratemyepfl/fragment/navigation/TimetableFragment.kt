@@ -7,10 +7,12 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -39,7 +41,7 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
                 }
                 .toList()
 
-            val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+            val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2
             viewPager.currentItem = if (today in 0..4) today else 0
 
             viewPager.offscreenPageLimit = fragments.size
@@ -53,4 +55,5 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
             }.attach()
         }
     }
+
 }

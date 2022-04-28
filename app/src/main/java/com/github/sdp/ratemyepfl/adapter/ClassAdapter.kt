@@ -23,14 +23,14 @@ class ClassAdapter(val day: String, private val classes: List<Class>) :
 
         holder.view.findViewById<TextView>(R.id.classname).text = item.name ?: "?"
         holder.view.findViewById<TextView>(R.id.teacher).text = item.teacher ?: "?"
-        holder.view.findViewById<TextView>(R.id.room).text = item.room?.id ?: "?"
+        holder.view.findViewById<TextView>(R.id.room).text = item.room?: "?"
         holder.view.findViewById<TextView>(R.id.startTime).text = convert(item.start)
         holder.view.findViewById<TextView>(R.id.endTime).text = convert(item.end)
 
         // Increase item height for longer classes
-        if (item.duration > 1) {
+        if (item.duration() > 1) {
             holder.view.layoutParams.height =
-                (holder.view.context.resources.getDimension(R.dimen.classheight) * 2).toInt()
+                (holder.view.context.resources.getDimension(R.dimen.classheight) * item.duration()).toInt()
         }
     }
 
