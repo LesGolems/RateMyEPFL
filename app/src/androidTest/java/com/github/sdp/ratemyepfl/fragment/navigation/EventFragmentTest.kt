@@ -71,19 +71,4 @@ class EventFragmentTest {
         onView(withId(R.id.eventRecyclerView))
             .check(matches(isDisplayed()))
     }
-
-    @ExperimentalCoroutinesApi
-    @Test
-    fun clickOnButtonNotLoggedWorks() {
-        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
-        onView(withId(R.id.eventRecyclerView)).perform(
-            actionOnItemAtPosition<EventAdapter.EventViewHolder>(
-                0,
-                clickOnViewChild(R.id.registerButton)
-            )
-        )
-        onView(withId(R.id.eventRecyclerView))
-            .check(matches(isDisplayed()))
-    }
 }
