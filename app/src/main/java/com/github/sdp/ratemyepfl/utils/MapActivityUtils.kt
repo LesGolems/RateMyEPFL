@@ -7,6 +7,8 @@ object MapActivityUtils {
         "Arcadie" to R.raw.arcadie,
         "Epicure" to R.raw.epicure,
         "Niki" to R.raw.niki,
-        "Roulotte du Soleil" to R.raw.soleil_roulotte
+        "Roulotte du Soleil" to R.raw.soleil_roulotte,
+        "Balélec" to R.raw.balelec,
+        "Vivapoly" to R.raw.vivapoly
     )
 }
