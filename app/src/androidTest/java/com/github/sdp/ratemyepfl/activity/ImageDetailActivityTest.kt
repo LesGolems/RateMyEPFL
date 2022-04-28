@@ -12,7 +12,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchIn
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchOut
-import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
+import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -33,7 +33,7 @@ class ImageDetailActivityTest {
     val testRule = ActivityScenarioRule(ImageDetailActivity::class.java)
 
     private val pictureId = R.raw.room1
-    private val picture = ImageFile("fake Id", drawableToBitmap(pictureId))
+    private val picture = ImageFile("fake Id", resourceToBitmap(pictureId))
 
 
     @Before

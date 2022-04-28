@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
@@ -31,9 +30,9 @@ class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<Image
         addImage(item, item.id)
     }
 
-    override suspend fun remove(path: String) {
+    override suspend fun remove(id: String) {
         storageRef
-            .child("${path}$FILE_EXTENSION")
+            .child("${id}$FILE_EXTENSION")
             .delete()
             .await()
     }
@@ -77,10 +76,6 @@ class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<Image
      * Adds [item] to the collection at location [path].
      */
     private suspend fun addImage(item: ImageFile, path: String) {
-        if (item.size > MAX_ITEM_SIZE) {
-            throw IllegalArgumentException("Image size should be less than $MAX_ITEM_SIZE bytes.")
-        }
-
         val stream = ByteArrayOutputStream()
         item.data.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 

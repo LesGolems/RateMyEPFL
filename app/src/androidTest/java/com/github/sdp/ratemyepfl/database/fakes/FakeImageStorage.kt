@@ -3,17 +3,18 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.utils.TestUtils.drawableToBitmap
+import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import javax.inject.Inject
 
 class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
-    private val images = HashMap<String, ImageFile>()
-
+  
     init {
-        images.put("12345", ImageFile("12345", drawableToBitmap(R.raw.pp1)))
+        images.put("12345", ImageFile("12345", resourceToBitmap(R.raw.pp1)))
     }
 
     companion object {
+        val images = HashMap<String, ImageFile>()
+
         val pictureIds = listOf(
             R.raw.room3,
             R.raw.room1,
@@ -24,7 +25,7 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
         )
 
         val pictures = pictureIds.map {
-            ImageFile(it.toString(), drawableToBitmap(it))
+            ImageFile(it.toString(), resourceToBitmap(it))
         }
     }
 
@@ -51,7 +52,7 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
     }
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {
-        TODO("Will be implemented in my second Sprint task")
+        images[dir] = item
     }
 
     override suspend fun removeInDirectory(id: String, dir: String) {

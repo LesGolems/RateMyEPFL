@@ -8,13 +8,18 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
+import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
+import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
+import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -22,6 +27,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import android.Manifest
 
 @HiltAndroidTest
 class RoomReviewPictureFragmentTest {
@@ -29,6 +35,13 @@ class RoomReviewPictureFragmentTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.CAMERA,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     @Before
     fun setUp() {
@@ -76,6 +89,22 @@ class RoomReviewPictureFragmentTest {
         )
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
+    }
+
+    @Test
+    fun selectPhotoWorks() {
+        init()
+        val activity = getActivity(scenario)
+        savePickedImage(activity, R.raw.pp1)
+        val imgGalleryResult = createImageGallerySetResultStub(activity)
+        intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
+        onView(withId(R.id.selectPhotoFAB)).perform(click())
+        release()
+    }
+
+    @Test
+    fun startCamera() {
+        onView(withId(R.id.capturePhotoFAB)).perform(click())
     }
 
 }

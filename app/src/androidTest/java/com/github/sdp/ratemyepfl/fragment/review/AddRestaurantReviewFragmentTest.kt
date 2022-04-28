@@ -8,6 +8,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
@@ -37,6 +38,7 @@ class AddRestaurantReviewFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
+        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
     }
 
     @After
@@ -46,7 +48,6 @@ class AddRestaurantReviewFragmentTest {
 
     @Test
     fun nullGradeNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
         val comment = "Good"
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
@@ -56,7 +57,6 @@ class AddRestaurantReviewFragmentTest {
 
     @Test
     fun nullCommentNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
         val title = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(click())
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
@@ -67,7 +67,6 @@ class AddRestaurantReviewFragmentTest {
 
     @Test
     fun nullTitleNoReset() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
         val comment = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
@@ -79,7 +78,6 @@ class AddRestaurantReviewFragmentTest {
 
     @Test
     fun nonNullArgumentsResetsAddReview() {
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
@@ -114,5 +112,40 @@ class AddRestaurantReviewFragmentTest {
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.addReviewComment)).check(matches(withText(comment)))
         onView(withId(R.id.addReviewTitle)).check(matches(withText(title)))
+    }
+
+    @Test
+    fun anonymousSwitchIsDisplayedAndUncheckedOnLoad() {
+        onView(withId(R.id.anonymous_switch)).check(matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.anonymous_switch)).check(matches(withText("Anonymous")))
+        onView(withId(R.id.anonymous_switch)).check(matches(ViewMatchers.isNotChecked()))
+    }
+
+    @Test
+    fun anonymousSwitchWorks() {
+        onView(withId(R.id.anonymous_switch)).check(matches(ViewMatchers.isNotChecked()))
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.anonymous_switch)).check(matches(ViewMatchers.isChecked()))
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.anonymous_switch)).check(matches(ViewMatchers.isNotChecked()))
+    }
+
+    @Test
+    fun anonymousReviewWorks() {
+        val comment = "Good"
+        val title = "Good title"
+        onView(withId(R.id.reviewRatingBar)).perform(
+            performSetRating(
+                ReviewRating.GOOD
+            )
+        )
+        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.addReviewComment)).perform(typeText(comment))
+        closeSoftKeyboard()
+        onView(withId(R.id.addReviewTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
+        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
     }
 }
