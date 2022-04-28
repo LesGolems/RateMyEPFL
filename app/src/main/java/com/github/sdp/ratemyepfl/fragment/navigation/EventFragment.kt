@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.EventAdapter
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.EventListViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventFragment : Fragment(R.layout.layout_event_list) {
@@ -26,6 +28,9 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             { e -> viewModel.unregister(e) }
         )
     private lateinit var recyclerView: RecyclerView
+
+    @Inject
+    lateinit var auth: ConnectedUser
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,13 +66,23 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         startActivity(intent)
     }
 
-    private fun registerListener(event: Event) {
-        if (event.numParticipants == event.limitParticipants) {
-            Snackbar.make(requireView(), R.string.full_event_text, Snackbar.LENGTH_SHORT)
-                .setAnchorView(R.id.activityMainBottomNavigationView)
-                .show()
-        } else {
-            viewModel.register(event)
+    /**
+     * Register the user and returns whether he is connected or not
+     */
+    private fun registerListener(event: Event): Boolean {
+        if (auth.isLoggedIn()) {
+            if (event.numParticipants == event.limitParticipants) {
+                Snackbar.make(requireView(), R.string.full_event_text, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(R.id.activityMainBottomNavigationView)
+                    .show()
+            } else {
+                viewModel.register(event)
+            }
+            return true
         }
+        Snackbar.make(requireView(), R.string.registration_no_login_text, Snackbar.LENGTH_SHORT)
+            .setAnchorView(R.id.activityMainBottomNavigationView)
+            .show()
+        return false
     }
 }

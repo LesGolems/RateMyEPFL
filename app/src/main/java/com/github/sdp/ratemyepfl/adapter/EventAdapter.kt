@@ -13,9 +13,11 @@ import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.material.button.MaterialButton
 
 class EventAdapter(private val onClick: (Event) -> Unit,
-                   private val registerListener: (Event) -> Unit,
+                   private val registerListener: (Event) -> Boolean,
                    private val unregisterListener: (Event) -> Unit) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
+
+    private var isRegistered = false
 
     inner class EventViewHolder(eventView: View) :
         RecyclerView.ViewHolder(eventView) {
@@ -24,7 +26,7 @@ class EventAdapter(private val onClick: (Event) -> Unit,
         private val participantsTextView: TextView = eventView.findViewById(R.id.participants)
         private val registerButton: MaterialButton = eventView.findViewById(R.id.registerButton)
         private var currentEvent: Event? = null
-        private var isRegistered = false
+
 
         init {
             eventView.isClickable = true
@@ -42,19 +44,18 @@ class EventAdapter(private val onClick: (Event) -> Unit,
         private fun setUpRegisterButton(event: Event) {
             // Check registration locally but in the future it will be recorded on the database
             // TODO(MODIFICATION)
-            if (event.numParticipants < event.limitParticipants || isRegistered) {
-                registerButton.setOnClickListener {
-                    if (!isRegistered) {
+            registerButton.setOnClickListener {
+                if (!isRegistered) {
+                    if (registerListener(event) && event.numParticipants < event.limitParticipants) {
                         registerButton.text = UNREGISTER
                         registerButton.setIconResource(R.drawable.ic_logout_black_24dp)
-                        registerListener(event)
                         isRegistered = true
-                    } else {
-                        registerButton.text = REGISTER
-                        registerButton.setIconResource(R.drawable.ic_login_black_24dp)
-                        unregisterListener(event)
-                        isRegistered = false
                     }
+                } else {
+                    unregisterListener(event)
+                    registerButton.text = REGISTER
+                    registerButton.setIconResource(R.drawable.ic_login_black_24dp)
+                    isRegistered = false
                 }
             }
         }

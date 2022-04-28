@@ -40,6 +40,7 @@
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
     <string name="full_event_text">This event is full!</string>
+    <string name="registration_no_login_text">You need to login to be able to register!</string>
     <string name="image_seen_in_detail">Image seen in detail</string>
     <string name="picture_of_an_epfl_room">Picture of an EPFL room</string>
     <string name="default_id_text">Default id text</string>

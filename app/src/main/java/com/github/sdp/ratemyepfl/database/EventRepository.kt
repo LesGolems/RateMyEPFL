@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -36,6 +37,8 @@ class EventRepository @Inject constructor(db: FirebaseFirestore) :
     override suspend fun getEvents(): List<Event> = take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
 
     override suspend fun getEventById(id: String): Event? = toItem(getById(id))
+
+    override suspend fun updateEventRating(id: String, rating: ReviewRating) = updateRating(id, rating)
 
     override suspend fun incrementParticipants(id: String) {
         changeParticipants(id, 1)
