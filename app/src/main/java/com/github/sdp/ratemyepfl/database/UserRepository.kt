@@ -27,7 +27,7 @@ class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepository
                 username = getString(USERNAME_FIELD_NAME),
                 email = getString(EMAIL_FIELD_NAME),
                 timetable = Gson().fromJson(
-                    (getString(TIMETABLE_FIELD_NAME)?: ""), Array<Class>::class.java
+                    (getString(TIMETABLE_FIELD_NAME)?: " "), Array<Class>::class.java
                 ).toCollection(ArrayList())
             )
         }
