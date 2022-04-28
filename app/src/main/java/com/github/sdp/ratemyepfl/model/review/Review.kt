@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.review
 
 import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -65,14 +65,14 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            ReviewRepository.TITLE_FIELD_NAME to title,
-            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepository.COMMENT_FIELD_NAME to comment,
-            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.UID_FIELD_NAME to uid,
-            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
-            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
+            ReviewRepositoryImpl.TITLE_FIELD_NAME to title,
+            ReviewRepositoryImpl.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepositoryImpl.COMMENT_FIELD_NAME to comment,
+            ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
+            ReviewRepositoryImpl.DATE_FIELD_NAME to date.toString(),
+            ReviewRepositoryImpl.UID_FIELD_NAME to uid,
+            ReviewRepositoryImpl.LIKERS_FIELD_NAME to listOf<String>(),
+            ReviewRepositoryImpl.DISLIKERS_FIELD_NAME to listOf<String>()
         )
     }
 

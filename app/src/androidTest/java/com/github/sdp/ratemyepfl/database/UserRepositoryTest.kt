@@ -22,7 +22,7 @@ class UserRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var userRepo: UserRepository
+    lateinit var userRepo: UserRepositoryImpl
 
     @Before
     fun setup() {

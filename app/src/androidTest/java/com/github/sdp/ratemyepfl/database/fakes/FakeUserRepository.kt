@@ -1,10 +1,10 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 
-class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
+class FakeUserRepository @Inject constructor() : UserRepository {
 
 
     companion object {

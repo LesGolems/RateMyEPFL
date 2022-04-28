@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.model.user
 
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.UserRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -26,8 +26,8 @@ data class User(
      */
     override fun toHashMap(): HashMap<String, Any?>{
         return hashMapOf(
-            UserRepository.USERNAME_FIELD_NAME to username,
-            UserRepository.EMAIL_FIELD_NAME to email,
+            UserRepositoryImpl.USERNAME_FIELD_NAME to username,
+            UserRepositoryImpl.EMAIL_FIELD_NAME to email,
         )
     }
 }

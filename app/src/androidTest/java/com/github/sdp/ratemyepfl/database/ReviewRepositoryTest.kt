@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.DISLIKERS_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.LIKERS_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.toReview
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.DISLIKERS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.LIKERS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -36,7 +36,7 @@ class ReviewRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var reviewRepo: ReviewRepository
+    lateinit var reviewRepo: ReviewRepositoryImpl
 
     @Before
     fun setup() {
@@ -144,19 +144,19 @@ class ReviewRepositoryTest {
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id)
             .thenReturn(fakeId)
-        Mockito.`when`(snapshot.getString(ReviewRepository.RATING_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
             .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(ReviewRepository.TITLE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.TITLE_FIELD_NAME))
             .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(ReviewRepository.COMMENT_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.COMMENT_FIELD_NAME))
             .thenReturn(fakeComment)
-        Mockito.`when`(snapshot.getString(ReviewRepository.REVIEWABLE_ID_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
             .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(ReviewRepository.DATE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(ReviewRepository.LIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.LIKERS_FIELD_NAME))
             .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(ReviewRepository.DISLIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.DISLIKERS_FIELD_NAME))
             .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()
@@ -187,19 +187,19 @@ class ReviewRepositoryTest {
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id)
             .thenReturn(fakeId)
-        Mockito.`when`(snapshot.getString(ReviewRepository.RATING_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
             .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(ReviewRepository.TITLE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.TITLE_FIELD_NAME))
             .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(ReviewRepository.COMMENT_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.COMMENT_FIELD_NAME))
             .thenReturn(fakeComment)
-        Mockito.`when`(snapshot.getString(ReviewRepository.REVIEWABLE_ID_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
             .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(ReviewRepository.DATE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(ReviewRepository.LIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.LIKERS_FIELD_NAME))
             .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(ReviewRepository.DISLIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.DISLIKERS_FIELD_NAME))
             .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()

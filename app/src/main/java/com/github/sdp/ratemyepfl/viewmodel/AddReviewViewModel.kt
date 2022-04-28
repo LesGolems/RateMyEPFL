@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewRepositoryInterface,
+    private val reviewRepo: ReviewRepository,
     private val connectedUser: ConnectedUser
 ) : ViewModel() {
 

@@ -6,14 +6,12 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -39,41 +37,19 @@ class ReviewableRepositoryImplTest {
     private val fake = "fake"
     private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
-        fake,
-        fake,
-        fake,
-        0,
-        fake,
-        0,
-        0.0,
-        fake,
-        fake,
-        fake,
-        fake
-    )
+    private val courseBuilder =
+        Course.Builder(fake, fake, fake, 0, fake, 0, 0.0, fake, fake, fake, fake)
 
     private val personalizedCourse = courseBuilder.setTeacher(personalizedTeacher).build()
 
     private val courses: List<ReviewableItem> = (0..30)
         .map { n ->
-            Course.Builder(
-                fake,
-                fake,
-                fake,
-                0,
-                fake,
-                0,
-                0.0,
-                fake,
-                fake,
-                fake,
-                fake
-            )
+            Course.Builder(fake, fake, fake, 0, fake, 0, 0.0, fake, fake, fake, fake)
                 .setCourseCode(n.toString())
-                .setNumReviews(n % 5 + 1)
-                .setAverageGrade(((n + 2) % 5 + 1).toDouble())
-                .build()
+                .setNumReviews(
+                    n % 5 + 1
+                ).setAverageGrade(((n + 2) % 5 + 1).toDouble())
+                        .build()
         }.plus(personalizedCourse)
 
     @Before

@@ -31,11 +31,11 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideReviewRepo(repo: ReviewRepository): ReviewRepositoryInterface
+    abstract fun provideReviewRepo(repo: ReviewRepositoryImpl): ReviewRepository
 
     @Singleton
     @Binds
-    abstract fun provideUserRepo(repo: UserRepository): UserRepositoryInterface
+    abstract fun provideUserRepo(repo: UserRepositoryImpl): UserRepository
 
     @Singleton
     @Binds

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class UserProfileViewModel @Inject constructor(
     val currentUser: ConnectedUser,
     val imageStorage: Storage<ImageFile>,
-    val userDatabase: UserRepositoryInterface
+    val userDatabase: UserRepository
 ) : ViewModel() {
 
     private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)

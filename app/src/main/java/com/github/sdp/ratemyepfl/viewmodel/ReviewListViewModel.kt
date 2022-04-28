@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
@@ -22,8 +22,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
-    private val reviewRepo: ReviewRepositoryInterface,
-    private val userRepo: UserRepositoryInterface,
+    private val reviewRepo: ReviewRepository,
+    private val userRepo: UserRepository,
     private val imageStorage: Storage<ImageFile>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -77,12 +77,12 @@ open class ReviewListViewModel @Inject constructor(
     }
 
     fun updateLikes(review: Review) {
-        updateVotes(review, review.likers, ReviewRepository.LIKERS_FIELD_NAME)
+        updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME)
         updateReviewsList()
     }
 
     fun updateDislikes(review: Review) {
-        updateVotes(review, review.dislikers, ReviewRepository.DISLIKERS_FIELD_NAME)
+        updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME)
         updateReviewsList()
     }
 }

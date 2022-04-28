@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepository.Companion.toReview
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -15,7 +15,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
+class FakeReviewsRepository @Inject constructor() : ReviewRepository {
 
     companion object {
         val FAKE_UID_1 = "ID1"
@@ -108,7 +108,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
     }
 
     override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        if (fieldName == ReviewRepository.LIKERS_FIELD_NAME) {
+        if (fieldName == ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
             reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, uid)
         } else {
             reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
@@ -116,7 +116,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepositoryInterface {
     }
 
     override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        if (fieldName == ReviewRepository.LIKERS_FIELD_NAME) {
+        if (fieldName == ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
             reviewList[0].likers = listOf(FAKE_UID_1)
         } else {
             reviewList[0].dislikers = listOf(FAKE_UID_4)
