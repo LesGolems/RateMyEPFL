@@ -10,7 +10,7 @@ data class User(
     val uid: String,
     val username: String?,
     val email: String?,
-    val timetable: ArrayList<Class>? = null
+    val timetable: ArrayList<Class>? = ArrayList<Class>()
 ) {
 
     constructor(user: ConnectedUser) : this(
