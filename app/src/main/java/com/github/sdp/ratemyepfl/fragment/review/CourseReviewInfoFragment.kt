@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.viewmodel.CourseInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,14 +28,6 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         }
     }
 
-    private fun getNumReviewString(numReview: Int): String {
-        return if (numReview == 0) {
-            getString(R.string.zero_num_reviews)
-        } else {
-            getString(R.string.num_reviews, numReview.toString())
-        }
-    }
-
     private fun setUpCourseInfo(view: View, course: Course) {
         view.findViewById<TextView>(R.id.courseId).text = course.id
         view.findViewById<TextView>(R.id.courseTitle).text =
@@ -45,7 +38,7 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
             getString(R.string.course_section, course.section)
         view.findViewById<TextView>(R.id.courseCredits).text =
             getString(R.string.course_credits, course.credits.toString())
-        view.findViewById<TextView>(R.id.courseNumReview).text = getNumReviewString(course.numReviews)
+        view.findViewById<TextView>(R.id.courseNumReview).text = getNumReviewString(requireContext(), course.numReviews)
         view.findViewById<RatingBar>(R.id.courseRatingBar).rating = course.averageGrade.toFloat()
     }
 

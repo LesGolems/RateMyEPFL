@@ -21,6 +21,10 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepositoryInter
         val RESTAURANT_WITH_REVIEWS = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0, 15, 2.5)
         val RESTAURANT_WITHOUT_REVIEWS = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
 
+        val RESTAURANT_WITH_NO_OCCUPANCY = Restaurant(id = "Roulotte du Soleil", 0, 1.0, 2.0, 15, 2.5)
+        val RESTAURANT_WITH_MEDIUM_OCCUPANCY = Restaurant(id = "Roulotte du Soleil", 20, 1.0, 2.0, 15, 2.5)
+        val RESTAURANT_WITH_FULL_OCCUPANCY = Restaurant(id = "Roulotte du Soleil", 50, 1.0, 2.0, 15, 2.5)
+
         var restaurantById = RESTAURANT_WITH_REVIEWS
 
         var occupancyCounter = 0
