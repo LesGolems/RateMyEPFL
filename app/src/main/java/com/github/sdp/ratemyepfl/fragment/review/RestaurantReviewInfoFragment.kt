@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.RatingBar
@@ -20,6 +21,8 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     // Gets the shared view model
     private val viewModel by activityViewModels<RestaurantInfoViewModel>()
 
+    private lateinit var occupancyBar: RatingBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) {
@@ -28,21 +31,38 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
                 getNumReviewString(it.numReviews)
             view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
                 it.averageGrade.toFloat()
+            occupancyBar = view.findViewById(R.id.occupancyMetric)
             val n = occupancyMetric(it)
-            view.findViewById<RatingBar>(R.id.occupancyMetric).rating = n.toFloat()
-            view.findViewById<TextView>(R.id.occupancyRating).text = when {
-                n <= 2 -> {
-                    "Clear"
-                }
-                n <= 4 -> {
-                    "Busy"
-                }
-                else -> {
-                    "Full"
-                }
+            setupOccupancyUI(view, n)
+        }
+    }
+
+    private fun setupOccupancyUI(view: View, n: Int) {
+        occupancyBar.progressTintList = when {
+            n <= 2 -> {
+                ColorStateList.valueOf(resources.getColor(R.color.green))
+            }
+            n <= 4 -> {
+                ColorStateList.valueOf(resources.getColor(R.color.orange))
+            }
+            else -> {
+                ColorStateList.valueOf(resources.getColor(R.color.red))
+            }
+        }
+        occupancyBar.rating = n.toFloat()
+        view.findViewById<TextView>(R.id.occupancyRating).text = when {
+            n <= 2 -> {
+                "Clear"
+            }
+            n <= 4 -> {
+                "Busy"
+            }
+            else -> {
+                "Full"
             }
         }
     }
+
 
     private fun getNumReviewString(numReview: Int): String {
         return if (numReview == 0) {
