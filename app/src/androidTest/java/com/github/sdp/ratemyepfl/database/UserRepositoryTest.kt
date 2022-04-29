@@ -98,7 +98,7 @@ class UserRepositoryTest {
             userRepo.getUserByEmail(testUser.email!!)
                 .collect {
                     when (it) {
-                        is QueryState.Failure -> throw Exception(it.errorMessage)
+                        is QueryState.Failure -> throw Exception(it.error)
                         is QueryState.Loading -> {}
                         is QueryState.Success -> {
                             val user = it.data

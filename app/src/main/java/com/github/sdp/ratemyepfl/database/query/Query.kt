@@ -170,8 +170,8 @@ data class Query(private val query: FirebaseQuery) {
                 .await()
 
             emit(QueryState.success(result))
-        }.catch {
-            emit(QueryState.failure("Failed to execute the query ${toString()}"))
+        }.catch { error ->
+            emit(QueryState.failure(error))
         }.asQueryResult()
 
     /**

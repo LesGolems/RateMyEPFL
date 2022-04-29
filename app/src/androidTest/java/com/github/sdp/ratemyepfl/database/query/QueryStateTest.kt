@@ -7,7 +7,7 @@ class QueryStateTest {
 
     private val success = QueryState.success(1)
     private val loading = QueryState.loading<Int>()
-    private val failure = QueryState.failure<Int>("error")
+    private val failure = QueryState.failure<Int>(Exception("error"))
 
     @Test
     fun mapSuccess() {
@@ -21,6 +21,6 @@ class QueryStateTest {
 
     @Test
     fun mapFailure() {
-        assertEquals(QueryState.failure<String>("error"), failure.map { it.toString() })
+        assertEquals(failure, failure.map { it.toString() })
     }
 }

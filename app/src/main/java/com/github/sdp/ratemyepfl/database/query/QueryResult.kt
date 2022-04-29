@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
@@ -46,7 +45,8 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
      * flow { ... }.asQueryResult()
      * ```
      */
-    constructor(block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(flow { this.block() })
+    @OptIn(ExperimentalTypeInference::class)
+    constructor(@BuilderInference block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(flow { this.block() })
 
     companion object {
         /**
@@ -95,11 +95,11 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
          * Create a [QueryResult] that fails immediately. Must only be used for synchronous
          * operation.
          *
-         * @param errorMessage: the error message held by the [QueryResult]
+         * @param error: the error message held by the [QueryResult]
          */
-        fun <T> failure(errorMessage: String): QueryResult<T> =
+        fun <T> failure(error: Throwable): QueryResult<T> =
             flow<QueryState<T>> {
-                emit(QueryState.failure(errorMessage))
+                emit(QueryState.failure(error))
             }.asQueryResult()
     }
 }

@@ -86,11 +86,11 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     override fun getUserByEmail(email: String): QueryResult<User> = getBy(EMAIL_FIELD_NAME, email)
         .map {
             when (it) {
-                is QueryState.Failure -> QueryState.failure<User>(it.errorMessage)
-                is QueryState.Loading -> QueryState.loading<User>()
+                is QueryState.Failure -> QueryState.failure(it.error)
+                is QueryState.Loading -> QueryState.loading()
                 is QueryState.Success -> if (it.data.isEmpty())
-                    QueryState.failure<User>("Unable to find a user with email $email")
-                else QueryState.success<User>(it.data.first())
+                    QueryState.failure(DatabaseException("Unable to find a user with email $email"))
+                else QueryState.success(it.data.first())
             }
         }.asQueryResult()
 

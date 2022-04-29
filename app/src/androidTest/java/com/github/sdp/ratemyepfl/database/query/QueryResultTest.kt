@@ -19,7 +19,7 @@ class QueryResultTest {
         QueryResult.success(listOf<Int>(1, 2, 3))
 
     private val success = QueryResult.success(1)
-    private val failure = QueryResult.failure<Int>("Failed")
+    private val failure = QueryResult.failure<Int>(Exception("Failed"))
 
     @Test
     fun mapResultWorksForLoading() = runTest {
@@ -37,7 +37,7 @@ class QueryResultTest {
         failure.mapResult { it.toString() }
             .collect {
                 when (it) {
-                    is QueryState.Failure<String> -> assertEquals("Failed", it.errorMessage)
+                    is QueryState.Failure<String> -> assertEquals(failure, it.error)
                     else -> throw Exception("Should be failure")
                 }
             }
