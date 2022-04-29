@@ -4,9 +4,9 @@ import com.github.sdp.ratemyepfl.database.query.OrderedQuery.OrderedField.Compan
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery.OrderedField.Companion.orders
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.MAX_QUERY_LIMIT
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Query.Direction.ASCENDING
 import com.google.firebase.firestore.Query.Direction.DESCENDING
+import com.google.firebase.firestore.QuerySnapshot
 
 typealias OrderDirection = com.google.firebase.firestore.Query.Direction
 

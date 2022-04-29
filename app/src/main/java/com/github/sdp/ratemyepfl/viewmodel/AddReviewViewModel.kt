@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepository
@@ -12,10 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.lang.IllegalStateException
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.IllegalStateException
 
 /**
  * View model for the course reviewing feature.

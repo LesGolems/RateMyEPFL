@@ -2,8 +2,9 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.flow.*
-import java.util.concurrent.CompletableFuture
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
@@ -22,7 +23,7 @@ import java.util.concurrent.CompletableFuture
  * ```
  *
  */
-class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<T>> by result {
+class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<T>> by result {
     /**
      * Map the result of the query using a the provided operation
      *
@@ -30,7 +31,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
      *
      * @return a [QueryResult] with the mapped element
      */
-    fun<U> mapResult(op: (T) -> U): QueryResult<U> =
+    fun <U> mapResult(op: (T) -> U): QueryResult<U> =
         result.map { queryState ->
             queryState.map(op)
         }.asQueryResult()
@@ -43,7 +44,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
          *
          * @return a [QueryResult] containing a list of the mapped elements
          */
-        fun<T, U> QueryResult<List<T>>.mapEach(op: (T) -> U): QueryResult<List<U>> =
+        fun <T, U> QueryResult<List<T>>.mapEach(op: (T) -> U): QueryResult<List<U>> =
             this.mapResult { list ->
                 list.map(op)
             }
@@ -55,7 +56,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
          *
          * @return a [QueryResult] containing a list of the mapped elements
          */
-        fun<T> QueryResult<QuerySnapshot>.mapDocuments(op: (DocumentSnapshot) -> T): QueryResult<List<T>> =
+        fun <T> QueryResult<QuerySnapshot>.mapDocuments(op: (DocumentSnapshot) -> T): QueryResult<List<T>> =
             this.mapResult { querySnapshot ->
                 querySnapshot.mapNotNull(op)
             }
@@ -64,7 +65,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
         /**
          * Wrap the flow in a [QueryResult]. This is a shorthand for a constructor call
          */
-        fun<T> Flow<QueryState<T>>.asQueryResult(): QueryResult<T> =
+        fun <T> Flow<QueryState<T>>.asQueryResult(): QueryResult<T> =
             QueryResult(this)
 
         /**
@@ -73,7 +74,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
          *
          * @param value: The successful result held by the [QueryResult]
          */
-        fun<T> success(value: T): QueryResult<T> =
+        fun <T> success(value: T): QueryResult<T> =
             flow<QueryState<T>> {
                 emit(QueryState.success(value))
             }.asQueryResult()
@@ -84,7 +85,7 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
          *
          * @param errorMessage: the error message held by the [QueryResult]
          */
-        fun<T> failure(errorMessage: String): QueryResult<T> =
+        fun <T> failure(errorMessage: String): QueryResult<T> =
             flow<QueryState<T>> {
                 emit(QueryState.failure(errorMessage))
             }.asQueryResult()

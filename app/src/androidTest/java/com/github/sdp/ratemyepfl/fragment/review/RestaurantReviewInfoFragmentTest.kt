@@ -52,7 +52,8 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun noOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_NO_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_NO_OCCUPANCY
 
         launch()
 
@@ -62,7 +63,8 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun midOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_MEDIUM_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_MEDIUM_OCCUPANCY
 
         launch()
 
@@ -72,7 +74,8 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun fullOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_FULL_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_FULL_OCCUPANCY
 
         launch()
 

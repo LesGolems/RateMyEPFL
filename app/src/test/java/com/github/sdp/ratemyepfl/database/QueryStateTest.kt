@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.QueryState
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class QueryStateTest {
@@ -39,7 +39,7 @@ class QueryStateTest {
 
     }
 
-    private fun <T> computeForState(state: QueryState<T>): Int = when(state) {
+    private fun <T> computeForState(state: QueryState<T>): Int = when (state) {
         is QueryState.Failure -> 0
         is QueryState.Loading -> 1
         is QueryState.Success -> 2

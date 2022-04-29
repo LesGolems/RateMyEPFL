@@ -6,7 +6,7 @@ import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.SearchableRepository.Companion.LIMIT_QUERY_SEARCH
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.model.items.*
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -51,7 +51,10 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
          *
          *  @return a [Pair] containing the computed number of reviews and average grade.
          */
-        inline fun<reified T: Reviewable> computeUpdatedRating(item: T, rating: ReviewRating): Pair<Int, Double> {
+        inline fun <reified T : Reviewable> computeUpdatedRating(
+            item: T,
+            rating: ReviewRating
+        ): Pair<Int, Double> {
             val numReviews = item.numReviews
             val averageGrade = item.averageGrade
             val newNumReviews = numReviews + 1
@@ -109,7 +112,7 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
             .query()
             .match(field, prefix)
             .execute(LIMIT_QUERY_SEARCH)
-            .mapResult { it.mapNotNull { document -> transform(document)} }
+            .mapResult { it.mapNotNull { document -> transform(document) } }
 
 
 }

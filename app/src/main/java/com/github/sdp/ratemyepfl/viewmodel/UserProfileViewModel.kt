@@ -8,7 +8,6 @@ import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

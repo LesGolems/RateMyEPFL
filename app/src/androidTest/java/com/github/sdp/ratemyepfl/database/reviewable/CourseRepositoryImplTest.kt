@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
-import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -11,7 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -94,7 +92,7 @@ class CourseRepositoryImplTest {
         repository.search(title)
             .collect {
                 var x = 0
-                when(it) {
+                when (it) {
                     is QueryState.Failure -> throw Exception("Should succeed")
                     is QueryState.Loading -> x += 1
                     is QueryState.Success -> {
@@ -113,7 +111,7 @@ class CourseRepositoryImplTest {
     fun searchSucceedForCourseCodeSearch() = runTest {
         repository.search(courseCode)
             .collect {
-                when(it) {
+                when (it) {
                     is QueryState.Failure -> throw Exception("Should succeed")
                     is QueryState.Loading -> {}
                     is QueryState.Success -> {

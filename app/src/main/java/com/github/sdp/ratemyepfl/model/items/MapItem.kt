@@ -8,10 +8,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 
-abstract class MapItem(private val position: LatLng,
-                       val name: String,
-                       val photo: Int,
-                       val icon: BitmapDescriptor?) : ClusterItem {
+abstract class MapItem(
+    private val position: LatLng,
+    val name: String,
+    val photo: Int,
+    val icon: BitmapDescriptor?
+) : ClusterItem {
     protected abstract val layout: Int
 
     override fun getPosition(): LatLng {

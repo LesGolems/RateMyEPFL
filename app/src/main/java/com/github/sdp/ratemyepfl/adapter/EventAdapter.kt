@@ -12,9 +12,11 @@ import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.material.button.MaterialButton
 
-class EventAdapter(private val onClick: (Event) -> Unit,
-                   private val registerListener: (Event) -> Boolean,
-                   private val unregisterListener: (Event) -> Unit) :
+class EventAdapter(
+    private val onClick: (Event) -> Unit,
+    private val registerListener: (Event) -> Boolean,
+    private val unregisterListener: (Event) -> Unit
+) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
 
     // Temporary solution but will change and will check database directly instead

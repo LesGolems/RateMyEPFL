@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery.OrderedField.Companion.names
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.firebase.firestore.DocumentSnapshot
 
 /**

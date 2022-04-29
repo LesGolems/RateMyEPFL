@@ -38,7 +38,8 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
             getString(R.string.course_section, course.section)
         view.findViewById<TextView>(R.id.courseCredits).text =
             getString(R.string.course_credits, course.credits.toString())
-        view.findViewById<TextView>(R.id.courseNumReview).text = getNumReviewString(requireContext(), course.numReviews)
+        view.findViewById<TextView>(R.id.courseNumReview).text =
+            getNumReviewString(requireContext(), course.numReviews)
         view.findViewById<RatingBar>(R.id.courseRatingBar).rating = course.averageGrade.toFloat()
     }
 

@@ -5,14 +5,12 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.PerformException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
@@ -35,17 +33,19 @@ class UserProfileActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    var mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    var mRuntimePermissionRule =
+        GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @Before
-    fun setUp(){
+    fun setUp() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
         scenario = ActivityScenario.launch(intent)
     }
 
     @After
-    fun clean(){
+    fun clean() {
         scenario.close()
     }
 
@@ -58,7 +58,7 @@ class UserProfileActivityTest {
     }
 
     @Test
-    fun userModificationAreDisabledOnLaunch(){
+    fun userModificationAreDisabledOnLaunch() {
         onView(withId(R.id.username_text)).check(matches(isNotEnabled()))
         onView(withId(R.id.emailText)).check(matches(isNotEnabled()))
         onView(withId(R.id.modify_profile_image_button)).check(matches(isNotEnabled()))
@@ -170,9 +170,10 @@ class UserProfileActivityTest {
     }
 
     @Test
-    fun userLoggedInButNotInDBWorks(){
+    fun userLoggedInButNotInDBWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        val intent = Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), UserProfileActivity::class.java)
         val scenario2: ActivityScenario<UserProfileActivity> = ActivityScenario.launch(intent)
         val username = FakeConnectedUser.instance.user!!.username!!.split(" ")[0]
         val email = FakeConnectedUser.instance.user!!.email

@@ -7,7 +7,7 @@ import com.github.sdp.ratemyepfl.model.items.Reviewable
  * Defines [Reviewable] specific loading methods. The generic type [T] is used to determine the
  * returned type.
  */
-interface ReviewableRepository<T: Reviewable> {
+interface ReviewableRepository<T : Reviewable> {
     /**
      * Load a given number of [Reviewable] by decreasing number of reviews.
      *

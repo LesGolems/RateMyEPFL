@@ -2,10 +2,8 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryState.*
-import com.google.firebase.firestore.Query
 
-interface LoaderRepository<T: RepositoryItem> : Repository<T> {
+interface LoaderRepository<T : RepositoryItem> : Repository<T> {
 
     /**
      * Execute the query and load elements. If a query was already executed

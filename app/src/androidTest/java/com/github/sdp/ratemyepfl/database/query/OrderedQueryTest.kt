@@ -11,16 +11,15 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -41,7 +40,6 @@ class OrderedQueryTest {
         ArrayItem("id3", listOf(5, 1, 2, 3)),
         ArrayItem("id4", listOf(8, 1, 2, 3))
     )
-
 
 
     @get:Rule
@@ -234,6 +232,7 @@ class OrderedQueryTest {
         }
 
     }
+
     @Test
     fun startAt() {
         assertThrows(IllegalArgumentException::class.java) {
@@ -243,7 +242,7 @@ class OrderedQueryTest {
 
         checkQuery(query
             .startAt(listOf(3)),
-        items.filter { it.data >= 3 })
+            items.filter { it.data >= 3 })
     }
 
     @Test

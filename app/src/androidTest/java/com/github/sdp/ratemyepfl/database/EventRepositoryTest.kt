@@ -45,7 +45,7 @@ class EventRepositoryTest {
     }
 
     @After
-    fun clean(){
+    fun clean() {
         eventRepo.remove(testEvent.name)
     }
 
@@ -117,10 +117,14 @@ class EventRepositoryTest {
         Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
         Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
-        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME)).thenReturn(long)
-        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants)
-        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants)
-        Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME)).thenReturn(date.toString())
+        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
+            .thenReturn(long)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME))
+            .thenReturn(numParticipants)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME))
+            .thenReturn(limitParticipants)
+        Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
+            .thenReturn(date.toString())
 
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()

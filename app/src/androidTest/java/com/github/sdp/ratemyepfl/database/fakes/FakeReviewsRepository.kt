@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
-import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating

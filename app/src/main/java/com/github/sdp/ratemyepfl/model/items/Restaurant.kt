@@ -1,9 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
@@ -43,7 +41,10 @@ data class Restaurant(
     override fun toMapItem(): MapItem {
         return RestaurantItem(
             this,
-            MapActivityUtils.PHOTO_MAPPING.getOrDefault(getId(), R.raw.niki), // Arbitrary default value
+            MapActivityUtils.PHOTO_MAPPING.getOrDefault(
+                getId(),
+                R.raw.niki
+            ), // Arbitrary default value
             BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
         )
     }

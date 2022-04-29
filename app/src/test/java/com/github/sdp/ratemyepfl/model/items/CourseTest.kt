@@ -28,7 +28,17 @@ class CourseTest {
     @Test
     fun constructorWithAllValuesWorks() {
         val c = Course(
-            "SDP", "IC", "Candea", 4, "CS-306", 15, 2.5, "bachelor", "Fall", "During the semester", "ENG"
+            "SDP",
+            "IC",
+            "Candea",
+            4,
+            "CS-306",
+            15,
+            2.5,
+            "bachelor",
+            "Fall",
+            "During the semester",
+            "ENG"
         )
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)

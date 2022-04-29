@@ -49,7 +49,7 @@ class ReviewableRepositoryImplTest {
                 .setNumReviews(
                     n % 5 + 1
                 ).setAverageGrade(((n + 2) % 5 + 1).toDouble())
-                        .build()
+                .build()
         }.plus(personalizedCourse)
 
     @Before

@@ -1,10 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-
 interface RepositoryItem {
 
     /** Unique id of the item **/

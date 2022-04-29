@@ -1,4 +1,5 @@
 package com.github.sdp.ratemyepfl.fragment.review
+
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider

@@ -76,7 +76,7 @@ class MapFragmentTest {
     @Test
     fun clickOnReviewButton() {
 
-        runTest {  }
+        runTest { }
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         init()
         grantPermission()

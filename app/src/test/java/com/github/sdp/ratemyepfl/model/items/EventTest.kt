@@ -12,8 +12,10 @@ class EventTest {
     private val ID = "Evenement de dingue"
     private val SHOW_PARTICIPANTS = "Participants: 64/70"
     private val DATE = LocalDateTime.now()
-    private val EXPECTED_EVENT = Event(ID, 10, 4.0,
-        64, 70, 46.52, 6.569, DATE)
+    private val EXPECTED_EVENT = Event(
+        ID, 10, 4.0,
+        64, 70, 46.52, 6.569, DATE
+    )
     private val EXPECTED_HASH_MAP = hashMapOf(
         NAME_FIELD_NAME to EXPECTED_EVENT.name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,

@@ -16,20 +16,20 @@
 
         <TextView
             android:id="@+id/eventId"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/title_review_list"
-            style="@style/TextAppearance.AppCompat.Title" />
+            android:text="@string/title_review_list" />
 
         <TextView
             android:id="@+id/participants"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/participants"
             android:layout_below="@id/eventId"
-            style="@style/TextAppearance.AppCompat.Caption" />
+            android:gravity="center_vertical"
+            android:text="@string/participants" />
     </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -39,8 +39,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/white"
         android:text="@string/register"
+        android:textColor="@color/white"
         app:backgroundTint="@color/purple_700"
         app:icon="@drawable/ic_login_black_24dp"
         app:iconTint="@color/white"

@@ -8,18 +8,16 @@ import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryRes
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) : CourseRepository,
+class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) :
+    CourseRepository,
     ReviewableRepository<Course> by repository, Repository<Course> by repository {
 
     @Inject
@@ -59,13 +57,13 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
 
-                builder.build()
-            } catch (e: IllegalStateException) {
-                null
-            } catch (e: Exception) {
-                e.printStackTrace()
-                throw DatabaseException("Failed to convert the document into restaurant (from $e)")
-            }
+            builder.build()
+        } catch (e: IllegalStateException) {
+            null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw DatabaseException("Failed to convert the document into restaurant (from $e)")
+        }
 
     }
 
@@ -80,11 +78,13 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) {
         repository
             .update(id) { course ->
-                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(course, rating)
+                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+                    course,
+                    rating
+                )
                 course.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
             }.await()
     }
-
 
 
     override fun search(prefix: String): QueryResult<List<Course>> {

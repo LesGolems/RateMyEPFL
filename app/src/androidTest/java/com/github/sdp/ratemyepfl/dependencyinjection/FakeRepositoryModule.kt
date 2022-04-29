@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.fakes.*
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository

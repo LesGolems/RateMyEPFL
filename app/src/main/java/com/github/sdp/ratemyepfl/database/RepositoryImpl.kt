@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database
 
 
 import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await

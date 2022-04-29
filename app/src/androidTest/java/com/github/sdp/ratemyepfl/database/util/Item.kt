@@ -33,7 +33,7 @@ data class Item(private val id: String, val data: Int) :
 
                 Builder(id, data)
                     .build()
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 null
             }
         }
