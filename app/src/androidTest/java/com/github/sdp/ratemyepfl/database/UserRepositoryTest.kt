@@ -39,7 +39,7 @@ class UserRepositoryTest {
             it.toUser()
         }
         userRepo = UserRepositoryImpl(repository)
-        userRepo.register(testUser).await()
+        repository.add(testUser).await()
     }
 
     @After
@@ -113,4 +113,24 @@ class UserRepositoryTest {
         }
     }
 
+    @Test
+    fun registerWorks() = runTest {
+        repository.remove("register").await()
+        val user = User("register", "reg", "reg")
+        userRepo.register(user)
+            .collect {
+                if (it is QueryState.Success)
+                    assertEquals(false, it.data)
+            }
+
+        assertEquals(true, userRepo.getUserByUid("register") != null)
+
+        userRepo.register(user)
+            .collect {
+                if (it is QueryState.Success)
+                    assertEquals(true, it.data)
+            }
+
+        assertEquals(true, userRepo.getUserByUid("register") != null)
+    }
 }

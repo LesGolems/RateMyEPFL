@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.UserRepositoryImpl
+import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +30,7 @@ class SplashScreen : AppCompatActivity() {
     lateinit var user: ConnectedUser
 
     @Inject
-    lateinit var repository: UserRepository
+    lateinit var repository: UserRepositoryImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +51,22 @@ class SplashScreen : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (user.isLoggedIn()) goToMain()
+        if (user.isLoggedIn()) {
+            runBlocking {
+                launch(Dispatchers.IO) {
+                    repository.register(User(user)).collect {
+                        when (it) {
+                            is QueryState.Failure -> throw DatabaseException("Fail to register the user $user")
+                        }
+                    }
+                }
+            }
+            goToMain()
+        }
     }
 
     private fun goToMain() {
         // Bugfix: we run this synchronously to avoid unexpected behavior
-        runBlocking {
-            repository.register(User(user)).await()
-        }
         startActivity(Intent(this, MainActivity::class.java))
     }
 

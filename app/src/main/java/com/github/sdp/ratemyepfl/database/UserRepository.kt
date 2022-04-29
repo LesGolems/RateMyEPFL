@@ -19,11 +19,12 @@ interface UserRepository {
     fun update(id: String, transform: (User) -> User): Task<Transaction>
 
     /**
-     * Register the provided [user] if it is not registered yet.
+     * Register the provided [user] if it is not registered yet. Returns true
+     * if the user was already registered, false otherwise.
      *
      * @param user: the user to register
      *
      */
-    suspend fun register(user: User): Task<Void>
+    suspend fun register(user: User): QueryResult<Boolean>
 
 }

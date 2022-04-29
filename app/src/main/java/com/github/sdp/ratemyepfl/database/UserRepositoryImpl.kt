@@ -11,9 +11,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
-import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.asTask
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -99,11 +99,16 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
-    override suspend fun register(user: User): Task<Void> =
-        if (getUserByUid(user.getId()) == null) {
-            repository.add(user)
-        } else CompletableDeferred<Void>().asTask()
+    override suspend fun register(user: User): QueryResult<Boolean> =
+        flow<QueryState<Boolean>> {
+            emit(QueryState.loading<Boolean>())
+            if (getUserByUid(user.getId()) == null) {
+                repository.add(user).await()
+                emit(QueryState.success(false))
+            } else {
+                emit(QueryState.success(true))
+            }
 
-
+        }.asQueryResult()
 
 }
