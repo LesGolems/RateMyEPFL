@@ -102,9 +102,6 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
             .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
     }
 
-    @Deprecated("Use the corresponding voting methods", ReplaceWith(
-        "addUpvote() or addDownVote()"
-    ))
     override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
         when (fieldName) {
             LIKERS_FIELD_NAME -> addUpVote(id, uid).await()
@@ -113,9 +110,6 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
         }
     }
 
-    @Deprecated("Use the corresponding voting methods", ReplaceWith(
-        "removeUpvote() or removeDownVote()"
-    ))
     override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
         when (fieldName) {
             LIKERS_FIELD_NAME -> removeUpVote(id, uid).await()

@@ -2,9 +2,12 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlin.experimental.ExperimentalTypeInference
 
 /**
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
@@ -35,6 +38,15 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
         result.map { queryState ->
             queryState.map(op)
         }.asQueryResult()
+
+    /**
+     * Defines a constructor that allows to build a [QueryResult] using the same syntax
+     * as a [Flow]. It is equivalent to
+     * ```
+     * flow { ... }.asQueryResult()
+     * ```
+     */
+    constructor(block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(flow { this.block() })
 
     companion object {
         /**

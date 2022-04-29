@@ -60,7 +60,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun register(user: User): QueryResult<Boolean> {
-        return Mockito.mock(QueryResult::class.java) as QueryResult<Boolean>
+        return QueryResult.success(true)
     }
 
 }
