@@ -106,7 +106,7 @@ class UserProfileViewModel @Inject constructor(
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()
-                val user = User(id!!, newUsername, newEmail)
+                val user = User(id!!, newUsername, newEmail, timetable.value)
                 newUsername?.let { username.postValue(it) }
                 newEmail?.let { email.postValue(it) }
                 userDatabase.update(user)
