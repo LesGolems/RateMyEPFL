@@ -31,7 +31,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
         })
 
     companion object {
-        const val COURSE_CODE_FIELD_NAME: String = "course_code"
+        const val COURSE_CODE_FIELD_NAME: String = "courseCode"
         const val COURSE_COLLECTION_PATH = "courses"
         const val TITLE_FIELD_NAME = "title"
         const val SECTION_FIELD_NAME = "section"
@@ -62,7 +62,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
             null
         } catch (e: Exception) {
             e.printStackTrace()
-            throw DatabaseException("Failed to convert the document into restaurant (from $e)")
+            throw DatabaseException("Failed to convert the document into course (from $e)")
         }
 
     }

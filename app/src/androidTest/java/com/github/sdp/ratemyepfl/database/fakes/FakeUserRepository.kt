@@ -58,4 +58,9 @@ class FakeUserRepository @Inject constructor() : UserRepository {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 
+    @Suppress("UNCHECKED_CAST")
+    override suspend fun register(user: User): Task<Void> {
+        return Mockito.mock(Task::class.java) as Task<Void>
+    }
+
 }

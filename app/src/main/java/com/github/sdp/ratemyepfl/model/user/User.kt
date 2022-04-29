@@ -12,16 +12,16 @@ data class User(
     val uid: String,
     val username: String?,
     val email: String?,
-    val picture: String? = "$uid.jpg",
-    val timetable: ArrayList<Class>? = ArrayList<Class>()
+    val timetable: ArrayList<Class> = DEFAULT_TIMETABLE
 ) : RepositoryItem {
 
+    companion object {
+        val DEFAULT_TIMETABLE = ArrayList<Class>()
+    }
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,
         email = user.getEmail()!!,
-        null,
-        null,
     )
 
     override fun getId(): String = uid
@@ -36,5 +36,25 @@ data class User(
             UserRepositoryImpl.EMAIL_FIELD_NAME to email,
             UserRepositoryImpl.TIMETABLE_FIELD_NAME to json
         )
+    }
+
+    class Builder(
+        private val uid: String?,
+        private val username: String?,
+        private val email: String?,
+        private val timetable: ArrayList<Class>?
+    ) {
+        fun build(): User {
+            val uid = this.uid
+            val username = this.username
+            val email = this.email
+            val timetable = this.timetable ?: DEFAULT_TIMETABLE
+
+            if (uid != null && username != null && email != null) {
+                return User(uid, username, email, timetable)
+            } else {
+                throw IllegalStateException("Cannot build a user with null arguments")
+            }
+        }
     }
 }

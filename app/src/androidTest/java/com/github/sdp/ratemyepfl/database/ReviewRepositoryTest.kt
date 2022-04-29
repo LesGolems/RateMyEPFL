@@ -240,4 +240,182 @@ class ReviewRepositoryTest {
             .first { it.title == title }
         assertEquals(review, fetched)
     }
+
+    @Test
+    fun addUpVoteOnceWorks() = runTest {
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            likers = listOf("1")
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        val uid = "uid"
+        reviewRepo.addUpVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf("1", uid), updated.likers)
+        clean()
+    }
+
+
+    @Test
+    fun addUpVoteTwiceOnlyAddsItOnceWorks() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            likers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.addUpVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf(uid), updated.likers)
+        clean()
+    }
+
+    @Test
+    fun addDownVoteOnceWorks() = runTest {
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            dislikers = listOf("1")
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        val uid = "uid"
+        reviewRepo.addDownVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf("1", uid), updated.dislikers)
+        clean()
+    }
+
+
+    @Test
+    fun addDownVoteTwiceOnlyAddsItOnceWorks() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            dislikers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.addDownVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf(uid), updated.dislikers)
+        clean()
+    }
+
+    @Test
+    fun removeUpVoteRemoveExistingUpVote() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            likers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.removeUpVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf<String>(), updated.likers)
+        clean()
+    }
+
+    @Test
+    fun removeNonExistingUpVoteDoesNotChange() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            likers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.removeUpVote(id, "someNonExistingId").await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf<String>(uid), updated.likers)
+        clean()
+    }
+
+    @Test
+    fun removeDownVoteRemoveExistingUpVote() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            dislikers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.removeDownVote(id, uid).await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf<String>(), updated.dislikers)
+        clean()
+    }
+
+    @Test
+    fun removeNonExistingDownVoteDoesNotChange() = runTest {
+        val uid = "uid"
+        val id = "fakeIdAdd"
+        val review = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8),
+            dislikers = listOf(uid)
+        ).withId(id)
+
+        reviewRepo.addWithId(review, id).await()
+
+        reviewRepo.removeDownVote(id, "someNonExistingId").await()
+
+        val updated = reviewRepo.getById(id).toReview()!!
+        assertEquals(listOf<String>(uid), updated.dislikers)
+        clean()
+    }
 }

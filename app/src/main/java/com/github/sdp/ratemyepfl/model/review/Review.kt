@@ -71,8 +71,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
             ReviewRepositoryImpl.DATE_FIELD_NAME to date.toString(),
             ReviewRepositoryImpl.UID_FIELD_NAME to uid,
-            ReviewRepositoryImpl.LIKERS_FIELD_NAME to listOf<String>(),
-            ReviewRepositoryImpl.DISLIKERS_FIELD_NAME to listOf<String>()
+            ReviewRepositoryImpl.LIKERS_FIELD_NAME to likers,
+            ReviewRepositoryImpl.DISLIKERS_FIELD_NAME to dislikers
         )
     }
 
@@ -90,8 +90,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
         private var uid: String? = null,
-        private var likers: List<String>? = null,
-        private var dislikers: List<String>? = null
+        private var likers: List<String>? = listOf(),
+        private var dislikers: List<String>? = listOf(),
     ) {
         /**
          * Sets the rating of the review
@@ -148,11 +148,11 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             this.date = date
         }
 
-        fun setLikers(likers: List<String>) = apply {
+        fun setLikers(likers: List<String>?) = apply {
             this.likers = likers
         }
 
-        fun setDislikers(dislikers: List<String>) = apply {
+        fun setDislikers(dislikers: List<String>?) = apply {
             this.dislikers = dislikers
         }
 
@@ -168,8 +168,8 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
             val uid = this.uid
-            val likers = this.likers ?: listOf()
-            val dislikers = this.dislikers ?: listOf()
+            val likers = this asMandatory  this.likers
+            val dislikers = this asMandatory this.dislikers
 
             return Review(
                 rate,

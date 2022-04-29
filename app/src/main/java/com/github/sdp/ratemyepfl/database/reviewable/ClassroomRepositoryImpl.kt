@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
@@ -32,19 +33,20 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
         const val ROOM_KIND_FIELD_NAME = "roomKind"
         const val ROOM_NAME_FIELD_NAME = "name"
 
-        fun DocumentSnapshot.toClassroom(): Classroom? {
+        fun DocumentSnapshot.toClassroom(): Classroom? = try {
             val builder = Classroom.Builder()
                 .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
                 .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
                 .setAverageGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
 
-            return try {
                 builder.build()
             } catch (e: IllegalStateException) {
                 null
+            } catch (e: Exception) {
+                throw DatabaseException("Failed to convert the fetched document in Classroom")
             }
-        }
+
     }
 
     override suspend fun getClassrooms(): List<Classroom> {

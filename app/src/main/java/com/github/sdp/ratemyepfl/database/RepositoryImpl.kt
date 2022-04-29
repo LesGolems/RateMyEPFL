@@ -31,6 +31,7 @@ class RepositoryImpl<T : RepositoryItem>(
         collection.document(id).get().await()
 
 
+
     override fun remove(id: String) = collection
         .document(id)
         .delete()

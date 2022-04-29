@@ -55,8 +55,8 @@ class UserRepositoryTest {
             userRepo.update(testUser.getId()) { updateUser }
                 .await()
             val user = userRepo.getUserByUid(testUser.uid)
-            assertEquals(updateUser.uid, user.uid)
-            assertEquals(updateUser.username, user.username)
+            assertEquals(updateUser.uid, user?.uid)
+            assertEquals(updateUser.username, user?.username)
         }
     }
 
@@ -66,9 +66,9 @@ class UserRepositoryTest {
         runTest {
             val user = userRepo.getUserByUid(testUser.uid)
             assertNotNull(user)
-            assertEquals(testUser.uid, user.uid)
-            assertEquals(testUser.username, user.username)
-            assertEquals(testUser.email, user.email)
+            assertEquals(testUser.uid, user?.uid)
+            assertEquals(testUser.username, user?.username)
+            assertEquals(testUser.email, user?.email)
         }
     }
 

@@ -7,7 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
+import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -19,6 +26,9 @@ class SplashScreen : AppCompatActivity() {
     @Inject
     lateinit var user: ConnectedUser
 
+    @Inject
+    lateinit var repository: UserRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
@@ -29,6 +39,10 @@ class SplashScreen : AppCompatActivity() {
 
         mLoginButton.setOnClickListener {
             auth.signIn(this)
+            // Bugfix: we run this synchronously to avoid unexpected behavior
+            runBlocking {
+                repository.register(User(user))
+            }
         }
 
         mVisitorButton.setOnClickListener {
@@ -44,4 +58,5 @@ class SplashScreen : AppCompatActivity() {
     private fun goToMain() {
         startActivity(Intent(this, MainActivity::class.java))
     }
+
 }

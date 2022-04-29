@@ -5,7 +5,6 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
@@ -35,7 +34,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
          *
          * @return the review if the json contains the necessary data, null otherwise
          */
-        fun DocumentSnapshot.toReview(): Review? {
+        fun DocumentSnapshot.toReview(): Review? = try {
             val builder = Review.Builder()
                 .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
                 .setTitle(getString(TITLE_FIELD_NAME))
@@ -46,12 +45,12 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
                 .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
                 .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
 
-            return try {
-                builder.build()
-                    .withId(id)
-            } catch (e: IllegalStateException) {
-                null
-            }
+            builder.build()
+                .withId(id)
+        } catch (e: IllegalStateException) {
+            null
+        } catch (e: Exception) {
+            throw DatabaseException("Failed to retrieve and convert the review (from $e \n ${e.stackTrace})")
         }
     }
 
@@ -104,16 +103,42 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
     }
 
     override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = repository
-            .collection
-            .document(id)
-        reviewRef.update(fieldName, FieldValue.arrayUnion(uid)).await()
+        when (fieldName) {
+            LIKERS_FIELD_NAME -> addUpVote(id, uid).await()
+            DISLIKERS_FIELD_NAME -> addDownVote(id, uid).await()
+            else -> throw DatabaseException("$fieldName is not an Array")
+        }
     }
 
     override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = repository
-            .collection
-            .document(id)
-        reviewRef.update(fieldName, FieldValue.arrayRemove(uid)).await()
+        when (fieldName) {
+            LIKERS_FIELD_NAME -> removeUpVote(id, uid).await()
+            DISLIKERS_FIELD_NAME -> removeDownVote(id, uid).await()
+            else -> throw DatabaseException("$fieldName is not an Array")
+        }
     }
+
+    override fun addUpVote(reviewId: String, userId: String) = repository
+        .update(reviewId) { review ->
+            if (!review.likers.contains(userId))
+                review.copy(likers = review.likers.plus(userId))
+            else review
+        }
+
+    override fun removeUpVote(reviewId: String, userId: String) = repository
+        .update(reviewId) { review ->
+            review.copy(likers = review.likers.minus(userId))
+        }
+
+    override fun addDownVote(reviewId: String, userId: String) = repository
+        .update(reviewId) { review ->
+            if (!review.dislikers.contains(userId)) {
+                review.copy(dislikers = review.dislikers.plus(userId))
+            } else review
+        }
+
+    override fun removeDownVote(reviewId: String, userId: String) = repository
+        .update(reviewId) { review ->
+            review.copy(dislikers = review.dislikers.minus(userId))
+        }
 }

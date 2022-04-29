@@ -11,9 +11,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -75,19 +72,11 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
     override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
 
     override suspend fun incrementParticipants(id: String) {
-        coroutineScope {
-            this.launch(Dispatchers.IO) {
-                changeParticipants(id, 1).await()
-            }
-        }
+        changeParticipants(id, 1).await()
     }
 
     override suspend fun decrementParticipants(id: String) {
-        coroutineScope {
-            this.launch(Dispatchers.IO) {
-                changeParticipants(id, -1).await()
-            }
-        }
+        changeParticipants(id, -1).await()
     }
 
     override suspend fun updateEventRating(id: String, rating: ReviewRating) {

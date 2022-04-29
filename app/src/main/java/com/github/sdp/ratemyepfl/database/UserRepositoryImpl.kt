@@ -11,7 +11,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.tasks.asTask
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,15 +39,22 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         const val PICTURE_FIELD_NAME = "picture"
         const val TIMETABLE_FIELD_NAME = "timetable"
 
-        fun DocumentSnapshot.toUser(): User {
-            return User(
-                uid = id,
-                username = getString(USERNAME_FIELD_NAME),
-                email = getString(EMAIL_FIELD_NAME),
-                timetable = Gson().fromJson(
-                    (getString(TIMETABLE_FIELD_NAME) ?: " "), Array<Class>::class.java
-                ).toCollection(ArrayList())
-            )
+        fun DocumentSnapshot.toUser(): User? {
+            val timetable = getString(TIMETABLE_FIELD_NAME)?.let {
+                Gson().fromJson(it, Array<Class>::class.java).toCollection(ArrayList())
+            } ?: User.DEFAULT_TIMETABLE
+            return try {
+                User.Builder(
+                    uid = getString(USER_UID_FIELD_NAME),
+                    username = getString(USERNAME_FIELD_NAME),
+                    email = getString(EMAIL_FIELD_NAME),
+                    timetable = timetable
+                ).build()
+            } catch (e: IllegalStateException) {
+                null
+            } catch (e: Exception) {
+                throw DatabaseException("Cannot convert the document to a User (from $e \n ${e.stackTrace}")
+            }
         }
     }
 
@@ -54,7 +63,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
      */
-    override suspend fun getUserByUid(uid: String): User = repository
+    override suspend fun getUserByUid(uid: String): User? = repository
         .getById(uid)
         .toUser()
 
@@ -89,5 +98,12 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     override fun update(id: String, transform: (User) -> User): Task<Transaction> {
         return repository.update(id, transform)
     }
+
+    override suspend fun register(user: User): Task<Void> =
+        if (getUserByUid(user.getId()) == null) {
+            repository.add(user)
+        } else CompletableDeferred<Void>().asTask()
+
+
 
 }

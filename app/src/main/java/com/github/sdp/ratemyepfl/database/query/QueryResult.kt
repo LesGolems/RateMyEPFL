@@ -56,7 +56,7 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
          *
          * @return a [QueryResult] containing a list of the mapped elements
          */
-        fun <T> QueryResult<QuerySnapshot>.mapDocuments(op: (DocumentSnapshot) -> T): QueryResult<List<T>> =
+        fun <T> QueryResult<QuerySnapshot>.mapDocuments(op: (DocumentSnapshot) -> T?): QueryResult<List<T>> =
             this.mapResult { querySnapshot ->
                 querySnapshot.mapNotNull(op)
             }
