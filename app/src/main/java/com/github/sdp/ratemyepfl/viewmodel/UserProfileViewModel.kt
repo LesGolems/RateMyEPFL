@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
@@ -111,6 +112,8 @@ class UserProfileViewModel @Inject constructor(
                 newEmail?.let { email.postValue(it) }
                 userDatabase.update(user)
             }
+        } else {
+            throw DisconnectedUserException()
         }
     }
 }
