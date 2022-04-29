@@ -1,7 +1,11 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.user.User
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.Transaction
+import org.mockito.Mockito
 import javax.inject.Inject
 
 class FakeUserRepository @Inject constructor() : UserRepository {
@@ -30,16 +34,17 @@ class FakeUserRepository @Inject constructor() : UserRepository {
         return null
     }
 
-    override suspend fun getUsersByUsername(username: String): List<User> {
-        return users.filterValues { user -> user.username.equals(username) }.values.toList()
+    override fun getUsersByUsername(username: String): QueryResult<List<User>> {
+        return QueryResult.success(users.filterValues { user -> user.username.equals(username) }.values.toList())
     }
 
-    override suspend fun getUserByEmail(email: String): User {
-        return users.filterValues { user -> user.email.equals(email) }.values.toList()[0]
+    override fun getUserByEmail(email: String): QueryResult<User> {
+        return QueryResult.success(users.filterValues { user -> user.email.equals(email) }.values.toList()[0])
     }
 
-    override suspend fun update(user: User) {
-        users.put(user.uid, user)
+    @Suppress("UNCHECKED_CAST")
+    override fun update(id: String, transform: (User) -> User): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 
 }

@@ -47,6 +47,20 @@ class QueryResult<T> (private val result: Flow<QueryState<T>>): Flow<QueryState<
             this.mapResult { list ->
                 list.map(op)
             }
+
+        /**
+         * Map each non-null documents of the [QuerySnapshot] with the provided operation.
+         *
+         * @param op: Operation to apply to each document
+         *
+         * @return a [QueryResult] containing a list of the mapped elements
+         */
+        fun<T> QueryResult<QuerySnapshot>.mapDocuments(op: (DocumentSnapshot) -> T): QueryResult<List<T>> =
+            this.mapResult { querySnapshot ->
+                querySnapshot.mapNotNull(op)
+            }
+
+
         /**
          * Wrap the flow in a [QueryResult]. This is a shorthand for a constructor call
          */

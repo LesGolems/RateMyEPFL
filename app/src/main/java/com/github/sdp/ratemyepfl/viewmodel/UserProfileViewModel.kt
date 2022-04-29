@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -95,10 +96,13 @@ class UserProfileViewModel @Inject constructor(
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()
-                val user = User(id!!, newUsername, newEmail)
                 newUsername?.let { username.postValue(it) }
                 newEmail?.let { email.postValue(it) }
-                userDatabase.update(user)
+                if (newUsername != null && newEmail != null && id != null) {
+                    userDatabase.update(id) {
+                        it.copy(username = newUsername, email = newEmail)
+                    }.await()
+                }
             }
         }
     }

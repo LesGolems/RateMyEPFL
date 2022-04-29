@@ -8,13 +8,13 @@ import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await
 
 class RepositoryImpl<T : RepositoryItem>(
-    val database: FirebaseFirestore,
+    private val database: FirebaseFirestore,
     collectionPath: String,
     /** Transform a [DocumentSnapshot] into [T], and returns null if it fails **/
     private val transform: (DocumentSnapshot) -> T?
 ) :
     Repository<T> {
-    internal val collection = database.collection(collectionPath)
+    val collection = database.collection(collectionPath)
 
     override suspend fun take(number: Long): QuerySnapshot {
         return collection.limit(number).get().await()
@@ -49,7 +49,11 @@ class RepositoryImpl<T : RepositoryItem>(
             .runTransaction { transaction ->
                 val snapshot = transaction.get(docRef)
                 this.transform(snapshot)?.let { data ->
-                    transaction.update(docRef, transform(data).toHashMap())
+                    try {
+                        transaction.update(docRef, transform(data).toHashMap())
+                    } catch (e: FirebaseFirestoreException) {
+                        throw DatabaseException("Cannot update a document (id: $id) that does not exist")
+                    }
                 }
             }
     }

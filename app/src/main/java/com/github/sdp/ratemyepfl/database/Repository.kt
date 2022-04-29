@@ -39,9 +39,12 @@ interface Repository<T : RepositoryItem> : Queryable {
 
     /**
      * Update the the document with the provided [id] by transforming the data.
+     * If the document does not exist yet, it fails. This methods should only be called
      *
      * @param id: The id of the document to edit
      * @param transform: the transform to apply to the stored data
+     *
+     * @throws DatabaseException: if the document does not exist.
      *
      * @return
      */

@@ -53,4 +53,8 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
             updated
         } else loaded
     }
+
+    override fun loaded(query: OrderedQuery): List<T>? =
+        loadedData[query]
+
 }

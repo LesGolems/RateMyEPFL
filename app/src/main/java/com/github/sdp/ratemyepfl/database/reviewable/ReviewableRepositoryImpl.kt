@@ -20,9 +20,9 @@ import com.google.firebase.firestore.Query
  * @param idFieldName: the name of the field that holds the id of the [Reviewable]
  */
 class ReviewableRepositoryImpl<T : Reviewable> private constructor(
-    private val repository: LoaderRepositoryImpl<T>,
+    private val repository: LoaderRepository<T>,
     private val idFieldName: String,
-) : ReviewableRepository<T>, Repository<T> by repository, LoaderRepository<T> by repository {
+) : ReviewableRepository<T>, LoaderRepository<T> by repository {
 
     constructor(repository: Repository<T>, idFieldName: String) : this(
         LoaderRepositoryImpl(repository),

@@ -1,18 +1,33 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.failure
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapDocuments
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.success
+import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.user.User
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.firestore.Transaction
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl @Inject constructor(db: FirebaseFirestore) : UserRepository {
+class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository {
 
-    val repository = RepositoryImpl<User>(db, USER_COLLECTION_PATH) {
-        it.toUser()
-    }
+    @Inject
+    constructor(db: FirebaseFirestore) : this(
+        LoaderRepositoryImpl(
+            RepositoryImpl<User>(
+                db,
+                USER_COLLECTION_PATH
+            ) {
+                it.toUser()
+            })
+    )
 
     companion object {
         const val USER_COLLECTION_PATH = "users"
@@ -29,6 +44,7 @@ class UserRepositoryImpl @Inject constructor(db: FirebaseFirestore) : UserReposi
         }
     }
 
+
     /**
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
@@ -37,45 +53,36 @@ class UserRepositoryImpl @Inject constructor(db: FirebaseFirestore) : UserReposi
         .getById(uid)
         .toUser()
 
-    private suspend fun getBy(fieldName: String, value: String): List<User> =
+    private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
-            .collection
-            .whereEqualTo(fieldName, value)
-            .get()
-            .await()
-            .mapNotNull { obj -> obj.toUser() }
+            .query()
+            .match(fieldName, value)
+            .execute()
+            .mapDocuments { it.toUser() }
 
     /**
      * Retrieves a list of Users with the same [username].
      */
-    override suspend fun getUsersByUsername(username: String): List<User> = getBy(
+    override fun getUsersByUsername(username: String): QueryResult<List<User>> = getBy(
         USERNAME_FIELD_NAME, username
     )
 
     /**
      * Retrieves a User by its [email] address.
      */
-    override suspend fun getUserByEmail(email: String): User = getBy(EMAIL_FIELD_NAME, email)[0]
+    override fun getUserByEmail(email: String): QueryResult<User> = getBy(EMAIL_FIELD_NAME, email)
+        .map {
+            when (it) {
+                is QueryState.Failure -> QueryState.failure<User>(it.errorMessage)
+                is QueryState.Loading -> QueryState.loading<User>()
+                is QueryState.Success -> if (it.data.isEmpty())
+                    QueryState.failure<User>("Unable to find a user with email $email")
+                else QueryState.success<User>(it.data.first())
+            }
+        }.asQueryResult()
 
-    /**
-     * Updates the [user] in the collection.
-     * If the [user] isn't already part of it, it is added to the collection.
-     */
-    override suspend fun update(user: User) {
-        repository
-            .collection
-            .document(user.uid)
-            .set(user.toHashMap())
-            .await()
+    override fun update(id: String, transform: (User) -> User): Task<Transaction> {
+        return repository.update(id, transform)
     }
 
-    /**
-     * Add the user to the DB
-     */
-    fun add(user: User) {
-        repository
-            .collection
-            .document(user.uid)
-            .set(user.toHashMap())
-    }
 }
