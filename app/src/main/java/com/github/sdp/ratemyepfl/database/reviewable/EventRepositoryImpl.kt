@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LI
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -87,6 +88,17 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                 changeParticipants(id, -1).await()
             }
         }
+    }
+
+    override suspend fun updateEventRating(id: String, rating: ReviewRating) {
+        repository.update(id) { event ->
+            val (updatedNumReview, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+                event,
+                rating
+            )
+            event.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
+        }.await()
+
     }
 
     private fun changeParticipants(id: String, incDec: Int): Task<Transaction> =

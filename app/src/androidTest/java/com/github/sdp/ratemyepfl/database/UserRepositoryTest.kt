@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.UserRepositoryImpl.Companion.toUser
 import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class UserRepositoryTest {
-    private val testUser = User("Fake uid", "username", "email")
+    private val testUser = User("Fake uid", "username", "email", timetable = ArrayList<Class>())
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -65,7 +66,7 @@ class UserRepositoryTest {
         runTest {
             val user = userRepo.getUserByUid(testUser.uid)
             assertNotNull(user)
-            assertEquals(testUser.uid, user!!.uid)
+            assertEquals(testUser.uid, user.uid)
             assertEquals(testUser.username, user.username)
             assertEquals(testUser.email, user.email)
         }

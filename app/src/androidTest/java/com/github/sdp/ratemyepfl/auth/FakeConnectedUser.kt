@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.auth
 
 import com.github.sdp.ratemyepfl.model.user.User
+import com.github.sdp.ratemyepfl.model.items.Class
 import javax.inject.Inject
 
 /*
@@ -21,9 +22,9 @@ class FakeConnectedUser @Inject constructor() : ConnectedUser {
     }
 
     companion object {
-        val fakeUser1 = User("12345", "John Smith", "john@example.com")
+        val fakeUser1 = User("12345", "John Smith", "john@example.com", timetable = ArrayList<Class>())
 
-        val fakeUser2 = User("7", "Kylian Mbappe", "cmoiwesh@email.com")
+        val fakeUser2 = User("7", "Kylian Mbappe", "cmoiwesh@email.com", timetable = ArrayList<Class>())
 
         var instance = Instance.LOGGED_OUT
     }

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/reviewNavigationView"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_restaurant_review" />
+        app:navGraph="@navigation/nav_graph_event_review" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/reviewNavigationView"
@@ -28,5 +28,5 @@
         app:itemIconTint="@drawable/bottom_navigation_color"
         app:itemTextColor="@drawable/bottom_navigation_color"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_navigation_menu_restaurant_review" />
+        app:menu="@menu/bottom_navigation_menu_event_review" />
 </RelativeLayout>

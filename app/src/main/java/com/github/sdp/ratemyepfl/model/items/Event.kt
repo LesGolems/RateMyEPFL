@@ -21,15 +21,17 @@ data class Event(
         return name
     }
 
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
-            EventRepositoryImpl.NAME_FIELD_NAME to name,
-            EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
-            EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
-            EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
-            EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
-            EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-        ).apply { putAll(super.toHashMap()) }
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+        EventRepositoryImpl.NAME_FIELD_NAME to name,
+        EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
+        EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
+        EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
+        EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
+        EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
+    ).apply { putAll(super.toHashMap()) }
+
+    fun showParticipation(): String {
+        return "Participants: $numParticipants/$limitParticipants"
     }
 
     override fun getId(): String = name

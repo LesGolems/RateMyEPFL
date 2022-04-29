@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
@@ -18,6 +19,8 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
+import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
@@ -135,5 +138,87 @@ class ReviewListFragmentTest {
             withDrawable(R.drawable.fake_profile_picture),
             isDisplayed()
         )))
+    }
+
+    @Test
+    fun profilePanelDisplayedWhenAuthorIsClicked() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+        // load the picture
+        FakeImageStorage.images.put(
+            FakeUserRepository.UID1,
+            ImageFile(
+                "${FakeUserRepository.UID1}.jpg",
+                resourceToBitmap(R.drawable.fake_profile_picture)
+            )
+        )
+        // then refresh
+        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        // click on profile
+        onView(
+            hasSibling(
+                allOf(
+                    withId(R.id.author_username),
+                    withText(username1)
+                )
+            )
+        ).perform(click())
+        // check if panel shows up
+        onView(withId(R.id.author_profile_panel)).check(matches(isExpanded()))
+    }
+
+    @Test
+    fun profilePanelIsHiddenWhenClickingOutside() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+        // load the picture
+        FakeImageStorage.images.put(
+            FakeUserRepository.UID1,
+            ImageFile(
+                "${FakeUserRepository.UID1}.jpg",
+                resourceToBitmap(R.drawable.fake_profile_picture)
+            )
+        )
+        // then refresh
+        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        // click on profile
+        onView(
+            hasSibling(
+                allOf(
+                    withId(R.id.author_username),
+                    withText(username1)
+                )
+            )
+        ).perform(click())
+        // click outside
+        onView(withId(R.id.author_profile_panel)).perform(click())
+        // check that it is no longer exposed
+        onView(withId(R.id.author_profile_panel)).check(matches(isHidden()))
+    }
+
+    @Test
+    fun pannelDisplaysCorrectUserProfileInformation() {
+        val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
+        // load the picture
+        FakeImageStorage.images.put(
+            FakeUserRepository.UID1,
+            ImageFile(
+                "${FakeUserRepository.UID1}.jpg",
+                resourceToBitmap(R.drawable.fake_profile_picture)
+            )
+        )
+        // then refresh
+        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        // click on profile
+        onView(
+            hasSibling(
+                allOf(
+                    withId(R.id.author_username),
+                    withText(user?.username)
+                )
+            )
+        ).perform(click())
+        // checks if the informations are correct
+        onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
+        onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
+        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.drawable.fake_profile_picture)))
     }
 }

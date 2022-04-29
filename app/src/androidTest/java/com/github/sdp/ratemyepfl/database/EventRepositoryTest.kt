@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Compani
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -86,6 +87,18 @@ class EventRepositoryTest {
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(0, event.numParticipants)
+        }
+    }
+
+    @Test
+    fun updateEventRatingWorks() {
+        runTest {
+            eventRepo.updateEventRating(testEvent.getId(), ReviewRating.EXCELLENT)
+            val event = eventRepo.getEventById(testEvent.getId())
+            assertNotNull(event)
+            assertEquals(testEvent.getId(), event!!.getId())
+            assertEquals(1, event.numReviews)
+            assertEquals(5.0, event.averageGrade, 0.1)
         }
     }
 

@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class UserProfileViewModel @Inject constructor(
     private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
     private val username: MutableLiveData<String?> = MutableLiveData(null)
     private val email: MutableLiveData<String?> = MutableLiveData(null)
+    private val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
     private var newUsername: String? = null
     private var newEmail: String? = null
@@ -35,6 +37,7 @@ class UserProfileViewModel @Inject constructor(
                 if (user != null) {
                     username.postValue(user.username)
                     email.postValue(user.email)
+                    timetable.postValue(user.timetable)
                 } else {
                     username.postValue(currentUser.getUsername()!!.split(" ")[0])
                     email.postValue(currentUser.getEmail())
@@ -61,6 +64,14 @@ class UserProfileViewModel @Inject constructor(
 
     fun picture(): MutableLiveData<ImageFile?> {
         return picture
+    }
+
+    fun timetable(): MutableLiveData<ArrayList<Class>?> {
+        return timetable
+    }
+
+    fun addClass(c: Class) {
+        TODO()
     }
 
     fun changeUsername(newUsername: String) {

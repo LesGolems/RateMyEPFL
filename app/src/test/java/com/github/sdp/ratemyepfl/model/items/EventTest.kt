@@ -10,6 +10,7 @@ import java.time.LocalDateTime
 
 class EventTest {
     private val ID = "Evenement de dingue"
+    private val SHOW_PARTICIPANTS = "Participants: 64/70"
     private val DATE = LocalDateTime.now()
     private val EXPECTED_EVENT = Event(ID, 10, 4.0,
         64, 70, 46.52, 6.569, DATE)
@@ -34,6 +35,11 @@ class EventTest {
         assertEquals(70, e.limitParticipants)
         assertEquals(46.52, e.lat, 0.01)
         assertEquals(6.569, e.long, 0.01)
+    }
+
+    @Test
+    fun showParticipationWorks() {
+        assertEquals(EXPECTED_EVENT.showParticipation(), SHOW_PARTICIPANTS)
     }
 
     @Test

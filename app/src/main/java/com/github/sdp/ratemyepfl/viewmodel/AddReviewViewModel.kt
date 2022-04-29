@@ -15,6 +15,7 @@ import kotlinx.coroutines.tasks.await
 import java.lang.IllegalStateException
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.IllegalStateException
 
 /**
  * View model for the course reviewing feature.
@@ -91,13 +92,14 @@ class AddReviewViewModel @Inject constructor(
             .setComment(comment)
             .setReviewableID(id)
             .setDate(date)
+            .setUid(uid)
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
                 reviewRepo.add(review).await()
             }
         } catch (e: IllegalStateException) {
-            // Need to handle this !
+            throw IllegalStateException("Failed to build the review (from ${e.message}")
         }
 
         return rating

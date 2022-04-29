@@ -42,8 +42,8 @@ class RestaurantRepositoryTest {
     }
 
     @After
-    fun clean() {
-        //restaurantRepo.remove(testRestaurant.id)
+    fun clean() = runTest {
+        restaurantRepo.remove(testRestaurant.getId()).await()
     }
 
     @Test

@@ -7,4 +7,5 @@
     <include app:graph="@navigation/review" />
     <include app:graph="@navigation/event" />
     <include app:graph="@navigation/map" />
+    <include app:graph="@navigation/timetable" />
 </navigation>

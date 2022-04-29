@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_event_review"
+    app:startDestination="@id/eventReviewInfoFragment">
+
+    <fragment
+        android:id="@+id/eventReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.EventReviewInfoFragment"
+        android:label="fragment_event_review_info"
+        tools:layout="@layout/fragment_event_review_info" />
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
+        android:label="EventReviewListFragment" />
+    <fragment
+        android:id="@+id/addEventReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddEventReviewFragment"
+        android:label="AddEventReviewFragment" />
+</navigation>

@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -29,6 +30,8 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         var eventById = EVENT_WITH_REVIEWS
 
         var participantsCounter = 0
+
+        var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
     override suspend fun getEvents(): List<Event> = EVENT_LIST
@@ -41,5 +44,9 @@ class FakeEventRepository @Inject constructor() : EventRepository {
 
     override suspend fun decrementParticipants(id: String) {
         participantsCounter -= 1
+    }
+
+    override suspend fun updateEventRating(id: String, rating: ReviewRating) {
+        rate = rating
     }
 }

@@ -17,13 +17,14 @@ import com.github.sdp.ratemyepfl.model.user.User
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(
-    val likeListener: OnVoteClickListener,
-    val dislikeListener: OnVoteClickListener
+    val likeListener: OnClickListener,
+    val dislikeListener: OnClickListener,
+    val profileClickListener: OnClickListener
 ) :
     ListAdapter<ReviewWithAuthor, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<ReviewWithAuthor>()) {
 
-    fun interface OnVoteClickListener {
-        fun onClick(review: Review)
+    fun interface OnClickListener {
+        fun onClick(review: ReviewWithAuthor)
     }
 
     /**
@@ -63,19 +64,19 @@ class ReviewAdapter(
 
             /* Dislike button logic */
             dislikeButton.setOnClickListener {
-                dislikeListener.onClick(review)
+                dislikeListener.onClick(reviewWithAuthor)
             }
 
             /* Like button logic */
             likeButton.setOnClickListener {
-                likeListener.onClick(review)
+                likeListener.onClick(reviewWithAuthor)
             }
 
             authorUsername.setText(author?.username.orEmpty())
-
+            authorProfilePicture.setOnClickListener { profileClickListener.onClick(reviewWithAuthor) }
             authorProfilePicture.setImageBitmap(image?.data)
+            }
         }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         return ReviewViewHolder(

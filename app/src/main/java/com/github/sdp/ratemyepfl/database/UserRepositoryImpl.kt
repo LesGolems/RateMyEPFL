@@ -2,15 +2,15 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.failure
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapDocuments
-import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.success
 import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,15 +31,20 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
 
     companion object {
         const val USER_COLLECTION_PATH = "users"
+        const val USER_UID_FIELD_NAME = "uid"
         const val USERNAME_FIELD_NAME = "username"
         const val EMAIL_FIELD_NAME = "email"
         const val PICTURE_FIELD_NAME = "picture"
+        const val TIMETABLE_FIELD_NAME = "timetable"
 
         fun DocumentSnapshot.toUser(): User {
             return User(
                 uid = id,
                 username = getString(USERNAME_FIELD_NAME),
                 email = getString(EMAIL_FIELD_NAME),
+                timetable = Gson().fromJson(
+                    (getString(TIMETABLE_FIELD_NAME) ?: " "), Array<Class>::class.java
+                ).toCollection(ArrayList())
             )
         }
     }

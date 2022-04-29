@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface EventRepository {
     /**
@@ -27,4 +28,12 @@ interface EventRepository {
      *  Decrement the number of participants of given event
      */
     suspend fun decrementParticipants(id: String)
+
+    /**
+     *  Updates the rating of the event using a transaction for concurrency
+     *
+     *  @param id : id of the reviewed item
+     *  @param rating: rating of the review being added
+     */
+    suspend fun updateEventRating(id: String, rating: ReviewRating)
 }
