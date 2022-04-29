@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
+import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,12 @@ class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepositoryInterface,
     private val connectedUser: ConnectedUser
 ) : ViewModel() {
+
+    companion object {
+        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
+        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
+        const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
+    }
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
@@ -71,13 +79,13 @@ class AddReviewViewModel @Inject constructor(
 
         // only connected users may add reviews
         if (!connectedUser.isLoggedIn()) {
-            return null
-        } else if (comment == null || comment == "") {
-            return null
-        } else if (title == null || title == "") {
-            return null
+            throw DisconnectedUserException()
+        } else if (comment.isNullOrEmpty()) {
+            throw MissingInputException(EMPTY_COMMENT_MESSAGE)
+        } else if (title.isNullOrEmpty()) {
+            throw MissingInputException(EMPTY_TITLE_MESSAGE)
         } else if (rating == null) {
-            return null
+            throw MissingInputException(NO_GRADE_MESSAGE)
         }
 
         if (!anonymous.value!!) {
