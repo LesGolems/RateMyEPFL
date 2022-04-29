@@ -1,97 +1,73 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.Transaction
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
-import javax.inject.Inject
 
-class ReviewRepository @Inject constructor(db: FirebaseFirestore) : ReviewRepositoryInterface,
-    Repository(db, REVIEW_COLLECTION_PATH) {
-
-    companion object {
-        const val REVIEW_COLLECTION_PATH = "reviews"
-        const val RATING_FIELD_NAME = "rating"
-        const val TITLE_FIELD_NAME = "title"
-        const val COMMENT_FIELD_NAME = "comment"
-        const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
-        const val DATE_FIELD_NAME = "date"
-        const val UID_FIELD_NAME = "uid"
-        const val LIKERS_FIELD_NAME = "likers"
-        const val DISLIKERS_FIELD_NAME = "dislikers"
-
-        /**
-         * Converts a json data into a Review
-         *
-         * @return the review if the json contains the necessary data, null otherwise
-         */
-        fun DocumentSnapshot.toReview(): Review? {
-            val builder = Review.Builder()
-                .setId(id)
-                .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
-                .setTitle(getString(TITLE_FIELD_NAME))
-                .setComment(getString(COMMENT_FIELD_NAME))
-                .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
-                .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
-                .setUid(getString(UID_FIELD_NAME))
-                .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
-                .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
-
-            return try {
-                builder.build()
-            } catch (e: IllegalStateException) {
-                null
-            }
-        }
-    }
+interface ReviewRepository : Repository<Review> {
+    /**
+     * Retrieve the reviews from the repository
+     *
+     * @return a list of non-null reviews
+     */
+    suspend fun getReviews(): List<Review>
 
     /**
-     * Add a review to the DB, letting the DB create an unique id
-     * @param value : an hashMap of the review
+     * Retrieve a review from id.
+     *
+     * @return the review if found, otherwise null
      */
-    override fun add(value: HashMap<String, Any?>) {
-        collection.document().set(value)
-    }
+    suspend fun getReviewById(id: String): Review?
 
     /**
-     * MOSTLY FOR TESTS
-     * Add a complete review to the DB
-     * @param review : an hashMap of the review
+     * Retrieve the list of reviews of a reviewable from its id
+     *
+     * @return the list non-null reviews of the reviewable
      */
-    fun add(review: Review) {
-        collection.document(review.id).set(review.toHashMap())
-    }
+    suspend fun getByReviewableId(id: String?): List<Review>
 
-    override suspend fun getReviews(): List<Review> {
-        return take(DEFAULT_LIMIT).mapNotNull { obj -> toItem(obj) }
-    }
+    @Deprecated("Use the corresponding voting methods", ReplaceWith(
+        "addUpvote() or addDownVote()"
+    ))
+    suspend fun addUidInArray(fieldName: String, id: String, uid: String)
 
-    override suspend fun getReviewById(id: String): Review? = toItem(getById(id))
+    @Deprecated("Use the corresponding voting methods", ReplaceWith(
+        "removeUpvote() or removeDownVote()"
+    ))
+    suspend fun removeUidInArray(fieldName: String, id: String, uid: String)
 
-    override suspend fun getByReviewableId(id: String?): List<Review> {
-        return getBy(REVIEWABLE_ID_FIELD_NAME, id.orEmpty())
-    }
+    /**
+     * Adds an up vote from [userId] to the review with id [reviewId]. If the user
+     *
+     * @param reviewId: id of the review
+     * @param userId: id of the user that adds the upvote
+     */
+    fun addUpVote(reviewId: String, userId: String): Task<Transaction>
 
-    private suspend fun getBy(fieldName: String, value: String): List<Review> {
-        return collection
-            .whereEqualTo(fieldName, value)
-            .get()
-            .await()
-            .mapNotNull { obj -> toItem(obj) }
-    }
+    /**
+     * Remove an up vote from [userId] to the review with id [reviewId]. A user can only add one
+     * vote
+     *
+     * @param reviewId: id of the review
+     * @param userId: id of the user that remove the upvote
+     */
+    fun removeUpVote(reviewId: String, userId: String): Task<Transaction>
 
-    private fun toItem(snapshot: DocumentSnapshot): Review? = snapshot.toReview()
+    /**
+     * Adds a down vote from [userId] to the review with id [reviewId]. A user can only remove a
+     * vote that he made
+     *
+     * @param reviewId: id of the review
+     * @param userId: id of the user that adds the down vote
+     */
+    fun addDownVote(reviewId: String, userId: String): Task<Transaction>
 
-    override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = collection.document(id)
-        reviewRef.update(fieldName, FieldValue.arrayUnion(uid)).await()
-    }
-
-    override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        val reviewRef = collection.document(id)
-        reviewRef.update(fieldName, FieldValue.arrayRemove(uid)).await()
-    }
+    /**
+     * Remove a down vote from [userId] to the review with id [reviewId]
+     *
+     * @param reviewId: id of the review
+     * @param userId: id of the user that adds the down vote
+     */
+    fun removeDownVote(reviewId: String, userId: String): Task<Transaction>
 }

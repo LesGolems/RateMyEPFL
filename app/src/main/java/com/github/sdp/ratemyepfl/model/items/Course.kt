@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.CourseRepository
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -10,7 +9,7 @@ data class Course(
     val section: String,
     val teacher: String,
     val credits: Int,
-    override val id: String,
+    val courseCode: String,
     override val numReviews: Int,
     override val averageGrade: Double,
     val cycle: String? = null,
@@ -20,48 +19,51 @@ data class Course(
 ) : Reviewable() {
 
     override fun toString(): String {
-        return "$id $title"
+        return "$courseCode $title"
     }
+
+    override fun getId(): String = courseCode
 
     /**
      * Creates an hash map of the Course
      */
-    fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            CourseRepository.TITLE_FIELD_NAME to title,
-            CourseRepository.SECTION_FIELD_NAME to section,
-            CourseRepository.TEACHER_FIELD_NAME to teacher,
-            CourseRepository.CREDITS_FIELD_NAME to credits.toString(),
-            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            CourseRepository.CYCLE_FIELD_NAME to cycle,
-            CourseRepository.SESSION_FIELD_NAME to session,
-            CourseRepository.GRADING_FIELD_NAME to grading,
-            CourseRepository.LANGUAGE_FIELD_NAME to language
-        )
+    override fun toHashMap(): HashMap<String, Any?> {
+        return hashMapOf<String, Any?>(
+            CourseRepositoryImpl.TITLE_FIELD_NAME to title,
+            CourseRepositoryImpl.SECTION_FIELD_NAME to section,
+            CourseRepositoryImpl.TEACHER_FIELD_NAME to teacher,
+            CourseRepositoryImpl.CREDITS_FIELD_NAME to credits,
+            CourseRepositoryImpl.COURSE_CODE_FIELD_NAME to courseCode,
+            CourseRepositoryImpl.CYCLE_FIELD_NAME to cycle,
+            CourseRepositoryImpl.SESSION_FIELD_NAME to session,
+            CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
+            CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
+        ).apply { putAll(super.toHashMap()) }
     }
 
     /**
      * Builder to create a course step by step
      * Mandatory fields are:
-     * - [id]
+     * - [courseCode]
      * - [title]
      * - [section]
      * - [teacher]
      * - [credits]
      */
-    class Builder : ReviewableBuilder<Course> {
-        private var title: String? = null
-        private var section: String? = null
-        private var teacher: String? = null
-        private var credits: Int? = null
-        private var id: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var cycle: String? = null
-        private var session: String? = null
-        private var grading: String? = null
-        private var language: String? = null
+    class Builder(
+        private var title: String? = null,
+        private var section: String? = null,
+        private var teacher: String? = null,
+        private var credits: Int? = null,
+        private var courseCode: String? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+        private var cycle: String? = null,
+        private var session: String? = null,
+        private var grading: String? = null,
+        private var language: String? = null,
+    ) : ReviewableBuilder<Course> {
+
 
         fun setTitle(title: String?) = apply {
             this.title = title
@@ -79,8 +81,8 @@ data class Course(
             this.credits = credits
         }
 
-        fun setId(id: String?) = apply {
-            this.id = id
+        fun setCourseCode(courseCode: String?) = apply {
+            this.courseCode = courseCode
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -112,11 +114,23 @@ data class Course(
             val section = this asMandatory section
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
-            val id = this asMandatory id
+            val courseCode = this asMandatory courseCode
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
 
-            return Course(title, section, teacher, credits, id, numReviews, averageGrade, cycle, session, grading, language)
+            return Course(
+                title,
+                section,
+                teacher,
+                credits,
+                courseCode,
+                numReviews,
+                averageGrade,
+                cycle,
+                session,
+                grading,
+                language
+            )
         }
 
     }

@@ -35,7 +35,9 @@ class CourseTabFragment : ReviewableTabFragment() {
 
     override fun onResume() {
         // BUGFIX
-        viewModel.courses.postValue(viewModel.courses.value ?: listOf())
+        viewModel.courses.value?.run {
+            viewModel.courses.postValue(this)
+        }
         super.onResume()
     }
 }

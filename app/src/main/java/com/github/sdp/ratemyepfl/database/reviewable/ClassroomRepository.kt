@@ -1,10 +1,10 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.SearchableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
 
-interface ClassroomRepositoryInterface {
+interface ClassroomRepository : SearchableRepository<Classroom> {
     /**
      * Retrieve the rooms from the repository
      *
@@ -26,4 +26,5 @@ interface ClassroomRepositoryInterface {
      *  @param rating: rating of the review being added
      */
     suspend fun updateClassroomRating(id: String, rating: ReviewRating)
+
 }

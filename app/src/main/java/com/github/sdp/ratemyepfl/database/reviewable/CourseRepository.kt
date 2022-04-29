@@ -1,10 +1,10 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.SearchableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
 
-interface CourseRepositoryInterface {
+interface CourseRepository : SearchableRepository<Course> {
     /**
      * Retrieve the course from the repository
      *

@@ -1,9 +1,9 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface EventRepositoryInterface {
+interface EventRepository {
     /**
      * Retrieve the event from the repository
      *

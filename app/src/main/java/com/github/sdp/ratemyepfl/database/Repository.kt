@@ -1,20 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.database.query.Queryable
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.firestore.Transaction
 
-sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
-    protected val collection = db.collection(collectionPath)
-
-    companion object {
-        const val DEFAULT_LIMIT: Long = 50
-        const val NUM_REVIEWS_FIELD_NAME = "numReviews"
-        const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
-    }
+interface Repository<T : RepositoryItem> : Queryable {
 
     /**
      * Retrieve a given number of items from the collection
@@ -23,47 +15,47 @@ sealed class Repository(val db : FirebaseFirestore, collectionPath: String) {
      *
      * @return a QuerySnapshot of the request
      */
-    suspend fun take(number: Long): QuerySnapshot {
-        return collection.limit(number).get().await()
-    }
+    suspend fun take(number: Long): QuerySnapshot
 
     /**
      * Retrieve an element by id from the collection
      *
      * @param id: the unique identifier (or key) of the object to retrieve
      */
-    protected suspend fun getById(id: String): DocumentSnapshot {
-        return collection.document(id).get().await()
-    }
+    suspend fun getById(id: String): DocumentSnapshot
 
-
-    /**
-     * Updates the rating of a reviewable item using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    protected suspend fun updateRating(id: String, rating: ReviewRating) {
-        val docRef = collection.document(id)
-        db.runTransaction {
-            val snapshot = it.get(docRef)
-            val numReviews = snapshot.getString(NUM_REVIEWS_FIELD_NAME)?.toInt()
-            val averageGrade = snapshot.getString(AVERAGE_GRADE_FIELD_NAME)?.toDouble()
-            if (numReviews != null && averageGrade != null) {
-                val newNumReviews = numReviews + 1
-                val newAverageGrade = averageGrade + (rating.toValue() - averageGrade) / newNumReviews
-                it.update(
-                    docRef, "numReviews", newNumReviews.toString(),
-                    "averageGrade", newAverageGrade.toString()
-                )
-            }
-        }.await()
-    }
 
     /**
      * @param id : the identifier of the item to delete
      */
-    fun remove(id : String){
-        collection.document(id).delete()
-    }
+    fun remove(id: String): Task<Void>
+
+    /**
+     * Add an item in the database. If the id of the item is null, it auto-generates it
+     *
+     * @param item: object to add
+     */
+    fun add(item: T): Task<Void>
+
+    /**
+     * Update the the document with the provided [id] by transforming the data.
+     * If the document does not exist yet, it fails. This methods should only be called
+     *
+     * @param id: The id of the document to edit
+     * @param transform: the transform to apply to the stored data
+     *
+     * @throws DatabaseException: if the document does not exist.
+     *
+     * @return
+     */
+    fun update(id: String, transform: (T) -> T): Task<Transaction>
+
+    /**
+     * Transform fetched [DocumentSnapshot] into [T]
+     *
+     * @param document: document to convert
+     *
+     * @return the converted document, or null if it is not valid
+     */
+    fun transform(document: DocumentSnapshot): T?
 }

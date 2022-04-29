@@ -5,14 +5,16 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
+@ExperimentalCoroutinesApi
 class ImageStorageTest {
     val pic = ImageFile("testPic", resourceToBitmap(R.raw.pp1))
 

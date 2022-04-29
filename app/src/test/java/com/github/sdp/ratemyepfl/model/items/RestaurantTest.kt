@@ -14,7 +14,7 @@ class RestaurantTest {
     @Test
     fun defaultConstructorWorks() {
         val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
-        assertEquals("Arcadie", r.id)
+        assertEquals("Arcadie", r.name)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
     }
@@ -22,7 +22,7 @@ class RestaurantTest {
     @Test
     fun paramConstructorWorks() {
         val r = Restaurant("Arcadie", 0, 46.52, 6.569, 15, 2.5)
-        assertEquals("Arcadie", r.id)
+        assertEquals("Arcadie", r.name)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
     }
@@ -49,7 +49,7 @@ class RestaurantTest {
         val builder = Restaurant.Builder()
             .setNumReviews(15)
             .setAverageGrade(2.5)
-            .setId(null)
+            .setName(null)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -60,7 +60,7 @@ class RestaurantTest {
     fun builderThrowsForMissingNumReviews() {
         val builder = Restaurant.Builder()
             .setAverageGrade(2.5)
-            .setId("Fake")
+            .setName("Fake")
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -71,7 +71,7 @@ class RestaurantTest {
     fun builderThrowsForMissingAverageGrade() {
         val builder = Restaurant.Builder()
             .setNumReviews(15)
-            .setId("Fake")
+            .setName("Fake")
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -84,7 +84,7 @@ class RestaurantTest {
         val lat = 0.0
         val long = 0.0
         val builder = Restaurant.Builder()
-            .setId(fake)
+            .setName(fake)
             .setNumReviews(15)
             .setAverageGrade(2.5)
             .setLat(lat)

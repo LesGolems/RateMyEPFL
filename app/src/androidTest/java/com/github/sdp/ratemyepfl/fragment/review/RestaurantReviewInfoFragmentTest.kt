@@ -46,13 +46,14 @@ class RestaurantReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.restaurantIdInfo))
-            .check(matches(withText(fakeRestaurant.id)))
+            .check(matches(withText(fakeRestaurant.name)))
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))
     }
 
     @Test
     fun noOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_NO_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_NO_OCCUPANCY
 
         launch()
 
@@ -62,7 +63,8 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun midOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_MEDIUM_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_MEDIUM_OCCUPANCY
 
         launch()
 
@@ -72,7 +74,8 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun fullOccupancyDisplayed() {
-        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_WITH_FULL_OCCUPANCY
+        FakeRestaurantRepository.restaurantById =
+            FakeRestaurantRepository.RESTAURANT_WITH_FULL_OCCUPANCY
 
         launch()
 

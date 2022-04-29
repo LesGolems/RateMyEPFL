@@ -30,7 +30,7 @@ class RoomReviewInfoFragmentTest {
         scenario.close()
     }
 
-    private fun launch(){
+    private fun launch() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_room_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
@@ -46,7 +46,7 @@ class RoomReviewInfoFragmentTest {
 
         val numReviewText = "(${fakeRoom.numReviews} reviews)"
         onView(withId(R.id.roomIdInfo))
-            .check(matches(withText(fakeRoom.id)))
+            .check(matches(withText(fakeRoom.name)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
     }
 

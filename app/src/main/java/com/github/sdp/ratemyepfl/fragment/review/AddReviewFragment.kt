@@ -6,7 +6,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.RatingBar
-import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
@@ -18,7 +17,6 @@ import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import javax.inject.Inject
 
 /*
@@ -115,7 +113,6 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
             setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
         }
     }
-
 
 
     /**

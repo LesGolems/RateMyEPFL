@@ -6,10 +6,6 @@ import org.junit.Test
 import java.time.LocalDate
 
 class ReviewTest {
-    val EXPECTED_REVIEW =
-        Review("Fake", ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
-    val EXPECTED_JSON =
-        "{\"id\":\"Fake\",\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
 
     @Test
     fun test() {
@@ -18,23 +14,23 @@ class ReviewTest {
     }
 
     @Test
-    fun builderThrowsExceptionIfIdIsNull() {
-        val builder = Review.Builder()
-            .setComment("Hello")
-            .setRating(ReviewRating.AVERAGE)
-            .setTitle("Hello")
+    fun builderSetRateCorrectly() {
+        val rating = ReviewRating.TERRIBLE
+        val builder: Review = Review.Builder()
+            .setRating(rating)
+            .setComment("My comment")
+            .setTitle("My title")
             .setReviewableID("ID")
             .setDate(LocalDate.now())
+            .build()
 
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
+        assertEquals(rating, builder.rating)
     }
+
 
     @Test
     fun builderThrowsExceptionIfRateIsNull() {
         val builder = Review.Builder()
-            .setId("Fake")
             .setComment("Hello")
             .setTitle("Hello")
             .setReviewableID("ID")
@@ -48,7 +44,6 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfTitleIsNull() {
         val builder = Review.Builder()
-            .setId("Fake")
             .setComment("Hello")
             .setRating(ReviewRating.AVERAGE)
             .setReviewableID("ID")
@@ -62,7 +57,6 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfCommentIsNull() {
         val builder = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
             .setReviewableID("ID")
@@ -76,7 +70,6 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfReviewableIdIsNull() {
         val builder = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
             .setComment("Hello")
@@ -90,7 +83,6 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfDateIsNull() {
         val builder = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
             .setComment("Hello")
@@ -102,25 +94,9 @@ class ReviewTest {
     }
 
     @Test
-    fun builderSetRateCorrectly() {
-        val rating = ReviewRating.TERRIBLE
-        val builder: Review = Review.Builder()
-            .setId("Fake")
-            .setRating(rating)
-            .setComment("My comment")
-            .setTitle("My title")
-            .setReviewableID("ID")
-            .setDate(LocalDate.now())
-            .build()
-
-        assertEquals(rating, builder.rating)
-    }
-
-    @Test
     fun builderSetTitleCorrectly() {
         val title = "My title"
         val builder: Review = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.TERRIBLE)
             .setComment("My comment")
             .setTitle(title)
@@ -135,7 +111,6 @@ class ReviewTest {
     fun builderSetCommentCorrectly() {
         val comment = "My comment"
         val builder: Review = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.TERRIBLE)
             .setComment(comment)
             .setTitle("My title")
@@ -154,7 +129,6 @@ class ReviewTest {
         val date = LocalDate.of(2022, 3, 8)
 
         val review = Review.Builder()
-            .setId("Fake")
             .setRating(rate)
             .setTitle(title)
             .setComment(comment)
@@ -174,7 +148,6 @@ class ReviewTest {
         val date = LocalDate.of(2022, 3, 8)
 
         val review = Review.Builder()
-            .setId("Fake")
             .setRating(rate)
             .setTitle(title)
             .setComment(comment)
@@ -188,7 +161,6 @@ class ReviewTest {
     @Test
     fun serializationIsConsistent() {
         val review: Review = Review.Builder()
-            .setId("Fake")
             .setRating(ReviewRating.EXCELLENT)
             .setComment("My comment")
             .setTitle("My title")
@@ -204,7 +176,14 @@ class ReviewTest {
 
     @Test
     fun serializeWorks() {
-        val serializedReview = EXPECTED_REVIEW.serialize()
-        assertEquals(serializedReview, EXPECTED_JSON)
+        val serializedReview = Companion.EXPECTED_REVIEW.serialize()
+        assertEquals(serializedReview, Companion.EXPECTED_JSON)
+    }
+
+    companion object {
+        const val EXPECTED_JSON =
+            "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
+        private val EXPECTED_REVIEW =
+            Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
     }
 }

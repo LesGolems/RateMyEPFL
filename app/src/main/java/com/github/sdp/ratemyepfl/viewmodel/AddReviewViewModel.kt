@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryInterface
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
+import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
-    private val reviewRepo: ReviewRepositoryInterface,
+    private val reviewRepo: ReviewRepository,
     private val connectedUser: ConnectedUser
 ) : ViewModel() {
 
@@ -30,7 +30,6 @@ class AddReviewViewModel @Inject constructor(
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
     var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
-    private var date: LocalDate? = null
 
     /**
      * Set the rating entered by the user
@@ -66,7 +65,7 @@ class AddReviewViewModel @Inject constructor(
         val rating = rating.value
         val comment = comment.value
         val title = title.value
-        val date = date ?: LocalDate.now()
+        val date = LocalDate.now()
         var uid: String? = null
 
         // only connected users may add reviews
@@ -84,19 +83,20 @@ class AddReviewViewModel @Inject constructor(
             uid = connectedUser.getUserId()
         }
 
-        val reviewHashMap = hashMapOf(
-            ReviewRepository.TITLE_FIELD_NAME to title,
-            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepository.COMMENT_FIELD_NAME to comment,
-            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to id,
-            ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.UID_FIELD_NAME to uid, // will add the user next sprint
-            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
-            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
-        )
-
-        viewModelScope.launch(Dispatchers.IO) {
-            reviewRepo.add(reviewHashMap)
+        val builder = Review.Builder()
+            .setTitle(title)
+            .setRating(rating)
+            .setComment(comment)
+            .setReviewableID(id)
+            .setDate(date)
+            .setUid(uid)
+        try {
+            val review = builder.build()
+            viewModelScope.launch(Dispatchers.IO) {
+                reviewRepo.add(review).await()
+            }
+        } catch (e: IllegalStateException) {
+            throw IllegalStateException("Failed to build the review (from ${e.message}")
         }
 
         return rating

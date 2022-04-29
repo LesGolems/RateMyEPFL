@@ -23,7 +23,7 @@ class ClassAdapter(val day: String, private val classes: List<Class>) :
 
         holder.view.findViewById<TextView>(R.id.classname).text = item.name ?: "?"
         holder.view.findViewById<TextView>(R.id.teacher).text = item.teacher ?: "?"
-        holder.view.findViewById<TextView>(R.id.room).text = item.room?: "?"
+        holder.view.findViewById<TextView>(R.id.room).text = item.room ?: "?"
         holder.view.findViewById<TextView>(R.id.startTime).text = convert(item.start)
         holder.view.findViewById<TextView>(R.id.endTime).text = convert(item.end)
 

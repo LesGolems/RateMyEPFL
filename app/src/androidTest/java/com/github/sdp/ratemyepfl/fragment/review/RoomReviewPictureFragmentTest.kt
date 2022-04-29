@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
+import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -27,7 +28,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import android.Manifest
 
 @HiltAndroidTest
 class RoomReviewPictureFragmentTest {

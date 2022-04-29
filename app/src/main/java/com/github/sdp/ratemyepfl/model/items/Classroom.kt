@@ -1,45 +1,43 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.ClassroomRepository
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Classroom(
-    override val id: String,
+    val name: String,
     override val numReviews: Int,
     override val averageGrade: Double,
     val roomKind: String? = null,
 ) : Reviewable() {
 
-    override fun toString(): String {
-        return id
-    }
+    override fun toString(): String = name
+
+    override fun getId(): String = name
 
     /**
      * Creates an hash map of the Classroom
      */
-    fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString(),
-            ClassroomRepository.ROOM_KIND_FIELD to roomKind
-        )
-    }
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+        ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME to name,
+        ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind
+    ).apply { this.putAll(super.toHashMap()) }
+
 
     /**
      * Builder to create a restaurant step by step.
      * Mandatory fields are:
-     *  - [id]
+     *  - [name]
      */
-    class Builder : ReviewableBuilder<Classroom> {
-        private var id: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var roomKind: String? = null
+    class Builder(
+        private var name: String? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+        private var roomKind: String? = null,
+    ) : ReviewableBuilder<Classroom> {
 
-        fun setId(id: String?) = apply {
-            this.id = id
+        fun setName(id: String?) = apply {
+            this.name = id
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -55,10 +53,10 @@ data class Classroom(
         }
 
         override fun build(): Classroom {
-            val id = this asMandatory id
+            val name = this asMandatory name
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
-            return Classroom(id, numReviews, averageGrade, roomKind)
+            return Classroom(name, numReviews, averageGrade, roomKind)
         }
     }
 
