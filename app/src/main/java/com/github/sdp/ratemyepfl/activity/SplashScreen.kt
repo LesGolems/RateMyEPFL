@@ -39,10 +39,6 @@ class SplashScreen : AppCompatActivity() {
 
         mLoginButton.setOnClickListener {
             auth.signIn(this)
-            // Bugfix: we run this synchronously to avoid unexpected behavior
-            runBlocking {
-                repository.register(User(user))
-            }
         }
 
         mVisitorButton.setOnClickListener {
@@ -56,6 +52,10 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun goToMain() {
+        // Bugfix: we run this synchronously to avoid unexpected behavior
+        runBlocking {
+            repository.register(User(user)).await()
+        }
         startActivity(Intent(this, MainActivity::class.java))
     }
 

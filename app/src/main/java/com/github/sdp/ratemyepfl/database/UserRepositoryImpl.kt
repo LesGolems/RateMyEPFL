@@ -70,7 +70,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
             .query()
-            .match(fieldName, value)
+            .whereEqualTo(fieldName, value)
             .execute()
             .mapDocuments { it.toUser() }
 

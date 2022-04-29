@@ -39,14 +39,13 @@ class UserRepositoryTest {
             it.toUser()
         }
         userRepo = UserRepositoryImpl(repository)
-        repository.add(testUser).await()
+        userRepo.register(testUser).await()
     }
 
     @After
     fun clean() = runTest {
         repository.remove(testUser.uid).await()
     }
-
 
     @Test
     fun updateUserWorks() {
@@ -99,7 +98,7 @@ class UserRepositoryTest {
             userRepo.getUserByEmail(testUser.email!!)
                 .collect {
                     when (it) {
-                        is QueryState.Failure -> throw Exception("Should succeed")
+                        is QueryState.Failure -> throw Exception(it.errorMessage)
                         is QueryState.Loading -> {}
                         is QueryState.Success -> {
                             val user = it.data

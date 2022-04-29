@@ -32,6 +32,7 @@ data class User(
     override fun toHashMap(): HashMap<String, Any?> {
         val json = Gson().toJson(timetable)
         return hashMapOf(
+            UserRepositoryImpl.USER_UID_FIELD_NAME to uid,
             UserRepositoryImpl.USERNAME_FIELD_NAME to username,
             UserRepositoryImpl.EMAIL_FIELD_NAME to email,
             UserRepositoryImpl.TIMETABLE_FIELD_NAME to json
