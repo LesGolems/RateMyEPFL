@@ -27,9 +27,10 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class EventRepositoryTest {
+    private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
         "Fake id", 0, 0.0, 0,
-        0, 0.0, 0.0, LocalDateTime.now()
+        0, listOf(), 0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -76,17 +77,19 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.incrementParticipants(testEvent.name)
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
+            assert(event.participants.contains(USER_ID))
 
-            eventRepo.decrementParticipants(testEvent.name)
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(0, event.numParticipants)
+            assert(!event.participants.contains(USER_ID))
         }
     }
 
@@ -109,6 +112,7 @@ class EventRepositoryTest {
         val long = 0.0
         val numParticipants = 0
         val limitParticipants = 0
+        val participants = listOf<String>()
         val date = LocalDateTime.now()
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
@@ -123,6 +127,8 @@ class EventRepositoryTest {
             .thenReturn(numParticipants)
         Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME))
             .thenReturn(limitParticipants)
+        Mockito.`when`(snapshot.getField<List<String>>(EventRepositoryImpl.PARTICIPANTS_FIELD_NAME))
+            .thenReturn(participants)
         Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
             .thenReturn(date.toString())
 
@@ -135,6 +141,7 @@ class EventRepositoryTest {
             .setLong(long)
             .setNumParticipants(numParticipants)
             .setLimitParticipants(limitParticipants)
+            .setParticipants(participants)
             .setDate(date)
             .build()
         assertEquals(event.name, expected.name)
@@ -145,5 +152,6 @@ class EventRepositoryTest {
         assertEquals(event.date, expected.date)
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
+        assertEquals(event.participants, expected.participants)
     }
 }

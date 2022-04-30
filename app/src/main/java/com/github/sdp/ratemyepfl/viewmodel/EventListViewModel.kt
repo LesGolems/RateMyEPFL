@@ -26,21 +26,11 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
     }
 
     /**
-     * Increment the participation
+     * Update the participation of the user
      */
-    fun register(event: Event) {
+    fun updateRegistration(event: Event, userId: String) {
         viewModelScope.launch {
-            repository.incrementParticipants(event.getId())
-            updateEventsList()
-        }
-    }
-
-    /**
-     * Decrement the participation
-     */
-    fun unregister(event: Event) {
-        viewModelScope.launch {
-            repository.decrementParticipants(event.getId())
+            repository.updateParticipants(event.getId(), userId)
             updateEventsList()
         }
     }

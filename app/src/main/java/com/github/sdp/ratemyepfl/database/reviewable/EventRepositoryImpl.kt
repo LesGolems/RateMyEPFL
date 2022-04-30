@@ -37,6 +37,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         const val LONGITUDE_FIELD_NAME = "long"
         const val NUMBER_PARTICIPANTS_FIELD_NAME = "numParticipants"
         const val LIMIT_PARTICIPANTS_FIELD_NAME = "limitParticipants"
+        const val PARTICIPANTS_FIELD_NAME = "participants"
         const val DATE_FIELD_NAME = "date"
 
         fun DocumentSnapshot.toEvent(): Event? {
@@ -47,6 +48,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
             val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
             val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
+            val participants = getField<List<String>>(PARTICIPANTS_FIELD_NAME)
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
             return try {
                 Event.Builder(
@@ -55,6 +57,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                     averageGrade,
                     numParticipants,
                     limitParticipants,
+                    participants,
                     lat,
                     long,
                     date
@@ -71,13 +74,19 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
 
     override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
 
-    override suspend fun incrementParticipants(id: String) {
-        changeParticipants(id, 1).await()
-    }
-
-    override suspend fun decrementParticipants(id: String) {
-        changeParticipants(id, -1).await()
-    }
+    override suspend fun updateParticipants(eventId: String, userId: String): Task<Transaction> = repository
+        .update(eventId) { event ->
+            if (!event.participants.contains(userId))
+                event.copy(
+                    numParticipants = event.numParticipants + 1,
+                    participants = event.participants.plus(userId)
+                )
+            else
+                event.copy(
+                    numParticipants = event.numParticipants - 1,
+                    participants = event.participants.minus(userId)
+                )
+        }
 
     override suspend fun updateEventRating(id: String, rating: ReviewRating) {
         repository.update(id) { event ->
@@ -87,12 +96,5 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             )
             event.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
         }.await()
-
     }
-
-    private fun changeParticipants(id: String, incDec: Int): Task<Transaction> =
-        repository.update(id) { event ->
-            event.copy(numParticipants = event.numParticipants + incDec)
-        }
-
 }
