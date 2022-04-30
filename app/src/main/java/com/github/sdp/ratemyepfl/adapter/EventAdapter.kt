@@ -14,13 +14,11 @@ import com.google.android.material.button.MaterialButton
 
 class EventAdapter(
     private val onClick: (Event) -> Unit,
-    private val registerListener: (Event) -> Boolean,
-    private val unregisterListener: (Event) -> Unit
+    private val registrationListener: (Event) -> Unit
 ) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
 
-    // Temporary solution but will change and will check database directly instead
-    private var registerMap: Map<String, Boolean> = mapOf()
+    private var uid: String? = null
 
     inner class EventViewHolder(eventView: View) :
         RecyclerView.ViewHolder(eventView) {
@@ -29,7 +27,6 @@ class EventAdapter(
         private val participantsTextView: TextView = eventView.findViewById(R.id.participants)
         private val registerButton: MaterialButton = eventView.findViewById(R.id.registerButton)
         private var currentEvent: Event? = null
-
 
         init {
             eventView.isClickable = true
@@ -45,25 +42,14 @@ class EventAdapter(
          * Set the listener of the register button
          */
         private fun setUpRegisterButton(event: Event) {
-            // Check registration locally but in the future it will be recorded on the database
-            // TODO(MODIFICATION)
-            if (registerMap[event.getId()] == true) {
+            if (event.participants.contains(uid)) {
                 registeredBehavior()
             } else {
                 unregisteredBehavior()
             }
 
             registerButton.setOnClickListener {
-                if (registerMap[event.getId()] == false) {
-                    if (registerListener(event) && event.numParticipants < event.limitParticipants) {
-                        registeredBehavior()
-                        registerMap = registerMap.plus(Pair(event.getId(), true))
-                    }
-                } else {
-                    unregisterListener(event)
-                    unregisteredBehavior()
-                    registerMap = registerMap.plus(Pair(event.getId(), false))
-                }
+                registrationListener(event)
             }
         }
 
@@ -86,14 +72,11 @@ class EventAdapter(
         /**
          * Bind event
          */
-        fun bind(event: Event, position: Int) {
+        fun bind(event: Event) {
             currentEvent = event
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
 
-            if (!registerMap.containsKey(event.getId())) {
-                registerMap = registerMap.plus(Pair(event.getId(), false))
-            }
             setUpRegisterButton(event)
         }
     }
@@ -110,7 +93,11 @@ class EventAdapter(
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = getItem(position)
-        holder.bind(event, position)
+        holder.bind(event)
+    }
+
+    fun setUserId(uid: String?) {
+        this.uid = uid
     }
 
     companion object {
