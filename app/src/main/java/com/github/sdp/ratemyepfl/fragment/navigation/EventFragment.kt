@@ -24,8 +24,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private val eventAdapter =
         EventAdapter(
             { e -> displayReviews(e) },
-            { e -> registerListener(e) },
-            { e -> viewModel.unregister(e) }
+            { e -> registrationListener(e) }
         )
     private lateinit var recyclerView: RecyclerView
 
@@ -35,6 +34,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.eventRecyclerView)
+        eventAdapter.setUserId(auth.getUserId())
         recyclerView.adapter = eventAdapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
@@ -44,7 +44,6 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             .observe(viewLifecycleOwner) { events ->
                 eventAdapter.submitList(events)
             }
-        viewModel.events.value
     }
 
     override fun onResume() {
@@ -67,22 +66,22 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     }
 
     /**
-     * Register the user and returns whether he is connected or not
+     * Update the registration of the user
      */
-    private fun registerListener(event: Event): Boolean {
+    private fun registrationListener(event: Event) {
         if (auth.isLoggedIn()) {
-            if (event.numParticipants == event.limitParticipants) {
+            val uid = auth.getUserId()!! // Can't be null as we checked that the user is logged in
+            if (!event.participants.contains(uid) && event.numParticipants == event.limitParticipants) {
                 Snackbar.make(requireView(), R.string.full_event_text, Snackbar.LENGTH_SHORT)
                     .setAnchorView(R.id.activityMainBottomNavigationView)
                     .show()
             } else {
-                viewModel.register(event)
+                viewModel.updateRegistration(event, uid)
             }
-            return true
+        } else {
+            Snackbar.make(requireView(), R.string.registration_no_login_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.activityMainBottomNavigationView)
+                .show()
         }
-        Snackbar.make(requireView(), R.string.registration_no_login_text, Snackbar.LENGTH_SHORT)
-            .setAnchorView(R.id.activityMainBottomNavigationView)
-            .show()
-        return false
     }
 }
