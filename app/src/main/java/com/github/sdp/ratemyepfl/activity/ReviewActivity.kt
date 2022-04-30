@@ -19,20 +19,31 @@ class ReviewActivity : AppCompatActivity() {
         const val EXTRA_ITEM_REVIEWED: String =
             "com.github.sdp.extra_item_reviewed"
 
-        const val EXTRA_LAYOUT_ID: String =
-            "com.github.sdp.extra_layout_id"
+        const val EXTRA_MENU_ID: String =
+            "com.github.sdp.extra_menu_id"
+
+        const val EXTRA_GRAPH_ID: String =
+            "com.github.sdp.extra_graph_id"
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val layout = intent.getIntExtra(EXTRA_LAYOUT_ID, 0)
-        setContentView(layout)
+        setContentView(R.layout.activity_review)
 
         // Note that for simplicity the components id are the same for each activity layout (i.e same id in xml file)
         val bottomNavigationReview = findViewById<BottomNavigationView>(R.id.reviewNavigationView)
+
+        val layout = intent.getIntExtra(EXTRA_MENU_ID, 0)
+        bottomNavigationReview.inflateMenu(layout)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
+
+        val graphId = intent.getIntExtra(EXTRA_GRAPH_ID, 0)
+        val inflater = navHostFragment.navController.navInflater
+        val graph = inflater.inflate(graphId)
+        navHostFragment.navController.graph = graph
         bottomNavigationReview.setupWithNavController(navHostFragment.navController)
     }
 }
