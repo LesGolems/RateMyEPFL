@@ -1,13 +1,9 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.test.core.app.ApplicationProvider
-import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
 import com.github.sdp.ratemyepfl.database.Storage
