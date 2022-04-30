@@ -7,30 +7,31 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), LocationListener {
-    private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var mainFragment: FragmentContainerView
-
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     private lateinit var locationManager: LocationManager
     private val restaurantListViewModel: RestaurantListViewModel by viewModels()
@@ -45,13 +46,47 @@ class MainActivity : AppCompatActivity(), LocationListener {
         ) as NavHostFragment
 
         navController = navHostFragment.navController
+        drawerLayout = findViewById(R.id.mainActivityDrawerLayout)
+        setUpBottomNavigation()
+        setUpDrawerNavigation()
+        startLocationService()
+    }
 
-        // Setup the bottom navigation
-        val bottomNavigationView: BottomNavigationView =
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration)
+    }
+
+    /**
+     * Setups the bottom navigation, when on user profile the bottom bar is not shown
+     */
+    private fun setUpBottomNavigation() {
+        bottomNavigationView =
             findViewById(R.id.activityMainBottomNavigationView)
+
         bottomNavigationView.setupWithNavController(navController)
 
-        // Setup the top level destinations with an ActionBar
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.profileFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
+    }
+
+    private fun showBottomNav() {
+        bottomNavigationView.visibility = View.VISIBLE
+
+    }
+
+    private fun hideBottomNav() {
+        bottomNavigationView.visibility = View.GONE
+
+    }
+
+    private fun setUpDrawerNavigation() {
+        val drawerView: NavigationView = findViewById(R.id.drawerView)
+        drawerView.setupWithNavController(navController)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
@@ -59,16 +94,10 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 R.id.eventFragment,
                 R.id.mapFragment,
                 R.id.timetableFragment
-            )
+            ), drawerLayout
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        startLocationService()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
     }
 
     /**

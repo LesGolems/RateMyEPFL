@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.SplashScreen
-import com.github.sdp.ratemyepfl.activity.UserProfileActivity
 import com.github.sdp.ratemyepfl.viewmodel.HomeViewModel
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,7 +67,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         userProfileButton.setOnClickListener {
             if (context != null) {
                 if (viewModel.isUserLoggedIn()) {
-                    startActivity(Intent(context, UserProfileActivity::class.java))
+                    startActivity(Intent(context, ProfileFragment::class.java))
                 }
             }
         }

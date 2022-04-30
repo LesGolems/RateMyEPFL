@@ -1,5 +1,6 @@
-package com.github.sdp.ratemyepfl.activity
+package com.github.sdp.ratemyepfl.fragment.navigation
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.ImageDecoder
 import android.os.Build
@@ -8,9 +9,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -20,7 +21,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class UserProfileActivity : AppCompatActivity() {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     val SELECT_IMAGE = 1044
 
@@ -33,27 +34,26 @@ class UserProfileActivity : AppCompatActivity() {
     @Inject
     lateinit var currentUser: ConnectedUser
 
-    private val viewModel by viewModels<UserProfileViewModel>()
+    private val viewModel by activityViewModels<UserProfileViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user_profile)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        profilePicture = findViewById(R.id.profile_image)
-        cameraIcon = findViewById(R.id.modify_profile_image_button)
-        emailText = findViewById(R.id.emailText)
-        usernameText = findViewById(R.id.username_text)
-        modifyButton = findViewById(R.id.modify_profile_button)
+        profilePicture = view.findViewById(R.id.profile_image)
+        cameraIcon = view.findViewById(R.id.modify_profile_image_button)
+        emailText = view.findViewById(R.id.emailText)
+        usernameText = view.findViewById(R.id.username_text)
+        modifyButton = view.findViewById(R.id.modify_profile_button)
 
-        viewModel.picture().observe(this) {
+        viewModel.picture().observe(viewLifecycleOwner) {
             profilePicture.setImageBitmap(it?.data)
         }
 
-        viewModel.username().observe(this) {
+        viewModel.username().observe(viewLifecycleOwner) {
             usernameText.setText(it.orEmpty())
         }
 
-        viewModel.email().observe(this) {
+        viewModel.email().observe(viewLifecycleOwner) {
             emailText.setText(it.orEmpty())
         }
 
@@ -65,8 +65,8 @@ class UserProfileActivity : AppCompatActivity() {
 
     val updatePicture = View.OnClickListener {
         val intent = Intent()
-        intent.setType("image/*")
-        intent.setAction(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select a picture"), SELECT_IMAGE)
     }
 
@@ -80,7 +80,7 @@ class UserProfileActivity : AppCompatActivity() {
                 viewModel.submitChanges()
             } catch (e: Exception) {
                 viewModel.discardChanges()
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
             }
             enableModifications(false)
         }
@@ -107,13 +107,13 @@ class UserProfileActivity : AppCompatActivity() {
             SELECT_IMAGE -> {
                 if (resultCode == RESULT_OK && data != null) {
                     val photoUri = data.data
-                    val source = ImageDecoder.createSource(this.contentResolver, photoUri!!)
+                    val source = ImageDecoder.createSource(requireActivity().contentResolver, photoUri!!)
                     val bitmap = ImageDecoder.decodeBitmap(source)
                     val image = ImageFile(currentUser.getUserId()!!, bitmap)
                     try {
                         viewModel.changeProfilePicture(image)
                     } catch (e: Exception) {
-                        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
