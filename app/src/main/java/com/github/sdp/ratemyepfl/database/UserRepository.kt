@@ -1,81 +1,30 @@
 package com.github.sdp.ratemyepfl.database
 
+import android.os.AsyncTask
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
-import javax.inject.Singleton
-import com.github.sdp.ratemyepfl.model.items.Class
-import java.lang.Exception
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.Transaction
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.tasks.asTask
 
-@Singleton
-class UserRepository @Inject constructor(db: FirebaseFirestore) : UserRepositoryInterface,
-    Repository(db, USER_COLLECTION_PATH) {
+interface UserRepository {
 
-    companion object {
-        const val USER_COLLECTION_PATH = "users"
-        const val USERNAME_FIELD_NAME = "username"
-        const val EMAIL_FIELD_NAME = "email"
-        const val PICTURE_FIELD_NAME = "picture"
-        const val TIMETABLE_FIELD_NAME = "timetable"
+    suspend fun getUserByUid(uid: String): User?
 
-        fun DocumentSnapshot.toUser(): User {
-            return User(
-                uid = id,
-                username = getString(USERNAME_FIELD_NAME),
-                email = getString(EMAIL_FIELD_NAME),
-                timetable = Gson().fromJson(
-                    (getString(TIMETABLE_FIELD_NAME)?: " "), Array<Class>::class.java
-                ).toCollection(ArrayList())
-            )
-        }
-    }
+    fun getUsersByUsername(username: String): QueryResult<List<User>>
 
-    fun toItem(snapshot: DocumentSnapshot): User? = snapshot.toUser()
+    fun getUserByEmail(email: String): QueryResult<User>
+
+    fun update(id: String, transform: (User) -> User): Task<Transaction>
 
     /**
-     * Retrieves a User object by their [uid].
-     * Returns null in case of error.
+     * Register the provided [user] if it is not registered yet. Returns true
+     * if the user was already registered, false otherwise.
+     *
+     * @param user: the user to register
+     *
      */
-    override suspend fun getUserByUid(uid: String): User? = toItem(getById(uid))
+    suspend fun register(user: User): QueryResult<Boolean>
 
-    private suspend fun getBy(fieldName: String, value: String): List<User> {
-        return collection
-            .whereEqualTo(fieldName, value)
-            .get()
-            .await()
-            .mapNotNull { obj -> toItem(obj) }
-    }
-
-    /**
-     * Retrieves a list of Users with the same [username].
-     */
-    override suspend fun getUsersByUsername(username: String): List<User> = getBy(
-        USERNAME_FIELD_NAME, username
-    )
-
-    /**
-     * Retrieves a User by its [email] address.
-     */
-    override suspend fun getUserByEmail(email: String): User = getBy(EMAIL_FIELD_NAME, email)[0]
-
-    /**
-     * Updates the [user] in the collection.
-     * If the [user] isn't already part of it, it is added to the collection.
-     */
-    override suspend fun update(user: User) {
-        collection
-            .document(user.uid)
-            .set(user.toHashMap())
-            .await()
-    }
-
-    /**
-     * Add the user to the DB
-     */
-    fun add(user: User) {
-        collection.document(user.uid).set(user.toHashMap())
-    }
 }

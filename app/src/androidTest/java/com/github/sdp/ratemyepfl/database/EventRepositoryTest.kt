@@ -1,9 +1,14 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.EventRepository.Companion.toEvent
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,7 +36,7 @@ class EventRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var eventRepo: EventRepository
+    lateinit var eventRepo: EventRepositoryImpl
 
     @Before
     fun setup() {
@@ -40,8 +45,8 @@ class EventRepositoryTest {
     }
 
     @After
-    fun clean(){
-        eventRepo.remove(testEvent.id)
+    fun clean() {
+        eventRepo.remove(testEvent.name)
     }
 
     @Test
@@ -51,7 +56,7 @@ class EventRepositoryTest {
             assertEquals(events.size, 1)
 
             val event = events[0]
-            assertEquals(testEvent.id, event.id)
+            assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
         }
@@ -60,9 +65,9 @@ class EventRepositoryTest {
     @Test
     fun getEventByIdWorks() {
         runTest {
-            val event = eventRepo.getEventById(testEvent.id)
+            val event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
-            assertEquals(testEvent.id, event!!.id)
+            assertEquals(testEvent.name, event!!.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
         }
@@ -71,16 +76,16 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.incrementParticipants(testEvent.id)
-            var event = eventRepo.getEventById(testEvent.id)
+            eventRepo.incrementParticipants(testEvent.name)
+            var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
-            assertEquals(testEvent.id, event!!.id)
+            assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
 
-            eventRepo.decrementParticipants(testEvent.id)
-            event = eventRepo.getEventById(testEvent.id)
+            eventRepo.decrementParticipants(testEvent.name)
+            event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
-            assertEquals(testEvent.id, event!!.id)
+            assertEquals(testEvent.name, event!!.name)
             assertEquals(0, event.numParticipants)
         }
     }
@@ -88,10 +93,10 @@ class EventRepositoryTest {
     @Test
     fun updateEventRatingWorks() {
         runTest {
-            eventRepo.updateEventRating(testEvent.id, ReviewRating.EXCELLENT)
-            val event = eventRepo.getEventById(testEvent.id)
+            eventRepo.updateEventRating(testEvent.getId(), ReviewRating.EXCELLENT)
+            val event = eventRepo.getEventById(testEvent.getId())
             assertNotNull(event)
-            assertEquals(testEvent.id, event!!.id)
+            assertEquals(testEvent.getId(), event!!.getId())
             assertEquals(1, event.numReviews)
             assertEquals(5.0, event.averageGrade, 0.1)
         }
@@ -108,17 +113,22 @@ class EventRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
-        Mockito.`when`(snapshot.getString(EventRepository.LATITUDE_FIELD_NAME)).thenReturn(lat.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.LONGITUDE_FIELD_NAME)).thenReturn(long.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME)).thenReturn(numParticipants.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME)).thenReturn(limitParticipants.toString())
-        Mockito.`when`(snapshot.getString(EventRepository.DATE_FIELD_NAME)).thenReturn(date.toString())
+        Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
+        Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
+        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
+        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
+        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
+            .thenReturn(long)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME))
+            .thenReturn(numParticipants)
+        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME))
+            .thenReturn(limitParticipants)
+        Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
+            .thenReturn(date.toString())
 
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()
-            .setId(fake)
+            .name(fake)
             .setNumReviews(15)
             .setAverageGrade(2.5)
             .setLat(lat)
@@ -127,7 +137,7 @@ class EventRepositoryTest {
             .setLimitParticipants(limitParticipants)
             .setDate(date)
             .build()
-        assertEquals(event.id, expected.id)
+        assertEquals(event.name, expected.name)
         assertEquals(event.numReviews, expected.numReviews)
         assertEquals(event.averageGrade, expected.averageGrade, 0.01)
         assertEquals(event.lat, expected.lat, 0.01)

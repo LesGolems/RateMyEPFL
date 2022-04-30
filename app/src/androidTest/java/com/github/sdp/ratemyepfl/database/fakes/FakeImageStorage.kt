@@ -7,7 +7,7 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import javax.inject.Inject
 
 class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
-  
+
     init {
         images.put("12345", ImageFile("12345", resourceToBitmap(R.raw.pp1)))
     }

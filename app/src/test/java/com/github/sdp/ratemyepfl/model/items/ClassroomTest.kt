@@ -14,7 +14,7 @@ class ClassroomTest {
     @Test
     fun constructorWithDefaultValuesWorks() {
         val r = Classroom("CO1", 15, 2.5)
-        assertEquals("CO1", r.id)
+        assertEquals("CO1", r.name)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
         assertEquals(null, r.roomKind)
@@ -23,7 +23,7 @@ class ClassroomTest {
     @Test
     fun constructorWithAllValuesWorks() {
         val r = Classroom("CM 1 4", 15, 2.5, "Auditorium")
-        assertEquals("CM 1 4", r.id)
+        assertEquals("CM 1 4", r.name)
         assertEquals(15, r.numReviews)
         assertEquals(2.5, r.averageGrade, 0.01)
         assertEquals("Auditorium", r.roomKind)
@@ -48,7 +48,7 @@ class ClassroomTest {
             .setNumReviews(15)
             .setAverageGrade(2.5)
             .setRoomKind(fake)
-            .setId(null)
+            .setName(null)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -61,7 +61,7 @@ class ClassroomTest {
         val builder = Classroom.Builder()
             .setAverageGrade(2.5)
             .setRoomKind(fake)
-            .setId(fake)
+            .setName(fake)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -74,7 +74,7 @@ class ClassroomTest {
         val builder = Classroom.Builder()
             .setNumReviews(15)
             .setRoomKind(fake)
-            .setId(fake)
+            .setName(fake)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -85,7 +85,7 @@ class ClassroomTest {
     fun builderSucceedsForMissingNonMandatoryProperties() {
         val fake = "Fake"
         val builder = Classroom.Builder()
-            .setId(fake)
+            .setName(fake)
             .setNumReviews(15)
             .setAverageGrade(2.5)
 

@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.RepositoryItem
+import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import com.github.sdp.ratemyepfl.model.user.User
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -12,7 +12,6 @@ import java.time.LocalDate
 
 @Serializable
 data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
-    val id: String,
     val rating: ReviewRating,
     val title: String,
     val comment: String,
@@ -22,7 +21,11 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
-) {
+) : RepositoryItem {
+
+    // By default, the id of the review is a hash of this review
+    private var id: String = this.hashCode().toString()
+
     companion object {
         /**
          * Function to serialize a Review easily, based on kotlin serialization plugin.
@@ -40,24 +43,36 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          */
         fun deserialize(review: String): Review = Json.decodeFromString(review)
 
-        private const val TAG = "review"
     }
 
     fun serialize(): String = Companion.serialize(this)
 
+    override fun getId(): String = id
+
+    /**
+     * Set the id of the [Review]
+     *
+     * @param id: Unique identifier of the review
+     *
+     * @return the [Review] with modified id
+     */
+    fun withId(id: String): Review = this.apply {
+        this.id = id
+    }
+
     /**
      * Creates a hash map of the review
      */
-    fun toHashMap(): HashMap<String, Any?> {
+    override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf(
-            ReviewRepository.TITLE_FIELD_NAME to title,
-            ReviewRepository.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepository.COMMENT_FIELD_NAME to comment,
-            ReviewRepository.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewRepository.DATE_FIELD_NAME to date.toString(),
-            ReviewRepository.UID_FIELD_NAME to uid,
-            ReviewRepository.LIKERS_FIELD_NAME to listOf<String>(),
-            ReviewRepository.DISLIKERS_FIELD_NAME to listOf<String>()
+            ReviewRepositoryImpl.TITLE_FIELD_NAME to title,
+            ReviewRepositoryImpl.RATING_FIELD_NAME to rating.toString(),
+            ReviewRepositoryImpl.COMMENT_FIELD_NAME to comment,
+            ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
+            ReviewRepositoryImpl.DATE_FIELD_NAME to date.toString(),
+            ReviewRepositoryImpl.UID_FIELD_NAME to uid,
+            ReviewRepositoryImpl.LIKERS_FIELD_NAME to likers,
+            ReviewRepositoryImpl.DISLIKERS_FIELD_NAME to dislikers
         )
     }
 
@@ -65,27 +80,19 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
      * Allows to create a ReviewRating incrementally.
      * NB: Even if a user can create a review incrementally, he
      * must specify every property of the review.
+     *
+     * Mandatory: [rating], [title], [comment], [reviewableId], [date]
      */
     data class Builder(
-        private var id: String? = null,
         private var rating: ReviewRating? = null,
         private var title: String? = null,
         private var comment: String? = null,
         private var reviewableId: String? = null,
         private var date: LocalDate? = null,
         private var uid: String? = null,
-        private var likers: List<String>? = null,
-        private var dislikers: List<String>? = null
+        private var likers: List<String>? = listOf(),
+        private var dislikers: List<String>? = listOf(),
     ) {
-        /**
-         * Sets the id of the review
-         * @param id: the new id of the review
-         * @return this
-         */
-        fun setId(id: String?) = apply {
-            this.id = id
-        }
-
         /**
          * Sets the rating of the review
          * @param rating: the new rating of the review
@@ -141,11 +148,11 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             this.date = date
         }
 
-        fun setLikers(likers: List<String>) = apply {
+        fun setLikers(likers: List<String>?) = apply {
             this.likers = likers
         }
 
-        fun setDislikers(dislikers: List<String>) = apply {
+        fun setDislikers(dislikers: List<String>?) = apply {
             this.dislikers = dislikers
         }
 
@@ -155,18 +162,16 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         fun build(): Review {
-            val id = this asMandatory id
             val rate = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
             val uid = this.uid
-            val likers = this.likers ?: listOf()
-            val dislikers = this.dislikers ?: listOf()
+            val likers = this asMandatory  this.likers
+            val dislikers = this asMandatory this.dislikers
 
             return Review(
-                id,
                 rate,
                 title,
                 comment,

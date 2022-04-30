@@ -7,24 +7,25 @@ import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
     val currentUser: ConnectedUser,
     val imageStorage: Storage<ImageFile>,
-    val userDatabase: UserRepositoryInterface
+    val userDatabase: UserRepository
 ) : ViewModel() {
 
     private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
     private val username: MutableLiveData<String?> = MutableLiveData(null)
     private val email: MutableLiveData<String?> = MutableLiveData(null)
-    var timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
+    private val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
     private var newUsername: String? = null
     private var newEmail: String? = null
@@ -107,10 +108,13 @@ class UserProfileViewModel @Inject constructor(
             }
             viewModelScope.launch {
                 val id = currentUser.getUserId()
-                val user = User(id!!, newUsername, newEmail)
                 newUsername?.let { username.postValue(it) }
                 newEmail?.let { email.postValue(it) }
-                userDatabase.update(user)
+                if (newUsername != null && newEmail != null && id != null) {
+                    userDatabase.update(id) {
+                        it.copy(username = newUsername, email = newEmail)
+                    }.await()
+                }
             }
         } else {
             throw DisconnectedUserException()

@@ -60,7 +60,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
             ReviewActivity.EXTRA_ITEM_REVIEWED,
-            event.id
+            event.getId()
         )
         intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_event_review)
         startActivity(intent)

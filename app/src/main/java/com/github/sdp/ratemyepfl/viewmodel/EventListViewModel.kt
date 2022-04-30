@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.EventRepositoryInterface
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
  * and the database
  */
 @HiltViewModel
-class EventListViewModel @Inject constructor(private val repository: EventRepositoryInterface) :
+class EventListViewModel @Inject constructor(private val repository: EventRepository) :
     ViewModel() {
 
     val events = MutableLiveData<List<Event>>()
@@ -30,7 +30,7 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
      */
     fun register(event: Event) {
         viewModelScope.launch {
-            repository.incrementParticipants(event.id)
+            repository.incrementParticipants(event.getId())
             updateEventsList()
         }
     }
@@ -40,7 +40,7 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
      */
     fun unregister(event: Event) {
         viewModelScope.launch {
-            repository.decrementParticipants(event.id)
+            repository.decrementParticipants(event.getId())
             updateEventsList()
         }
     }

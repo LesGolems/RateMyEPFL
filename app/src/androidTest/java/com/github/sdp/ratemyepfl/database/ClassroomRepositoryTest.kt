@@ -1,9 +1,12 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.ClassroomRepository.Companion.toClassroom
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl.Companion.toClassroom
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +31,7 @@ class ClassroomRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var roomRepo: ClassroomRepository
+    lateinit var roomRepo: ClassroomRepositoryImpl
 
     @Before
     fun setup() {
@@ -37,38 +40,46 @@ class ClassroomRepositoryTest {
     }
 
     @After
-    fun clean(){
-        roomRepo.remove(testRoom.id)
+    fun clean() {
+        roomRepo.remove(testRoom.name)
+    }
+
+    @Test
+    fun conversionTest() = runTest {
+        roomRepo.add(testRoom).await()
+        val c = roomRepo.getRoomById(testRoom.getId())
+        assertEquals(testRoom, c)
     }
 
     @Test
     fun getRoomsWorks() {
         runTest {
             val room = roomRepo.getClassrooms()[0]
-            assertEquals(testRoom.id, room.id)
+            assertEquals(testRoom.name, room.name)
         }
     }
 
     @Test
     fun getRoomByIdWorks() {
         runTest {
-            val room = roomRepo.getRoomById(testRoom.id)
+            val room = roomRepo.getRoomById(testRoom.name)
             assertNotNull(room)
-            assertEquals(testRoom.id, room!!.id)
+            assertEquals(testRoom.name, room!!.name)
         }
     }
 
     @Test
     fun updateRoomRatingWorks() {
         runTest {
-            roomRepo.updateClassroomRating(testRoom.id, ReviewRating.EXCELLENT)
-            val room = roomRepo.getRoomById(testRoom.id)
+            roomRepo.updateClassroomRating(testRoom.name, ReviewRating.EXCELLENT)
+            val room = roomRepo.getRoomById(testRoom.name)
             assertNotNull(room)
-            assertEquals(testRoom.id, room!!.id)
+            assertEquals(testRoom.name, room!!.name)
             assertEquals(1, room.numReviews)
             assertEquals(5.0, room.averageGrade, 0.1)
         }
     }
+
 
     @Test
     fun toItemReturnsAClassroomForCompleteSnapshot() {
@@ -76,9 +87,14 @@ class ClassroomRepositoryTest {
 
         val snapshot = mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ClassroomRepository.ROOM_KIND_FIELD)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn("15")
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn("2.5")
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME))
+            .thenReturn(fake)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
+            .thenReturn(fake)
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+            .thenReturn(15)
+        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+            .thenReturn(2.5)
 
         val classroom: Classroom? = snapshot.toClassroom()
         val fakeClassroom = Classroom(fake, 15, 2.5, fake)
@@ -91,8 +107,14 @@ class ClassroomRepositoryTest {
         val snapshot = mock(DocumentSnapshot::class.java)
 
         Mockito.`when`(snapshot.id).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.NUM_REVIEWS_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(Repository.AVERAGE_GRADE_FIELD_NAME)).thenReturn(null)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME))
+            .thenReturn(null)
+        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
+            .thenReturn(null)
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+            .thenReturn(null)
+        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+            .thenReturn(null)
 
         val classroom: Classroom? = snapshot.toClassroom()
         assertEquals(null, classroom)

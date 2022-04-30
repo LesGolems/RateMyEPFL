@@ -1,31 +1,43 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.EventRepositoryInterface
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class FakeEventRepository @Inject constructor() : EventRepositoryInterface {
+class FakeEventRepository @Inject constructor() : EventRepository {
 
     companion object {
         val DATE = LocalDateTime.now()
         val EVENT_LIST = listOf(
-            Event(id = "Evenement de dingue", 15, 2.5, 0,
-                100, 0.0, 0.0, DATE),
-            Event(id = "Bas les masques", 8, 3.0, 0,
-                70, 0.0, 0.0, DATE),
-            Event(id = "La paix verte", 1, 4.0, 0,
-                50, 0.0, 0.0, DATE)
+            Event(
+                name = "Evenement de dingue", 15, 2.5, 0,
+                100, 0.0, 0.0, DATE
+            ),
+            Event(
+                name = "Bas les masques", 8, 3.0, 0,
+                70, 0.0, 0.0, DATE
+            ),
+            Event(
+                name = "La paix verte", 1, 4.0, 0,
+                50, 0.0, 0.0, DATE
+            )
         )
 
-        val DEFAULT_EVENT = Event(id = "Evenement de dingue", 15, 2.5, 0,
-            100, 0.0, 0.0, DATE)
+        val DEFAULT_EVENT = Event(
+            name = "Evenement de dingue", 15, 2.5, 0,
+            100, 0.0, 0.0, DATE
+        )
 
-        val EVENT_WITH_REVIEWS = Event(id = "Evenement de dingue", 15, 2.5, 0,
-            100, 0.0, 0.0, DATE)
-        val EVENT_WITHOUT_REVIEWS = Event(id = "Evenement de dingue", 0, 0.0, 0,
-            100, 0.0, 0.0, DATE)
+        val EVENT_WITH_REVIEWS = Event(
+            name = "Evenement de dingue", 15, 2.5, 0,
+            100, 0.0, 0.0, DATE
+        )
+        val EVENT_WITHOUT_REVIEWS = Event(
+            name = "Evenement de dingue", 0, 0.0, 0,
+            100, 0.0, 0.0, DATE
+        )
 
         var eventById = EVENT_WITH_REVIEWS
 

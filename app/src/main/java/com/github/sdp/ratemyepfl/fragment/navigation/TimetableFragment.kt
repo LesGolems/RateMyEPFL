@@ -7,12 +7,9 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
-import com.github.sdp.ratemyepfl.database.UserRepository
-import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

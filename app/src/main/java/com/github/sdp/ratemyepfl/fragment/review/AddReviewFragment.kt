@@ -123,7 +123,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 .show()
         }
     }
-
+    
     /**
      * Once a review is submitted all the information are reset to default
      */

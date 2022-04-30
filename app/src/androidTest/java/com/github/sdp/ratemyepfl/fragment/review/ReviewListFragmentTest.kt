@@ -26,7 +26,8 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -64,7 +65,6 @@ class ReviewListFragmentTest {
     fun swipeRefreshes() {
         FakeReviewsRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setId("Fake")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
@@ -135,10 +135,14 @@ class ReviewListFragmentTest {
                     withText(username1)
                 )
             )
-        ).check(matches(allOf(
-            withDrawable(R.drawable.fake_profile_picture),
-            isDisplayed()
-        )))
+        ).check(
+            matches(
+                allOf(
+                    withDrawable(R.drawable.fake_profile_picture),
+                    isDisplayed()
+                )
+            )
+        )
     }
 
     @Test

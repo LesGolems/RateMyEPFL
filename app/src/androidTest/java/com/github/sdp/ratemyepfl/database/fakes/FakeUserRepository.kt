@@ -1,11 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
+import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.Transaction
+import org.mockito.Mockito
 import javax.inject.Inject
 
-class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
+class FakeUserRepository @Inject constructor() : UserRepository {
 
 
     companion object {
@@ -15,10 +19,20 @@ class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
         val UID4 = "12345"
 
         val userMap = mapOf(
-            UID1 to User(UID1, "Marc", "Marc.Antoine@gmail.com", ArrayList<Class>()),
-            UID2 to User(UID2, "Charolais", "Etienne.cdp@gmail.com", ArrayList<Class>()),
-            UID3 to User(UID3, "x_sasuke9", "Celestin.Renaut@gmail.com", ArrayList<Class>()),
-            UID4 to User("12345", "John Smith", "john@example.com", ArrayList<Class>())
+            UID1 to User(UID1, "Marc", "Marc.Antoine@gmail.com", timetable = ArrayList<Class>()),
+            UID2 to User(
+                UID2,
+                "Charolais",
+                "Etienne.cdp@gmail.com",
+                timetable = ArrayList<Class>()
+            ),
+            UID3 to User(
+                UID3,
+                "x_sasuke9",
+                "Celestin.Renaut@gmail.com",
+                timetable = ArrayList<Class>()
+            ),
+            UID4 to User("12345", "John Smith", "john@example.com", timetable = ArrayList<Class>())
         )
     }
 
@@ -31,16 +45,22 @@ class FakeUserRepository @Inject constructor() : UserRepositoryInterface {
         return null
     }
 
-    override suspend fun getUsersByUsername(username: String): List<User> {
-        return users.filterValues { user -> user.username.equals(username) }.values.toList()
+    override fun getUsersByUsername(username: String): QueryResult<List<User>> {
+        return QueryResult.success(users.filterValues { user -> user.username.equals(username) }.values.toList())
     }
 
-    override suspend fun getUserByEmail(email: String): User {
-        return users.filterValues { user -> user.email.equals(email) }.values.toList()[0]
+    override fun getUserByEmail(email: String): QueryResult<User> {
+        return QueryResult.success(users.filterValues { user -> user.email.equals(email) }.values.toList()[0])
     }
 
-    override suspend fun update(user: User) {
-        users.put(user.uid, user)
+    @Suppress("UNCHECKED_CAST")
+    override fun update(id: String, transform: (User) -> User): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    override suspend fun register(user: User): QueryResult<Boolean> {
+        return QueryResult.success(true)
     }
 
 }

@@ -1,15 +1,15 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.MainActivity"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sliding_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
+    sothree:umanoDragView="@id/dragView"
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoShadowHeight="4dp"
-    sothree:umanoDragView="@id/dragView">
+    tools:context=".activity.MainActivity">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -29,8 +29,8 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_alignBaseline="@id/reviewableButton"
+            android:layout_marginStart="20dp"
             android:text="@string/title_review_list" />
 
         <Button
@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:layout_below="@+id/reviewableButton"
-            android:layout_marginTop="5dp"
             android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
             android:background="?android:attr/listDivider" />
 
         <androidx.cardview.widget.CardView

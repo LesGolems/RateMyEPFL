@@ -9,23 +9,19 @@
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/author_profile_picture"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:id="@+id/author_profile_picture"
-            android:background="@raw/blank_profile_picture"
-            >
-        </de.hdodenhof.circleimageview.CircleImageView>
+            android:background="@raw/blank_profile_picture"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
+            android:id="@+id/author_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/author_username"
-            android:gravity="center"
-            android:hint="anonymous"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/author_profile_picture"
-            >
-        </TextView>
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:hint="anonymous"></TextView>
 
     </RelativeLayout>
 

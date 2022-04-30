@@ -1,7 +1,13 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.fakes.*
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module
@@ -18,28 +24,28 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideCourseRepo(repo: FakeCourseRepository): CourseRepositoryInterface
+    abstract fun provideCourseRepo(repo: FakeCourseRepository): CourseRepository
 
     @Singleton
     @Binds
-    abstract fun provideClassroomRepo(repo: FakeClassroomRepository): ClassroomRepositoryInterface
+    abstract fun provideClassroomRepo(repo: FakeClassroomRepository): ClassroomRepository
 
     @Singleton
     @Binds
-    abstract fun provideRestaurantRepo(repo: FakeRestaurantRepository): RestaurantRepositoryInterface
+    abstract fun provideRestaurantRepo(repo: FakeRestaurantRepository): RestaurantRepository
 
     @Singleton
     @Binds
-    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepositoryInterface
+    abstract fun provideEventRepo(repo: FakeEventRepository): EventRepository
 
     @Singleton
     @Binds
-    abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepositoryInterface
+    abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepository
 
 
     @Singleton
     @Binds
-    abstract fun provideUserRepo(repo: FakeUserRepository): UserRepositoryInterface
+    abstract fun provideUserRepo(repo: FakeUserRepository): UserRepository
 
     @Singleton
     @Binds

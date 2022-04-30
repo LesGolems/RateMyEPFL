@@ -1,14 +1,14 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.EventRepository
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
-class Event(
-    override val id: String,
+data class Event(
+    val name: String,
     override val numReviews: Int,
     override val averageGrade: Double,
     val numParticipants: Int,
@@ -19,32 +19,31 @@ class Event(
 ) : Reviewable(), Displayable {
 
     override fun toString(): String {
-        return id
+        return name
     }
+
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+        EventRepositoryImpl.NAME_FIELD_NAME to name,
+        EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
+        EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
+        EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
+        EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
+        EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
+    ).apply { putAll(super.toHashMap()) }
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
 
-    /**
-     * Creates an hash map of the Event, to add it to the DB
-     */
-    fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            EventRepository.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants.toString(),
-            EventRepository.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants.toString(),
-            EventRepository.LATITUDE_FIELD_NAME to lat.toString(),
-            EventRepository.LONGITUDE_FIELD_NAME to long.toString(),
-            EventRepository.DATE_FIELD_NAME to date.toString(),
-            Repository.NUM_REVIEWS_FIELD_NAME to numReviews.toString(),
-            Repository.AVERAGE_GRADE_FIELD_NAME to averageGrade.toString()
-        )
-    }
+    override fun getId(): String = name
 
     override fun toMapItem(): MapItem {
         return EventItem(
             this,
-            MapActivityUtils.PHOTO_MAPPING.getOrDefault(id, R.raw.niki), // Arbitrary default value
+            MapActivityUtils.PHOTO_MAPPING.getOrDefault(
+                name,
+                R.raw.niki
+            ), // Arbitrary default value
             BitmapDescriptorFactory.fromResource(R.raw.event_marker)
         )
     }
@@ -52,20 +51,22 @@ class Event(
     /**
      * Builder to create an event step by step
      * Mandatory fields are:
-     *  - [id]
+     *  - [name]
      */
-    class Builder : ReviewableBuilder<Event> {
-        private var id: String? = null
-        private var numReviews: Int? = null
-        private var averageGrade: Double? = null
-        private var numParticipants: Int? = null
-        private var limitParticipants: Int? = null
-        private var lat: Double? = null
-        private var long: Double? = null
-        private var date: LocalDateTime? = null
+    class Builder(
+        private var name: String? = null,
+        private var numReviews: Int? = null,
+        private var averageGrade: Double? = null,
+        private var numParticipants: Int? = 0,
+        private var limitParticipants: Int? = null,
+        private var lat: Double? = null,
+        private var long: Double? = null,
+        private var date: LocalDateTime? = null,
+    ) : ReviewableBuilder<Event> {
 
-        fun setId(id: String?) = apply {
-            this.id = id
+
+        fun name(name: String?) = apply {
+            this.name = name
         }
 
         fun setNumReviews(numReviews: Int?) = apply {
@@ -97,16 +98,25 @@ class Event(
         }
 
         override fun build(): Event {
-            val id = this asMandatory id
+            val name = this asMandatory name
             val numReviews = this asMandatory numReviews
             val averageGrade = this asMandatory averageGrade
-            val numParticipants = numParticipants ?: 0
+            val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
             val lat = this asMandatory lat
             val long = this asMandatory long
             val date = this asMandatory date
 
-            return Event(id, numReviews, averageGrade, numParticipants, limitParticipants, lat, long, date)
+            return Event(
+                name,
+                numReviews,
+                averageGrade,
+                numParticipants,
+                limitParticipants,
+                lat,
+                long,
+                date
+            )
         }
     }
 }

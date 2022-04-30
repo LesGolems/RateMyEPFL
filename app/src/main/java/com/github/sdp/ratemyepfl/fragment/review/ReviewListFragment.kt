@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.compose.animation.slideIn
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,7 +12,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -55,7 +53,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         reviewAdapter = ReviewAdapter(
             { rwa -> viewModel.updateLikes(rwa.review) },
             { rwa -> viewModel.updateDislikes(rwa.review) },
-            { rwa -> displayProfilePanel(rwa.author, rwa.image)}
+            { rwa -> displayProfilePanel(rwa.author, rwa.image) }
         )
 
         recyclerView.adapter = reviewAdapter

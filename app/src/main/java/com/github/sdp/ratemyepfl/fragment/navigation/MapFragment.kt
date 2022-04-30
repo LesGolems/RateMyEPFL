@@ -58,7 +58,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     /**
      * Renderer of an item in the Restaurant cluster
      */
-    private inner class ItemRenderer: DefaultClusterRenderer<MapItem>(activity, map, rClusterManager) {
+    private inner class ItemRenderer :
+        DefaultClusterRenderer<MapItem>(activity, map, rClusterManager) {
 
         override fun onBeforeClusterItemRendered(item: MapItem, markerOptions: MarkerOptions) {
             markerOptions
@@ -71,8 +72,9 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
             marker.showInfoWindow()
         }
 
-        override fun onBeforeClusterRendered(@NonNull cluster: Cluster<MapItem>,
-                                             markerOptions: MarkerOptions
+        override fun onBeforeClusterRendered(
+            @NonNull cluster: Cluster<MapItem>,
+            markerOptions: MarkerOptions
         ) {
             super.onBeforeClusterRendered(cluster, markerOptions)
         }
@@ -195,7 +197,10 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
             == PackageManager.PERMISSION_GRANTED
         ) {
             map.isMyLocationEnabled = true
@@ -210,7 +215,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
 
     override fun onMyLocationButtonClick(): Boolean {
         Toast.makeText(requireContext(), "Bringing you home...", Toast.LENGTH_SHORT)
-             .show()
+            .show()
         return false
     }
 

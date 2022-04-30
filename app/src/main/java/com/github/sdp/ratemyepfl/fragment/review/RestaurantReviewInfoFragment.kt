@@ -59,7 +59,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
      * Interpolates occupancy to a ratio between 1 and 5
      */
     private fun occupancyMetric(restaurant: Restaurant): Int {
-        val ratio = restaurant.MAX_OCCUPANCY / 5
+        val ratio = Restaurant.MAX_OCCUPANCY / 5
         val n = restaurant.occupancy / ratio
         return 1 + n
     }

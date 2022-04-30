@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 
 class EventItem(event: Event, photo: Int, icon: BitmapDescriptor?) :
-    MapItem(LatLng(event.lat, event.long), event.id, photo, icon) {
+    MapItem(LatLng(event.lat, event.long), event.name, photo, icon) {
 
     override val layout: Int = R.layout.activity_event_review
 }

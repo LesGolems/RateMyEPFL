@@ -1,13 +1,14 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
-import com.github.sdp.ratemyepfl.database.CourseRepositoryInterface
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
+class FakeCourseRepository @Inject constructor() : CourseRepository {
 
     companion object {
         val COURSE_LIST = listOf(
@@ -16,7 +17,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
                 section = "IC",
                 teacher = "George Candea",
                 credits = 4,
-                id = "CS-306",
+                courseCode = "CS-306",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -25,7 +26,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
                 section = "IC",
                 teacher = "Nicolas Macris",
                 credits = 4,
-                id = "CS-308",
+                courseCode = "CS-308",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -34,7 +35,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
                 section = "IC",
                 teacher = "Boi Faltings",
                 credits = 4,
-                id = "CS-330",
+                courseCode = "CS-330",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -43,7 +44,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
                 section = "IC",
                 teacher = "René Beuchat",
                 credits = 3,
-                id = "CS-309",
+                courseCode = "CS-309",
                 numReviews = 15,
                 averageGrade = 2.5
             ),
@@ -52,7 +53,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
                 section = "IC",
                 teacher = "Christoph Koch",
                 credits = 4,
-                id = "CS-332",
+                courseCode = "CS-332",
                 numReviews = 15,
                 averageGrade = 2.5
             )
@@ -63,7 +64,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
             section = "IC",
             teacher = "George Candea",
             credits = 4,
-            id = "CS-306",
+            courseCode = "CS-306",
             numReviews = 15,
             averageGrade = 2.5
         )
@@ -73,7 +74,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
             section = "IC",
             teacher = "George Candea",
             credits = 4,
-            id = "CS-306",
+            courseCode = "CS-306",
             numReviews = 0,
             averageGrade = 0.0
         )
@@ -87,4 +88,8 @@ class FakeCourseRepository @Inject constructor() : CourseRepositoryInterface {
     override suspend fun getCourseById(id: String): Course = courseById
 
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) {}
+
+    override fun search(prefix: String): QueryResult<List<Course>> = QueryResult(
+        flow { emit(QueryState.success(listOf())) }
+    )
 }

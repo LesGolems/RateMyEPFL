@@ -12,9 +12,11 @@ import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.material.button.MaterialButton
 
-class EventAdapter(private val onClick: (Event) -> Unit,
-                   private val registerListener: (Event) -> Boolean,
-                   private val unregisterListener: (Event) -> Unit) :
+class EventAdapter(
+    private val onClick: (Event) -> Unit,
+    private val registerListener: (Event) -> Boolean,
+    private val unregisterListener: (Event) -> Unit
+) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
 
     // Temporary solution but will change and will check database directly instead
@@ -45,22 +47,22 @@ class EventAdapter(private val onClick: (Event) -> Unit,
         private fun setUpRegisterButton(event: Event) {
             // Check registration locally but in the future it will be recorded on the database
             // TODO(MODIFICATION)
-            if (registerMap[event.id] == true) {
+            if (registerMap[event.getId()] == true) {
                 registeredBehavior()
             } else {
                 unregisteredBehavior()
             }
 
             registerButton.setOnClickListener {
-                if (registerMap[event.id] == false) {
+                if (registerMap[event.getId()] == false) {
                     if (registerListener(event) && event.numParticipants < event.limitParticipants) {
                         registeredBehavior()
-                        registerMap = registerMap.plus(Pair(event.id, true))
+                        registerMap = registerMap.plus(Pair(event.getId(), true))
                     }
                 } else {
                     unregisterListener(event)
                     unregisteredBehavior()
-                    registerMap = registerMap.plus(Pair(event.id, false))
+                    registerMap = registerMap.plus(Pair(event.getId(), false))
                 }
             }
         }
@@ -89,8 +91,8 @@ class EventAdapter(private val onClick: (Event) -> Unit,
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
 
-            if (!registerMap.containsKey(event.id)) {
-                registerMap = registerMap.plus(Pair(event.id, false))
+            if (!registerMap.containsKey(event.getId())) {
+                registerMap = registerMap.plus(Pair(event.getId(), false))
             }
             setUpRegisterButton(event)
         }

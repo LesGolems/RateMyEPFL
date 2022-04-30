@@ -3,17 +3,14 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
-import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
-import com.github.sdp.ratemyepfl.model.user.User
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(
@@ -45,7 +42,8 @@ class ReviewAdapter(
         private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
 
         private val authorUsername: TextView = reviewView.findViewById(R.id.author_username)
-        private val authorProfilePicture: CircleImageView = reviewView.findViewById(R.id.author_profile_picture)
+        private val authorProfilePicture: CircleImageView =
+            reviewView.findViewById(R.id.author_profile_picture)
 
         private lateinit var review: Review
 
@@ -75,8 +73,8 @@ class ReviewAdapter(
             authorUsername.setText(author?.username.orEmpty())
             authorProfilePicture.setOnClickListener { profileClickListener.onClick(reviewWithAuthor) }
             authorProfilePicture.setImageBitmap(image?.data)
-            }
         }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         return ReviewViewHolder(
