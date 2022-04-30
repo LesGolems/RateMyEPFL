@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.profileFragment -> hideBottomNav()
+                R.id.timetableFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
@@ -93,7 +94,8 @@ class MainActivity : AppCompatActivity(), LocationListener {
                 R.id.reviewFragment,
                 R.id.eventFragment,
                 R.id.mapFragment,
-                R.id.timetableFragment
+                R.id.timetableFragment,
+                R.id.profileFragment
             ), drawerLayout
         )
 

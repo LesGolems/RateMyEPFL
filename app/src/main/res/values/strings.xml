@@ -72,4 +72,5 @@
     <string name="button_for_capturing_a_photo_from_the_camera">Button for capturing a photo from the camera</string>
     <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
     <string name="profile_menu">My Profile</string>
+    <string name="visitor">Visitor</string>
 </resources>

@@ -12,4 +12,11 @@
         android:enabled="true"
         android:icon="@drawable/ic_account_circle"
         android:title="@string/profile_menu" />
+
+    <item
+        android:id="@+id/timetable"
+        android:contentDescription="@string/timetable_nav_title"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_today_24"
+        android:title="@string/timetable_nav_title" />
 </menu>

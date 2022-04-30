@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@raw/background"
+    android:layout_height="170dp"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="20dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:background="@raw/blank_profile_picture"
+        android:layout_marginBottom="10dp">
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/usernameDrawer"
+        android:text="@string/visitor"
+        android:layout_marginStart="5dp"
+        android:textSize="14sp"
+        android:textStyle="normal|bold"
+        android:shadowColor="@android:color/background_dark"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="10"
+        android:textColor="@android:color/background_light" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emailDrawer"
+        android:layout_marginStart="5dp"
+        android:text="@string/email"
+        android:layout_marginBottom="5dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/background_light"
+        android:shadowColor="@android:color/background_dark"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="10" />
+
+</LinearLayout>
