@@ -13,11 +13,12 @@ import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.material.button.MaterialButton
 
 class EventAdapter(
-    private val uid: String,
     private val onClick: (Event) -> Unit,
     private val registrationListener: (Event) -> Unit
 ) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
+
+    private var uid: String? = null
 
     inner class EventViewHolder(eventView: View) :
         RecyclerView.ViewHolder(eventView) {
@@ -71,7 +72,7 @@ class EventAdapter(
         /**
          * Bind event
          */
-        fun bind(event: Event, position: Int) {
+        fun bind(event: Event) {
             currentEvent = event
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
@@ -92,7 +93,11 @@ class EventAdapter(
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = getItem(position)
-        holder.bind(event, position)
+        holder.bind(event)
+    }
+
+    fun setUserId(uid: String?) {
+        this.uid = uid
     }
 
     companion object {

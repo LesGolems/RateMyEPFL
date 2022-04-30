@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -77,14 +78,14 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.updateParticipants(testEvent.name, USER_ID)
+            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
             var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
 
-            eventRepo.updateParticipants(testEvent.name, USER_ID)
+            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
             event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
@@ -127,7 +128,7 @@ class EventRepositoryTest {
             .thenReturn(numParticipants)
         Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME))
             .thenReturn(limitParticipants)
-        Mockito.`when`(snapshot.getField<List<String>>(EventRepositoryImpl.PARTICIPANTS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(EventRepositoryImpl.PARTICIPANTS_FIELD_NAME))
             .thenReturn(participants)
         Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
             .thenReturn(date.toString())

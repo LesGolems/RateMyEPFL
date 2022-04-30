@@ -23,7 +23,6 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private val viewModel: EventListViewModel by viewModels()
     private val eventAdapter =
         EventAdapter(
-            auth.getUserId() ?: "",
             { e -> displayReviews(e) },
             { e -> registrationListener(e) }
         )
@@ -35,6 +34,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.eventRecyclerView)
+        eventAdapter.setUserId(auth.getUserId())
         recyclerView.adapter = eventAdapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
@@ -66,7 +66,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     }
 
     /**
-     * Update the registration of the user and returns whether he is connected or not
+     * Update the registration of the user
      */
     private fun registrationListener(event: Event) {
         if (auth.isLoggedIn()) {

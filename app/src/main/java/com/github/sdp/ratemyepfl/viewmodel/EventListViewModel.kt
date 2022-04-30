@@ -30,8 +30,7 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
      */
     fun updateRegistration(event: Event, userId: String) {
         viewModelScope.launch {
-            repository.updateParticipants(event.getId(), userId)
-            updateEventsList()
+            repository.updateParticipants(event.getId(), userId).continueWith { updateEventsList() }
         }
     }
 
