@@ -30,7 +30,7 @@ class SplashScreen : AppCompatActivity() {
     lateinit var user: ConnectedUser
 
     @Inject
-    lateinit var repository: UserRepositoryImpl
+    lateinit var repository: UserRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

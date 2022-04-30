@@ -67,6 +67,7 @@ open class ReviewListViewModel @Inject constructor(
             } else {
                 reviewRepo.addUidInArray(fieldName, review.getId(), uid)
             }
+            updateReviewsList()
         }
     }
 
@@ -78,11 +79,9 @@ open class ReviewListViewModel @Inject constructor(
 
     fun updateLikes(review: Review) {
         updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME)
-        updateReviewsList()
     }
 
     fun updateDislikes(review: Review) {
         updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME)
-        updateReviewsList()
     }
 }

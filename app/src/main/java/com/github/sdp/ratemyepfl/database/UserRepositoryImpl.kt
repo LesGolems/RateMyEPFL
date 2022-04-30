@@ -11,7 +11,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -100,7 +99,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     }
 
     override suspend fun register(user: User): QueryResult<Boolean> =
-        flow<QueryState<Boolean>> {
+        QueryResult {
             emit(QueryState.loading<Boolean>())
             if (getUserByUid(user.getId()) == null) {
                 repository.add(user).await()
@@ -108,7 +107,6 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             } else {
                 emit(QueryState.success(true))
             }
-
-        }.asQueryResult()
+        }
 
 }
