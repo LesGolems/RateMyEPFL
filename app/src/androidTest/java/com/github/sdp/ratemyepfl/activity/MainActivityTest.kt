@@ -165,6 +165,20 @@ class MainActivityTest {
         scenario.close()
     }
 
+    @Test
+    fun navigateToProfileWorks() {
+        onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
+        onView(withId(R.id.profile)).perform(click())
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun navigateToTimetableWorks() {
+        onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
+        onView(withId(R.id.timetable)).perform(click())
+        onView(withId(R.id.timetableTabLayout)).check(matches(isDisplayed()))
+    }
+
     //    /**
 //     * Template test to a BottomNavigationView
 //     * The old style with supportFragmentManager does not work since we do not use the
