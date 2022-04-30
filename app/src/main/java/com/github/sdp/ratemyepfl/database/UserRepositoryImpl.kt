@@ -7,12 +7,12 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -98,14 +98,12 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
-    override suspend fun register(user: User): QueryResult<Boolean> =
-        QueryResult {
-            if (getUserByUid(user.getId()) == null) {
-                repository.add(user).await()
-                emit(QueryState.success(false))
-            } else {
-                emit(QueryState.success(true))
-            }
+    override suspend fun register(user: User): Task<Boolean> =
+        if (getUserByUid(user.getId()) == null) {
+            repository.add(user).continueWith { false }
+        } else {
+            Tasks.forResult(true)
         }
+
 
 }
