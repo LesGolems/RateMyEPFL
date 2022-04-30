@@ -23,7 +23,9 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
-    val SELECT_IMAGE = 1044
+    companion object {
+        val SELECT_IMAGE = 1044
+    }
 
     private lateinit var profilePicture: CircleImageView
     private lateinit var cameraIcon: CircleImageView
@@ -71,18 +73,20 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     val updateProfile = View.OnClickListener {
-        if (!it.isActivated) {
-            enableModifications(true)
-        } else {
-            try {
-                viewModel.changeUsername(usernameText.text.toString())
-                viewModel.changeEmail(emailText.text.toString())
-                viewModel.submitChanges()
-            } catch (e: Exception) {
-                viewModel.discardChanges()
-                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        if (currentUser.isLoggedIn()) {
+            if (!it.isActivated) {
+                enableModifications(true)
+            } else {
+                try {
+                    viewModel.changeUsername(usernameText.text.toString())
+                    viewModel.changeEmail(emailText.text.toString())
+                    viewModel.submitChanges()
+                } catch (e: Exception) {
+                    viewModel.discardChanges()
+                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                }
+                enableModifications(false)
             }
-            enableModifications(false)
         }
     }
 
@@ -107,7 +111,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             SELECT_IMAGE -> {
                 if (resultCode == RESULT_OK && data != null) {
                     val photoUri = data.data
-                    val source = ImageDecoder.createSource(requireActivity().contentResolver, photoUri!!)
+                    val source =
+                        ImageDecoder.createSource(requireActivity().contentResolver, photoUri!!)
                     val bitmap = ImageDecoder.decodeBitmap(source)
                     val image = ImageFile(currentUser.getUserId()!!, bitmap)
                     try {
