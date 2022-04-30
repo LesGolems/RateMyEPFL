@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.yield
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.RuntimeException
@@ -80,5 +81,36 @@ class QueryResultTest {
                     else -> throw Exception("Should not be $it")
                 }
             }
+    }
+
+    @Test
+    fun builderConstructorEmitsTheDefaultLoadingInTheBeginning() = runTest {
+        var x = 0
+        QueryResult {
+            emit(QueryState.success(0))
+        }.collect {
+            when (it) {
+                is QueryState.Failure -> x = 2
+                is QueryState.Loading -> assertEquals(0, x)
+                is QueryState.Success -> x = 1
+            }
+        }
+
+    }
+
+    @Test
+    fun builderConstructorEmitsTheFailureIfSomethingFails() = runTest {
+        var x = 0
+        val error = Exception()
+        QueryResult<Int> {
+            throw error
+        }.collect {
+            when (it) {
+                is QueryState.Failure -> assertEquals(error, it.error)
+                is QueryState.Loading -> assertEquals(0, x)
+                is QueryState.Success -> throw Exception("Should never succeed")
+            }
+        }
+
     }
 }

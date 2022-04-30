@@ -100,7 +100,6 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
 
     override suspend fun register(user: User): QueryResult<Boolean> =
         QueryResult {
-            emit(QueryState.loading<Boolean>())
             if (getUserByUid(user.getId()) == null) {
                 repository.add(user).await()
                 emit(QueryState.success(false))

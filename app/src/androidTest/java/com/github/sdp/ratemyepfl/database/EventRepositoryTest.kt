@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -29,7 +30,7 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val testEvent = Event(
         "Fake id", 0, 0.0, 0,
-        0, 0.0, 0.0, LocalDateTime.now()
+        0, 0.0, 0.0, LocalDateTime.of(2022, 2, 1, 0, 0)
     )
 
     @get:Rule
@@ -39,9 +40,9 @@ class EventRepositoryTest {
     lateinit var eventRepo: EventRepositoryImpl
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        eventRepo.add(testEvent)
+        eventRepo.add(testEvent).await()
     }
 
     @After

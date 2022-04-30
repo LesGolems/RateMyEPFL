@@ -2,10 +2,7 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
@@ -28,6 +25,10 @@ import kotlin.experimental.ExperimentalTypeInference
  * }
  * ```
  *
+ * *How to transform the result:*
+ * @see mapResult
+ * @see mapError
+ * @see Flow
  */
 class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<T>> by result {
     /**
@@ -57,27 +58,40 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
 
     /**
      * Defines a constructor that allows to build a [QueryResult] using the same syntax
-     * as a [Flow]. It is equivalent to
+     * as a [Flow]. It emits a [QueryState.Loading] in the beginning and wrap any [Throwable]
+     * in a [QueryState.Failure].
+     *
+     * ***NB***: To succeed or fail *instantaneously*, use the provided [success] and [failure].
+     *
+     * It is equivalent to
      * ```
-     * flow { ... }.asQueryResult()
+     * flow { collector ->
+     *      emit(QueryState.loading())
+     *      collector.block()
+     * }.catch { cause ->
+     *      emit(QueryState.failure(cause))
+     * }.asQueryResult()
      * ```
      *
      * A typical use-case is
      *
      * ```
      * QueryResult { collector ->
-     *      emit(QueryState.loading())
-     *      try {
-     *          val data = someComputation()
-     *          emit(QueryState.success(data))
-     *      } catch (e: Exception) {
-     *          emit(QueryState.failure(e)
-     *      }
+     *      val data = someComputation()
+     *      emit(QueryState.success(data))
      * }
      * ```
+     *
+     * To personalized the [QueryState.Failure], use a try-catch around throwing code.
      */
     @OptIn(ExperimentalTypeInference::class)
-    constructor(@BuilderInference block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(flow { this.block() })
+    constructor(@BuilderInference block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(
+        flow {
+            this.block()
+        }.catch { cause ->
+            emit(QueryState.failure(cause))
+        }
+    )
 
     companion object {
         /**

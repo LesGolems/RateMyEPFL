@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.query
 
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.flow.catch
@@ -10,7 +11,11 @@ import kotlin.math.min
 typealias FirebaseQuery = com.google.firebase.firestore.Query
 
 /**
- * Define extension methods for [FirebaseQuery].
+ * Create an executable query that is limited in the number of fetched document. It can retrieve
+ * up to **50** documents.
+ *
+ * If the [Query] fails during the execution, it returns
+ * a [DatabaseException].
  */
 data class Query(private val query: FirebaseQuery) {
 
@@ -160,9 +165,7 @@ data class Query(private val query: FirebaseQuery) {
     fun execute(
         limit: UInt = DEFAULT_QUERY_LIMIT,
     ): QueryResult<QuerySnapshot> =
-        flow {
-            // Initiate the query by loading some data
-            emit(QueryState.loading())
+        QueryResult {
             val nbr = min(limit, MAX_QUERY_LIMIT).toLong()
             // Execute the query
             val result: QuerySnapshot = query.limit(nbr)
@@ -170,9 +173,9 @@ data class Query(private val query: FirebaseQuery) {
                 .await()
 
             emit(QueryState.success(result))
-        }.catch { error ->
-            emit(QueryState.failure(error))
-        }.asQueryResult()
+        }.mapError { error ->
+            DatabaseException("Failed to execute the query $this. (From $error \n ${error.stackTrace}")
+        }
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
