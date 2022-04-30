@@ -19,15 +19,15 @@ class QueryStateTest {
 
     @Test
     fun mapWorksForFailure() {
-        val error = "Failed"
+        val error = Exception("Failed")
         val state = QueryState.Failure<Int>(error)
-        assertEquals(error, (state.map { it.toString() } as QueryState.Failure).errorMessage)
+        assertEquals(error, (state.map { it.toString() } as QueryState.Failure).error)
     }
 
     @Test
     fun mapPreservesTheState() {
         val data = 32
-        val error = "error"
+        val error = Exception("error")
 
         val state1 = QueryState.Loading<Int>()
         val state2 = QueryState.success(data)

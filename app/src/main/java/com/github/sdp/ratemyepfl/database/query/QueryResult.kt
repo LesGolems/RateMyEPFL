@@ -2,14 +2,14 @@ package com.github.sdp.ratemyepfl.database.query
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
+ * It describes an simple abstraction on result of a [Query] depending on its state.
+ * When the [Query] is started, the flow received a [QueryState.Loading]. It eventually
+ * completes with either a [QueryState.Success] or fails with a [QueryState.Failure].
+ *
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
  * the contained [Flow] (e.g., you can collect the value as with a [Flow])
  *
@@ -25,6 +25,10 @@ import kotlin.experimental.ExperimentalTypeInference
  * }
  * ```
  *
+ * *How to transform the result:*
+ * @see mapResult
+ * @see mapError
+ * @see Flow
  */
 class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<T>> by result {
     /**
@@ -40,13 +44,55 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
         }.asQueryResult()
 
     /**
-     * Defines a constructor that allows to build a [QueryResult] using the same syntax
-     * as a [Flow]. It is equivalent to
-     * ```
-     * flow { ... }.asQueryResult()
-     * ```
+     * Map the resulting error of the query using a the provided operation
+     *
+     * @param op: operation to apply to the result
+     *
+     * @return a [QueryResult] with the mapped element
      */
-    constructor(block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(flow { this.block() })
+    fun mapError(op: (Throwable) -> Throwable): QueryResult<T> =
+        result.map { queryState ->
+            queryState.mapError(op)
+        }.asQueryResult()
+
+
+    /**
+     * Defines a constructor that allows to build a [QueryResult] using the same syntax
+     * as a [Flow]. It emits a [QueryState.Loading] in the beginning and wrap any [Throwable]
+     * in a [QueryState.Failure].
+     *
+     * ***NB***: To succeed or fail *instantaneously*, use the provided [success] and [failure].
+     *
+     * It is equivalent to
+     * ```
+     * flow { collector ->
+     *      emit(QueryState.loading())
+     *      collector.block()
+     * }.catch { cause ->
+     *      emit(QueryState.failure(cause))
+     * }.asQueryResult()
+     * ```
+     *
+     * A typical use-case is
+     *
+     * ```
+     * QueryResult { collector ->
+     *      val data = someComputation()
+     *      emit(QueryState.success(data))
+     * }
+     * ```
+     *
+     * To personalized the [QueryState.Failure], use a try-catch around throwing code.
+     */
+    @OptIn(ExperimentalTypeInference::class)
+    constructor(@BuilderInference block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(
+        flow {
+            emit(QueryState.loading())
+            this.block()
+        }.catch { cause ->
+            emit(QueryState.failure(cause))
+        }
+    )
 
     companion object {
         /**
@@ -95,11 +141,11 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
          * Create a [QueryResult] that fails immediately. Must only be used for synchronous
          * operation.
          *
-         * @param errorMessage: the error message held by the [QueryResult]
+         * @param error: the error message held by the [QueryResult]
          */
-        fun <T> failure(errorMessage: String): QueryResult<T> =
+        fun <T> failure(error: Throwable): QueryResult<T> =
             flow<QueryState<T>> {
-                emit(QueryState.failure(errorMessage))
+                emit(QueryState.failure(error))
             }.asQueryResult()
     }
 }
