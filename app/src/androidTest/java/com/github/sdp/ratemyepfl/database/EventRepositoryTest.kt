@@ -41,11 +41,9 @@ class EventRepositoryTest {
     lateinit var eventRepo: EventRepositoryImpl
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        runTest {
-            eventRepo.add(testEvent).await()
-        }
+        eventRepo.add(testEvent).await()
     }
 
     @After

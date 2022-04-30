@@ -7,12 +7,12 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -86,11 +86,11 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     override fun getUserByEmail(email: String): QueryResult<User> = getBy(EMAIL_FIELD_NAME, email)
         .map {
             when (it) {
-                is QueryState.Failure -> QueryState.failure<User>(it.errorMessage)
-                is QueryState.Loading -> QueryState.loading<User>()
+                is QueryState.Failure -> QueryState.failure(it.error)
+                is QueryState.Loading -> QueryState.loading()
                 is QueryState.Success -> if (it.data.isEmpty())
-                    QueryState.failure<User>("Unable to find a user with email $email")
-                else QueryState.success<User>(it.data.first())
+                    QueryState.failure(DatabaseException("Unable to find a user with email $email"))
+                else QueryState.success(it.data.first())
             }
         }.asQueryResult()
 
@@ -98,15 +98,12 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
-    override suspend fun register(user: User): QueryResult<Boolean> =
-        QueryResult {
-            emit(QueryState.loading<Boolean>())
-            if (getUserByUid(user.getId()) == null) {
-                repository.add(user).await()
-                emit(QueryState.success(false))
-            } else {
-                emit(QueryState.success(true))
-            }
+    override suspend fun register(user: User): Task<Boolean> =
+        if (getUserByUid(user.getId()) == null) {
+            repository.add(user).continueWith { false }
+        } else {
+            Tasks.forResult(true)
         }
+
 
 }

@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.Transaction
 import org.mockito.Mockito
 import javax.inject.Inject
@@ -59,8 +60,6 @@ class FakeUserRepository @Inject constructor() : UserRepository {
     }
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun register(user: User): QueryResult<Boolean> {
-        return QueryResult.success(true)
-    }
+    override suspend fun register(user: User): Task<Boolean> = Tasks.forResult(true)
 
 }

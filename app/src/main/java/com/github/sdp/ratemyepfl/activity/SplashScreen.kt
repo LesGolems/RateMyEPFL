@@ -54,11 +54,7 @@ class SplashScreen : AppCompatActivity() {
         if (user.isLoggedIn()) {
             runBlocking {
                 launch(Dispatchers.IO) {
-                    repository.register(User(user)).collect {
-                        when (it) {
-                            is QueryState.Failure -> throw DatabaseException("Fail to register the user $user")
-                        }
-                    }
+                    repository.register(User(user)).await()
                 }
             }
             goToMain()
