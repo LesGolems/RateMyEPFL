@@ -39,6 +39,17 @@ sealed class QueryState<T> {
     }
 
     /**
+     * Map the error contained by the [Failure] with the provided operation.
+     *
+     * @param op: operation to apply on the content of the [Failure]
+     */
+    fun mapError(op: (Throwable) -> Throwable): QueryState<T> = when (this) {
+        is Failure ->
+            failure(op(this.error))
+        else -> this
+    }
+
+    /**
      * Map the data and flatten it.
      *
      * @param op: operation that mapped the data to a [QueryState]

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.lang.RuntimeException
 
 @ExperimentalCoroutinesApi
 class QueryResultTest {
@@ -19,7 +20,8 @@ class QueryResultTest {
         QueryResult.success(listOf<Int>(1, 2, 3))
 
     private val success = QueryResult.success(1)
-    private val failure = QueryResult.failure<Int>(Exception("Failed"))
+    private val error = Exception("Failed")
+    private val failure = QueryResult.failure<Int>(error)
 
     @Test
     fun mapResultWorksForLoading() = runTest {
@@ -37,7 +39,7 @@ class QueryResultTest {
         failure.mapResult { it.toString() }
             .collect {
                 when (it) {
-                    is QueryState.Failure<String> -> assertEquals(failure, it.error)
+                    is QueryState.Failure<String> -> assertEquals(error, it.error)
                     else -> throw Exception("Should be failure")
                 }
             }
@@ -64,5 +66,19 @@ class QueryResultTest {
                 else -> throw Exception("")
             }
         }
+    }
+
+    @Test
+    fun mapErrorIsConsistent() = runTest {
+        val error = RuntimeException()
+        val expected = QueryResult.failure<Int>(error)
+        failure
+            .mapError { error }
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> assertEquals(error, it.error)
+                    else -> throw Exception("Should not be $it")
+                }
+            }
     }
 }

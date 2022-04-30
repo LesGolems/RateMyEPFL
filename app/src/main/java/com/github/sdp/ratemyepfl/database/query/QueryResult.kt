@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.map
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
+ * It describes an simple abstraction on result of a [Query] depending on its state.
+ * When the [Query] is started, the flow received a [QueryState.Loading]. It eventually
+ * completes with either a [QueryState.Success] or fails with a [QueryState.Failure].
+ *
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as
  * the contained [Flow] (e.g., you can collect the value as with a [Flow])
  *
@@ -39,10 +43,37 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
         }.asQueryResult()
 
     /**
+     * Map the resulting error of the query using a the provided operation
+     *
+     * @param op: operation to apply to the result
+     *
+     * @return a [QueryResult] with the mapped element
+     */
+    fun mapError(op: (Throwable) -> Throwable): QueryResult<T> =
+        result.map { queryState ->
+            queryState.mapError(op)
+        }.asQueryResult()
+
+
+    /**
      * Defines a constructor that allows to build a [QueryResult] using the same syntax
      * as a [Flow]. It is equivalent to
      * ```
      * flow { ... }.asQueryResult()
+     * ```
+     *
+     * A typical use-case is
+     *
+     * ```
+     * QueryResult { collector ->
+     *      emit(QueryState.loading())
+     *      try {
+     *          val data = someComputation()
+     *          emit(QueryState.success(data))
+     *      } catch (e: Exception) {
+     *          emit(QueryState.failure(e)
+     *      }
+     * }
      * ```
      */
     @OptIn(ExperimentalTypeInference::class)
