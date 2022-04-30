@@ -86,16 +86,21 @@ class QueryResultTest {
     @Test
     fun builderConstructorEmitsTheDefaultLoadingInTheBeginning() = runTest {
         var x = 0
+        var loading = false
         QueryResult {
             emit(QueryState.success(0))
         }.collect {
             when (it) {
                 is QueryState.Failure -> x = 2
-                is QueryState.Loading -> assertEquals(0, x)
+                is QueryState.Loading -> {
+                    loading = true
+                    assertEquals(0, x)
+                }
                 is QueryState.Success -> x = 1
             }
         }
 
+        assertEquals(true, loading)
     }
 
     @Test

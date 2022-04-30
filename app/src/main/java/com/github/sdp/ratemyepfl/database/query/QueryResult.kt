@@ -87,6 +87,7 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
     @OptIn(ExperimentalTypeInference::class)
     constructor(@BuilderInference block: suspend FlowCollector<QueryState<T>>.() -> Unit) : this(
         flow {
+            emit(QueryState.loading())
             this.block()
         }.catch { cause ->
             emit(QueryState.failure(cause))
