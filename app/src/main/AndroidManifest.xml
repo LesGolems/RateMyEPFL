@@ -23,9 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <activity
-            android:name=".fragment.navigation.ProfileFragment"
-            android:exported="false" />
-        <activity
             android:name=".activity.ReviewActivity"
             android:exported="false" />
 

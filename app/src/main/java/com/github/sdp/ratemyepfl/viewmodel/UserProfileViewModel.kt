@@ -20,15 +20,27 @@ class UserProfileViewModel @Inject constructor(
     val userDatabase: UserRepository
 ) : ViewModel() {
 
-    private val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
-    private val username: MutableLiveData<String?> = MutableLiveData(null)
-    private val email: MutableLiveData<String?> = MutableLiveData(null)
-    private val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
+    val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
+    val username: MutableLiveData<String?> = MutableLiveData(null)
+    val email: MutableLiveData<String?> = MutableLiveData(null)
+    val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
     private var newUsername: String? = null
     private var newEmail: String? = null
 
     init {
+        refreshProfile()
+    }
+
+    fun addClass(c: Class) {
+        TODO()
+    }
+
+    /**
+     * Refreshes the user profile, if the user is not connected set the username to
+     * visitor
+     */
+    fun refreshProfile() {
         if (currentUser.isLoggedIn()) {
 
             viewModelScope.launch {
@@ -50,27 +62,10 @@ class UserProfileViewModel @Inject constructor(
                 }
             }
 
+        } else {
+            username.postValue("Visitor")
+            email.postValue("You are not logged in")
         }
-    }
-
-    fun username(): MutableLiveData<String?> {
-        return username
-    }
-
-    fun email(): MutableLiveData<String?> {
-        return email
-    }
-
-    fun picture(): MutableLiveData<ImageFile?> {
-        return picture
-    }
-
-    fun timetable(): MutableLiveData<ArrayList<Class>?> {
-        return timetable
-    }
-
-    fun addClass(c: Class) {
-        TODO()
     }
 
     fun changeUsername(newUsername: String) {

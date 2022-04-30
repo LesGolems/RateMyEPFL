@@ -27,11 +27,12 @@ import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), LocationListener {
+class MainActivity : DrawerActivity(), LocationListener {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var drawerView: NavigationView
 
     private lateinit var locationManager: LocationManager
     private val restaurantListViewModel: RestaurantListViewModel by viewModels()
@@ -47,8 +48,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         navController = navHostFragment.navController
         drawerLayout = findViewById(R.id.mainActivityDrawerLayout)
+        drawerView = findViewById(R.id.drawerView)
+        bottomNavigationView =
+            findViewById(R.id.activityMainBottomNavigationView)
+
         setUpBottomNavigation()
         setUpDrawerNavigation()
+        setUpProfile(drawerView)
         startLocationService()
     }
 
@@ -60,9 +66,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
      * Setups the bottom navigation, when on user profile the bottom bar is not shown
      */
     private fun setUpBottomNavigation() {
-        bottomNavigationView =
-            findViewById(R.id.activityMainBottomNavigationView)
-
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -85,7 +88,6 @@ class MainActivity : AppCompatActivity(), LocationListener {
     }
 
     private fun setUpDrawerNavigation() {
-        val drawerView: NavigationView = findViewById(R.id.drawerView)
         drawerView.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(

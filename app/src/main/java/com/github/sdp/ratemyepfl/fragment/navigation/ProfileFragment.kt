@@ -45,15 +45,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         usernameText = view.findViewById(R.id.username_text)
         modifyButton = view.findViewById(R.id.modify_profile_button)
 
-        viewModel.picture().observe(viewLifecycleOwner) {
+        viewModel.picture.observe(viewLifecycleOwner) {
             profilePicture.setImageBitmap(it?.data)
         }
 
-        viewModel.username().observe(viewLifecycleOwner) {
+        viewModel.username.observe(viewLifecycleOwner) {
             usernameText.setText(it.orEmpty())
         }
 
-        viewModel.email().observe(viewLifecycleOwner) {
+        viewModel.email.observe(viewLifecycleOwner) {
             emailText.setText(it.orEmpty())
         }
 
