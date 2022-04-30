@@ -73,4 +73,6 @@
     <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
     <string name="profile_menu">My Profile</string>
     <string name="visitor">Visitor</string>
+    <string name="login_drawer">Login</string>
+    <string name="logout_drawer">Logout</string>
 </resources>

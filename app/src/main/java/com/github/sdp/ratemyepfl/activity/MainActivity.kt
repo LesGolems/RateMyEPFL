@@ -55,6 +55,7 @@ class MainActivity : DrawerActivity(), LocationListener {
         setUpBottomNavigation()
         setUpDrawerNavigation()
         setUpProfile(drawerView)
+        setUpLoginLogout(drawerView)
         startLocationService()
     }
 
@@ -95,9 +96,7 @@ class MainActivity : DrawerActivity(), LocationListener {
                 R.id.homeFragment,
                 R.id.reviewFragment,
                 R.id.eventFragment,
-                R.id.mapFragment,
-                R.id.timetableFragment,
-                R.id.profileFragment
+                R.id.mapFragment
             ), drawerLayout
         )
 

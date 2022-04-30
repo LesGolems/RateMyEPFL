@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -7,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.google.android.material.navigation.NavigationView
-import com.google.maps.android.ktx.utils.heatmaps.heatmapTileProviderWithData
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -25,14 +25,36 @@ open class DrawerActivity : AppCompatActivity() {
         val username: TextView = headerView.findViewById(R.id.usernameDrawer)
         val email: TextView = headerView.findViewById(R.id.emailDrawer)
 
-        profileViewModel.picture.observe(this){
+        profileViewModel.picture.observe(this) {
             pic.setImageBitmap(it?.data)
         }
         profileViewModel.username.observe(this) {
             username.text = it
         }
-        profileViewModel.email.observe(this){
+        profileViewModel.email.observe(this) {
             email.text = it
+        }
+    }
+
+    protected fun setUpLoginLogout(drawerView: NavigationView) {
+        profileViewModel.isUserLoggedIn.observe(this) { loggedIn ->
+            if (loggedIn) {
+                drawerView.menu.findItem(R.id.login).isVisible = false
+                drawerView.menu.findItem(R.id.logout).isVisible = true
+            } else {
+                drawerView.menu.findItem(R.id.login).isVisible = true
+                drawerView.menu.findItem(R.id.logout).isVisible = false
+            }
+        }
+
+        drawerView.menu.findItem(R.id.login).setOnMenuItemClickListener {
+            startActivity(Intent(this, SplashScreen::class.java))
+            true
+        }
+
+        drawerView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+            profileViewModel.signOut(this)
+            true
         }
     }
 
