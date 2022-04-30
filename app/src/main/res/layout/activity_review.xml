@@ -2,6 +2,7 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reviewActivityDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ReviewActivity">
@@ -15,11 +16,11 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/reviewNavigationView"
+            android:layout_above="@id/reviewBottomNavigationView"
             app:defaultNavHost="true" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/reviewNavigationView"
+            android:id="@+id/reviewBottomNavigationView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

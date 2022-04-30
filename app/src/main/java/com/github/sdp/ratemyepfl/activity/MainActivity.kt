@@ -7,33 +7,21 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentContainerView
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : DrawerActivity(), LocationListener {
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private lateinit var drawerView: NavigationView
-
     private lateinit var locationManager: LocationManager
     private val restaurantListViewModel: RestaurantListViewModel by viewModels()
     private val locationPermissionCode = 1
@@ -54,38 +42,9 @@ class MainActivity : DrawerActivity(), LocationListener {
 
         setUpBottomNavigation()
         setUpDrawerNavigation()
-        setUpProfile(drawerView)
-        setUpLoginLogout(drawerView)
+        setUpProfile()
+        setUpLoginLogout()
         startLocationService()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration)
-    }
-
-    /**
-     * Setups the bottom navigation, when on user profile the bottom bar is not shown
-     */
-    private fun setUpBottomNavigation() {
-        bottomNavigationView.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.profileFragment -> hideBottomNav()
-                R.id.timetableFragment -> hideBottomNav()
-                else -> showBottomNav()
-            }
-        }
-    }
-
-    private fun showBottomNav() {
-        bottomNavigationView.visibility = View.VISIBLE
-
-    }
-
-    private fun hideBottomNav() {
-        bottomNavigationView.visibility = View.GONE
-
     }
 
     private fun setUpDrawerNavigation() {

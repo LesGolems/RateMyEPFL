@@ -39,7 +39,7 @@ class AddRestaurantReviewFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
     }
 
     @After
@@ -98,7 +98,7 @@ class AddRestaurantReviewFragmentTest {
     @Test
     fun userNotConnectedNoReset() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.addRestaurantReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(

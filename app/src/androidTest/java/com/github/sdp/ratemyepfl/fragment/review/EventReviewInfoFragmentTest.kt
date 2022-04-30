@@ -59,8 +59,8 @@ class EventReviewInfoFragmentTest {
         launch()
 
         // Refresh
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.eventReviewInfoFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.eventReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))

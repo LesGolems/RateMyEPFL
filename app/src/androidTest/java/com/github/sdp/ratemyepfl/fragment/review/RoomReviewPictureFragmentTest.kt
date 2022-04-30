@@ -50,7 +50,7 @@ class RoomReviewPictureFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_room_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
-        onView(withId(R.id.reviewNavigationView)).perform(navigateTo(R.id.roomReviewPictureFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(navigateTo(R.id.roomReviewPictureFragment))
     }
 
     @After

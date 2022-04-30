@@ -71,8 +71,8 @@ class CourseReviewInfoFragmentTest {
         launch()
 
         // Refresh
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.courseNumReview)).check(matches(withText(numReviewText)))

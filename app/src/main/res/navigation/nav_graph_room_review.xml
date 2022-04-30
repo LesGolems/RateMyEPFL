@@ -8,20 +8,22 @@
     <fragment
         android:id="@+id/roomReviewInfoFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewInfoFragment"
-        android:label="fragment_room_review_info"
+        android:label="Room Info"
         tools:layout="@layout/fragment_room_review_info" />
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
-        android:label="fragment_room_review_list"
+        android:label="Review List"
         tools:layout="@layout/fragment_review_list" />
     <fragment
         android:id="@+id/roomReviewPictureFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.RoomReviewPictureFragment"
-        android:label="fragment_room_review_picture"
+        android:label="Room Pictures"
         tools:layout="@layout/fragment_room_review_picture" />
     <fragment
         android:id="@+id/addClassroomReviewFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.AddClassroomReviewFragment"
-        android:label="AddClassroomReviewFragment" />
+        android:label="Add a review" />
+    <include app:graph="@navigation/timetable" />
+    <include app:graph="@navigation/profile" />
 </navigation>

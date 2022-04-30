@@ -1,11 +1,12 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 /*
@@ -13,7 +14,7 @@ General activity for the review part of the app, it has a different layout (navi
 The layout is passed as extra and set in the onCreate method
  */
 @AndroidEntryPoint
-class ReviewActivity : AppCompatActivity() {
+class ReviewActivity : DrawerActivity() {
 
     companion object {
         const val EXTRA_ITEM_REVIEWED: String =
@@ -31,19 +32,48 @@ class ReviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review)
 
-        // Note that for simplicity the components id are the same for each activity layout (i.e same id in xml file)
-        val bottomNavigationReview = findViewById<BottomNavigationView>(R.id.reviewNavigationView)
-
-        val layout = intent.getIntExtra(EXTRA_MENU_ID, 0)
-        bottomNavigationReview.inflateMenu(layout)
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.reviewNavHostFragment) as NavHostFragment
+
+        navController = navHostFragment.navController
+
+        drawerLayout = findViewById(R.id.reviewActivityDrawerLayout)
+        drawerView = findViewById(R.id.drawerView)
+        bottomNavigationView =
+            findViewById(R.id.reviewBottomNavigationView)
+
+        val layout = intent.getIntExtra(EXTRA_MENU_ID, 0)
+        bottomNavigationView.inflateMenu(layout)
 
         val graphId = intent.getIntExtra(EXTRA_GRAPH_ID, 0)
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(graphId)
         navHostFragment.navController.graph = graph
-        bottomNavigationReview.setupWithNavController(navHostFragment.navController)
+
+        setUpBottomNavigation()
+        setUpDrawerNavigation()
+        setUpProfile()
+        setUpLoginLogout()
+    }
+
+    private fun setUpDrawerNavigation() {
+        drawerView.setupWithNavController(navController)
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.reviewListFragment,
+                R.id.roomReviewInfoFragment,
+                R.id.roomReviewPictureFragment,
+                R.id.addClassroomReviewFragment,
+                R.id.restaurantReviewInfoFragment,
+                R.id.addRestaurantReviewFragment,
+                R.id.eventReviewInfoFragment,
+                R.id.addEventReviewFragment,
+                R.id.courseReviewInfoFragment,
+                R.id.addCourseReviewFragment
+            ), drawerLayout
+        )
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 }
