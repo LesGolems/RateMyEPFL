@@ -27,7 +27,7 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
         tabLayout = view.findViewById(R.id.timetableTabLayout)
         viewPager = view.findViewById(R.id.timetableTabViewPager)
 
-        val timetable = viewModel.timetable().value
+        val timetable = viewModel.timetable.value
 
         if (timetable != null && timetable.isNotEmpty()) {
             val fragments = DayFragment.DAYS.values()

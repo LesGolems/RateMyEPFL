@@ -61,7 +61,8 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             ReviewActivity.EXTRA_ITEM_REVIEWED,
             event.getId()
         )
-        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, R.layout.activity_event_review)
+        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_event_review)
+        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_event_review)
         startActivity(intent)
     }
 

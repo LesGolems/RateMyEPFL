@@ -106,7 +106,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
             reset()
             // Bar that will appear at the bottom of the screen
             Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
-                .setAnchorView(R.id.reviewNavigationView)
+                .setAnchorView(R.id.reviewBottomNavigationView)
                 .show()
         } else {
             setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
@@ -146,7 +146,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 "You need to login to be able to review",
                 Snackbar.LENGTH_SHORT
             )
-                .setAnchorView(R.id.reviewNavigationView)
+                .setAnchorView(R.id.reviewBottomNavigationView)
                 .show()
             return false
         }

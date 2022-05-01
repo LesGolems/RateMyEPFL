@@ -8,14 +8,16 @@
     <fragment
         android:id="@+id/eventReviewInfoFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.EventReviewInfoFragment"
-        android:label="fragment_event_review_info"
+        android:label="Event Info"
         tools:layout="@layout/fragment_event_review_info" />
     <fragment
         android:id="@+id/reviewListFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
-        android:label="EventReviewListFragment" />
+        android:label="Review List" />
     <fragment
         android:id="@+id/addEventReviewFragment"
         android:name="com.github.sdp.ratemyepfl.fragment.review.AddEventReviewFragment"
-        android:label="AddEventReviewFragment" />
+        android:label="Add a review" />
+    <include app:graph="@navigation/timetable" />
+    <include app:graph="@navigation/profile" />
 </navigation>
