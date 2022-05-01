@@ -33,7 +33,7 @@ object HiltUtils {
         themeResId: Int = androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
         fragmentFactory: FragmentFactory? = null,
         crossinline action: T.() -> Unit = {}
-    ) {
+    ): ActivityScenario<HiltTestActivity> {
         val mainActivityIntent = Intent.makeMainActivity(
             ComponentName(
                 ApplicationProvider.getApplicationContext(),
@@ -44,7 +44,9 @@ object HiltUtils {
             themeResId
         )
 
-        ActivityScenario.launch<HiltTestActivity>(mainActivityIntent).onActivity { activity ->
+        val scenario = ActivityScenario.launch<HiltTestActivity>(mainActivityIntent)
+
+        scenario.onActivity { activity ->
             fragmentFactory?.let {
                 activity.supportFragmentManager.fragmentFactory = it
             }
@@ -59,7 +61,9 @@ object HiltUtils {
                 .commitNow()
 
             (fragment as T).action()
+
         }
 
+        return scenario
     }
 }

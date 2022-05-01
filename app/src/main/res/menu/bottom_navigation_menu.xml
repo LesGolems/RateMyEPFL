@@ -26,10 +26,4 @@
         android:icon="@drawable/ic_map_white_24dp"
         android:title="@string/map_nav_title" />
 
-    <item
-        android:id="@+id/timetable"
-        android:contentDescription="@string/timetable_nav_title"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_today_24"
-        android:title="@string/timetable_nav_title" />
 </menu>

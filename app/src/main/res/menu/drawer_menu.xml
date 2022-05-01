@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile"
+        android:contentDescription="@string/profile_menu"
+        android:enabled="true"
+        android:icon="@drawable/ic_account_circle"
+        android:title="@string/profile_menu" />
+
+    <item
+        android:id="@+id/timetable"
+        android:contentDescription="@string/timetable_nav_title"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_today_24"
+        android:title="@string/timetable_nav_title" />
+
+    <item
+        android:id="@+id/login"
+        android:contentDescription="@string/login_drawer"
+        android:enabled="true"
+        android:icon="@drawable/ic_login_black_24dp"
+        android:title="@string/login_drawer" />
+
+    <item
+        android:id="@+id/logout"
+        android:contentDescription="@string/logout_drawer"
+        android:enabled="true"
+        android:icon="@drawable/ic_logout_black_24dp"
+        android:title="@string/logout_drawer" />
+</menu>
