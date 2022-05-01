@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.query
 
+import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.util.ArrayItem
 import com.github.sdp.ratemyepfl.database.util.ArrayItem.Companion.toArrayItem
@@ -254,4 +255,14 @@ class QueryTest {
             }
     }
 
+    @Test
+    fun executeFailingCodeReturnsDatabaseException() = runTest {
+        query.whereEqualTo("someNonExistingField", "someNonValidValid")
+            .execute()
+            .collect {
+                when (it) {
+                    is QueryState.Failure -> assertEquals(true, it.error is DatabaseException)
+                }
+            }
+    }
 }
