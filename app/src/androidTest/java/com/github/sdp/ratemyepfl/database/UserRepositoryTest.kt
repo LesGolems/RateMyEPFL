@@ -98,7 +98,7 @@ class UserRepositoryTest {
             userRepo.getUserByEmail(testUser.email!!)
                 .collect {
                     when (it) {
-                        is QueryState.Failure -> throw Exception(it.errorMessage)
+                        is QueryState.Failure -> throw Exception(it.error)
                         is QueryState.Loading -> {}
                         is QueryState.Success -> {
                             val user = it.data
@@ -117,19 +117,11 @@ class UserRepositoryTest {
     fun registerWorks() = runTest {
         repository.remove("register").await()
         val user = User("register", "reg", "reg")
-        userRepo.register(user)
-            .collect {
-                if (it is QueryState.Success)
-                    assertEquals(false, it.data)
-            }
+        assertEquals(false, userRepo.register(user).await())
 
         assertEquals(true, userRepo.getUserByUid("register") != null)
 
-        userRepo.register(user)
-            .collect {
-                if (it is QueryState.Success)
-                    assertEquals(true, it.data)
-            }
+        assertEquals(true, userRepo.register(user).await())
 
         assertEquals(true, userRepo.getUserByUid("register") != null)
     }

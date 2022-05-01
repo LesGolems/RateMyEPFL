@@ -14,12 +14,12 @@ sealed class QueryState<T> {
     data class Success<T>(val data: T) : QueryState<T>()
 
     /** A terminated failed query that holds an error message */
-    data class Failure<T>(val errorMessage: String) : QueryState<T>()
+    data class Failure<T>(val error: Throwable) : QueryState<T>()
 
     companion object {
         fun <T> loading() = Loading<T>()
         fun <T> success(data: T) = Success(data)
-        fun <T> failure(error: String) = Failure<T>(error)
+        fun <T> failure(error: Throwable) = Failure<T>(error)
     }
 
     /**
@@ -31,11 +31,22 @@ sealed class QueryState<T> {
      */
     fun <U> map(op: (T) -> U): QueryState<U> = when (this) {
         is Failure ->
-            failure(this.errorMessage)
+            failure(this.error)
         is Loading ->
             loading()
         is Success ->
             success(op(this.data))
+    }
+
+    /**
+     * Map the error contained by the [Failure] with the provided operation.
+     *
+     * @param op: operation to apply on the content of the [Failure]
+     */
+    fun mapError(op: (Throwable) -> Throwable): QueryState<T> = when (this) {
+        is Failure ->
+            failure(op(this.error))
+        else -> this
     }
 
     /**
@@ -45,7 +56,7 @@ sealed class QueryState<T> {
      */
     fun <U> flatMap(op: (T) -> QueryState<U>): QueryState<U> = when (this) {
         is Failure ->
-            failure(this.errorMessage)
+            failure(this.error)
         is Loading ->
             loading()
         is Success -> op(this.data)

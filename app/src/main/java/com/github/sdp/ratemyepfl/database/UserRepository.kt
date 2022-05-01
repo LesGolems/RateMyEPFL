@@ -25,6 +25,6 @@ interface UserRepository {
      * @param user: the user to register
      *
      */
-    suspend fun register(user: User): QueryResult<Boolean>
+    suspend fun register(user: User): Task<Boolean>
 
 }
