@@ -18,7 +18,8 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
     val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
 
     open val filterMenuId: Int = R.menu.default_filter_menu
-    abstract val reviewActivityLayoutId: Int
+    abstract val reviewActivityMenuId: Int
+    abstract val reviewActivityGraphId: Int
 
     private lateinit var recyclerView: RecyclerView
 
@@ -109,7 +110,8 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
             ReviewActivity.EXTRA_ITEM_REVIEWED,
             reviewable.getId()
         )
-        intent.putExtra(ReviewActivity.EXTRA_LAYOUT_ID, reviewActivityLayoutId)
+        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, reviewActivityMenuId)
+        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, reviewActivityGraphId)
         startActivity(intent)
     }
 

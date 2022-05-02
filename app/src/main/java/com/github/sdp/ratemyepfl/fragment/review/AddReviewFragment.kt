@@ -155,7 +155,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 "You need to login to be able to review",
                 Snackbar.LENGTH_SHORT
             )
-                .setAnchorView(R.id.reviewNavigationView)
+                .setAnchorView(R.id.reviewBottomNavigationView)
                 .show()
             return false
         }
