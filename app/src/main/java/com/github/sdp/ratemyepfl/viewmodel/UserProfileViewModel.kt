@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepositoryInterface
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
