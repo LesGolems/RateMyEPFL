@@ -32,7 +32,7 @@ class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
         "Fake id", 0, 0.0, 0,
-        0, listOf(), 0.0, 0.0, LocalDateTime.now()
+        1, listOf(), 0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -81,18 +81,14 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            launch {
-                eventRepo.updateParticipants(testEvent.name, USER_ID)
-            }.join()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
 
-            launch {
-                eventRepo.updateParticipants(testEvent.name, USER_ID)
-            }.join()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
