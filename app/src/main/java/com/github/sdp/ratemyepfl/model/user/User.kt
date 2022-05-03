@@ -52,10 +52,10 @@ data class User(
             val uid = this.uid
             val username = this.username
             val email = this.email
-            val karma = this.karma
+            val karma = this.karma ?: 0
             val timetable = this.timetable ?: DEFAULT_TIMETABLE
 
-            if (uid != null && username != null && email != null && karma != null) {
+            if (uid != null && username != null && email != null) {
                 return User(uid, username, email, karma, timetable)
             } else {
                 throw IllegalStateException("Cannot build a user with null arguments")

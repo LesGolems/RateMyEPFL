@@ -1,48 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@raw/background"
     android:layout_height="170dp"
+    android:background="@raw/background"
     android:orientation="vertical"
     android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingTop="20dp">
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pictureDrawer"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:id="@+id/pictureDrawer"
         android:background="@raw/blank_profile_picture"
-        android:layout_marginBottom="10dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     </de.hdodenhof.circleimageview.CircleImageView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coinDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_coin"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/karmaCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_coin"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <TextView
+        android:id="@+id/usernameDrawer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/usernameDrawer"
-        android:text="@string/visitor"
         android:layout_marginStart="5dp"
-        android:textSize="14sp"
-        android:textStyle="normal|bold"
+        android:layout_marginTop="10dp"
         android:shadowColor="@android:color/background_dark"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="10"
-        android:textColor="@android:color/background_light" />
+        android:text="@string/visitor"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp"
+        android:textStyle="normal|bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pictureDrawer" />
 
     <TextView
+        android:id="@+id/emailDrawer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/emailDrawer"
         android:layout_marginStart="5dp"
-        android:text="@string/email"
-        android:layout_marginBottom="5dp"
-        android:textSize="14sp"
-        android:textColor="@android:color/background_light"
+        android:layout_marginTop="5dp"
         android:shadowColor="@android:color/background_dark"
         android:shadowDx="5"
         android:shadowDy="5"
-        android:shadowRadius="10" />
+        android:shadowRadius="10"
+        android:text="@string/email"
+        android:textColor="@android:color/background_light"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameDrawer" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
