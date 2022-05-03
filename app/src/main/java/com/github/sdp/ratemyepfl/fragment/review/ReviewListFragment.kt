@@ -93,8 +93,8 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
     private fun displayProfilePanel(author: User?, image: ImageFile?) {
         if (author != null) {
-            authorPanelUsername.setText(author.username)
-            authorPanelEmail.setText(author.email)
+            authorPanelUsername.text = author.username
+            authorPanelEmail.text = author.email
 
             if (image != null) {
                 authorPanelImage.setImageBitmap(image.data)
@@ -106,5 +106,6 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     override fun onResume() {
         super.onResume()
         viewModel.updateReviewsList()
+        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }
