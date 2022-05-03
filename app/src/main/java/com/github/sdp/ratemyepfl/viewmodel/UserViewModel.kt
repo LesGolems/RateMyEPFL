@@ -54,13 +54,9 @@ class UserViewModel @Inject constructor(
                 if (userDB != null) {
                     user.postValue(userDB)
                 }
-            }
 
-            viewModelScope.launch {
                 val imageFile = currentUser.getUserId()?.let { imageStorage.get(it) }
-                if (imageFile != null) {
-                    picture.postValue(imageFile)
-                }
+                picture.postValue(imageFile)
             }
 
         } else {
