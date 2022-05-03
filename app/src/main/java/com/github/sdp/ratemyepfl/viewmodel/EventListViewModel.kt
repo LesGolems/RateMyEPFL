@@ -26,12 +26,15 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
     }
 
     /**
-     * Update the participation of the user
+     * Update the participation of the user and return if the update succeeded
      */
-    fun updateRegistration(event: Event, userId: String) {
+    fun updateRegistration(event: Event, userId: String): Boolean {
+        var success = true
         viewModelScope.launch {
-            repository.updateParticipants(event.getId(), userId).continueWith { updateEventsList() }
+            success = repository.updateParticipants(event.getId(), userId)
+            updateEventsList()
         }
+        return success
     }
 
     fun updateEventsList() {
