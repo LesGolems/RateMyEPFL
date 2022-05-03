@@ -80,14 +80,14 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
 
-            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)

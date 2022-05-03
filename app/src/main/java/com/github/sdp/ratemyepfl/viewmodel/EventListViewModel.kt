@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -29,8 +30,8 @@ class EventListViewModel @Inject constructor(private val repository: EventReposi
      * Update the participation of the user and return if the update succeeded
      */
     fun updateRegistration(event: Event, userId: String): Boolean {
-        var success = true
-        viewModelScope.launch {
+        var success: Boolean
+        runBlocking {
             success = repository.updateParticipants(event.getId(), userId)
             updateEventsList()
         }
