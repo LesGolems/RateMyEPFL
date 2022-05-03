@@ -104,5 +104,10 @@ open class DrawerActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        userViewModel.refreshUser()
+    }
+
 }
 

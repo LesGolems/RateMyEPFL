@@ -30,13 +30,13 @@ class UserViewModel @Inject constructor(
     private val noUser = User.Builder("uid", "Visitor", "You are not logged in", null, null).build()
 
     init {
-        refreshProfile()
+        refreshUser()
     }
 
     fun signOut(context: Context) {
         viewModelScope.launch {
             auth.signOut(context).await()
-            refreshProfile()
+            refreshUser()
         }
     }
 
@@ -44,21 +44,15 @@ class UserViewModel @Inject constructor(
      * Refreshes the user profile, if the user is not connected set the username to
      * visitor
      */
-    fun refreshProfile() {
+    fun refreshUser() {
         isUserLoggedIn.postValue(currentUser.isLoggedIn())
 
-        if (currentUser.isLoggedIn()) {
-
+        val uid = currentUser.getUserId()
+        if (uid != null) {
             viewModelScope.launch {
-                val userDB = currentUser.getUserId()?.let { userDatabase.getUserByUid(it) }
-                if (userDB != null) {
-                    user.postValue(userDB)
-                }
-
-                val imageFile = currentUser.getUserId()?.let { imageStorage.get(it) }
-                picture.postValue(imageFile)
+                userDatabase.getUserByUid(uid)?.let { user.postValue(it) }
+                imageStorage.get(uid)?.let { picture.postValue(it) }
             }
-
         } else {
             user.postValue(noUser)
             picture.postValue(null)
