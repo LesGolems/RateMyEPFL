@@ -33,6 +33,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var authorPanelUsername: TextView
     private lateinit var authorPanelEmail: TextView
     private lateinit var authorPanelEmailIcon: ImageView
+    private lateinit var karmaCount: TextView
 
     // Gets the shared view model
     private val viewModel by activityViewModels<ReviewListViewModel>()
@@ -47,6 +48,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         authorPanelUsername = view.findViewById(R.id.author_panel_username)
         authorPanelEmail = view.findViewById(R.id.author_panel_email)
         authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
+        karmaCount = view.findViewById(R.id.karmaCount)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
 
@@ -95,6 +97,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         if (author != null) {
             authorPanelUsername.text = author.username
             authorPanelEmail.text = author.email
+            karmaCount.text = author.karma.toString()
 
             if (image != null) {
                 authorPanelImage.setImageBitmap(image.data)
