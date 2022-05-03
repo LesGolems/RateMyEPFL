@@ -1,12 +1,9 @@
 package com.github.sdp.ratemyepfl.database
 
-import android.os.AsyncTask
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Transaction
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.tasks.asTask
 
 interface UserRepository {
 
@@ -26,5 +23,11 @@ interface UserRepository {
      *
      */
     suspend fun register(user: User): Task<Boolean>
+
+
+    /**
+     * Updates the karma of user with [uid]
+     */
+    fun updateKarma(uid: String, inc: Int): Task<Transaction>
 
 }

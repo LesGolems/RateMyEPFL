@@ -79,8 +79,8 @@ open class ReviewListViewModel @Inject constructor(
 
         updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
             if(uid != null){
-                if (it) updateKarma(uid, -1)
-                else updateKarma(uid, 1)
+                if (it) userRepo.updateKarma(uid, -1)
+                else userRepo.updateKarma(uid, 1)
             }
         }
     }
@@ -90,18 +90,9 @@ open class ReviewListViewModel @Inject constructor(
 
         updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME) {
             if(uid != null){
-                if(it) updateKarma(uid, 1)
-                else updateKarma(uid, -1)
+                if(it) userRepo.updateKarma(uid, 1)
+                else userRepo.updateKarma(uid, -1)
             }
-        }
-    }
-
-    /**
-     * Updates the karma of user with [uid]
-     */
-    fun updateKarma(uid: String, inc: Int){
-        userRepo.update(uid) {
-            it.copy(karma = it.karma + inc)
         }
     }
 }

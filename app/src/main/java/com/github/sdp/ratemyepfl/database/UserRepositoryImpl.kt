@@ -101,12 +101,16 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
+    override fun updateKarma(uid: String, inc: Int): Task<Transaction> =
+        update(uid) {
+            it.copy(karma = it.karma + inc)
+        }
+
     override suspend fun register(user: User): Task<Boolean> =
         if (getUserByUid(user.getId()) == null) {
             repository.add(user).continueWith { false }
         } else {
             Tasks.forResult(true)
         }
-
 
 }
