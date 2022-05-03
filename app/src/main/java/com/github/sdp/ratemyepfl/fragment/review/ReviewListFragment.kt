@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -51,10 +55,9 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
 
         reviewAdapter = ReviewAdapter(
-            { rwa -> viewModel.updateLikes(rwa.review) },
-            { rwa -> viewModel.updateDislikes(rwa.review) },
-            { rwa -> displayProfilePanel(rwa.author, rwa.image) }
-        )
+            getListener { r, s -> viewModel.updateLikes(r, s) },
+            getListener { r, s -> viewModel.updateDislikes(r, s) }
+        ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
         recyclerView.adapter = reviewAdapter
 
@@ -69,6 +72,22 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
         viewModel.reviews.observe(viewLifecycleOwner) {
             it?.let { reviewAdapter.submitList(it) }
+        }
+    }
+
+    /**
+     * Creates the onClickListener from the function given as input, encapsulating it in a
+     * try catch to display the error message as SnackBar
+     */
+    private fun getListener(f : (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
+        try {
+            f(rwa.review, rwa.author?.uid)
+        } catch (e : Exception){
+            e.message?.let {
+                Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(R.id.reviewBottomNavigationView)
+                    .show()
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.DatabaseException
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
