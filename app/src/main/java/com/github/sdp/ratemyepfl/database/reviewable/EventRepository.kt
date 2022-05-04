@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.Transaction
 
 interface EventRepository {
     /**
@@ -21,9 +19,10 @@ interface EventRepository {
     suspend fun getEventById(id: String): Event?
 
     /**
-     *  Increment the number of participants of given event
+     *  Update the number of participants of given event if possible, and returns
+     *  weither this function has succeeded or not
      */
-    suspend fun updateParticipants(eventId: String, userId: String): Task<Transaction>
+    suspend fun updateParticipants(eventId: String, userId: String): Boolean
 
     /**
      *  Updates the rating of the event using a transaction for concurrency
