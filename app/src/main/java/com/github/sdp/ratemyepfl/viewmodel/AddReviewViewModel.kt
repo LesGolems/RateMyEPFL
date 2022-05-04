@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -23,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
+    private val gradeInfoRepo: GradeInfoRepository,
     private val connectedUser: ConnectedUser
 ) : ViewModel() {
 
@@ -93,7 +95,8 @@ class AddReviewViewModel @Inject constructor(
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                reviewRepo.add(review).await()
+                val reviewId = reviewRepo.addAndGetId(review)
+                gradeInfoRepo.addReview(id, reviewId, review.rating).await()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the review (from ${e.message}")

@@ -22,6 +22,12 @@ class GradeInfoTest {
         assertEquals(p.second, 1)
     }
 
+    @Test
+    fun builderWorks(){
+        val builder = GradeInfo.Builder("id")
+        val g = builder.build()
+        assertEquals("id", g.itemId)
+    }
 
     @Test
     fun builderThrowsForMissingId() {
