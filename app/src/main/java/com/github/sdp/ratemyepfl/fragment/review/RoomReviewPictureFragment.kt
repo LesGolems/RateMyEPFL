@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.fragment.review
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -11,11 +10,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,7 +22,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.database.ImageStorage
-import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.ImageUtils
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
@@ -40,10 +37,14 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     companion object {
         /* Number of columns in the image grid */
         private const val NUM_COLUMNS = 2
-        private const val CAPTURE_PHOTO = 1
-        private const val SELECT_PHOTO = 2
-        private const val STORAGE_PERMISSION_REQUEST_CODE = 1
-        private const val CAMERA_PERMISSION_REQUEST_CODE = 3
+
+        private const val CAPTURE_PHOTO_REQUEST_CODE = 1
+        private const val SELECT_PHOTO_REQUEST_CODE = 2
+
+        private val STORAGE_PERMISSIONS = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
     }
 
     private lateinit var pictureAdapter: RoomPictureAdapter
@@ -73,46 +74,22 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
         selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
         selectPhotoFAB.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                startGallery()
-            } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ),
-                    STORAGE_PERMISSION_REQUEST_CODE
-                )
-            }
+            PermissionUtils.startPhoneFeatures(
+                { startGallery() },
+                STORAGE_PERMISSIONS,
+                this,
+                requireContext()
+            )
         }
 
         capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
         capturePhotoFAB.setOnClickListener {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                )
-                == PackageManager.PERMISSION_GRANTED
-            ) {
-                startCamera()
-            } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA),
-                    CAMERA_PERMISSION_REQUEST_CODE
-                )
-            }
+            PermissionUtils.startPhoneFeature(
+                { startCamera() },
+                Manifest.permission.CAMERA,
+                this,
+                requireContext()
+            )
         }
     }
 
@@ -122,7 +99,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            SELECT_PHOTO -> {
+            SELECT_PHOTO_REQUEST_CODE -> {
                 if (resultCode == RESULT_OK && data != null) {
                     val photoUri = data.data
                     val source =
@@ -131,7 +108,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
                     uploadPicture(bitmap)
                 }
             }
-            CAPTURE_PHOTO -> {
+            CAPTURE_PHOTO_REQUEST_CODE -> {
                 if (resultCode == RESULT_OK) {
                     val bitmap = BitmapFactory.decodeFile(currentPhotoPath)
                     uploadPicture(bitmap)
@@ -145,50 +122,14 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         pictureViewModel.updatePicturesList()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            CAMERA_PERMISSION_REQUEST_CODE -> {
-                Log.d("OK", "OK")
-                if (PermissionUtils.isPermissionGranted(
-                        permissions,
-                        grantResults,
-                        Manifest.permission.CAMERA
-                    )
-                ) {
-                    startCamera()
-                } else {
-                    Toast.makeText(context, "Permission was not granted", Toast.LENGTH_SHORT).show()
-                }
-            }
-            STORAGE_PERMISSION_REQUEST_CODE -> {
-                if (PermissionUtils.isPermissionGranted(
-                        permissions,
-                        grantResults,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) && PermissionUtils.isPermissionGranted(
-                        permissions,
-                        grantResults,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-                ) {
-                    startGallery()
-                } else {
-                    Toast.makeText(context, "Permissions were not granted", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
-    }
-
     private fun startGallery() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select a picture"), SELECT_PHOTO)
+        startActivityForResult(
+            Intent.createChooser(intent, "Select a picture"),
+            SELECT_PHOTO_REQUEST_CODE
+        )
     }
 
     private fun startCamera() {
@@ -198,7 +139,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
             requireContext(), "com.github.sdp.ratemyepfl.fileprovider", photoFile
         )
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-        startActivityForResult(intent, CAPTURE_PHOTO)
+        startActivityForResult(intent, CAPTURE_PHOTO_REQUEST_CODE)
     }
 
     private fun uploadPicture(bitmap: Bitmap) {
