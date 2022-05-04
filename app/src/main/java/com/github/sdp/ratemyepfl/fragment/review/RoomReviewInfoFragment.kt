@@ -32,6 +32,6 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateRoom()
+        viewModel.refresh()
     }
 }

@@ -9,6 +9,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
@@ -25,7 +26,7 @@ import javax.inject.Inject
 Fragment for the review creation, shared for every reviewable item
  */
 @AndroidEntryPoint
-abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
+class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     companion object {
         fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
@@ -47,10 +48,12 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var doneButton: Button
     private lateinit var anonymousSwitch: SwitchCompat
 
+    private lateinit var reviewIndicationTitle: TextView
+
     @Inject
     lateinit var auth: ConnectedUser
 
-    protected val addReviewViewModel: AddReviewViewModel by viewModels()
+    private val addReviewViewModel: AddReviewViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +64,10 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         title = view.findViewById(R.id.addReviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
         anonymousSwitch = view.findViewById(R.id.anonymous_switch)
+
+        reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
+
+        reviewIndicationTitle.text = getString(R.string.title_review, addReviewViewModel.id)
 
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
             scoreTextView.text = getString(R.string.overall_score_review)
@@ -97,7 +104,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      */
     private fun addReview() {
         try {
-            submitReview()
+            addReviewViewModel.submitReview()
             reset()
             // Bar that will appear at the bottom of the screen
             displayOnSnackbar(getString(R.string.review_sent_text))
@@ -132,18 +139,6 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         comment.setText("")
         ratingBar.rating = 0f
     }
-
-    /**
-     * Helper method to set the error message when an input is empty, i.e invalid
-     */
-    private fun setError(layout: TextInputEditText, actualValue: String?, errorMessage: String) {
-        if (actualValue == null || actualValue == "") layout.error = errorMessage
-    }
-
-    /**
-     * Submits the review and update the reviewable item rating on the database
-     */
-    abstract fun submitReview(): Boolean
 
     /**
      * Checks if current user is logged in, if not display a warning

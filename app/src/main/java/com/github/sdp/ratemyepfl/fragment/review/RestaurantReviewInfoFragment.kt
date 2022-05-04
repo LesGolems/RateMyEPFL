@@ -66,6 +66,6 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateRestaurant()
+        viewModel.refresh()
     }
 }

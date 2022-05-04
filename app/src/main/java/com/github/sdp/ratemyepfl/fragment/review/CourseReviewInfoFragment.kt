@@ -45,6 +45,6 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateCourse()
+        viewModel.refresh()
     }
 }

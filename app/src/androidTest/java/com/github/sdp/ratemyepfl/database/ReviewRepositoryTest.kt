@@ -66,6 +66,7 @@ class ReviewRepositoryTest {
         runTest {
             val id = reviewRepo.addAndGetId(testReviewNoId)
             assertNotNull(id)
+            reviewRepo.remove(id).await()
         }
     }
 

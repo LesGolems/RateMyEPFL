@@ -28,6 +28,6 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateEvent()
+        viewModel.refresh()
     }
 }

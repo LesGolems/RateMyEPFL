@@ -1,0 +1,31 @@
+package com.github.sdp.ratemyepfl.viewmodel
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
+import kotlinx.coroutines.launch
+
+open class ReviewableInfoViewModel(
+    private val gradeInfoRepo: GradeInfoRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+
+    protected val averageGrade = MutableLiveData<Double?>(null)
+    protected val numReviews = MutableLiveData<Int?>(null)
+
+    protected fun refreshGrade(){
+        viewModelScope.launch {
+            val p = gradeInfoRepo.getGradeAndNumReviewForId(id)
+            averageGrade.postValue(p.first)
+            numReviews.postValue(p.second)
+        }
+    }
+
+}

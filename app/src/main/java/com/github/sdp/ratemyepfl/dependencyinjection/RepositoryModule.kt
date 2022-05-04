@@ -39,5 +39,9 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideGradeInfoRepo(repo: GradeInfoRepositoryImpl): GradeInfoRepository
+
+    @Singleton
+    @Binds
     abstract fun provideImageStorage(repo: ImageStorage): Storage<ImageFile>
 }

@@ -16,8 +16,8 @@
         android:label="Review List"
         tools:layout="@layout/fragment_review_list" />
     <fragment
-        android:id="@+id/addCourseReviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.AddCourseReviewFragment"
+        android:id="@+id/addReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
         android:label="Add a review" />
     <include app:graph="@navigation/timetable" />
     <include app:graph="@navigation/profile" />
