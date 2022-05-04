@@ -23,12 +23,4 @@ interface EventRepository {
      *  weither this function has succeeded or not
      */
     suspend fun updateParticipants(eventId: String, userId: String): Boolean
-
-    /**
-     *  Updates the rating of the event using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateEventRating(id: String, rating: ReviewRating)
 }

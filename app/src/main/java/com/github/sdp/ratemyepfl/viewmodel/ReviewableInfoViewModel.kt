@@ -22,9 +22,11 @@ open class ReviewableInfoViewModel(
 
     protected fun refreshGrade(){
         viewModelScope.launch {
-            val p = gradeInfoRepo.getGradeAndNumReviewForId(id)
-            averageGrade.postValue(p.first)
-            numReviews.postValue(p.second)
+            val gradeInfo = gradeInfoRepo.getGradeInfoById(id)
+            if(gradeInfo != null){
+                averageGrade.postValue(gradeInfo.currentGrade)
+                numReviews.postValue(gradeInfo.numReviews)
+            }
         }
     }
 

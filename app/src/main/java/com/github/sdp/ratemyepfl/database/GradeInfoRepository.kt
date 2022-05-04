@@ -9,13 +9,10 @@ interface GradeInfoRepository {
 
     fun update(id: String, transform: (GradeInfo) -> GradeInfo): Task<Transaction>
 
-    /**
-     * Returns the overall grade and the number of reviews for reviewable with [id]
-     */
-    suspend fun getGradeAndNumReviewForId(id: String): Pair<Double, Int>
-
     fun updateLikeRatio(id: String, rid: String, inc : Int): Task<Transaction>
 
     suspend fun addReview(id: String, rid: String, rating: ReviewRating): Task<Transaction>
+
+    suspend fun getGradeInfoById(id: String): GradeInfo?
 
 }

@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import android.util.Log
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
@@ -8,15 +9,18 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class GradeInfoRepositoryImpl (val repository: RepositoryImpl<GradeInfo>) : GradeInfoRepository, Repository<GradeInfo> by repository {
+class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : GradeInfoRepository,
+    Repository<GradeInfo> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(RepositoryImpl<GradeInfo>(db,
+    constructor(db: FirebaseFirestore) : this(RepositoryImpl<GradeInfo>(
+        db,
         GradeInfoRepositoryImpl.GRADE_INFO_COLLECTION_PATH
     ) {
         it.toGradeInfo()
@@ -26,58 +30,84 @@ class GradeInfoRepositoryImpl (val repository: RepositoryImpl<GradeInfo>) : Grad
         const val GRADE_INFO_COLLECTION_PATH = "grades_info"
         const val ITEM_ID_FIELD = "itemId"
         const val REVIEWS_INFO_FIELD = "reviewsData"
+        const val CURRENT_GRADE_FIELD = "currentGrade"
+        const val NUM_REVIEWS_FIELD = "numReviews"
 
-        fun DocumentSnapshot.toGradeInfo(): GradeInfo? = try {
-            val type = object: TypeToken<Map<String, ReviewInfo>>(){}.type
+        fun DocumentSnapshot.toGradeInfo(): GradeInfo? {
+            val type = object : TypeToken<Map<String, ReviewInfo>>() {}.type
             val reviewsData = getString(REVIEWS_INFO_FIELD)?.let {
                 Gson().fromJson<Map<String, ReviewInfo>>(it, type)
             }
-            if (reviewsData != null) {
-                GradeInfo(id, reviewsData)
-            }
-            else{
+            return try {
+                GradeInfo.Builder(
+                    getString(ITEM_ID_FIELD),
+                    reviewsData,
+                    getDouble(CURRENT_GRADE_FIELD),
+                    getField<Int>(NUM_REVIEWS_FIELD)
+                ).build()
+            } catch (e: IllegalStateException) {
                 null
             }
-        } catch (e: IllegalStateException) {
-            null
         }
     }
 
-    override fun updateLikeRatio(id: String, rid: String, inc : Int): Task<Transaction> =
+    /**
+     * Compute the overall grade the number of reviews from all the grade info
+     * (FOR NOW BASIC AVERAGE)
+     */
+    fun computeGrade(reviewsData: Map<String, ReviewInfo>): Double {
+        var total = 0.0
+        for (ri in reviewsData.values) {
+            total += ri.reviewGrade
+        }
+        return total / reviewsData.size
+    }
+
+    override fun updateLikeRatio(id: String, rid: String, inc: Int): Task<Transaction> =
         repository.update(id) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(rid, DEFAULT_REVIEW_INFO)
-            it.copy(
-                reviewsData = it.reviewsData.plus(Pair(rid,
+            val newData = it.reviewsData.plus(
+                Pair(
+                    rid,
                     ReviewInfo(
                         info.reviewGrade,
                         info.likeRatio + inc
                     )
-                ))
+                )
+            )
+            it.copy(
+                reviewsData = newData,
+                currentGrade = computeGrade(newData),
+                numReviews = newData.size
             )
         }
 
-    override suspend fun addReview(id: String, rid: String, rating: ReviewRating): Task<Transaction> {
+    override suspend fun addReview(
+        id: String,
+        rid: String,
+        rating: ReviewRating
+    ): Task<Transaction> {
         if (getGradeInfoById(id) == null) {
             repository.add(GradeInfo(id)).await()
         }
+        Log.d("fnuf", "opgjopfopfpofop")
 
         return repository.update(id) {
-            it.copy(
-                reviewsData = it.reviewsData.plus(
-                    Pair(
-                        rid,
-                        ReviewInfo(rating.toValue(), 0)
-                    )
+            val newData = it.reviewsData.plus(
+                Pair(
+                    rid,
+                    ReviewInfo(rating.toValue(), 0)
                 )
+            )
+            it.copy(
+                reviewsData = newData,
+                currentGrade = computeGrade(newData),
+                numReviews = newData.size
             )
         }
     }
 
-    override suspend fun getGradeAndNumReviewForId(id: String): Pair<Double, Int> {
-        return getById(id).toGradeInfo()?.computeGrade() ?: Pair(0.0, 0)
-    }
-
-    suspend fun getGradeInfoById(id: String): GradeInfo? = repository
+    override suspend fun getGradeInfoById(id: String): GradeInfo? = repository
         .getById(id)
         .toGradeInfo()
 }

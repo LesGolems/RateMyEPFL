@@ -11,12 +11,4 @@ import kotlinx.serialization.Serializable
  * the serialization
  */
 @Serializable
-sealed class Reviewable : RepositoryItem {
-    abstract val numReviews: Int
-    abstract val averageGrade: Double
-
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
-        ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews,
-        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade,
-    )
-}
+sealed class Reviewable : RepositoryItem

@@ -12,23 +12,19 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
 
     companion object {
         val RESTAURANT_LIST = listOf(
-            Restaurant("Roulotte du Soleil", 0, 46.519214, 6.567553, 15, 2.5),
-            Restaurant("Arcadie", 0, 46.520625, 6.569403, 8, 3.0),
-            Restaurant("Takinoa", 0, 46.518236, 6.568110, 1, 4.0)
+            Restaurant("Roulotte du Soleil", 0, 46.519214, 6.567553),
+            Restaurant("Arcadie", 0, 46.520625, 6.569403),
+            Restaurant("Takinoa", 0, 46.518236, 6.568110)
         )
 
-        val DEFAULT_RESTAURANT = Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
+        val DEFAULT_RESTAURANT = Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0)
 
-        val RESTAURANT_WITH_REVIEWS = Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0, 15, 2.5)
-        val RESTAURANT_WITHOUT_REVIEWS =
-            Restaurant(name = "Roulotte du Soleil", 0, 1.0, 2.0, 0, 0.0)
-
-        val RESTAURANT_WITH_NO_OCCUPANCY = Restaurant("Roulotte du Soleil", 0, 1.0, 2.0, 15, 2.5)
+        val RESTAURANT_WITH_NO_OCCUPANCY = Restaurant("Roulotte du Soleil", 0, 1.0, 2.0)
         val RESTAURANT_WITH_MEDIUM_OCCUPANCY =
-            Restaurant("Roulotte du Soleil", 20, 1.0, 2.0, 15, 2.5)
-        val RESTAURANT_WITH_FULL_OCCUPANCY = Restaurant("Roulotte du Soleil", 50, 1.0, 2.0, 15, 2.5)
+            Restaurant("Roulotte du Soleil", 20, 1.0, 2.0)
+        val RESTAURANT_WITH_FULL_OCCUPANCY = Restaurant("Roulotte du Soleil", 50, 1.0, 2.0)
 
-        var restaurantById = RESTAURANT_WITH_REVIEWS
+        var restaurantById = DEFAULT_RESTAURANT
 
         var occupancyCounter = 0
     }
@@ -45,9 +41,6 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
     override suspend fun decrementOccupancy(id: String) {
         occupancyCounter -= 1
     }
-
-
-    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
 
     override fun search(prefix: String): QueryResult<List<Restaurant>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }

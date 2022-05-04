@@ -46,8 +46,6 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
         fun DocumentSnapshot.toCourse(): Course? = try {
             val builder = Course.Builder()
                 .setCourseCode(getString(COURSE_CODE_FIELD_NAME))
-                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
-                .setAverageGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setSection(getString(SECTION_FIELD_NAME))
                 .setTeacher(getString(TEACHER_FIELD_NAME))
@@ -74,18 +72,6 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
     override suspend fun getCourseById(id: String): Course? =
         repository
             .getById(id).toCourse()
-
-    override suspend fun updateCourseRating(id: String, rating: ReviewRating) {
-        repository
-            .update(id) { course ->
-                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
-                    course,
-                    rating
-                )
-                course.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
-            }.await()
-    }
-
 
     override fun search(prefix: String): QueryResult<List<Course>> {
         val byId = repository.search(COURSE_CODE_FIELD_NAME, prefix)

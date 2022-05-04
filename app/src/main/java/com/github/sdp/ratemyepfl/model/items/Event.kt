@@ -8,8 +8,6 @@ import java.time.LocalDateTime
 
 data class Event(
     val name: String,
-    override val numReviews: Int,
-    override val averageGrade: Double,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
@@ -22,7 +20,7 @@ data class Event(
         return name
     }
 
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
@@ -30,7 +28,7 @@ data class Event(
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-    ).apply { putAll(super.toHashMap()) }
+    )
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
@@ -56,8 +54,6 @@ data class Event(
      */
     class Builder(
         private var name: String? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
@@ -69,14 +65,6 @@ data class Event(
 
         fun name(name: String?) = apply {
             this.name = name
-        }
-
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
         }
 
         fun setNumParticipants(numParticipants: Int?) = apply {
@@ -105,8 +93,6 @@ data class Event(
 
         override fun build(): Event {
             val name = this asMandatory name
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
             val participants = this asMandatory participants
@@ -116,8 +102,6 @@ data class Event(
 
             return Event(
                 name,
-                numReviews,
-                averageGrade,
                 numParticipants,
                 limitParticipants,
                 participants,

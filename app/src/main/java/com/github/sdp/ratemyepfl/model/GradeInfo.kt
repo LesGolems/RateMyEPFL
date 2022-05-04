@@ -12,6 +12,8 @@ import kotlinx.serialization.Serializable
 data class GradeInfo(
     val itemId: String,
     val reviewsData: Map<String, ReviewInfo> = mapOf(),
+    val currentGrade: Double = 0.0,
+    val numReviews: Int = 0
 ) : RepositoryItem {
 
     override fun getId(): String = itemId
@@ -23,31 +25,26 @@ data class GradeInfo(
         val json = Gson().toJson(reviewsData)
         return hashMapOf(
             GradeInfoRepositoryImpl.ITEM_ID_FIELD to itemId,
-            GradeInfoRepositoryImpl.REVIEWS_INFO_FIELD to json
+            GradeInfoRepositoryImpl.REVIEWS_INFO_FIELD to json,
+            GradeInfoRepositoryImpl.CURRENT_GRADE_FIELD to currentGrade,
+            GradeInfoRepositoryImpl.NUM_REVIEWS_FIELD to numReviews
         )
-    }
-
-    /**
-     * Compute the overall grade the number of reviews from all the grade info
-     */
-    fun computeGrade(): Pair<Double, Int> {
-        var total = 0.0
-        for (ri in reviewsData.values){
-            total += ri.reviewGrade
-        }
-        return Pair(total/reviewsData.size, reviewsData.size)
     }
 
     class Builder(
         private val itemId: String?,
         private val reviewsData: Map<String, ReviewInfo>? = mapOf(),
+        private val currentGrade: Double? = 0.0,
+        private val numReviews: Int? = 0
     ) {
         fun build(): GradeInfo {
             val itemId = this.itemId
             val reviewsData = this.reviewsData ?: mapOf()
+            val currentGrade = this.currentGrade ?: 0.0
+            val numReviews = this.numReviews ?: 0
 
             if (itemId != null ) {
-                return GradeInfo(itemId, reviewsData)
+                return GradeInfo(itemId, reviewsData, currentGrade, numReviews)
             } else {
                 throw IllegalStateException("Cannot build a grade info with null arguments")
             }

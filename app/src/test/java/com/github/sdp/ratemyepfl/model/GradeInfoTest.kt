@@ -15,14 +15,6 @@ class GradeInfoTest {
     }
 
     @Test
-    fun computeGradeWorks(){
-        val gradeInfo = GradeInfo("id", mapOf(Pair("rid", ReviewInfo(5 ,5))))
-        val p = gradeInfo.computeGrade()
-        assertEquals(p.first, 5.0, 0.1)
-        assertEquals(p.second, 1)
-    }
-
-    @Test
     fun builderWorks(){
         val builder = GradeInfo.Builder("id")
         val g = builder.build()

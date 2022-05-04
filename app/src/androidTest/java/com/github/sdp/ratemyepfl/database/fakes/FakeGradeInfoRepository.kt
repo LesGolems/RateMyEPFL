@@ -9,11 +9,16 @@ import org.mockito.Mockito
 import javax.inject.Inject
 
 class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
+
+    companion object{
+        val NO_REVIEW = GradeInfo("id", mapOf(), 0.0, 0)
+        var gradeById = NO_REVIEW
+    }
     override fun update(id: String, transform: (GradeInfo) -> GradeInfo): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 
-    override suspend fun getGradeAndNumReviewForId(id: String): Pair<Double, Int> = Pair(0.0, 0)
+    override suspend fun getGradeInfoById(id: String): GradeInfo? = gradeById
 
     override fun updateLikeRatio(id: String, rid: String, inc: Int): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
