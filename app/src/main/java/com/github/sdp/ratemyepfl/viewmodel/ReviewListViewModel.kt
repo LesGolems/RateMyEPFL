@@ -10,6 +10,8 @@ import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
@@ -57,8 +59,8 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    fun updateVotes(review: Review, array: List<String>, fieldName: String) {
-        if (!auth.isLoggedIn()) return
+    fun updateVotes(review: Review, array: List<String>, fieldName: String, karmaCallback : (Boolean) -> Unit) {
+        if (!auth.isLoggedIn()) throw DisconnectedUserException()
 
         val uid = auth.getUserId() ?: return
         viewModelScope.launch {
@@ -67,21 +69,30 @@ open class ReviewListViewModel @Inject constructor(
             } else {
                 reviewRepo.addUidInArray(fieldName, review.getId(), uid)
             }
+            karmaCallback(array.contains(uid))
             updateReviewsList()
         }
     }
 
-    fun sortByVotes() {
-        reviews.value?.let {
-            reviews.postValue(it.sortedBy { rwa -> -rwa.review.likers.size })
+    fun updateLikes(review: Review, uid: String?) {
+        if(auth.getUserId() == uid) throw VoteException("You can't like your own review")
+
+        updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
+            if(uid != null){
+                if (it) userRepo.updateKarma(uid, -1)
+                else userRepo.updateKarma(uid, 1)
+            }
         }
     }
 
-    fun updateLikes(review: Review) {
-        updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME)
-    }
+    fun updateDislikes(review: Review, uid: String?) {
+        if(auth.getUserId() == uid) throw VoteException("You can't dislike your own review")
 
-    fun updateDislikes(review: Review) {
-        updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME)
+        updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME) {
+            if(uid != null){
+                if(it) userRepo.updateKarma(uid, 1)
+                else userRepo.updateKarma(uid, -1)
+            }
+        }
     }
 }

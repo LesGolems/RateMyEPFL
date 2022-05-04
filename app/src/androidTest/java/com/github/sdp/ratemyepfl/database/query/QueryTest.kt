@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.database.query
 
-import com.github.sdp.ratemyepfl.database.DatabaseException
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.util.ArrayItem
 import com.github.sdp.ratemyepfl.database.util.ArrayItem.Companion.toArrayItem

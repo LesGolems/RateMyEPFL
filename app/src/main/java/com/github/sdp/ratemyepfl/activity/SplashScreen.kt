@@ -7,14 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
-import com.github.sdp.ratemyepfl.database.DatabaseException
 import com.github.sdp.ratemyepfl.database.UserRepository
-import com.github.sdp.ratemyepfl.database.UserRepositoryImpl
-import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
