@@ -59,6 +59,16 @@ class UserRepositoryTest {
         }
     }
 
+    @Test
+    fun updateKarmaWorks() {
+        runTest {
+            val updateUser = testUser.copy(karma = 1)
+            userRepo.updateKarma(testUser.getId(), 1).await()
+            val user = userRepo.getUserByUid(testUser.uid)
+            assertEquals(updateUser.uid, user?.uid)
+            assertEquals(updateUser.karma, user?.karma)
+        }
+    }
 
     @Test
     fun getUserByIdWorks() {
