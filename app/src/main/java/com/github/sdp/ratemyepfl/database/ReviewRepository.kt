@@ -3,9 +3,16 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Transaction
-import kotlinx.coroutines.tasks.await
 
 interface ReviewRepository : Repository<Review> {
+
+    /**
+     * Add a [Review] with an auto-generated ID, and returns this ID
+     *
+     * @param item: the [Review] to add
+     */
+    suspend fun addAndGetId(item: Review): String
+
     /**
      * Retrieve the reviews from the repository
      *
@@ -27,14 +34,18 @@ interface ReviewRepository : Repository<Review> {
      */
     suspend fun getByReviewableId(id: String?): List<Review>
 
-    @Deprecated("Use the corresponding voting methods", ReplaceWith(
-        "addUpvote() or addDownVote()"
-    ))
+    @Deprecated(
+        "Use the corresponding voting methods", ReplaceWith(
+            "addUpvote() or addDownVote()"
+        )
+    )
     suspend fun addUidInArray(fieldName: String, id: String, uid: String)
 
-    @Deprecated("Use the corresponding voting methods", ReplaceWith(
-        "removeUpvote() or removeDownVote()"
-    ))
+    @Deprecated(
+        "Use the corresponding voting methods", ReplaceWith(
+            "removeUpvote() or removeDownVote()"
+        )
+    )
     suspend fun removeUidInArray(fieldName: String, id: String, uid: String)
 
     /**

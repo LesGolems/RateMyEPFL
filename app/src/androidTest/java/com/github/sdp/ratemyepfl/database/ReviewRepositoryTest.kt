@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import android.util.Log
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.DISLIKERS_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.LIKERS_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
@@ -53,6 +54,20 @@ class ReviewRepositoryTest {
         }
     }
 
+    @Test
+    fun addAndGetIdWorks() {
+        val testReviewNoId = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8)
+        )
+        runTest {
+            val id = reviewRepo.addAndGetId(testReviewNoId)
+            assertNotNull(id)
+        }
+    }
 
     @Test
     fun getReviewsWorks() {
