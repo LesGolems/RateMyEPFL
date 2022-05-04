@@ -119,7 +119,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private fun displayOnSnackbar(message: String?) {
         if (message != null) {
             Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
-                .setAnchorView(R.id.reviewNavigationView)
+                .setAnchorView(R.id.reviewBottomNavigationView)
                 .show()
         }
     }
