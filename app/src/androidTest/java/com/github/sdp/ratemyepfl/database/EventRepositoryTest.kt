@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -31,7 +32,7 @@ class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
         "Fake id", 0, 0.0, 0,
-        0, listOf(), 0.0, 0.0, LocalDateTime.now()
+        1, listOf(), 0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -80,14 +81,14 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             var event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
 
-            eventRepo.updateParticipants(testEvent.name, USER_ID).await()
+            eventRepo.updateParticipants(testEvent.name, USER_ID)
             event = eventRepo.getEventById(testEvent.name)
             assertNotNull(event)
             assertEquals(testEvent.name, event!!.name)

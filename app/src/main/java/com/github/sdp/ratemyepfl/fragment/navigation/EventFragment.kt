@@ -72,12 +72,10 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private fun registrationListener(event: Event) {
         if (auth.isLoggedIn()) {
             val uid = auth.getUserId()!! // Can't be null as we checked that the user is logged in
-            if (!event.participants.contains(uid) && event.numParticipants == event.limitParticipants) {
+            if (!viewModel.updateRegistration(event, uid)) {
                 Snackbar.make(requireView(), R.string.full_event_text, Snackbar.LENGTH_SHORT)
                     .setAnchorView(R.id.activityMainBottomNavigationView)
                     .show()
-            } else {
-                viewModel.updateRegistration(event, uid)
             }
         } else {
             Snackbar.make(requireView(), R.string.registration_no_login_text, Snackbar.LENGTH_SHORT)
