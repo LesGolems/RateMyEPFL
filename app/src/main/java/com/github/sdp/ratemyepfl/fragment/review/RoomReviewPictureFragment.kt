@@ -1,7 +1,9 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -9,9 +11,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,8 +24,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.database.ImageStorage
+import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.ImageUtils
+import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +42,8 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         private const val NUM_COLUMNS = 2
         private const val CAPTURE_PHOTO = 1
         private const val SELECT_PHOTO = 2
+        private const val STORAGE_PERMISSION_REQUEST_CODE = 1
+        private const val CAMERA_PERMISSION_REQUEST_CODE = 3
     }
 
     private lateinit var pictureAdapter: RoomPictureAdapter
@@ -64,10 +72,48 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         }
 
         selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
-        selectPhotoFAB.setOnClickListener { startGallery() }
+        selectPhotoFAB.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                startGallery()
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    STORAGE_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
 
         capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
-        capturePhotoFAB.setOnClickListener { startCamera() }
+        capturePhotoFAB.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                )
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                startCamera()
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST_CODE
+                )
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -97,6 +143,45 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     override fun onResume() {
         super.onResume()
         pictureViewModel.updatePicturesList()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST_CODE -> {
+                Log.d("OK", "OK")
+                if (PermissionUtils.isPermissionGranted(
+                        permissions,
+                        grantResults,
+                        Manifest.permission.CAMERA
+                    )
+                ) {
+                    startCamera()
+                } else {
+                    Toast.makeText(context, "Permission was not granted", Toast.LENGTH_SHORT).show()
+                }
+            }
+            STORAGE_PERMISSION_REQUEST_CODE -> {
+                if (PermissionUtils.isPermissionGranted(
+                        permissions,
+                        grantResults,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) && PermissionUtils.isPermissionGranted(
+                        permissions,
+                        grantResults,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                ) {
+                    startGallery()
+                } else {
+                    Toast.makeText(context, "Permissions were not granted", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
     }
 
     private fun startGallery() {
