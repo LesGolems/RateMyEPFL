@@ -17,8 +17,8 @@ open class ReviewableInfoViewModel(
     val id: String =
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
 
-    protected val averageGrade = MutableLiveData<Double?>(null)
-    protected val numReviews = MutableLiveData<Int?>(null)
+    val averageGrade = MutableLiveData(0.0)
+    val numReviews = MutableLiveData(0)
 
     protected fun refreshGrade(){
         viewModelScope.launch {
