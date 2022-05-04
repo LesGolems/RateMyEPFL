@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -27,9 +28,15 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
         tabLayout = view.findViewById(R.id.timetableTabLayout)
         viewPager = view.findViewById(R.id.timetableTabViewPager)
 
-        val timetable = viewModel.timetable.value
+        viewModel.timetable.observe(viewLifecycleOwner) {
+            it?.let {
+                createFragments(it)
+            }
+        }
+    }
 
-        if (timetable != null && timetable.isNotEmpty()) {
+    private fun createFragments(timetable : ArrayList<Class>){
+        if (timetable.isNotEmpty()) {
             val fragments = DayFragment.DAYS.values()
                 .map {
                     val classes =
