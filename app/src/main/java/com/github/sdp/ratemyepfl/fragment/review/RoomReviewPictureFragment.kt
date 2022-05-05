@@ -55,7 +55,6 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
         swipeRefresher = view.findViewById(R.id.photoSwipeRefresh)
         selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
@@ -68,9 +67,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         // Initialize adapter
         pictureAdapter = RoomPictureAdapter()
         pictureRecyclerView.adapter = pictureAdapter
-        pictureViewModel.pictures.observe(viewLifecycleOwner) {
-            pictureAdapter.setData(it.toMutableList())
-        }
+        pictureViewModel.pictures.observe(viewLifecycleOwner) { pictureAdapter.setData(it.toMutableList()) }
 
         // Initialize refresh
         swipeRefresher.setOnRefreshListener {

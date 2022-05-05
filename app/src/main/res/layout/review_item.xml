@@ -12,7 +12,7 @@
             android:id="@+id/author_profile_picture"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@raw/blank_profile_picture"></de.hdodenhof.circleimageview.CircleImageView>
+            android:background="@raw/blank_profile_picture" />
 
         <TextView
             android:id="@+id/author_username"
@@ -21,7 +21,7 @@
             android:layout_below="@+id/author_profile_picture"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:hint="anonymous"></TextView>
+            android:hint="@string/anonymous" />
 
     </RelativeLayout>
 

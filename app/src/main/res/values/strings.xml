@@ -31,8 +31,6 @@
     <string name="events_nav_item">Events</string>
     <string name="map_nav_title">Map</string>
     <string name="home_page_title">HOME PAGE</string>
-    <string name="home_page_hello_user_text">Hello %s !</string>
-    <string name="logout_fab_content_description">Logout</string>
     <string name="event_page_title">Event</string>
     <string name="info_review_icon">Info</string>
     <string name="list_review_icon">Reviews</string>
@@ -56,7 +54,6 @@
     <string name="course_credits">Credits : %s</string>
     <string name="i_like_this_review">I like this review</string>
     <string name="i_don_t_like_this_review">I don\'t like this review</string>
-    <string name="my_profile_string">My Profile</string>
     <string name="anonymous">Anonymous</string>
     <string name="my_profile">My Profile</string>
     <string name="register">Register</string>
