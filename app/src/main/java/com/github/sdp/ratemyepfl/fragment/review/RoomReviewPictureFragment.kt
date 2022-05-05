@@ -38,10 +38,6 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         private const val NUM_COLUMNS = 2
         private const val CAPTURE_PHOTO_REQUEST_CODE = 1
         private const val SELECT_PHOTO_REQUEST_CODE = 2
-        private val STORAGE_PERMISSIONS = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
     }
 
     private lateinit var pictureAdapter: RoomPictureAdapter
@@ -76,16 +72,26 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         }
 
         // Open the gallery
+        val storagePermissionLauncher =
+            PermissionUtils.requestPermissionLauncher({ startGallery() }, this, requireContext())
         selectPhotoFAB.setOnClickListener {
-            PermissionUtils.startPhoneFeatures(
-                { startGallery() }, STORAGE_PERMISSIONS, this, requireContext()
+            PermissionUtils.startPhoneFeature(
+                { startGallery() },
+                storagePermissionLauncher,
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
             )
         }
 
         // Open the camera
+        val cameraPermissionLauncher =
+            PermissionUtils.requestPermissionLauncher({ startCamera() }, this, requireContext())
         capturePhotoFAB.setOnClickListener {
             PermissionUtils.startPhoneFeature(
-                { startCamera() }, Manifest.permission.CAMERA, this, requireContext()
+                { startCamera() },
+                cameraPermissionLauncher,
+                requireContext(),
+                Manifest.permission.CAMERA
             )
         }
     }

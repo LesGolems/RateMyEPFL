@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
-import android.Manifest
 import android.content.Intent
+import android.provider.MediaStore
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -12,7 +12,6 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
@@ -22,6 +21,7 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
+import com.github.sdp.ratemyepfl.utils.UiUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -35,13 +35,6 @@ class RoomReviewPictureFragmentTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
 
     @Before
     fun setUp() {
@@ -100,12 +93,17 @@ class RoomReviewPictureFragmentTest {
         val imgGalleryResult = createImageGallerySetResultStub(activity)
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
         onView(withId(R.id.selectPhotoFAB)).perform(click())
+        UiUtils.grantPermission()
         release()
     }
 
     @Test
-    fun startCamera() {
+    fun startCameraWorksWhenGrantedPermission() {
+        init()
         onView(withId(R.id.capturePhotoFAB)).perform(click())
+        UiUtils.grantPermissionOnce()
+        UiUtils.capturePhoto() // Take the photo
+        intended(hasAction(MediaStore.ACTION_IMAGE_CAPTURE))
+        release()
     }
-
 }

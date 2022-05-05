@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCaller
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 
@@ -23,98 +24,51 @@ object PermissionUtils {
     }
 
     /**
-     * Checks whether [permission] is granted in the current [Context]
+     * Checks whether [permission] is granted in the current [Context].
      */
-    fun hasPermission(permission: String, context: Context): Boolean =
+    fun hasPermission(context: Context, permission: String): Boolean =
         ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
     /**
-     * Checks whether all [permissions] are granted in the current [Context]
+     * Checks whether all [permissions] are granted in the current [Context].
      */
-    fun hasAllPermissions(permissions: Array<String>, context: Context): Boolean =
-        permissions.all { hasPermission(it, context) }
+    fun hasAllPermissions(context: Context, permissions: Array<String>): Boolean =
+        permissions.all { hasPermission(context, it) }
 
     /**
-     * Starts a feature of the phone that requires a permission to be used
-     * (e.g., location, camera)
+     * Starts a feature of the phone that requires one or more permission(s) to be used
+     * (e.g., location, camera, storage).
      *
      * @param useFeature The function that uses the feature
-     * @param permission The permission that needs be to granted by the user
-     * @param caller The [Fragment]/[Activity] from which the feature is started
+     * @param resultLauncher checks whether the user chose to grant or deny runtime permissions
      * @param context The current context
+     * @param permissions The permissions that need be to granted by the user
      */
     fun startPhoneFeature(
         useFeature: () -> Unit,
-        permission: String,
-        caller: ActivityResultCaller,
-        context: Context
+        resultLauncher: ActivityResultLauncher<Array<String>>,
+        context: Context,
+        vararg permissions: String
     ) {
-        if (hasPermission(permission, context)) {
+        val perms: Array<String> = permissions.map { it }.toTypedArray()
+        if (hasAllPermissions(context, perms)) {
             // The permission was already granted
             useFeature()
         } else {
             // Request the user to grant the permission at runtime
-            requestPermissionLauncher(useFeature, caller, context).launch(permission)
+            resultLauncher.launch(perms)
         }
     }
 
     /**
-     * Starts features of the phone that requires multiple permissions to be used
-     * (e.g., gallery read/write)
+     * Checks the user's response, whether they chose to grant or deny runtime permissions.
      *
      * @param useFeature The function that uses the feature
-     * @param permission The permissions that need be to granted by the user
-     * @param caller The [Fragment]/[Activity] from which the features are started
+     * @param caller The Fragment/Activity from which the feature is started
      * @param context The current context
      */
-    fun startPhoneFeatures(
-        useFeatures: () -> Unit,
-        permissions: Array<String>,
-        caller: ActivityResultCaller,
-        context: Context
-    ) {
-        if (hasAllPermissions(permissions, context)) {
-            // The permissions were already granted
-            useFeatures()
-        } else {
-            // Request the user to grant the permissions at runtime
-            requestMultiplePermissionsLauncher(useFeatures, caller, context).launch(permissions)
-        }
-    }
-
-    /**
-     * Checks the user's response, whether they chose to grant or deny a runtime permission
-     *
-     * @param useFeature The function that uses the feature
-     * @param caller The [Fragment]/[Activity] from which the feature is started
-     * @param context The current context
-     */
-    private fun requestPermissionLauncher(
+    fun requestPermissionLauncher(
         useFeature: () -> Unit,
-        caller: ActivityResultCaller,
-        context: Context
-    ) =
-        caller.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // The user chose to grant the permission
-                useFeature()
-            } else {
-                // The user chose to deny the permission
-                Toast.makeText(
-                    context, "Permission was not granted", Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-    /**
-     * Checks the user's response, whether they chose to grant or deny runtime permissions
-     *
-     * @param useFeatures The function that uses the features
-     * @param caller The [Fragment]/[Activity] from which the feature is started
-     * @param context The current context
-     */
-    private fun requestMultiplePermissionsLauncher(
-        useFeatures: () -> Unit,
         caller: ActivityResultCaller,
         context: Context
     ) =
@@ -126,7 +80,7 @@ object PermissionUtils {
                 ).show()
             } else {
                 // The user chose to grant all permissions
-                useFeatures()
+                useFeature()
             }
         }
 }
