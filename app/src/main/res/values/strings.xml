@@ -55,7 +55,6 @@
     <string name="i_like_this_review">I like this review</string>
     <string name="i_don_t_like_this_review">I don\'t like this review</string>
     <string name="anonymous">Anonymous</string>
-    <string name="my_profile">My Profile</string>
     <string name="register">Register</string>
     <string name="unregister">Unregister</string>
     <string name="participants">Participants</string>
@@ -72,4 +71,6 @@
     <string name="visitor">Visitor</string>
     <string name="login_drawer">Login</string>
     <string name="logout_drawer">Logout</string>
+    <string name="no_coin">0</string>
+    <string name="coin">Coin</string>
 </resources>
