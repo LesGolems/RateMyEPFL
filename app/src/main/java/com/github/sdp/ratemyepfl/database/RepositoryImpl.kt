@@ -6,7 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await
 
-class RepositoryImpl<T : RepositoryItem>(
+class RepositoryImpl<T : RepositoryItem> (
     private val database: FirebaseFirestore,
     collectionPath: String,
     /** Transform a [DocumentSnapshot] into [T], and returns null if it fails **/

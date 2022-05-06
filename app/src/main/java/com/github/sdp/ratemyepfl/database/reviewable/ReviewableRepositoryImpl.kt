@@ -5,12 +5,15 @@ import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.SearchableRepository.Companion.LIMIT_QUERY_SEARCH
+import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.lang.Exception
 
 
 /**
@@ -22,21 +25,25 @@ import com.google.firebase.firestore.Query
 class ReviewableRepositoryImpl<T : Reviewable> private constructor(
     private val repository: LoaderRepository<T>,
     private val idFieldName: String,
+    private val offlineData: List<T>,
 ) : ReviewableRepository<T>, LoaderRepository<T> by repository {
 
-    constructor(repository: Repository<T>, idFieldName: String) : this(
+    constructor(repository: Repository<T>, idFieldName: String, offlineData: List<T>) : this(
         LoaderRepositoryImpl(repository),
-        idFieldName
+        idFieldName,
+        offlineData
     )
 
     constructor(
         database: FirebaseFirestore,
         collectionPath: String,
         idFieldName: String,
+        offlineData: List<T>,
         transform: (DocumentSnapshot) -> T?
     ) : this(
         LoaderRepositoryImpl(RepositoryImpl(database, collectionPath, transform)),
-        idFieldName
+        idFieldName,
+        offlineData
     )
 
     companion object {
@@ -114,5 +121,12 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
             .execute(LIMIT_QUERY_SEARCH)
             .mapResult { it.mapNotNull { document -> transform(document) } }
 
+    /**
+     * Load the data corresponding to the provided [query]. If the loading fails due to a network
+     * error, it returns a default value.
+     */
+    override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> =
+        repository.load(query, number)
+            .withDefault<FirebaseNetworkException>(offlineData)
 
 }

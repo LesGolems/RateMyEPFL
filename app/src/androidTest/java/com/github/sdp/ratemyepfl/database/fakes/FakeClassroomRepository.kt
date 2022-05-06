@@ -46,6 +46,13 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepository {
     override suspend fun getRoomById(id: String): Classroom = roomById
 
     override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {}
+    override suspend fun load(number: UInt): QueryResult<List<Classroom>> =
+        QueryResult {
+            emit(QueryState.success(CLASSROOM_LIST))
+        }
+
+
+    override fun loaded(): List<Classroom> = CLASSROOM_LIST
 
     override fun search(prefix: String): QueryResult<List<Classroom>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }

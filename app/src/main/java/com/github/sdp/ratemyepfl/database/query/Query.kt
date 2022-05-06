@@ -6,6 +6,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 import kotlin.math.min
 
 typealias FirebaseQuery = com.google.firebase.firestore.Query

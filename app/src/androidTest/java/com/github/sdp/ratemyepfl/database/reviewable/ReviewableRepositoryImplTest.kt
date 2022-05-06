@@ -58,7 +58,8 @@ class ReviewableRepositoryImplTest {
         repository = ReviewableRepositoryImpl(
             db,
             "reviewableTest",
-            CourseRepositoryImpl.COURSE_CODE_FIELD_NAME
+            CourseRepositoryImpl.COURSE_CODE_FIELD_NAME,
+            listOf()
         ) { it.toCourse() }
         val c = courses.map { repository.add(it) }
         c.forEach { runTest { it.await() } }

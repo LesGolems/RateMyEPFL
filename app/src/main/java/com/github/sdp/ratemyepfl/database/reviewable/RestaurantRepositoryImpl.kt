@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.DatabaseException
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
@@ -16,14 +17,15 @@ import javax.inject.Inject
 
 class RestaurantRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Restaurant>) :
     RestaurantRepository, ReviewableRepository<Restaurant> by repository,
-    Repository<Restaurant> by repository {
+    LoaderRepository<Restaurant> by repository {
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
         ReviewableRepositoryImpl(
             db,
             RESTAURANT_COLLECTION_PATH,
-            RESTAURANT_NAME_FIELD_NAME
+            RESTAURANT_NAME_FIELD_NAME,
+            OFFLINE_RESTAURANTS
         ) { documentSnapshot ->
             documentSnapshot.toRestaurant()
         })
@@ -34,6 +36,41 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
         const val LATITUDE_FIELD_NAME = "lat"
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
+
+        private val OFFLINE_RESTAURANTS = listOf<Restaurant>(
+            Restaurant(
+                name = "Arcadie",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                numReviews = 0,
+                averageGrade = 0.0,
+            ),
+            Restaurant(
+                name = "Epicure",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                numReviews = 0,
+                averageGrade = 0.0,
+            ),
+            Restaurant(
+                name = "Niki",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                numReviews = 0,
+                averageGrade = 0.0,
+            ),
+            Restaurant(
+                name = "Roulotte du Soleil",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                numReviews = 0,
+                averageGrade = 0.0,
+            )
+        )
 
         fun DocumentSnapshot.toRestaurant(): Restaurant? = try {
             val name = getString(RESTAURANT_NAME_FIELD_NAME)

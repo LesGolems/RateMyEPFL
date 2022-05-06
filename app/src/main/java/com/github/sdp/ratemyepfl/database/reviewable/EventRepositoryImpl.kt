@@ -25,6 +25,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             db,
             EVENT_COLLECTION_PATH,
             NAME_FIELD_NAME,
+            OFFLINE_EVENTS
         ) { documentSnapshot ->
             documentSnapshot.toEvent()
         })
@@ -40,6 +41,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         const val PARTICIPANTS_FIELD_NAME = "participants"
         const val DATE_FIELD_NAME = "date"
 
+        private val OFFLINE_EVENTS = listOf<Event>()
         fun DocumentSnapshot.toEvent(): Event? {
             val name = getString(NAME_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)

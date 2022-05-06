@@ -94,6 +94,20 @@ class QueryResult<T>(private val result: Flow<QueryState<T>>) : Flow<QueryState<
         }
     )
 
+    /**
+     *  Transform the result into a Success containing a default value if the error thrown is of
+     *  type [E]. It can be used if we want to provide a success if the catch error has a given type.
+     *
+     *  @param default: the default value to return
+     *
+     */
+    inline fun <reified E : Exception> withDefault(default: T): QueryResult<T> =
+        this.map {
+            if (it is QueryState.Failure && it.error is E)
+                QueryState.success(default)
+            else it
+        }.asQueryResult()
+
     companion object {
         /**
          * Map each element of the list of results using the provided operation
