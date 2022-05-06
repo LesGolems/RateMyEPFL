@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.utils
 
 import android.os.Build
-import android.view.KeyEvent
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject
@@ -50,10 +49,6 @@ object UiUtils {
                 denyPermission.click()
             }
         }
-    }
-
-    fun capturePhoto() {
-        uiDevice.executeShellCommand("input keyevent ${KeyEvent.KEYCODE_CAMERA}")
     }
 
 }

@@ -22,7 +22,6 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
-import com.github.sdp.ratemyepfl.utils.UiUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -107,6 +106,5 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun startCamera() {
         onView(withId(R.id.capturePhotoFAB)).perform(click())
-        UiUtils.capturePhoto() // Take the photo
     }
 }
