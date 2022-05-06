@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -29,6 +33,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var authorPanelUsername: TextView
     private lateinit var authorPanelEmail: TextView
     private lateinit var authorPanelEmailIcon: ImageView
+    private lateinit var karmaCount: TextView
 
     // Gets the shared view model
     private val viewModel by activityViewModels<ReviewListViewModel>()
@@ -43,6 +48,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         authorPanelUsername = view.findViewById(R.id.author_panel_username)
         authorPanelEmail = view.findViewById(R.id.author_panel_email)
         authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
+        karmaCount = view.findViewById(R.id.karmaCount)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
 
@@ -51,10 +57,9 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
 
         reviewAdapter = ReviewAdapter(
-            { rwa -> viewModel.updateLikes(rwa.review) },
-            { rwa -> viewModel.updateDislikes(rwa.review) },
-            { rwa -> displayProfilePanel(rwa.author, rwa.image) }
-        )
+            getListener { r, s -> viewModel.updateLikes(r, s) },
+            getListener { r, s -> viewModel.updateDislikes(r, s) }
+        ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
         recyclerView.adapter = reviewAdapter
 
@@ -72,10 +77,27 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         }
     }
 
+    /**
+     * Creates the onClickListener from the function given as input, encapsulating it in a
+     * try catch to display the error message as SnackBar
+     */
+    private fun getListener(f : (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
+        try {
+            f(rwa.review, rwa.author?.uid)
+        } catch (e : Exception){
+            e.message?.let {
+                Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
+                    .setAnchorView(R.id.reviewBottomNavigationView)
+                    .show()
+            }
+        }
+    }
+
     private fun displayProfilePanel(author: User?, image: ImageFile?) {
         if (author != null) {
-            authorPanelUsername.setText(author.username)
-            authorPanelEmail.setText(author.email)
+            authorPanelUsername.text = author.username
+            authorPanelEmail.text = author.email
+            karmaCount.text = author.karma.toString()
 
             if (image != null) {
                 authorPanelImage.setImageBitmap(image.data)
@@ -87,5 +109,6 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     override fun onResume() {
         super.onResume()
         viewModel.updateReviewsList()
+        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

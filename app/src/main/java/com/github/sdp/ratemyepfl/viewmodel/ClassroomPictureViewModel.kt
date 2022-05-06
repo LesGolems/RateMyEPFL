@@ -36,6 +36,7 @@ open class ClassroomPictureViewModel @Inject constructor(
     fun uploadPicture(image: ImageFile) {
         viewModelScope.launch {
             imageStorage.addInDirectory(image, id)
+            updatePicturesList()
         }
     }
 }

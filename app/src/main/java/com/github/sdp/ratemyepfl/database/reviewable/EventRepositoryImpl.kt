@@ -6,10 +6,8 @@ import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Co
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Transaction
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
@@ -76,19 +74,29 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
 
     override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
 
-    override suspend fun updateParticipants(eventId: String, userId: String): Task<Transaction> = repository
-        .update(eventId) { event ->
-            if (!event.participants.contains(userId))
-                event.copy(
-                    numParticipants = event.numParticipants + 1,
-                    participants = event.participants.plus(userId)
-                )
-            else
+    override suspend fun updateParticipants(eventId: String, userId: String): Boolean {
+        var success = true
+        repository.update(eventId) { event ->
+            if (!event.participants.contains(userId)) {
+                if (event.numParticipants == event.limitParticipants) {
+                    success = false
+                    event
+                } else {
+                    event.copy(
+                        numParticipants = event.numParticipants + 1,
+                        participants = event.participants.plus(userId)
+                    )
+                }
+            } else {
                 event.copy(
                     numParticipants = event.numParticipants - 1,
                     participants = event.participants.minus(userId)
                 )
-        }
+            }
+        }.await()
+        return success
+    }
+
 
     override suspend fun updateEventRating(id: String, rating: ReviewRating) {
         repository.update(id) { event ->

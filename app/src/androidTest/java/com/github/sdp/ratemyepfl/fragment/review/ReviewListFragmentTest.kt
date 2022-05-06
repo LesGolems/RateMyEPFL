@@ -12,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
@@ -43,6 +44,7 @@ class ReviewListFragmentTest {
 
     @Before
     fun setUp() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
@@ -94,6 +96,23 @@ class ReviewListFragmentTest {
     }
 
     @Test
+    fun likeWhenNotConnected() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any
+        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        scenario = ActivityScenario.launch(intent)
+
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        onView(withId(R.id.reviewRecyclerView)).perform(
+            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+                0,
+                clickOnViewChild(R.id.dislikeButton)
+        ))
+    }
+
+    @Test
     fun addThenRemoveDislikeToReview() {
         onView(withId(R.id.reviewRecyclerView)).perform(
             actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
@@ -123,7 +142,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -139,7 +158,7 @@ class ReviewListFragmentTest {
         ).check(
             matches(
                 allOf(
-                    withDrawable(R.drawable.fake_profile_picture),
+                    withDrawable(R.raw.fake_profile_picture),
                     isDisplayed()
                 )
             )
@@ -154,7 +173,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -180,7 +199,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -201,14 +220,14 @@ class ReviewListFragmentTest {
     }
 
     @Test
-    fun pannelDisplaysCorrectUserProfileInformation() {
+    fun panelDisplaysCorrectUserProfileInformation() {
         val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -225,6 +244,6 @@ class ReviewListFragmentTest {
         // checks if the informations are correct
         onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
         onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
-        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.drawable.fake_profile_picture)))
+        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))
     }
 }

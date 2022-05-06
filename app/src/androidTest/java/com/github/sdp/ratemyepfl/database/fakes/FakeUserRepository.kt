@@ -62,4 +62,9 @@ class FakeUserRepository @Inject constructor() : UserRepository {
     @Suppress("UNCHECKED_CAST")
     override suspend fun register(user: User): Task<Boolean> = Tasks.forResult(true)
 
+    @Suppress("UNCHECKED_CAST")
+    override fun updateKarma(uid: String, inc: Int): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
+    }
+
 }

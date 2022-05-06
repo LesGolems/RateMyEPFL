@@ -1,10 +1,7 @@
 package com.github.sdp.ratemyepfl.database.query
 
-import com.github.sdp.ratemyepfl.database.DatabaseException
-import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import kotlin.math.min

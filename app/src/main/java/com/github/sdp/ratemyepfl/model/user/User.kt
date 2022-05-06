@@ -12,6 +12,7 @@ data class User(
     val uid: String,
     val username: String?,
     val email: String?,
+    val karma: Int = 0,
     val timetable: ArrayList<Class> = DEFAULT_TIMETABLE
 ) : RepositoryItem {
 
@@ -21,7 +22,7 @@ data class User(
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,
-        email = user.getEmail()!!,
+        email = user.getEmail()!!
     )
 
     override fun getId(): String = uid
@@ -35,6 +36,7 @@ data class User(
             UserRepositoryImpl.USER_UID_FIELD_NAME to uid,
             UserRepositoryImpl.USERNAME_FIELD_NAME to username,
             UserRepositoryImpl.EMAIL_FIELD_NAME to email,
+            UserRepositoryImpl.KARMA_FIELD_NAME to karma,
             UserRepositoryImpl.TIMETABLE_FIELD_NAME to json
         )
     }
@@ -43,16 +45,18 @@ data class User(
         private val uid: String?,
         private val username: String?,
         private val email: String?,
+        private val karma: Int?,
         private val timetable: ArrayList<Class>?
     ) {
         fun build(): User {
             val uid = this.uid
             val username = this.username
             val email = this.email
+            val karma = this.karma ?: 0
             val timetable = this.timetable ?: DEFAULT_TIMETABLE
 
             if (uid != null && username != null && email != null) {
-                return User(uid, username, email, timetable)
+                return User(uid, username, email, karma, timetable)
             } else {
                 throw IllegalStateException("Cannot build a user with null arguments")
             }

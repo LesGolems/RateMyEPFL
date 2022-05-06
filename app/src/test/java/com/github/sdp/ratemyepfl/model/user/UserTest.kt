@@ -8,10 +8,11 @@ class UserTest {
 
     @Test
     fun constructorWithAllFieldsWorks() {
-        val user = User("12345", "Jean", "user@email.ch")
+        val user = User("12345", "Jean", "user@email.ch", 5)
         assertEquals("12345", user.uid)
         assertEquals("Jean", user.username)
         assertEquals("user@email.ch", user.email)
+        assertEquals(5, user.karma)
     }
 
     @Test

@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -26,10 +28,6 @@ Fragment for the review creation, shared for every reviewable item
 abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
 
     companion object {
-        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
-        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
-        const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
-
         fun onTextChangedTextWatcher(consume: (CharSequence?, Int, Int, Int) -> Unit): TextWatcher =
             object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -65,11 +63,7 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         anonymousSwitch = view.findViewById(R.id.anonymous_switch)
 
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
-            scoreTextView.text =
-                getString(
-                    R.string.overall_score_review,
-                    rating?.toString() ?: NO_GRADE_MESSAGE
-                )
+            scoreTextView.text = getString(R.string.overall_score_review)
         }
 
         setupListeners()
@@ -102,19 +96,34 @@ abstract class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
-        if (checkLogin() && submitReview()) {
+        try {
+            submitReview()
             reset()
             // Bar that will appear at the bottom of the screen
-            Snackbar.make(requireView(), R.string.review_sent_text, Snackbar.LENGTH_SHORT)
-                .setAnchorView(R.id.reviewBottomNavigationView)
-                .show()
-        } else {
-            setError(title, title.text.toString(), EMPTY_TITLE_MESSAGE)
-            setError(comment, comment.text.toString(), EMPTY_COMMENT_MESSAGE)
+            displayOnSnackbar(getString(R.string.review_sent_text))
+        } catch (due: DisconnectedUserException) {
+            displayOnSnackbar(due.message)
+        } catch (mie: MissingInputException) {
+            if (title.text.isNullOrEmpty()) {
+                title.error = mie.message
+            }
+            else if (comment.text.isNullOrEmpty()) {
+                comment.error = mie.message
+            }
+            else {
+                displayOnSnackbar(mie.message)
+            }
         }
     }
 
-
+    private fun displayOnSnackbar(message: String?) {
+        if (message != null) {
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.reviewBottomNavigationView)
+                .show()
+        }
+    }
+    
     /**
      * Once a review is submitted all the information are reset to default
      */
