@@ -36,16 +36,6 @@ object UiUtils {
         }
     }
 
-    fun grantPermissionOnce() {
-        val allowPermission = uiDevice.findObject(
-            UiSelector().text("Only this time")
-        )
-        if (allowPermission.exists()) {
-            allowPermission.click()
-        }
-    }
-
-
     fun denyPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             val denyPermission = uiDevice.findObject(

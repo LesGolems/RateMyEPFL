@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
+import android.Manifest
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -8,6 +9,7 @@ import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.utils.UiUtils
@@ -27,18 +29,14 @@ class MapFragmentTest {
     @get:Rule(order = 1)
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    /*
-    Other way of having correct permissions, but we will miss some branches :(
     @get:Rule
     val grantPermissionRule: GrantPermissionRule =
-    GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)*
-    */
+        GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
     @ExperimentalCoroutinesApi
     @Test
     fun isMapVisibleOnActivityLaunch() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        UiUtils.grantPermission()
         onView(withId(R.id.map)).check(matches(isDisplayed()))
     }
 
@@ -57,7 +55,6 @@ class MapFragmentTest {
     @Test
     fun clickOnMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        UiUtils.grantPermission()
         val kebab = UiUtils.objectWithDescription("Roulotte du Soleil")
         kebab.click()
         onView(withId(R.id.map)).check(matches(isDisplayed()))
@@ -69,7 +66,6 @@ class MapFragmentTest {
         runTest { }
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
         init()
-        UiUtils.grantPermission()
         val kebab = UiUtils.objectWithDescription("Roulotte du Soleil")
         kebab.click()
         Thread.sleep(2000)
@@ -82,7 +78,6 @@ class MapFragmentTest {
     @Test
     fun clickOnMapAfterMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
-        UiUtils.grantPermission()
         val kebab = UiUtils.objectWithDescription("Roulotte du Soleil")
         kebab.click()
         onView(withId(R.id.map)).perform(click())
