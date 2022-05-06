@@ -142,7 +142,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -158,7 +158,7 @@ class ReviewListFragmentTest {
         ).check(
             matches(
                 allOf(
-                    withDrawable(R.drawable.fake_profile_picture),
+                    withDrawable(R.raw.fake_profile_picture),
                     isDisplayed()
                 )
             )
@@ -173,7 +173,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -199,7 +199,7 @@ class ReviewListFragmentTest {
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -220,14 +220,14 @@ class ReviewListFragmentTest {
     }
 
     @Test
-    fun pannelDisplaysCorrectUserProfileInformation() {
+    fun panelDisplaysCorrectUserProfileInformation() {
         val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -244,6 +244,6 @@ class ReviewListFragmentTest {
         // checks if the informations are correct
         onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
         onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
-        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.drawable.fake_profile_picture)))
+        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))
     }
 }

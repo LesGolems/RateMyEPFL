@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -44,6 +45,7 @@
         app:backgroundTint="@color/purple_700"
         app:icon="@drawable/ic_login_black_24dp"
         app:iconTint="@color/white"
-        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button" />
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

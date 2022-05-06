@@ -36,11 +36,11 @@ class RoomReviewPictureFragmentTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
+
     @get:Rule(order = 1)
     val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.CAMERA,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
+        Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
     @Before
@@ -107,5 +107,4 @@ class RoomReviewPictureFragmentTest {
     fun startCamera() {
         onView(withId(R.id.capturePhotoFAB)).perform(click())
     }
-
 }

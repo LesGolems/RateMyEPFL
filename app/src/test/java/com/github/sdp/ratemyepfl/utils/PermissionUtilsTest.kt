@@ -34,7 +34,7 @@ class PermissionUtilsTest {
     }
 
     @Test
-    fun doNotgrantPermissionForPermissionDeniedInTheArray() {
+    fun doNotGrantPermissionForPermissionDeniedInTheArray() {
         val grantPermissions: Array<String> = arrayOf("permission")
         val grantResults: IntArray = arrayOf(PackageManager.PERMISSION_DENIED)
             .toIntArray()
