@@ -89,10 +89,6 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
         var reviewList = fakeList
     }
 
-    override suspend fun addAndGetId(item: Review): String {
-        return "generated Id"
-    }
-
     override suspend fun getReviews(): List<Review> {
         return reviewList
     }
