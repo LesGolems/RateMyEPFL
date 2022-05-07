@@ -115,15 +115,15 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
     }
 
     override suspend fun removeUpVote(reviewId: String, userId: String) {
-        reviewList[0].likers = listOf(FAKE_UID_1)
+        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2)
     }
 
     override suspend fun addDownVote(reviewId: String, userId: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
+        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4, userId)
     }
 
     override suspend fun removeDownVote(reviewId: String, userId: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_4)
+        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4)
     }
 
     override suspend fun take(number: Long): QuerySnapshot =
