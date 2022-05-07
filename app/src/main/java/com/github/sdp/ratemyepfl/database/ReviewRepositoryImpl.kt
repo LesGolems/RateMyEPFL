@@ -114,7 +114,9 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
 
     override suspend fun addUpVote(reviewId: String, userId: String) {
         repository.update(reviewId) { review ->
-            review.copy(likers = review.likers.plus(userId))
+            if (!review.likers.contains(userId))
+                review.copy(likers = review.likers.plus(userId))
+            else review
         }.await()
     }
 
@@ -126,7 +128,9 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
 
     override suspend fun addDownVote(reviewId: String, userId: String) {
         repository.update(reviewId) { review ->
-            review.copy(dislikers = review.dislikers.plus(userId))
+            if (!review.dislikers.contains(userId)) {
+                review.copy(dislikers = review.dislikers.plus(userId))
+            } else review
         }.await()
     }
 
