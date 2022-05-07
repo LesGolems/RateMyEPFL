@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +15,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +29,7 @@ open class DrawerActivity : AppCompatActivity() {
     protected lateinit var bottomNavigationView: BottomNavigationView
     protected lateinit var drawerView: NavigationView
 
-    private val profileViewModel: UserProfileViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,27 +68,29 @@ open class DrawerActivity : AppCompatActivity() {
         val pic: CircleImageView = headerView.findViewById(R.id.pictureDrawer)
         val username: TextView = headerView.findViewById(R.id.usernameDrawer)
         val email: TextView = headerView.findViewById(R.id.emailDrawer)
+        val karmaCount: TextView = headerView.findViewById(R.id.karmaCount)
+        val golemLayout: ConstraintLayout = headerView.findViewById(R.id.coinDisplay)
 
-        profileViewModel.picture.observe(this) {
+        userViewModel.isUserLoggedIn.observe(this){
+            golemLayout.isVisible = it
+        }
+        userViewModel.user.observe(this) {
+            if(it != null){
+                karmaCount.text = it.karma.toString()
+                username.text = it.username
+                email.text = it.email
+            }
+        }
+
+        userViewModel.picture.observe(this) {
             pic.setImageBitmap(it?.data)
-        }
-        profileViewModel.username.observe(this) {
-            username.text = it
-        }
-        profileViewModel.email.observe(this) {
-            email.text = it
         }
     }
 
     protected fun setUpLoginLogout() {
-        profileViewModel.isUserLoggedIn.observe(this) { loggedIn ->
-            if (loggedIn) {
-                drawerView.menu.findItem(R.id.login).isVisible = false
-                drawerView.menu.findItem(R.id.logout).isVisible = true
-            } else {
-                drawerView.menu.findItem(R.id.login).isVisible = true
-                drawerView.menu.findItem(R.id.logout).isVisible = false
-            }
+        userViewModel.isUserLoggedIn.observe(this) { loggedIn ->
+            drawerView.menu.findItem(R.id.login).isVisible = !(loggedIn)
+            drawerView.menu.findItem(R.id.logout).isVisible = loggedIn
         }
 
         drawerView.menu.findItem(R.id.login).setOnMenuItemClickListener {
@@ -94,9 +99,14 @@ open class DrawerActivity : AppCompatActivity() {
         }
 
         drawerView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
-            profileViewModel.signOut(this)
+            userViewModel.signOut(this)
             true
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.refreshUser()
     }
 
 }

@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapDocuments
 import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -35,8 +37,8 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         const val USER_UID_FIELD_NAME = "uid"
         const val USERNAME_FIELD_NAME = "username"
         const val EMAIL_FIELD_NAME = "email"
-        const val PICTURE_FIELD_NAME = "picture"
         const val TIMETABLE_FIELD_NAME = "timetable"
+        const val KARMA_FIELD_NAME = "karma"
 
         fun DocumentSnapshot.toUser(): User? {
             val timetable = getString(TIMETABLE_FIELD_NAME)?.let {
@@ -47,6 +49,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
                     uid = getString(USER_UID_FIELD_NAME),
                     username = getString(USERNAME_FIELD_NAME),
                     email = getString(EMAIL_FIELD_NAME),
+                    karma = getField<Int>(KARMA_FIELD_NAME),
                     timetable = timetable
                 ).build()
             } catch (e: IllegalStateException) {
@@ -98,12 +101,16 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
+    override fun updateKarma(uid: String, inc: Int): Task<Transaction> =
+        update(uid) {
+            it.copy(karma = it.karma + inc)
+        }
+
     override suspend fun register(user: User): Task<Boolean> =
         if (getUserByUid(user.getId()) == null) {
             repository.add(user).continueWith { false }
         } else {
             Tasks.forResult(true)
         }
-
 
 }
