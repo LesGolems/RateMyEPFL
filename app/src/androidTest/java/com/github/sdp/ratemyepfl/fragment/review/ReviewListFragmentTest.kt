@@ -223,6 +223,30 @@ class ReviewListFragmentTest {
 
     @Test
     fun likeThenLikeReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
+
+
         FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
         likeReview(0)
         Thread.sleep(1000) // Let the list refresh
@@ -231,7 +255,28 @@ class ReviewListFragmentTest {
 
     @Test
     fun dislikeThenDislikeReview() {
-        FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
         dislikeReview(0)
         Thread.sleep(1000) // Let the list refresh
         dislikeReview(0)
@@ -239,7 +284,28 @@ class ReviewListFragmentTest {
 
     @Test
     fun likeThenDislikeReview() {
-        FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
         likeReview(0)
         Thread.sleep(1000) // Let the list refresh
         dislikeReview(0)
@@ -247,7 +313,28 @@ class ReviewListFragmentTest {
 
     @Test
     fun dislikeThenLikeReview() {
-        FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
         dislikeReview(0)
         Thread.sleep(1000) // Let the list refresh
         likeReview(0)
