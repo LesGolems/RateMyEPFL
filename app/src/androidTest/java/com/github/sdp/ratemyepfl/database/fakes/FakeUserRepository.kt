@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
@@ -14,6 +15,9 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
 
     companion object {
+        val timetable: ArrayList<Class> =
+            arrayListOf<Class>(Class(1, "Bamboula", "René", "bc", 0, 10, 12),
+                Class(2,"pain","singe","in",1,8,14))
         val UID1 = "56789"
         val UID2 = "18189"
         val UID3 = "30220"
@@ -33,7 +37,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
                 "Celestin.Renaut@gmail.com",
                 timetable = ArrayList<Class>()
             ),
-            UID4 to User("12345", "John Smith", "john@example.com", timetable = ArrayList<Class>())
+            UID4 to User("12345", "John Smith", "john@example.com", timetable = timetable)
         )
     }
 

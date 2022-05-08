@@ -1,15 +1,15 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.github.sdp.ratemyepfl.activity.HiltTestActivity
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
-import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.utils.TabAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,7 +18,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class TimetableFragmentTest {
+class DayFragmentTest {
     lateinit var scenario: ActivityScenario<HiltTestActivity>
 
     @get:Rule
@@ -28,26 +28,14 @@ class TimetableFragmentTest {
     @Before
     fun setUp() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        scenario = HiltUtils.launchFragmentInHiltContainer<TimetableFragment> { }
+        HiltUtils.launchFragmentInHiltContainer<DayFragment> { }
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun loadsDayFragment() {
-        TabAction.selectTab(DayFragment.DAYS.MONDAY.day)
-        checkDay(0)
+    fun recyclerViewDisplayed() {
+        onRecyclerView().check(matches(isDisplayed()))
     }
 
-    private fun checkDay(day: Int) {
-        onView(
-            withText(
-                FakeUserRepository.timetable[0].name
-            )
-        ).check(
-            matches(
-                ViewMatchers.isDisplayed()
-            )
-        )
-    }
-
+    fun onRecyclerView(): ViewInteraction = onView(isAssignableFrom(RecyclerView::class.java))
 }
