@@ -17,6 +17,7 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
+import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel.Companion.NO_GRADE_MESSAGE
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +71,10 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         reviewIndicationTitle.text = getString(R.string.title_review, addReviewViewModel.id)
 
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
-            scoreTextView.text = getString(R.string.overall_score_review)
+            scoreTextView.text = getString(
+                R.string.overall_score_review,
+                rating?.toString() ?: NO_GRADE_MESSAGE
+            )
         }
 
         setupListeners()
@@ -113,11 +117,9 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         } catch (mie: MissingInputException) {
             if (title.text.isNullOrEmpty()) {
                 title.error = mie.message
-            }
-            else if (comment.text.isNullOrEmpty()) {
+            } else if (comment.text.isNullOrEmpty()) {
                 comment.error = mie.message
-            }
-            else {
+            } else {
                 displayOnSnackbar(mie.message)
             }
         }
@@ -130,7 +132,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                 .show()
         }
     }
-    
+
     /**
      * Once a review is submitted all the information are reset to default
      */

@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import android.util.Log
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
@@ -90,7 +89,6 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
         if (getGradeInfoById(id) == null) {
             repository.add(GradeInfo(id)).await()
         }
-        Log.d("fnuf", "opgjopfopfpofop")
 
         return repository.update(id) {
             val newData = it.reviewsData.plus(
