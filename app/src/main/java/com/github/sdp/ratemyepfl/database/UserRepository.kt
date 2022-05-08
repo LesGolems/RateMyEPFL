@@ -28,6 +28,6 @@ interface UserRepository {
     /**
      * Updates the karma of user with [uid]
      */
-    fun updateKarma(uid: String, inc: Int): Task<Transaction>
+    suspend fun updateKarma(uid: String?, inc: Int)
 
 }

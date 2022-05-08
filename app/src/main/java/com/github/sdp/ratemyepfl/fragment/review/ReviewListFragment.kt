@@ -11,19 +11,21 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
-import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
-import com.github.sdp.ratemyepfl.exceptions.VoteException
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import javax.inject.Inject
 
 /*
 Fragment for the list of reviews, shared among all reviewed items
  */
+@AndroidEntryPoint
 class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var reviewAdapter: ReviewAdapter
     private lateinit var recyclerView: RecyclerView
@@ -34,6 +36,9 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     private lateinit var authorPanelEmail: TextView
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
+
+    @Inject
+    lateinit var connectedUser: ConnectedUser
 
     // Gets the shared view model
     private val viewModel by activityViewModels<ReviewListViewModel>()
@@ -56,9 +61,9 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
 
-        reviewAdapter = ReviewAdapter(
-            getListener { r, s -> viewModel.updateLikes(r, s) },
-            getListener { r, s -> viewModel.updateDislikes(r, s) }
+        reviewAdapter = ReviewAdapter(connectedUser,
+            getListener { r, s -> viewModel.updateUpVotes(r, s) },
+            getListener { r, s -> viewModel.updateDownVotes(r, s) }
         ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
         recyclerView.adapter = reviewAdapter
@@ -81,10 +86,10 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
      * Creates the onClickListener from the function given as input, encapsulating it in a
      * try catch to display the error message as SnackBar
      */
-    private fun getListener(f : (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
+    private fun getListener(f: (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
         try {
             f(rwa.review, rwa.author?.uid)
-        } catch (e : Exception){
+        } catch (e: Exception) {
             e.message?.let {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
                     .setAnchorView(R.id.reviewBottomNavigationView)
