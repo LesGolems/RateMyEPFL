@@ -23,7 +23,7 @@ class ClassTest {
         val c = Class(0, "ML", "Jean-Kevin Bite Lavoisier", "INF", 0, 10, 12)
         assertEquals(0, c.id)
         assertEquals("ML", c.name)
-        assertEquals("Singe", c.teacher)
+        assertEquals("Jean-Kevin Bite Lavoisier", c.teacher)
         assertEquals("INF", c.room)
         assertEquals(0, c.day)
         assertEquals(10, c.start)
