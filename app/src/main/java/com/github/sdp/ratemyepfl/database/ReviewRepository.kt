@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.Transaction
 
 interface ReviewRepository : Repository<Review> {
 
@@ -34,27 +32,13 @@ interface ReviewRepository : Repository<Review> {
      */
     suspend fun getByReviewableId(id: String?): List<Review>
 
-    @Deprecated(
-        "Use the corresponding voting methods", ReplaceWith(
-            "addUpvote() or addDownVote()"
-        )
-    )
-    suspend fun addUidInArray(fieldName: String, id: String, uid: String)
-
-    @Deprecated(
-        "Use the corresponding voting methods", ReplaceWith(
-            "removeUpvote() or removeDownVote()"
-        )
-    )
-    suspend fun removeUidInArray(fieldName: String, id: String, uid: String)
-
     /**
      * Adds an up vote from [userId] to the review with id [reviewId]. If the user
      *
      * @param reviewId: id of the review
      * @param userId: id of the user that adds the upvote
      */
-    fun addUpVote(reviewId: String, userId: String): Task<Transaction>
+    suspend fun addUpVote(reviewId: String, userId: String)
 
     /**
      * Remove an up vote from [userId] to the review with id [reviewId]. A user can only add one
@@ -63,7 +47,7 @@ interface ReviewRepository : Repository<Review> {
      * @param reviewId: id of the review
      * @param userId: id of the user that remove the upvote
      */
-    fun removeUpVote(reviewId: String, userId: String): Task<Transaction>
+    suspend fun removeUpVote(reviewId: String, userId: String)
 
     /**
      * Adds a down vote from [userId] to the review with id [reviewId]. A user can only remove a
@@ -72,7 +56,7 @@ interface ReviewRepository : Repository<Review> {
      * @param reviewId: id of the review
      * @param userId: id of the user that adds the down vote
      */
-    fun addDownVote(reviewId: String, userId: String): Task<Transaction>
+    suspend fun addDownVote(reviewId: String, userId: String)
 
     /**
      * Remove a down vote from [userId] to the review with id [reviewId]
@@ -80,5 +64,5 @@ interface ReviewRepository : Repository<Review> {
      * @param reviewId: id of the review
      * @param userId: id of the user that adds the down vote
      */
-    fun removeDownVote(reviewId: String, userId: String): Task<Transaction>
+    suspend fun removeDownVote(reviewId: String, userId: String)
 }

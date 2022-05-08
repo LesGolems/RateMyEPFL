@@ -112,43 +112,31 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
             .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
     }
 
-    override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        when (fieldName) {
-            LIKERS_FIELD_NAME -> addUpVote(id, uid).await()
-            DISLIKERS_FIELD_NAME -> addDownVote(id, uid).await()
-            else -> throw DatabaseException("$fieldName is not an Array")
-        }
-    }
-
-    override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        when (fieldName) {
-            LIKERS_FIELD_NAME -> removeUpVote(id, uid).await()
-            DISLIKERS_FIELD_NAME -> removeDownVote(id, uid).await()
-            else -> throw DatabaseException("$fieldName is not an Array")
-        }
-    }
-
-    override fun addUpVote(reviewId: String, userId: String) = repository
-        .update(reviewId) { review ->
+    override suspend fun addUpVote(reviewId: String, userId: String) {
+        repository.update(reviewId) { review ->
             if (!review.likers.contains(userId))
                 review.copy(likers = review.likers.plus(userId))
             else review
-        }
+        }.await()
+    }
 
-    override fun removeUpVote(reviewId: String, userId: String) = repository
-        .update(reviewId) { review ->
+    override suspend fun removeUpVote(reviewId: String, userId: String) {
+        repository.update(reviewId) { review ->
             review.copy(likers = review.likers.minus(userId))
-        }
+        }.await()
+    }
 
-    override fun addDownVote(reviewId: String, userId: String) = repository
-        .update(reviewId) { review ->
+    override suspend fun addDownVote(reviewId: String, userId: String) {
+        repository.update(reviewId) { review ->
             if (!review.dislikers.contains(userId)) {
                 review.copy(dislikers = review.dislikers.plus(userId))
             } else review
-        }
+        }.await()
+    }
 
-    override fun removeDownVote(reviewId: String, userId: String) = repository
-        .update(reviewId) { review ->
+    override suspend fun removeDownVote(reviewId: String, userId: String) {
+        repository.update(reviewId) { review ->
             review.copy(dislikers = review.dislikers.minus(userId))
-        }
+        }.await()
+    }
 }

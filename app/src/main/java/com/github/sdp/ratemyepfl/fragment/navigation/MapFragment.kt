@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -10,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -40,11 +40,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     ClusterManager.OnClusterItemClickListener<MapItem>,
     ClusterManager.OnClusterItemInfoWindowClickListener<MapItem> {
 
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 1
-    }
-
-    private var permissionDenied = false
+    private var permissionDenied = true
     private lateinit var map: GoogleMap
     private lateinit var rClusterManager: ClusterManager<MapItem>
     private lateinit var slidingLayout: SlidingUpPanelLayout
@@ -54,6 +50,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
 
     private val restaurantViewModel: RestaurantListViewModel by viewModels()
     private val eventListViewModel: EventListViewModel by viewModels()
+
+    private lateinit var locationPermissionLauncher: ActivityResultLauncher<Array<String>>
 
     /**
      * Renderer of an item in the Restaurant cluster
@@ -98,6 +96,14 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         photoView = view.findViewById(R.id.photoClusterItem)
         slidingLayout = view.findViewById(R.id.sliding_map)
         slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+
+        @SuppressLint("MissingPermission")
+        locationPermissionLauncher = PermissionUtils.requestPermissionLauncher(
+            {
+                map.isMyLocationEnabled = true
+                permissionDenied = false
+            }, this, requireContext()
+        )
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -197,20 +203,15 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            map.isMyLocationEnabled = true
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSION_REQUEST_CODE
-            )
-        }
+        PermissionUtils.startPhoneFeature(
+            {
+                map.isMyLocationEnabled = true
+                permissionDenied = false
+            },
+            locationPermissionLauncher,
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     override fun onMyLocationButtonClick(): Boolean {
@@ -224,27 +225,6 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
             requireContext(), "Latitude: ${location.latitude}\nLongitude: ${location.longitude}",
             Toast.LENGTH_LONG
         ).show()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode != PERMISSION_REQUEST_CODE) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            return
-        }
-        if (PermissionUtils.isPermissionGranted(
-                permissions,
-                grantResults,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        ) {
-            enableMyLocation()
-        } else {
-            permissionDenied = true
-        }
     }
 
     override fun onResume() {

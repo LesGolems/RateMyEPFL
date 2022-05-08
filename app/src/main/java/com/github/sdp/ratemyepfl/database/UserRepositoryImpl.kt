@@ -15,6 +15,7 @@ import com.google.firebase.firestore.Transaction
 import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -101,10 +102,12 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         return repository.update(id, transform)
     }
 
-    override fun updateKarma(uid: String, inc: Int): Task<Transaction> =
+    override suspend fun updateKarma(uid: String?, inc: Int) {
+        if (uid == null) return
         update(uid) {
             it.copy(karma = it.karma + inc)
-        }
+        }.await()
+    }
 
     override suspend fun register(user: User): Task<Boolean> =
         if (getUserByUid(user.getId()) == null) {

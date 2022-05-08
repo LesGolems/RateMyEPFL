@@ -29,13 +29,12 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.*
+import org.junit.runners.MethodSorters
 import java.time.LocalDate
 
 @HiltAndroidTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
 
@@ -46,7 +45,8 @@ class ReviewListFragmentTest {
     fun setUp() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any
+        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
+        // can be any
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
@@ -58,122 +58,69 @@ class ReviewListFragmentTest {
         scenario.close()
     }
 
-    @Test
-    fun listIsVisible() {
-        onView(withId(R.id.reviewRecyclerView))
-            .check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun swipeRefreshes() {
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
-                .setRating(ReviewRating.EXCELLENT)
-                .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
-                .build()
-        )
-        Thread.sleep(2000) // if no wait, the new list is direclty displayed
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
-        onView(withId(R.id.reviewRecyclerView))
-            .check(matches(hasChildCount(1)))
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
-        onView(withId(R.id.reviewRecyclerView))
-            .check(matches(not(hasChildCount(1))))
-    }
-
-    @Test
-    fun addThenRemoveLikeToReview() {
+    /**
+     * Like the ([position]+1)-th review
+     */
+    private fun likeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
             actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
-                0,
-                clickOnViewChild(R.id.likeButton).also {
-                    clickOnViewChild(R.id.likeButton)
-                }
+                position,
+                clickOnViewChild(R.id.likeButton)
             )
         )
     }
 
-    @Test
-    fun likeWhenNotConnected() {
-        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
-        scenario = ActivityScenario.launch(intent)
-
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+    /**
+     * Dislike the ([position]+1)-th review
+     */
+    private fun dislikeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
             actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
-                0,
+                position,
                 clickOnViewChild(R.id.dislikeButton)
-        ))
-    }
-
-    @Test
-    fun addThenRemoveDislikeToReview() {
-        onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
-                0,
-                clickOnViewChild(R.id.dislikeButton).also {
-                    clickOnViewChild(R.id.dislikeButton)
-                }
             )
         )
     }
 
+    // 'a' to run this test first
     @Test
-    fun usernamesOfAuthorsAreDisplayed() {
-        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
-        val username2 = FakeUserRepository.userMap[FakeUserRepository.UID2]?.username
-        val username3 = FakeUserRepository.userMap[FakeUserRepository.UID3]?.username
-        onView(withText(username1)).check(matches(isDisplayed()))
-        onView(withText(username2)).check(matches(isDisplayed()))
-        onView(withText(username3)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun profilePicturesOfAuthorsAreDisplayed() {
-        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+    fun aPanelDisplaysCorrectUserProfileInformation() {
+        val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
-        // then check if displayed
+        // click on profile
         onView(
             hasSibling(
                 allOf(
                     withId(R.id.author_username),
-                    withText(username1)
+                    withText(user?.username)
                 )
             )
-        ).check(
-            matches(
-                allOf(
-                    withDrawable(R.drawable.fake_profile_picture),
-                    isDisplayed()
-                )
-            )
-        )
+        ).perform(click())
+        // checks if the informations are correct
+        onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
+        onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
+        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))
     }
 
+    // 'a' to run this test first
     @Test
-    fun profilePanelDisplayedWhenAuthorIsClicked() {
+    fun aProfilePanelDisplayedWhenAuthorIsClicked() {
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -191,15 +138,16 @@ class ReviewListFragmentTest {
         onView(withId(R.id.author_profile_panel)).check(matches(isExpanded()))
     }
 
+    // 'a' to run this test first
     @Test
-    fun profilePanelIsHiddenWhenClickingOutside() {
+    fun aProfilePanelIsHiddenWhenClickingOutside() {
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
@@ -219,31 +167,254 @@ class ReviewListFragmentTest {
         onView(withId(R.id.author_profile_panel)).check(matches(isHidden()))
     }
 
+    // 'a' to run this test first
     @Test
-    fun pannelDisplaysCorrectUserProfileInformation() {
-        val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
+    fun aProfilePicturesOfAuthorsAreDisplayed() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
             FakeUserRepository.UID1,
             ImageFile(
                 "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.drawable.fake_profile_picture)
+                resourceToBitmap(R.raw.fake_profile_picture)
             )
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
-        // click on profile
+        // then check if displayed
         onView(
             hasSibling(
                 allOf(
                     withId(R.id.author_username),
-                    withText(user?.username)
+                    withText(username1)
                 )
             )
-        ).perform(click())
-        // checks if the informations are correct
-        onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
-        onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
-        onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.drawable.fake_profile_picture)))
+        ).check(
+            matches(
+                allOf(
+                    withDrawable(R.raw.fake_profile_picture),
+                    isDisplayed()
+                )
+            )
+        )
+    }
+
+    @Test
+    fun listIsVisible() {
+        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun swipeRefreshes() {
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .build()
+        )
+        Thread.sleep(2000) // if no wait, the new list is direclty displayed
+        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
+        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.reviewRecyclerView)).check(matches(not(hasChildCount(1))))
+    }
+
+    @Test
+    fun likeThenLikeReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
+
+
+        FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
+        likeReview(0)
+        Thread.sleep(1000) // Let the list refresh
+        likeReview(0)
+    }
+
+    @Test
+    fun dislikeThenDislikeReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
+        dislikeReview(0)
+        Thread.sleep(1000) // Let the list refresh
+        dislikeReview(0)
+    }
+
+    @Test
+    fun likeThenDislikeReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
+        likeReview(0)
+        Thread.sleep(1000) // Let the list refresh
+        dislikeReview(0)
+    }
+
+    @Test
+    fun dislikeThenLikeReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setLikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_1,
+                        FakeReviewsRepository.FAKE_UID_2
+                    )
+                )
+                .setDislikers(
+                    listOf(
+                        FakeReviewsRepository.FAKE_UID_3,
+                        FakeReviewsRepository.FAKE_UID_4
+                    )
+                )
+                .setUid(FakeUserRepository.UID1)
+                .build()
+        )
+        dislikeReview(0)
+        Thread.sleep(1000) // Let the list refresh
+        likeReview(0)
+    }
+
+    @Test
+    fun likeWhenNotConnected() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(
+            ReviewActivity.EXTRA_MENU_ID,
+            R.menu.bottom_navigation_menu_course_review
+        ) // can be any
+        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        scenario = ActivityScenario.launch(intent)
+
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        likeReview(0)
+    }
+
+    @Test
+    fun dislikeWhenNotConnected() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        intent.putExtra(
+            ReviewActivity.EXTRA_MENU_ID,
+            R.menu.bottom_navigation_menu_course_review
+        ) // can be any
+        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        scenario = ActivityScenario.launch(intent)
+
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        dislikeReview(0)
+    }
+
+    @Test
+    fun usernamesOfAuthorsAreDisplayed() {
+        val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
+        val username2 = FakeUserRepository.userMap[FakeUserRepository.UID2]?.username
+        val username3 = FakeUserRepository.userMap[FakeUserRepository.UID3]?.username
+        onView(withText(username1)).check(matches(isDisplayed()))
+        onView(withText(username2)).check(matches(isDisplayed()))
+        onView(withText(username3)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun likeItsOwnReviewThrowsException() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setUid(FakeConnectedUser.fakeUser1.uid)
+                .build()
+        )
+
+        likeReview(0)
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText("You can't like your own review")))
+    }
+
+    @Test
+    fun dislikeItsOwnReviewThrowsException() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setUid(FakeConnectedUser.fakeUser1.uid)
+                .build()
+        )
+
+        dislikeReview(0)
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText("You can't dislike your own review")))
     }
 }

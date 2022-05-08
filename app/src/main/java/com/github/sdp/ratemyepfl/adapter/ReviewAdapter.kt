@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
+import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(
+    val connectedUser: ConnectedUser,
     val likeListener: OnClickListener,
     val dislikeListener: OnClickListener,
     val profileClickListener: OnClickListener
@@ -49,29 +51,47 @@ class ReviewAdapter(
 
         fun bind(reviewWithAuthor: ReviewWithAuthor) {
             review = reviewWithAuthor.review
-            val author = reviewWithAuthor.author
-            val image = reviewWithAuthor.image
 
             titleView.text = review.title
             rateView.text = review.rating.toString()
             commentView.text = review.comment
             dateView.text = review.date.toString()
 
+            /* ==================== Like and dislike ==================== */
             likesTextView.text = review.likers.size.toString()
             dislikesTextView.text = review.dislikers.size.toString()
 
-            /* Dislike button logic */
             dislikeButton.setOnClickListener {
                 dislikeListener.onClick(reviewWithAuthor)
             }
 
-            /* Like button logic */
             likeButton.setOnClickListener {
                 likeListener.onClick(reviewWithAuthor)
             }
 
-            authorUsername.setText(author?.username.orEmpty())
-            authorProfilePicture.setOnClickListener { profileClickListener.onClick(reviewWithAuthor) }
+            likeButton.setImageResource(R.drawable.ic_like)
+            dislikeButton.setImageResource(R.drawable.ic_dislike)
+
+            val uid = connectedUser.getUserId()
+            if (uid != null) {
+                // The user liked the review
+                if (reviewWithAuthor.review.likers.contains(uid)) {
+                    likeButton.setImageResource(R.drawable.ic_like_toggled)
+                }
+                // The user disliked the review
+                if (reviewWithAuthor.review.dislikers.contains(uid)) {
+                    dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
+                }
+            }
+
+            /* ==================== Author information ==================== */
+            val author = reviewWithAuthor.author
+            val image = reviewWithAuthor.image
+
+            authorUsername.text = author?.username.orEmpty()
+            authorProfilePicture.setOnClickListener {
+                profileClickListener.onClick(reviewWithAuthor)
+            }
             authorProfilePicture.setImageBitmap(image?.data)
         }
     }
