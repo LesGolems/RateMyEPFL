@@ -5,6 +5,13 @@ import com.github.sdp.ratemyepfl.model.review.Review
 interface ReviewRepository : Repository<Review> {
 
     /**
+     * Add a [Review] with an auto-generated ID, and returns this ID
+     *
+     * @param item: the [Review] to add
+     */
+    suspend fun addAndGetId(item: Review): String
+
+    /**
      * Retrieve the reviews from the repository
      *
      * @return a list of non-null reviews

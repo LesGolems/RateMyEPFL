@@ -42,8 +42,6 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val name = getString(NAME_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val long = getDouble(LONGITUDE_FIELD_NAME)
-            val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
-            val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
             val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
             val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
             val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>
@@ -51,8 +49,6 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             return try {
                 Event.Builder(
                     name,
-                    numReviews,
-                    averageGrade,
                     numParticipants,
                     limitParticipants,
                     participants,
@@ -95,14 +91,4 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         return success
     }
 
-
-    override suspend fun updateEventRating(id: String, rating: ReviewRating) {
-        repository.update(id) { event ->
-            val (updatedNumReview, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
-                event,
-                rating
-            )
-            event.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
-        }.await()
-    }
 }

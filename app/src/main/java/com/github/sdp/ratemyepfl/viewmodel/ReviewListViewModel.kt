@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
@@ -25,6 +26,7 @@ import javax.inject.Inject
 open class ReviewListViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
     private val userRepo: UserRepository,
+    private val gradeInfo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -69,16 +71,19 @@ open class ReviewListViewModel @Inject constructor(
                 // Remove a dislike
                 reviewRepo.removeDownVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, 1)
+                gradeInfo.updateLikeRatio(review.reviewableId, reviewId, 1)
             } else {
                 // The user dislikes for the first time
                 if (review.likers.contains(uid)) {
                     // The user changed from like to dislike
                     reviewRepo.removeUpVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, -1)
+                    gradeInfo.updateLikeRatio(review.reviewableId, reviewId, -1)
                 }
                 // Add a dislike
                 reviewRepo.addDownVote(review.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
+                gradeInfo.updateLikeRatio(review.reviewableId, reviewId, -1)
             }
             updateReviewsList()
         }
@@ -95,16 +100,19 @@ open class ReviewListViewModel @Inject constructor(
                 // Remove a like
                 reviewRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
+                gradeInfo.updateLikeRatio(review.reviewableId, reviewId, -1)
             } else {
                 // The user likes for the first time
                 if (review.dislikers.contains(uid)) {
                     // The user changed from dislike to like
                     reviewRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
+                    gradeInfo.updateLikeRatio(review.reviewableId, reviewId, 1)
                 }
                 // Add a like
                 reviewRepo.addUpVote(review.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
+                gradeInfo.updateLikeRatio(review.reviewableId, reviewId, 1)
             }
             updateReviewsList()
         }

@@ -8,7 +8,7 @@ import org.junit.Test
 class RestaurantItemTest {
     private val LATLNG = LatLng(46.52, 6.569)
     private val NAME = "Arcadie"
-    private val RESTAURANT = Restaurant(NAME, 0, LATLNG.latitude, LATLNG.longitude, 0, 0.0)
+    private val RESTAURANT = Restaurant(NAME, 0, LATLNG.latitude, LATLNG.longitude)
     private val RESTAURANT_ITEM = RestaurantItem(RESTAURANT, R.raw.arcadie, null)
 
     @Test

@@ -19,11 +19,4 @@ interface CourseRepository : SearchableRepository<Course> {
      */
     suspend fun getCourseById(id: String): Course?
 
-    /**
-     * Updates the rating of the course using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateCourseRating(id: String, rating: ReviewRating)
 }

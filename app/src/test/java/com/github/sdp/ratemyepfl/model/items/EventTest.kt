@@ -14,7 +14,7 @@ class EventTest {
     private val SHOW_PARTICIPANTS = "Participants: 64/70"
     private val DATE = LocalDateTime.now()
     private val EXPECTED_EVENT = Event(
-        ID, 10, 4.0,
+        ID,
         64, 70, listOf(USER_ID), 46.52, 6.569, DATE
     )
     private val EXPECTED_HASH_MAP = hashMapOf(
@@ -24,17 +24,13 @@ class EventTest {
         EventRepositoryImpl.PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.participants,
         EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
-        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
-        ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to EXPECTED_EVENT.numReviews,
-        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.averageGrade
+        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString()
     )
 
     @Test
     fun defaultConstructorWorks() {
         val e = EXPECTED_EVENT
         assertEquals(ID, e.name)
-        assertEquals(10, e.numReviews)
-        assertEquals(4.0, e.averageGrade, 0.01)
         assertEquals(64, e.numParticipants)
         assertEquals(70, e.limitParticipants)
         assertEquals(listOf(USER_ID), e.participants)
@@ -60,8 +56,6 @@ class EventTest {
     @Test
     fun builderThrowsForMissingId() {
         val builder = Event.Builder()
-            .setNumReviews(10)
-            .setAverageGrade(4.0)
             .name(null)
 
         assertThrows(IllegalStateException::class.java) {
@@ -76,18 +70,15 @@ class EventTest {
         val long = 0.0
         val builder = Event.Builder()
             .name(fake)
-            .setNumReviews(10)
-            .setAverageGrade(4.0)
             .setLat(lat)
             .setLong(long)
             .setDate(DATE)
             .setLimitParticipants(70)
 
         val event = builder.build()
-        val expected = Event(fake, 10, 4.0, 0, 70, listOf(), lat, long, DATE)
+        val expected = Event(fake, 0, 70, listOf(), lat, long, DATE)
         assertEquals(event.name, expected.name)
-        assertEquals(event.numReviews, expected.numReviews)
-        assertEquals(event.averageGrade, expected.averageGrade, 0.01)
+
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
         assertEquals(event.date, expected.date)

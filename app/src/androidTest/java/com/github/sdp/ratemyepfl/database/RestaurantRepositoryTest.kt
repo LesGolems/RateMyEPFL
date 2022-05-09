@@ -26,7 +26,7 @@ import javax.inject.Inject
 class RestaurantRepositoryTest {
     private val testRestaurant = Restaurant(
         "Fake id", 1, 0.0,
-        0.0, 0, 0.0
+        0.0
     )
 
     @get:Rule
@@ -78,18 +78,6 @@ class RestaurantRepositoryTest {
     }
 
     @Test
-    fun updateRestaurantRatingWorks() {
-        runTest {
-            restaurantRepo.updateRestaurantRating(testRestaurant.name, ReviewRating.EXCELLENT)
-            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
-            assertNotNull(restaurant)
-            assertEquals(testRestaurant.name, restaurant!!.name)
-            assertEquals(1, restaurant.numReviews)
-            assertEquals(5.0, restaurant.averageGrade, 0.1)
-        }
-    }
-
-    @Test
     fun occupancyWorks() {
         runTest {
             restaurantRepo.incrementOccupancy(testRestaurant.name)
@@ -131,8 +119,6 @@ class RestaurantRepositoryTest {
         val restaurant = snapshot.toRestaurant()
         val fakeRestaurant = Restaurant.Builder()
             .setName(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
             .setOccupancy(0)

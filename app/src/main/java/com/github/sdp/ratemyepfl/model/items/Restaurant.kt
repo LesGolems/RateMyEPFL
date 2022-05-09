@@ -12,8 +12,6 @@ data class Restaurant(
     val occupancy: Int,
     val lat: Double,
     val long: Double,
-    override val numReviews: Int,
-    override val averageGrade: Double,
 ) : Reviewable(), Displayable {
 
     companion object {
@@ -30,12 +28,12 @@ data class Restaurant(
      * Creates an hash map of the Restaurant, to add it to the DB
      */
     override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
+        return hashMapOf(
             RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME to name,
             RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy,
             RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat,
             RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long,
-        ).apply { putAll(super.toHashMap()) }
+        )
     }
 
     override fun toMapItem(): MapItem {
@@ -58,22 +56,12 @@ data class Restaurant(
         private var name: String? = null,
         private var occupancy: Int? = 0,
         private var lat: Double? = null,
-        private var long: Double? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
+        private var long: Double? = null
     ) : ReviewableBuilder<Restaurant> {
 
 
         fun setName(name: String?) = apply {
             this.name = name
-        }
-
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
         }
 
         fun setLat(lat: Double?) = apply {
@@ -90,12 +78,10 @@ data class Restaurant(
 
         override fun build(): Restaurant {
             val name = this asMandatory name
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
             val occupancy = this asMandatory occupancy
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(name, occupancy, lat, long, numReviews, averageGrade)
+            return Restaurant(name, occupancy, lat, long)
         }
     }
 

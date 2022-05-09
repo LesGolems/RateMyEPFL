@@ -31,7 +31,7 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
-        "Fake id", 0, 0.0, 0,
+        "Fake id", 0,
         1, listOf(), 0.0, 0.0, LocalDateTime.now()
     )
 
@@ -98,18 +98,6 @@ class EventRepositoryTest {
     }
 
     @Test
-    fun updateEventRatingWorks() {
-        runTest {
-            eventRepo.updateEventRating(testEvent.getId(), ReviewRating.EXCELLENT)
-            val event = eventRepo.getEventById(testEvent.getId())
-            assertNotNull(event)
-            assertEquals(testEvent.getId(), event!!.getId())
-            assertEquals(1, event.numReviews)
-            assertEquals(5.0, event.averageGrade, 0.1)
-        }
-    }
-
-    @Test
     fun returnsAnEventForCompleteSnapshot() {
         val fake = "fake"
         val lat = 0.0
@@ -139,8 +127,6 @@ class EventRepositoryTest {
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()
             .name(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
             .setNumParticipants(numParticipants)
@@ -149,8 +135,6 @@ class EventRepositoryTest {
             .setDate(date)
             .build()
         assertEquals(event.name, expected.name)
-        assertEquals(event.numReviews, expected.numReviews)
-        assertEquals(event.averageGrade, expected.averageGrade, 0.01)
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
         assertEquals(event.date, expected.date)

@@ -51,6 +51,21 @@ class ReviewRepositoryTest {
         }
     }
 
+    @Test
+    fun addAndGetIdWorks() {
+        val testReviewNoId = Review(
+            ReviewRating.EXCELLENT,
+            "title",
+            "comment",
+            "Fake reviewable id",
+            LocalDate.of(2022, 4, 8)
+        )
+        runTest {
+            val id = reviewRepo.addAndGetId(testReviewNoId)
+            assertNotNull(id)
+            reviewRepo.remove(id).await()
+        }
+    }
 
     @Test
     fun getReviewsWorks() {

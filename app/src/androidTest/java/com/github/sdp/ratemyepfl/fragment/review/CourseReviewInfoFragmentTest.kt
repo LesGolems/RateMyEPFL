@@ -10,6 +10,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -39,14 +41,15 @@ class CourseReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeCourse = FakeCourseRepository.COURSE_WITH_REVIEWS
-        FakeCourseRepository.courseById = fakeCourse
+        val fakeCourse = FakeCourseRepository.courseById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
 
         val titleText = "Title : ${fakeCourse.title}"
         val teacherText = "Teacher : ${fakeCourse.teacher}"
         val sectionText = "Section : ${fakeCourse.section}"
         val creditsText = "Credits : ${fakeCourse.credits}"
-        val numReviewText = "(${fakeCourse.numReviews} reviews)"
+        val numReviewText = "(${gi.numReviews} reviews)"
 
         launch()
 
@@ -65,8 +68,7 @@ class CourseReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeCourse = FakeCourseRepository.COURSE_WITHOUT_REVIEWS
-        FakeCourseRepository.courseById = fakeCourse
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

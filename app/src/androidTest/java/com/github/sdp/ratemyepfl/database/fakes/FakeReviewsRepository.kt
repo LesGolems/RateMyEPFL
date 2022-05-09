@@ -131,11 +131,13 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
     override fun remove(id: String): Task<Void> =
         Mockito.mock(Task::class.java) as Task<Void>
 
-    override fun add(item: Review): Task<Void> =
-        Mockito.mock(Task::class.java) as Task<Void>
+    override fun add(item: Review) = Mockito.mock(Task::class.java) as Task<Void>
 
-    override fun update(id: String, transform: (Review) -> Review): Task<Transaction> =
-        Mockito.mock(Task::class.java) as Task<Transaction>
+    override suspend fun addAndGetId(item: Review): String = "Nothing"
+
+    override fun update(id: String, transform: (Review) -> Review): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
+    }
 
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()

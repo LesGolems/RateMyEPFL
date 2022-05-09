@@ -9,8 +9,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -40,9 +42,11 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITH_REVIEWS
-        FakeRestaurantRepository.restaurantById = fakeRestaurant
-        val numReviewText = "(${fakeRestaurant.numReviews} reviews)"
+        val fakeRestaurant = FakeRestaurantRepository.restaurantById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
+
+        val numReviewText = "(${gi.numReviews} reviews)"
 
         launch()
 
@@ -86,8 +90,7 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITHOUT_REVIEWS
-        FakeRestaurantRepository.restaurantById = fakeRestaurant
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

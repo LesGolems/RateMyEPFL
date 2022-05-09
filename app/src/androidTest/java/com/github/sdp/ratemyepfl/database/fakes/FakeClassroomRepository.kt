@@ -13,39 +13,27 @@ class FakeClassroomRepository @Inject constructor() : ClassroomRepository {
     companion object {
         val CLASSROOM_LIST = listOf(
             Classroom(
-                name = "CM3",
-                numReviews = 15,
-                averageGrade = 2.5
+                name = "CM3"
             ),
             Classroom(
-                name = "CE-1515",
-                numReviews = 15,
-                averageGrade = 2.5
+                name = "CE-1515"
             ),
             Classroom(
-                name = "AAC 2 31",
-                numReviews = 15,
-                averageGrade = 2.5
+                name = "AAC 2 31"
             ),
             Classroom(
-                name = "ELA 2",
-                numReviews = 15,
-                averageGrade = 2.5
+                name = "ELA 2"
             )
         )
 
-        val ROOM_WITH_REVIEWS = Classroom(name = "CM3", numReviews = 15, averageGrade = 2.5)
-        val ROOM_WITHOUT_REVIEWS = Classroom(name = "CM3", numReviews = 0, averageGrade = 0.0)
 
-        var roomById = ROOM_WITH_REVIEWS
+        var roomById = Classroom(name = "CM3")
     }
 
 
     override suspend fun getClassrooms(): List<Classroom> = CLASSROOM_LIST
 
     override suspend fun getRoomById(id: String): Classroom = roomById
-
-    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {}
 
     override fun search(prefix: String): QueryResult<List<Classroom>> = QueryResult(
         flow { emit(QueryState.success(listOf())) }

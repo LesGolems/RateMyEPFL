@@ -42,27 +42,6 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
     companion object {
         const val NUM_REVIEWS_FIELD_NAME = "numReviews"
         const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
-
-        /**
-         * Compute the updated rating of the provided item if we add the provided rating.
-         *
-         *  @param item: the item for which we compute
-         *  @param rating: rating to add the the item
-         *
-         *  @return a [Pair] containing the computed number of reviews and average grade.
-         */
-        inline fun <reified T : Reviewable> computeUpdatedRating(
-            item: T,
-            rating: ReviewRating
-        ): Pair<Int, Double> {
-            val numReviews = item.numReviews
-            val averageGrade = item.averageGrade
-            val newNumReviews = numReviews + 1
-            val newAverageGrade: Double =
-                averageGrade + (rating.toValue() - averageGrade) / newNumReviews
-
-            return Pair(newNumReviews, newAverageGrade)
-        }
     }
 
 

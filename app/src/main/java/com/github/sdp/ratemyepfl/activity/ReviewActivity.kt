@@ -64,13 +64,10 @@ class ReviewActivity : DrawerActivity() {
                 R.id.reviewListFragment,
                 R.id.roomReviewInfoFragment,
                 R.id.roomReviewPictureFragment,
-                R.id.addClassroomReviewFragment,
+                R.id.addReviewFragment,
                 R.id.restaurantReviewInfoFragment,
-                R.id.addRestaurantReviewFragment,
                 R.id.eventReviewInfoFragment,
-                R.id.addEventReviewFragment,
                 R.id.courseReviewInfoFragment,
-                R.id.addCourseReviewFragment
             ), drawerLayout
         )
 

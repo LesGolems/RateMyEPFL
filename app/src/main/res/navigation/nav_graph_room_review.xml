@@ -21,8 +21,8 @@
         android:label="Room Pictures"
         tools:layout="@layout/fragment_room_review_picture" />
     <fragment
-        android:id="@+id/addClassroomReviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.AddClassroomReviewFragment"
+        android:id="@+id/addReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
         android:label="Add a review" />
     <include app:graph="@navigation/timetable" />
     <include app:graph="@navigation/profile" />

@@ -10,8 +10,6 @@ data class Course(
     val teacher: String,
     val credits: Int,
     val courseCode: String,
-    override val numReviews: Int,
-    override val averageGrade: Double,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
@@ -38,7 +36,7 @@ data class Course(
             CourseRepositoryImpl.SESSION_FIELD_NAME to session,
             CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
             CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
-        ).apply { putAll(super.toHashMap()) }
+        )
     }
 
     /**
@@ -56,8 +54,6 @@ data class Course(
         private var teacher: String? = null,
         private var credits: Int? = null,
         private var courseCode: String? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
         private var cycle: String? = null,
         private var session: String? = null,
         private var grading: String? = null,
@@ -85,14 +81,6 @@ data class Course(
             this.courseCode = courseCode
         }
 
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
-        }
-
         fun setCycle(cycle: String?) = apply {
             this.cycle = cycle
         }
@@ -115,8 +103,6 @@ data class Course(
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
             val courseCode = this asMandatory courseCode
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
 
             return Course(
                 title,
@@ -124,8 +110,6 @@ data class Course(
                 teacher,
                 credits,
                 courseCode,
-                numReviews,
-                averageGrade,
                 cycle,
                 session,
                 grading,
