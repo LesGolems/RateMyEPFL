@@ -5,17 +5,22 @@ import android.content.Intent
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
@@ -36,7 +41,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     @Inject
     lateinit var currentUser: ConnectedUser
 
-    private val viewModel by activityViewModels<UserProfileViewModel>()
+    private val viewModel by viewModels<UserProfileViewModel>()
+    private val sideBarViewModel: UserViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,6 +87,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     viewModel.changeUsername(usernameText.text.toString())
                     viewModel.changeEmail(emailText.text.toString())
                     viewModel.submitChanges()
+                    sideBarViewModel.user.postValue(userFromViewModel())
+                    sideBarViewModel.picture.postValue(viewModel.picture.value)
                 } catch (e: Exception) {
                     viewModel.discardChanges()
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
@@ -88,6 +96,23 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 enableModifications(false)
             }
         }
+    }
+
+    /**
+     * Creates user from view model information
+     */
+    private fun userFromViewModel(): User? {
+        val id = viewModel.currentUser.getUserId()
+        val email = viewModel.newEmail
+        val picture = viewModel.picture.value
+        val username = viewModel.newUsername
+        val karma = viewModel.karma.value
+        val timetable = viewModel.timetable.value
+
+        if (id != null && email != null && picture != null && username != null && karma != null && timetable != null) {
+            return User(id, username, email, karma, timetable)
+        }
+        return null
     }
 
     private fun enableModifications(boolean: Boolean) {
