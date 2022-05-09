@@ -3,6 +3,7 @@
     <string name="title_review">What do you think about %s</string>
     <string name="comment_edit_text">Your opinion</string>
     <string name="done_button_text">DONE</string>
+    <string name="cancel_button_text">Cancel</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="increasing_order">A-Z</string>
     <string name="decreasing_order">Z-A</string>
@@ -72,4 +73,9 @@
     <string name="logout_drawer">Logout</string>
     <string name="no_coin">0</string>
     <string name="coin">Coin</string>
+    <string name="edit_event_title">Edit your event</string>
+    <string name="edit_event_name">Your event name</string>
+    <string name="limit_participation">Maximum number of participants:</string>
+    <string name="event_date">Your event date:</string>
+    <string name="event_time">Your event time:</string>
 </resources>

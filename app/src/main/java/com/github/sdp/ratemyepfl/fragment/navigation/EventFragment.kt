@@ -3,11 +3,13 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.EditEventActitivity
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
@@ -27,6 +29,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             { e -> registrationListener(e) }
         )
     private lateinit var recyclerView: RecyclerView
+    private lateinit var addEventButton: Button
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -44,6 +47,12 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             .observe(viewLifecycleOwner) { events ->
                 eventAdapter.submitList(events)
             }
+
+        addEventButton = view.findViewById(R.id.addEventButton)
+        addEventButton.setOnClickListener {
+            val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
