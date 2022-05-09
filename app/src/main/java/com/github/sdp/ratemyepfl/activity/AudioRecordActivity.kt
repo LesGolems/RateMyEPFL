@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import kotlin.math.log10
 
-open class AudioRecordTest : AppCompatActivity() {
+open class AudioRecordActivity : AppCompatActivity() {
 
     private lateinit var filename: String
 
@@ -23,7 +23,7 @@ open class AudioRecordTest : AppCompatActivity() {
     private var mStartPlaying = true
 
     companion object {
-        private const val referenceAmplitude = 0.00001
+        private const val referenceAmplitude = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,22 +35,12 @@ open class AudioRecordTest : AppCompatActivity() {
 
         audioRecordButton = findViewById(R.id.audioRecordButton)
         audioRecordButton.setOnClickListener {
-            onRecord(mStartRecording)
             audioRecordButton.text = when (mStartRecording) {
                 true -> "Stop recording"
                 false -> "Start recording"
             }
+            onRecord(mStartRecording)
             mStartRecording = !mStartRecording
-        }
-
-        audioPlayButton = findViewById(R.id.audioPlayButton)
-        audioPlayButton.setOnClickListener {
-            onPlay(mStartPlaying)
-            audioPlayButton.text = when (mStartPlaying) {
-                true -> "Stop playing"
-                false -> "Start playing"
-            }
-            mStartPlaying = !mStartPlaying
         }
 
         recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -59,6 +49,15 @@ open class AudioRecordTest : AppCompatActivity() {
             MediaRecorder()
         }
 
+        audioPlayButton = findViewById(R.id.audioPlayButton)
+        audioPlayButton.setOnClickListener {
+            audioPlayButton.text = when (mStartPlaying) {
+                true -> "Stop playing"
+                false -> "Start playing"
+            }
+            onPlay(mStartPlaying)
+            mStartPlaying = !mStartPlaying
+        }
         player = MediaPlayer()
     }
 
@@ -72,8 +71,8 @@ open class AudioRecordTest : AppCompatActivity() {
         if (start) {
             startRecording()
             for (i in 1..5) {
-                val decibels = getAmplitude()
-                Toast.makeText(this, "$decibels dB", Toast.LENGTH_SHORT).show()
+                val soundIntensity = getSoundIntensity()
+                Toast.makeText(this, "$soundIntensity dB", Toast.LENGTH_SHORT).show()
                 Thread.sleep(1000)
             }
 
@@ -82,9 +81,14 @@ open class AudioRecordTest : AppCompatActivity() {
         }
     }
 
-    private fun getAmplitude(): Double {
+    private fun getSoundIntensity(): Double {
         val maxAmplitude = recorder.maxAmplitude.toDouble()
-        return 20 * log10(maxAmplitude / referenceAmplitude)
+        return if (maxAmplitude == 0.0) {
+            0.0
+        } else {
+            20 * log10(maxAmplitude / referenceAmplitude)
+
+        }
     }
 
     private fun startRecording() {

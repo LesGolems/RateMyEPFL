@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.AudioRecordTest
+import com.github.sdp.ratemyepfl.activity.AudioRecordActivity
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomInfoViewModel
@@ -57,7 +57,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     }
 
     fun startAudio() {
-        val intent = Intent(requireContext(), AudioRecordTest::class.java)
+        val intent = Intent(requireContext(), AudioRecordActivity::class.java)
         startActivity(intent)
     }
 

@@ -42,7 +42,7 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.AudioRecordTest"
+            android:name=".activity.AudioRecordActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
