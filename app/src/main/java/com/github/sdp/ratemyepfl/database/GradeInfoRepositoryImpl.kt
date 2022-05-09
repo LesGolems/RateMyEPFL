@@ -54,7 +54,7 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
      * Compute the overall grade the number of reviews from all the grade info
      * (FOR NOW BASIC AVERAGE)
      */
-    fun computeGrade(reviewsData: Map<String, ReviewInfo>): Double {
+    private fun computeGrade(reviewsData: Map<String, ReviewInfo>): Double {
         var total = 0.0
         for (ri in reviewsData.values) {
             total += ri.reviewGrade
@@ -62,12 +62,12 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
         return total / reviewsData.size
     }
 
-    override fun updateLikeRatio(id: String, rid: String, inc: Int): Task<Transaction> =
-        repository.update(id) {
-            val info: ReviewInfo = it.reviewsData.getOrDefault(rid, DEFAULT_REVIEW_INFO)
+    override fun updateLikeRatio(itemId: String, reviewId: String, inc: Int): Task<Transaction> =
+        repository.update(itemId) {
+            val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
             val newData = it.reviewsData.plus(
                 Pair(
-                    rid,
+                    reviewId,
                     ReviewInfo(
                         info.reviewGrade,
                         info.likeRatio + inc
@@ -82,18 +82,18 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
         }
 
     override suspend fun addReview(
-        id: String,
-        rid: String,
+        itemId: String,
+        reviewId: String,
         rating: ReviewRating
     ): Task<Transaction> {
-        if (getGradeInfoById(id) == null) {
-            repository.add(GradeInfo(id)).await()
+        if (getGradeInfoById(itemId) == null) {
+            repository.add(GradeInfo(itemId)).await()
         }
 
-        return repository.update(id) {
+        return repository.update(itemId) {
             val newData = it.reviewsData.plus(
                 Pair(
-                    rid,
+                    reviewId,
                     ReviewInfo(rating.toValue(), 0)
                 )
             )
@@ -105,7 +105,7 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
         }
     }
 
-    override suspend fun getGradeInfoById(id: String): GradeInfo? = repository
-        .getById(id)
+    override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
+        .getById(itemId)
         .toGradeInfo()
 }

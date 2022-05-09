@@ -7,12 +7,10 @@ import com.google.firebase.firestore.Transaction
 
 interface GradeInfoRepository {
 
-    fun update(id: String, transform: (GradeInfo) -> GradeInfo): Task<Transaction>
+    fun updateLikeRatio(itemId: String, reviewId: String, inc : Int): Task<Transaction>
 
-    fun updateLikeRatio(id: String, rid: String, inc : Int): Task<Transaction>
+    suspend fun addReview(itemId: String, reviewId: String, rating: ReviewRating): Task<Transaction>
 
-    suspend fun addReview(id: String, rid: String, rating: ReviewRating): Task<Transaction>
-
-    suspend fun getGradeInfoById(id: String): GradeInfo?
+    suspend fun getGradeInfoById(itemId: String): GradeInfo?
 
 }
