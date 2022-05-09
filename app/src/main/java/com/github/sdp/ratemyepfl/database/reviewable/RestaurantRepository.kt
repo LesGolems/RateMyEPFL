@@ -30,12 +30,4 @@ interface RestaurantRepository : SearchableRepository<Restaurant> {
      */
     suspend fun decrementOccupancy(id: String)
 
-
-    /**
-     *  Updates the rating of the restaurant using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateRestaurantRating(id: String, rating: ReviewRating)
 }

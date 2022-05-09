@@ -10,7 +10,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeEventRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -40,12 +42,13 @@ class EventReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeEvent = FakeEventRepository.EVENT_WITH_REVIEWS
-        FakeEventRepository.eventById = fakeEvent
+        val fakeEvent = FakeEventRepository.eventById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
 
         launch()
 
-        val numReviewText = "(${fakeEvent.numReviews} reviews)"
+        val numReviewText = "(${gi.numReviews} reviews)"
         onView(withId(R.id.eventIdInfo))
             .check(matches(withText(fakeEvent.getId())))
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))
@@ -53,8 +56,7 @@ class EventReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeEvent = FakeEventRepository.EVENT_WITHOUT_REVIEWS
-        FakeEventRepository.eventById = fakeEvent
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

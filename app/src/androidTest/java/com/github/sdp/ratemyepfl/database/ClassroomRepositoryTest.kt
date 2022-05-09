@@ -25,7 +25,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ClassroomRepositoryTest {
-    private val testRoom = Classroom("Fake id", 0, 0.0)
+    private val testRoom = Classroom("Fake id")
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -69,19 +69,6 @@ class ClassroomRepositoryTest {
     }
 
     @Test
-    fun updateRoomRatingWorks() {
-        runTest {
-            roomRepo.updateClassroomRating(testRoom.name, ReviewRating.EXCELLENT)
-            val room = roomRepo.getRoomById(testRoom.name)
-            assertNotNull(room)
-            assertEquals(testRoom.name, room!!.name)
-            assertEquals(1, room.numReviews)
-            assertEquals(5.0, room.averageGrade, 0.1)
-        }
-    }
-
-
-    @Test
     fun toItemReturnsAClassroomForCompleteSnapshot() {
         val fake = "fake"
 
@@ -97,7 +84,7 @@ class ClassroomRepositoryTest {
             .thenReturn(2.5)
 
         val classroom: Classroom? = snapshot.toClassroom()
-        val fakeClassroom = Classroom(fake, 15, 2.5, fake)
+        val fakeClassroom = Classroom(fake, fake)
         assertEquals(fakeClassroom, classroom)
 
     }

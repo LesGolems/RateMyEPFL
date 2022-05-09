@@ -12,34 +12,25 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         val DATE = LocalDateTime.now()
         val EVENT_LIST = listOf(
             Event(
-                name = "Evenement de dingue", 15, 2.5, 0,
+                name = "Evenement de dingue", 0,
                 100, listOf(), 0.0, 0.0, DATE
             ),
             Event(
-                name = "Bas les masques", 8, 3.0, 0,
+                name = "Bas les masques", 0,
                 70, listOf(), 0.0, 0.0, DATE
             ),
             Event(
-                name = "La paix verte", 1, 4.0, 0,
+                name = "La paix verte", 0,
                 50, listOf(), 0.0, 0.0, DATE
             )
         )
 
         val DEFAULT_EVENT = Event(
-            name = "Evenement de dingue", 15, 2.5, 0,
+            name = "Evenement de dingue", 0,
             100, listOf(), 0.0, 0.0, DATE
         )
 
-        val EVENT_WITH_REVIEWS = Event(
-            name = "Evenement de dingue", 15, 2.5, 0,
-            100, listOf(), 0.0, 0.0, DATE
-        )
-        val EVENT_WITHOUT_REVIEWS = Event(
-            name = "Evenement de dingue", 0, 0.0, 0,
-            100, listOf(), 0.0, 0.0, DATE
-        )
-
-        var eventById = EVENT_WITH_REVIEWS
+        var eventById = DEFAULT_EVENT
 
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
@@ -50,8 +41,4 @@ class FakeEventRepository @Inject constructor() : EventRepository {
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean =
         true
-
-    override suspend fun updateEventRating(id: String, rating: ReviewRating) {
-        rate = rating
-    }
 }

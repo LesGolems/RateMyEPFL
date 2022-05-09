@@ -34,8 +34,6 @@ class CourseRepositoryImplTest {
         fake,
         0,
         fake,
-        0,
-        0.0,
         fake,
         fake,
         fake,
@@ -58,16 +56,12 @@ class CourseRepositoryImplTest {
                 fake,
                 0,
                 fake,
-                0,
-                0.0,
                 fake,
                 fake,
                 fake,
                 fake
             )
                 .setCourseCode(n.toString())
-                .setNumReviews(n % 5 + 1)
-                .setAverageGrade(((n + 2) % 5 + 1).toDouble())
                 .build()
         }.plus(personalizedCourse)
 

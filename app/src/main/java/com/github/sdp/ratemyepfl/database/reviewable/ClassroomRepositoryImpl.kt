@@ -37,8 +37,6 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
             val builder = Classroom.Builder()
                 .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
-                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
-                .setAverageGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
 
                 builder.build()
             } catch (e: IllegalStateException) {
@@ -55,17 +53,6 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
     }
 
     override suspend fun getRoomById(id: String): Classroom? = repository.getById(id).toClassroom()
-
-    override suspend fun updateClassroomRating(id: String, rating: ReviewRating) {
-        repository
-            .update(id) { classroom ->
-                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
-                    classroom,
-                    rating
-                )
-                classroom.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
-            }.await()
-    }
 
     override fun search(prefix: String): QueryResult<List<Classroom>> =
         repository.search(ROOM_NAME_FIELD_NAME, prefix)
