@@ -1,12 +1,16 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.database.query.OrderDirection
+import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.COURSE_CODE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.TITLE_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.zip
 import javax.inject.Inject
 
 /**
@@ -14,15 +18,23 @@ import javax.inject.Inject
  * and the database
  */
 @HiltViewModel
-class CourseListViewModel @Inject constructor(repository: CourseRepository) : ViewModel() {
+class CourseListViewModel @Inject constructor(private val repository: CourseRepository) :
+    ReviewableListViewModel<Course>(
+        repository,
+        COURSE_CODE_FIELD_NAME,
+        CourseFilter.BestRated,
+    ) {
 
-    val courses = MutableLiveData<List<Course>>()
+    override fun search(prefix: String, number: UInt): QueryResult<List<Course>> {
+        val byId = repository
+            .search(COURSE_CODE_FIELD_NAME, prefix)
 
-    init {
-        viewModelScope.launch {
-            courses.postValue(repository.getCourses())
-        }
+        val byTitle = repository
+            .search(TITLE_FIELD_NAME, prefix)
+        // Merge the two flows and map the content to Course
+        return postResult(byId.zip(byTitle) { x, y ->
+            x.flatMap { ids -> y.map { titles -> ids.plus(titles) } }
+        }.asQueryResult())
     }
-
 
 }

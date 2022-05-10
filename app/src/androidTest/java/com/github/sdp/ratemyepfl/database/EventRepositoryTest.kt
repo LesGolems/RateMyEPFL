@@ -3,8 +3,8 @@ package com.github.sdp.ratemyepfl.database
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -12,7 +12,6 @@ import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After

@@ -1,14 +1,19 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
+class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRepository<Restaurant>) :
+    RestaurantRepository, ReviewableRepository<Restaurant>,  LoaderRepository<Restaurant> by repository {
 
     companion object {
         val RESTAURANT_LIST = listOf(
@@ -48,8 +53,7 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
 
 
     override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {}
+    override val offlineData: List<Restaurant>
+        get() = listOf()
 
-    override fun search(prefix: String): QueryResult<List<Restaurant>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }

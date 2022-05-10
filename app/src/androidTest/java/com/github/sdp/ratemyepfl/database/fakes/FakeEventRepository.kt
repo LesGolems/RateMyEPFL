@@ -1,12 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class FakeEventRepository @Inject constructor() : EventRepository {
+class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
+    EventRepository, ReviewableRepository<Event>, LoaderRepository<Event> by repository {
 
     companion object {
         val DATE = LocalDateTime.now()
@@ -54,4 +57,7 @@ class FakeEventRepository @Inject constructor() : EventRepository {
     override suspend fun updateEventRating(id: String, rating: ReviewRating) {
         rate = rating
     }
+
+    override val offlineData: List<Event>
+        get() = listOf()
 }

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import kotlinx.serialization.Serializable
 
 /**
@@ -16,7 +16,7 @@ sealed class Reviewable : RepositoryItem {
     abstract val averageGrade: Double
 
     override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
-        ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME to numReviews,
-        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to averageGrade,
+        ReviewableRepository.NUM_REVIEWS_FIELD_NAME to numReviews,
+        ReviewableRepository.AVERAGE_GRADE_FIELD_NAME to averageGrade,
     )
 }

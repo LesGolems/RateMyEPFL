@@ -1,9 +1,11 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -13,20 +15,19 @@ import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class EventRepositoryImpl private constructor(val repository: ReviewableRepositoryImpl<Event>) :
+class EventRepositoryImpl private constructor(val repository: LoaderRepository<Event>) :
     EventRepository,
-    Repository<Event> by repository, ReviewableRepository<Event> by repository {
+    ReviewableRepository<Event>,
+    LoaderRepository<Event> by repository {
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
-        ReviewableRepositoryImpl(
-            db,
-            EVENT_COLLECTION_PATH,
-            NAME_FIELD_NAME,
-            OFFLINE_EVENTS
-        ) { documentSnapshot ->
-            documentSnapshot.toEvent()
-        })
+        LoaderRepositoryImpl<Event>(
+            RepositoryImpl(db, EVENT_COLLECTION_PATH)
+            { documentSnapshot ->
+                documentSnapshot.toEvent()
+            })
+    )
 
 
     companion object {
@@ -100,11 +101,13 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
 
     override suspend fun updateEventRating(id: String, rating: ReviewRating) {
         repository.update(id) { event ->
-            val (updatedNumReview, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+            val (updatedNumReview, updatedAverageGrade) = ReviewableRepository.computeUpdatedRating(
                 event,
                 rating
             )
             event.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
         }.await()
     }
+
+    override val offlineData: List<Event> = OFFLINE_EVENTS
 }

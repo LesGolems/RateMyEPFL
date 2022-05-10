@@ -1,14 +1,20 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeCourseRepository @Inject constructor() : CourseRepository {
+class FakeCourseRepository @Inject constructor(val repository: FakeLoaderRepository<Course>) :
+    CourseRepository,
+    ReviewableRepository<Course>,  LoaderRepository<Course> by repository {
 
     companion object {
         val COURSE_LIST = listOf(
@@ -88,8 +94,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
     override suspend fun getCourseById(id: String): Course = courseById
 
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) {}
+    override val offlineData: List<Course>
+        get() = listOf()
 
-    override fun search(prefix: String): QueryResult<List<Course>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }

@@ -1,29 +1,72 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.firebase.FirebaseNetworkException
+import java.lang.Integer.min
+
 
 /**
- * Defines [Reviewable] specific loading methods. The generic type [T] is used to determine the
- * returned type.
+ * Decorator for Repository that defines reviewable related operations
+ *
+ * @param repository: a [LoaderRepositoryImpl] to decorate
+ * @param idFieldName: the name of the field that holds the id of the [Reviewable]
  */
-interface ReviewableRepository<T : Reviewable> {
-    /**
-     * Load a given number of [Reviewable] by decreasing number of reviews.
-     *
-     * @param number: number of item to load
-     *
-     * @return a [QueryResult] containing the result as a list of reviewable
-     */
-    fun loadMostRated(number: UInt): QueryResult<List<T>>
+interface ReviewableRepository<T : Reviewable> : LoaderRepository<T> {
+
+    val offlineData: List<T>
+
+    companion object {
+        const val NUM_REVIEWS_FIELD_NAME = "numReviews"
+        const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
+        const val LIMIT_QUERY_SEARCH = 10u
+
+        /**
+         * Compute the updated rating of the provided item if we add the provided rating.
+         *
+         *  @param item: the item for which we compute
+         *  @param rating: rating to add the the item
+         *
+         *  @return a [Pair] containing the computed number of reviews and average grade.
+         */
+        inline fun <reified T : Reviewable> computeUpdatedRating(
+            item: T,
+            rating: ReviewRating
+        ): Pair<Int, Double> {
+            val numReviews = item.numReviews
+            val averageGrade = item.averageGrade
+            val newNumReviews = numReviews + 1
+            val newAverageGrade: Double =
+                averageGrade + (rating.toValue() - averageGrade) / newNumReviews
+
+            return Pair(newNumReviews, newAverageGrade)
+        }
+    }
 
     /**
-     * Load a given number of [Reviewable] by decreasing average grade.
+     * Search for a matching prefix in a provided field.
      *
-     * @param number: number of item to load
+     * @param prefix: the prefix to match
+     * @param field: the field where the match occurs
      *
-     * @return a [QueryResult] containing the result as a list of reviewable
+     * @return a [QueryResult] containing a [List] of matched values. It matches at most
+     * [LIMIT_QUERY_SEARCH] values.
      */
-    fun loadBestRated(number: UInt): QueryResult<List<T>>
+    fun search(field: String, prefix: String, number: UInt = LIMIT_QUERY_SEARCH): QueryResult<List<T>> =
+        this.load(query().match(field, prefix), min(number.toInt(), LIMIT_QUERY_SEARCH.toInt()).toUInt())
+
+
+    /**
+     * Load the data corresponding to the provided [query]. If the loading fails due to a network
+     * error, it returns a default value.
+     */
+    fun loadWithDefault(query: OrderedQuery, number: UInt): QueryResult<List<T>> =
+        (this as LoaderRepository<T>)
+            .load(query, number)
+            .withDefault<FirebaseNetworkException>(offlineData)
+
 }

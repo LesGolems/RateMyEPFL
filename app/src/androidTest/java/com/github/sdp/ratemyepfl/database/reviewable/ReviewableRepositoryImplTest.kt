@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.SearchableRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
@@ -18,6 +18,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 import java.lang.Integer.min
 import javax.inject.Inject
 
@@ -25,12 +27,13 @@ private typealias ReviewableItem = Course
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
+@RunWith(MockitoJUnitRunner::class)
 class ReviewableRepositoryImplTest {
 
     @Inject
     lateinit var db: FirebaseFirestore
 
-    private lateinit var repository: ReviewableRepositoryImpl<ReviewableItem>
+    private lateinit var repository: ReviewableRepository<ReviewableItem>
 
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
@@ -53,16 +56,11 @@ class ReviewableRepositoryImplTest {
         }.plus(personalizedCourse)
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        repository = ReviewableRepositoryImpl(
-            db,
-            "reviewableTest",
-            CourseRepositoryImpl.COURSE_CODE_FIELD_NAME,
-            listOf()
-        ) { it.toCourse() }
+        repository = CourseRepositoryImpl(db)
         val c = courses.map { repository.add(it) }
-        c.forEach { runTest { it.await() } }
+        c.forEach { it.await() }
     }
 
     @After
@@ -111,81 +109,6 @@ class ReviewableRepositoryImplTest {
             }
     }
 
-    @Test
-    fun loadMostRatedReturnsCourseWith5Reviews() = runTest {
-        repository.loadMostRated(3u)
-            .mapEach { it.numReviews }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw Exception()
-                    is QueryState.Loading -> {}
-                    is QueryState.Success -> {
-                        assertEquals(3, it.data.size)
-                        it.data
-                            .forEach { numReviews -> assertEquals(5, numReviews) }
-                    }
-                }
-            }
-        repository.loadMostRated(20u)
-            .mapEach { it.numReviews }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw Exception()
-                    is QueryState.Loading -> {}
-                    is QueryState.Success -> {
-                        val sorted = it.data.sortedBy { n -> n }.reversed()
-                        assertEquals(sorted, it.data)
-                        assertEquals(23, it.data.size)
-                    }
-                }
-            }
-
-    }
-
-    @Test
-    fun test() = runTest {
-        val query = repository.query()
-            .orderBy(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME, Query.Direction.DESCENDING)
-        repository.load(query, 10u)
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> {}
-                    is QueryState.Loading -> {}
-                    is QueryState.Success ->
-                        assertEquals(10, it.data.size)
-                }
-            }
-    }
-
-    @Test
-    fun loadBestRatedReturnsCourseWith5Reviews() = runTest {
-        repository.loadBestRated(3u)
-            .mapEach { it.averageGrade }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw Exception()
-                    is QueryState.Loading -> {}
-                    is QueryState.Success ->
-                        it.data
-                            .forEach { grade -> assertEquals(5.0, grade) }
-                }
-            }
-        repository.loadBestRated(20u)
-            .mapEach { it.averageGrade }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw Exception()
-                    is QueryState.Loading -> {}
-                    is QueryState.Success -> {
-                        val sorted = it.data.sortedBy { n -> n }.reversed()
-                        assertEquals(sorted, it.data)
-                        assertEquals(23, it.data.size)
-                    }
-                }
-            }
-
-    }
-
     private suspend fun onTeacherSearch(
         name: String,
         numberOfMatch: Int,
@@ -199,11 +122,12 @@ class ReviewableRepositoryImplTest {
                     is QueryState.Success -> {
                         action(it.data)
                         assertEquals(
-                            min(SearchableRepository.LIMIT_QUERY_SEARCH.toInt(), numberOfMatch),
+                            min(ReviewableRepository.LIMIT_QUERY_SEARCH.toInt(), numberOfMatch),
                             it.data.size
                         )
                     }
                 }
 
             }
+
 }

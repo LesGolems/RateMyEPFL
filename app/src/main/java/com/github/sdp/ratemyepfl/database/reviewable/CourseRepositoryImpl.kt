@@ -1,36 +1,36 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) :
+class CourseRepositoryImpl private constructor(private val repository: LoaderRepository<Course>) :
     CourseRepository,
-    ReviewableRepository<Course> by repository, Repository<Course> by repository {
+    ReviewableRepository<Course>,
+    LoaderRepository<Course> by repository {
+
+    override val offlineData: List<Course> = OFFLINE_COURSES
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
-        ReviewableRepositoryImpl(
-            db,
-            COURSE_COLLECTION_PATH,
-            COURSE_CODE_FIELD_NAME,
-            OFFLINE_COURSES,
-        ) { documentSnapshot ->
-            documentSnapshot.toCourse()
-        })
+        LoaderRepositoryImpl<Course>(
+            RepositoryImpl(db, COURSE_COLLECTION_PATH)
+            { documentSnapshot ->
+                documentSnapshot.toCourse()
+            })
+    )
 
     companion object {
         const val COURSE_CODE_FIELD_NAME: String = "courseCode"
@@ -44,7 +44,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
         const val GRADING_FIELD_NAME = "grading"
         const val LANGUAGE_FIELD_NAME = "language"
 
-        private val OFFLINE_COURSES = listOf<Course>(
+        val OFFLINE_COURSES = listOf<Course>(
             Course(
                 title = "Advanced information, computation, communication I",
                 section = "IC",
@@ -151,30 +151,12 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
     override suspend fun updateCourseRating(id: String, rating: ReviewRating) {
         repository
             .update(id) { course ->
-                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepositoryImpl.computeUpdatedRating(
+                val (updatedNumReviews, updatedAverageGrade) = ReviewableRepository.computeUpdatedRating(
                     course,
                     rating
                 )
                 course.copy(numReviews = updatedNumReviews, averageGrade = updatedAverageGrade)
             }.await()
-    }
-
-    override fun load(number: UInt): QueryResult<List<Course>> =
-        repository.load(loadQuery, number)
-
-
-    override fun loaded(): List<Course>? =
-        repository.loaded(loadQuery)
-
-
-    override fun search(prefix: String): QueryResult<List<Course>> {
-        val byId = repository.search(COURSE_CODE_FIELD_NAME, prefix)
-        val byTitle = repository.search(TITLE_FIELD_NAME, prefix)
-        // Merge the two flows and map the content to Course
-        return byId.zip(byTitle) { x, y ->
-            x.flatMap { ids -> y.map { titles -> ids.plus(titles) } }
-        }
-            .asQueryResult()
     }
 
 

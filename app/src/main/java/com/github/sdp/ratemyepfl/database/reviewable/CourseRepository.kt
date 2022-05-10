@@ -1,12 +1,10 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.SearchableRepository
-import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface CourseRepository : SearchableRepository<Course> {
+interface CourseRepository : ReviewableRepository<Course> {
     /**
      * Retrieve the course from the repository
      *
@@ -29,17 +27,4 @@ interface CourseRepository : SearchableRepository<Course> {
      */
     suspend fun updateCourseRating(id: String, rating: ReviewRating)
 
-    /**
-     * Load a given number of [Course].
-     *
-     * @param number: the number of [Course] to load
-     *
-     * @return a [QueryResult] containing all the loaded [Course] so far
-     */
-    fun load(number: UInt): QueryResult<List<Course>>
-
-    /**
-     * Return the loaded courses, or null if no course was loaded so far
-     */
-    fun loaded(): List<Course>?
 }

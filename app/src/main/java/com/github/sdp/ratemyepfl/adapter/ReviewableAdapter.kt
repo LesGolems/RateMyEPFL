@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
@@ -117,18 +118,18 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
     }
 
 //    TODO("ADD BACK THOSE WHEN IMPLEMENTATION IS DONE"
-//    fun filterByCredit(credit: CharSequence?) {
-//        courseCreditsFilter.filter(credit)
-//    }
-//
-//    private val courseCreditsFilter = getFilterMethod { query ->
-//        val queryInt = query.toString()
-//            .toInt()
-//        val filteredList = mutableListOf<Reviewable>()
-//        filteredList.addAll(list.filter { item ->
-//            (item as Course).credits == queryInt
-//        })
-//        filteredList
-//    }
+    fun filterByCredit(credit: CharSequence?) {
+        courseCreditsFilter.filter(credit)
+    }
+
+    private val courseCreditsFilter = getFilterMethod { query ->
+        val queryInt = query.toString()
+            .toInt()
+        val filteredList = mutableListOf<Reviewable>()
+        filteredList.addAll(list.filter { item ->
+            (item as Course).credits == queryInt
+        })
+        filteredList
+    }
 
 }

@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.database.reviewable
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface EventRepository {
+interface EventRepository : ReviewableRepository<Event> {
     /**
      * Retrieve the event from the repository
      *
