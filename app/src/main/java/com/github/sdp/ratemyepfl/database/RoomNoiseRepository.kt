@@ -9,5 +9,5 @@ interface RoomNoiseRepository {
 
     suspend fun addMeasurement(roomId: String, date: LocalDateTime, measure: Double): Task<Transaction>
 
-    suspend fun getRoomNoiseById(roomId: String): RoomNoiseInfo?
+    suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo?
 }

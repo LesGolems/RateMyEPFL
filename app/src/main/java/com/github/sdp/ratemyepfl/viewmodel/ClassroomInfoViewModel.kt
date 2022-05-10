@@ -19,15 +19,15 @@ import javax.inject.Inject
 class ClassroomInfoViewModel @Inject constructor(
     private val classroomRepo: ClassroomRepository,
     private val gradeInfoRepo: GradeInfoRepository,
-    //private val roomNoiseRepo: RoomNoiseRepository,
+    private val roomNoiseRepo: RoomNoiseRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ReviewableInfoViewModel(gradeInfoRepo, savedStateHandle) {
 
     val room = MutableLiveData<Classroom>()
 
-    /*companion object {
+    companion object {
         private val EPFL_ZONE_ID = ZoneId.of("Europe/Zurich")
-    }*/
+    }
 
     init {
         refresh()
@@ -44,12 +44,12 @@ class ClassroomInfoViewModel @Inject constructor(
         refreshGrade()
     }
 
-    /*fun submitNoiseMeasure(measure: Double) {
+    fun submitNoiseMeasure(measure: Double) {
         val date = LocalDateTime.now(EPFL_ZONE_ID).truncatedTo(ChronoUnit.SECONDS)
         val measurement = String.format("%.1f", measure).toDouble()
 
         viewModelScope.launch(Dispatchers.IO) {
             roomNoiseRepo.addMeasurement(id, date, measurement)
         }
-    }*/
+    }
 }

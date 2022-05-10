@@ -49,7 +49,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         measure: Double
     ): Task<Transaction> {
 
-        if (getRoomNoiseById(roomId) == null) {
+        if (getRoomNoiseInfoById(roomId) == null) {
             repository.add(RoomNoiseInfo(roomId)).await()
         }
 
@@ -66,7 +66,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         }
     }
 
-    override suspend fun getRoomNoiseById(roomId: String): RoomNoiseInfo? =
+    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =
         repository.getById(roomId)
             .toRoomNoiseInfo()
 

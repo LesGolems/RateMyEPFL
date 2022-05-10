@@ -1,12 +1,14 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
@@ -56,10 +58,24 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
     }
 
-    fun startAudio() {
+    /**
+     * Gets the noise intensity that was measured by the user in [AudioRecordActivity]
+     */
+    private fun startAudio() {
         val intent = Intent(requireContext(), AudioRecordActivity::class.java)
-        startActivity(intent)
+        getAudioResults.launch(intent)
     }
+
+    private val getAudioResults =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val measure = data?.getDoubleExtra(AudioRecordActivity.EXTRA_MEASUREMENT_VALUE, 0.0)
+                if (measure != null && measure > 0.0) {
+                    viewModel.submitNoiseMeasure(measure)
+                }
+            }
+        }
 
     override fun onResume() {
         super.onResume()
