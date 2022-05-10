@@ -1,18 +1,17 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.CREATOR_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -31,8 +30,10 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
-        "Fake id", 0,
-        1, listOf(), 0.0, 0.0, LocalDateTime.now()
+        "Fake id",
+        0, 1,
+        listOf(), "",
+        0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -121,6 +122,7 @@ class EventRepositoryTest {
             .thenReturn(limitParticipants)
         Mockito.`when`(snapshot.get(EventRepositoryImpl.PARTICIPANTS_FIELD_NAME))
             .thenReturn(participants)
+        Mockito.`when`(snapshot.getString(CREATOR_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
             .thenReturn(date.toString())
 
@@ -133,6 +135,7 @@ class EventRepositoryTest {
             .setLimitParticipants(limitParticipants)
             .setParticipants(participants)
             .setDate(date)
+            .setCreator(fake)
             .build()
         assertEquals(event.name, expected.name)
         assertEquals(event.lat, expected.lat, 0.01)
@@ -141,5 +144,6 @@ class EventRepositoryTest {
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
+        assertEquals(event.creator, expected.creator)
     }
 }

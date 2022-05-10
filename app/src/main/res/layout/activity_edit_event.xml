@@ -18,11 +18,12 @@
         android:id="@+id/editEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="15dp"
         android:text="@string/edit_event_title"
         android:textAlignment="center"
         android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="@color/purple_700"
         android:typeface="monospace"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +58,7 @@
         <NumberPicker
             android:id="@+id/limitPicker"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:layout_centerVertical="true"
             android:clickable="true"
             android:layout_toEndOf="@id/limitText" />
@@ -129,8 +130,8 @@
         android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
         android:layout_gravity="center_horizontal"
         style="@style/IconOnly"
         android:textSize="11sp"

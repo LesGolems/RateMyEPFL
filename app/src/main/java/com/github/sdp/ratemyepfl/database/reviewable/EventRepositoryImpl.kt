@@ -2,10 +2,7 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
@@ -36,6 +33,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         const val NUMBER_PARTICIPANTS_FIELD_NAME = "numParticipants"
         const val LIMIT_PARTICIPANTS_FIELD_NAME = "limitParticipants"
         const val PARTICIPANTS_FIELD_NAME = "participants"
+        const val CREATOR_FIELD_NAME = "creator"
         const val DATE_FIELD_NAME = "date"
 
         fun DocumentSnapshot.toEvent(): Event? {
@@ -45,6 +43,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
             val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
             val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>
+            val creator = getString(CREATOR_FIELD_NAME)
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
             return try {
                 Event.Builder(
@@ -52,6 +51,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                     numParticipants,
                     limitParticipants,
                     participants,
+                    creator,
                     lat,
                     long,
                     date

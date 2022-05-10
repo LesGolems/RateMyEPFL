@@ -13,21 +13,21 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         val EVENT_LIST = listOf(
             Event(
                 name = "Evenement de dingue", 0,
-                100, listOf(), 0.0, 0.0, DATE
+                100, listOf(), "", 0.0, 0.0, DATE
             ),
             Event(
                 name = "Bas les masques", 0,
-                70, listOf(), 0.0, 0.0, DATE
+                70, listOf(), "", 0.0, 0.0, DATE
             ),
             Event(
                 name = "La paix verte", 0,
-                50, listOf(), 0.0, 0.0, DATE
+                50, listOf(), "", 0.0, 0.0, DATE
             )
         )
 
         val DEFAULT_EVENT = Event(
             name = "Evenement de dingue", 0,
-            100, listOf(), 0.0, 0.0, DATE
+            100, listOf(), "", 0.0, 0.0, DATE
         )
 
         var eventById = DEFAULT_EVENT

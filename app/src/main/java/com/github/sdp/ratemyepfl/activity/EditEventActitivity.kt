@@ -11,6 +11,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.layout.CustomScrollView
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 
 @AndroidEntryPoint
@@ -34,21 +35,42 @@ class EditEventActitivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_event)
 
         mapContainer = findViewById(R.id.mapContainer)
-
-        eventScrollView = findViewById(R.id.eventScrollView)
-        eventScrollView.addInterceptScrollView(mapContainer)
-
-        limitPicker = findViewById(R.id.limitPicker)
-        limitPicker.maxValue = MAX_LIMIT_PART
-
         eventNameText = findViewById(R.id.editEventName)
 
+        eventScrollViewInit()
+        limitPickerInit()
+        datePickerInit()
+        timePickerInit()
+        cancelButtonInit()
+        doneButtonInit()
+    }
+
+    private fun limitPickerInit() {
+        limitPicker = findViewById(R.id.limitPicker)
+        limitPicker.maxValue = MAX_LIMIT_PART
+    }
+
+    private fun datePickerInit() {
+        val currentDate = LocalDate.now()
         datePicker = findViewById(R.id.datePicker)
+        datePicker.updateDate(currentDate.year, currentDate.monthValue-1, currentDate.dayOfMonth)
+    }
 
+    private fun timePickerInit() {
         timePicker = findViewById(R.id.timePicker)
+        timePicker.setIs24HourView(true)
+    }
 
+    private fun eventScrollViewInit() {
+        eventScrollView = findViewById(R.id.eventScrollView)
+        eventScrollView.addInterceptScrollView(mapContainer)
+    }
+
+    private fun cancelButtonInit() {
         cancelButton = findViewById(R.id.cancelButton)
+    }
 
+    private fun doneButtonInit() {
         doneButton = findViewById(R.id.doneButton)
     }
 }
