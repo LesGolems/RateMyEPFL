@@ -1,9 +1,15 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.google.android.gms.tasks.Task
 import java.time.LocalDateTime
 
 interface EventRepository {
+    /**
+     * Add an event which already has an id to the database
+     */
+    fun addEventWithId(event: Event): Task<Void>
+
     /**
      * Retrieve the event from the repository
      *

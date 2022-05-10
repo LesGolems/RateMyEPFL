@@ -52,7 +52,7 @@ class EventRepositoryTest {
     @After
     fun clean() {
         runTest {
-            eventRepo.remove(testEvent.name).await()
+            eventRepo.remove(testEvent.eventId).await()
         }
     }
 

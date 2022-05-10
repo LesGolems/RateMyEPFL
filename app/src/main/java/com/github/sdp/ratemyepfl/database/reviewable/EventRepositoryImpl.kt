@@ -79,6 +79,10 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         return repository.add(item.withId(document.id))
     }
 
+    override fun addEventWithId(event: Event): Task<Void> {
+        return repository.add(event)
+    }
+
     override suspend fun getEvents(): List<Event> = take(DEFAULT_QUERY_LIMIT.toLong())
         .mapNotNull { it.toEvent() }
 

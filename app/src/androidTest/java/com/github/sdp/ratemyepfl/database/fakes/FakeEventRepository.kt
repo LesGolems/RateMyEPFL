@@ -3,6 +3,8 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -36,6 +38,10 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         var eventById = DEFAULT_EVENT
 
         var rate: ReviewRating = ReviewRating.AVERAGE
+    }
+
+    override fun addEventWithId(event: Event): Task<Void> {
+        return Mockito.mock(Task::class.java) as Task<Void>
     }
 
     override suspend fun getEvents(): List<Event> = EVENT_LIST

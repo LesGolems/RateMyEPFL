@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
@@ -111,6 +112,7 @@ class EditEventActitivity : AppCompatActivity() {
             dateValues[1] = currentDate.monthValue
             dateValues[2] = currentDate.dayOfMonth
         }
+        editEventViewModel.setDate(dateValues)
         datePicker.updateDate(dateValues[0], dateValues[1]-1, dateValues[2])
     }
 
@@ -127,6 +129,7 @@ class EditEventActitivity : AppCompatActivity() {
                 timePicker.minute = it[1]
             }
         }
+        editEventViewModel.setTime(intArrayOf(timePicker.hour, timePicker.minute))
     }
 
     private fun eventScrollViewInit() {
@@ -137,7 +140,7 @@ class EditEventActitivity : AppCompatActivity() {
     private fun cancelButtonInit() {
         cancelButton = findViewById(R.id.cancelButton)
         cancelButton.setOnClickListener {
-            startActivity(parentActivityIntent)
+            comebackToMain()
         }
     }
 
@@ -154,23 +157,30 @@ class EditEventActitivity : AppCompatActivity() {
     private fun addEvent() {
         try {
             editEventViewModel.submitEvent()
-            displayError(getString(R.string.event_sent_text))
+            displayMessage(getString(R.string.event_sent_text))
+            comebackToMain()
         } catch (due: DisconnectedUserException) {
-            displayError(due.message)
+            displayMessage(due.message)
         } catch (e: Exception) {
             if (eventNameText.text.isNullOrEmpty()) {
                 eventNameText.error = e.message
+                displayMessage(e.message)
             } else {
-                displayError(e.message)
+                displayMessage(e.message)
             }
         }
     }
 
-    private fun displayError(message: String?) {
+    private fun displayMessage(message: String?) {
         if (message != null) {
             Snackbar.make(eventScrollView, message, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.editEventButtons)
                 .show()
         }
+    }
+
+    private fun comebackToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
