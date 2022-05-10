@@ -17,7 +17,7 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
     override suspend fun addMeasurement(
         roomId: String,
         date: LocalDateTime,
-        measure: Double
+        measure: Int
     ): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }

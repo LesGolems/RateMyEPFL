@@ -76,7 +76,6 @@ open class AudioRecordActivity : AppCompatActivity() {
      */
     override fun onStop() {
         super.onStop()
-        Log.d("STOP", "STOP")
         if (start) {
             start = !start
             stopRecording()

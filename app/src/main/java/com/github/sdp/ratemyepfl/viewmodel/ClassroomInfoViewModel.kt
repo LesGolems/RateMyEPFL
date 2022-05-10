@@ -6,13 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,31 +24,36 @@ class ClassroomInfoViewModel @Inject constructor(
 
     val room = MutableLiveData<Classroom>()
 
-    companion object {
-        private val EPFL_ZONE_ID = ZoneId.of("Europe/Zurich")
-    }
+    val noiseData = MutableLiveData<Map<String, Int>>()
 
     init {
         refresh()
     }
 
-    fun updateRoom() {
+    private fun updateRoom() {
         viewModelScope.launch {
             room.postValue(classroomRepo.getRoomById(id))
+        }
+    }
+
+    private fun refreshRoomNoise() {
+        viewModelScope.launch {
+            val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById(id)
+            if (roomNoiseInfo != null) {
+                noiseData.postValue(roomNoiseInfo.noiseData)
+            }
         }
     }
 
     fun refresh() {
         updateRoom()
         refreshGrade()
+        refreshRoomNoise()
     }
 
     fun submitNoiseMeasure(measure: Double) {
-        val date = LocalDateTime.now(EPFL_ZONE_ID).truncatedTo(ChronoUnit.SECONDS)
-        val measurement = String.format("%.1f", measure).toDouble()
-
         viewModelScope.launch(Dispatchers.IO) {
-            roomNoiseRepo.addMeasurement(id, date, measurement)
+            roomNoiseRepo.addMeasurement(id, TimeUtils.now(), measure.toInt())
         }
     }
 }

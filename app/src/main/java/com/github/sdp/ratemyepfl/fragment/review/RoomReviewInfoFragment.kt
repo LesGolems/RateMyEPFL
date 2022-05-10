@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AudioRecordActivity
+import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
+import com.github.sdp.ratemyepfl.utils.TimeUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +29,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     // Gets the shared view model
     private val viewModel by activityViewModels<ClassroomInfoViewModel>()
 
+    private lateinit var roomNoiseInfoTextView: TextView
     private lateinit var noiseMeasureButton: ImageButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +43,11 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
         }
         viewModel.averageGrade.observe(viewLifecycleOwner) {
             view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.toFloat()
+        }
+
+        roomNoiseInfoTextView = view.findViewById(R.id.roomNoiseInfoTextView)
+        viewModel.noiseData.observe(viewLifecycleOwner) {
+            displayRoomNoise(it)
         }
 
         // Record audio
@@ -58,6 +66,25 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
     }
 
+    private fun displayRoomNoise(noiseData: Map<String, Int>) {
+        if (noiseData.isEmpty()) return
+
+        val sortedMap = noiseData.toSortedMap()
+        val mostRecentDate = sortedMap.lastKey()
+        val mostRecentMeasure = sortedMap[mostRecentDate]
+
+        val pair = RoomNoiseInfo.displayDecibels(mostRecentMeasure!!)
+        roomNoiseInfoTextView.text =
+            getString(
+                R.string.room_noise_info,
+                pair.first,
+                mostRecentMeasure.toString(),
+                TimeUtils.prettyTime(mostRecentDate)
+            )
+        roomNoiseInfoTextView.setTextColor(pair.second)
+    }
+
+
     /**
      * Gets the noise intensity that was measured by the user in [AudioRecordActivity]
      */
@@ -73,6 +100,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
                 val measure = data?.getDoubleExtra(AudioRecordActivity.EXTRA_MEASUREMENT_VALUE, 0.0)
                 if (measure != null && measure > 0.0) {
                     viewModel.submitNoiseMeasure(measure)
+                    viewModel.refresh()
                 }
             }
         }

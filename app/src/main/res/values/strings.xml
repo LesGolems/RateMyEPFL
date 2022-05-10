@@ -76,4 +76,5 @@
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
+    <string name="room_noise_info">%s (%s dB) - %s</string>
 </resources>

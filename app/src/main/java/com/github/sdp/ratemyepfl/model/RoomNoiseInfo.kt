@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.model
 
+import android.graphics.Color
 import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepositoryImpl
 import com.google.gson.Gson
@@ -8,8 +9,21 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RoomNoiseInfo(
     val roomId: String,
-    val noiseData: Map<String, Double> = mapOf()
+    val noiseData: Map<String, Int> = mapOf()
 ) : RepositoryItem {
+
+    companion object {
+        fun displayDecibels(intensity: Int): Pair<String, Int> =
+            if (intensity < 30) {
+                Pair("Quiet", Color.CYAN)
+            } else if (intensity < 60) {
+                Pair("Calm", Color.GREEN)
+            } else if (intensity < 90) {
+                Pair("Loud", Color.YELLOW)
+            } else {
+                Pair("Painful", Color.RED)
+            }
+    }
 
     override fun getId(): String = roomId
 
@@ -23,7 +37,7 @@ data class RoomNoiseInfo(
 
     class Builder(
         private val roomId: String?,
-        private val noiseData: Map<String, Double>? = mapOf(),
+        private val noiseData: Map<String, Int>? = mapOf(),
     ) {
         fun build(): RoomNoiseInfo {
             val roomId = this.roomId
@@ -32,7 +46,7 @@ data class RoomNoiseInfo(
             if (roomId != null) {
                 return RoomNoiseInfo(roomId, noiseData)
             } else {
-                throw IllegalStateException("Cannot build a grade info with null arguments")
+                throw IllegalStateException("Cannot build a room noise info with null arguments")
             }
         }
     }

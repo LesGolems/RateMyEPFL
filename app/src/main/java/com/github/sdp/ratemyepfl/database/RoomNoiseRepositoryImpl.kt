@@ -28,9 +28,9 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         const val ROOMS_INFO_FIELD_NAME = "noiseData"
 
         fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? {
-            val type = object : TypeToken<Map<String, Double>>() {}.type
+            val type = object : TypeToken<Map<String, Int>>() {}.type
             val noiseData = getString(ROOMS_INFO_FIELD_NAME)?.let {
-                Gson().fromJson<Map<String, Double>>(it, type)
+                Gson().fromJson<Map<String, Int>>(it, type)
             }
             return try {
                 RoomNoiseInfo.Builder(
@@ -46,7 +46,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
     override suspend fun addMeasurement(
         roomId: String,
         date: LocalDateTime,
-        measure: Double
+        measure: Int
     ): Task<Transaction> {
 
         if (getRoomNoiseInfoById(roomId) == null) {
