@@ -78,4 +78,5 @@
     <string name="limit_participation">Maximum number of participants:</string>
     <string name="event_date">Your event date:</string>
     <string name="event_time">Your event time:</string>
+    <string name="event_location">Your event location:</string>
 </resources>

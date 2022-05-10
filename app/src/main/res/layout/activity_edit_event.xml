@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.sdp.ratemyepfl.layout.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventScrollView"
     android:layout_width="match_parent"
@@ -112,22 +112,47 @@
             android:text="@string/event_time"/>
 
         <TimePicker
+            android:id="@+id/timePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/timePickerText"
             android:layout_centerVertical="true"
-            android:timePickerMode="spinner"/>
+            android:layout_toEndOf="@id/timePickerText"
+            android:timePickerMode="spinner" />
     </RelativeLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/purple_200"/>
+
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        style="@style/IconOnly"
+        android:textSize="11sp"
+        android:text="@string/event_location"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapContainer"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
+        android:paddingBottom="25dp"
         android:name="com.github.sdp.ratemyepfl.fragment.navigation.MapFragment"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/purple_200"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp">
 
         <Button
             android:id="@+id/cancelButton"
@@ -148,4 +173,4 @@
             android:text="@string/done_button_text" />
     </RelativeLayout>
 </LinearLayout>
-</ScrollView>
+</com.github.sdp.ratemyepfl.layout.CustomScrollView>
