@@ -42,7 +42,7 @@ class EventFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun clickOnButtonLoggedWorks() {
+    fun clickOnButtonLoggedInWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
         onView(withId(R.id.eventRecyclerView)).perform(
@@ -57,7 +57,7 @@ class EventFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun clickOnButtonLoggedTwiceWorks() {
+    fun clickOnButtonLoggedInTwiceWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
         onView(withId(R.id.eventRecyclerView)).perform(
@@ -70,5 +70,27 @@ class EventFragmentTest {
         )
         onView(withId(R.id.eventRecyclerView))
             .check(matches(isDisplayed()))
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun clickOnAddEventButtonLoggedInWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
+
+        init()
+        onView(withId(R.id.addEventButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun clickOnAddEventButtonLoggedOutDoesNotWork() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
+
+        onView(withId(R.id.addEventButton)).perform(click())
+        onView(withId(R.id.addEventButton)).check(matches(isDisplayed()))
     }
 }

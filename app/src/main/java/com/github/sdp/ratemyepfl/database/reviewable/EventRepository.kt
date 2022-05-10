@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import java.time.LocalDateTime
 
 interface EventRepository {
     /**
@@ -20,7 +20,14 @@ interface EventRepository {
 
     /**
      *  Update the number of participants of given event if possible, and returns
-     *  weither this function has succeeded or not
+     *  either this function has succeeded or not
      */
     suspend fun updateParticipants(eventId: String, userId: String): Boolean
+
+    /**
+     *  Update the given event after edition
+     */
+    suspend fun updateEditedEvent(eventId: String, name: String,
+                                  limPart: Int, lat: Double, long: Double,
+                                  date: LocalDateTime)
 }

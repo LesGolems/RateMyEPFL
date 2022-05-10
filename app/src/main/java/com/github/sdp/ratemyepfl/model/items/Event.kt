@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
 data class Event(
+    var eventId: String,
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
@@ -22,6 +23,7 @@ data class Event(
     }
 
     override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
+        EventRepositoryImpl.ID_FIELD_NAME to eventId,
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
@@ -32,11 +34,22 @@ data class Event(
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
     )
 
+    /**
+     * Set the id of the [Event]
+     *
+     * @param id: Unique identifier of the event
+     *
+     * @return the [Event] with modified id
+     */
+    fun withId(id: String): Event = this.apply {
+        this.eventId = id
+    }
+
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
 
-    override fun getId(): String = name
+    override fun getId(): String = eventId
 
     override fun toMapItem(): MapItem {
         return EventItem(
@@ -55,6 +68,7 @@ data class Event(
      *  - [name]
      */
     class Builder(
+        private var eventId: String? = "",
         private var name: String? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
@@ -65,6 +79,10 @@ data class Event(
         private var date: LocalDateTime? = null,
     ) : ReviewableBuilder<Event> {
 
+
+        fun setId(eventId: String?) = apply {
+            this.eventId = eventId
+        }
 
         fun name(name: String?) = apply {
             this.name = name
@@ -99,6 +117,7 @@ data class Event(
         }
 
         override fun build(): Event {
+            val eventId = this asMandatory eventId
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
@@ -109,6 +128,7 @@ data class Event(
             val date = this asMandatory date
 
             return Event(
+                eventId,
                 name,
                 numParticipants,
                 limitParticipants,

@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.database.reviewable
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
@@ -19,13 +20,14 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         ReviewableRepositoryImpl(
             db,
             EVENT_COLLECTION_PATH,
-            NAME_FIELD_NAME,
+            ID_FIELD_NAME,
         ) { documentSnapshot ->
             documentSnapshot.toEvent()
         })
 
 
     companion object {
+        const val ID_FIELD_NAME: String = "eventId"
         const val NAME_FIELD_NAME: String = "name"
         const val EVENT_COLLECTION_PATH = "events"
         const val LATITUDE_FIELD_NAME = "lat"
@@ -37,6 +39,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         const val DATE_FIELD_NAME = "date"
 
         fun DocumentSnapshot.toEvent(): Event? {
+            val eventId = getString(ID_FIELD_NAME)
             val name = getString(NAME_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val long = getDouble(LONGITUDE_FIELD_NAME)
@@ -47,6 +50,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
             return try {
                 Event.Builder(
+                    eventId,
                     name,
                     numParticipants,
                     limitParticipants,
@@ -61,6 +65,18 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                 null
             }
         }
+    }
+
+    /**
+     * Add a [Event] with an auto-generated ID.
+     *
+     * @param item: the [Event] to add
+     */
+    override fun add(item: Event): Task<Void> {
+        val document = repository
+            .getCollection()
+            .document()
+        return repository.add(item.withId(document.id))
     }
 
     override suspend fun getEvents(): List<Event> = take(DEFAULT_QUERY_LIMIT.toLong())
@@ -91,4 +107,17 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         return success
     }
 
+    override suspend fun updateEditedEvent(eventId: String, name: String,
+                                           limPart: Int, lat: Double, long: Double,
+                                           date: LocalDateTime) {
+        repository.update(eventId) { event ->
+            event.copy(
+                name = name,
+                limitParticipants = limPart,
+                lat = lat,
+                long = long,
+                date = date
+            )
+        }.await()
+    }
 }

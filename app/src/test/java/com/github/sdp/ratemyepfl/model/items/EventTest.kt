@@ -13,12 +13,13 @@ class EventTest {
     private val SHOW_PARTICIPANTS = "Participants: 64/70"
     private val DATE = LocalDateTime.now()
     private val EXPECTED_EVENT = Event(
-        ID,
+        ID, ID,
         64, 70,
         listOf(USER_ID), USER_ID,
         46.52, 6.569, DATE
     )
     private val EXPECTED_HASH_MAP = hashMapOf(
+        EventRepositoryImpl.ID_FIELD_NAME to EXPECTED_EVENT.eventId,
         NAME_FIELD_NAME to EXPECTED_EVENT.name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.limitParticipants,
@@ -32,6 +33,7 @@ class EventTest {
     @Test
     fun defaultConstructorWorks() {
         val e = EXPECTED_EVENT
+        assertEquals(ID, e.eventId)
         assertEquals(ID, e.name)
         assertEquals(64, e.numParticipants)
         assertEquals(70, e.limitParticipants)
@@ -72,6 +74,7 @@ class EventTest {
         val lat = 0.0
         val long = 0.0
         val builder = Event.Builder()
+            .setId(fake)
             .name(fake)
             .setLat(lat)
             .setLong(long)
@@ -80,9 +83,11 @@ class EventTest {
             .setCreator(USER_ID)
 
         val event = builder.build()
-        val expected = Event(fake, 0, 70, listOf(), USER_ID, lat, long, DATE)
-        assertEquals(event.name, expected.name)
+        val expected = Event(fake, fake, 0, 70,
+            listOf(), USER_ID, lat, long, DATE)
 
+        assertEquals(event.eventId, expected.eventId)
+        assertEquals(event.name, expected.name)
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
         assertEquals(event.date, expected.date)

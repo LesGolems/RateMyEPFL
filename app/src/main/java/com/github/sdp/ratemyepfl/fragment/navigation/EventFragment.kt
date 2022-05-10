@@ -50,8 +50,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
 
         addEventButton = view.findViewById(R.id.addEventButton)
         addEventButton.setOnClickListener {
-            val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
-            startActivity(intent)
+            displayEditEventActitvity()
         }
     }
 
@@ -88,6 +87,21 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             }
         } else {
             Snackbar.make(requireView(), R.string.registration_no_login_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.activityMainBottomNavigationView)
+                .show()
+        }
+    }
+
+    /**
+     * Display the edit event activity if the user is logged in
+     */
+    private fun displayEditEventActitvity() {
+        if (auth.isLoggedIn()) {
+            val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
+            intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            startActivity(intent)
+        } else {
+            Snackbar.make(requireView(), R.string.edit_event_no_login_text, Snackbar.LENGTH_SHORT)
                 .setAnchorView(R.id.activityMainBottomNavigationView)
                 .show()
         }

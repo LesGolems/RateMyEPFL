@@ -150,6 +150,7 @@
         app:dividerColor="@color/purple_200"/>
 
     <RelativeLayout
+        android:id="@+id/editEventButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"

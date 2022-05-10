@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.CREATOR_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.ID_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
@@ -30,7 +31,7 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
-        "Fake id",
+        "Fake id", "Fake id",
         0, 1,
         listOf(), "",
         0.0, 0.0, LocalDateTime.now()
@@ -62,6 +63,7 @@ class EventRepositoryTest {
             assertEquals(events.size, 1)
 
             val event = events[0]
+            assertEquals(testEvent.eventId, event.eventId)
             assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
@@ -71,9 +73,10 @@ class EventRepositoryTest {
     @Test
     fun getEventByIdWorks() {
         runTest {
-            val event = eventRepo.getEventById(testEvent.name)
+            val event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.name, event!!.name)
+            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
         }
@@ -82,19 +85,34 @@ class EventRepositoryTest {
     @Test
     fun changeNumParticipantsWorks() {
         runTest {
-            eventRepo.updateParticipants(testEvent.name, USER_ID)
-            var event = eventRepo.getEventById(testEvent.name)
+            eventRepo.updateParticipants(testEvent.eventId, USER_ID)
+            var event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.name, event!!.name)
+            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.name, event.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
 
-            eventRepo.updateParticipants(testEvent.name, USER_ID)
-            event = eventRepo.getEventById(testEvent.name)
+            eventRepo.updateParticipants(testEvent.eventId, USER_ID)
+            event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.name, event!!.name)
+            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.name, event.name)
             assertEquals(0, event.numParticipants)
             assert(!event.participants.contains(USER_ID))
+        }
+    }
+
+    @Test
+    fun editEventWorks() {
+        runTest {
+            eventRepo.updateEditedEvent(testEvent.eventId, "new name",
+                10, 0.0, 0.0, LocalDateTime.now())
+            val event = eventRepo.getEventById(testEvent.eventId)
+            assertNotNull(event)
+            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals("new name", event.name)
+            assertEquals(10, event.limitParticipants)
         }
     }
 
@@ -110,6 +128,7 @@ class EventRepositoryTest {
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
+        Mockito.`when`(snapshot.getString(ID_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
         Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
@@ -128,6 +147,7 @@ class EventRepositoryTest {
 
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()
+            .setId(fake)
             .name(fake)
             .setLat(lat)
             .setLong(long)
@@ -137,6 +157,7 @@ class EventRepositoryTest {
             .setDate(date)
             .setCreator(fake)
             .build()
+        assertEquals(event.eventId, expected.eventId)
         assertEquals(event.name, expected.name)
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
