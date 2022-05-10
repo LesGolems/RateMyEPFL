@@ -17,7 +17,8 @@ open class AudioRecordActivity : AppCompatActivity() {
     private lateinit var filename: String
 
     private lateinit var recordButton: Button
-    private lateinit var recorder: MediaRecorder
+    private var recorder: MediaRecorder? = null
+    private lateinit var loopingThread: Thread
 
     @Volatile
     private var averageIntensity: Double = 0.0
@@ -27,8 +28,6 @@ open class AudioRecordActivity : AppCompatActivity() {
 
     @Volatile
     private var start = false
-
-    private lateinit var loopingThread: Thread
 
     companion object {
         private const val referenceAmplitude = 10
@@ -42,22 +41,25 @@ open class AudioRecordActivity : AppCompatActivity() {
         filename = "${externalCacheDir!!.absolutePath}/audiorecordtest.3gp"
 
         recordButton = findViewById(R.id.audioRecordButton)
-        recordButton.text = "Start recording"
         recordButton.setOnClickListener {
             start = !start
             onRecord()
         }
+    }
 
-        recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            MediaRecorder(this)
-        } else {
-            MediaRecorder()
-        }
+    /**
+     * e.g. when the user quits the Activity while recording
+     */
+    override fun onPause() {
+        super.onPause()
+        start = !start
+        stopRecording()
     }
 
     override fun onStop() {
         super.onStop()
-        recorder.release()
+        start = !start
+        stopRecording()
     }
 
     private fun onRecord() {
@@ -68,19 +70,21 @@ open class AudioRecordActivity : AppCompatActivity() {
             recordButton.text = "Start recording"
             stopRecording()
 
+            // Calculates the average sound intensity that was measured while recording
             // We do not take into account the first measure, which always gives a zero intensity
             if (numberOfMeasures > 0) {
                 averageIntensity /= (numberOfMeasures - 1)
             }
             Toast.makeText(this, "$averageIntensity dB (N=$numberOfMeasures)", Toast.LENGTH_SHORT)
                 .show()
+
             averageIntensity = 0.0
             numberOfMeasures = 0
         }
     }
 
     private fun measureDecibels(): Double {
-        val maxAmplitude = recorder.maxAmplitude.toDouble()
+        val maxAmplitude = recorder!!.maxAmplitude.toDouble()
         return if (maxAmplitude == 0.0) {
             0.0
         } else {
@@ -89,13 +93,20 @@ open class AudioRecordActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-        recorder.setOutputFile(filename)
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-        recorder.prepare()
-        recorder.start()
+        recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MediaRecorder(this)
+        } else {
+            MediaRecorder()
+        }.apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setOutputFile(filename)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            prepare()
+            start()
+        }
 
+        // Measures the sound intensity every half-second until the user stops recording
         loopingThread = thread {
             while (start) {
                 val soundIntensity = measureDecibels()
@@ -108,8 +119,11 @@ open class AudioRecordActivity : AppCompatActivity() {
 
     private fun stopRecording() {
         loopingThread.join()
-        recorder.reset() // You can reuse the object by going back to setAudioSource() step
-        recorder.release() // Now the object cannot be reused
+        recorder?.apply {
+            reset()
+            release()
+        }
+        recorder = null
     }
 
 }
