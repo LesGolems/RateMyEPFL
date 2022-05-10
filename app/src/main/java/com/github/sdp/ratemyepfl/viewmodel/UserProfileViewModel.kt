@@ -25,7 +25,6 @@ class UserProfileViewModel @Inject constructor(
     val username: MutableLiveData<String?> = MutableLiveData(null)
     val email: MutableLiveData<String?> = MutableLiveData(null)
     val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
-    val karma: MutableLiveData<Int?> = MutableLiveData(null)
 
     var newUsername: String? = null
     var newEmail: String? = null
@@ -51,7 +50,6 @@ class UserProfileViewModel @Inject constructor(
                     username.postValue(user.username)
                     email.postValue(user.email)
                     timetable.postValue(user.timetable)
-                    karma.postValue(user.karma)
                 } else {
                     username.postValue(currentUser.getUsername()!!.split(" ")[0])
                     email.postValue(currentUser.getEmail())
@@ -69,7 +67,6 @@ class UserProfileViewModel @Inject constructor(
             username.postValue("Visitor")
             email.postValue("You are not logged in")
             picture.postValue(null)
-            karma.postValue(null)
         }
     }
 

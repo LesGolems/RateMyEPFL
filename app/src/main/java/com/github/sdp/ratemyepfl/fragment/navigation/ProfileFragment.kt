@@ -87,7 +87,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     viewModel.changeUsername(usernameText.text.toString())
                     viewModel.changeEmail(emailText.text.toString())
                     viewModel.submitChanges()
-                    sideBarViewModel.user.postValue(userFromViewModel())
+                    sideBarViewModel.user.postValue(
+                        sideBarViewModel.user.value?.copy(
+                            email = viewModel.newEmail,
+                            username = viewModel.newUsername
+                        )
+                    )
                     sideBarViewModel.picture.postValue(viewModel.picture.value)
                 } catch (e: Exception) {
                     viewModel.discardChanges()
@@ -96,23 +101,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 enableModifications(false)
             }
         }
-    }
-
-    /**
-     * Creates user from view model information
-     */
-    private fun userFromViewModel(): User? {
-        val id = viewModel.currentUser.getUserId()
-        val email = viewModel.newEmail
-        val picture = viewModel.picture.value
-        val username = viewModel.newUsername
-        val karma = viewModel.karma.value
-        val timetable = viewModel.timetable.value
-
-        if (id != null && email != null && picture != null && username != null && karma != null && timetable != null) {
-            return User(id, username, email, karma, timetable)
-        }
-        return null
     }
 
     private fun enableModifications(boolean: Boolean) {
