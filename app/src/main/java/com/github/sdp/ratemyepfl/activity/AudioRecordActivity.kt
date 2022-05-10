@@ -1,9 +1,12 @@
 package com.github.sdp.ratemyepfl.activity
 
+import android.graphics.Color
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
@@ -19,6 +22,9 @@ open class AudioRecordActivity : AppCompatActivity() {
     private lateinit var recordButton: Button
     private var recorder: MediaRecorder? = null
     private lateinit var loopingThread: Thread
+
+    private lateinit var decibelTextView: TextView
+    private lateinit var noiseTextView: TextView
 
     @Volatile
     private var averageIntensity: Double = 0.0
@@ -45,6 +51,9 @@ open class AudioRecordActivity : AppCompatActivity() {
             start = !start
             onRecord()
         }
+
+        decibelTextView = findViewById(R.id.decibelTextView)
+        noiseTextView = findViewById(R.id.noiseTextView)
     }
 
     /**
@@ -52,19 +61,25 @@ open class AudioRecordActivity : AppCompatActivity() {
      */
     override fun onPause() {
         super.onPause()
-        start = !start
-        stopRecording()
+        if (start) {
+            start = !start
+            stopRecording()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        start = !start
-        stopRecording()
+        if (start) {
+            start = !start
+            stopRecording()
+        }
     }
 
     private fun onRecord() {
         if (start) {
             recordButton.text = "Stop recording"
+            decibelTextView.visibility = View.VISIBLE
+            noiseTextView.visibility = View.VISIBLE
             startRecording()
         } else {
             recordButton.text = "Start recording"
@@ -110,6 +125,9 @@ open class AudioRecordActivity : AppCompatActivity() {
         loopingThread = thread {
             while (start) {
                 val soundIntensity = measureDecibels()
+                runOnUiThread {
+                    displayDecibels(soundIntensity.toInt())
+                }
                 averageIntensity += soundIntensity
                 ++numberOfMeasures
                 Thread.sleep(500)
@@ -124,6 +142,28 @@ open class AudioRecordActivity : AppCompatActivity() {
             release()
         }
         recorder = null
+    }
+
+    private fun displayDecibels(intensity: Int) {
+        decibelTextView.text = getString(R.string.decibels, intensity.toString())
+
+        if (intensity < 30) { // Faint
+            decibelTextView.setTextColor(Color.CYAN)
+            noiseTextView.text = getString(R.string.noise, "Quiet")
+            noiseTextView.setTextColor(Color.CYAN)
+        } else if (intensity < 60) { // Moderate to quiet
+            decibelTextView.setTextColor(Color.GREEN)
+            noiseTextView.text = getString(R.string.noise, "Calm")
+            noiseTextView.setTextColor(Color.GREEN)
+        } else if (intensity < 90) { // Loud
+            decibelTextView.setTextColor(Color.YELLOW)
+            noiseTextView.text = getString(R.string.noise, "Loud")
+            noiseTextView.setTextColor(Color.YELLOW)
+        } else { // Extremely loud
+            decibelTextView.setTextColor(Color.RED)
+            noiseTextView.text = getString(R.string.noise, "Extremely loud")
+            noiseTextView.setTextColor(Color.RED)
+        }
     }
 
 }
