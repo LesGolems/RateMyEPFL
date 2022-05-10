@@ -8,8 +8,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.viewmodel.ClassroomInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.concurrent.thread
 import kotlin.math.log10
@@ -38,6 +40,8 @@ open class AudioRecordActivity : AppCompatActivity() {
     companion object {
         private const val referenceAmplitude = 10
     }
+
+    private val viewModel: ClassroomInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +96,8 @@ open class AudioRecordActivity : AppCompatActivity() {
             }
             Toast.makeText(this, "$averageIntensity dB (N=$numberOfMeasures)", Toast.LENGTH_SHORT)
                 .show()
+
+            //viewModel.submitNoiseMeasure(averageIntensity)
 
             averageIntensity = 0.0
             numberOfMeasures = 0
