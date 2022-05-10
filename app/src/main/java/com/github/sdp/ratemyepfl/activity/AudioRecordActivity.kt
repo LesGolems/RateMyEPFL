@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.activity
 
-import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
@@ -8,19 +7,28 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import dagger.hilt.android.AndroidEntryPoint
+import kotlin.concurrent.thread
 import kotlin.math.log10
 
+@AndroidEntryPoint
 open class AudioRecordActivity : AppCompatActivity() {
 
     private lateinit var filename: String
 
-    private lateinit var audioRecordButton: Button
+    private lateinit var recordButton: Button
     private lateinit var recorder: MediaRecorder
-    private var mStartRecording = true
 
-    private lateinit var audioPlayButton: Button
-    private lateinit var player: MediaPlayer
-    private var mStartPlaying = true
+    @Volatile
+    private var averageIntensity: Double = 0.0
+
+    @Volatile
+    private var numberOfMeasures: Int = 0
+
+    @Volatile
+    private var start = false
+
+    private lateinit var loopingThread: Thread
 
     companion object {
         private const val referenceAmplitude = 10
@@ -33,14 +41,11 @@ open class AudioRecordActivity : AppCompatActivity() {
         // Record to the external cache directory for visibility
         filename = "${externalCacheDir!!.absolutePath}/audiorecordtest.3gp"
 
-        audioRecordButton = findViewById(R.id.audioRecordButton)
-        audioRecordButton.setOnClickListener {
-            audioRecordButton.text = when (mStartRecording) {
-                true -> "Stop recording"
-                false -> "Start recording"
-            }
-            onRecord(mStartRecording)
-            mStartRecording = !mStartRecording
+        recordButton = findViewById(R.id.audioRecordButton)
+        recordButton.text = "Start recording"
+        recordButton.setOnClickListener {
+            start = !start
+            onRecord()
         }
 
         recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -48,46 +53,38 @@ open class AudioRecordActivity : AppCompatActivity() {
         } else {
             MediaRecorder()
         }
-
-        audioPlayButton = findViewById(R.id.audioPlayButton)
-        audioPlayButton.setOnClickListener {
-            audioPlayButton.text = when (mStartPlaying) {
-                true -> "Stop playing"
-                false -> "Start playing"
-            }
-            onPlay(mStartPlaying)
-            mStartPlaying = !mStartPlaying
-        }
-        player = MediaPlayer()
     }
 
     override fun onStop() {
         super.onStop()
         recorder.release()
-        player.release()
     }
 
-    private fun onRecord(start: Boolean) {
+    private fun onRecord() {
         if (start) {
+            recordButton.text = "Stop recording"
             startRecording()
-            for (i in 1..5) {
-                val soundIntensity = getSoundIntensity()
-                Toast.makeText(this, "$soundIntensity dB", Toast.LENGTH_SHORT).show()
-                Thread.sleep(1000)
-            }
-
         } else {
+            recordButton.text = "Start recording"
             stopRecording()
+
+            // We do not take into account the first measure, which always gives a zero intensity
+            if (numberOfMeasures > 0) {
+                averageIntensity /= (numberOfMeasures - 1)
+            }
+            Toast.makeText(this, "$averageIntensity dB (N=$numberOfMeasures)", Toast.LENGTH_SHORT)
+                .show()
+            averageIntensity = 0.0
+            numberOfMeasures = 0
         }
     }
 
-    private fun getSoundIntensity(): Double {
+    private fun measureDecibels(): Double {
         val maxAmplitude = recorder.maxAmplitude.toDouble()
         return if (maxAmplitude == 0.0) {
             0.0
         } else {
             20 * log10(maxAmplitude / referenceAmplitude)
-
         }
     }
 
@@ -97,28 +94,22 @@ open class AudioRecordActivity : AppCompatActivity() {
         recorder.setOutputFile(filename)
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
         recorder.prepare()
-        recorder.start() // Recording is now started
+        recorder.start()
+
+        loopingThread = thread {
+            while (start) {
+                val soundIntensity = measureDecibels()
+                averageIntensity += soundIntensity
+                ++numberOfMeasures
+                Thread.sleep(500)
+            }
+        }
     }
 
     private fun stopRecording() {
+        loopingThread.join()
         recorder.reset() // You can reuse the object by going back to setAudioSource() step
         recorder.release() // Now the object cannot be reused
-    }
-
-    private fun onPlay(start: Boolean) = if (start) {
-        startPlaying()
-    } else {
-        stopPlaying()
-    }
-
-    private fun startPlaying() {
-        player.setDataSource(filename)
-        player.prepare()
-        player.start()
-    }
-
-    private fun stopPlaying() {
-        player.release()
     }
 
 }
