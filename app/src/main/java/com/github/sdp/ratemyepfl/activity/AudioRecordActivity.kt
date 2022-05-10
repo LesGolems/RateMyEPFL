@@ -8,7 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +22,7 @@ open class AudioRecordActivity : AppCompatActivity() {
 
     private lateinit var filename: String
 
-    private lateinit var recordButton: Button
+    private lateinit var recordButton: ImageButton
     private var recorder: MediaRecorder? = null
     private lateinit var loopingThread: Thread
 
@@ -85,12 +85,12 @@ open class AudioRecordActivity : AppCompatActivity() {
 
     private fun onRecord() {
         if (start) {
-            recordButton.text = "Stop recording"
+            recordButton.setImageResource(R.drawable.stop_circle_outline)
             decibelTextView.visibility = View.VISIBLE
             noiseTextView.visibility = View.VISIBLE
             startRecording()
         } else {
-            recordButton.text = "Start recording"
+            recordButton.setImageResource(R.drawable.record_circle)
             stopRecording()
 
             // Calculates the average sound intensity that was measured while recording
@@ -98,8 +98,6 @@ open class AudioRecordActivity : AppCompatActivity() {
             if (numberOfMeasures > 0) {
                 averageIntensity /= (numberOfMeasures - 1)
             }
-            Toast.makeText(this, "$averageIntensity dB (N=$numberOfMeasures)", Toast.LENGTH_SHORT)
-                .show()
 
             val measure = averageIntensity
             averageIntensity = 0.0
@@ -180,6 +178,12 @@ open class AudioRecordActivity : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra(EXTRA_MEASUREMENT_VALUE, measure)
         setResult(Activity.RESULT_OK, intent)
+        Toast.makeText(
+            this,
+            "Your measure (${measure.toInt()} dB) was uploaded successfully!",
+            Toast.LENGTH_LONG
+        )
+            .show()
         finish()
     }
 
