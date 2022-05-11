@@ -17,7 +17,7 @@ BASE_URL = 'https://plan.epfl.ch/'
 def retrieve_rooms(building):
     url = BASE_URL + '?q=' + building
     rooms = set()
-    driver = webdriver.Chrome(executable_path='C:/Users/Souly/Bureau/chromedriver.exe') # change with your own chrome driver path, or any other browser supported by selenium
+    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver') # change with your own chrome driver path, or any other browser supported by selenium
     driver.get(url)
     # I need to force a wait for the browser driver to render javascript, I don't know how to make it any faster for now
     time.sleep(3)
