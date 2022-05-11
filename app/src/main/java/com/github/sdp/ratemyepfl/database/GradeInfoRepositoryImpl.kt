@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import android.util.Log
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
