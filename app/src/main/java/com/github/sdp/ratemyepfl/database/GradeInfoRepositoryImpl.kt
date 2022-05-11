@@ -64,8 +64,6 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
             totalGrade += ri.reviewGrade * w
             total += w
         }
-        Log.d("fifhif", totalGrade.toString())
-        Log.d("fifhif", total.toString())
         return totalGrade / total
     }
 
