@@ -2,17 +2,16 @@ package com.github.sdp.ratemyepfl.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.concurrent.thread
 import kotlin.math.log10
@@ -152,25 +151,11 @@ open class AudioRecordActivity : AppCompatActivity() {
     }
 
     private fun displayDecibels(intensity: Int) {
+        val (text, color) = SoundDisplayUtils.decibelMap(intensity)
         decibelTextView.text = getString(R.string.decibels, intensity.toString())
-
-        if (intensity < 30) { // Faint
-            decibelTextView.setTextColor(Color.CYAN)
-            noiseTextView.text = getString(R.string.noise, "Quiet")
-            noiseTextView.setTextColor(Color.CYAN)
-        } else if (intensity < 60) { // Moderate to quiet
-            decibelTextView.setTextColor(Color.GREEN)
-            noiseTextView.text = getString(R.string.noise, "Calm")
-            noiseTextView.setTextColor(Color.GREEN)
-        } else if (intensity < 90) { // Loud
-            decibelTextView.setTextColor(Color.YELLOW)
-            noiseTextView.text = getString(R.string.noise, "Loud")
-            noiseTextView.setTextColor(Color.YELLOW)
-        } else { // Extremely loud
-            decibelTextView.setTextColor(Color.RED)
-            noiseTextView.text = getString(R.string.noise, "Extremely loud")
-            noiseTextView.setTextColor(Color.RED)
-        }
+        decibelTextView.setTextColor(color)
+        noiseTextView.text = getString(R.string.noise, text)
+        noiseTextView.setTextColor(color)
     }
 
     private fun sendAudioResults(measure: Double) {

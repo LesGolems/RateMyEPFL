@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.AudioRecordActivity
-import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
+import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils
 import com.github.sdp.ratemyepfl.utils.TimeUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,15 +73,15 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
         val mostRecentDate = sortedMap.lastKey()
         val mostRecentMeasure = sortedMap[mostRecentDate]
 
-        val pair = RoomNoiseInfo.displayDecibels(mostRecentMeasure!!)
+        val (text, color) = SoundDisplayUtils.decibelMap(mostRecentMeasure!!)
         roomNoiseInfoTextView.text =
             getString(
                 R.string.room_noise_info,
-                pair.first,
+                text,
                 mostRecentMeasure.toString(),
                 TimeUtils.prettyTime(mostRecentDate)
             )
-        roomNoiseInfoTextView.setTextColor(pair.second)
+        roomNoiseInfoTextView.setTextColor(color)
     }
 
 

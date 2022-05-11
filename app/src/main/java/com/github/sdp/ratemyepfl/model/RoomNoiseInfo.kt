@@ -12,19 +12,6 @@ data class RoomNoiseInfo(
     val noiseData: Map<String, Int> = mapOf()
 ) : RepositoryItem {
 
-    companion object {
-        fun displayDecibels(intensity: Int): Pair<String, Int> =
-            if (intensity < 30) {
-                Pair("Quiet", Color.CYAN)
-            } else if (intensity < 60) {
-                Pair("Calm", Color.GREEN)
-            } else if (intensity < 90) {
-                Pair("Loud", Color.YELLOW)
-            } else {
-                Pair("Painful", Color.RED)
-            }
-    }
-
     override fun getId(): String = roomId
 
     override fun toHashMap(): HashMap<String, Any?> {
