@@ -11,4 +11,9 @@
         android:label="@string/timetable_nav_title"
         tools:layout="@layout/fragment_timetable" />
 
+    <fragment
+        android:id="@+id/addClassFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.navigation.AddClassFragment"
+        android:label="@string/addclassfragment"
+        tools:layout="@layout/layout_reviewable_list" />
 </navigation>
