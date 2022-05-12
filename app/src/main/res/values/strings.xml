@@ -72,6 +72,11 @@
     <string name="logout_drawer">Logout</string>
     <string name="no_coin">0</string>
     <string name="coin">Coin</string>
+    <string name="button_to_record_noise_intensity_of_a_room">Button to record noise intensity of a room</string>
+    <string name="decibels">%s dB</string>
+    <string name="noise">%s</string>
+    <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
+    <string name="room_noise_info">%s (%s dB) - %s</string>
     <string name="addClassButton">Add Class Button</string>
     <string name="addclassfragment">Choose a class to add</string>
 </resources>

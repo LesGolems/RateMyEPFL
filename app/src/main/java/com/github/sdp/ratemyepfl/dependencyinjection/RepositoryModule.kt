@@ -43,5 +43,9 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideRoomNoiseRepo(repo: RoomNoiseRepositoryImpl): RoomNoiseRepository
+
+    @Singleton
+    @Binds
     abstract fun provideImageStorage(repo: ImageStorage): Storage<ImageFile>
 }
