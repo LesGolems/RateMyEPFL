@@ -124,7 +124,7 @@ class EditEventActitivity : AppCompatActivity() {
             dateValues[2] = currentDate.dayOfMonth
         }
         editEventViewModel.setDate(dateValues)
-        datePicker.updateDate(dateValues[0], dateValues[1]-1, dateValues[2])
+        datePicker.updateDate(dateValues[0], dateValues[1], dateValues[2])
     }
 
     private fun timePickerInit() {
