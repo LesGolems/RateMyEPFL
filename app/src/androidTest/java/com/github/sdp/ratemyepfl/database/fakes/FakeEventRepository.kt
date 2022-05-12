@@ -3,6 +3,8 @@ package com.github.sdp.ratemyepfl.database.fakes
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.google.android.gms.tasks.Task
+import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -12,27 +14,38 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         val DATE = LocalDateTime.now()
         val EVENT_LIST = listOf(
             Event(
+                "",
                 name = "Evenement de dingue", 0,
-                100, listOf(), 0.0, 0.0, DATE
+                100, listOf(), "", 0.0, 0.0, DATE
             ),
             Event(
+                "",
                 name = "Bas les masques", 0,
-                70, listOf(), 0.0, 0.0, DATE
+                70, listOf(), "", 0.0, 0.0, DATE
             ),
             Event(
+                "",
                 name = "La paix verte", 0,
-                50, listOf(), 0.0, 0.0, DATE
+                50, listOf(), "", 0.0, 0.0, DATE
             )
         )
 
         val DEFAULT_EVENT = Event(
-            name = "Evenement de dingue", 0,
-            100, listOf(), 0.0, 0.0, DATE
+            "", name = "Evenement de dingue", 0,
+            100, listOf(), "", 0.0, 0.0, DATE
         )
 
         var eventById = DEFAULT_EVENT
 
         var rate: ReviewRating = ReviewRating.AVERAGE
+    }
+
+    override fun add(event: Event): Task<Void> {
+        return Mockito.mock(Task::class.java) as Task<Void>
+    }
+
+    override fun addEventWithId(event: Event): Task<Void> {
+        return Mockito.mock(Task::class.java) as Task<Void>
     }
 
     override suspend fun getEvents(): List<Event> = EVENT_LIST
@@ -41,4 +54,15 @@ class FakeEventRepository @Inject constructor() : EventRepository {
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean =
         true
+
+    override suspend fun updateEditedEvent(
+        eventId: String,
+        name: String,
+        limPart: Int,
+        lat: Double,
+        long: Double,
+        date: LocalDateTime
+    ) {
+        val e = Event(eventId, name, 0, limPart, listOf(), "", lat, long, date)
+    }
 }

@@ -43,6 +43,9 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.EditEventActitivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ImageDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen" />
