@@ -36,7 +36,7 @@ open class AudioRecordActivity : AppCompatActivity() {
     private var start = false
 
     companion object {
-        private const val referenceAmplitude = 1000
+        private const val referenceAmplitude = 25
         const val EXTRA_MEASUREMENT_VALUE: String = "com.github.sdp.extra_measurement_value"
     }
 
