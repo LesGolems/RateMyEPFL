@@ -26,7 +26,8 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private val eventAdapter =
         EventAdapter(
             { e -> displayReviews(e) },
-            { e -> registrationListener(e) }
+            { e -> registrationListener(e) },
+            { e -> editListener(e) }
         )
     private lateinit var recyclerView: RecyclerView
     private lateinit var addEventButton: Button
@@ -93,7 +94,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     }
 
     /**
-     * Display the edit event activity if the user is logged in
+     * Display the edit event activity if the user is logged in (add mode)
      */
     private fun displayEditEventActitvity() {
         if (auth.isLoggedIn()) {
@@ -105,5 +106,21 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
                 .setAnchorView(R.id.activityMainBottomNavigationView)
                 .show()
         }
+    }
+
+    /**
+     * Display the edit event activity (edit mode)
+     */
+    private fun editListener(event: Event) {
+        val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
+        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, event.eventId)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, event.name)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
+        val dateTime = event.date
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(dateTime.hour, dateTime.minute))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(event.lat, event.long))
+        startActivity(intent)
     }
 }

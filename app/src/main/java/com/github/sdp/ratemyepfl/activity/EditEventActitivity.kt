@@ -100,6 +100,9 @@ class EditEventActitivity : AppCompatActivity() {
             editEventViewModel.eventLimPart?.let {
                 limitPicker.value = it
             }
+            editEventViewModel.eventLimPart?.let {
+                limitPicker.minValue = it
+            }
         }
     }
 
