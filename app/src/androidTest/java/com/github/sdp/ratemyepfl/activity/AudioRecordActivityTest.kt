@@ -24,7 +24,6 @@ import org.junit.Test
 
 @HiltAndroidTest
 class AudioRecordActivityTest {
-    lateinit var scenario: ActivityScenario<AudioRecordActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -36,18 +35,6 @@ class AudioRecordActivityTest {
     val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
         Manifest.permission.RECORD_AUDIO
     )
-
-    @Before
-    fun setUp() {
-        val intent =
-            Intent(ApplicationProvider.getApplicationContext(), AudioRecordActivity::class.java)
-        scenario = ActivityScenario.launch(intent)
-    }
-
-    @After
-    fun clean() {
-        scenario.close()
-    }
 
     @Test
     fun recordButtonIsCorrectlyDisplayedWhenUserStartsRecording() {
