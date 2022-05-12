@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.map
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ClassAdapter
 import com.github.sdp.ratemyepfl.model.items.Class
+import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +30,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     ): View? {
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
+    private val userViewModel : UserProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -3,9 +3,12 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.github.sdp.ratemyepfl.model.items.Class
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
@@ -31,16 +34,12 @@ class AddClassFragment() : ReviewableTabFragment() {
     }
 
     private fun submitClass(course: Reviewable) {
-        //convert course into class
-        Toast.makeText(context, "WORKING", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onResume() {
-        // BUGFIX
-        viewModel.courses.value?.run {
-            viewModel.courses.postValue(this)
-        }
-        super.onResume()
+        val c = course as Course
+        userProfileViewModel.addClass(Class(name=c.title, day=0, start =20, end = 21))
+        Toast.makeText(context, "Added class " + c.title, Toast.LENGTH_SHORT).show()
+        Navigation.findNavController(requireView()).navigate(R.id.timetableFragment)
+        // refresh timetable
+        // fix navigation
     }
 
 }
