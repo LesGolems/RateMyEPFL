@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 @Serializable
 data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
-    var eventId: String,
+    val eventId: String,
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
@@ -43,6 +43,8 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
+
+    fun withId(id: String): Event = this.copy(eventId = id)
 
     override fun getId(): String = eventId
 
