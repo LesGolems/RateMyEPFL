@@ -34,7 +34,14 @@ class UserProfileViewModel @Inject constructor(
     }
 
     fun addClass(c: Class) {
-        TODO()
+        if (currentUser.isLoggedIn()) {
+            viewModelScope.launch {
+                val user = currentUser.getUserId()?.let { userDatabase.getUserByUid(it) }
+                if (user != null) {
+                    userDatabase.updateTimetable(user.getId(), c)
+                }
+            }
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
@@ -14,7 +15,8 @@ import com.google.android.material.button.MaterialButton
 
 class EventAdapter(
     private val onClick: (Event) -> Unit,
-    private val registrationListener: (Event) -> Unit
+    private val registrationListener: (Event) -> Unit,
+    private val editListener: (Event) -> Unit
 ) :
     ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
 
@@ -25,7 +27,9 @@ class EventAdapter(
 
         private val eventTextView: TextView = eventView.findViewById(R.id.eventId)
         private val participantsTextView: TextView = eventView.findViewById(R.id.participants)
+        private val creatorTextView: TextView = eventView.findViewById(R.id.creator)
         private val registerButton: MaterialButton = eventView.findViewById(R.id.registerButton)
+        private val editButton: ImageButton = eventView.findViewById(R.id.editButton)
         private var currentEvent: Event? = null
 
         init {
@@ -70,14 +74,30 @@ class EventAdapter(
         }
 
         /**
+         * Set the listener of the edit button and displays it if the creator
+         * of the event is connected
+         */
+        private fun setEditButton(event: Event) {
+            if (uid?.equals(event.creator) != true) {
+                editButton.visibility = View.INVISIBLE
+            }
+            editButton.setOnClickListener {
+                editListener(event)
+            }
+        }
+
+        /**
          * Bind event
          */
         fun bind(event: Event) {
             currentEvent = event
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
+            val creatorText = "by ${event.creator}"
+            creatorTextView.text = creatorText
 
             setUpRegisterButton(event)
+            setEditButton(event)
         }
     }
 
