@@ -43,13 +43,13 @@ class EventRepositoryTest {
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        eventRepo.add(testEvent).await()
+        eventRepo.addEventWithId(testEvent).await()
     }
 
     @After
     fun clean() {
         runTest {
-            eventRepo.remove(testEvent.eventId).await()
+            eventRepo.remove(testEvent.getId()).await()
         }
     }
 
