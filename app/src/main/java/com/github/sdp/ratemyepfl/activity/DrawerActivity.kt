@@ -79,6 +79,9 @@ open class DrawerActivity : AppCompatActivity() {
                 karmaCount.text = it.karma.toString()
                 username.text = it.username
                 email.text = it.email
+            }else {
+                username.text = "Visitor"
+                email.text = "You are not logged in"
             }
         }
 

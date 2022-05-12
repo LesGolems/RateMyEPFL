@@ -46,6 +46,10 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
+    abstract fun provideRoomNoiseRepo(repo: FakeRoomNoiseRepository): RoomNoiseRepository
+
+    @Singleton
+    @Binds
     abstract fun provideUserRepo(repo: FakeUserRepository): UserRepository
 
     @Singleton

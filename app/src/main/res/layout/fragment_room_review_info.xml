@@ -31,6 +31,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/roomIcon" />
 
+    <TextView
+        android:id="@+id/roomNoiseInfoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/room_noise_info"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/noiseMeasureButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roomIdInfo" />
+
+    <ImageButton
+        android:id="@+id/noiseMeasureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:contentDescription="@string/button_to_record_noise_intensity_of_a_room"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:src="@android:drawable/ic_btn_speak_now"
+        app:layout_constraintBottom_toTopOf="@+id/roomRatingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <RatingBar
         android:id="@+id/roomRatingBar"
         style="@android:style/Widget.Material.RatingBar"

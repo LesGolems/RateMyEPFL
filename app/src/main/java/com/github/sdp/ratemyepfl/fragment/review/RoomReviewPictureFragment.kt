@@ -23,7 +23,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.utils.ImageUtils
+import com.github.sdp.ratemyepfl.utils.TimeUtils
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -141,14 +141,14 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     }
 
     private fun uploadPicture(bitmap: Bitmap) {
-        val id = ImageUtils.timeStamp()
+        val id = TimeUtils.timeStamp()
         pictureViewModel.uploadPicture(ImageFile(id, bitmap))
         Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG)
             .show()
     }
 
     private fun createImageFile(): File {
-        val id = ImageUtils.timeStamp()
+        val id = TimeUtils.timeStamp()
         val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(id, ImageStorage.FILE_EXTENSION, storageDir)
             .apply { currentPhotoPath = absolutePath }

@@ -7,6 +7,7 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import android.os.SystemClock
+import android.util.Log
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -86,15 +87,17 @@ class MainActivityTest {
 
 
         FakeRestaurantRepository.occupancyCounter = 0
+        Thread.sleep(2000)
         updateLocation(46.519214, 6.567553)
-        Thread.sleep(2000)
+        Thread.sleep(500)
         assertEquals(1, FakeRestaurantRepository.occupancyCounter)
-        Thread.sleep(2000)
+        Thread.sleep(1500)
         updateLocation(46.520625, 6.569403)
+        Thread.sleep(500)
         assertEquals(1, FakeRestaurantRepository.occupancyCounter)
-        Thread.sleep(2000)
+        Thread.sleep(1500)
         updateLocation(5.0, 6.0)
-        Thread.sleep(2000)
+        Thread.sleep(500)
         assertEquals(0, FakeRestaurantRepository.occupancyCounter)
 
         mManager.removeTestProvider(providerName)

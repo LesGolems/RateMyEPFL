@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Transaction
@@ -29,5 +30,8 @@ interface UserRepository {
      * Updates the karma of user with [uid]
      */
     suspend fun updateKarma(uid: String?, inc: Int)
+
+
+    suspend fun updateTimetable(uid: String?, c: Class)
 
 }
