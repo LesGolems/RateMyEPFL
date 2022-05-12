@@ -31,7 +31,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addClassFAB = view.findViewById(R.id.addClass)
-        addClassFAB.setOnClickListener{
+        addClassFAB.setOnClickListener {
             // add new class fragment
             Toast.makeText(this.context, "ADD CLASS", Toast.LENGTH_LONG).show()
         }

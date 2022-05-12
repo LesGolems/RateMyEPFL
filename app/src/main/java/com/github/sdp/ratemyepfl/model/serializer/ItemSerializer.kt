@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.model.serializer
 import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
 /**

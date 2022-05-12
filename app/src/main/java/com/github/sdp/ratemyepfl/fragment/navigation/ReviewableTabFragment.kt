@@ -12,7 +12,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 
 abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list) {

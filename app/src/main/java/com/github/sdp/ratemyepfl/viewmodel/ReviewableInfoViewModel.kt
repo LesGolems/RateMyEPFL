@@ -20,10 +20,10 @@ open class ReviewableInfoViewModel(
     val averageGrade = MutableLiveData(0.0)
     val numReviews = MutableLiveData(0)
 
-    protected fun refreshGrade(){
+    protected fun refreshGrade() {
         viewModelScope.launch {
             val gradeInfo = gradeInfoRepo.getGradeInfoById(id)
-            if(gradeInfo != null){
+            if (gradeInfo != null) {
                 averageGrade.postValue(gradeInfo.currentGrade)
                 numReviews.postValue(gradeInfo.numReviews)
             }

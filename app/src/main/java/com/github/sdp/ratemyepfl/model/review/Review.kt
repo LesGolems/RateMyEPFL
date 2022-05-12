@@ -168,7 +168,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
             val reviewableId = this asMandatory reviewableId
             val date = this asMandatory date
             val uid = this.uid
-            val likers = this asMandatory  this.likers
+            val likers = this asMandatory this.likers
             val dislikers = this asMandatory this.dislikers
 
             return Review(

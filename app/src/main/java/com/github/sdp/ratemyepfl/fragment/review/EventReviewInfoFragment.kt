@@ -21,11 +21,11 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
         viewModel.event.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.eventIdInfo).text = it?.toString()
         }
-        viewModel.numReviews.observe(viewLifecycleOwner){
+        viewModel.numReviews.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.eventNumReview).text =
                 getNumReviewString(requireContext(), it)
         }
-        viewModel.averageGrade.observe(viewLifecycleOwner){
+        viewModel.averageGrade.observe(viewLifecycleOwner) {
             view.findViewById<RatingBar>(R.id.eventRatingBar).rating = it.toFloat()
         }
     }

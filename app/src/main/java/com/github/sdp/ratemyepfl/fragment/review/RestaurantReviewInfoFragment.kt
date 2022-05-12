@@ -32,11 +32,11 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
             val n = occupancyMetric(it)
             setupOccupancyUI(view, n)
         }
-        viewModel.numReviews.observe(viewLifecycleOwner){
+        viewModel.numReviews.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.restaurantNumReview).text =
                 getNumReviewString(requireContext(), it)
         }
-        viewModel.averageGrade.observe(viewLifecycleOwner){
+        viewModel.averageGrade.observe(viewLifecycleOwner) {
             view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
                 it.toFloat()
         }

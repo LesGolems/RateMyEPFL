@@ -10,7 +10,6 @@ import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
 import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
-import com.google.common.util.concurrent.AtomicDouble
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
@@ -35,12 +34,13 @@ class GradeInfoRepositoryImpl private constructor(
         classroomRepository: ClassroomRepositoryImpl,
         restaurantRepository: RestaurantRepositoryImpl,
         eventRepository: EventRepositoryImpl
-    ) : this(RepositoryImpl<GradeInfo>(
-        db,
-        GradeInfoRepositoryImpl.GRADE_INFO_COLLECTION_PATH
-    ) {
-        it.toGradeInfo()
-    }, courseRepository, classroomRepository, restaurantRepository, eventRepository
+    ) : this(
+        RepositoryImpl<GradeInfo>(
+            db,
+            GradeInfoRepositoryImpl.GRADE_INFO_COLLECTION_PATH
+        ) {
+            it.toGradeInfo()
+        }, courseRepository, classroomRepository, restaurantRepository, eventRepository
     )
 
     companion object {

@@ -5,12 +5,10 @@ import android.content.Intent
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +16,6 @@ import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
