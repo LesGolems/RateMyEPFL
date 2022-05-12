@@ -118,12 +118,15 @@ class EventTest {
         val g = 1.0
         val n = 1
         val builder = Event.Builder()
+            .setId(fake)
             .name(fake)
+            .setCreator(USER_ID)
             .setLat(lat)
             .setLong(long)
             .setDate(DATE)
             .setGrade(g)
             .setNumReviews(n)
+            .setNumParticipants(0)
             .setLimitParticipants(70)
 
         val event = builder.build()
