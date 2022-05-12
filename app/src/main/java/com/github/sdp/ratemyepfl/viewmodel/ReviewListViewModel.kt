@@ -17,6 +17,7 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
@@ -58,6 +59,11 @@ open class ReviewListViewModel @Inject constructor(
                 }
                 .sortedBy { rwa -> -rwa.review.likers.size })
         }
+    }
+
+    suspend fun removeReview(reviewId: String){
+        reviewRepo.remove(reviewId).await()
+        updateReviewsList()
     }
 
     fun updateDownVotes(review: Review, authorUid: String?) {

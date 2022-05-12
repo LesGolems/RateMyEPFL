@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,10 +17,12 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /*
@@ -42,6 +45,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
     // Gets the shared view model
     private val viewModel by activityViewModels<ReviewListViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,10 +64,12 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         profilePanel.setFadeOnClickListener {
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
-
-        reviewAdapter = ReviewAdapter(connectedUser,
+        reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
-            getListener { r, s -> viewModel.updateDownVotes(r, s) }
+            getListener { r, s -> viewModel.updateDownVotes(r, s) },
+            { rwa -> lifecycleScope.launch {
+                viewModel.removeReview(rwa.review.getId())
+            }}
         ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
         recyclerView.adapter = reviewAdapter

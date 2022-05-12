@@ -73,6 +73,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
                 user1.username,
                 user1.email,
                 user1.karma + inc,
+                user1.isAdmin,
                 ArrayList()
             )
         )
