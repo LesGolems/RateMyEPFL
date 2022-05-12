@@ -100,7 +100,7 @@ open class AudioRecordActivity : AppCompatActivity() {
             val measure = averageIntensity
             averageIntensity = 0.0
             numberOfMeasures = 0
-            sendAudioResults(measure)
+            sendAudioResults(measure.toInt())
         }
     }
 
@@ -158,16 +158,10 @@ open class AudioRecordActivity : AppCompatActivity() {
         noiseTextView.setTextColor(color)
     }
 
-    private fun sendAudioResults(measure: Double) {
+    private fun sendAudioResults(measure: Int) {
         val intent = Intent()
         intent.putExtra(EXTRA_MEASUREMENT_VALUE, measure)
         setResult(Activity.RESULT_OK, intent)
-        Toast.makeText(
-            this,
-            "Your measure (${measure.toInt()} dB) was uploaded successfully!",
-            Toast.LENGTH_LONG
-        )
-            .show()
         finish()
     }
 

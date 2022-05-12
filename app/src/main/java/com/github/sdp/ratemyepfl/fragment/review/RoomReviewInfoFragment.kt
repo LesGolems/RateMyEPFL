@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -97,10 +98,15 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
-                val measure = data?.getDoubleExtra(AudioRecordActivity.EXTRA_MEASUREMENT_VALUE, 0.0)
-                if (measure != null && measure > 0.0) {
+                val measure = data?.getIntExtra(AudioRecordActivity.EXTRA_MEASUREMENT_VALUE, 0)
+                if (measure != null) {
                     viewModel.submitNoiseMeasure(measure)
                     viewModel.refresh()
+                    Toast.makeText(
+                        requireContext(),
+                        "Your measure ($measure dB) was uploaded successfully!",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

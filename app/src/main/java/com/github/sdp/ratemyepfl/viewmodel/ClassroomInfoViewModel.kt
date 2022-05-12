@@ -51,9 +51,9 @@ class ClassroomInfoViewModel @Inject constructor(
         refreshRoomNoise()
     }
 
-    fun submitNoiseMeasure(measure: Double) {
+    fun submitNoiseMeasure(measure: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            roomNoiseRepo.addMeasurement(id, TimeUtils.now(), measure.toInt())
+            roomNoiseRepo.addMeasurement(id, TimeUtils.now(), measure)
         }
     }
 }
