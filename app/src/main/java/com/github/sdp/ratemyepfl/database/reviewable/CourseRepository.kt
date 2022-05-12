@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.SearchableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface CourseRepository : SearchableRepository<Course> {
     /**

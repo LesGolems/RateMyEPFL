@@ -2,6 +2,8 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -14,9 +16,7 @@ class EventTest {
     private val DATE = LocalDateTime.now()
     private val EXPECTED_EVENT = Event(
         ID, ID,
-        64, 70,
-        listOf(USER_ID), USER_ID,
-        46.52, 6.569, DATE
+        64, 70, listOf(USER_ID), USER_ID, 0.0, 46.52, 6.569, DATE
     )
     private val EXPECTED_HASH_MAP = hashMapOf(
         EventRepositoryImpl.ID_FIELD_NAME to EXPECTED_EVENT.eventId,
@@ -27,7 +27,8 @@ class EventTest {
         EventRepositoryImpl.CREATOR_FIELD_NAME to EXPECTED_EVENT.creator,
         EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
-        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString()
+        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
+        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
     )
 
     @Test
@@ -73,18 +74,20 @@ class EventTest {
         val fake = "fake"
         val lat = 0.0
         val long = 0.0
+        val g = 1.0
         val builder = Event.Builder()
             .setId(fake)
             .name(fake)
             .setLat(lat)
             .setLong(long)
             .setDate(DATE)
+            .setGrade(g)
             .setLimitParticipants(70)
             .setCreator(USER_ID)
 
         val event = builder.build()
-        val expected = Event(fake, fake, 0, 70,
-            listOf(), USER_ID, lat, long, DATE)
+        val expected = Event(fake, fake,0, 70, listOf(), USER_ID, g, lat, long, DATE)
+        assertEquals(event.name, expected.name)
 
         assertEquals(event.eventId, expected.eventId)
         assertEquals(event.name, expected.name)
@@ -94,6 +97,7 @@ class EventTest {
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
-        assertEquals(event.creator, expected.creator)
+        assertEquals(event.grade, expected.grade, 0.01)
     }
+
 }

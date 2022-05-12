@@ -12,6 +12,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 
 abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list) {
 
@@ -107,9 +108,11 @@ abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list)
     private fun displayReviews(reviewable: Reviewable) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
-            ReviewActivity.EXTRA_ITEM_REVIEWED,
+            ReviewActivity.EXTRA_ITEM_REVIEWED_ID,
             reviewable.getId()
         )
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
+
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, reviewActivityMenuId)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, reviewActivityGraphId)
         startActivity(intent)

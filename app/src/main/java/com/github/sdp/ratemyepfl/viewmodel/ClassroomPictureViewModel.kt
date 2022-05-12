@@ -18,7 +18,7 @@ open class ClassroomPictureViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Room id
-    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     // Room pictures
     val pictures = MutableLiveData<List<ImageFile?>>()

@@ -14,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -71,15 +70,15 @@ open class DrawerActivity : AppCompatActivity() {
         val karmaCount: TextView = headerView.findViewById(R.id.karmaCount)
         val golemLayout: ConstraintLayout = headerView.findViewById(R.id.coinDisplay)
 
-        userViewModel.isUserLoggedIn.observe(this){
+        userViewModel.isUserLoggedIn.observe(this) {
             golemLayout.isVisible = it
         }
         userViewModel.user.observe(this) {
-            if(it != null){
+            if (it != null) {
                 karmaCount.text = it.karma.toString()
                 username.text = it.username
                 email.text = it.email
-            }else {
+            } else {
                 username.text = "Visitor"
                 email.text = "You are not logged in"
             }

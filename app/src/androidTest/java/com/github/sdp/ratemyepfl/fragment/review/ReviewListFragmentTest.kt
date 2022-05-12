@@ -13,12 +13,14 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
+import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
@@ -37,18 +39,17 @@ import java.time.LocalDate
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
-
+    private val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
+        .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
+        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
 
     @Before
     fun setUp() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
-        // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
     }
@@ -343,13 +344,6 @@ class ReviewListFragmentTest {
     @Test
     fun likeWhenNotConnected() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(
-            ReviewActivity.EXTRA_MENU_ID,
-            R.menu.bottom_navigation_menu_course_review
-        ) // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
@@ -359,13 +353,6 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeWhenNotConnected() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(
-            ReviewActivity.EXTRA_MENU_ID,
-            R.menu.bottom_navigation_menu_course_review
-        ) // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))

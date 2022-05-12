@@ -2,52 +2,49 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
-data class Event(
-    var eventId: String,
+@Serializable
+data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
+    val eventId: String,
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
     val creator: String,
+    override val grade: Double,
     val lat: Double,
     val long: Double,
-    val date: LocalDateTime
+    @Serializable(with = LocalDateTimeSerializer::class)
+    val date: LocalDateTime = LocalDateTime.now()
 ) : Reviewable(), Displayable {
 
     override fun toString(): String {
         return name
     }
 
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
         EventRepositoryImpl.ID_FIELD_NAME to eventId,
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
         EventRepositoryImpl.PARTICIPANTS_FIELD_NAME to participants,
-        EventRepositoryImpl.CREATOR_FIELD_NAME to creator,
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-    )
-
-    /**
-     * Set the id of the [Event]
-     *
-     * @param id: Unique identifier of the event
-     *
-     * @return the [Event] with modified id
-     */
-    fun withId(id: String): Event = this.apply {
-        this.eventId = id
-    }
+        EventRepositoryImpl.CREATOR_FIELD_NAME to creator,
+    ).apply { this.putAll(super.toHashMap()) }
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
+
+    fun withId(id: String): Event = this.copy(eventId = id)
 
     override fun getId(): String = eventId
 
@@ -68,17 +65,17 @@ data class Event(
      *  - [name]
      */
     class Builder(
-        private var eventId: String? = "",
+        private var eventId: String? = null,
         private var name: String? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
         private var creator: String? = null,
+        private var grade: Double? = null,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
     ) : ReviewableBuilder<Event> {
-
 
         fun setId(eventId: String?) = apply {
             this.eventId = eventId
@@ -96,12 +93,12 @@ data class Event(
             this.limitParticipants = limitParticipants
         }
 
-        fun setParticipants(participants: List<String>?) = apply {
-            this.participants = participants
-        }
-
         fun setCreator(creator: String?) = apply {
             this.creator = creator
+        }
+
+        fun setParticipants(participants: List<String>?) = apply {
+            this.participants = participants
         }
 
         fun setLat(lat: Double?) = apply {
@@ -116,24 +113,30 @@ data class Event(
             this.date = date
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Event {
-            val eventId = this asMandatory eventId
+            val creator = this asMandatory creator
+            val id = this asMandatory eventId
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
             val participants = this asMandatory participants
-            val creator = this asMandatory creator
             val lat = this asMandatory lat
             val long = this asMandatory long
             val date = this asMandatory date
+            val grade = this asMandatory grade
 
             return Event(
-                eventId,
+                id,
                 name,
                 numParticipants,
                 limitParticipants,
                 participants,
                 creator,
+                grade,
                 lat,
                 long,
                 date

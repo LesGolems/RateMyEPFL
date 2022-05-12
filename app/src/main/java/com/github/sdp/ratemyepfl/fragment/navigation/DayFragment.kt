@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.map
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +29,8 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     ): View? {
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
-    private val userViewModel : UserProfileViewModel by viewModels()
+
+    private val userViewModel: UserProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

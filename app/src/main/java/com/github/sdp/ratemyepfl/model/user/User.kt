@@ -19,6 +19,7 @@ data class User(
     companion object {
         val DEFAULT_TIMETABLE = ArrayList<Class>()
     }
+
     constructor(user: ConnectedUser) : this(
         uid = user.getUserId()!!,
         username = user.getUsername()!!,

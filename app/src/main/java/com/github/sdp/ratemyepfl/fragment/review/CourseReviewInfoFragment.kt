@@ -26,10 +26,10 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         viewModel.course.observe(viewLifecycleOwner) {
             setUpCourseInfo(view, it)
         }
-        viewModel.averageGrade.observe(viewLifecycleOwner){
+        viewModel.averageGrade.observe(viewLifecycleOwner) {
             view.findViewById<RatingBar>(R.id.courseRatingBar).rating = it.toFloat()
         }
-        viewModel.numReviews.observe(viewLifecycleOwner){
+        viewModel.numReviews.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.courseNumReview).text =
                 getNumReviewString(requireContext(), it)
         }

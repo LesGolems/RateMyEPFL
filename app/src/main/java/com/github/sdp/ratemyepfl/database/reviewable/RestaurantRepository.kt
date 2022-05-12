@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.SearchableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface RestaurantRepository : SearchableRepository<Restaurant> {
     /**

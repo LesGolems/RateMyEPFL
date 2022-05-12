@@ -38,7 +38,9 @@ interface EventRepository {
     /**
      *  Update the given event after edition
      */
-    suspend fun updateEditedEvent(eventId: String, name: String,
-                                  limPart: Int, lat: Double, long: Double,
-                                  date: LocalDateTime)
+    suspend fun updateEditedEvent(
+        eventId: String, name: String,
+        limPart: Int, lat: Double, long: Double,
+        date: LocalDateTime
+    )
 }

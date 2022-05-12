@@ -2,14 +2,18 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 
 @Serializable
-data class Restaurant(
+data class Restaurant constructor(
     val name: String,
     val occupancy: Int,
+    override val grade: Double,
     val lat: Double,
     val long: Double,
 ) : Reviewable(), Displayable {
@@ -28,12 +32,12 @@ data class Restaurant(
      * Creates an hash map of the Restaurant, to add it to the DB
      */
     override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
+        return hashMapOf<String, Any?>(
             RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME to name,
             RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy,
             RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat,
             RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long,
-        )
+        ).apply { this.putAll(super.toHashMap()) }
     }
 
     override fun toMapItem(): MapItem {
@@ -55,6 +59,7 @@ data class Restaurant(
     class Builder(
         private var name: String? = null,
         private var occupancy: Int? = 0,
+        private var grade: Double? = null,
         private var lat: Double? = null,
         private var long: Double? = null
     ) : ReviewableBuilder<Restaurant> {
@@ -76,12 +81,17 @@ data class Restaurant(
             this.occupancy = occupancy
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Restaurant {
             val name = this asMandatory name
             val occupancy = this asMandatory occupancy
+            val grade = this asMandatory grade
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(name, occupancy, lat, long)
+            return Restaurant(name, occupancy, grade, lat, long)
         }
     }
 

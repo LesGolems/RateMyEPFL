@@ -1,19 +1,16 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.flow.zip
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class CourseRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Course>) :
@@ -54,6 +51,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
                 .setSession(getString(SESSION_FIELD_NAME))
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
+                .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

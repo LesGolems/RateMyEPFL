@@ -43,7 +43,7 @@ data class GradeInfo(
             val currentGrade = this.currentGrade ?: 0.0
             val numReviews = this.numReviews ?: 0
 
-            if (itemId != null ) {
+            if (itemId != null) {
                 return GradeInfo(itemId, reviewsData, currentGrade, numReviews)
             } else {
                 throw IllegalStateException("Cannot build a grade info with null arguments")

@@ -1,13 +1,11 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
@@ -40,7 +38,8 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
             val occupancy = getField<Int>(OCCUPANCY_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val lon = getDouble(LONGITUDE_FIELD_NAME)
-            Restaurant.Builder(name, occupancy, lat, lon)
+            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
+            Restaurant.Builder(name, occupancy, grade, lat, lon)
                 .build()
         } catch (e: IllegalStateException) {
             null

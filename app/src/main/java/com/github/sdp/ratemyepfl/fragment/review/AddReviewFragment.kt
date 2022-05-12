@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException

@@ -17,35 +17,40 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
                 section = "IC",
                 teacher = "George Candea",
                 credits = 4,
-                courseCode = "CS-306"
+                courseCode = "CS-306",
+                grade = 5.0
             ),
             Course(
                 title = "Calcul quantique",
                 section = "IC",
                 teacher = "Nicolas Macris",
                 credits = 4,
-                courseCode = "CS-308"
+                courseCode = "CS-308",
+                grade = 5.0
             ),
             Course(
                 title = "Intelligence artificielle",
                 section = "IC",
                 teacher = "Boi Faltings",
                 credits = 4,
-                courseCode = "CS-330"
+                courseCode = "CS-330",
+                grade = 5.0
             ),
             Course(
                 title = "Projet de systems-on-chip",
                 section = "IC",
                 teacher = "René Beuchat",
                 credits = 3,
-                courseCode = "CS-309"
+                courseCode = "CS-309",
+                grade = 5.0
             ),
             Course(
                 title = "Introduction to database systems",
                 section = "IC",
                 teacher = "Christoph Koch",
                 credits = 4,
-                courseCode = "CS-332"
+                courseCode = "CS-332",
+                grade = 5.0
             )
         )
 
@@ -55,6 +60,7 @@ class FakeCourseRepository @Inject constructor() : CourseRepository {
             teacher = "George Candea",
             credits = 4,
             courseCode = "CS-306",
+            0.0,
         )
     }
 

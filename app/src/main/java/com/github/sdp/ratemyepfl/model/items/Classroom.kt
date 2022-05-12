@@ -4,8 +4,9 @@ import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Classroom(
+data class Classroom constructor(
     val name: String,
+    override val grade: Double,
     val roomKind: String? = null,
 ) : Reviewable() {
 
@@ -16,10 +17,10 @@ data class Classroom(
     /**
      * Creates an hash map of the Classroom
      */
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
         ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME to name,
         ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME to roomKind
-    )
+    ).apply { this.putAll(super.toHashMap()) }
 
 
     /**
@@ -29,6 +30,7 @@ data class Classroom(
      */
     class Builder(
         private var name: String? = null,
+        private var grade: Double? = null,
         private var roomKind: String? = null,
     ) : ReviewableBuilder<Classroom> {
 
@@ -40,9 +42,14 @@ data class Classroom(
             this.roomKind = roomKind
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Classroom {
             val name = this asMandatory name
-            return Classroom(name, roomKind)
+            val grade = this asMandatory grade
+            return Classroom(name, grade, roomKind)
         }
     }
 

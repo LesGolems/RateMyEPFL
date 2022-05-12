@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
@@ -45,9 +46,10 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val long = getDouble(LONGITUDE_FIELD_NAME)
             val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
             val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
-            val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>
+            val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>?
             val creator = getString(CREATOR_FIELD_NAME)
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
+            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
             return try {
                 Event.Builder(
                     eventId,
@@ -56,6 +58,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                     limitParticipants,
                     participants,
                     creator,
+                    grade,
                     lat,
                     long,
                     date
@@ -111,9 +114,11 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
         return success
     }
 
-    override suspend fun updateEditedEvent(eventId: String, name: String,
-                                           limPart: Int, lat: Double, long: Double,
-                                           date: LocalDateTime) {
+    override suspend fun updateEditedEvent(
+        eventId: String, name: String,
+        limPart: Int, lat: Double, long: Double,
+        date: LocalDateTime
+    ) {
         repository.update(eventId) { event ->
             event.copy(
                 name = name,

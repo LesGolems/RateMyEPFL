@@ -31,7 +31,7 @@ abstract class MapItem(
 
     fun onClickIntent(activity: FragmentActivity?): Intent {
         val intent = Intent(activity, ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, name)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, name)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, layout)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, graph)
         return intent

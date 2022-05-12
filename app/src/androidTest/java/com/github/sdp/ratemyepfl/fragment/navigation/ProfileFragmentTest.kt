@@ -87,7 +87,7 @@ class ProfileFragmentTest {
     }
 
     @Test
-    fun modifyingUsernameAndEmailWorks() {
+    fun Getty2007modifyingUsernameAndEmailWorks() {
         val newUsername = "Sasuke"
         val newEmail = "sasuke.uchiha@gmail.com"
 
