@@ -62,6 +62,14 @@ class MapFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun clickOnMap() {
+        HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
+        onView(withId(R.id.map)).perform(click())
+        onView(withId(R.id.map)).check(matches(isDisplayed()))
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun clickOnReviewButton() {
         runTest { }
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}

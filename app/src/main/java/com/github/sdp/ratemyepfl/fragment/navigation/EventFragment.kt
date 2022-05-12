@@ -3,11 +3,13 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.EditEventActitivity
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
@@ -24,9 +26,11 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private val eventAdapter =
         EventAdapter(
             { e -> displayReviews(e) },
-            { e -> registrationListener(e) }
+            { e -> registrationListener(e) },
+            { e -> editListener(e) }
         )
     private lateinit var recyclerView: RecyclerView
+    private lateinit var addEventButton: Button
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -44,6 +48,11 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             .observe(viewLifecycleOwner) { events ->
                 eventAdapter.submitList(events)
             }
+
+        addEventButton = view.findViewById(R.id.addEventButton)
+        addEventButton.setOnClickListener {
+            displayEditEventActitvity()
+        }
     }
 
     override fun onResume() {
@@ -82,5 +91,36 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
                 .setAnchorView(R.id.activityMainBottomNavigationView)
                 .show()
         }
+    }
+
+    /**
+     * Display the edit event activity if the user is logged in (add mode)
+     */
+    private fun displayEditEventActitvity() {
+        if (auth.isLoggedIn()) {
+            val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
+            intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            startActivity(intent)
+        } else {
+            Snackbar.make(requireView(), R.string.edit_event_no_login_text, Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.activityMainBottomNavigationView)
+                .show()
+        }
+    }
+
+    /**
+     * Display the edit event activity (edit mode)
+     */
+    private fun editListener(event: Event) {
+        val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
+        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, event.eventId)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, event.name)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
+        val dateTime = event.date
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(dateTime.hour, dateTime.minute))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(event.lat, event.long))
+        startActivity(intent)
     }
 }

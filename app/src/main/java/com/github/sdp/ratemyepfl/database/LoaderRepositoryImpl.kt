@@ -14,11 +14,13 @@ import com.google.firebase.firestore.DocumentSnapshot
  * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
 class LoaderRepositoryImpl<T : RepositoryItem>(
-    val repository: Repository<T>,
+    val repository: RepositoryImpl<T>,
 ) : Repository<T> by repository, LoaderRepository<T> {
 
     private val loadedData: HashMap<OrderedQuery, List<T>> = hashMapOf()
     private val lastLoaded: HashMap<OrderedQuery, DocumentSnapshot> = hashMapOf()
+
+    fun getCollection() = repository.collection
 
     override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> {
         val lastLoaded = query.fields

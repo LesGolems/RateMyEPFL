@@ -7,10 +7,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
 data class Event(
+    var eventId: String,
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
+    val creator: String,
     val lat: Double,
     val long: Double,
     val date: LocalDateTime
@@ -21,20 +23,33 @@ data class Event(
     }
 
     override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
+        EventRepositoryImpl.ID_FIELD_NAME to eventId,
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
         EventRepositoryImpl.PARTICIPANTS_FIELD_NAME to participants,
+        EventRepositoryImpl.CREATOR_FIELD_NAME to creator,
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
     )
 
+    /**
+     * Set the id of the [Event]
+     *
+     * @param id: Unique identifier of the event
+     *
+     * @return the [Event] with modified id
+     */
+    fun withId(id: String): Event = this.apply {
+        this.eventId = id
+    }
+
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
 
-    override fun getId(): String = name
+    override fun getId(): String = eventId
 
     override fun toMapItem(): MapItem {
         return EventItem(
@@ -53,15 +68,21 @@ data class Event(
      *  - [name]
      */
     class Builder(
+        private var eventId: String? = "",
         private var name: String? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
+        private var creator: String? = null,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
     ) : ReviewableBuilder<Event> {
 
+
+        fun setId(eventId: String?) = apply {
+            this.eventId = eventId
+        }
 
         fun name(name: String?) = apply {
             this.name = name
@@ -79,6 +100,10 @@ data class Event(
             this.participants = participants
         }
 
+        fun setCreator(creator: String?) = apply {
+            this.creator = creator
+        }
+
         fun setLat(lat: Double?) = apply {
             this.lat = lat
         }
@@ -92,19 +117,23 @@ data class Event(
         }
 
         override fun build(): Event {
+            val eventId = this asMandatory eventId
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
             val participants = this asMandatory participants
+            val creator = this asMandatory creator
             val lat = this asMandatory lat
             val long = this asMandatory long
             val date = this asMandatory date
 
             return Event(
+                eventId,
                 name,
                 numParticipants,
                 limitParticipants,
                 participants,
+                creator,
                 lat,
                 long,
                 date

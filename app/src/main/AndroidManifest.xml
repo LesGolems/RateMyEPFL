@@ -11,6 +11,7 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature android:name="android.hardware.camera.any" />
 
@@ -42,9 +43,15 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.EditEventActitivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ImageDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen" />
+        <activity
+            android:name=".activity.AudioRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SplashScreen"
             android:exported="true">

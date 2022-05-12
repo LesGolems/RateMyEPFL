@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.model.items.Reviewable
 
 abstract class ReviewableTabFragment : Fragment(R.layout.layout_reviewable_list) {
 
-    val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
+    open val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
 
     open val filterMenuId: Int = R.menu.default_filter_menu
     abstract val reviewActivityMenuId: Int
