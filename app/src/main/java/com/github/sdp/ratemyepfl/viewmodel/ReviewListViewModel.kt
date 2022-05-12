@@ -33,7 +33,7 @@ open class ReviewListViewModel @Inject constructor(
 
     // Id
     val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()

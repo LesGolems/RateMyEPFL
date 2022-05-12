@@ -15,6 +15,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel
 import com.github.sdp.ratemyepfl.viewmodel.AddReviewViewModel.Companion.NO_GRADE_MESSAGE

@@ -17,6 +17,9 @@ The layout is passed as extra and set in the onCreate method
 class ReviewActivity : DrawerActivity() {
 
     companion object {
+        const val EXTRA_ITEM_REVIEWED_ID: String =
+            "com.github.sdp.extra_item_reviewed_id"
+
         const val EXTRA_ITEM_REVIEWED: String =
             "com.github.sdp.extra_item_reviewed"
 
@@ -25,6 +28,7 @@ class ReviewActivity : DrawerActivity() {
 
         const val EXTRA_GRAPH_ID: String =
             "com.github.sdp.extra_graph_id"
+
     }
 
 

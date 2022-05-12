@@ -11,23 +11,25 @@ import javax.inject.Inject
 class FakeClassroomRepository @Inject constructor() : ClassroomRepository {
 
     companion object {
+        private val baseRoom = Classroom("name", 2.5, "roomKind")
+
         val CLASSROOM_LIST = listOf(
-            Classroom(
+            baseRoom.copy(
                 name = "CM3"
             ),
-            Classroom(
+            baseRoom.copy(
                 name = "CE-1515"
             ),
-            Classroom(
+            baseRoom.copy(
                 name = "AAC 2 31"
             ),
-            Classroom(
+            baseRoom.copy(
                 name = "ELA 2"
             )
         )
 
 
-        var roomById = Classroom(name = "CM3")
+        var roomById = baseRoom.copy(name = "CM3")
     }
 
 

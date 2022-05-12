@@ -54,6 +54,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
                 .setSession(getString(SESSION_FIELD_NAME))
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
+                .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

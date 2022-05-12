@@ -6,11 +6,12 @@ import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.time.LocalDateTime
 
-data class Event(
+data class Event constructor(
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
+    override val grade: Double,
     val lat: Double,
     val long: Double,
     val date: LocalDateTime
@@ -20,7 +21,7 @@ data class Event(
         return name
     }
 
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
+    override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
@@ -28,7 +29,7 @@ data class Event(
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-    )
+    ).apply { this.putAll(super.toHashMap()) }
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
@@ -57,6 +58,7 @@ data class Event(
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
+        private var grade: Double? = null,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
@@ -91,6 +93,10 @@ data class Event(
             this.date = date
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Event {
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
@@ -99,12 +105,14 @@ data class Event(
             val lat = this asMandatory lat
             val long = this asMandatory long
             val date = this asMandatory date
+            val grade = this asMandatory grade
 
             return Event(
                 name,
                 numParticipants,
                 limitParticipants,
                 participants,
+                grade,
                 lat,
                 long,
                 date

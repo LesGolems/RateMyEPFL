@@ -32,7 +32,7 @@ class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
         "Fake id", 0,
-        1, listOf(), 0.0, 0.0, LocalDateTime.now()
+        1, listOf(), 0.0,0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -64,6 +64,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
+            assertEquals(testEvent.grade, event.grade, 0.1)
         }
     }
 
@@ -75,6 +76,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.name, event!!.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
+            assertEquals(testEvent.grade, event.grade, 0.1)
         }
     }
 
@@ -104,6 +106,7 @@ class EventRepositoryTest {
         val long = 0.0
         val numParticipants = 0
         val limitParticipants = 0
+        val g = 2.5
         val participants = listOf<String>()
         val date = LocalDateTime.now()
 
@@ -111,7 +114,7 @@ class EventRepositoryTest {
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
-        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
+        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(g)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
             .thenReturn(long)
@@ -133,6 +136,7 @@ class EventRepositoryTest {
             .setLimitParticipants(limitParticipants)
             .setParticipants(participants)
             .setDate(date)
+            .setGrade(g)
             .build()
         assertEquals(event.name, expected.name)
         assertEquals(event.lat, expected.lat, 0.01)
@@ -141,5 +145,6 @@ class EventRepositoryTest {
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
+        assertEquals(expected.grade, event.grade, 0.1)
     }
 }

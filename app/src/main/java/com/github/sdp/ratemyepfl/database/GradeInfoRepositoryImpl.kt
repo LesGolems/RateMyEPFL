@@ -1,10 +1,16 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
+import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
+import com.google.common.util.concurrent.AtomicDouble
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
@@ -14,16 +20,28 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : GradeInfoRepository,
+class GradeInfoRepositoryImpl private constructor(
+    private val repository: RepositoryImpl<GradeInfo>,
+    private val courseRepository: CourseRepositoryImpl,
+    private val classroomRepository: ClassroomRepositoryImpl,
+    private val restaurantRepository: RestaurantRepositoryImpl,
+    private val eventRepository: EventRepositoryImpl
+) : GradeInfoRepository,
     Repository<GradeInfo> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(RepositoryImpl<GradeInfo>(
+    constructor(
+        db: FirebaseFirestore, courseRepository: CourseRepositoryImpl,
+        classroomRepository: ClassroomRepositoryImpl,
+        restaurantRepository: RestaurantRepositoryImpl,
+        eventRepository: EventRepositoryImpl
+    ) : this(RepositoryImpl<GradeInfo>(
         db,
         GradeInfoRepositoryImpl.GRADE_INFO_COLLECTION_PATH
     ) {
         it.toGradeInfo()
-    })
+    }, courseRepository, classroomRepository, restaurantRepository, eventRepository
+    )
 
     companion object {
         const val NUM_USERS = 6.0
@@ -73,7 +91,7 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
      */
     private fun reviewWeight(likeRatio: Int): Double {
         return if (likeRatio >= 0) 1.0
-        else if(likeRatio < -NUM_USERS) 0.0
+        else if (likeRatio < -NUM_USERS) 0.0
         else 1 - (-likeRatio) / NUM_USERS
     }
 
@@ -97,30 +115,50 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
         }
 
     override suspend fun addReview(
-        itemId: String,
+        item: Reviewable,
         reviewId: String,
         rating: ReviewRating
     ): Task<Transaction> {
-        if (getGradeInfoById(itemId) == null) {
-            repository.add(GradeInfo(itemId)).await()
+        if (getGradeInfoById(item.getId()) == null) {
+            repository.add(GradeInfo(item.getId())).await()
         }
 
-        return repository.update(itemId) {
+        var computedGrade = 0.0
+
+        repository.update(item.getId()) {
             val newData = it.reviewsData.plus(
                 Pair(
                     reviewId,
                     ReviewInfo(rating.toValue(), 0)
                 )
             )
+            computedGrade = computeGrade(newData)
             it.copy(
                 reviewsData = newData,
-                currentGrade = computeGrade(newData),
+                currentGrade = computedGrade,
                 numReviews = newData.size
             )
-        }
+        }.await()
+
+        return updateItem(item, computedGrade)
     }
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
         .toGradeInfo()
+
+    private fun updateItem(item: Reviewable, grade: Double): Task<Transaction> = when (item) {
+        is Classroom -> classroomRepository.update(item.getId()) {
+            it.copy(grade = grade)
+        }
+        is Course -> courseRepository.update(item.getId()) {
+            it.copy(grade = grade)
+        }
+        is Event -> eventRepository.update(item.getId()) {
+            it.copy(grade = grade)
+        }
+        is Restaurant -> restaurantRepository.update(item.getId()) {
+            it.copy(grade = grade)
+        }
+    }
 }

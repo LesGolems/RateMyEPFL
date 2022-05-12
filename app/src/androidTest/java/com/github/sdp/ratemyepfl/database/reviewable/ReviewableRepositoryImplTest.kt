@@ -36,15 +36,16 @@ class ReviewableRepositoryImplTest {
     val hiltRule = HiltAndroidRule(this)
     private val fake = "fake"
     private val fakeTeacher = fake
+    private val grade = 0.0
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder =
-        Course.Builder(fake, fake, fake, 0, fake, fake, fake, fake, fake)
+        Course.Builder(fake, fake, fake, 0, fake, grade, fake, fake, fake, fake)
 
     private val personalizedCourse = courseBuilder.setTeacher(personalizedTeacher).build()
 
     private val courses: List<ReviewableItem> = (0..30)
         .map { n ->
-            Course.Builder(fake, fake, fake, 0, fake, fake, fake, fake, fake)
+            Course.Builder(fake, fake, fake, 0, fake, grade, fake, fake, fake, fake)
                 .setCourseCode(n.toString())
                 .build()
         }.plus(personalizedCourse)

@@ -15,7 +15,7 @@ open class ReviewableInfoViewModel(
 
     // Id
     val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     val averageGrade = MutableLiveData(0.0)
     val numReviews = MutableLiveData(0)

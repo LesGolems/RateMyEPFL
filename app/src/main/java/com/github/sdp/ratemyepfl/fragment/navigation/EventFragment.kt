@@ -58,7 +58,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private fun displayReviews(event: Event) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
-            ReviewActivity.EXTRA_ITEM_REVIEWED,
+            ReviewActivity.EXTRA_ITEM_REVIEWED_ID,
             event.getId()
         )
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_event_review)

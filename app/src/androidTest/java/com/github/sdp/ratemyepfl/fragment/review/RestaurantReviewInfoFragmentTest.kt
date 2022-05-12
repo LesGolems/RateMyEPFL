@@ -36,7 +36,7 @@ class RestaurantReviewInfoFragmentTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
     }
 

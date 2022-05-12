@@ -1,5 +1,7 @@
 package com.github.sdp.ratemyepfl.model.serializer
 
+import android.content.Intent
+import androidx.lifecycle.SavedStateHandle
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -25,10 +27,20 @@ object ItemSerializer {
      * @param item: reviewable to deserialized, encoded in JSON and provided as a string
      * @return the deserialized reviewable, or null if it fails
      */
-    fun deserialize(item: String): Reviewable? =
-        try {
-            Json.decodeFromString(Reviewable.serializer(), item)
-        } catch (e: SerializationException) {
-            null
-        }
+    fun deserialize(item: String): Reviewable =
+        Json.decodeFromString(Reviewable.serializer(), item)
+}
+
+fun Intent.putExtra(key: String, item: Reviewable): Intent {
+    val serialized = ItemSerializer.serialize(item)
+    return putExtra(key, serialized)
+}
+
+fun SavedStateHandle.getReviewable(key: String): Reviewable {
+    val deserialized = get<String>(key)
+    if (deserialized != null) {
+        return ItemSerializer.deserialize(deserialized)!!
+    } else {
+        throw IllegalArgumentException("Cannot deserialize from a non valid key")
+    }
 }

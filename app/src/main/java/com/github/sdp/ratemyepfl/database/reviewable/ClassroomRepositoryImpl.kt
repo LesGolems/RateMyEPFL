@@ -37,6 +37,7 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
             val builder = Classroom.Builder()
                 .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
+                .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
 
                 builder.build()
             } catch (e: IllegalStateException) {

@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.model.GradeInfo
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Transaction
@@ -22,7 +23,7 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
     }
 
     override suspend fun addReview(
-        itemId: String,
+        item: Reviewable,
         reviewId: String,
         rating: ReviewRating
     ): Task<Transaction> {

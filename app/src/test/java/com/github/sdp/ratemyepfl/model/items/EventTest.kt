@@ -15,7 +15,7 @@ class EventTest {
     private val DATE = LocalDateTime.now()
     private val EXPECTED_EVENT = Event(
         ID,
-        64, 70, listOf(USER_ID), 46.52, 6.569, DATE
+        64, 70, listOf(USER_ID), 0.0, 46.52, 6.569, DATE
     )
     private val EXPECTED_HASH_MAP = hashMapOf(
         NAME_FIELD_NAME to EXPECTED_EVENT.name,
@@ -24,7 +24,8 @@ class EventTest {
         EventRepositoryImpl.PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.participants,
         EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
-        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString()
+        EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
+        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
     )
 
     @Test
@@ -68,15 +69,17 @@ class EventTest {
         val fake = "fake"
         val lat = 0.0
         val long = 0.0
+        val g = 1.0
         val builder = Event.Builder()
             .name(fake)
             .setLat(lat)
             .setLong(long)
             .setDate(DATE)
+            .setGrade(g)
             .setLimitParticipants(70)
 
         val event = builder.build()
-        val expected = Event(fake, 0, 70, listOf(), lat, long, DATE)
+        val expected = Event(fake, 0, 70, listOf(), g, lat, long, DATE)
         assertEquals(event.name, expected.name)
 
         assertEquals(event.lat, expected.lat, 0.01)
@@ -85,5 +88,6 @@ class EventTest {
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
+        assertEquals(event.grade, expected.grade, 0.01)
     }
 }

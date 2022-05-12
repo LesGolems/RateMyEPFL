@@ -3,9 +3,7 @@ package com.github.sdp.ratemyepfl.database.reviewable
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
@@ -46,12 +44,14 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
             val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
+            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
             return try {
                 Event.Builder(
                     name,
                     numParticipants,
                     limitParticipants,
                     participants,
+                    grade,
                     lat,
                     long,
                     date

@@ -26,6 +26,7 @@ class CourseRepositoryImplTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
     private val fake = "fake"
+    private val grade = 0.0
     private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder = Course.Builder(
@@ -34,6 +35,7 @@ class CourseRepositoryImplTest {
         fake,
         0,
         fake,
+        grade,
         fake,
         fake,
         fake,
@@ -56,6 +58,7 @@ class CourseRepositoryImplTest {
                 fake,
                 0,
                 fake,
+                grade,
                 fake,
                 fake,
                 fake,
