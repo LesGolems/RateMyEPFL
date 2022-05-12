@@ -26,6 +26,7 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
     })
 
     companion object {
+        const val NUM_USERS = 6.0
         const val GRADE_INFO_COLLECTION_PATH = "grades_info"
         const val ITEM_ID_FIELD = "itemId"
         const val REVIEWS_INFO_FIELD = "reviewsData"
@@ -55,11 +56,25 @@ class GradeInfoRepositoryImpl(val repository: RepositoryImpl<GradeInfo>) : Grade
      * (FOR NOW BASIC AVERAGE)
      */
     private fun computeGrade(reviewsData: Map<String, ReviewInfo>): Double {
+        var totalGrade = 0.0
         var total = 0.0
         for (ri in reviewsData.values) {
-            total += ri.reviewGrade
+            val w = reviewWeight(ri.likeRatio)
+            totalGrade += ri.reviewGrade * w
+            total += w
         }
-        return total / reviewsData.size
+        return totalGrade / total
+    }
+
+
+    /**
+     * Computes the weight of a review, the weight goes down as the review like ratio goes negative.
+     * The weight is based on the approximate number of users of the app
+     */
+    private fun reviewWeight(likeRatio: Int): Double {
+        return if (likeRatio >= 0) 1.0
+        else if(likeRatio < -NUM_USERS) 0.0
+        else 1 - (-likeRatio) / NUM_USERS
     }
 
     override fun updateLikeRatio(itemId: String, reviewId: String, inc: Int): Task<Transaction> =
