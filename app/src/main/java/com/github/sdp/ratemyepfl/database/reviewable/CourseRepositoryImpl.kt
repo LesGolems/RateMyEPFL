@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LI
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
@@ -52,6 +53,7 @@ class CourseRepositoryImpl private constructor(private val repository: Reviewabl
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
                 .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
+                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

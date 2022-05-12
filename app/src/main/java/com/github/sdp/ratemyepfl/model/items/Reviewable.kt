@@ -13,8 +13,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Reviewable : RepositoryItem {
     abstract val grade: Double
+    abstract val numReviews: Int
 
     override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
-        Pair(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME, grade)
+        Pair(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME, grade),
+        Pair(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME, numReviews)
     )
 }

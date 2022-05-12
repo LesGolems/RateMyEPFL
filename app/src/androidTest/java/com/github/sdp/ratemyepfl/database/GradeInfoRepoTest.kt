@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 class GradeInfoRepoTest {
     private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5))))
-    private val testItem = Classroom("item id", 0.0)
+    private val testItem = Classroom("item id", 0.0, 0)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

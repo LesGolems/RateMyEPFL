@@ -10,7 +10,7 @@ class EventItemTest {
     private val LATLNG = LatLng(46.52, 6.569)
     private val NAME = "Balélec"
     private val EVENT = Event(
-        NAME, 0, 0, listOf(), 0.0,
+        NAME, 0, 0, listOf(), 0.0, 0,
         LATLNG.latitude, LATLNG.longitude, LocalDateTime.now()
     )
     private val EVENT_ITEM = EventItem(EVENT, R.raw.arcadie, null)

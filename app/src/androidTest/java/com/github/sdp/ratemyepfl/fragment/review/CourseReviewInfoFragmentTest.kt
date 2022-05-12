@@ -35,7 +35,7 @@ class CourseReviewInfoFragmentTest {
     }
 
     private fun launch() {
-        val reviewable: Reviewable = Course("Fake", "Fake", "Fake", 4, "Fake id", 0.0)
+        val reviewable: Reviewable = Course("Fake", "Fake", "Fake", 4, "Fake id", 0.0, 0)
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
@@ -46,15 +46,14 @@ class CourseReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeCourse = FakeCourseRepository.courseById
-        val gi = GradeInfo("id", mapOf(), 4.5, 5)
-        FakeGradeInfoRepository.gradeById = gi
+        val fakeCourse = FakeCourseRepository.COURSE_WITH_REVIEW
+        FakeCourseRepository.courseById = fakeCourse
 
         val titleText = "Title : ${fakeCourse.title}"
         val teacherText = "Teacher : ${fakeCourse.teacher}"
         val sectionText = "Section : ${fakeCourse.section}"
         val creditsText = "Credits : ${fakeCourse.credits}"
-        val numReviewText = "(${gi.numReviews} reviews)"
+        val numReviewText = "(${fakeCourse.numReviews} reviews)"
 
         launch()
 
@@ -73,7 +72,7 @@ class CourseReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
+        FakeCourseRepository.courseById = FakeCourseRepository.COURSE_NO_REVIEW
 
         launch()
 

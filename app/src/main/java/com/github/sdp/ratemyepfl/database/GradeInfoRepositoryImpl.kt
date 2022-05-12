@@ -48,8 +48,6 @@ class GradeInfoRepositoryImpl private constructor(
         const val GRADE_INFO_COLLECTION_PATH = "grades_info"
         const val ITEM_ID_FIELD = "itemId"
         const val REVIEWS_INFO_FIELD = "reviewsData"
-        const val CURRENT_GRADE_FIELD = "currentGrade"
-        const val NUM_REVIEWS_FIELD = "numReviews"
 
         fun DocumentSnapshot.toGradeInfo(): GradeInfo? {
             val type = object : TypeToken<Map<String, ReviewInfo>>() {}.type
@@ -59,9 +57,7 @@ class GradeInfoRepositoryImpl private constructor(
             return try {
                 GradeInfo.Builder(
                     getString(ITEM_ID_FIELD),
-                    reviewsData,
-                    getDouble(CURRENT_GRADE_FIELD),
-                    getField<Int>(NUM_REVIEWS_FIELD)
+                    reviewsData
                 ).build()
             } catch (e: IllegalStateException) {
                 null
@@ -110,13 +106,11 @@ class GradeInfoRepositoryImpl private constructor(
             )
             computedGrade = computeGrade(newData)
             it.copy(
-                reviewsData = newData,
-                currentGrade = computeGrade(newData),
-                numReviews = newData.size
+                reviewsData = newData
             )
         }.await()
 
-        return updateItem(item, computedGrade)
+        return updateItem(item, computedGrade, 0)
     }
 
     override suspend fun addReview(
@@ -139,31 +133,29 @@ class GradeInfoRepositoryImpl private constructor(
             )
             computedGrade = computeGrade(newData)
             it.copy(
-                reviewsData = newData,
-                currentGrade = computedGrade,
-                numReviews = newData.size
+                reviewsData = newData
             )
         }.await()
 
-        return updateItem(item, computedGrade)
+        return updateItem(item, computedGrade, 1)
     }
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
         .toGradeInfo()
 
-    private fun updateItem(item: Reviewable, grade: Double): Task<Transaction> = when (item) {
+    private fun updateItem(item: Reviewable, grade: Double, incNumReviews : Int): Task<Transaction> = when (item) {
         is Classroom -> classroomRepository.update(item.getId()) {
-            it.copy(grade = grade)
+            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
         }
         is Course -> courseRepository.update(item.getId()) {
-            it.copy(grade = grade)
+            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
         }
         is Event -> eventRepository.update(item.getId()) {
-            it.copy(grade = grade)
+            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
         }
         is Restaurant -> restaurantRepository.update(item.getId()) {
-            it.copy(grade = grade)
+            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
         }
         else -> throw Exception("")
     }

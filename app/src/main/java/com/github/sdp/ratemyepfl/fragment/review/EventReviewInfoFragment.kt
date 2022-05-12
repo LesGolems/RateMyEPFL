@@ -20,18 +20,14 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.event.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.eventIdInfo).text = it?.toString()
-        }
-        viewModel.numReviews.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.eventNumReview).text =
-                getNumReviewString(requireContext(), it)
-        }
-        viewModel.averageGrade.observe(viewLifecycleOwner) {
-            view.findViewById<RatingBar>(R.id.eventRatingBar).rating = it.toFloat()
+                getNumReviewString(requireContext(), it.numReviews)
+            view.findViewById<RatingBar>(R.id.eventRatingBar).rating = it.grade.toFloat()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refresh()
+        viewModel.updateEvent()
     }
 }

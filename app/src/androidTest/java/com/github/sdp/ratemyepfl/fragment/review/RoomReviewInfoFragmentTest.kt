@@ -44,13 +44,12 @@ class RoomReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRoom = FakeClassroomRepository.roomById
-        val gi = GradeInfo("id", mapOf(), 4.5, 5)
-        FakeGradeInfoRepository.gradeById = gi
+        val fakeRoom = FakeClassroomRepository.ROOM_WITH_REVIEW
+        FakeClassroomRepository.roomById = fakeRoom
 
         launch()
 
-        val numReviewText = "(${gi.numReviews} reviews)"
+        val numReviewText = "(${fakeRoom.numReviews} reviews)"
         onView(withId(R.id.roomIdInfo))
             .check(matches(withText(fakeRoom.name)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
@@ -58,7 +57,7 @@ class RoomReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
+        FakeClassroomRepository.roomById = FakeClassroomRepository.ROOM_NO_REVIEW
 
         launch()
 

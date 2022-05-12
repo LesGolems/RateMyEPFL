@@ -45,6 +45,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
             val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>
             val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
             val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
+            val numReviews = getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME)
             return try {
                 Event.Builder(
                     name,
@@ -52,6 +53,7 @@ class EventRepositoryImpl private constructor(val repository: ReviewableReposito
                     limitParticipants,
                     participants,
                     grade,
+                    numReviews,
                     lat,
                     long,
                     date

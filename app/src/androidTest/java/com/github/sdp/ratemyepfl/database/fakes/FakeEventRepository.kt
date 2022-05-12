@@ -11,7 +11,7 @@ class FakeEventRepository @Inject constructor() : EventRepository {
     companion object {
         val DATE = LocalDateTime.now()
         private val baseEvent =
-            Event("name", 0, 0, listOf(), 0.0, 0.0, 0.0, DATE)
+            Event("name", 0, 0, listOf(), 0.0, 0,0.0,0.0, DATE)
         val EVENT_LIST = listOf(
             baseEvent.copy(
                 name = "Evenement de dingue",
@@ -30,6 +30,16 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         val DEFAULT_EVENT = baseEvent.copy(
             name = "Evenement de dingue",
             limitParticipants = 100
+        )
+
+        val EVENT_NO_REVIEW = baseEvent.copy(
+            grade = 0.0,
+            numReviews = 0
+        )
+
+        val EVENT_WITH_REVIEW = baseEvent.copy(
+            grade = 5.5,
+            numReviews = 1
         )
 
         var eventById = DEFAULT_EVENT

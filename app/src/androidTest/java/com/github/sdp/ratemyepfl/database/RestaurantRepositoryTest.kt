@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 class RestaurantRepositoryTest {
     private val testRestaurant = Restaurant(
-        "Fake id", 1, 2.5, 0.0,
+        "Fake id", 1, 2.5, 1, 0.0,
         0.0
     )
 
@@ -64,6 +64,7 @@ class RestaurantRepositoryTest {
             assertEquals(testRestaurant.lat, restaurant.lat, 0.1)
             assertEquals(testRestaurant.long, restaurant.long, 0.1)
             assertEquals(testRestaurant.grade, restaurant.grade, 0.1)
+            assertEquals(testRestaurant.numReviews, restaurant.numReviews)
         }
     }
 
@@ -76,6 +77,7 @@ class RestaurantRepositoryTest {
             assertEquals(testRestaurant.lat, restaurant.lat, 0.1)
             assertEquals(testRestaurant.long, restaurant.long, 0.1)
             assertEquals(testRestaurant.grade, restaurant.grade, 0.1)
+            assertEquals(testRestaurant.numReviews, restaurant.numReviews)
         }
     }
 
@@ -103,6 +105,7 @@ class RestaurantRepositoryTest {
         val long = 0.0
         val occupancy = 0
         val grade = 0.0
+        val n = 0
 
         val snapshot = Mockito.mock(DocumentSnapshot::class.java)
         Mockito.`when`(snapshot.id).thenReturn(fake)
@@ -112,7 +115,7 @@ class RestaurantRepositoryTest {
             snapshot.getField<Int>(
                 ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME
             )
-        ).thenReturn(15)
+        ).thenReturn(n)
         Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
             .thenReturn(grade)
         Mockito.`when`(snapshot.getDouble("lat")).thenReturn(lat)
@@ -126,6 +129,7 @@ class RestaurantRepositoryTest {
             .setLong(long)
             .setOccupancy(0)
             .setGrade(grade)
+            .setNumReviews(n)
             .build()
         assertEquals(fakeRestaurant, restaurant)
     }

@@ -35,7 +35,7 @@ class AddReviewFragmentTest {
 
     @Before
     fun setUp() {
-        val reviewable = Classroom("Fake id", 0.0, )
+        val reviewable = Classroom("Fake id", 0.0, 0)
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any

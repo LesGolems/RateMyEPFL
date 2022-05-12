@@ -16,6 +16,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
     override val grade: Double,
+    override val numReviews: Int,
     val lat: Double,
     val long: Double,
     @Serializable(with = LocalDateTimeSerializer::class)
@@ -64,6 +65,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
         private var grade: Double? = null,
+        private var numReviews: Int? = null,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
@@ -102,6 +104,10 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             this.grade = grade
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         override fun build(): Event {
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
@@ -111,6 +117,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             val long = this asMandatory long
             val date = this asMandatory date
             val grade = this asMandatory grade
+            val numReviews = this asMandatory numReviews
 
             return Event(
                 name,
@@ -118,6 +125,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
                 limitParticipants,
                 participants,
                 grade,
+                numReviews,
                 lat,
                 long,
                 date

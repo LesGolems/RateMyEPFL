@@ -44,11 +44,10 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.restaurantById
-        val gi = GradeInfo("id", mapOf(), 4.5, 5)
-        FakeGradeInfoRepository.gradeById = gi
+        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITH_REVIEWS
+        FakeRestaurantRepository.restaurantById = fakeRestaurant
 
-        val numReviewText = "(${gi.numReviews} reviews)"
+        val numReviewText = "(${fakeRestaurant.numReviews} reviews)"
 
         launch()
 
@@ -92,7 +91,7 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
+        FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_NO_REVIEWS
 
         launch()
 

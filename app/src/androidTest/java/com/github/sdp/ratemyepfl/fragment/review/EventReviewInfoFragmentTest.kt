@@ -50,13 +50,12 @@ class EventReviewInfoFragmentTest {
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeEvent = FakeEventRepository.eventById
-        val gi = GradeInfo("id", mapOf(), 4.5, 5)
-        FakeGradeInfoRepository.gradeById = gi
+        val fakeEvent = FakeEventRepository.EVENT_WITH_REVIEW
+        FakeEventRepository.eventById = fakeEvent
 
         launch()
 
-        val numReviewText = "(${gi.numReviews} reviews)"
+        val numReviewText = "(${fakeEvent.numReviews} reviews)"
         onView(withId(R.id.eventIdInfo))
             .check(matches(withText(fakeEvent.getId())))
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))
@@ -64,7 +63,7 @@ class EventReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
+        FakeEventRepository.eventById = FakeEventRepository.EVENT_NO_REVIEW
 
         launch()
 

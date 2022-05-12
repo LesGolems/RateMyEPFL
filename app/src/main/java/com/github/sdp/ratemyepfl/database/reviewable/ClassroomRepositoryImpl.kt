@@ -4,10 +4,12 @@ import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
 class ClassroomRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Classroom>) :
@@ -34,6 +36,7 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
                 .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
                 .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
+                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

@@ -26,7 +26,7 @@ import javax.inject.Inject
 class CourseRepositoryTest {
     private val testCourse = Course(
         "title", "section", "teacher",
-        7, "Fake id", 0.0, "cycle", "session",
+        7, "Fake id", 0.0, 0, "cycle", "session",
         "grading", "language"
     )
 
@@ -83,6 +83,7 @@ class CourseRepositoryTest {
             assertEquals(testCourse.credits, course.credits)
             assertEquals(testCourse.cycle, course.cycle)
             assertEquals(testCourse.grade, course.grade, 0.01)
+            assertEquals(testCourse.numReviews, course.numReviews)
             assertEquals(testCourse.session, course.session)
             assertEquals(testCourse.grading, course.grading)
             assertEquals(testCourse.language, course.language)
@@ -109,7 +110,7 @@ class CourseRepositoryTest {
             .thenReturn(2.5)
 
         val course: Course? = snapshot.toCourse()
-        val fakeCourse = Course(fake, fake, fake, fakeCredit, fake, 2.5)
+        val fakeCourse = Course(fake, fake, fake, fakeCredit, fake, 2.5, 15)
         assertEquals(fakeCourse, course)
 
     }
