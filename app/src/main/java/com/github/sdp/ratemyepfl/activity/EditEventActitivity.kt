@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
 import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.layout.CustomScrollView
 import com.github.sdp.ratemyepfl.viewmodel.EditEventViewModel
@@ -57,8 +58,7 @@ class EditEventActitivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_event)
 
-        mapContainer = findViewById(R.id.mapContainer)
-
+        mapContainerInit()
         nameTextInit()
         eventScrollViewInit()
         limitPickerInit()
@@ -66,6 +66,14 @@ class EditEventActitivity : AppCompatActivity() {
         timePickerInit()
         cancelButtonInit()
         doneButtonInit()
+    }
+
+    private fun mapContainerInit() {
+        mapContainer = findViewById(R.id.mapContainer)
+        val mapFragment = mapContainer.getFragment<MapFragment>()
+        mapFragment.onClickLocation.observeForever{ latLng ->
+            editEventViewModel.setLocation(doubleArrayOf(latLng.latitude, latLng.longitude))
+        }
     }
 
     private fun nameTextInit() {
