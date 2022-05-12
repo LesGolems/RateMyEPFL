@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -66,5 +67,11 @@ class AudioRecordActivityTest {
         onView(withId(R.id.noiseTextView)).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun stopRecordWhenUserPausesTheActivity() {
+        onView(withId(R.id.audioRecordButton)).perform(click())
+        Thread.sleep(1000)
+        Espresso.pressBackUnconditionally()
+    }
 
 }
