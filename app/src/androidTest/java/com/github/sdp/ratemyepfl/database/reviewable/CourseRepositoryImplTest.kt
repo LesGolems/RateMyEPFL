@@ -27,6 +27,7 @@ class CourseRepositoryImplTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
     private val fake = "fake"
+    private val grade = 0.0
     private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder = Course.Builder(
@@ -35,8 +36,7 @@ class CourseRepositoryImplTest {
         fake,
         0,
         fake,
-        0,
-        0.0,
+        grade,
         fake,
         fake,
         fake,
@@ -59,16 +59,13 @@ class CourseRepositoryImplTest {
                 fake,
                 0,
                 fake,
-                0,
-                0.0,
+                grade,
                 fake,
                 fake,
                 fake,
                 fake
             )
                 .setCourseCode(n.toString())
-                .setNumReviews(n % 5 + 1)
-                .setAverageGrade(((n + 2) % 5 + 1).toDouble())
                 .build()
         }.plus(personalizedCourse)
 

@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.UserRepositoryImpl.Companion.toUser
 import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -21,7 +20,12 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class UserRepositoryTest {
-    private val testUser = User("Fake uid", "username", "email", timetable = ArrayList<Class>())
+    private val testUser = User(
+        "Fake uid",
+        "username",
+        "email",
+        timetable = ArrayList()
+    )
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -29,8 +33,8 @@ class UserRepositoryTest {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    lateinit var userRepo: UserRepositoryImpl
-    lateinit var repository: RepositoryImpl<User>
+    private lateinit var userRepo: UserRepositoryImpl
+    private lateinit var repository: RepositoryImpl<User>
 
     @Before
     fun setup() = runTest {
@@ -63,7 +67,7 @@ class UserRepositoryTest {
     fun updateKarmaWorks() {
         runTest {
             val updateUser = testUser.copy(karma = 1)
-            userRepo.updateKarma(testUser.getId(), 1).await()
+            userRepo.updateKarma(testUser.getId(), 1)
             val user = userRepo.getUserByUid(testUser.uid)
             assertEquals(updateUser.uid, user?.uid)
             assertEquals(updateUser.karma, user?.karma)

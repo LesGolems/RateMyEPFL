@@ -9,8 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -34,15 +37,18 @@ class RestaurantReviewInfoFragmentTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeRestaurantRepository.DEFAULT_RESTAURANT)
         scenario = ActivityScenario.launch(intent)
     }
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITH_REVIEWS
-        FakeRestaurantRepository.restaurantById = fakeRestaurant
-        val numReviewText = "(${fakeRestaurant.numReviews} reviews)"
+        val fakeRestaurant = FakeRestaurantRepository.restaurantById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
+
+        val numReviewText = "(${gi.numReviews} reviews)"
 
         launch()
 
@@ -86,8 +92,7 @@ class RestaurantReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeRestaurant = FakeRestaurantRepository.RESTAURANT_WITHOUT_REVIEWS
-        FakeRestaurantRepository.restaurantById = fakeRestaurant
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

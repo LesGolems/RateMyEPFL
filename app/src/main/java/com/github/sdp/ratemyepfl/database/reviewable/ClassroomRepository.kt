@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface ClassroomRepository : ReviewableRepository<Classroom> {
     /**
@@ -17,13 +16,5 @@ interface ClassroomRepository : ReviewableRepository<Classroom> {
      * @return the rooms if found, otherwise null
      */
     suspend fun getRoomById(id: String): Classroom?
-
-    /**
-     * Updates the rating of the classroom using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateClassroomRating(id: String, rating: ReviewRating)
 
 }

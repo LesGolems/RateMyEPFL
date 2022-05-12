@@ -2,20 +2,24 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
-data class Event(
+@Serializable
+data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     val name: String,
-    override val numReviews: Int,
-    override val averageGrade: Double,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
+    override val grade: Double,
     val lat: Double,
     val long: Double,
-    val date: LocalDateTime
+    @Serializable(with = LocalDateTimeSerializer::class)
+    val date: LocalDateTime = LocalDateTime.now()
 ) : Reviewable(), Displayable {
 
     override fun toString(): String {
@@ -30,7 +34,7 @@ data class Event(
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-    ).apply { putAll(super.toHashMap()) }
+    ).apply { this.putAll(super.toHashMap()) }
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
@@ -56,11 +60,10 @@ data class Event(
      */
     class Builder(
         private var name: String? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
+        private var grade: Double? = null,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
@@ -69,14 +72,6 @@ data class Event(
 
         fun name(name: String?) = apply {
             this.name = name
-        }
-
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
         }
 
         fun setNumParticipants(numParticipants: Int?) = apply {
@@ -103,24 +98,26 @@ data class Event(
             this.date = date
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Event {
             val name = this asMandatory name
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
             val participants = this asMandatory participants
             val lat = this asMandatory lat
             val long = this asMandatory long
             val date = this asMandatory date
+            val grade = this asMandatory grade
 
             return Event(
                 name,
-                numReviews,
-                averageGrade,
                 numParticipants,
                 limitParticipants,
                 participants,
+                grade,
                 lat,
                 long,
                 date

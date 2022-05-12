@@ -103,4 +103,5 @@
     <string name="mte_section_title">MTE</string>
     <string name="physics_section_title">Physics</string>
     <string name="closest_restaurant_title">Closest</string>
+    <string name="addClassButton">Add Class Button</string>
 </resources>

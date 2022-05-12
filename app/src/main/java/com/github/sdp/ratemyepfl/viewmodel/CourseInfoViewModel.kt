@@ -2,12 +2,10 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,17 +13,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CourseInfoViewModel @Inject constructor(
     private val courseRepo: CourseRepository,
+    private val gradeInfoRepo: GradeInfoRepository,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
-
-    // Id
-    val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+) : ReviewableInfoViewModel(gradeInfoRepo, savedStateHandle) {
 
     val course = MutableLiveData<Course>()
 
     init {
-        updateCourse()
+        refresh()
     }
 
     fun updateCourse() {
@@ -34,9 +29,8 @@ class CourseInfoViewModel @Inject constructor(
         }
     }
 
-    fun updateRating(rating: ReviewRating) {
-        viewModelScope.launch {
-            courseRepo.updateCourseRating(id, rating)
-        }
+    fun refresh() {
+        updateCourse()
+        refreshGrade()
     }
 }

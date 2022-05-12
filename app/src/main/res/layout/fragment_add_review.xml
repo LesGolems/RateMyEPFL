@@ -85,7 +85,7 @@
             android:id="@+id/anonymous_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
+            android:layoutDirection="ltr"
             android:padding="4dp"
             android:switchPadding="10dp"
             android:text="@string/anonymous"></androidx.appcompat.widget.SwitchCompat>

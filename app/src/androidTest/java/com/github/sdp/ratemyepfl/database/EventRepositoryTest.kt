@@ -30,8 +30,8 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
-        "Fake id", 0, 0.0, 0,
-        1, listOf(), 0.0, 0.0, LocalDateTime.now()
+        "Fake id", 0,
+        1, listOf(), 0.0,0.0, 0.0, LocalDateTime.now()
     )
 
     @get:Rule
@@ -63,6 +63,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
+            assertEquals(testEvent.grade, event.grade, 0.1)
         }
     }
 
@@ -74,6 +75,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.name, event!!.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
+            assertEquals(testEvent.grade, event.grade, 0.1)
         }
     }
 
@@ -97,24 +99,13 @@ class EventRepositoryTest {
     }
 
     @Test
-    fun updateEventRatingWorks() {
-        runTest {
-            eventRepo.updateEventRating(testEvent.getId(), ReviewRating.EXCELLENT)
-            val event = eventRepo.getEventById(testEvent.getId())
-            assertNotNull(event)
-            assertEquals(testEvent.getId(), event!!.getId())
-            assertEquals(1, event.numReviews)
-            assertEquals(5.0, event.averageGrade, 0.1)
-        }
-    }
-
-    @Test
     fun returnsAnEventForCompleteSnapshot() {
         val fake = "fake"
         val lat = 0.0
         val long = 0.0
         val numParticipants = 0
         val limitParticipants = 0
+        val g = 2.5
         val participants = listOf<String>()
         val date = LocalDateTime.now()
 
@@ -122,7 +113,7 @@ class EventRepositoryTest {
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
-        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(2.5)
+        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(g)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
             .thenReturn(long)
@@ -138,23 +129,21 @@ class EventRepositoryTest {
         val event = snapshot.toEvent()!!
         val expected = Event.Builder()
             .name(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
             .setLat(lat)
             .setLong(long)
             .setNumParticipants(numParticipants)
             .setLimitParticipants(limitParticipants)
             .setParticipants(participants)
             .setDate(date)
+            .setGrade(g)
             .build()
         assertEquals(event.name, expected.name)
-        assertEquals(event.numReviews, expected.numReviews)
-        assertEquals(event.averageGrade, expected.averageGrade, 0.01)
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
         assertEquals(event.date, expected.date)
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
+        assertEquals(expected.grade, event.grade, 0.1)
     }
 }

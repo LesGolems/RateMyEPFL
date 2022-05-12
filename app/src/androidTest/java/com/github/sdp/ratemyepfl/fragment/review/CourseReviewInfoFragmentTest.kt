@@ -10,6 +10,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
+import com.github.sdp.ratemyepfl.model.items.Course
+import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -30,23 +35,26 @@ class CourseReviewInfoFragmentTest {
     }
 
     private fun launch() {
+        val reviewable: Reviewable = Course("Fake", "Fake", "Fake", 4, "Fake id", 0.0)
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         scenario = ActivityScenario.launch(intent)
     }
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeCourse = FakeCourseRepository.COURSE_WITH_REVIEWS
-        FakeCourseRepository.courseById = fakeCourse
+        val fakeCourse = FakeCourseRepository.courseById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
 
         val titleText = "Title : ${fakeCourse.title}"
         val teacherText = "Teacher : ${fakeCourse.teacher}"
         val sectionText = "Section : ${fakeCourse.section}"
         val creditsText = "Credits : ${fakeCourse.credits}"
-        val numReviewText = "(${fakeCourse.numReviews} reviews)"
+        val numReviewText = "(${gi.numReviews} reviews)"
 
         launch()
 
@@ -65,8 +73,7 @@ class CourseReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeCourse = FakeCourseRepository.COURSE_WITHOUT_REVIEWS
-        FakeCourseRepository.courseById = fakeCourse
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

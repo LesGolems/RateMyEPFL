@@ -5,10 +5,8 @@ import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
@@ -34,38 +32,34 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
 
-        private val OFFLINE_RESTAURANTS = listOf<Restaurant>(
+        val OFFLINE_RESTAURANTS = listOf<Restaurant>(
             Restaurant(
                 name = "Arcadie",
                 occupancy = 0,
                 lat = 46.5,
                 long = 6.6,
-                numReviews = 0,
-                averageGrade = 0.0,
+                grade = 0.0,
             ),
             Restaurant(
                 name = "Epicure",
                 occupancy = 0,
                 lat = 46.5,
                 long = 6.6,
-                numReviews = 0,
-                averageGrade = 0.0,
+                grade = 0.0,
             ),
             Restaurant(
                 name = "Niki",
                 occupancy = 0,
                 lat = 46.5,
                 long = 6.6,
-                numReviews = 0,
-                averageGrade = 0.0,
+                grade = 0.0,
             ),
             Restaurant(
                 name = "Roulotte du Soleil",
                 occupancy = 0,
                 lat = 46.5,
                 long = 6.6,
-                numReviews = 0,
-                averageGrade = 0.0,
+                grade = 0.0,
             )
         )
 
@@ -74,9 +68,8 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
             val occupancy = getField<Int>(OCCUPANCY_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val lon = getDouble(LONGITUDE_FIELD_NAME)
-            val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
-            val averageGrade = getDouble(AVERAGE_GRADE_FIELD_NAME)
-            Restaurant.Builder(name, occupancy, lat, lon, numReviews, averageGrade)
+            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
+            Restaurant.Builder(name, occupancy, grade, lat, lon)
                 .build()
         } catch (e: IllegalStateException) {
             null
@@ -107,15 +100,6 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
         }.await()
     }
 
-    override suspend fun updateRestaurantRating(id: String, rating: ReviewRating) {
-        repository.update(id) { restaurant ->
-            val (updatedNumReview, updatedAverageGrade) = ReviewableRepository.computeUpdatedRating(
-                restaurant,
-                rating
-            )
-            restaurant.copy(numReviews = updatedNumReview, averageGrade = updatedAverageGrade)
-        }.await()
-    }
 
     override val offlineData: List<Restaurant> = OFFLINE_RESTAURANTS
 

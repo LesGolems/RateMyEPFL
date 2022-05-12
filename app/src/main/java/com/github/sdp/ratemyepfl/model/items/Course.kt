@@ -4,14 +4,13 @@ import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Course(
+data class Course constructor(
     val title: String,
     val section: String,
     val teacher: String,
     val credits: Int,
     val courseCode: String,
-    override val numReviews: Int,
-    override val averageGrade: Double,
+    override val grade: Double,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
@@ -38,7 +37,7 @@ data class Course(
             CourseRepositoryImpl.SESSION_FIELD_NAME to session,
             CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
             CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
-        ).apply { putAll(super.toHashMap()) }
+        ).apply { this.putAll(super.toHashMap()) }
     }
 
     /**
@@ -56,8 +55,7 @@ data class Course(
         private var teacher: String? = null,
         private var credits: Int? = null,
         private var courseCode: String? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
+        private var grade: Double? = null,
         private var cycle: String? = null,
         private var session: String? = null,
         private var grading: String? = null,
@@ -85,12 +83,8 @@ data class Course(
             this.courseCode = courseCode
         }
 
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
         }
 
         fun setCycle(cycle: String?) = apply {
@@ -115,8 +109,7 @@ data class Course(
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
             val courseCode = this asMandatory courseCode
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
+            val grade = this asMandatory grade
 
             return Course(
                 title,
@@ -124,8 +117,7 @@ data class Course(
                 teacher,
                 credits,
                 courseCode,
-                numReviews,
-                averageGrade,
+                grade,
                 cycle,
                 session,
                 grading,

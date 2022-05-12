@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -18,10 +17,10 @@ import javax.inject.Inject
 class FakeReviewsRepository @Inject constructor() : ReviewRepository {
 
     companion object {
-        val FAKE_UID_1 = "ID1"
-        val FAKE_UID_2 = "ID2"
-        val FAKE_UID_3 = "ID3"
-        val FAKE_UID_4 = "ID4"
+        const val FAKE_UID_1 = "ID1"
+        const val FAKE_UID_2 = "ID2"
+        const val FAKE_UID_3 = "ID3"
+        const val FAKE_UID_4 = "ID4"
 
         val fakeList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
@@ -107,45 +106,35 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
         return reviewList
     }
 
-    override suspend fun addUidInArray(fieldName: String, id: String, uid: String) {
-        if (fieldName == ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
-            reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, uid)
-        } else {
-            reviewList[0].dislikers = listOf(FAKE_UID_2, FAKE_UID_3, FAKE_UID_4)
-        }
+    override suspend fun addUpVote(reviewId: String, userId: String) {
+        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, userId)
     }
 
-    override suspend fun removeUidInArray(fieldName: String, id: String, uid: String) {
-        if (fieldName == ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
-            reviewList[0].likers = listOf(FAKE_UID_1)
-        } else {
-            reviewList[0].dislikers = listOf(FAKE_UID_4)
-        }
+    override suspend fun removeUpVote(reviewId: String, userId: String) {
+        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2)
     }
 
-    override fun addUpVote(reviewId: String, userId: String): Task<Transaction> {
-        return Mockito.mock(Task::class.java) as Task<Transaction>
+    override suspend fun addDownVote(reviewId: String, userId: String) {
+        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4, userId)
     }
 
-    override fun removeUpVote(reviewId: String, userId: String): Task<Transaction> =
-        Mockito.mock(Task::class.java) as Task<Transaction>
-
-    override fun addDownVote(reviewId: String, userId: String): Task<Transaction> =
-        Mockito.mock(Task::class.java) as Task<Transaction>
-
-    override fun removeDownVote(reviewId: String, userId: String): Task<Transaction> =
-        Mockito.mock(Task::class.java) as Task<Transaction>
-
-    override suspend fun take(number: Long): QuerySnapshot {
-        return Mockito.mock(QuerySnapshot::class.java)
+    override suspend fun removeDownVote(reviewId: String, userId: String) {
+        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4)
     }
+
+    override suspend fun take(number: Long): QuerySnapshot =
+        Mockito.mock(QuerySnapshot::class.java)
 
     override suspend fun getById(id: String): DocumentSnapshot =
         Mockito.mock(DocumentSnapshot::class.java)
 
-    override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
+    override fun remove(id: String): Task<Void> =
+        Mockito.mock(Task::class.java) as Task<Void>
 
     override fun add(item: Review) = Mockito.mock(Task::class.java) as Task<Void>
+
+    override suspend fun addAndGetId(item: Review): String = "Nothing"
+
     override fun update(id: String, transform: (Review) -> Review): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
@@ -153,6 +142,6 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
 
-
-    override fun query(): Query = Mockito.mock(Query::class.java)
+    override fun query(): Query =
+        Mockito.mock(Query::class.java)
 }

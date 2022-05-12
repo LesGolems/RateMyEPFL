@@ -9,19 +9,17 @@ import org.junit.Test
 
 class CourseTest {
 
-    val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306", 15, 2.5)
+    val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306", 0.0)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_COURSE)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
-        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 15, 2.5)
+        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 0.0)
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
         assertEquals("CS-306", c.courseCode)
-        assertEquals(15, c.numReviews)
-        assertEquals(2.5, c.averageGrade, 0.01)
         assertEquals(null, c.cycle)
     }
 
@@ -33,8 +31,7 @@ class CourseTest {
             "Candea",
             4,
             "CS-306",
-            15,
-            2.5,
+            0.0,
             "bachelor",
             "Fall",
             "During the semester",
@@ -45,8 +42,7 @@ class CourseTest {
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
         assertEquals("CS-306", c.courseCode)
-        assertEquals(15, c.numReviews)
-        assertEquals(2.5, c.averageGrade, 0.01)
+        assertEquals(0.0, c.grade, 0.1)
         assertEquals("bachelor", c.cycle)
         assertEquals("Fall", c.session)
         assertEquals("During the semester", c.grading)
@@ -82,8 +78,6 @@ class CourseTest {
             .setSection(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -102,8 +96,6 @@ class CourseTest {
             .setSection(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -122,8 +114,6 @@ class CourseTest {
             .setLanguage(fake)
             .setSection(fake)
             .setSession(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -142,8 +132,6 @@ class CourseTest {
             .setSection(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -162,54 +150,11 @@ class CourseTest {
             .setLanguage(fake)
             .setSession(fake)
             .setTeacher(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
         }
     }
-
-    @Test
-    fun builderThrowsForMissingNumReviews() {
-        val fake = "fake"
-        val builder = Course.Builder()
-            .setCourseCode(fake)
-            .setTitle(fake)
-            .setCredits(0)
-            .setCycle(fake)
-            .setGrading(fake)
-            .setLanguage(fake)
-            .setSession(fake)
-            .setTeacher(fake)
-            .setCourseCode(fake)
-            .setAverageGrade(2.5)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
-    @Test
-    fun builderThrowsForMissingAverageGrade() {
-        val fake = "fake"
-        val builder = Course.Builder()
-            .setCourseCode(fake)
-            .setTitle(fake)
-            .setCredits(0)
-            .setCycle(fake)
-            .setGrading(fake)
-            .setLanguage(fake)
-            .setSession(fake)
-            .setTeacher(fake)
-            .setCourseCode(fake)
-            .setNumReviews(15)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
 
     @Test
     fun builderSucceedForMissingNonMandatoryProperties() {
@@ -220,11 +165,10 @@ class CourseTest {
             .setCredits(0)
             .setSection(fake)
             .setTeacher(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
+            .setGrade(0.0)
 
 
-        val course = Course(fake, fake, fake, 0, fake, 15, 2.5)
+        val course = Course(fake, fake, fake, 0, fake, 0.0)
         assertEquals(course, builder.build())
     }
 

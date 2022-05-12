@@ -6,7 +6,6 @@ import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,18 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ReviewableAdapter
-import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.viewmodel.ReviewableListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int) : Fragment(R.layout.layout_reviewable_list) {
+abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int) :
+    Fragment(R.layout.layout_reviewable_list) {
 
     val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
     abstract val viewModel: ReviewableListViewModel<T>
@@ -146,7 +146,10 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
         }
 
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            private fun displaySearch(query: String?, number: UInt = ReviewableRepository.LIMIT_QUERY_SEARCH): Boolean =
+            private fun displaySearch(
+                query: String?,
+                number: UInt = ReviewableRepository.LIMIT_QUERY_SEARCH
+            ): Boolean =
                 if (query != null) {
                     isSearching = true
                     displayResult(viewModel.search(query, number))
@@ -155,7 +158,8 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
 
             override fun onQueryTextSubmit(query: String?): Boolean = displaySearch(query)
 
-            override fun onQueryTextChange(newText: String?): Boolean = displaySearch(newText, ON_TYPING_SEARCH_LIMIT)
+            override fun onQueryTextChange(newText: String?): Boolean =
+                displaySearch(newText, ON_TYPING_SEARCH_LIMIT)
         })
 
         searchBar.setOnQueryTextFocusChangeListener { _, b ->
@@ -188,9 +192,11 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     private fun displayReviews(reviewable: Reviewable) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
-            ReviewActivity.EXTRA_ITEM_REVIEWED,
+            ReviewActivity.EXTRA_ITEM_REVIEWED_ID,
             reviewable.getId()
         )
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
+
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, reviewActivityMenuId)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, reviewActivityGraphId)
         startActivity(intent)

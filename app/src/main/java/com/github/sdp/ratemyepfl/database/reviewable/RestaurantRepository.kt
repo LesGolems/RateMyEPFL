@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
 interface RestaurantRepository : ReviewableRepository<Restaurant> {
     /**
@@ -28,14 +27,5 @@ interface RestaurantRepository : ReviewableRepository<Restaurant> {
      *  Decrement occupancy of given restaurant
      */
     suspend fun decrementOccupancy(id: String)
-
-
-    /**
-     *  Updates the rating of the restaurant using a transaction for concurrency
-     *
-     *  @param id : id of the reviewed item
-     *  @param rating: rating of the review being added
-     */
-    suspend fun updateRestaurantRating(id: String, rating: ReviewRating)
 
 }

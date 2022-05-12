@@ -8,24 +8,24 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
-    val EXPECTED_ROOM = Classroom("CE 1 3", 15, 2.5, "Auditorium")
+    val EXPECTED_ROOM = Classroom("CE 1 3", 0.0, "Auditorium")
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
-        val r = Classroom("CO1", 15, 2.5)
+        val g = 0.0
+        val r = Classroom("CO1", g)
         assertEquals("CO1", r.name)
-        assertEquals(15, r.numReviews)
-        assertEquals(2.5, r.averageGrade, 0.01)
+        assertEquals(g, r.grade, 0.1)
         assertEquals(null, r.roomKind)
     }
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val r = Classroom("CM 1 4", 15, 2.5, "Auditorium")
+        val g =  0.0
+        val r = Classroom("CM 1 4", g,"Auditorium")
         assertEquals("CM 1 4", r.name)
-        assertEquals(15, r.numReviews)
-        assertEquals(2.5, r.averageGrade, 0.01)
+        assertEquals(g, r.grade, 0.01)
         assertEquals("Auditorium", r.roomKind)
     }
 
@@ -45,36 +45,9 @@ class ClassroomTest {
     fun builderThrowsForMissingId() {
         val fake = "Fake"
         val builder = Classroom.Builder()
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
             .setRoomKind(fake)
+            .setGrade(null)
             .setName(null)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
-    @Test
-    fun builderThrowsForMissingNumReviews() {
-        val fake = "Fake"
-        val builder = Classroom.Builder()
-            .setAverageGrade(2.5)
-            .setRoomKind(fake)
-            .setName(fake)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
-    @Test
-    fun builderThrowsForMissingAverageGrade() {
-        val fake = "Fake"
-        val builder = Classroom.Builder()
-            .setNumReviews(15)
-            .setRoomKind(fake)
-            .setName(fake)
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -84,12 +57,12 @@ class ClassroomTest {
     @Test
     fun builderSucceedsForMissingNonMandatoryProperties() {
         val fake = "Fake"
+        val g = 0.0
         val builder = Classroom.Builder()
             .setName(fake)
-            .setNumReviews(15)
-            .setAverageGrade(2.5)
+            .setGrade(g)
 
-        val classroom = Classroom(fake, 15, 2.5)
+        val classroom = Classroom(fake, g)
         assertEquals(classroom, builder.build())
     }
 }

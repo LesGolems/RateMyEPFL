@@ -10,7 +10,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.model.GradeInfo
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -34,18 +37,20 @@ class RoomReviewInfoFragmentTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_room_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_room_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeClassroomRepository.CLASSROOM_LIST.first())
         scenario = ActivityScenario.launch(intent)
     }
 
     @Test
     fun allInformationCorrectlyDisplayed() {
-        val fakeRoom = FakeClassroomRepository.ROOM_WITH_REVIEWS
-        FakeClassroomRepository.roomById = fakeRoom
+        val fakeRoom = FakeClassroomRepository.roomById
+        val gi = GradeInfo("id", mapOf(), 4.5, 5)
+        FakeGradeInfoRepository.gradeById = gi
 
         launch()
 
-        val numReviewText = "(${fakeRoom.numReviews} reviews)"
+        val numReviewText = "(${gi.numReviews} reviews)"
         onView(withId(R.id.roomIdInfo))
             .check(matches(withText(fakeRoom.name)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
@@ -53,8 +58,7 @@ class RoomReviewInfoFragmentTest {
 
     @Test
     fun noReviewDisplayed() {
-        val fakeRoom = FakeClassroomRepository.ROOM_WITHOUT_REVIEWS
-        FakeClassroomRepository.roomById = fakeRoom
+        FakeGradeInfoRepository.gradeById = FakeGradeInfoRepository.NO_REVIEW
 
         launch()
 

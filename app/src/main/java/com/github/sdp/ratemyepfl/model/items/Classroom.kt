@@ -4,10 +4,9 @@ import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Classroom(
+data class Classroom constructor(
     val name: String,
-    override val numReviews: Int,
-    override val averageGrade: Double,
+    override val grade: Double,
     val roomKind: String? = null,
 ) : Reviewable() {
 
@@ -31,8 +30,7 @@ data class Classroom(
      */
     class Builder(
         private var name: String? = null,
-        private var numReviews: Int? = null,
-        private var averageGrade: Double? = null,
+        private var grade: Double? = null,
         private var roomKind: String? = null,
     ) : ReviewableBuilder<Classroom> {
 
@@ -40,23 +38,18 @@ data class Classroom(
             this.name = id
         }
 
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        fun setAverageGrade(averageGrade: Double?) = apply {
-            this.averageGrade = averageGrade
-        }
-
         fun setRoomKind(roomKind: String?) = apply {
             this.roomKind = roomKind
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
         override fun build(): Classroom {
             val name = this asMandatory name
-            val numReviews = this asMandatory numReviews
-            val averageGrade = this asMandatory averageGrade
-            return Classroom(name, numReviews, averageGrade, roomKind)
+            val grade = this asMandatory grade
+            return Classroom(name, grade, roomKind)
         }
     }
 

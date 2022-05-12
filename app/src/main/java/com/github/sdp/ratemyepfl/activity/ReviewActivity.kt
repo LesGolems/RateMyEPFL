@@ -3,11 +3,13 @@ package com.github.sdp.ratemyepfl.activity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.RuntimeException
 
 /*
 General activity for the review part of the app, it has a different layout (navigation) for each reviewable item.
@@ -17,6 +19,9 @@ The layout is passed as extra and set in the onCreate method
 class ReviewActivity : DrawerActivity() {
 
     companion object {
+        const val EXTRA_ITEM_REVIEWED_ID: String =
+            "com.github.sdp.extra_item_reviewed_id"
+
         const val EXTRA_ITEM_REVIEWED: String =
             "com.github.sdp.extra_item_reviewed"
 
@@ -25,8 +30,8 @@ class ReviewActivity : DrawerActivity() {
 
         const val EXTRA_GRAPH_ID: String =
             "com.github.sdp.extra_graph_id"
-    }
 
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +69,10 @@ class ReviewActivity : DrawerActivity() {
                 R.id.reviewListFragment,
                 R.id.roomReviewInfoFragment,
                 R.id.roomReviewPictureFragment,
-                R.id.addClassroomReviewFragment,
+                R.id.addReviewFragment,
                 R.id.restaurantReviewInfoFragment,
-                R.id.addRestaurantReviewFragment,
                 R.id.eventReviewInfoFragment,
-                R.id.addEventReviewFragment,
                 R.id.courseReviewInfoFragment,
-                R.id.addCourseReviewFragment
             ), drawerLayout
         )
 

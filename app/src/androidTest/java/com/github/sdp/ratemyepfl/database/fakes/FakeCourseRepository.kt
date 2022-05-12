@@ -16,6 +16,8 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
     CourseRepository,
     ReviewableRepository<Course>,  LoaderRepository<Course> by repository {
 
+    override val offlineData: List<Course> = CourseRepositoryImpl.OFFLINE_COURSES
+
     companion object {
         val COURSE_LIST = listOf(
             Course(
@@ -24,8 +26,7 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "George Candea",
                 credits = 4,
                 courseCode = "CS-306",
-                numReviews = 15,
-                averageGrade = 2.5
+                grade = 5.0
             ),
             Course(
                 title = "Calcul quantique",
@@ -33,8 +34,7 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Nicolas Macris",
                 credits = 4,
                 courseCode = "CS-308",
-                numReviews = 15,
-                averageGrade = 2.5
+                grade = 5.0
             ),
             Course(
                 title = "Intelligence artificielle",
@@ -42,8 +42,7 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Boi Faltings",
                 credits = 4,
                 courseCode = "CS-330",
-                numReviews = 15,
-                averageGrade = 2.5
+                grade = 5.0
             ),
             Course(
                 title = "Projet de systems-on-chip",
@@ -51,8 +50,7 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "René Beuchat",
                 credits = 3,
                 courseCode = "CS-309",
-                numReviews = 15,
-                averageGrade = 2.5
+                grade = 5.0
             ),
             Course(
                 title = "Introduction to database systems",
@@ -60,41 +58,23 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Christoph Koch",
                 credits = 4,
                 courseCode = "CS-332",
-                numReviews = 15,
-                averageGrade = 2.5
+                grade = 5.0
             )
         )
 
-        val COURSE_WITH_REVIEWS = Course(
+        var courseById = Course(
             title = "Software development project",
             section = "IC",
             teacher = "George Candea",
             credits = 4,
             courseCode = "CS-306",
-            numReviews = 15,
-            averageGrade = 2.5
+            0.0,
         )
-
-        val COURSE_WITHOUT_REVIEWS = Course(
-            title = "Software development project",
-            section = "IC",
-            teacher = "George Candea",
-            credits = 4,
-            courseCode = "CS-306",
-            numReviews = 0,
-            averageGrade = 0.0
-        )
-
-        var courseById = COURSE_WITH_REVIEWS
     }
 
 
     override suspend fun getCourses(): List<Course> = COURSE_LIST
 
     override suspend fun getCourseById(id: String): Course = courseById
-
-    override suspend fun updateCourseRating(id: String, rating: ReviewRating) {}
-    override val offlineData: List<Course>
-        get() = listOf()
 
 }

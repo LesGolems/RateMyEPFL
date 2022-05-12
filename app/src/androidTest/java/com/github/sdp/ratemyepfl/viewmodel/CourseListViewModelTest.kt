@@ -39,7 +39,6 @@ class CourseListViewModelTest {
         fake,
         0,
         fake,
-        0,
         0.0,
         fake,
         fake,
@@ -63,7 +62,6 @@ class CourseListViewModelTest {
                 fake,
                 0,
                 fake,
-                0,
                 0.0,
                 fake,
                 fake,
@@ -71,8 +69,7 @@ class CourseListViewModelTest {
                 fake
             )
                 .setCourseCode(n.toString())
-                .setNumReviews(n % 5 + 1)
-                .setAverageGrade(((n + 2) % 5 + 1).toDouble())
+                .setGrade(((n + 2) % 5 + 1).toDouble())
                 .build()
         }.plus(personalizedCourse)
 

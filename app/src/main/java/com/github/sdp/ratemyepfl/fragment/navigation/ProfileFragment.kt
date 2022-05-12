@@ -12,10 +12,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
@@ -36,7 +38,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     @Inject
     lateinit var currentUser: ConnectedUser
 
-    private val viewModel by activityViewModels<UserProfileViewModel>()
+    private val viewModel by viewModels<UserProfileViewModel>()
+    private val sideBarViewModel: UserViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,6 +84,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     viewModel.changeUsername(usernameText.text.toString())
                     viewModel.changeEmail(emailText.text.toString())
                     viewModel.submitChanges()
+                    sideBarViewModel.user.postValue(
+                        sideBarViewModel.user.value?.copy(
+                            email = viewModel.newEmail,
+                            username = viewModel.newUsername
+                        )
+                    )
+                    sideBarViewModel.picture.postValue(viewModel.picture.value)
                 } catch (e: Exception) {
                     viewModel.discardChanges()
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

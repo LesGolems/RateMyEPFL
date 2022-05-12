@@ -6,15 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
+import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,14 +28,16 @@ import javax.inject.Inject
 open class ReviewListViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
     private val userRepo: UserRepository,
+    private val gradeInfo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id
     val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
+    val itemReviewed = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()
 
@@ -59,40 +63,61 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    fun updateVotes(review: Review, array: List<String>, fieldName: String, karmaCallback : (Boolean) -> Unit) {
-        if (!auth.isLoggedIn()) throw DisconnectedUserException()
+    fun updateDownVotes(review: Review, authorUid: String?) {
+        val uid = auth.getUserId() ?: throw DisconnectedUserException()
+        if (uid == authorUid) throw VoteException("You can't dislike your own review")
+        val reviewId = review.getId()
 
-        val uid = auth.getUserId() ?: return
         viewModelScope.launch {
-            if (array.contains(uid)) {
-                reviewRepo.removeUidInArray(fieldName, review.getId(), uid)
+            // The user already disliked the review
+            if (review.dislikers.contains(uid)) {
+                // Remove a dislike
+                reviewRepo.removeDownVote(reviewId, uid)
+                userRepo.updateKarma(authorUid, 1)
+                gradeInfo.updateLikeRatio(itemReviewed, reviewId, 1)
             } else {
-                reviewRepo.addUidInArray(fieldName, review.getId(), uid)
+                // The user dislikes for the first time
+                if (review.likers.contains(uid)) {
+                    // The user changed from like to dislike
+                    reviewRepo.removeUpVote(reviewId, uid)
+                    userRepo.updateKarma(authorUid, -1)
+                    gradeInfo.updateLikeRatio(itemReviewed, reviewId, -1)
+                }
+                // Add a dislike
+                reviewRepo.addDownVote(review.getId(), uid)
+                userRepo.updateKarma(authorUid, -1)
+                gradeInfo.updateLikeRatio(itemReviewed, reviewId, -1)
             }
-            karmaCallback(array.contains(uid))
             updateReviewsList()
         }
     }
 
-    fun updateLikes(review: Review, uid: String?) {
-        if(auth.getUserId() == uid) throw VoteException("You can't like your own review")
+    fun updateUpVotes(review: Review, authorUid: String?) {
+        val uid = auth.getUserId() ?: throw DisconnectedUserException()
+        if (uid == authorUid) throw VoteException("You can't like your own review")
+        val reviewId = review.getId()
 
-        updateVotes(review, review.likers, ReviewRepositoryImpl.LIKERS_FIELD_NAME) {
-            if(uid != null){
-                if (it) userRepo.updateKarma(uid, -1)
-                else userRepo.updateKarma(uid, 1)
+        viewModelScope.launch {
+            // The user already liked the review
+            if (review.likers.contains(uid)) {
+                // Remove a like
+                reviewRepo.removeUpVote(reviewId, uid)
+                userRepo.updateKarma(authorUid, -1)
+                gradeInfo.updateLikeRatio(itemReviewed, reviewId, -1)
+            } else {
+                // The user likes for the first time
+                if (review.dislikers.contains(uid)) {
+                    // The user changed from dislike to like
+                    reviewRepo.removeDownVote(reviewId, uid)
+                    userRepo.updateKarma(authorUid, 1)
+                    gradeInfo.updateLikeRatio(itemReviewed, reviewId, 1)
+                }
+                // Add a like
+                reviewRepo.addUpVote(review.getId(), uid)
+                userRepo.updateKarma(authorUid, 1)
+                gradeInfo.updateLikeRatio(itemReviewed, reviewId, 1)
             }
-        }
-    }
-
-    fun updateDislikes(review: Review, uid: String?) {
-        if(auth.getUserId() == uid) throw VoteException("You can't dislike your own review")
-
-        updateVotes(review, review.dislikers, ReviewRepositoryImpl.DISLIKERS_FIELD_NAME) {
-            if(uid != null){
-                if(it) userRepo.updateKarma(uid, 1)
-                else userRepo.updateKarma(uid, -1)
-            }
+            updateReviewsList()
         }
     }
 }

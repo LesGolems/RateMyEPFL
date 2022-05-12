@@ -25,10 +25,10 @@ class FakeConnectedUser @Inject constructor() : ConnectedUser {
 
     companion object {
         val fakeUser1 =
-            User("12345", "John Smith", "john@example.com", timetable = ArrayList<Class>())
+            User("12345", "John Smith", "john@example.com")
 
         val fakeUser2 =
-            User("7", "Kylian Mbappe", "cmoiwesh@email.com", timetable = ArrayList<Class>())
+            User("7", "Kylian Mbappe", "cmoiwesh@email.com")
 
         var instance = Instance.LOGGED_OUT
     }

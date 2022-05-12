@@ -1,14 +1,18 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,8 +29,16 @@ import javax.inject.Inject
 @HiltViewModel
 class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
-    private val connectedUser: ConnectedUser
+    private val gradeInfoRepo: GradeInfoRepository,
+    private val connectedUser: ConnectedUser,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
+
+    val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     companion object {
         const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
@@ -69,7 +81,7 @@ class AddReviewViewModel @Inject constructor(
      * @return the rating of the review or null if the construction didn't work
      * @throws IllegalStateException if the user is not connected, or if one of the fields is empty
      */
-    fun submitReview(id: String): ReviewRating? {
+    fun submitReview(): ReviewRating? {
         val rating = rating.value
         val comment = comment.value
         val title = title.value
@@ -101,7 +113,8 @@ class AddReviewViewModel @Inject constructor(
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                reviewRepo.add(review).await()
+                val reviewId = reviewRepo.addAndGetId(review)
+                gradeInfoRepo.addReview(item, reviewId, review.rating).await()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the review (from ${e.message}")

@@ -27,8 +27,6 @@ class UserViewModel @Inject constructor(
     val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
     val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    private val noUser = User.Builder("uid", "Visitor", "You are not logged in", null, null).build()
-
     init {
         refreshUser()
     }
@@ -54,7 +52,7 @@ class UserViewModel @Inject constructor(
                 imageStorage.get(uid)?.let { picture.postValue(it) }
             }
         } else {
-            user.postValue(noUser)
+            user.postValue(null)
             picture.postValue(null)
         }
     }

@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -11,38 +12,32 @@ import javax.inject.Inject
 class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
     EventRepository, ReviewableRepository<Event>, LoaderRepository<Event> by repository {
 
+    override val offlineData: List<Event> = listOf()
     companion object {
         val DATE = LocalDateTime.now()
+        private val baseEvent =
+            Event("name", 0, 0, listOf(), 0.0, 0.0, 0.0, DATE)
         val EVENT_LIST = listOf(
-            Event(
-                name = "Evenement de dingue", 15, 2.5, 0,
-                100, listOf(), 0.0, 0.0, DATE
+            baseEvent.copy(
+                name = "Evenement de dingue",
+                limitParticipants = 100,
             ),
-            Event(
-                name = "Bas les masques", 8, 3.0, 0,
-                70, listOf(), 0.0, 0.0, DATE
+            baseEvent.copy(
+                name = "Bas les masques",
+                limitParticipants = 70,
             ),
-            Event(
-                name = "La paix verte", 1, 4.0, 0,
-                50, listOf(), 0.0, 0.0, DATE
+            baseEvent.copy(
+                name = "La paix verte",
+                limitParticipants = 50,
             )
         )
 
-        val DEFAULT_EVENT = Event(
-            name = "Evenement de dingue", 15, 2.5, 0,
-            100, listOf(), 0.0, 0.0, DATE
+        val DEFAULT_EVENT = baseEvent.copy(
+            name = "Evenement de dingue",
+            limitParticipants = 100
         )
 
-        val EVENT_WITH_REVIEWS = Event(
-            name = "Evenement de dingue", 15, 2.5, 0,
-            100, listOf(), 0.0, 0.0, DATE
-        )
-        val EVENT_WITHOUT_REVIEWS = Event(
-            name = "Evenement de dingue", 0, 0.0, 0,
-            100, listOf(), 0.0, 0.0, DATE
-        )
-
-        var eventById = EVENT_WITH_REVIEWS
+        var eventById = DEFAULT_EVENT
 
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
@@ -53,11 +48,4 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean =
         true
-
-    override suspend fun updateEventRating(id: String, rating: ReviewRating) {
-        rate = rating
-    }
-
-    override val offlineData: List<Event>
-        get() = listOf()
 }

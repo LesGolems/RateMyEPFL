@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.viewmodel.EventListViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,9 +59,10 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     private fun displayReviews(event: Event) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
         intent.putExtra(
-            ReviewActivity.EXTRA_ITEM_REVIEWED,
+            ReviewActivity.EXTRA_ITEM_REVIEWED_ID,
             event.getId()
         )
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, event)
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_event_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_event_review)
         startActivity(intent)
