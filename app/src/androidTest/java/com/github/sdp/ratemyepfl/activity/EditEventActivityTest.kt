@@ -1,11 +1,24 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.Manifest
+import android.content.Intent
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.GrantPermissionRule
+import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
 import org.junit.Rule
+import org.junit.Test
 
 @HiltAndroidTest
 class EditEventActivityTest {
@@ -17,17 +30,6 @@ class EditEventActivityTest {
     @get:Rule
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
-
-    /**
-    @Before
-    fun setUp() {
-        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review) // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, "Fake id")
-        scenario = ActivityScenario.launch(intent)
-    }
 
     @After
     fun clean() {
@@ -44,6 +46,7 @@ class EditEventActivityTest {
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
+        Thread.sleep(2000)
     }
 
     @Test
@@ -58,6 +61,7 @@ class EditEventActivityTest {
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
+        Thread.sleep(2000)
     }
 
     @Test
@@ -70,6 +74,7 @@ class EditEventActivityTest {
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
         onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
+        Thread.sleep(2000)
     }
 
     @Test
@@ -117,13 +122,19 @@ class EditEventActivityTest {
     fun submittingWhenFilledWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, "fake")
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, 50)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
         scenario = ActivityScenario.launch(intent)
 
-        onView(withId(R.id.mapContainer)).perform(scrollTo())
-        onView(withId(R.id.mapContainer)).perform(swipeUp())
-        onView(withId(R.id.mapContainer)).perform(click())
-        onView(withId(R.id.mapContainer)).check(matches(isDisplayed()))
+        init()
+        onView(withId(R.id.doneButton)).perform(scrollTo())
+        onView(withId(R.id.doneButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
     }
-    */
 }
