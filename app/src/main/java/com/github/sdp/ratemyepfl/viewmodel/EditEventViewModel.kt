@@ -81,6 +81,38 @@ class EditEventViewModel @Inject constructor(
      * @throws IllegalStateException if the user is not connected, or if one of the fields is empty
      */
     fun submitEvent() {
+        checkForErrors()
+
+        val title = title.value!!
+        val limPart = limPart.value!!
+        val location = location.value!!
+        val lat = location[0]
+        val long = location[1]
+        val uid = connectedUser.getUserId()!!
+        val time = time.value!!
+        val date = date.value!!
+        val dateTime = LocalDateTime.of(date[0], date[1], date[2], time[0], time[1])
+
+        if (eventId == null) {
+            val builder = Event.Builder()
+                .name(title)
+                .setLimitParticipants(limPart)
+                .setCreator(uid)
+                .setLat(lat)
+                .setLong(long)
+                .setDate(dateTime)
+            newEventBehavior(builder)
+        } else {
+            viewModelScope.launch {
+                eventRepo.updateEditedEvent(eventId, title, limPart, lat, long, dateTime)
+            }
+        }
+    }
+
+    /**
+     * Check that there is no error before submitting
+     */
+    private fun checkForErrors() {
         // only connected users may add events
         if (!connectedUser.isLoggedIn()) {
             throw DisconnectedUserException()
@@ -97,38 +129,16 @@ class EditEventViewModel @Inject constructor(
         } else if (limPart.value == 0) {
             throw IllegalStateException("The limit of participants cannot be 0.")
         }
+    }
 
-        val title = title.value!!
-        val limPart = limPart.value!!
-        val location = location.value!!
-        val lat = location[0]
-        val long = location[1]
-        val uid = connectedUser.getUserId()!!
-
-        val time = time.value!!
-        val date = date.value!!
-        val dateTime = LocalDateTime.of(date[0], date[1], date[2], time[0], time[1])
-
-        if (eventId == null) {
-            val builder = Event.Builder()
-                .name(title)
-                .setLimitParticipants(limPart)
-                .setCreator(uid)
-                .setLat(lat)
-                .setLong(long)
-                .setDate(dateTime)
-            try {
-                val event = builder.build()
-                viewModelScope.launch {
-                    eventRepo.add(event).await()
-                }
-            } catch (e: IllegalStateException) {
-                throw IllegalStateException("Failed to build the event (from ${e.message}")
-            }
-        } else {
+    private fun newEventBehavior(builder: Event.Builder) {
+        try {
+            val event = builder.build()
             viewModelScope.launch {
-                eventRepo.updateEditedEvent(eventId, title, limPart, lat, long, dateTime)
+                eventRepo.add(event).await()
             }
+        } catch (e: IllegalStateException) {
+            throw IllegalStateException("Failed to build the event (from ${e.message}")
         }
     }
 }

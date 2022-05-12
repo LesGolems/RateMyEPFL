@@ -1,7 +1,10 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.Manifest
+import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,10 +14,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.MainActivity
 import com.github.sdp.ratemyepfl.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeEventRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -48,7 +53,7 @@ class EventFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun clickOnButtonLoggedInWorks() {
+    fun clickOnRegisterButtonLoggedInWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
         onView(withId(R.id.eventRecyclerView)).perform(
@@ -63,7 +68,7 @@ class EventFragmentTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun clickOnButtonLoggedInTwiceWorks() {
+    fun clickOnRegisterButtonLoggedInTwiceWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
         onView(withId(R.id.eventRecyclerView)).perform(
@@ -94,9 +99,16 @@ class EventFragmentTest {
     @Test
     fun clickOnAddEventButtonLoggedOutDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        val scenario: ActivityScenario<MainActivity> = ActivityScenario.launch(intent)
+        onView(withId(R.id.activityMainBottomNavigationView)).perform(
+            navigateTo(R.id.event)
+        )
 
         onView(withId(R.id.addEventButton)).perform(click())
+        Thread.sleep(2000)
         onView(withId(R.id.addEventButton)).check(matches(isDisplayed()))
+
+        scenario.close()
     }
 }
