@@ -35,7 +35,7 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
         }
     }
 
-    private fun createFragments(timetable : ArrayList<Class>){
+    private fun createFragments(timetable: ArrayList<Class>) {
         if (timetable.isNotEmpty()) {
             val fragments = DayFragment.DAYS.values()
                 .map {
@@ -59,5 +59,4 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
             }.attach()
         }
     }
-
 }

@@ -26,15 +26,22 @@ class UserProfileViewModel @Inject constructor(
     val email: MutableLiveData<String?> = MutableLiveData(null)
     val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
-    private var newUsername: String? = null
-    private var newEmail: String? = null
+    var newUsername: String? = null
+    var newEmail: String? = null
 
     init {
         refreshProfile()
     }
 
     fun addClass(c: Class) {
-        TODO()
+        if (currentUser.isLoggedIn()) {
+            viewModelScope.launch {
+                val user = currentUser.getUserId()?.let { userDatabase.getUserByUid(it) }
+                if (user != null) {
+                    userDatabase.updateTimetable(user.getId(), c)
+                }
+            }
+        }
     }
 
     /**
