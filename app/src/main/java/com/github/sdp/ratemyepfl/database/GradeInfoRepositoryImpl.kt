@@ -95,8 +95,9 @@ class GradeInfoRepositoryImpl private constructor(
         else 1 - (-likeRatio) / NUM_USERS
     }
 
-    override fun updateLikeRatio(itemId: String, reviewId: String, inc: Int): Task<Transaction> =
-        repository.update(itemId) {
+    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Transaction> {
+        var computedGrade = 0.0
+        repository.update(item.getId()) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
             val newData = it.reviewsData.plus(
                 Pair(
@@ -107,12 +108,16 @@ class GradeInfoRepositoryImpl private constructor(
                     )
                 )
             )
+            computedGrade = computeGrade(newData)
             it.copy(
                 reviewsData = newData,
                 currentGrade = computeGrade(newData),
                 numReviews = newData.size
             )
-        }
+        }.await()
+
+        return updateItem(item, computedGrade)
+    }
 
     override suspend fun addReview(
         item: Reviewable,
@@ -160,5 +165,6 @@ class GradeInfoRepositoryImpl private constructor(
         is Restaurant -> restaurantRepository.update(item.getId()) {
             it.copy(grade = grade)
         }
+        else -> throw Exception("")
     }
 }

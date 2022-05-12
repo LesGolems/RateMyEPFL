@@ -2,11 +2,15 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
-data class Event constructor(
+@Serializable
+data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
@@ -14,7 +18,8 @@ data class Event constructor(
     override val grade: Double,
     val lat: Double,
     val long: Double,
-    val date: LocalDateTime
+    @Serializable(with = LocalDateTimeSerializer::class)
+    val date: LocalDateTime = LocalDateTime.now()
 ) : Reviewable(), Displayable {
 
     override fun toString(): String {

@@ -3,6 +3,9 @@ package com.github.sdp.ratemyepfl.model.items
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -89,5 +92,15 @@ class EventTest {
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
         assertEquals(event.grade, expected.grade, 0.01)
+    }
+
+    @Test
+    fun name() {
+        val e: Reviewable = Event(
+            ID,
+            64, 70, listOf(USER_ID), 0.0, 46.52, 6.569, DATE)
+        val x = Json.encodeToString(Reviewable.serializer(), e)
+        val y = Json.decodeFromString(Reviewable.serializer(), x)
+        assertEquals(e, y)
     }
 }

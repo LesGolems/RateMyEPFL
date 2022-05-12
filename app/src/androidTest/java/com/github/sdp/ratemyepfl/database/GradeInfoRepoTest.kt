@@ -39,7 +39,7 @@ class GradeInfoRepoTest {
     @Test
     fun updateLikeRatioWorks(){
         runTest {
-            gradeInfoRepo.updateLikeRatio(testGradeInfo.itemId, "rid1", -1).await()
+            gradeInfoRepo.updateLikeRatio(testItem, "rid1", -1).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid1"])

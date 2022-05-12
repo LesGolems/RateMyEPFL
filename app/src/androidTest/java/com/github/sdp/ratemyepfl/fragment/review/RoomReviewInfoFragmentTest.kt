@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
 import com.github.sdp.ratemyepfl.model.GradeInfo
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -37,6 +38,7 @@ class RoomReviewInfoFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_room_review)
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_room_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeClassroomRepository.CLASSROOM_LIST.first())
         scenario = ActivityScenario.launch(intent)
     }
 

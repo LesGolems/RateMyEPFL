@@ -8,7 +8,7 @@ import com.google.firebase.firestore.Transaction
 
 interface GradeInfoRepository {
 
-    fun updateLikeRatio(itemId: String, reviewId: String, inc: Int): Task<Transaction>
+    suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Transaction>
 
     suspend fun addReview(
         item: Reviewable,
