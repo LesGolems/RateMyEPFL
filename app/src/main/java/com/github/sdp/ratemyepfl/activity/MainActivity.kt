@@ -1,26 +1,19 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.github.sdp.ratemyepfl.OccupancyService
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
-import com.github.sdp.ratemyepfl.viewmodel.RestaurantListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : DrawerActivity(), LocationListener {
-    private lateinit var locationManager: LocationManager
-    private val restaurantListViewModel: RestaurantListViewModel by viewModels()
+class MainActivity : DrawerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +35,9 @@ class MainActivity : DrawerActivity(), LocationListener {
 
         // Start location service
         val locationPermissionLauncher =
-            PermissionUtils.requestPermissionLauncher({ startLocationService() }, this, this)
+            PermissionUtils.requestPermissionLauncher({ startOccupancyService() }, this, this)
         PermissionUtils.startPhoneFeature(
-            { startLocationService() },
+            { startOccupancyService() },
             locationPermissionLauncher,
             this,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -67,20 +60,19 @@ class MainActivity : DrawerActivity(), LocationListener {
     }
 
     /**
-     * Starts the Location Service and binds this Activity as a Listener
+     * Starts the Occupancy Service
      */
-    @SuppressLint("MissingPermission")
-    private fun startLocationService() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        // send location updates to this LocationListener
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0f, this)
+    private fun startOccupancyService() {
+        Intent(this, OccupancyService::class.java).also {
+            startService(it)
+        }
     }
 
-    /**
-     * Receives location updates
-     */
-    override fun onLocationChanged(location: Location) {
-        restaurantListViewModel.updateRestaurantsOccupancy(location)
+    override fun onDestroy() {
+        super.onDestroy()
+        Intent(this, OccupancyService::class.java).also {
+            stopService(it)
+        }
     }
 }
 

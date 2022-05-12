@@ -59,5 +59,4 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
             }.attach()
         }
     }
-
 }

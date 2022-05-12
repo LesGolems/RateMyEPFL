@@ -1,12 +1,17 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
+import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
@@ -27,6 +32,11 @@ class RoomReviewInfoFragmentTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.RECORD_AUDIO
+    )
 
     @After
     fun clean() {
@@ -68,6 +78,15 @@ class RoomReviewInfoFragmentTest {
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
         FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+    }
+
+    @Test
+    fun firesAnIntentWhenUserClicksOnMicrophone() {
+        launch()
+        init()
+        onView(withId(R.id.noiseMeasureButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
     }
 
 }

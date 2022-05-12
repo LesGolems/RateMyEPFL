@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
-import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.SearchableRepository.Companion.LIMIT_QUERY_SEARCH
 import com.github.sdp.ratemyepfl.database.query.QueryResult
@@ -19,11 +18,11 @@ import com.google.firebase.firestore.Query
  * @param idFieldName: the name of the field that holds the id of the [Reviewable]
  */
 class ReviewableRepositoryImpl<T : Reviewable> private constructor(
-    private val repository: LoaderRepository<T>,
+    private val repository: LoaderRepositoryImpl<T>,
     private val idFieldName: String,
 ) : ReviewableRepository<T>, LoaderRepository<T> by repository {
 
-    constructor(repository: Repository<T>, idFieldName: String) : this(
+    constructor(repository: RepositoryImpl<T>, idFieldName: String) : this(
         LoaderRepositoryImpl(repository),
         idFieldName
     )
@@ -52,6 +51,8 @@ class ReviewableRepositoryImpl<T : Reviewable> private constructor(
         .query()
         .orderBy(AVERAGE_GRADE_FIELD_NAME, Query.Direction.DESCENDING)
         .orderBy(idFieldName)
+
+    fun getCollection() = repository.getCollection()
 
     /**
      * Load a given number of [Reviewable] by decreasing number of reviews.

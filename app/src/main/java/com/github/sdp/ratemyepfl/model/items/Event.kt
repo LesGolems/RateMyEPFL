@@ -11,10 +11,12 @@ import java.time.LocalDateTime
 
 @Serializable
 data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
+    val eventId: String,
     val name: String,
     val numParticipants: Int,
     val limitParticipants: Int,
     var participants: List<String> = listOf(),
+    val creator: String,
     override val grade: Double,
     override val numReviews: Int,
     val lat: Double,
@@ -28,6 +30,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     }
 
     override fun toHashMap(): HashMap<String, Any?> = hashMapOf<String, Any?>(
+        EventRepositoryImpl.ID_FIELD_NAME to eventId,
         EventRepositoryImpl.NAME_FIELD_NAME to name,
         EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to numParticipants,
         EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to limitParticipants,
@@ -35,13 +38,16 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
         EventRepositoryImpl.LATITUDE_FIELD_NAME to lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to long,
         EventRepositoryImpl.DATE_FIELD_NAME to date.toString(),
+        EventRepositoryImpl.CREATOR_FIELD_NAME to creator,
     ).apply { this.putAll(super.toHashMap()) }
 
     fun showParticipation(): String {
         return "Participants: $numParticipants/$limitParticipants"
     }
 
-    override fun getId(): String = name
+    fun withId(id: String): Event = this.copy(eventId = id)
+
+    override fun getId(): String = eventId
 
     override fun toMapItem(): MapItem {
         return EventItem(
@@ -60,10 +66,12 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
      *  - [name]
      */
     class Builder(
+        private var eventId: String? = null,
         private var name: String? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
+        private var creator: String? = null,
         private var grade: Double? = null,
         private var numReviews: Int? = null,
         private var lat: Double? = null,
@@ -71,9 +79,16 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
         private var date: LocalDateTime? = null,
     ) : ReviewableBuilder<Event> {
 
+        fun setId(eventId: String?) = apply {
+            this.eventId = eventId
+        }
 
         fun name(name: String?) = apply {
             this.name = name
+        }
+
+        fun setCreator(creator: String?) = apply {
+            this.creator = creator
         }
 
         fun setNumParticipants(numParticipants: Int?) = apply {
@@ -109,6 +124,8 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
         }
 
         override fun build(): Event {
+            val creator = this asMandatory creator
+            val id = this asMandatory eventId
             val name = this asMandatory name
             val numParticipants = this asMandatory numParticipants
             val limitParticipants = this asMandatory limitParticipants
@@ -120,10 +137,12 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             val numReviews = this asMandatory numReviews
 
             return Event(
+                id,
                 name,
                 numParticipants,
                 limitParticipants,
                 participants,
+                creator,
                 grade,
                 numReviews,
                 lat,
