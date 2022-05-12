@@ -92,7 +92,6 @@ class EditEventViewModel @Inject constructor(
         val time = time.value!!
         val date = date.value!!
         val dateTime = LocalDateTime.of(date[0], date[1], date[2], time[0], time[1])
-
         if (eventId == null) {
             val builder = Event.Builder()
                 .name(title)
