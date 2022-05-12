@@ -81,4 +81,5 @@
     <string name="event_date">Your event date:</string>
     <string name="event_time">Your event time:</string>
     <string name="event_location">Your event location:</string>
+    <string name="add_event">Add event</string>
 </resources>
