@@ -45,8 +45,8 @@ class EditEventActivityTest {
 
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
         Thread.sleep(2000)
+        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -56,12 +56,11 @@ class EditEventActivityTest {
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
-        onView(withId(R.id.editEventName)).perform(typeText("Truc de fou"))
-        closeSoftKeyboard()
+        onView(withId(R.id.editEventName)).perform(typeText("Truc de fou"), closeSoftKeyboard())
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
         Thread.sleep(2000)
+        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -73,8 +72,8 @@ class EditEventActivityTest {
 
         onView(withId(R.id.doneButton)).perform(scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
         Thread.sleep(2000)
+        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
     }
 
     @Test

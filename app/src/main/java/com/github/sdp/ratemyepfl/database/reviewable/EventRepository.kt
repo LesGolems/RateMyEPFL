@@ -6,6 +6,11 @@ import java.time.LocalDateTime
 
 interface EventRepository {
     /**
+     * Add an event without id to the database
+     */
+    fun add(event: Event): Task<Void>
+
+    /**
      * Add an event which already has an id to the database
      */
     fun addEventWithId(event: Event): Task<Void>

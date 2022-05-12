@@ -40,6 +40,10 @@ class FakeEventRepository @Inject constructor() : EventRepository {
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
+    override fun add(event: Event): Task<Void> {
+        return Mockito.mock(Task::class.java) as Task<Void>
+    }
+
     override fun addEventWithId(event: Event): Task<Void> {
         return Mockito.mock(Task::class.java) as Task<Void>
     }
