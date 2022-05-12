@@ -3,12 +3,10 @@ package com.github.sdp.ratemyepfl.activity
 import android.app.Activity
 import android.content.Intent
 import android.media.MediaRecorder
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils
@@ -38,7 +36,7 @@ open class AudioRecordActivity : AppCompatActivity() {
     private var start = false
 
     companion object {
-        private const val referenceAmplitude = 10
+        private const val referenceAmplitude = 1000
         const val EXTRA_MEASUREMENT_VALUE: String = "com.github.sdp.extra_measurement_value"
     }
 
@@ -114,11 +112,7 @@ open class AudioRecordActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
-        recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            MediaRecorder(this)
-        } else {
-            MediaRecorder()
-        }.apply {
+        recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
             setOutputFile(filename)

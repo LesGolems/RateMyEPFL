@@ -24,7 +24,7 @@ class SoundDisplayUtilsTest {
     fun loudIsCorrectlyMapped() {
         val pair = SoundDisplayUtils.decibelMap(89)
         assertEquals("Loud", pair.first)
-        assertEquals(Color.YELLOW, pair.second)
+        assertEquals(SoundDisplayUtils.COLOR_ORANGE, pair.second)
     }
 
     @Test
