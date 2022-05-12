@@ -104,8 +104,7 @@ class EditEventViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 eventRepo.updateEditedEvent(eventId, title, limPart, lat, long, dateTime)
-            }
-        }
+            } } // For CodeClimate ^^
     }
 
     /**
