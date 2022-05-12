@@ -26,8 +26,8 @@ class UserProfileViewModel @Inject constructor(
     val email: MutableLiveData<String?> = MutableLiveData(null)
     val timetable: MutableLiveData<ArrayList<Class>?> = MutableLiveData(null)
 
-    private var newUsername: String? = null
-    private var newEmail: String? = null
+    var newUsername: String? = null
+    var newEmail: String? = null
 
     init {
         refreshProfile()
