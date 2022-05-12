@@ -73,4 +73,5 @@
     <string name="no_coin">0</string>
     <string name="coin">Coin</string>
     <string name="addClassButton">Add Class Button</string>
+    <string name="addclassfragment">Choose a class to add</string>
 </resources>
