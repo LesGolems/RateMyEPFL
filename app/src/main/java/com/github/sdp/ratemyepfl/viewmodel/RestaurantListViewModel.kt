@@ -17,7 +17,7 @@ import javax.inject.Inject
 import kotlin.math.abs
 
 @HiltViewModel
-class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepository) :
+class RestaurantListViewModel @Inject constructor(private val repository: RestaurantRepositoryImpl) :
     ReviewableListViewModel<Restaurant>(
         repository,
         RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME,

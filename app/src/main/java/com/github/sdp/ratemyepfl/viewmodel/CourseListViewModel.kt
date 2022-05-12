@@ -18,7 +18,7 @@ import javax.inject.Inject
  * and the database
  */
 @HiltViewModel
-class CourseListViewModel @Inject constructor(private val repository: CourseRepository) :
+class CourseListViewModel @Inject constructor(private val repository: CourseRepositoryImpl) :
     ReviewableListViewModel<Course>(
         repository,
         COURSE_CODE_FIELD_NAME,

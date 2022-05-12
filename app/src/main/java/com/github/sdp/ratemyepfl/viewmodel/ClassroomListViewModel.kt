@@ -12,7 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ClassroomListViewModel @Inject constructor(repository: ClassroomRepository) :
+class ClassroomListViewModel @Inject constructor(repository: ClassroomRepositoryImpl) :
     ReviewableListViewModel<Classroom>(
         repository,
         ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME,

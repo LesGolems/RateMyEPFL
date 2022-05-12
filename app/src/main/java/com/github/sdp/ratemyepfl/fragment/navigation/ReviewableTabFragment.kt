@@ -161,7 +161,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
         searchBar.setOnQueryTextFocusChangeListener { _, b ->
             if (!b) {
                 stopSearching(searchBar)
-            }
+            } else startSearching(searchBar)
         }
 
         searchBar.setOnCloseListener {
