@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -25,7 +26,7 @@ class EventTest {
         EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
         EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
-        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
+        ReviewableRepository.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
     )
 
     @Test
@@ -95,7 +96,8 @@ class EventTest {
     fun name() {
         val e: Reviewable = Event(
             ID,
-            64, 70, listOf(USER_ID), 0.0, 46.52, 6.569, DATE)
+            64, 70, listOf(USER_ID), 0.0, 46.52, 6.569, DATE
+        )
         val x = Json.encodeToString(Reviewable.serializer(), e)
         val y = Json.decodeFromString(Reviewable.serializer(), x)
         assertEquals(e, y)
