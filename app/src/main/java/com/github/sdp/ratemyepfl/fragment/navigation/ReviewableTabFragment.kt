@@ -154,7 +154,11 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
                     isSearching = true
                     displayResult(viewModel.search(query, number))
                     true
-                } else false
+                } else {
+                    isSearching = false
+                    stopSearching(searchBar)
+                    false
+                }
 
             override fun onQueryTextSubmit(query: String?): Boolean = displaySearch(query)
 
