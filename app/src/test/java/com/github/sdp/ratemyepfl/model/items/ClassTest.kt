@@ -8,7 +8,6 @@ class ClassTest {
     @Test
     fun constructorWithDefaultValues() {
         val c = Class()
-        assertEquals(null, c.id)
         assertEquals(null, c.name)
         assertEquals(null, c.teacher)
         assertEquals(null, c.room)
@@ -20,8 +19,7 @@ class ClassTest {
 
     @Test
     fun constructorWithAllValues() {
-        val c = Class(0, "ML", "Jean-Kevin Bite Lavoisier", "INF", 0, 10, 12)
-        assertEquals(0, c.id)
+        val c = Class("ML", "Jean-Kevin Bite Lavoisier", "INF", 0, 10, 12)
         assertEquals("ML", c.name)
         assertEquals("Jean-Kevin Bite Lavoisier", c.teacher)
         assertEquals("INF", c.room)

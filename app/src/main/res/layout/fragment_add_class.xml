@@ -14,7 +14,7 @@
         tools:context=".fragment.navigation.AddClassFragment">
 
         <TextView
-            android:id="@+id/editEventTitle"
+            android:id="@+id/addClassTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
