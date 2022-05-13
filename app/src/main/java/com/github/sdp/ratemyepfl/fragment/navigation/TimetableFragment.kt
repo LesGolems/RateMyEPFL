@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +22,17 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
+    private lateinit var addClassFAB: FloatingActionButton
+
     private val viewModel: UserProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        addClassFAB = view.findViewById(R.id.addClass)
+        addClassFAB.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.addClassFragment)
+        }
 
         tabLayout = view.findViewById(R.id.timetableTabLayout)
         viewPager = view.findViewById(R.id.timetableTabViewPager)

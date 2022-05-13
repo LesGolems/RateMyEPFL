@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class DayFragment : Fragment(R.layout.fragment_day) {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var addClassFAB: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,14 +29,8 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
 
-    private val userViewModel: UserProfileViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addClassFAB = view.findViewById(R.id.addClass)
-        addClassFAB.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.addClassFragment)
-        }
 
         val day = arguments?.get("day")?.toString()
         val timetable = arguments?.getSerializable("timetable")
