@@ -18,7 +18,11 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class GradeInfoRepoTest {
-    private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5))))
+    private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5)),
+        Pair("rid6", ReviewInfo(2, 0)),
+        Pair("rid7", ReviewInfo(1, -4))
+    ))
+
     private val testItem = Classroom("item id", 0.0, 0)
 
     @get:Rule

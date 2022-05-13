@@ -20,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository {
+class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository, Repository<User> by repository{
 
     @Inject
     constructor(db: FirebaseFirestore) : this(

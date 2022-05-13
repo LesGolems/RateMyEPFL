@@ -1,9 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.UserRepositoryImpl.Companion.toUser
 import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,24 +30,17 @@ class UserRepositoryTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var db: FirebaseFirestore
-
-    private lateinit var userRepo: UserRepositoryImpl
-    private lateinit var repository: RepositoryImpl<User>
+    lateinit var userRepo: UserRepositoryImpl
 
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        repository = RepositoryImpl(db, UserRepositoryImpl.USER_COLLECTION_PATH) {
-            it.toUser()
-        }
-        userRepo = UserRepositoryImpl(repository)
-        repository.add(testUser).await()
+        userRepo.add(testUser).await()
     }
 
     @After
     fun clean() = runTest {
-        repository.remove(testUser.uid).await()
+        userRepo.remove(testUser.uid).await()
     }
 
     @Test
@@ -62,6 +54,24 @@ class UserRepositoryTest {
             assertEquals(updateUser.username, user?.username)
         }
     }
+
+    @Test
+    fun updateTimetableWorks() {
+        runTest {
+            val c = Class(
+                0, "fake", "fake",
+                "fake", 5, 15, 10
+            )
+            val updateUser = testUser.copy(
+                timetable = arrayListOf(c)
+            )
+            userRepo.updateTimetable(testUser.getId(), c)
+            val user = userRepo.getUserByUid(testUser.uid)
+            assertEquals(updateUser.uid, user?.uid)
+            assertEquals(1, updateUser.timetable.size)
+        }
+    }
+
 
     @Test
     fun updateKarmaWorks() {
@@ -129,7 +139,7 @@ class UserRepositoryTest {
 
     @Test
     fun registerWorks() = runTest {
-        repository.remove("register").await()
+        userRepo.remove("register").await()
         val user = User("register", "reg", "reg")
         assertEquals(false, userRepo.register(user).await())
 
