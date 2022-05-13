@@ -31,7 +31,7 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addClassFAB = view.findViewById(R.id.addClass)
+        addClassFAB = view.findViewById(R.id.addClassButton)
         addClassFAB.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.addClassFragment)
         }

@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/timetableTabLayout" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addClass"
+        android:id="@+id/addClassButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
