@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -113,10 +113,10 @@ class RestaurantRepositoryTest {
             .thenReturn(fake)
         Mockito.`when`(
             snapshot.getField<Int>(
-                ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME
+                ReviewableRepository.NUM_REVIEWS_FIELD_NAME
             )
         ).thenReturn(n)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
             .thenReturn(grade)
         Mockito.`when`(snapshot.getDouble("lat")).thenReturn(lat)
         Mockito.`when`(snapshot.getDouble("long")).thenReturn(long)

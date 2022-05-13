@@ -13,10 +13,12 @@
             <item
                 android:id="@+id/alphabeticOrderReversed"
                 android:title="@string/alphabetic_order_decreasing" />
+            <item
+                android:id="@+id/bestRated"
+                android:title="@string/best_rated_order_title" />
+            <item
+                android:id="@+id/worstRated"
+                android:title="@string/worst_rated_order_title" />
         </menu>
-
     </item>
-
 </menu>
-
-

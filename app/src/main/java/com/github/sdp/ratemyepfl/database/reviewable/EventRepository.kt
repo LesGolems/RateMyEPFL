@@ -4,11 +4,7 @@ import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.gms.tasks.Task
 import java.time.LocalDateTime
 
-interface EventRepository {
-    /**
-     * Add an event without id to the database
-     */
-    fun add(event: Event): Task<Void>
+interface EventRepository : ReviewableRepository<Event> {
 
     /**
      * Add an event which already has an id to the database

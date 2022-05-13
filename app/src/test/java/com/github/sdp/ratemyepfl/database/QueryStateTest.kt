@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -22,6 +25,18 @@ class QueryStateTest {
         val error = Exception("Failed")
         val state = QueryState.Failure<Int>(error)
         assertEquals(error, (state.map { it.toString() } as QueryState.Failure).error)
+    }
+
+    @Test
+    fun test() = runTest {
+        var x = 0
+        val state = QueryResult {
+            emit(QueryState.success(3))
+        }.mapResult {
+            x = 3
+            it
+        }.collect()
+        assertEquals(3, x)
     }
 
     @Test

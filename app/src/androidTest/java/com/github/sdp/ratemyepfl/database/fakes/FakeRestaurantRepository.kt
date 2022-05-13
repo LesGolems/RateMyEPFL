@@ -1,14 +1,21 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
+class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRepository<Restaurant>) :
+    RestaurantRepository, ReviewableRepository<Restaurant>,  LoaderRepository<Restaurant> by repository {
+
+    override val offlineData: List<Restaurant> = RestaurantRepositoryImpl.OFFLINE_RESTAURANTS
 
     companion object {
         private val baseRestaurant = Restaurant(
@@ -26,7 +33,7 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
         )
 
         val DEFAULT_RESTAURANT =
-            baseRestaurant.copy(name = "Roulotte du Soleil", occupancy = 0, lat = 1.0, long = 2.0)
+            baseRestaurant.copy(name = "Roulotte du Soleil", occupancy = 0, lat = 46.519214, long = 6.567553)
 
         val RESTAURANT_WITH_NO_OCCUPANCY = baseRestaurant.copy(occupancy = 0)
         val RESTAURANT_WITH_MEDIUM_OCCUPANCY = baseRestaurant.copy(occupancy = 20)
@@ -53,7 +60,4 @@ class FakeRestaurantRepository @Inject constructor() : RestaurantRepository {
         occupancyCounter -= 1
     }
 
-    override fun search(prefix: String): QueryResult<List<Restaurant>> = QueryResult(
-        flow { emit(QueryState.success(listOf())) }
-    )
 }

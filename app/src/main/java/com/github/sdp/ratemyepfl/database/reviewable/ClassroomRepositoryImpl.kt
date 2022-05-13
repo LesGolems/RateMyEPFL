@@ -1,10 +1,11 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
@@ -12,24 +13,37 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
-class ClassroomRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Classroom>) :
-    ClassroomRepository, ReviewableRepository<Classroom> by repository,
-    Repository<Classroom> by repository {
+class ClassroomRepositoryImpl private constructor(private val repository: LoaderRepository<Classroom>) :
+    ClassroomRepository,
+    ReviewableRepository<Classroom>,
+    LoaderRepository<Classroom> by repository {
+
+    override val offlineData = OFFLINE_CLASSROOMS
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
-        ReviewableRepositoryImpl(
-            db,
-            CLASSROOM_COLLECTION_PATH,
-            ROOM_NAME_FIELD_NAME,
-        ) { documentSnapshot ->
-            documentSnapshot.toClassroom()
-        })
+        LoaderRepositoryImpl<Classroom>(
+            RepositoryImpl(db, CLASSROOM_COLLECTION_PATH)
+            { documentSnapshot ->
+                documentSnapshot.toClassroom()
+            })
+    )
 
     companion object {
         const val CLASSROOM_COLLECTION_PATH = "rooms"
         const val ROOM_KIND_FIELD_NAME = "roomKind"
         const val ROOM_NAME_FIELD_NAME = "name"
+
+        val OFFLINE_CLASSROOMS: List<Classroom> = listOf(
+            Classroom("BC233", 0.0, 0),
+            Classroom("CE 1 1", 0.0, 0),
+            Classroom("CE 1 4", 0.0, 0),
+            Classroom("CM 1 1", 0.0, 0),
+            Classroom("CM 1 3", 0.0, 0),
+            Classroom("CM 1 4", 0.0, 0),
+            Classroom("CM 1 5", 0.0, 0),
+            Classroom("ELA 1", 0.0, 0),
+        )
 
         fun DocumentSnapshot.toClassroom(): Classroom? = try {
             val builder = Classroom.Builder()
@@ -53,9 +67,6 @@ class ClassroomRepositoryImpl private constructor(private val repository: Review
     }
 
     override suspend fun getRoomById(id: String): Classroom? = repository.getById(id).toClassroom()
-
-    override fun search(prefix: String): QueryResult<List<Classroom>> =
-        repository.search(ROOM_NAME_FIELD_NAME, prefix)
 
 
 }

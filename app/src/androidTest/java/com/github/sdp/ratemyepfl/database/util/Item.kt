@@ -28,7 +28,7 @@ data class Item(private val id: String, val data: Int) :
 
         fun DocumentSnapshot.toItem(): Item? {
             return try {
-                val id: String = id
+                val id: String? = getString(ID_FIELD)
                 val data = getField<Int>(DATA_FIELD)
 
                 Builder(id, data)

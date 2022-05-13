@@ -117,7 +117,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         initializeClusterManager()
         initializeMap()
 
-        restaurantViewModel.restaurants.observe(this) {
+        restaurantViewModel.elements.observe(this) {
             it?.let { l ->
                 listsObserver(l)
             }
