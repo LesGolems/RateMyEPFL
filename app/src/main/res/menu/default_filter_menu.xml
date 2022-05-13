@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/sortAlphabeticallyMenuItem"
-        android:title="@string/sort_alphabetically"
+        android:id="@+id/sortByMenu"
+        android:title="@string/sort_by_title"
         app:showAsAction="never">
         <menu>
             <item
-                android:id="@+id/increasingOrder"
-                android:title="@string/increasing_order" />
+                android:id="@+id/alphabeticOrder"
+                android:title="@string/alphabetic_order" />
             <item
-                android:id="@+id/decreasingOrder"
-                android:title="@string/decreasing_order" />
+                android:id="@+id/alphabeticOrderReversed"
+                android:title="@string/alphabetic_order_decreasing" />
         </menu>
 
     </item>

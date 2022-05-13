@@ -26,13 +26,6 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         viewModel.course.observe(viewLifecycleOwner) {
             setUpCourseInfo(view, it)
         }
-        viewModel.averageGrade.observe(viewLifecycleOwner){
-            view.findViewById<RatingBar>(R.id.courseRatingBar).rating = it.toFloat()
-        }
-        viewModel.numReviews.observe(viewLifecycleOwner){
-            view.findViewById<TextView>(R.id.courseNumReview).text =
-                getNumReviewString(requireContext(), it)
-        }
     }
 
     private fun setUpCourseInfo(view: View, course: Course) {
@@ -45,10 +38,13 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
             getString(R.string.course_section, course.section)
         view.findViewById<TextView>(R.id.courseCredits).text =
             getString(R.string.course_credits, course.credits.toString())
+        view.findViewById<TextView>(R.id.courseNumReview).text =
+            getNumReviewString(requireContext(), course.numReviews)
+        view.findViewById<RatingBar>(R.id.courseRatingBar).rating = course.grade.toFloat()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.refresh()
+        viewModel.updateCourse()
     }
 }

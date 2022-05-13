@@ -12,6 +12,7 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +36,9 @@ class AddReviewViewModel @Inject constructor(
 
     // Id
     val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED)!!
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
+
+    val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     companion object {
         const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
@@ -111,7 +114,7 @@ class AddReviewViewModel @Inject constructor(
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
                 val reviewId = reviewRepo.addAndGetId(review)
-                gradeInfoRepo.addReview(id, reviewId, review.rating).await()
+                gradeInfoRepo.addReview(item, reviewId, review.rating).await()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the review (from ${e.message}")

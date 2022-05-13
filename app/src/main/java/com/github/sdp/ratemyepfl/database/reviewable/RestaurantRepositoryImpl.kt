@@ -1,32 +1,30 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
-import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class RestaurantRepositoryImpl private constructor(private val repository: ReviewableRepositoryImpl<Restaurant>) :
-    RestaurantRepository, ReviewableRepository<Restaurant> by repository,
-    Repository<Restaurant> by repository {
-
+class RestaurantRepositoryImpl private constructor(private val repository: LoaderRepository<Restaurant>) :
+    RestaurantRepository, ReviewableRepository<Restaurant>,
+    LoaderRepository<Restaurant> by repository {
     @Inject
     constructor(db: FirebaseFirestore) : this(
-        ReviewableRepositoryImpl(
-            db,
-            RESTAURANT_COLLECTION_PATH,
-            RESTAURANT_NAME_FIELD_NAME
-        ) { documentSnapshot ->
-            documentSnapshot.toRestaurant()
-        })
+        LoaderRepositoryImpl<Restaurant>(
+            RepositoryImpl(db, RESTAURANT_COLLECTION_PATH)
+            { documentSnapshot ->
+                documentSnapshot.toRestaurant()
+            })
+    )
 
     companion object {
         const val RESTAURANT_NAME_FIELD_NAME: String = "name"
@@ -35,12 +33,49 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
 
+        val OFFLINE_RESTAURANTS = listOf<Restaurant>(
+            Restaurant(
+                name = "Arcadie",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                grade = 0.0,
+                numReviews = 0
+            ),
+            Restaurant(
+                name = "Epicure",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                grade = 0.0,
+                numReviews = 0
+            ),
+            Restaurant(
+                name = "Niki",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                grade = 0.0,
+                numReviews = 0
+            ),
+            Restaurant(
+                name = "Roulotte du Soleil",
+                occupancy = 0,
+                lat = 46.5,
+                long = 6.6,
+                grade = 0.0,
+                numReviews = 0
+            )
+        )
+
         fun DocumentSnapshot.toRestaurant(): Restaurant? = try {
             val name = getString(RESTAURANT_NAME_FIELD_NAME)
             val occupancy = getField<Int>(OCCUPANCY_FIELD_NAME)
             val lat = getDouble(LATITUDE_FIELD_NAME)
             val lon = getDouble(LONGITUDE_FIELD_NAME)
-            Restaurant.Builder(name, occupancy, lat, lon)
+            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
+            val numReviews = getField<Int>(NUM_REVIEWS_FIELD_NAME)
+            Restaurant.Builder(name, occupancy, grade, numReviews, lat, lon)
                 .build()
         } catch (e: IllegalStateException) {
             null
@@ -71,7 +106,7 @@ class RestaurantRepositoryImpl private constructor(private val repository: Revie
         }.await()
     }
 
-    override fun search(prefix: String): QueryResult<List<Restaurant>> =
-        repository.search(RESTAURANT_NAME_FIELD_NAME, prefix)
+
+    override val offlineData: List<Restaurant> = OFFLINE_RESTAURANTS
 
 }

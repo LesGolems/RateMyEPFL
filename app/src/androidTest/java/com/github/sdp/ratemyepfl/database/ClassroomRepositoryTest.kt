@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl.Companion.toClassroom
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ClassroomRepositoryTest {
-    private val testRoom = Classroom("Fake id")
+    private val testRoom = Classroom("Fake id", 0.0, 0)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -78,13 +78,14 @@ class ClassroomRepositoryTest {
             .thenReturn(fake)
         Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
             .thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
             .thenReturn(15)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
             .thenReturn(2.5)
 
+
         val classroom: Classroom? = snapshot.toClassroom()
-        val fakeClassroom = Classroom(fake, fake)
+        val fakeClassroom = Classroom(fake, 2.5, 15,fake)
         assertEquals(fakeClassroom, classroom)
 
     }
@@ -98,9 +99,9 @@ class ClassroomRepositoryTest {
             .thenReturn(null)
         Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
             .thenReturn(null)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepositoryImpl.NUM_REVIEWS_FIELD_NAME))
+        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
             .thenReturn(null)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME))
+        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
             .thenReturn(null)
 
         val classroom: Classroom? = snapshot.toClassroom()

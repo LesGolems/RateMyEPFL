@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
+import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 class GradeInfoRepoTest {
     private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5))))
+    private val testItem = Classroom("item id", 0.0, 0)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -37,7 +39,7 @@ class GradeInfoRepoTest {
     @Test
     fun updateLikeRatioWorks(){
         runTest {
-            gradeInfoRepo.updateLikeRatio(testGradeInfo.itemId, "rid1", -1).await()
+            gradeInfoRepo.updateLikeRatio(testItem, "rid1", -1).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid1"])
@@ -48,7 +50,7 @@ class GradeInfoRepoTest {
     @Test
     fun addReviewWorksWhenIdExists(){
         runTest {
-            gradeInfoRepo.addReview(testGradeInfo.itemId, "rid3", ReviewRating.EXCELLENT).await()
+            gradeInfoRepo.addReview(testItem, "rid3", ReviewRating.EXCELLENT).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid3"])
@@ -59,7 +61,7 @@ class GradeInfoRepoTest {
     @Test
     fun addReviewWorksWhenIdNotExists(){
         runTest {
-            gradeInfoRepo.addReview("new id", "rid3", ReviewRating.EXCELLENT).await()
+            gradeInfoRepo.addReview(testItem.copy(name = "new id"), "rid3", ReviewRating.EXCELLENT).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById("new id")
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid3"])

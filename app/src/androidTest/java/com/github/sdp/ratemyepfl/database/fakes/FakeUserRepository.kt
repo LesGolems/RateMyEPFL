@@ -79,4 +79,8 @@ class FakeUserRepository @Inject constructor() : UserRepository {
         )
     }
 
+    override suspend fun updateTimetable(uid: String?, c: Class) {
+        //TODO()
+    }
+
 }

@@ -9,12 +9,12 @@ import org.junit.Test
 
 class CourseTest {
 
-    val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306")
+    val EXPECTED_COURSE = Course("SDP", "IC", "Candea", 4, "CS-306", 0.0, 0)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_COURSE)
 
     @Test
     fun constructorWithDefaultValuesWorks() {
-        val c = Course("SDP", "IC", "Candea", 4, "CS-306")
+        val c = Course("SDP", "IC", "Candea", 4, "CS-306", 0.0, 0)
         assertEquals("SDP", c.title)
         assertEquals("IC", c.section)
         assertEquals("Candea", c.teacher)
@@ -31,6 +31,8 @@ class CourseTest {
             "Candea",
             4,
             "CS-306",
+            0.0,
+            0,
             "bachelor",
             "Fall",
             "During the semester",
@@ -41,6 +43,8 @@ class CourseTest {
         assertEquals("Candea", c.teacher)
         assertEquals(4, c.credits)
         assertEquals("CS-306", c.courseCode)
+        assertEquals(0.0, c.grade, 0.1)
+        assertEquals(0, c.numReviews)
         assertEquals("bachelor", c.cycle)
         assertEquals("Fall", c.session)
         assertEquals("During the semester", c.grading)
@@ -155,6 +159,38 @@ class CourseTest {
     }
 
     @Test
+    fun builderThrowsForMissingAverageGrade() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setCourseCode(fake)
+            .setTitle(fake)
+            .setCredits(0)
+            .setSection(fake)
+            .setTeacher(fake)
+            .setNumReviews(0)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
+    fun builderThrowsForMissingNumReviews() {
+        val fake = "fake"
+        val builder = Course.Builder()
+            .setCourseCode(fake)
+            .setTitle(fake)
+            .setCredits(0)
+            .setSection(fake)
+            .setTeacher(fake)
+            .setGrade(0.0)
+
+        assertThrows(IllegalStateException::class.java) {
+            builder.build()
+        }
+    }
+
+    @Test
     fun builderSucceedForMissingNonMandatoryProperties() {
         val fake = "fake"
         val builder = Course.Builder()
@@ -163,9 +199,11 @@ class CourseTest {
             .setCredits(0)
             .setSection(fake)
             .setTeacher(fake)
+            .setGrade(0.0)
+            .setNumReviews(0)
 
 
-        val course = Course(fake, fake, fake, 0, fake)
+        val course = Course(fake, fake, fake, 0, fake, 0.0, 0)
         assertEquals(course, builder.build())
     }
 

@@ -1,10 +1,9 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.SearchableRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface CourseRepository : SearchableRepository<Course> {
+interface CourseRepository : ReviewableRepository<Course> {
     /**
      * Retrieve the course from the repository
      *

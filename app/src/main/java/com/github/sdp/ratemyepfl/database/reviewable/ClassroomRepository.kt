@@ -1,10 +1,8 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.SearchableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 
-interface ClassroomRepository : SearchableRepository<Classroom> {
+interface ClassroomRepository : ReviewableRepository<Classroom> {
     /**
      * Retrieve the rooms from the repository
      *

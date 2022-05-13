@@ -86,7 +86,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         USERNAME_FIELD_NAME, username
     )
 
-    /**
+    /*
      * Retrieves a User by its [email] address.
      */
     override fun getUserByEmail(email: String): QueryResult<User> = getBy(EMAIL_FIELD_NAME, email)
@@ -108,6 +108,14 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         if (uid == null) return
         update(uid) {
             it.copy(karma = it.karma + inc)
+        }.await()
+    }
+
+    override suspend fun updateTimetable(uid: String?, c: Class) {
+        if (uid == null) return
+        update(uid) {
+            it.timetable.add(c)
+            it.copy(timetable = it.timetable)
         }.await()
     }
 

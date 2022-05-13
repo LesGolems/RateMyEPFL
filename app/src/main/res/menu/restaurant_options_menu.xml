@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/sortByMenu"
+        android:title="@string/sort_by_title"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/alphabeticOrder"
+                android:title="@string/alphabetic_order" />
+            <item
+                android:id="@+id/alphabeticOrderReversed"
+                android:title="@string/alphabetic_order_decreasing" />
+            <item
+                android:id="@+id/bestRated"
+                android:title="@string/best_rated_order_title" />
+            <item
+                android:id="@+id/worstRated"
+                android:title="@string/worst_rated_order_title" />
+            <item
+                android:id="@+id/closest"
+                android:title="@string/closest_restaurant_title"/>
+        </menu>
+    </item>
+
+</menu>

@@ -2,8 +2,9 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.GradeInfoRepository
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,24 +14,22 @@ import javax.inject.Inject
 @HiltViewModel
 class RestaurantInfoViewModel @Inject constructor(
     private val restaurantRepo: RestaurantRepository,
-    private val gradeInfoRepo: GradeInfoRepository,
     private val savedStateHandle: SavedStateHandle
-) : ReviewableInfoViewModel(gradeInfoRepo, savedStateHandle) {
+) : ViewModel() {
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     val restaurant = MutableLiveData<Restaurant>()
 
     init {
-        refresh()
+        updateRestaurant()
     }
 
     fun updateRestaurant() {
         viewModelScope.launch {
             restaurant.postValue(restaurantRepo.getRestaurantById(id))
         }
-    }
-
-    fun refresh() {
-        updateRestaurant()
-        refreshGrade()
     }
 }

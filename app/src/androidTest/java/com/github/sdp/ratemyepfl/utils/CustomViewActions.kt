@@ -20,7 +20,7 @@ import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
 
 object CustomViewActions {
-    private inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
+    inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
         object : ViewAction {
             override fun getConstraints(): Matcher<View> {
                 return ViewMatchers.isAssignableFrom(T::class.java)
@@ -46,7 +46,7 @@ object CustomViewActions {
     fun getInRecyclerView(item: Int, retrieve: (String?) -> Unit) =
         createViewAction<RecyclerView> { _, view ->
             val selected =
-                (view as RecyclerView).get(0).findViewById<TextView>(R.id.reviewableId).text
+                (view as RecyclerView).get(item).findViewById<TextView>(R.id.reviewableId).text
             retrieve(selected.toString())
         }
 

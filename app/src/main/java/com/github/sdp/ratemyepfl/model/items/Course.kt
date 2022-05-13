@@ -4,16 +4,18 @@ import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Course(
+data class Course constructor(
     val title: String,
     val section: String,
     val teacher: String,
     val credits: Int,
     val courseCode: String,
+    override val grade: Double,
+    override val numReviews: Int,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
-    val language: String? = null
+    val language: String? = null,
 ) : Reviewable() {
 
     override fun toString(): String {
@@ -36,7 +38,7 @@ data class Course(
             CourseRepositoryImpl.SESSION_FIELD_NAME to session,
             CourseRepositoryImpl.GRADING_FIELD_NAME to grading,
             CourseRepositoryImpl.LANGUAGE_FIELD_NAME to language
-        )
+        ).apply { this.putAll(super.toHashMap()) }
     }
 
     /**
@@ -54,6 +56,8 @@ data class Course(
         private var teacher: String? = null,
         private var credits: Int? = null,
         private var courseCode: String? = null,
+        private var grade: Double? = null,
+        private var numReviews: Int? = null,
         private var cycle: String? = null,
         private var session: String? = null,
         private var grading: String? = null,
@@ -81,6 +85,14 @@ data class Course(
             this.courseCode = courseCode
         }
 
+        fun setGrade(grade: Double?) = apply {
+            this.grade = grade
+        }
+
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         fun setCycle(cycle: String?) = apply {
             this.cycle = cycle
         }
@@ -103,6 +115,8 @@ data class Course(
             val teacher = this asMandatory teacher
             val credits = this asMandatory credits
             val courseCode = this asMandatory courseCode
+            val grade = this asMandatory grade
+            val numReviews = this asMandatory numReviews
 
             return Course(
                 title,
@@ -110,6 +124,8 @@ data class Course(
                 teacher,
                 credits,
                 courseCode,
+                grade,
+                numReviews,
                 cycle,
                 session,
                 grading,

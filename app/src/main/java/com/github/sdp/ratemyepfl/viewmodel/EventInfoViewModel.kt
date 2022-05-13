@@ -2,8 +2,9 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.database.GradeInfoRepository
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,14 +14,17 @@ import javax.inject.Inject
 @HiltViewModel
 class EventInfoViewModel @Inject constructor(
     private val eventRepo: EventRepository,
-    private val gradeInfoRepo: GradeInfoRepository,
     private val savedStateHandle: SavedStateHandle
-) : ReviewableInfoViewModel(gradeInfoRepo, savedStateHandle) {
+) : ViewModel() {
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     val event = MutableLiveData<Event>()
 
     init {
-        refresh()
+        updateEvent()
     }
 
     fun updateEvent() {
@@ -29,8 +33,4 @@ class EventInfoViewModel @Inject constructor(
         }
     }
 
-    fun refresh() {
-        updateEvent()
-        refreshGrade()
-    }
 }
