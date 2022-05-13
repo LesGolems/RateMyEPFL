@@ -5,10 +5,6 @@ import com.google.android.gms.tasks.Task
 import java.time.LocalDateTime
 
 interface EventRepository : ReviewableRepository<Event> {
-    /**
-     * Add an event without id to the database
-     */
-    fun add(event: Event): Task<Void>
 
     /**
      * Add an event which already has an id to the database

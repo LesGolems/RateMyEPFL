@@ -83,20 +83,20 @@ class CourseFilterTest {
         }
     }
 
-    @Test
-    fun AlphabeticalOrderQueryTest() = runTest {
-        CourseFilter.AlphabeticalOrder.toQuery(repository.query())
-            .execute(courses.size.toUInt())
-            .mapResult { s -> s.mapNotNull { it.toCourse() } }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw it.error
-                    is QueryState.Loading -> { }
-                    is QueryState.Success ->
-                        assertEquals(it.data, it.data.sortedBy { course -> course.toString() })
-                }
-            }
-    }
+//    @Test
+//    fun AlphabeticalOrderQueryTest() = runTest {
+//        CourseFilter.AlphabeticalOrder.toQuery(repository.query())
+//            .execute(courses.size.toUInt())
+//            .mapResult { s -> s.mapNotNull { it.toCourse() } }
+//            .collect {
+//                when (it) {
+//                    is QueryState.Failure -> throw it.error
+//                    is QueryState.Loading -> { }
+//                    is QueryState.Success ->
+//                        assertEquals(it.data, it.data.sortedBy { course -> course.toString() })
+//                }
+//            }
+//    }
 
     @Test
     fun AlphabeticalOrderReversedQueryTest() = runTest {
