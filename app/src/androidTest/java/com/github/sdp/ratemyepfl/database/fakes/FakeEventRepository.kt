@@ -22,6 +22,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
             baseEvent.copy(
                 name = "Evenement de dingue",
                 limitParticipants = 100,
+                creator = "12345"
             ),
             baseEvent.copy(
                 name = "Bas les masques",

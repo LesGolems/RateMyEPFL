@@ -33,9 +33,6 @@ class EventFragmentTest {
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
 
-    @get:Rule(order = 1)
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @get:Rule
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -96,6 +93,22 @@ class EventFragmentTest {
     }
 
     @ExperimentalCoroutinesApi
+    @Test
+    fun clickOnEditEventButtonLoggedInWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
+
+        init()
+        onView(withId(R.id.eventRecyclerView)).perform(
+            actionOnItemAtPosition<EventAdapter.EventViewHolder>(
+                0,
+                clickOnViewChild(R.id.editButton)
+            )
+        )
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
+
     @Test
     fun clickOnAddEventButtonLoggedOutDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
