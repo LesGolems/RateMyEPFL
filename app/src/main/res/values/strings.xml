@@ -129,5 +129,5 @@
     <string name="course_class_creation">Click here to select a course</string>
     <string name="room_class_creation">Click here to select a room</string>
     <string name="title_class_creation">Add a class</string>
-    <string name="day_class_creation">Select the day</string>
+    <string name="day_class_creation">Select the day and time</string>
 </resources>

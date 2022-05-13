@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Class(
-    val id: Int? = null,
     val name: String? = null,
     val teacher: String? = null,
     val room: String? = null,
@@ -16,7 +15,6 @@ data class Class(
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-        parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -29,7 +27,6 @@ data class Class(
     fun duration() = (end ?: 0) - (start ?: 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(id)
         parcel.writeString(name)
         parcel.writeString(teacher)
         parcel.writeString(room)

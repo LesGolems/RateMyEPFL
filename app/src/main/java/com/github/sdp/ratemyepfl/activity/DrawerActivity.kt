@@ -53,6 +53,9 @@ open class DrawerActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.profileFragment -> hideBottomNav()
                 R.id.timetableFragment -> hideBottomNav()
+                R.id.addClassFragment -> hideBottomNav()
+                R.id.selectCourseFragment -> hideBottomNav()
+                R.id.selectRoomFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

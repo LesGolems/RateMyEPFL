@@ -1,10 +1,12 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
@@ -67,5 +69,10 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
                     .day
             }.attach()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshProfile()
     }
 }
