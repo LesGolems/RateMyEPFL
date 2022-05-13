@@ -96,6 +96,7 @@ class EventFragmentTest {
     @Test
     fun clickOnEditEventButtonLoggedInWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        FakeEventRepository.eventList = FakeEventRepository.EVENT_LIST
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
 
         init()

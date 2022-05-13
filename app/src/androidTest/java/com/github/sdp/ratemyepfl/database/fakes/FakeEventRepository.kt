@@ -18,7 +18,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
     companion object {
         val DATE = LocalDateTime.now()
         private val baseEvent = Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0, DATE)
-        var EVENT_LIST = listOf(
+        val EVENT_LIST = listOf(
             baseEvent.copy(
                 name = "Evenement de dingue",
                 limitParticipants = 100,
@@ -33,6 +33,8 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
                 limitParticipants = 50,
             )
         )
+
+        var eventList = EVENT_LIST
 
         val DEFAULT_EVENT = baseEvent.copy(
             name = "Evenement de dingue",
@@ -62,12 +64,13 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         return Mockito.mock(Task::class.java) as Task<Void>
     }
 
-    override suspend fun getEvents(): List<Event> = EVENT_LIST
+    override suspend fun getEvents(): List<Event> = eventList
 
     override suspend fun getEventById(id: String): Event = eventById
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean {
-        EVENT_LIST = if(EVENT_LIST[0].participants.contains(userId)){
+        eventList = EVENT_LIST
+        eventList = if(eventList[0].participants.contains(userId)){
             listOf(baseEvent.copy(participants = listOf()))
         }else{
             listOf(baseEvent.copy(participants = listOf(userId)))
