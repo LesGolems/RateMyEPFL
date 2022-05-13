@@ -18,6 +18,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     var participants: List<String> = listOf(),
     val creator: String,
     override val grade: Double,
+    override val numReviews: Int,
     val lat: Double,
     val long: Double,
     @Serializable(with = LocalDateTimeSerializer::class)
@@ -72,6 +73,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
         private var participants: List<String>? = listOf(),
         private var creator: String? = null,
         private var grade: Double? = 0.0,
+        private var numReviews: Int? = 0,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
@@ -85,16 +87,16 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             this.name = name
         }
 
+        fun setCreator(creator: String?) = apply {
+            this.creator = creator
+        }
+
         fun setNumParticipants(numParticipants: Int?) = apply {
             this.numParticipants = numParticipants
         }
 
         fun setLimitParticipants(limitParticipants: Int?) = apply {
             this.limitParticipants = limitParticipants
-        }
-
-        fun setCreator(creator: String?) = apply {
-            this.creator = creator
         }
 
         fun setParticipants(participants: List<String>?) = apply {
@@ -117,6 +119,10 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             this.grade = grade
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         override fun build(): Event {
             val creator = this asMandatory creator
             val id = this asMandatory eventId
@@ -128,6 +134,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
             val long = this asMandatory long
             val date = this asMandatory date
             val grade = this asMandatory grade
+            val numReviews = this asMandatory numReviews
 
             return Event(
                 id,
@@ -137,6 +144,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
                 participants,
                 creator,
                 grade,
+                numReviews,
                 lat,
                 long,
                 date

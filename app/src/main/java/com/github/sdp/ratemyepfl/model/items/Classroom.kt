@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class Classroom constructor(
     val name: String,
     override val grade: Double,
+    override val numReviews: Int,
     val roomKind: String? = null,
 ) : Reviewable() {
 
@@ -31,6 +32,7 @@ data class Classroom constructor(
     class Builder(
         private var name: String? = null,
         private var grade: Double? = null,
+        private var numReviews: Int? = null,
         private var roomKind: String? = null,
     ) : ReviewableBuilder<Classroom> {
 
@@ -46,10 +48,15 @@ data class Classroom constructor(
             this.grade = grade
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         override fun build(): Classroom {
             val name = this asMandatory name
             val grade = this asMandatory grade
-            return Classroom(name, grade, roomKind)
+            val numReviews = this asMandatory numReviews
+            return Classroom(name, grade, numReviews, roomKind)
         }
     }
 

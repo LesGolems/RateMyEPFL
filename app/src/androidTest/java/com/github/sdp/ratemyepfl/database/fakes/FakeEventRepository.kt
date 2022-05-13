@@ -17,8 +17,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
     override val offlineData: List<Event> = listOf()
     companion object {
         val DATE = LocalDateTime.now()
-        private val baseEvent =
-            Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0.0, 0.0, DATE)
+        private val baseEvent = Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0, DATE)
         val EVENT_LIST = listOf(
             baseEvent.copy(
                 name = "Evenement de dingue",
@@ -37,6 +36,16 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         val DEFAULT_EVENT = baseEvent.copy(
             name = "Evenement de dingue",
             limitParticipants = 100
+        )
+
+        val EVENT_NO_REVIEW = baseEvent.copy(
+            grade = 0.0,
+            numReviews = 0
+        )
+
+        val EVENT_WITH_REVIEW = baseEvent.copy(
+            grade = 5.5,
+            numReviews = 1
         )
 
         var eventById = DEFAULT_EVENT

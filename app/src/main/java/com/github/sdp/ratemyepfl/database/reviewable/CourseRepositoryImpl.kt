@@ -5,11 +5,12 @@ import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
@@ -48,7 +49,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Karl Aberer",
                 credits = 7,
                 courseCode = "CS-101",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Introduction à la programmation",
@@ -56,7 +58,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Jamila Sam",
                 credits = 5,
                 courseCode = "CS-107",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Pratique de la programmation orientée objet",
@@ -64,7 +67,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Michel Schinz",
                 credits = 9,
                 courseCode = "CS-108",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Digital system design",
@@ -72,7 +76,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Kluter Ties Jan Henderikus",
                 credits = 6,
                 courseCode = "CS-173",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Software development project",
@@ -80,7 +85,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Candea George",
                 credits = 4,
                 courseCode = "CS-306",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Analyse I",
@@ -88,7 +94,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Lachowska Anna",
                 credits = 6,
                 courseCode = "MATH-101(e)",
-                grade = 2.5
+                grade = 2.5,
+                1
             ),
             Course(
                 title = "Analyse II",
@@ -96,7 +103,8 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 teacher = "Lachowska Anna",
                 credits = 6,
                 courseCode = "MATH-106(e)",
-                grade = 2.5
+                grade = 2.5,
+                1
             )
         )
 
@@ -112,6 +120,7 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
                 .setGrading(getString(GRADING_FIELD_NAME))
                 .setLanguage(getString(LANGUAGE_FIELD_NAME))
                 .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
+                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

@@ -11,10 +11,11 @@ data class Course constructor(
     val credits: Int,
     val courseCode: String,
     override val grade: Double,
+    override val numReviews: Int,
     val cycle: String? = null,
     val session: String? = null,
     val grading: String? = null,
-    val language: String? = null
+    val language: String? = null,
 ) : Reviewable() {
 
     override fun toString(): String {
@@ -56,6 +57,7 @@ data class Course constructor(
         private var credits: Int? = null,
         private var courseCode: String? = null,
         private var grade: Double? = null,
+        private var numReviews: Int? = null,
         private var cycle: String? = null,
         private var session: String? = null,
         private var grading: String? = null,
@@ -87,6 +89,10 @@ data class Course constructor(
             this.grade = grade
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         fun setCycle(cycle: String?) = apply {
             this.cycle = cycle
         }
@@ -110,6 +116,7 @@ data class Course constructor(
             val credits = this asMandatory credits
             val courseCode = this asMandatory courseCode
             val grade = this asMandatory grade
+            val numReviews = this asMandatory numReviews
 
             return Course(
                 title,
@@ -118,6 +125,7 @@ data class Course constructor(
                 credits,
                 courseCode,
                 grade,
+                numReviews,
                 cycle,
                 session,
                 grading,

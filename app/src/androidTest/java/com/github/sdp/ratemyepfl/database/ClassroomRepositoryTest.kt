@@ -25,7 +25,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ClassroomRepositoryTest {
-    private val testRoom = Classroom("Fake id", 0.0)
+    private val testRoom = Classroom("Fake id", 0.0, 0)
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -83,8 +83,9 @@ class ClassroomRepositoryTest {
         Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
             .thenReturn(2.5)
 
+
         val classroom: Classroom? = snapshot.toClassroom()
-        val fakeClassroom = Classroom(fake, 2.5, fake)
+        val fakeClassroom = Classroom(fake, 2.5, 15,fake)
         assertEquals(fakeClassroom, classroom)
 
     }

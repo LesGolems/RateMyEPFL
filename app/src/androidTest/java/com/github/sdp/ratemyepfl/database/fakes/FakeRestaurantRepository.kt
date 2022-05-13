@@ -24,6 +24,7 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
             lat = 0.0,
             long = 1.0,
             grade = 2.0,
+            numReviews = 1
         )
         val RESTAURANT_LIST = listOf(
             baseRestaurant.copy(name = "Roulotte du Soleil", occupancy =  0, lat =  46.519214, long = 6.567553),
@@ -37,6 +38,9 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
         val RESTAURANT_WITH_NO_OCCUPANCY = baseRestaurant.copy(occupancy = 0)
         val RESTAURANT_WITH_MEDIUM_OCCUPANCY = baseRestaurant.copy(occupancy = 20)
         val RESTAURANT_WITH_FULL_OCCUPANCY = baseRestaurant.copy(occupancy = 50)
+
+        val RESTAURANT_NO_REVIEWS = baseRestaurant.copy(grade = 0.0, numReviews = 0)
+        val RESTAURANT_WITH_REVIEWS = baseRestaurant.copy(grade = 5.5, numReviews = 1)
 
         var restaurantById = DEFAULT_RESTAURANT
 

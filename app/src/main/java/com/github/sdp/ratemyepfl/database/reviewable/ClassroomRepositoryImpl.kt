@@ -5,10 +5,12 @@ import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
 class ClassroomRepositoryImpl private constructor(private val repository: LoaderRepository<Classroom>) :
@@ -33,14 +35,14 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
         const val ROOM_NAME_FIELD_NAME = "name"
 
         val OFFLINE_CLASSROOMS: List<Classroom> = listOf(
-            Classroom("BC233", 0.0),
-            Classroom("CE 1 1", 0.0),
-            Classroom("CE 1 4", 0.0),
-            Classroom("CM 1 1", 0.0),
-            Classroom("CM 1 3", 0.0),
-            Classroom("CM 1 4", 0.0),
-            Classroom("CM 1 5", 0.0),
-            Classroom("ELA 1", 0.0),
+            Classroom("BC233", 0.0, 0),
+            Classroom("CE 1 1", 0.0, 0),
+            Classroom("CE 1 4", 0.0, 0),
+            Classroom("CM 1 1", 0.0, 0),
+            Classroom("CM 1 3", 0.0, 0),
+            Classroom("CM 1 4", 0.0, 0),
+            Classroom("CM 1 5", 0.0, 0),
+            Classroom("ELA 1", 0.0, 0),
         )
 
         fun DocumentSnapshot.toClassroom(): Classroom? = try {
@@ -48,6 +50,7 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
                 .setName(getString(ROOM_NAME_FIELD_NAME))
                 .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
                 .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
+                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
 
             builder.build()
         } catch (e: IllegalStateException) {

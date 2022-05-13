@@ -2,11 +2,12 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
-import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,14 +21,18 @@ class ClassroomInfoViewModel @Inject constructor(
     private val gradeInfoRepo: GradeInfoRepository,
     private val roomNoiseRepo: RoomNoiseRepository,
     private val savedStateHandle: SavedStateHandle
-) : ReviewableInfoViewModel(gradeInfoRepo, savedStateHandle) {
+) : ViewModel() {
+
+    // Id
+    val id: String =
+        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     val room = MutableLiveData<Classroom>()
 
     val noiseData = MutableLiveData<Map<String, Int>>()
 
     init {
-        refresh()
+        updateRoom()
     }
 
     private fun updateRoom() {
@@ -47,7 +52,6 @@ class ClassroomInfoViewModel @Inject constructor(
 
     fun refresh() {
         updateRoom()
-        refreshGrade()
         refreshRoomNoise()
     }
 

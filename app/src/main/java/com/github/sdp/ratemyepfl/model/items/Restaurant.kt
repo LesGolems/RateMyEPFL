@@ -14,6 +14,7 @@ data class Restaurant constructor(
     val name: String,
     val occupancy: Int,
     override val grade: Double,
+    override val numReviews: Int,
     val lat: Double,
     val long: Double,
 ) : Reviewable(), Displayable {
@@ -60,6 +61,7 @@ data class Restaurant constructor(
         private var name: String? = null,
         private var occupancy: Int? = 0,
         private var grade: Double? = null,
+        private var numReviews: Int? = null,
         private var lat: Double? = null,
         private var long: Double? = null
     ) : ReviewableBuilder<Restaurant> {
@@ -85,13 +87,18 @@ data class Restaurant constructor(
             this.grade = grade
         }
 
+        fun setNumReviews(numReviews: Int?) = apply {
+            this.numReviews = numReviews
+        }
+
         override fun build(): Restaurant {
             val name = this asMandatory name
             val occupancy = this asMandatory occupancy
             val grade = this asMandatory grade
             val lat = this asMandatory lat
             val long = this asMandatory long
-            return Restaurant(name, occupancy, grade, lat, long)
+            val numReviews = this asMandatory numReviews
+            return Restaurant(name, occupancy, grade, numReviews, lat, long)
         }
     }
 

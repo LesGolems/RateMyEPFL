@@ -31,8 +31,9 @@ import javax.inject.Inject
 class EventRepositoryTest {
     private val USER_ID = "Kevin du 13"
     private val testEvent = Event(
-            "Fake id", "Fake id", 0,
-        1, listOf(), "creator", 0.0,0.0, 0.0, LocalDateTime.now())
+        "Fake id", "Fake id", 0,
+        1, listOf(), "creator", 0.0, 0, 0.0, 0.0, LocalDateTime.now()
+    )
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -65,6 +66,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
             assertEquals(testEvent.grade, event.grade, 0.1)
+            assertEquals(testEvent.numReviews, event.numReviews)
         }
     }
 
@@ -78,6 +80,7 @@ class EventRepositoryTest {
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
             assertEquals(testEvent.grade, event.grade, 0.1)
+            assertEquals(testEvent.numReviews, event.numReviews)
         }
     }
 
@@ -105,8 +108,10 @@ class EventRepositoryTest {
     @Test
     fun editEventWorks() {
         runTest {
-            eventRepo.updateEditedEvent(testEvent.eventId, "new name",
-                10, 0.0, 0.0, LocalDateTime.now())
+            eventRepo.updateEditedEvent(
+                testEvent.eventId, "new name",
+                10, 0.0, 0.0, LocalDateTime.now()
+            )
             val event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
             assertEquals(testEvent.eventId, event!!.eventId)
@@ -123,6 +128,7 @@ class EventRepositoryTest {
         val numParticipants = 0
         val limitParticipants = 0
         val g = 2.5
+        val n = 15
         val participants = listOf<String>()
         val date = LocalDateTime.now()
 
@@ -130,7 +136,7 @@ class EventRepositoryTest {
         Mockito.`when`(snapshot.id).thenReturn(fake)
         Mockito.`when`(snapshot.getString(ID_FIELD_NAME)).thenReturn(fake)
         Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(15)
+        Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(n)
         Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(g)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
         Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
@@ -156,6 +162,7 @@ class EventRepositoryTest {
             .setParticipants(participants)
             .setDate(date)
             .setGrade(g)
+            .setNumReviews(n)
             .setCreator(fake)
             .build()
         assertEquals(event.eventId, expected.eventId)
@@ -167,6 +174,7 @@ class EventRepositoryTest {
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)
         assertEquals(expected.grade, event.grade, 0.1)
+        assertEquals(expected.numReviews, event.numReviews)
         assertEquals(event.creator, expected.creator)
     }
 }

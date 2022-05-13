@@ -19,7 +19,7 @@ class FakeClassroomRepository @Inject constructor(val repository: FakeLoaderRepo
     override val offlineData: List<Classroom> = ClassroomRepositoryImpl.OFFLINE_CLASSROOMS
 
     companion object {
-        private val baseRoom = Classroom("name", 2.5, "roomKind")
+        private val baseRoom = Classroom("name", 2.5, 1, "roomKind")
 
         val CLASSROOM_LIST = listOf(
             baseRoom.copy(
@@ -36,6 +36,8 @@ class FakeClassroomRepository @Inject constructor(val repository: FakeLoaderRepo
             )
         )
 
+        val ROOM_NO_REVIEW = baseRoom.copy(grade = 0.0, numReviews = 0)
+        val ROOM_WITH_REVIEW = baseRoom.copy(grade = 5.5, numReviews = 3)
 
         var roomById = baseRoom.copy(name = "CM3")
     }

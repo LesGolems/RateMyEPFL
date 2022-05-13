@@ -55,6 +55,7 @@ class CourseTabFragmentTest {
                 credits = 2,
                 courseCode = "SV",
                 grade = 2.0,
+                numReviews = 1,
                 cycle = cycleBachelor
             ) +
             Course(
@@ -64,6 +65,7 @@ class CourseTabFragmentTest {
                 credits = 2,
                 courseCode = "X",
                 grade = 0.0,
+                numReviews = 0,
                 cycle = cycleBachelor
             )
 
@@ -73,7 +75,8 @@ class CourseTabFragmentTest {
         teacher = "Lachowska Anna",
         credits = 6,
         courseCode = "filler$x",
-        grade = 2.0
+        grade = 2.0,
+        numReviews = 1
     )
 
     val fillers = (0..10).map {

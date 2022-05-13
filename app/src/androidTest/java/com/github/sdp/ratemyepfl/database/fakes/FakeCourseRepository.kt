@@ -26,7 +26,8 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "George Candea",
                 credits = 4,
                 courseCode = "CS-306",
-                grade = 5.0
+                grade = 5.0,
+                numReviews = 1
             ),
             Course(
                 title = "Calcul quantique",
@@ -34,7 +35,8 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Nicolas Macris",
                 credits = 4,
                 courseCode = "CS-308",
-                grade = 5.0
+                grade = 5.0,
+                numReviews = 1
             ),
             Course(
                 title = "Intelligence artificielle",
@@ -42,7 +44,8 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Boi Faltings",
                 credits = 4,
                 courseCode = "CS-330",
-                grade = 5.0
+                grade = 5.0,
+                numReviews = 1
             ),
             Course(
                 title = "Projet de systems-on-chip",
@@ -50,7 +53,8 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "René Beuchat",
                 credits = 3,
                 courseCode = "CS-309",
-                grade = 5.0
+                grade = 5.0,
+                numReviews = 1
             ),
             Course(
                 title = "Introduction to database systems",
@@ -58,18 +62,32 @@ class FakeCourseRepository @Inject constructor(val repository: FakeLoaderReposit
                 teacher = "Christoph Koch",
                 credits = 4,
                 courseCode = "CS-332",
-                grade = 5.0
+                grade = 5.0,
+                numReviews = 1
             )
         )
 
-        var courseById = Course(
+        val COURSE_NO_REVIEW = Course(
             title = "Software development project",
             section = "IC",
             teacher = "George Candea",
             credits = 4,
             courseCode = "CS-306",
             0.0,
+            0
         )
+
+        val COURSE_WITH_REVIEW = Course(
+            title = "Software development project",
+            section = "IC",
+            teacher = "George Candea",
+            credits = 4,
+            courseCode = "CS-306",
+            5.5,
+            2
+        )
+
+        var courseById = COURSE_NO_REVIEW
     }
 
 

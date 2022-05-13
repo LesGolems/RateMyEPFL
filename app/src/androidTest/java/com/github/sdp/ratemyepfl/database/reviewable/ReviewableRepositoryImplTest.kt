@@ -1,13 +1,9 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.LoaderRepository
-import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
@@ -40,15 +36,16 @@ class ReviewableRepositoryImplTest {
     private val fake = "fake"
     private val fakeTeacher = fake
     private val grade = 0.0
+    private val numReviews = 0
     private val personalizedTeacher = "myPersonalTeacher2.0"
     private val courseBuilder =
-        Course.Builder(fake, fake, fake, 0, fake, grade, fake, fake, fake, fake)
+        Course.Builder(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
 
     private val personalizedCourse = courseBuilder.setTeacher(personalizedTeacher).build()
 
     private val courses: List<ReviewableItem> = (0..30)
         .map { n ->
-            Course.Builder(fake, fake, fake, 0, fake, grade, fake, fake, fake, fake)
+            Course.Builder(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
                 .setCourseCode(n.toString())
                 .build()
         }.plus(personalizedCourse)
