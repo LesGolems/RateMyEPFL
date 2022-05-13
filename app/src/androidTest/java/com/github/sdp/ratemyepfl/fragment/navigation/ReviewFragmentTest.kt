@@ -124,7 +124,7 @@ class ReviewFragmentTest {
 
 
     private fun checkClassroom() {
-        Thread.sleep(500)
+        Thread.sleep(1000)
         onView(withText(FakeClassroomRepository.CLASSROOM_LIST[0].toString())).check(
             matches(
                 ViewMatchers.isDisplayed()
@@ -133,7 +133,7 @@ class ReviewFragmentTest {
     }
 
     private fun checkCourse() {
-        Thread.sleep(500)
+        Thread.sleep(1000)
         onView(withText(FakeCourseRepository.COURSE_LIST[0].toString())).check(
             matches(
                 ViewMatchers.isDisplayed()
@@ -142,7 +142,7 @@ class ReviewFragmentTest {
     }
 
     private fun checkRestaurant() {
-        Thread.sleep(500)
+        Thread.sleep(1000)
         onView(withText(FakeRestaurantRepository.RESTAURANT_LIST[0].toString())).check(
             matches(
                 ViewMatchers.isDisplayed()
