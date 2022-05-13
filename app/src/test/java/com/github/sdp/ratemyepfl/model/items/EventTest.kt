@@ -70,46 +70,6 @@ class EventTest {
     }
 
     @Test
-    fun builderFailsForMissingNumReviews() {
-        val fake = "fake"
-        val lat = 0.0
-        val long = 0.0
-        val g = 1.0
-        val builder = Event.Builder()
-            .setId(fake)
-            .name(fake)
-            .setLat(lat)
-            .setLong(long)
-            .setDate(DATE)
-            .setGrade(g)
-            .setLimitParticipants(70)
-            .setCreator(USER_ID)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
-    @Test
-    fun builderFailsForMissingGrade() {
-        val fake = "fake"
-        val lat = 0.0
-        val long = 0.0
-        val n = 1
-        val builder = Event.Builder()
-            .name(fake)
-            .setLat(lat)
-            .setLong(long)
-            .setDate(DATE)
-            .setNumReviews(n)
-            .setLimitParticipants(70)
-
-        assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
-
-    @Test
     fun builderSucceedsForMissingNonMandatoryProperties() {
         val fake = "fake"
         val lat = 0.0
