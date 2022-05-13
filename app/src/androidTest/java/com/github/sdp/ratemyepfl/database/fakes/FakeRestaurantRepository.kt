@@ -32,7 +32,7 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
         )
 
         val DEFAULT_RESTAURANT =
-            baseRestaurant.copy(name = "Roulotte du Soleil", occupancy = 0, lat = 1.0, long = 2.0)
+            baseRestaurant.copy(name = "Roulotte du Soleil", occupancy = 0, lat = 46.519214, long = 6.567553)
 
         val RESTAURANT_WITH_NO_OCCUPANCY = baseRestaurant.copy(occupancy = 0)
         val RESTAURANT_WITH_MEDIUM_OCCUPANCY = baseRestaurant.copy(occupancy = 20)
