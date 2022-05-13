@@ -12,7 +12,7 @@ import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ClassroomTabFragment : ReviewableTabFragment<Classroom>(R.menu.restaurant_options_menu) {
+open class ClassroomTabFragment : ReviewableTabFragment<Classroom>(R.menu.restaurant_options_menu) {
 
     override val viewModel: ClassroomListViewModel by viewModels()
 

@@ -13,4 +13,17 @@
     <color name="green">#66FF00</color>
     <color name="yellow">#ffff00</color>
     <color name="dark_orange">#FF6100</color>
+
+    <color name="dayPressed">@color/colorPrimaryDark</color>
+    <color name="daySelected">@color/colorPrimary</color>
+    <color name="daySelectedTextColor">@android:color/white</color>
+    <color name="dayDeselected">#FAFAFA</color>
+    <color name="dayDeselectedTextColor">@android:color/black</color>
+
+    <!-- Customizing colors for disabled days-->
+    <!-- Put transparent to disable totally the weekend days-->
+    <color name="daySelectedAndDisabled">@color/fui_transparent</color>
+    <color name="daySelectedAndDisabledTextColor">@color/fui_transparent</color>
+    <color name="dayDeselectedAndDisabled">@color/fui_transparent</color>
+    <color name="dayDeselectedAndDisabledTextColor">@color/fui_transparent</color>
 </resources>
