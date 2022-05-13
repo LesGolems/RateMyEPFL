@@ -77,7 +77,7 @@ class CourseFilterTest {
                     is QueryState.Failure -> throw it.error
                     is QueryState.Loading -> { }
                     is QueryState.Success ->
-                        assertEquals(it.data, it.data.sortedBy { course -> course.toString() })
+                        assertEquals(it.data, it.data.sortedBy { course -> course.title })
                 }
             }
     }
