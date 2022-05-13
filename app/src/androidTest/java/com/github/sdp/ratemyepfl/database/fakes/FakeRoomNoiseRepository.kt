@@ -12,6 +12,7 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
 
     companion object {
         val NO_MEASURE = RoomNoiseInfo("fakeId", mapOf())
+        var measureInfo = NO_MEASURE
     }
 
     override suspend fun addMeasurement(
@@ -19,9 +20,9 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
         date: LocalDateTime,
         measure: Int
     ): Task<Transaction> {
+        measureInfo = NO_MEASURE.copy(noiseData = mapOf(Pair(date.toString(), measure)))
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 
-    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =
-        NO_MEASURE
+    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? = measureInfo
 }
