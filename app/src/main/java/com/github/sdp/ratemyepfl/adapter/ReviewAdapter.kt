@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -84,7 +85,6 @@ class ReviewAdapter(
                 /* Like button UI */
                 likeButton.setImageResource(R.drawable.ic_like)
                 dislikeButton.setImageResource(R.drawable.ic_dislike)
-
                 if (it != null) {
                     // The user liked the review
                     if (reviewWithAuthor.review.likers.contains(it.uid)) {
