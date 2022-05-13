@@ -12,7 +12,7 @@ import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CourseTabFragment : ReviewableTabFragment<Course>(R.menu.courses_options_menu) {
+open class CourseTabFragment : ReviewableTabFragment<Course>(R.menu.courses_options_menu) {
 
     override val viewModel: CourseListViewModel by viewModels()
 
