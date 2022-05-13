@@ -19,21 +19,4 @@ class ClassroomListViewModel @Inject constructor(repository: ClassroomRepository
         ClassroomFilter.BestRated
     ) {
 
-    val classrooms: MutableLiveData<List<Classroom>> = elements
-
-
-    companion object {
-        private fun alphabeticalOrderQuery(repository: ClassroomRepository) = repository
-            .query()
-            .orderBy(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)
-
-        private fun alphabeticalOrderReversedQuery(repository: ClassroomRepository) = repository
-            .query()
-            .orderBy(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME, OrderDirection.DESCENDING)
-
-        private fun bestRatedQuery(repository: ClassroomRepository) = repository
-            .query()
-            .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
-    }
-
 }

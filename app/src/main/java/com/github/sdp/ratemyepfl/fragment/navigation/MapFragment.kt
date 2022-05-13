@@ -14,6 +14,7 @@ import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Displayable
 import com.github.sdp.ratemyepfl.model.items.MapItem
@@ -33,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButtonClickListener,
+    GoogleMap.OnMapClickListener,
     GoogleMap.OnMyLocationClickListener, OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback, GoogleMap.OnMarkerClickListener,
     ClusterManager.OnClusterClickListener<MapItem>,
@@ -47,6 +49,9 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     private lateinit var titleView: TextView
     private lateinit var reviewButton: Button
     private lateinit var photoView: ImageView
+
+    private var onClickMarker: Marker? = null
+    val onClickLocation = MutableLiveData<LatLng>()
 
     private val restaurantViewModel: RestaurantListViewModel by viewModels()
     private val eventListViewModel: EventListViewModel by viewModels()
@@ -112,7 +117,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         initializeClusterManager()
         initializeMap()
 
-        restaurantViewModel.restaurants.observe(this) {
+        restaurantViewModel.elements.observe(this) {
             it?.let { l ->
                 listsObserver(l)
             }
@@ -154,11 +159,15 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         map.setOnCameraIdleListener(rClusterManager)
         map.setOnMyLocationButtonClickListener(this)
         map.setOnMyLocationClickListener(this)
+        map.setOnMapClickListener(this)
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.maps_style))
 
-        map.setOnMapClickListener {
-            collapsePanel()
-        }
+        onClickMarker = map.addMarker(
+            MarkerOptions()
+                .position(LatLng(0.0, 0.0))
+                .icon(BitmapDescriptorFactory.fromResource(R.raw.on_click_marker))
+        )
+        onClickMarker?.isVisible = false
     }
 
     /**
@@ -262,6 +271,13 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
 
     override fun onClusterItemInfoWindowClick(item: MapItem) {
         // Nothing for now, maybe implement it later
+    }
+
+    override fun onMapClick(location: LatLng) {
+        collapsePanel()
+        onClickLocation.postValue(location)
+        onClickMarker?.position = location
+        onClickMarker?.isVisible = true
     }
 
     /**

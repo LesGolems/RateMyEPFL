@@ -27,8 +27,9 @@ import kotlinx.coroutines.launch
 abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int) :
     Fragment(R.layout.layout_reviewable_list) {
 
-    val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
     abstract val viewModel: ReviewableListViewModel<T>
+
+    open val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
 
     abstract val reviewActivityMenuId: Int
     abstract val reviewActivityGraphId: Int
