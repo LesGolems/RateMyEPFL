@@ -118,4 +118,42 @@ class QueryResultTest {
         }
 
     }
+
+    @Test
+    fun withDefaultProvidesADefaultValueForTheRightException() {
+        val failure = flow {
+            emit(QueryState.failure<Int>(FakeException()))
+        }.asQueryResult()
+            .withDefault<FakeException>(0)
+
+        runTest {
+            failure.collect {
+                when (it) {
+                    is QueryState.Failure -> throw Exception("Should be succeess")
+                    is QueryState.Loading -> throw Exception("Should be succeess")
+                    is QueryState.Success -> assertEquals(0, it.data)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun withDefaultThrowsForTheWrongException() {
+        val failure = flow {
+            emit(QueryState.failure<Int>(Exception()))
+        }.asQueryResult()
+            .withDefault<FakeException>(0)
+
+        runTest {
+            failure.collect {
+                when (it) {
+                    is QueryState.Failure -> assertEquals(true, it.error is Exception)
+                    is QueryState.Loading -> throw Exception("Should be failure")
+                    is QueryState.Success -> throw Exception("Should be failure")
+                }
+            }
+        }
+    }
+
+    private class FakeException : Exception()
 }

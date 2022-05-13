@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
+import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
@@ -8,8 +11,10 @@ import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class FakeEventRepository @Inject constructor() : EventRepository {
+class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
+    EventRepository, ReviewableRepository<Event>, LoaderRepository<Event> by repository {
 
+    override val offlineData: List<Event> = listOf()
     companion object {
         val DATE = LocalDateTime.now()
         private val baseEvent =

@@ -1,44 +1,73 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.CourseListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
+import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CourseTabFragment : ReviewableTabFragment() {
+class CourseTabFragment : ReviewableTabFragment<Course>(R.menu.courses_options_menu) {
 
-    private val viewModel: CourseListViewModel by viewModels()
+    override val viewModel: CourseListViewModel by viewModels()
 
     override val reviewActivityMenuId: Int = R.menu.bottom_navigation_menu_course_review
     override val reviewActivityGraphId: Int = R.navigation.nav_graph_course_review
-    override val filterMenuId: Int = R.menu.courses_options_menu
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.courses
+        viewModel.elements
             .observe(viewLifecycleOwner) { courses ->
                 reviewableAdapter.submitData(courses)
             }
+        super.onViewCreated(view, savedInstanceState)
     }
 
-//    override fun onContextItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-//        R.id.credit_2, R.id.credit_3, R.id.credit_4, R.id.credit_5, R.id.credit_6, R.id.credit_7, R.id.credit_8 -> {
-//            reviewableAdapter.filterByCredit(item.title)
-//            true
-//        }
-//        else -> {
-//            super.onContextItemSelected(item)
-//        }
-//    }
-
-    override fun onResume() {
-        // BUGFIX
-        viewModel.courses.value?.run {
-            viewModel.courses.postValue(this)
+    override fun onContextItemSelected(item: MenuItem): Boolean = if (isResumed) {
+        when (item.contentDescription) {
+            getString(R.string.credits_item) -> {
+                displayResult(
+                    viewModel.loadIfAbsent(
+                        CourseFilter.Credits(
+                            item.title.toString().toInt()
+                        )
+                    )
+                )
+                true
+            }
+            getString(R.string.section_item_description) -> {
+                displayResult(
+                    viewModel.loadIfAbsent(
+                        CourseFilter.Section(
+                            item.titleCondensed.toString()
+                        )
+                    )
+                )
+                true
+            }
+            getString(R.string.cycle_picker_description) -> {
+                displayResult(
+                    viewModel.loadIfAbsent(
+                        CourseFilter.Cycle(
+                            item.titleCondensed.toString()
+                        )
+                    )
+                )
+                true
+            }
+            else -> {
+                super.onContextItemSelected(item)
+            }
         }
-        super.onResume()
-    }
+    } else false
+
+    override fun alphabeticFilter(reverse: Boolean) =
+        if (!reverse) CourseFilter.AlphabeticalOrder else CourseFilter.AlphabeticalOrderReversed
+
+    override fun bestRatedFilter(): ReviewableFilter<Course> = CourseFilter.BestRated
+
+    override fun worstRatedFilter(): ReviewableFilter<Course> = CourseFilter.WorstRated
 }

@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
+import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 
 interface LoaderRepository<T : RepositoryItem> : Repository<T> {
@@ -17,7 +18,7 @@ interface LoaderRepository<T : RepositoryItem> : Repository<T> {
      *
      * @return a [QueryResult] containing the result
      */
-    fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>>
+    fun load(query: OrderedQuery, number: UInt = Query.DEFAULT_QUERY_LIMIT): QueryResult<List<T>>
 
     /**
      * Returns the loaded element so far for a given query.

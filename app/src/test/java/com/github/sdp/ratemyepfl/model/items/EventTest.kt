@@ -2,8 +2,7 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepositoryImpl
-import kotlinx.serialization.json.Json
+import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -28,7 +27,7 @@ class EventTest {
         EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
         EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
         EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
-        ReviewableRepositoryImpl.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
+        ReviewableRepository.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
     )
 
     @Test
@@ -86,7 +85,7 @@ class EventTest {
             .setCreator(USER_ID)
 
         val event = builder.build()
-        val expected = Event(fake, fake,0, 70, listOf(), USER_ID, g, lat, long, DATE)
+        val expected = Event(fake, fake, 0, 70, listOf(), USER_ID, g, lat, long, DATE)
         assertEquals(event.name, expected.name)
 
         assertEquals(event.eventId, expected.eventId)

@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -128,5 +129,20 @@ class LoaderRepositoryImplTest {
 
     private fun clearRepo() = runTest {
         RepositoryUtil.clear(db.collection(collectionPath))
+    }
+
+    @Test
+    fun loadedWorksAccordingly() = runTest {
+        val query = repository.query().orderBy(Item.DATA_FIELD)
+            .whereGreaterThanOrEqualTo(Item.DATA_FIELD, 10)
+        var i = listOf<Item>()
+        repository.load(query).collect {
+            if (it is QueryState.Success) {
+                i = it.data
+            }
+        }
+
+        assertEquals(i, repository.loaded(repository.query().orderBy(Item.DATA_FIELD)
+            .whereGreaterThanOrEqualTo(Item.DATA_FIELD, 10)))
     }
 }
