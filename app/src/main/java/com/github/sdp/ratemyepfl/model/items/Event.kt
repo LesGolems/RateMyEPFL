@@ -65,13 +65,13 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
      *  - [name]
      */
     class Builder(
-        private var eventId: String? = null,
+        private var eventId: String? = "",
         private var name: String? = null,
         private var numParticipants: Int? = 0,
         private var limitParticipants: Int? = null,
         private var participants: List<String>? = listOf(),
         private var creator: String? = null,
-        private var grade: Double? = null,
+        private var grade: Double? = 0.0,
         private var lat: Double? = null,
         private var long: Double? = null,
         private var date: LocalDateTime? = null,
