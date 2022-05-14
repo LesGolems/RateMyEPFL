@@ -92,6 +92,7 @@ class TimetableFragmentTest {
         onView(withId(R.id.endTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
 
         // Submit
+        onView(withId(R.id.doneButton)).perform(ViewActions.scrollTo())
         onView(withId(R.id.doneButton)).perform(click())
 
         // Check that we went back to timetable
