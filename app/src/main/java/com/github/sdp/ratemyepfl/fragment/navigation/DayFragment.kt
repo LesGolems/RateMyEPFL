@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ApplicationProvider
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ClassAdapter
@@ -61,7 +59,6 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     private fun displayCourseReviews(id: String) {
         lifecycleScope.launch {
             val c = courseRepo.getCourseById(id)
-            Log.d("finfi", c.toString())
             if (c != null) {
                 displayReviews(
                     R.menu.bottom_navigation_menu_course_review,
@@ -76,7 +73,6 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     private fun displayRoomReviews(id: String) {
         lifecycleScope.launch {
             val r = roomRepo.getRoomById(id)
-            Log.d("finfi", r.toString())
             if (r != null) {
                 displayReviews(
                     R.menu.bottom_navigation_menu_room_review,
