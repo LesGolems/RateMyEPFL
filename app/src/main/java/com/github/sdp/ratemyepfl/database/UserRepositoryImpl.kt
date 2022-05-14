@@ -20,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository {
+class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository, Repository<User> by repository{
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
@@ -36,6 +36,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
     companion object {
         const val USER_COLLECTION_PATH = "users"
         const val USER_UID_FIELD_NAME = "uid"
+        const val ADMIN_FIELD_NAME = "isAdmin"
         const val USERNAME_FIELD_NAME = "username"
         const val EMAIL_FIELD_NAME = "email"
         const val TIMETABLE_FIELD_NAME = "timetable"
@@ -48,6 +49,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             return try {
                 User.Builder(
                     uid = getString(USER_UID_FIELD_NAME),
+                    isAdmin = getBoolean(ADMIN_FIELD_NAME),
                     username = getString(USERNAME_FIELD_NAME),
                     email = getString(EMAIL_FIELD_NAME),
                     karma = getField<Int>(KARMA_FIELD_NAME),

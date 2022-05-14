@@ -91,7 +91,11 @@ class GradeInfoRepositoryImpl private constructor(
         else 1 - (-likeRatio) / NUM_USERS
     }
 
-    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Transaction> {
+    override suspend fun updateLikeRatio(
+        item: Reviewable,
+        reviewId: String,
+        inc: Int
+    ): Task<Transaction> {
         var computedGrade = 0.0
         repository.update(item.getId()) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
@@ -111,6 +115,23 @@ class GradeInfoRepositoryImpl private constructor(
         }.await()
 
         return updateItem(item, computedGrade, 0)
+    }
+
+    override suspend fun removeReview(
+        item: Reviewable,
+        reviewId: String
+    ): Task<Transaction> {
+        var computedGrade = 0.0
+
+        repository.update(item.getId()) {
+            val newData = it.reviewsData.minus(reviewId)
+            computedGrade = computeGrade(newData)
+            it.copy(
+                reviewsData = newData
+            )
+        }.await()
+
+        return updateItem(item, computedGrade, -1)
     }
 
     override suspend fun addReview(
@@ -144,19 +165,20 @@ class GradeInfoRepositoryImpl private constructor(
         .getById(itemId)
         .toGradeInfo()
 
-    private fun updateItem(item: Reviewable, grade: Double, incNumReviews : Int): Task<Transaction> = when (item) {
-        is Classroom -> classroomRepository.update(item.getId()) {
-            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
+    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Transaction> =
+        when (item) {
+            is Classroom -> classroomRepository.update(item.getId()) {
+                it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
+            }
+            is Course -> courseRepository.update(item.getId()) {
+                it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
+            }
+            is Event -> eventRepository.update(item.getId()) {
+                it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
+            }
+            is Restaurant -> restaurantRepository.update(item.getId()) {
+                it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
+            }
+            else -> throw Exception("")
         }
-        is Course -> courseRepository.update(item.getId()) {
-            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
-        }
-        is Event -> eventRepository.update(item.getId()) {
-            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
-        }
-        is Restaurant -> restaurantRepository.update(item.getId()) {
-            it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
-        }
-        else -> throw Exception("")
-    }
 }

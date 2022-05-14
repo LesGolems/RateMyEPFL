@@ -136,4 +136,23 @@ class EditEventActivityTest {
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
+
+    @Test
+    fun submittingWhenFilledWorkForNewEvent() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, 50)
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
+        scenario = ActivityScenario.launch(intent)
+
+        init()
+        onView(withId(R.id.doneButton)).perform(scrollTo())
+        onView(withId(R.id.doneButton)).perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
+    }
 }

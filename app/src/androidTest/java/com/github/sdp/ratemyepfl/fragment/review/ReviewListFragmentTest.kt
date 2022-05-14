@@ -32,6 +32,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.*
+import org.junit.Assert.assertEquals
 import org.junit.runners.MethodSorters
 import java.time.LocalDate
 
@@ -39,16 +40,17 @@ import java.time.LocalDate
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
+
     private val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
         .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
         .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
+
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
 
-    @Before
-    fun setUp() {
+    fun launch() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
@@ -57,6 +59,11 @@ class ReviewListFragmentTest {
     @After
     fun clean() {
         scenario.close()
+    }
+
+    private fun refresh(){
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
     }
 
     /**
@@ -86,6 +93,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aPanelDisplaysCorrectUserProfileInformation() {
+        launch()
         val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
         FakeImageStorage.images.put(
@@ -115,6 +123,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePanelDisplayedWhenAuthorIsClicked() {
+        launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
@@ -142,6 +151,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePanelIsHiddenWhenClickingOutside() {
+        launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
@@ -171,6 +181,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePicturesOfAuthorsAreDisplayed() {
+        launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
         FakeImageStorage.images.put(
@@ -202,11 +213,13 @@ class ReviewListFragmentTest {
 
     @Test
     fun listIsVisible() {
+        launch()
         onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
     }
 
     @Test
     fun swipeRefreshes() {
+        launch()
         FakeReviewsRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -246,11 +259,10 @@ class ReviewListFragmentTest {
                 .setUid(FakeUserRepository.UID1)
                 .build()
         )
+        launch()
 
-
-        FakeReviewsRepository.reviewList = listOf(FakeReviewsRepository.reviewList[0])
         likeReview(0)
-        Thread.sleep(1000) // Let the list refresh
+        refresh()
         likeReview(0)
     }
 
@@ -278,8 +290,10 @@ class ReviewListFragmentTest {
                 .setUid(FakeUserRepository.UID1)
                 .build()
         )
+        launch()
+
         dislikeReview(0)
-        Thread.sleep(1000) // Let the list refresh
+        refresh()
         dislikeReview(0)
     }
 
@@ -307,8 +321,10 @@ class ReviewListFragmentTest {
                 .setUid(FakeUserRepository.UID1)
                 .build()
         )
+        launch()
+
         likeReview(0)
-        Thread.sleep(1000) // Let the list refresh
+        refresh()
         dislikeReview(0)
     }
 
@@ -336,27 +352,53 @@ class ReviewListFragmentTest {
                 .setUid(FakeUserRepository.UID1)
                 .build()
         )
+        launch()
+
         dislikeReview(0)
-        Thread.sleep(1000) // Let the list refresh
+        refresh()
         likeReview(0)
     }
 
     @Test
     fun likeWhenNotConnected() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        scenario = ActivityScenario.launch(intent)
-
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        launch()
         likeReview(0)
     }
 
     @Test
     fun dislikeWhenNotConnected() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        scenario = ActivityScenario.launch(intent)
-
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        launch()
         dislikeReview(0)
+    }
+
+    @Test
+    fun deleteButtonRemovesReview() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+
+        FakeReviewsRepository.reviewList = listOf(
+            Review.Builder().setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setRating(ReviewRating.EXCELLENT)
+                .setReviewableID("CS-123")
+                .setDate(LocalDate.now())
+                .setUid(FakeConnectedUser.fakeUser2.uid)
+                .build()
+        )
+
+        launch()
+
+        onView(withId(R.id.reviewRecyclerView)).perform(
+            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+                0,
+                clickOnViewChild(R.id.deleteButton)
+            )
+        )
+
+        refresh()
+
+        assertEquals(listOf<Review>(), FakeReviewsRepository.reviewList)
     }
 
     @Test
@@ -364,6 +406,9 @@ class ReviewListFragmentTest {
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         val username2 = FakeUserRepository.userMap[FakeUserRepository.UID2]?.username
         val username3 = FakeUserRepository.userMap[FakeUserRepository.UID3]?.username
+
+        launch()
+
         onView(withText(username1)).check(matches(isDisplayed()))
         onView(withText(username2)).check(matches(isDisplayed()))
         onView(withText(username3)).check(matches(isDisplayed()))
@@ -382,6 +427,8 @@ class ReviewListFragmentTest {
                 .build()
         )
 
+        launch()
+
         likeReview(0)
         onView(withId(com.google.android.material.R.id.snackbar_text))
             .check(matches(withText("You can't like your own review")))
@@ -399,6 +446,8 @@ class ReviewListFragmentTest {
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
         )
+
+        launch()
 
         dislikeReview(0)
         onView(withId(com.google.android.material.R.id.snackbar_text))

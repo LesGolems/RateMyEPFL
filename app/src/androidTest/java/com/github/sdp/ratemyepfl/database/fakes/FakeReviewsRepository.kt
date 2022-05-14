@@ -128,8 +128,20 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
     override suspend fun getById(id: String): DocumentSnapshot =
         Mockito.mock(DocumentSnapshot::class.java)
 
-    override fun remove(id: String): Task<Void> =
-        Mockito.mock(Task::class.java) as Task<Void>
+    override fun remove(id: String): Task<Void> {
+        val newList = arrayListOf<Review>()
+
+        for (r in reviewList){
+            if(r.getId() != id){
+                newList.add(r)
+            }
+        }
+
+        reviewList = newList
+
+        return Mockito.mock(Task::class.java) as Task<Void>
+    }
+
 
     override fun add(item: Review) = Mockito.mock(Task::class.java) as Task<Void>
 

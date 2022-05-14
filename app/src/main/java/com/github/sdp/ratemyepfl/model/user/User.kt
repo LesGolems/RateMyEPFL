@@ -13,6 +13,7 @@ data class User(
     val username: String?,
     val email: String?,
     val karma: Int = 0,
+    val isAdmin: Boolean = false,
     val timetable: ArrayList<Class> = DEFAULT_TIMETABLE
 ) : RepositoryItem {
 
@@ -36,6 +37,7 @@ data class User(
         return hashMapOf(
             UserRepositoryImpl.USER_UID_FIELD_NAME to uid,
             UserRepositoryImpl.USERNAME_FIELD_NAME to username,
+            UserRepositoryImpl.ADMIN_FIELD_NAME to isAdmin,
             UserRepositoryImpl.EMAIL_FIELD_NAME to email,
             UserRepositoryImpl.KARMA_FIELD_NAME to karma,
             UserRepositoryImpl.TIMETABLE_FIELD_NAME to json
@@ -44,6 +46,7 @@ data class User(
 
     class Builder(
         private val uid: String?,
+        private val isAdmin: Boolean?,
         private val username: String?,
         private val email: String?,
         private val karma: Int?,
@@ -55,9 +58,10 @@ data class User(
             val email = this.email
             val karma = this.karma ?: 0
             val timetable = this.timetable ?: DEFAULT_TIMETABLE
+            val isAdmin = this.isAdmin ?: false
 
             if (uid != null && username != null && email != null) {
-                return User(uid, username, email, karma, timetable)
+                return User(uid, username, email, karma, isAdmin, timetable)
             } else {
                 throw IllegalStateException("Cannot build a user with null arguments")
             }

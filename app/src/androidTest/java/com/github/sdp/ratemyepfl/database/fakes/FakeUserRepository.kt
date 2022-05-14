@@ -40,7 +40,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
                 "Celestin.Renaut@gmail.com",
                 timetable = ArrayList()
             ),
-            UID4 to User("12345", "John Smith", "john@example.com", timetable = timetable)
+            UID4 to User("12345", "John Smith", "john@example.com", timetable = timetable, isAdmin = true)
         )
     }
 
@@ -73,6 +73,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
                 user1.username,
                 user1.email,
                 user1.karma + inc,
+                user1.isAdmin,
                 ArrayList()
             )
         )

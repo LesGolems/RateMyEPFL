@@ -108,6 +108,7 @@ class ReviewFragmentTest {
         HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
         TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
+        Thread.sleep(1000)
         ViewPagerAction.swipePrevious()
         checkClassroom()
     }

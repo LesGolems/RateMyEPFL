@@ -1,23 +1,29 @@
 package com.github.sdp.ratemyepfl.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(
-    val connectedUser: ConnectedUser,
+    val lifecycleOwner: LifecycleOwner,
+    val userViewModel: UserViewModel,
     val likeListener: OnClickListener,
     val dislikeListener: OnClickListener,
+    val deleteListener: OnClickListener,
     val profileClickListener: OnClickListener
 ) :
     ListAdapter<ReviewWithAuthor, ReviewAdapter.ReviewViewHolder>(AdapterUtil.diffCallback<ReviewWithAuthor>()) {
@@ -42,6 +48,8 @@ class ReviewAdapter(
         private val dislikesTextView: TextView = reviewView.findViewById(R.id.dislikeCount)
         private val likeButton: ImageButton = reviewView.findViewById(R.id.likeButton)
         private val dislikeButton: ImageButton = reviewView.findViewById(R.id.dislikeButton)
+
+        private val deleteButton: ImageButton = reviewView.findViewById(R.id.deleteButton)
 
         private val authorUsername: TextView = reviewView.findViewById(R.id.author_username)
         private val authorProfilePicture: CircleImageView =
@@ -69,18 +77,30 @@ class ReviewAdapter(
                 likeListener.onClick(reviewWithAuthor)
             }
 
-            likeButton.setImageResource(R.drawable.ic_like)
-            dislikeButton.setImageResource(R.drawable.ic_dislike)
+            deleteButton.setOnClickListener {
+                deleteListener.onClick(reviewWithAuthor)
+            }
 
-            val uid = connectedUser.getUserId()
-            if (uid != null) {
-                // The user liked the review
-                if (reviewWithAuthor.review.likers.contains(uid)) {
-                    likeButton.setImageResource(R.drawable.ic_like_toggled)
+            userViewModel.user.observe(lifecycleOwner) {
+                /* Like button UI */
+                likeButton.setImageResource(R.drawable.ic_like)
+                dislikeButton.setImageResource(R.drawable.ic_dislike)
+                if (it != null) {
+                    // The user liked the review
+                    if (reviewWithAuthor.review.likers.contains(it.uid)) {
+                        likeButton.setImageResource(R.drawable.ic_like_toggled)
+                    }
+                    // The user disliked the review
+                    if (reviewWithAuthor.review.dislikers.contains(it.uid)) {
+                        dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
+                    }
                 }
-                // The user disliked the review
-                if (reviewWithAuthor.review.dislikers.contains(uid)) {
-                    dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
+
+                /* Delete button UI */
+                if(it != null && it.isAdmin){
+                    deleteButton.visibility = VISIBLE
+                } else{
+                    deleteButton.visibility = INVISIBLE
                 }
             }
 

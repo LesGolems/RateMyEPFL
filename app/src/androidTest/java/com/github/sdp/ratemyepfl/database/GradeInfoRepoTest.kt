@@ -6,8 +6,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
@@ -19,7 +18,11 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class GradeInfoRepoTest {
-    private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5))))
+    private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5)),
+        Pair("rid6", ReviewInfo(2, 0)),
+        Pair("rid7", ReviewInfo(1, -4))
+    ))
+
     private val testItem = Classroom("item id", 0.0, 0)
 
     @get:Rule
@@ -55,6 +58,17 @@ class GradeInfoRepoTest {
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid3"])
             assertEquals(5, gradeInfo.reviewsData["rid3"]!!.reviewGrade)
+        }
+    }
+
+    @Test
+    fun removeReviewWorks(){
+        runTest {
+            gradeInfoRepo.addReview(testItem, "rid4", ReviewRating.EXCELLENT).await()
+            gradeInfoRepo.removeReview(testItem, "rid4")
+            val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
+            assertNotNull(gradeInfo)
+            assertNull(gradeInfo!!.reviewsData["rid4"])
         }
     }
 

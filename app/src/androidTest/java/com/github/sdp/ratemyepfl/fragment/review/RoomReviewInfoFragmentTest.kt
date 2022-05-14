@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.Manifest
+import android.app.Activity
+import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -50,6 +52,24 @@ class RoomReviewInfoFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeClassroomRepository.CLASSROOM_LIST.first())
         scenario = ActivityScenario.launch(intent)
+    }
+
+    @Test
+    fun audioReturnsDisplayed(){
+        init()
+        launch()
+        val intent = Intent()
+        intent.putExtra("com.github.sdp.extra_measurement_value", 50)
+        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
+        intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
+        onView(withId(R.id.noiseMeasureButton)).perform(click())
+
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.roomReviewInfoFragment))
+
+        val dbText = "Calm (50 dB) - 0 minutes ago"
+        onView(withId(R.id.roomNoiseInfoTextView)).check(matches(withText(dbText)))
+        release()
     }
 
     @Test

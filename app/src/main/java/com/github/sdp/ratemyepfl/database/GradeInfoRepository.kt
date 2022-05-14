@@ -16,6 +16,11 @@ interface GradeInfoRepository {
         rating: ReviewRating
     ): Task<Transaction>
 
+    suspend fun removeReview(
+        item: Reviewable,
+        reviewId: String
+    ): Task<Transaction>
+
     suspend fun getGradeInfoById(itemId: String): GradeInfo?
 
 }

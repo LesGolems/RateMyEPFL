@@ -30,4 +30,8 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
     ): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
+
+    override suspend fun removeReview(item: Reviewable, reviewId: String): Task<Transaction> {
+        return Mockito.mock(Task::class.java) as Task<Transaction>
+    }
 }
