@@ -50,6 +50,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         usernameText = view.findViewById(R.id.username_text)
         modifyButton = view.findViewById(R.id.modify_profile_button)
 
+        setUpObservers()
+
+        enableModifications(false)
+
+        cameraIcon.setOnClickListener(updatePicture)
+        modifyButton.setOnClickListener(updateProfile)
+    }
+
+    private fun setUpObservers(){
         viewModel.picture.observe(viewLifecycleOwner) {
             profilePicture.setImageBitmap(it?.data)
         }
@@ -69,11 +78,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 emailText.setText(getString(R.string.not_logged_in_text))
             }
         }
-
-        enableModifications(false)
-
-        cameraIcon.setOnClickListener(updatePicture)
-        modifyButton.setOnClickListener(updateProfile)
     }
 
     val updatePicture = View.OnClickListener {
