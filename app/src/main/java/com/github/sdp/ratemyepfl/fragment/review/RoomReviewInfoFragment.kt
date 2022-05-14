@@ -18,7 +18,7 @@ import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils
 import com.github.sdp.ratemyepfl.utils.TimeUtils
-import com.github.sdp.ratemyepfl.viewmodel.ClassroomInfoViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.ClassroomInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /*

@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RateMyEPFL">
         <service
-            android:name=".OccupancyService"
+            android:name=".service.OccupancyService"
             android:enabled="true"
             android:exported="true"></service>
 

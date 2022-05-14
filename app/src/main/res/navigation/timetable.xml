@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/timetableFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.TimetableFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.profile.TimetableFragment"
         android:label="@string/timetable_nav_title"
         tools:layout="@layout/fragment_timetable" />
 
     <fragment
         android:id="@+id/selectCourseFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.SelectCourseFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.profile.SelectCourseFragment"
         android:label="@string/select_course_fragment"
         tools:layout="@layout/layout_reviewable_list" />
 
     <fragment
         android:id="@+id/selectRoomFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.SelectRoomFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.profile.SelectRoomFragment"
         android:label="@string/select_room_fragment"
         tools:layout="@layout/layout_reviewable_list" />
 
     <fragment
         android:id="@+id/addClassFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.AddClassFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.profile.AddClassFragment"
         android:label="@string/add_class_fragment"
         tools:layout="@layout/fragment_add_class" />
 </navigation>

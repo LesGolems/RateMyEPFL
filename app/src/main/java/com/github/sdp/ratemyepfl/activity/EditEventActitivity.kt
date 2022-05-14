@@ -11,10 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
-import com.github.sdp.ratemyepfl.fragment.navigation.MapFragment
+import com.github.sdp.ratemyepfl.fragment.main.MapFragment
 import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.layout.CustomScrollView
-import com.github.sdp.ratemyepfl.viewmodel.EditEventViewModel
+import com.github.sdp.ratemyepfl.viewmodel.main.EditEventViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint

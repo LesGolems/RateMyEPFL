@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
-import com.github.sdp.ratemyepfl.viewmodel.RestaurantInfoViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.RestaurantInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /*

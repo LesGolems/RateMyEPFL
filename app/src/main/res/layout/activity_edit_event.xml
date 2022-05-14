@@ -142,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:paddingBottom="25dp"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.MapFragment"/>
+        android:name="com.github.sdp.ratemyepfl.fragment.main.MapFragment"/>
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="wrap_content"

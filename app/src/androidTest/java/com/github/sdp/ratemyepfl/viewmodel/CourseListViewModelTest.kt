@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.CourseListViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

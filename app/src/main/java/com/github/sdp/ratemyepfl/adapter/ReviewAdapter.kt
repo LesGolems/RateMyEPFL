@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -12,10 +11,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.util.AdapterUtil
+import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
-import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ReviewAdapter(

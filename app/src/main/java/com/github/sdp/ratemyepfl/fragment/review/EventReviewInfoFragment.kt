@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
-import com.github.sdp.ratemyepfl.viewmodel.EventInfoViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.EventInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

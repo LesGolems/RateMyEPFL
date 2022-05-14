@@ -16,8 +16,8 @@ import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
-import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
-import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.ReviewListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +44,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
     lateinit var connectedUser: ConnectedUser
 
     // Gets the shared view model
-    private val viewModel by activityViewModels<ReviewListViewModel>()
+    private val reviewsViewModel by activityViewModels<ReviewListViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,10 +65,10 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
         reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
-            getListener { r, s -> viewModel.updateUpVotes(r, s) },
-            getListener { r, s -> viewModel.updateDownVotes(r, s) },
+            getListener { r, s -> reviewsViewModel.updateUpVotes(r, s) },
+            getListener { r, s -> reviewsViewModel.updateDownVotes(r, s) },
             { rwa -> lifecycleScope.launch {
-                viewModel.removeReview(rwa.review.getId())
+                reviewsViewModel.removeReview(rwa.review.getId())
             }}
         ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
@@ -79,11 +79,11 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         )
 
         swipeRefresher.setOnRefreshListener {
-            viewModel.updateReviewsList()
+            reviewsViewModel.updateReviewsList()
             swipeRefresher.isRefreshing = false
         }
 
-        viewModel.reviews.observe(viewLifecycleOwner) {
+        reviewsViewModel.reviews.observe(viewLifecycleOwner) {
             it?.let { reviewAdapter.submitList(it) }
         }
     }
@@ -119,7 +119,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateReviewsList()
+        reviewsViewModel.updateReviewsList()
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

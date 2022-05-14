@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.adapter.util
 
+import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -25,7 +25,7 @@ import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.TimeUtils
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
-import com.github.sdp.ratemyepfl.viewmodel.ClassroomPictureViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.ClassroomPictureViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File

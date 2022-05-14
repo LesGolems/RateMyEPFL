@@ -6,14 +6,12 @@ import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
-import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
 import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
-import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.tasks.await
@@ -98,7 +96,7 @@ class GradeInfoRepositoryImpl private constructor(
     ): Task<Transaction> {
         var computedGrade = 0.0
         repository.update(item.getId()) {
-            val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
+            val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, ReviewInfo(0, 0))
             val newData = it.reviewsData.plus(
                 Pair(
                     reviewId,
@@ -179,6 +177,5 @@ class GradeInfoRepositoryImpl private constructor(
             is Restaurant -> restaurantRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
             }
-            else -> throw Exception("")
         }
 }

@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
-import com.github.sdp.ratemyepfl.viewmodel.CourseInfoViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.CourseInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /*

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
-import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -14,7 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +44,7 @@ open class DrawerActivity : AppCompatActivity() {
     }
 
     /**
-     * Setups the bottom navigation, when on user profile the bottom bar is not shown
+     * Setups the bottom navigation, hiding bottom bar in some fragments
      */
     protected fun setUpBottomNavigation() {
         bottomNavigationView.setupWithNavController(navController)
@@ -78,8 +78,8 @@ open class DrawerActivity : AppCompatActivity() {
                 username.text = it.username
                 email.text = it.email
             } else {
-                username.text = "Visitor"
-                email.text = "You are not logged in"
+                username.text = getString(R.string.visitor)
+                email.text = getString(R.string.not_logged_in_text)
             }
         }
 
@@ -88,6 +88,9 @@ open class DrawerActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Display login/logout button if user is logged in/logged out
+     */
     protected fun setUpLoginLogout() {
         userViewModel.isUserLoggedIn.observe(this) { loggedIn ->
             drawerView.menu.findItem(R.id.login).isVisible = !(loggedIn)
@@ -103,11 +106,6 @@ open class DrawerActivity : AppCompatActivity() {
             userViewModel.signOut(this)
             true
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        userViewModel.refreshUser()
     }
 
 }

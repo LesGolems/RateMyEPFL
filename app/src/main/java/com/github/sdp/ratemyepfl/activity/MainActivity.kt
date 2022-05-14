@@ -7,7 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.github.sdp.ratemyepfl.OccupancyService
+import com.github.sdp.ratemyepfl.service.OccupancyService
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import dagger.hilt.android.AndroidEntryPoint
