@@ -62,6 +62,7 @@ class TimetableFragmentTest {
 
     @Test
     fun addClassFilledWorks(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
