@@ -45,7 +45,6 @@ class AddClassFragment : Fragment(R.layout.fragment_add_class) {
             try {
                 userProfileViewModel.addClass(addClassViewModel.createClass())
                 reset()
-                Thread.sleep(1000) // Wait for DB to be updated
                 Navigation.findNavController(requireView()).popBackStack()
             } catch (e : MissingInputException){
                 displayMessage(e.message)

@@ -55,11 +55,19 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         viewModel.username.observe(viewLifecycleOwner) {
-            usernameText.setText(it.orEmpty())
+            if(it != null){
+                usernameText.setText(it.orEmpty())
+            }else{
+                usernameText.setText(getString(R.string.visitor))
+            }
         }
 
         viewModel.email.observe(viewLifecycleOwner) {
-            emailText.setText(it.orEmpty())
+            if(it != null){
+                emailText.setText(it.orEmpty())
+            }else{
+                emailText.setText(getString(R.string.not_logged_in_text))
+            }
         }
 
         enableModifications(false)

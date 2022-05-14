@@ -130,4 +130,5 @@
     <string name="room_class_creation">Click here to select a room</string>
     <string name="title_class_creation">Add a class</string>
     <string name="day_class_creation">Select the day and time</string>
+    <string name="not_logged_in_text">You are not logged in</string>
 </resources>
