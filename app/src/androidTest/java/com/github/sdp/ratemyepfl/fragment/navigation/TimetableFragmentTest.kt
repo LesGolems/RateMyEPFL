@@ -27,6 +27,7 @@ import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
+import org.hamcrest.Matchers.not
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -60,6 +61,20 @@ class TimetableFragmentTest {
         }
     }
 
+    private fun selectCourse(){
+        onView(withId(R.id.courseClassInputText)).perform(click())
+        onView(withId(R.id.courseClassInputText)).perform(click())
+        onView(withText(courses.first().toString()))
+            .perform(click())
+    }
+
+    private fun selectRoom(){
+        onView(withId(R.id.roomClassInputText)).perform(click())
+        onView(withId(R.id.roomClassInputText)).perform(click())
+        onView(withText(rooms.first().toString()))
+            .perform(click())
+    }
+
     @Test
     fun addClassFilledWorks(){
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
@@ -69,20 +84,10 @@ class TimetableFragmentTest {
         onView(withId(R.id.timetable)).perform(click())
         onView(withId(R.id.addClassButton)).perform(click())
 
-        // Select course
-        onView(withId(R.id.courseClassInputText)).perform(click())
-        onView(withId(R.id.courseClassInputText)).perform(click())
-        onView(withText(courses.first().toString()))
-            .perform(click())
-
+        selectCourse()
         onView(withId(R.id.courseClassInputText)).check(matches(withText(courses.first().title)))
 
-        // Select room
-        onView(withId(R.id.roomClassInputText)).perform(click())
-        onView(withId(R.id.roomClassInputText)).perform(click())
-        onView(withText(rooms.first().toString()))
-            .perform(click())
-
+        selectRoom()
         onView(withId(R.id.roomClassInputText)).check(matches(withText(rooms.first().name)))
 
         // Select day
@@ -99,6 +104,104 @@ class TimetableFragmentTest {
         // Check that we went back to timetable
         onView(withId(R.id.addClassButton)).check(matches(isDisplayed()))
         scenario.close()
+    }
+
+    @Test
+    fun addClassMissingCourseFails(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
+        onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
+        onView(withId(R.id.timetable)).perform(click())
+        onView(withId(R.id.addClassButton)).perform(click())
+
+        selectRoom()
+
+        // Select day
+        onView(withId(R.id.dayPicker)).perform(click())
+
+        // Pick times
+        onView(withId(R.id.startTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+        onView(withId(R.id.endTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+
+        // Submit
+        onView(withId(R.id.doneButton)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.doneButton)).perform(click())
+
+        // Check that we still are in add class fragment
+        onView(withId(R.id.addClassTitle)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.addClassTitle)).check(matches(isDisplayed()))
+        scenario.close()
+    }
+
+
+    @Test
+    fun addClassMissingRoomFails(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
+        onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
+        onView(withId(R.id.timetable)).perform(click())
+        onView(withId(R.id.addClassButton)).perform(click())
+
+        selectCourse()
+
+        // Select day
+        onView(withId(R.id.dayPicker)).perform(click())
+
+        // Pick times
+        onView(withId(R.id.startTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+        onView(withId(R.id.endTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+
+        // Submit
+        onView(withId(R.id.doneButton)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.doneButton)).perform(click())
+
+        // Check that we still are in add class fragment
+        onView(withId(R.id.addClassTitle)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.addClassTitle)).check(matches(isDisplayed()))
+        scenario.close()
+    }
+
+    @Test
+    fun addClassMissingDayFails(){
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
+        onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
+        onView(withId(R.id.timetable)).perform(click())
+        onView(withId(R.id.addClassButton)).perform(click())
+
+        selectCourse()
+
+        selectRoom()
+
+        // Select day
+        onView(withId(R.id.dayPicker)).perform(click())
+
+        // Deselect day
+        onView(withId(R.id.dayPicker)).perform(click())
+
+        // Pick times
+        onView(withId(R.id.startTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+        onView(withId(R.id.endTimePicker)).perform(CustomViewActions.NumberPickerActions.setNumber(13))
+
+        // Submit
+        onView(withId(R.id.doneButton)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.doneButton)).perform(click())
+
+        // Check that we still are in add class fragment
+        onView(withId(R.id.addClassTitle)).perform(ViewActions.scrollTo())
+        onView(withId(R.id.addClassTitle)).check(matches(isDisplayed()))
+        scenario.close()
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun buttonNotShownWhenLoggedOut() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
+        scenario = HiltUtils.launchFragmentInHiltContainer<TimetableFragment> { }
+        onView(withId(R.id.addClassButton)).check(matches(not(isDisplayed())))
     }
 
     @ExperimentalCoroutinesApi
