@@ -33,6 +33,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.not
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,6 +65,17 @@ class TimetableFragmentTest {
         rooms.forEach {
             runTest { roomRepo.add(it).await() }
         }
+    }
+
+    @After
+    fun tearDown() {
+        courses.forEach {
+            runTest { courseRepo.remove(it.getId()).await() }
+        }
+        rooms.forEach {
+            runTest { roomRepo.remove(it.getId()).await() }
+        }
+
     }
 
     private fun selectCourse() {
