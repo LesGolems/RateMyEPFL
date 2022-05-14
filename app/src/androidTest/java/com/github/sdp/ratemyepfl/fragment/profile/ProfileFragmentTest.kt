@@ -163,15 +163,4 @@ class ProfileFragmentTest {
         onView(withId(R.id.modify_profile_image_button)).perform(click())
         release()
     }
-
-    @Test
-    fun userLoggedInButNotInDBWorks() {
-        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        val scenario2 = HiltUtils.launchFragmentInHiltContainer<ProfileFragment> {}
-        val username = FakeConnectedUser.instance.user!!.username!!.split(" ")[0]
-        val email = FakeConnectedUser.instance.user!!.email
-        onView(withId(R.id.username_text)).check(matches(withText(username)))
-        onView(withId(R.id.emailText)).check(matches(withText(email)))
-        scenario2.close()
-    }
 }
