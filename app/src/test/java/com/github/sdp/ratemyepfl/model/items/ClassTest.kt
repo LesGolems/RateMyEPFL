@@ -19,7 +19,7 @@ class ClassTest {
 
     @Test
     fun constructorWithAllValues() {
-        val c = Class("ML", "Jean-Kevin Bite Lavoisier", "INF", 0, 10, 12)
+        val c = Class("CS", "ML", "Jean-Kevin Bite Lavoisier", "INF", 0, 10, 12)
         assertEquals("ML", c.name)
         assertEquals("Jean-Kevin Bite Lavoisier", c.teacher)
         assertEquals("INF", c.room)

@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Class(
+    val courseId: String? = null,
     val name: String? = null,
     val teacher: String? = null,
     val room: String? = null,
@@ -18,6 +19,7 @@ data class Class(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int
@@ -27,6 +29,7 @@ data class Class(
     fun duration() = (end ?: 0) - (start ?: 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(courseId)
         parcel.writeString(name)
         parcel.writeString(teacher)
         parcel.writeString(room)

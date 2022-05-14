@@ -34,6 +34,6 @@ class AddClassViewModel : ViewModel() {
         if(day == null){
             throw MissingInputException("You need to select a day")
         }
-        return Class(course.title, course.teacher, room.name, day, startHour, endHour)
+        return Class(course.getId(), course.title, course.teacher, room.name, day, startHour, endHour)
     }
 }
