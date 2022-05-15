@@ -92,6 +92,8 @@ open class DrawerActivity : AppCompatActivity() {
         userViewModel.isUserLoggedIn.observe(this) { loggedIn ->
             drawerView.menu.findItem(R.id.login).isVisible = !(loggedIn)
             drawerView.menu.findItem(R.id.logout).isVisible = loggedIn
+            drawerView.menu.findItem(R.id.timetable).isVisible = loggedIn
+            drawerView.menu.findItem(R.id.profile).isVisible = loggedIn
         }
 
         drawerView.menu.findItem(R.id.login).setOnMenuItemClickListener {
