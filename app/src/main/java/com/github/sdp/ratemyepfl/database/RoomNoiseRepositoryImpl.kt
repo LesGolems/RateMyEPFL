@@ -2,11 +2,13 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.tasks.asDeferred
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -47,7 +49,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         roomId: String,
         date: LocalDateTime,
         measure: Int
-    ): Task<Transaction> {
+    ): Task<Unit> {
 
         if (getRoomNoiseInfoById(roomId) == null) {
             repository.add(RoomNoiseInfo(roomId)).await()
@@ -63,7 +65,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
             it.copy(
                 noiseData = newData
             )
-        }
+        }.continueWith {}
     }
 
     override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =

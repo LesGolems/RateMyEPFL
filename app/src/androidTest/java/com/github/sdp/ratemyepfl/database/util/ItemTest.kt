@@ -41,6 +41,9 @@ class ItemTest {
     fun test() = runTest {
         val item = Item("id", 0)
         collection.add(item).await()
+        assertEquals(null, collection.get()
+            .await()
+            .mapNotNull { it.toObject(Item::class.java) })
     }
 
     @Test

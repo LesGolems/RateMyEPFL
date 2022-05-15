@@ -95,7 +95,7 @@ class GradeInfoRepositoryImpl private constructor(
         item: Reviewable,
         reviewId: String,
         inc: Int
-    ): Task<Transaction> {
+    ): Task<Unit> {
         var computedGrade = 0.0
         repository.update(item.getId()) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
@@ -120,7 +120,7 @@ class GradeInfoRepositoryImpl private constructor(
     override suspend fun removeReview(
         item: Reviewable,
         reviewId: String
-    ): Task<Transaction> {
+    ): Task<Unit> {
         var computedGrade = 0.0
 
         repository.update(item.getId()) {
@@ -138,7 +138,7 @@ class GradeInfoRepositoryImpl private constructor(
         item: Reviewable,
         reviewId: String,
         rating: ReviewRating
-    ): Task<Transaction> {
+    ): Task<Unit> {
         if (getGradeInfoById(item.getId()) == null) {
             repository.add(GradeInfo(item.getId())).await()
         }
@@ -165,7 +165,7 @@ class GradeInfoRepositoryImpl private constructor(
         .getById(itemId)
         .toGradeInfo()
 
-    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Transaction> =
+    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Unit> =
         when (item) {
             is Classroom -> classroomRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
@@ -179,6 +179,5 @@ class GradeInfoRepositoryImpl private constructor(
             is Restaurant -> restaurantRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
             }
-            else -> throw Exception("")
-        }
+        }.continueWith {}
 }

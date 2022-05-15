@@ -42,7 +42,7 @@ class RepositoryImpl<T : RepositoryItem> (
             .document(item.getId())
             .set(item.toHashMap())
 
-    override fun update(id: String, transform: (T) -> T): Task<Transaction> {
+    override fun update(id: String, transform: (T) -> T): Task<T> {
         val docRef = collection
             .document(id)
         return database
@@ -50,7 +50,9 @@ class RepositoryImpl<T : RepositoryItem> (
                 val snapshot = transaction.get(docRef)
                 this.transform(snapshot)?.let { data ->
                     try {
-                        transaction.update(docRef, transform(data).toHashMap())
+                        transform(data).apply {
+                            transaction.update(docRef, this.toHashMap())
+                        }
                     } catch (e: FirebaseFirestoreException) {
                         throw DatabaseException("Cannot update a document (id: $id) that does not exist")
                     }

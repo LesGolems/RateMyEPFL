@@ -2,11 +2,16 @@ package com.github.sdp.ratemyepfl.database.util
 
 import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.PropertyName
 import com.google.firebase.firestore.ktx.getField
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Item(private val id: String, val data: Int) :
+data class Item(
+    @PropertyName("id")
+    private val id: String = "",
+    @PropertyName("data")
+    val data: Int = 0) :
     RepositoryItem {
     override fun getId(): String = id
 
@@ -41,3 +46,5 @@ data class Item(private val id: String, val data: Int) :
 
     }
 }
+
+class RequiredFieldException() : Exception()

@@ -19,19 +19,19 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = gradeById
 
-    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Transaction> {
-        return Mockito.mock(Task::class.java) as Task<Transaction>
+    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Unit> {
+        return Mockito.mock(Task::class.java) as Task<Unit>
     }
 
     override suspend fun addReview(
         item: Reviewable,
         reviewId: String,
         rating: ReviewRating
-    ): Task<Transaction> {
-        return Mockito.mock(Task::class.java) as Task<Transaction>
+    ): Task<Unit> {
+        return Mockito.mock(Task::class.java) as Task<Unit>
     }
 
-    override suspend fun removeReview(item: Reviewable, reviewId: String): Task<Transaction> {
-        return Mockito.mock(Task::class.java) as Task<Transaction>
+    override suspend fun removeReview(item: Reviewable, reviewId: String): Task<Unit> {
+        return Mockito.mock(Task::class.java) as Task<Unit>
     }
 }

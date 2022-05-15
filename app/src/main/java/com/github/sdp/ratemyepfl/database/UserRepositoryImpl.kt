@@ -100,10 +100,6 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             }
         }.asQueryResult()
 
-    override fun update(id: String, transform: (User) -> User): Task<Transaction> {
-        return repository.update(id, transform)
-    }
-
     override suspend fun updateKarma(uid: String?, inc: Int) {
         if (uid == null) return
         update(uid) {
