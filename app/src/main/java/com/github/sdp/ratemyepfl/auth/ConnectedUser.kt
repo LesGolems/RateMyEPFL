@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.auth
 
-import com.google.firebase.auth.FirebaseAuth
-
 /*
 Interface providing information about the current user
  */
@@ -26,6 +24,4 @@ interface ConnectedUser {
     fun getEmail(): String?
 
     fun getUsername(): String?
-
-    fun addCallBack(c: (FirebaseAuth) -> Unit)
 }

@@ -23,10 +23,4 @@ class ConnectedUserImpl @Inject constructor() : ConnectedUser {
     override fun getUsername(): String? {
         return FirebaseAuth.getInstance().currentUser?.displayName
     }
-
-    override fun addCallBack(c: (FirebaseAuth) -> Unit) =
-        FirebaseAuth.getInstance().addAuthStateListener {
-            c(it)
-        }
-
 }

@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.auth
 
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 /*
@@ -19,8 +18,6 @@ class FakeConnectedUser @Inject constructor() : ConnectedUser {
 
     override fun getUsername(): String? =
         if (instance != Instance.LOGGED_OUT) instance.user?.username else null
-
-    override fun addCallBack(c: (FirebaseAuth) -> Unit) {}
 
     enum class Instance(val user: User?) {
         LOGGED_OUT(null), FAKE_USER_1(fakeUser1), FAKE_USER_2(fakeUser2)
