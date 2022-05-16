@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addClassScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -37,7 +37,8 @@
                 android:id="@+id/courseClassInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false" />
+                android:editable="false"
+                tools:ignore="Autofill,Deprecated,LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -53,7 +54,8 @@
                 android:id="@+id/roomClassInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false" />
+                android:editable="false"
+                tools:ignore="Autofill,Deprecated,LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -87,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Start"
+                android:text="@string/start"
                 android:textSize="11sp" />
 
             <NumberPicker
@@ -106,7 +108,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="50dp"
                 android:layout_toEndOf="@id/startTimePicker"
-                android:text="End"
+                android:text="@string/end"
                 android:textSize="11sp" />
 
             <NumberPicker

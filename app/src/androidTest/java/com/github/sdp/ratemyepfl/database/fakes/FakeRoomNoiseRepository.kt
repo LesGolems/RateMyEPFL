@@ -8,6 +8,7 @@ import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
 
     companion object {

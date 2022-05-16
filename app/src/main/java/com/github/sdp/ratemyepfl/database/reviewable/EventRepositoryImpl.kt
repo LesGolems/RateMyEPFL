@@ -46,6 +46,8 @@ class EventRepositoryImpl private constructor(
         const val DATE_FIELD_NAME = "date"
 
         private val OFFLINE_EVENTS = listOf<Event>()
+
+        @Suppress("UNCHECKED_CAST")
         fun DocumentSnapshot.toEvent(): Event? {
             val eventId = getString(ID_FIELD_NAME)
             val name = getString(NAME_FIELD_NAME)

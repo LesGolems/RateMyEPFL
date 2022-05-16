@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeEventRepository
-import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -67,7 +67,7 @@ class EventReviewInfoFragmentTest {
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+        FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
     }
 
 }

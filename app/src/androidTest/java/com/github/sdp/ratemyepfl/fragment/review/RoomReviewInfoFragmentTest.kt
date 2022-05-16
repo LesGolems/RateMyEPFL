@@ -17,7 +17,7 @@ import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -98,7 +98,7 @@ class RoomReviewInfoFragmentTest {
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+        FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
     }
 
     @Test

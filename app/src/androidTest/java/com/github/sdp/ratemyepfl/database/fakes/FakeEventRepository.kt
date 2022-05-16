@@ -17,8 +17,10 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
 
     companion object {
         private val DATE: LocalDateTime = LocalDateTime.now()
-        private val baseEvent =
-            Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0, DATE)
+        private val baseEvent = Event(
+            "name", "name", 0, 0, listOf(),
+            "creator", 0.0, 0, 0.0, 0.0, DATE
+        )
         val EVENT_LIST = listOf(
             baseEvent.copy(
                 name = "Evenement de dingue",
@@ -57,10 +59,12 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun add(item: Event): Task<Void> {
         return Mockito.mock(Task::class.java) as Task<Void>
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun addEventWithId(event: Event): Task<Void> {
         return Mockito.mock(Task::class.java) as Task<Void>
     }

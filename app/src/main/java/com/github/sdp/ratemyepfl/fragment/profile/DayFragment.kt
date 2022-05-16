@@ -43,6 +43,7 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

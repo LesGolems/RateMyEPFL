@@ -35,6 +35,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
          *
          * @return the review if the json contains the necessary data, null otherwise
          */
+        @Suppress("UNCHECKED_CAST")
         fun DocumentSnapshot.toReview(): Review? = try {
             val builder = Review.Builder()
                 .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })

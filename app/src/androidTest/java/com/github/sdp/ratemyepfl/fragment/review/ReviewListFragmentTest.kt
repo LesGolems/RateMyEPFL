@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
-import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -212,7 +212,7 @@ class ReviewListFragmentTest {
     @Test
     fun swipeRefreshes() {
         launch()
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -221,7 +221,7 @@ class ReviewListFragmentTest {
                 .build()
         )
         Thread.sleep(2000) // if no wait, the new list is direclty displayed
-        FakeReviewsRepository.reviewList = FakeReviewsRepository.fakeList
+        FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
         onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
         onView(withId(R.id.reviewRecyclerView)).check(matches(not(hasChildCount(1))))
@@ -230,7 +230,7 @@ class ReviewListFragmentTest {
     @Test
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -238,14 +238,14 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_1,
-                        FakeReviewsRepository.FAKE_UID_2
+                        FakeReviewRepository.FAKE_UID_1,
+                        FakeReviewRepository.FAKE_UID_2
                     )
                 )
                 .setDislikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_3,
-                        FakeReviewsRepository.FAKE_UID_4
+                        FakeReviewRepository.FAKE_UID_3,
+                        FakeReviewRepository.FAKE_UID_4
                     )
                 )
                 .setUid(FakeUserRepository.UID1)
@@ -261,7 +261,7 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -269,14 +269,14 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_1,
-                        FakeReviewsRepository.FAKE_UID_2
+                        FakeReviewRepository.FAKE_UID_1,
+                        FakeReviewRepository.FAKE_UID_2
                     )
                 )
                 .setDislikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_3,
-                        FakeReviewsRepository.FAKE_UID_4
+                        FakeReviewRepository.FAKE_UID_3,
+                        FakeReviewRepository.FAKE_UID_4
                     )
                 )
                 .setUid(FakeUserRepository.UID1)
@@ -292,7 +292,7 @@ class ReviewListFragmentTest {
     @Test
     fun likeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -300,14 +300,14 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_1,
-                        FakeReviewsRepository.FAKE_UID_2
+                        FakeReviewRepository.FAKE_UID_1,
+                        FakeReviewRepository.FAKE_UID_2
                     )
                 )
                 .setDislikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_3,
-                        FakeReviewsRepository.FAKE_UID_4
+                        FakeReviewRepository.FAKE_UID_3,
+                        FakeReviewRepository.FAKE_UID_4
                     )
                 )
                 .setUid(FakeUserRepository.UID1)
@@ -323,7 +323,7 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -331,14 +331,14 @@ class ReviewListFragmentTest {
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_1,
-                        FakeReviewsRepository.FAKE_UID_2
+                        FakeReviewRepository.FAKE_UID_1,
+                        FakeReviewRepository.FAKE_UID_2
                     )
                 )
                 .setDislikers(
                     listOf(
-                        FakeReviewsRepository.FAKE_UID_3,
-                        FakeReviewsRepository.FAKE_UID_4
+                        FakeReviewRepository.FAKE_UID_3,
+                        FakeReviewRepository.FAKE_UID_4
                     )
                 )
                 .setUid(FakeUserRepository.UID1)
@@ -369,7 +369,7 @@ class ReviewListFragmentTest {
     fun deleteButtonRemovesReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
 
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -390,7 +390,7 @@ class ReviewListFragmentTest {
 
         refresh()
 
-        assertEquals(listOf<Review>(), FakeReviewsRepository.reviewList)
+        assertEquals(listOf<Review>(), FakeReviewRepository.reviewList)
     }
 
     @Test
@@ -409,7 +409,7 @@ class ReviewListFragmentTest {
     @Test
     fun likeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
@@ -429,7 +429,7 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        FakeReviewsRepository.reviewList = listOf(
+        FakeReviewRepository.reviewList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)

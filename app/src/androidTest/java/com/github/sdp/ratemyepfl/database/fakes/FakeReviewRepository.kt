@@ -14,7 +14,7 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class FakeReviewsRepository @Inject constructor() : ReviewRepository {
+class FakeReviewRepository @Inject constructor() : ReviewRepository {
 
     companion object {
         const val FAKE_UID_1 = "ID1"

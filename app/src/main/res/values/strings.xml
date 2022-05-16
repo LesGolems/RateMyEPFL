@@ -7,9 +7,6 @@
     <string name="alphabetic_order">A-Z</string>
     <string name="alphabetic_order_decreasing">Z-A</string>
     <string name="cancel_button_text">Cancel</string>
-    <string name="sort_alphabetically">Sort alphabetically</string>
-    <string name="increasing_order">A-Z</string>
-    <string name="decreasing_order">Z-A</string>
     <string name="credits">Credits</string>
     <string name="login_google_text">Sign In with Google</string>
     <string name="visitor_text">Continue as a visitor</string>
@@ -83,7 +80,6 @@
     <string name="database_error_loading_text">Failed to retrieve data</string>
     <string name="section_picker_title">Section</string>
     <string name="cycle_picker_title">Cycle</string>
-    <string name="sort_by_grade_picker_title">Sort by grade</string>
     <string name="best_rated_order_title">Best rated</string>
     <string name="worst_rated_order_title">Worst rated</string>
     <string name="section_item_description">sectionItem</string>
@@ -132,4 +128,6 @@
     <string name="day_class_creation">Select the day and time</string>
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="button_for_deleting_a_review">Button for deleting a review</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
 </resources>

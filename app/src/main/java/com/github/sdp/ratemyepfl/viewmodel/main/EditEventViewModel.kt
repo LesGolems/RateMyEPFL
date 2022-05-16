@@ -38,7 +38,8 @@ class EditEventViewModel @Inject constructor(
     val eventLimPart: Int? = savedStateHandle.get<Int>(EditEventActivity.EXTRA_EVENT_LIM_PART)
     val eventTime: IntArray? = savedStateHandle.get<IntArray>(EditEventActivity.EXTRA_EVENT_TIME)
     val eventDate: IntArray? = savedStateHandle.get<IntArray>(EditEventActivity.EXTRA_EVENT_DATE)
-    private val eventLocation: DoubleArray? = savedStateHandle.get<DoubleArray>(EditEventActivity.EXTRA_EVENT_LOCATION)
+    private val eventLocation: DoubleArray? =
+        savedStateHandle.get<DoubleArray>(EditEventActivity.EXTRA_EVENT_LOCATION)
 
     val title: MutableLiveData<String> = MutableLiveData(eventTitle)
     private val limPart: MutableLiveData<Int> = MutableLiveData(eventLimPart)
