@@ -29,8 +29,8 @@ class UserViewModel @Inject constructor(
     val picture: MutableLiveData<ImageFile?> = MutableLiveData(null)
     val isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    var newUsername: String? = null
-    var newEmail: String? = null
+    private var newUsername: String? = null
+    private var newEmail: String? = null
 
     init {
         refreshUser()

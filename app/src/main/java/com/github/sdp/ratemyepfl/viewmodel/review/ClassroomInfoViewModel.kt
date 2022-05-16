@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
@@ -18,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ClassroomInfoViewModel @Inject constructor(
     private val classroomRepo: ClassroomRepository,
-    private val gradeInfoRepo: GradeInfoRepository,
     private val roomNoiseRepo: RoomNoiseRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

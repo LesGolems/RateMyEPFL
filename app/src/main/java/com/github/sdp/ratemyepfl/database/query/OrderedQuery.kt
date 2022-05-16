@@ -314,7 +314,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      *
      * @throws IllegalStateException if one of the fields is ordered by [DESCENDING]
      */
-    fun match(prefixes: List<String?>): OrderedQuery {
+    private fun match(prefixes: List<String?>): OrderedQuery {
         if (fields.orders().any { it == OrderDirection.DESCENDING }) {
             throw IllegalStateException("Cannot match on a descending order")
         }

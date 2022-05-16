@@ -9,7 +9,7 @@ import javax.inject.Inject
 class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
 
     init {
-        images.put("12345", ImageFile("12345", resourceToBitmap(R.raw.pp1)))
+        images["12345"] = ImageFile("12345", resourceToBitmap(R.raw.pp1))
     }
 
     companion object {

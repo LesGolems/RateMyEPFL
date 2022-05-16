@@ -70,7 +70,6 @@ class QueryResultTest {
     @Test
     fun mapErrorIsConsistent() = runTest {
         val error = RuntimeException()
-        val expected = QueryResult.failure<Int>(error)
         failure
             .mapError { error }
             .collect {

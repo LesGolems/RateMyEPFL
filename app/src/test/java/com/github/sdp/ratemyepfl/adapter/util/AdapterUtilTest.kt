@@ -40,7 +40,7 @@ class AdapterUtilTest {
         assertEquals(false, diff)
     }
 
-    class Item(val id: String, val content: String, val garbage: String) {
+    class Item(val id: String, private val content: String, val garbage: String) {
         override fun toString(): String {
             return content
         }

@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
 import com.github.sdp.ratemyepfl.database.LoaderRepository
-import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Reviewable

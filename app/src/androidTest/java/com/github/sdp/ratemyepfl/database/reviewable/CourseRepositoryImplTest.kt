@@ -28,7 +28,6 @@ class CourseRepositoryImplTest {
     private val fake = "fake"
     private val grade = 0.0
     private val numReviews = 0
-    private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder = Course.Builder(
         fake,

@@ -24,7 +24,7 @@ class LoaderRepositoryImplTest {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    val collectionPath = "loaderTest"
+    private val collectionPath = "loaderTest"
 
     private lateinit var repository: LoaderRepositoryImpl<Item>
 

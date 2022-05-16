@@ -32,7 +32,6 @@ class CourseListViewModelTest {
     lateinit var repository: CourseRepositoryImpl
 
     private val fake = "fake"
-    private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder = Course.Builder(
         fake,

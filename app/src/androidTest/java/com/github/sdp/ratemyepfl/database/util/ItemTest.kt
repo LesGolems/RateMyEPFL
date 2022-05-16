@@ -27,8 +27,13 @@ class ItemTest {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    lateinit var collection: CollectionReference
-    lateinit var repository: Repository<Item>
+    private lateinit var collection: CollectionReference
+    private lateinit var _repository: Repository<Item>
+    var repository: Repository<Item>
+        get() = _repository
+        set(value) {
+            _repository = value
+        }
 
     @Before
     fun setup() {
@@ -46,7 +51,7 @@ class ItemTest {
     @Test
     fun test2() = runTest {
         val item = Item("id", 0)
-        val i = repository.query()
+        repository.query()
             .whereEqualTo(Item.ID_FIELD, "id")
             .execute(1u)
             .mapResult { it.mapNotNull { it.toItem() } }

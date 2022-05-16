@@ -57,7 +57,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
-    override fun add(event: Event): Task<Void> {
+    override fun add(item: Event): Task<Void> {
         return Mockito.mock(Task::class.java) as Task<Void>
     }
 
@@ -87,6 +87,5 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         long: Double,
         date: LocalDateTime
     ) {
-        val e = baseEvent
     }
 }

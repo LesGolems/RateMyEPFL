@@ -24,7 +24,7 @@ import javax.inject.Inject
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     companion object {
-        val SELECT_IMAGE = 1044
+        const val SELECT_IMAGE = 1044
     }
 
     private lateinit var profilePicture: CircleImageView
@@ -74,14 +74,14 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    val updatePicture = View.OnClickListener {
+    private val updatePicture = View.OnClickListener {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, "Select a picture"), SELECT_IMAGE)
     }
 
-    val updateProfile = View.OnClickListener {
+    private val updateProfile = View.OnClickListener {
         if (currentUser.isLoggedIn()) {
             if (!it.isActivated) {
                 enableModifications(true)

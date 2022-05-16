@@ -24,5 +24,5 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 
-    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? = measureInfo
+    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo = measureInfo
 }

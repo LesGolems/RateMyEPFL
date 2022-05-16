@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 @ExperimentalCoroutinesApi
 class ImageStorageTest {
-    val pic = ImageFile("testPic", resourceToBitmap(R.raw.pp1))
+    private val pic = ImageFile("testPic", resourceToBitmap(R.raw.pp1))
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

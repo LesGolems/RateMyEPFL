@@ -26,6 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class ReviewFragmentTest {
     @get:Rule

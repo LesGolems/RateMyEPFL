@@ -13,7 +13,7 @@ import javax.inject.Inject
 class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
 
     companion object {
-        val NO_REVIEW = GradeInfo("id", mapOf())
+        private val NO_REVIEW = GradeInfo("id", mapOf())
         var gradeById = NO_REVIEW
     }
 

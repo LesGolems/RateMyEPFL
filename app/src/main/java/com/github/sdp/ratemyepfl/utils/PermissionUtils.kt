@@ -26,13 +26,13 @@ object PermissionUtils {
     /**
      * Checks whether [permission] is granted in the current [Context].
      */
-    fun hasPermission(context: Context, permission: String): Boolean =
+    private fun hasPermission(context: Context, permission: String): Boolean =
         ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
     /**
      * Checks whether all [permissions] are granted in the current [Context].
      */
-    fun hasAllPermissions(context: Context, permissions: Array<String>): Boolean =
+    private fun hasAllPermissions(context: Context, permissions: Array<String>): Boolean =
         permissions.all { hasPermission(context, it) }
 
     /**

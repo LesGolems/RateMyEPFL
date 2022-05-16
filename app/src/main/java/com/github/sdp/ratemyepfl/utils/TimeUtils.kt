@@ -9,7 +9,7 @@ import java.util.*
 
 object TimeUtils {
 
-    const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+    private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS"
     private val EPFL_ZONE_ID = ZoneId.of("Europe/Zurich")
     private val EPFL_TIME_ZONE = TimeZone.getTimeZone(EPFL_ZONE_ID)
 

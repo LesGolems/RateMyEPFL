@@ -55,7 +55,7 @@ class MainActivityTest {
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    fun updateLocation(latitude: Double, longitude: Double) {
+    private fun updateLocation(latitude: Double, longitude: Double) {
         val location = Location(providerName)
         location.latitude = latitude
         location.longitude = longitude
@@ -215,7 +215,7 @@ class MainActivityTest {
     private fun navigate(destination: Destination): ViewInteraction =
         onView(withId(R.id.activityMainBottomNavigationView)).perform(navigateTo(destination.id))
 
-    enum class Destination(val id: Int, val stringId: Int) {
+    enum class Destination(val id: Int, private val stringId: Int) {
         HOME(R.id.home, R.string.home_nav_title),
         REVIEW(R.id.review, R.string.reviews_nav_title),
         EVENT(R.id.event, R.string.event_page_title),

@@ -262,6 +262,7 @@ class QueryTest {
             .collect {
                 when (it) {
                     is QueryState.Failure -> assertEquals(true, it.error is DatabaseException)
+                    else -> {}
                 }
             }
     }

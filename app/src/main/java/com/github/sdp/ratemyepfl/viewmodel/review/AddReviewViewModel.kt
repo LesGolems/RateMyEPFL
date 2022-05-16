@@ -49,7 +49,7 @@ class AddReviewViewModel @Inject constructor(
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
     val title: MutableLiveData<String> = MutableLiveData(null)
     val comment: MutableLiveData<String> = MutableLiveData(null)
-    var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * Set the rating entered by the user
