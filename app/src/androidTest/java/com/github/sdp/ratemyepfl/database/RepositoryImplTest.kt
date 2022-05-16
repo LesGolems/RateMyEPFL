@@ -65,7 +65,7 @@ class RepositoryImplTest {
         val item = Item(id, data)
         clearRepo()
         runTest {
-            initialItems.forEach {
+            initialItems.forEach { _ ->
                 repository.add(item).await()
             }
             repository.add(item).await()

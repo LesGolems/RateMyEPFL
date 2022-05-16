@@ -5,14 +5,16 @@ import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 
-/**
- * Click on a child view with specified id.
- */
-fun clickOnViewChild(viewId: Int) = object : ViewAction {
-    override fun getConstraints() = null
+object RecyclerViewUtils {
+    /**
+     * Click on a child view with specified id.
+     */
+    fun clickOnViewChild(viewId: Int) = object : ViewAction {
+        override fun getConstraints() = null
 
-    override fun getDescription() = "Click on a child view with specified id."
+        override fun getDescription() = "Click on a child view with specified id."
 
-    override fun perform(uiController: UiController, view: View) =
-        click().perform(uiController, view.findViewById(viewId))
+        override fun perform(uiController: UiController, view: View) =
+            click().perform(uiController, view.findViewById(viewId))
+    }
 }

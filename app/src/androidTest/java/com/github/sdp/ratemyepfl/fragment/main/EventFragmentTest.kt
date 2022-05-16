@@ -19,7 +19,7 @@ import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeEventRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
-import com.github.sdp.ratemyepfl.utils.clickOnViewChild
+import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

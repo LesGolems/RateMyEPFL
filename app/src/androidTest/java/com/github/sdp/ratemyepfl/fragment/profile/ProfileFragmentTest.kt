@@ -34,7 +34,7 @@ class ProfileFragmentTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    var mRuntimePermissionRule =
+    var mRuntimePermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     @ExperimentalCoroutinesApi

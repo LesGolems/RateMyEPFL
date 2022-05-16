@@ -5,11 +5,12 @@ import androidx.core.view.ViewCompat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.viewpager2.widget.ViewPager2
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.Matcher
 
 object ViewPagerAction {
@@ -22,12 +23,12 @@ object ViewPagerAction {
         override fun getDescription(): String = "Swiping $direction"
 
         override fun getConstraints(): Matcher<View> =
-            CoreMatchers.allOf(
-                CoreMatchers.anyOf(
-                    ViewMatchers.isAssignableFrom(ViewPager2::class.java),
-                    ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(ViewPager2::class.java))
+            allOf(
+                anyOf(
+                    isAssignableFrom(ViewPager2::class.java),
+                    isDescendantOfA(isAssignableFrom(ViewPager2::class.java))
                 ),
-                ViewMatchers.isDisplayingAtLeast(90)
+                isDisplayingAtLeast(90)
             )
 
         override fun perform(uiController: UiController, view: View) {
@@ -41,27 +42,25 @@ object ViewPagerAction {
                 parent as ViewPager2
             }
             val isForward = direction == Direction.FORWARD
-            val swipeAction: ViewAction
-            if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                swipeAction =
-                    if (isForward == vp.isRtl()) ViewActions.swipeRight() else ViewActions.swipeLeft()
+            val swipeAction: ViewAction = if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                if (isForward == vp.isRtl()) swipeRight() else swipeLeft()
             } else {
-                swipeAction = if (isForward) ViewActions.swipeUp() else ViewActions.swipeDown()
+                if (isForward) swipeUp() else swipeDown()
             }
             swipeAction.perform(uiController, view)
         }
 
-        private fun ViewPager2.isRtl(): Boolean {
-            return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
-        }
+        private fun ViewPager2.isRtl(): Boolean =
+            ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
     }
 
-    fun onViewPager() = onView(isAssignableFrom(ViewPager2::class.java))
+    private fun onViewPager(): ViewInteraction =
+        onView(isAssignableFrom(ViewPager2::class.java))
 
-    fun swipeNext() = onViewPager()
-        .perform(SwipeAction(SwipeAction.Direction.FORWARD))
+    fun swipeNext(): ViewInteraction =
+        onViewPager().perform(SwipeAction(SwipeAction.Direction.FORWARD))
 
-    fun swipePrevious() = onViewPager()
-        .perform(SwipeAction(SwipeAction.Direction.BACKWARD))
+    fun swipePrevious(): ViewInteraction =
+        onViewPager().perform(SwipeAction(SwipeAction.Direction.BACKWARD))
 
 }

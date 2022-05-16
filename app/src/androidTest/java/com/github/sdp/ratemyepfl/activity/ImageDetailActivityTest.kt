@@ -10,10 +10,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchIn
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.FingerGestureActions.pinchOut
+import com.github.sdp.ratemyepfl.utils.TestUtils.getString
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
+import com.github.sdp.ratemyepfl.utils.UiUtils.objectWithDescription
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -60,12 +60,12 @@ class ImageDetailActivityTest {
 
     @Test
     fun imageIsZoomedInWhenUserPinchesOut() {
-        onView(withId(R.id.detailImageView)).perform(pinchOut())
+        objectWithDescription(getString(R.string.image_seen_in_detail)).pinchOut(100, 100)
     }
 
     @Test
     fun imageIsZoomedOutWhenUserPinchesIn() {
-        onView(withId(R.id.detailImageView)).perform(pinchIn())
+        objectWithDescription(getString(R.string.image_seen_in_detail)).pinchIn(100, 100)
     }
 
 }

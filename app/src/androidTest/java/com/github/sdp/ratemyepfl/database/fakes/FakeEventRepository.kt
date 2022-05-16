@@ -16,7 +16,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
     override val offlineData: List<Event> = listOf()
 
     companion object {
-        val DATE = LocalDateTime.now()
+        private val DATE: LocalDateTime = LocalDateTime.now()
         private val baseEvent =
             Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0, DATE)
         val EVENT_LIST = listOf(

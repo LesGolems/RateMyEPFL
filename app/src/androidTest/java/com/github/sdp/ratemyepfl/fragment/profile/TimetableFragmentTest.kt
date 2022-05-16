@@ -12,7 +12,6 @@ import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.HiltTestActivity
@@ -25,8 +24,8 @@ import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TabAction
-import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -39,6 +38,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class TimetableFragmentTest {
     lateinit var scenario: ActivityScenario<HiltTestActivity>
@@ -53,7 +53,6 @@ class TimetableFragmentTest {
     lateinit var roomRepo: ClassroomRepositoryImpl
 
     private val courses = CourseRepositoryImpl.OFFLINE_COURSES
-
     private val rooms = ClassroomRepositoryImpl.OFFLINE_CLASSROOMS
 
     @Before
@@ -294,8 +293,7 @@ class TimetableFragmentTest {
 
         onView(withId(R.id.classRecyclerView)).perform(
             RecyclerViewActions.actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
-                0,
-                clickOnViewChild(R.id.room)
+                0, clickOnViewChild(R.id.room)
             )
         )
         intended(toPackage("com.github.sdp.ratemyepfl"))
@@ -312,14 +310,8 @@ class TimetableFragmentTest {
     }
 
     private fun checkDay(day: Int) {
-        onView(
-            withText(
-                FakeUserRepository.timetable[0].name
-            )
-        ).check(
-            matches(
-                ViewMatchers.isDisplayed()
-            )
+        onView(withText(FakeUserRepository.timetable[day].name)).check(
+            matches(isDisplayed())
         )
     }
 

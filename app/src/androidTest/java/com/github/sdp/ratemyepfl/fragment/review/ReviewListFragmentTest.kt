@@ -22,11 +22,11 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
-import com.github.sdp.ratemyepfl.utils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
