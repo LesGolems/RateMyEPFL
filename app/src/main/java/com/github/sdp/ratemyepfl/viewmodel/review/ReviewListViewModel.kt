@@ -30,7 +30,7 @@ open class ReviewListViewModel @Inject constructor(
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

@@ -18,7 +18,7 @@ import javax.inject.Inject
 class ClassroomInfoViewModel @Inject constructor(
     private val classroomRepo: ClassroomRepository,
     private val roomNoiseRepo: RoomNoiseRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

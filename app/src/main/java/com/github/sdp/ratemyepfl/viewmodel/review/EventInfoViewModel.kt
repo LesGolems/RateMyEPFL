@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventInfoViewModel @Inject constructor(
     private val eventRepo: EventRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

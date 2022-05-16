@@ -31,7 +31,7 @@ class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val connectedUser: ConnectedUser,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

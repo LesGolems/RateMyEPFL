@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RestaurantInfoViewModel @Inject constructor(
     private val restaurantRepo: RestaurantRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -36,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@string/title_review_list" />
+            android:text="@string/title_review_list"
+            tools:ignore="RelativeOverlap" />
 
         <ImageButton
             android:id="@+id/deleteButton"
@@ -44,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@color/white"
+            android:contentDescription="@string/button_for_deleting_a_review"
             android:src="@drawable/ic_delete_outline" />
 
         <TextView

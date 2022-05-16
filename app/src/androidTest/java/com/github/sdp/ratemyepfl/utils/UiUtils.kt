@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.utils
 
-import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject

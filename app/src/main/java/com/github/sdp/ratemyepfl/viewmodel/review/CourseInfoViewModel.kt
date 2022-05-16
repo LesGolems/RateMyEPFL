@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CourseInfoViewModel @Inject constructor(
     private val courseRepo: CourseRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id

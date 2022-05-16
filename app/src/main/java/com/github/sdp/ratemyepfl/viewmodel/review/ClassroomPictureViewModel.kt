@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 open class ClassroomPictureViewModel @Inject constructor(
     private val imageStorage: Storage<ImageFile>,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Room id

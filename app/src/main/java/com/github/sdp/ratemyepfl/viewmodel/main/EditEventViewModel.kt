@@ -20,7 +20,7 @@ import javax.inject.Inject
 class EditEventViewModel @Inject constructor(
     private val eventRepo: EventRepository,
     private val connectedUser: ConnectedUser,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     companion object {

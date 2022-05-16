@@ -105,8 +105,7 @@ class CourseTabFragmentTest {
         Thread.sleep(1000)
         init()
 
-        onView(withText(courses.first().toString()))
-            .perform(click())
+        onView(withText(courses.first().toString())).perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }
@@ -116,9 +115,7 @@ class CourseTabFragmentTest {
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
         CustomViewActions.SearchAction.query("Advanced")
         onView(isAssignableFrom(RecyclerView::class.java))
-            .check(
-                matches(hasDescendant(withText(courses.first().toString())))
-            )
+            .check(matches(hasDescendant(withText(courses.first().toString()))))
     }
 
 //    @Test
