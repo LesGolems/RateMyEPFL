@@ -28,32 +28,32 @@
         app:showAsAction="never">
         <menu>
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_2"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_2" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_3"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_3" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_4"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_4" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_5"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_5" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_6"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_6" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_7"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_7" />
             <item
-                android:contentDescription="@string/credits_item"
                 android:id="@+id/credit_8"
+                android:contentDescription="@string/credits_item"
                 android:title="@string/credit_8" />
         </menu>
     </item>
@@ -67,15 +67,15 @@
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/architecture_section_title"
-                android:titleCondensed="AR"/>
+                android:titleCondensed="AR" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/chemical_engineering_section_title"
-                android:titleCondensed="CGC"/>
+                android:titleCondensed="CGC" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/civil_engineering_section_title"
-                android:titleCondensed="GC"/>
+                android:titleCondensed="GC" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/communication_systems_section_title"
@@ -84,51 +84,51 @@
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/computer_sciences_section_title"
-                android:titleCondensed="IN"/>
+                android:titleCondensed="IN" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/electrical_engineering_section_title"
-                android:titleCondensed="EL"/>
+                android:titleCondensed="EL" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/environmental_engineering_section_title"
-                android:titleCondensed="SIE"/>
+                android:titleCondensed="SIE" />
 
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/financial_engineering_section_title"
-                android:titleCondensed="IF"/>
+                android:titleCondensed="IF" />
 
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/life_sciences_section_title"
-                android:titleCondensed="SV"/>
+                android:titleCondensed="SV" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/material_engineering_section_title"
-                android:titleCondensed="MX"/>
+                android:titleCondensed="MX" />
             <item
-            android:contentDescription="@string/section_item_description"
-            android:title="@string/mathematics_section_title"
-            android:titleCondensed="MA" />
+                android:contentDescription="@string/section_item_description"
+                android:title="@string/mathematics_section_title"
+                android:titleCondensed="MA" />
 
             <item
-            android:contentDescription="@string/section_item_description"
-            android:title="@string/mechanical_engineering_section_title"
-            android:titleCondensed="GM"/>
+                android:contentDescription="@string/section_item_description"
+                android:title="@string/mechanical_engineering_section_title"
+                android:titleCondensed="GM" />
 
             <item
-            android:contentDescription="@string/section_item_description"
-            android:title="@string/micro_engineering_section_title"
-            android:titleCondensed="MT"/>
+                android:contentDescription="@string/section_item_description"
+                android:title="@string/micro_engineering_section_title"
+                android:titleCondensed="MT" />
             <item
                 android:contentDescription="@string/section_item_description"
                 android:title="@string/mte_section_title"
-                android:titleCondensed="MTE"/>
+                android:titleCondensed="MTE" />
             <item
-            android:contentDescription="@string/section_item_description"
-            android:title="@string/physics_section_title"
-            android:titleCondensed="PH"/>
+                android:contentDescription="@string/section_item_description"
+                android:title="@string/physics_section_title"
+                android:titleCondensed="PH" />
 
 
         </menu>
@@ -142,15 +142,15 @@
             <item
                 android:contentDescription="@string/cycle_picker_description"
                 android:title="@string/cycle_propedeutics_field_title"
-                android:titleCondensed="@string/cycle_propedeutics_field_title"/>
+                android:titleCondensed="@string/cycle_propedeutics_field_title" />
             <item
                 android:contentDescription="@string/cycle_picker_description"
                 android:title="@string/cycle_bachelor_title"
-                android:titleCondensed="@string/cycle_bachelor_field_title"/>
+                android:titleCondensed="@string/cycle_bachelor_field_title" />
             <item
                 android:contentDescription="@string/cycle_picker_description"
                 android:title="@string/cycle_master_title"
-                android:titleCondensed="@string/cycle_master_field_title"/>
+                android:titleCondensed="@string/cycle_master_field_title" />
         </menu>
     </item>
 </menu>

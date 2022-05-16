@@ -15,8 +15,7 @@
         android:layout_height="75dp"
         android:background="@raw/blank_profile_picture"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </de.hdodenhof.circleimageview.CircleImageView>
+        app:layout_constraintTop_toTopOf="parent"></de.hdodenhof.circleimageview.CircleImageView>
 
     <include
         layout="@layout/karma_display"

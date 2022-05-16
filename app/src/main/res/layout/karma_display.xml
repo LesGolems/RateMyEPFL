@@ -9,26 +9,26 @@
         android:id="@+id/coin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_karma"
         android:layout_marginEnd="5dp"
+        android:contentDescription="@string/coin"
+        android:src="@drawable/ic_karma"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/coin" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/karmaCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_coin"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textColor="@android:color/black"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="7dp"
+        android:text="@string/no_coin"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

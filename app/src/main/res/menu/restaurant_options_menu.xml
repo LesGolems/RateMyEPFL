@@ -20,7 +20,7 @@
                 android:title="@string/worst_rated_order_title" />
             <item
                 android:id="@+id/closest"
-                android:title="@string/closest_restaurant_title"/>
+                android:title="@string/closest_restaurant_title" />
         </menu>
     </item>
 
