@@ -11,7 +11,6 @@ import com.google.firebase.firestore.DocumentSnapshot
  * query and ensure that the same data is not loaded twice.
  *
  * @param repository: the repository to decorate with [load]
- * @param transform: the transform to apply on a [DocumentSnapshot] to obtain a [T]
  */
 class LoaderRepositoryImpl<T : RepositoryItem>(
     val repository: RepositoryImpl<T>,

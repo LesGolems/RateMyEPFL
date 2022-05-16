@@ -244,7 +244,7 @@ class MainActivityTest {
         checkMapPage()
     }
 
-    private fun <T> first(matcher: Matcher<T>): Matcher<T>? {
+    private fun <T> first(matcher: Matcher<T>): Matcher<T> {
         return object : BaseMatcher<T>() {
             var isFirst = true
             override fun matches(item: Any): Boolean {

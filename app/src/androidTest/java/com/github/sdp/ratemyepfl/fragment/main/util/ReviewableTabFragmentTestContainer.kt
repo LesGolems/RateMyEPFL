@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.main.util
 
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
@@ -29,7 +28,7 @@ import kotlin.reflect.KClass
  * Container for behavior that is inherited from a [ReviewableTabFragment]
  */
 class ReviewableTabFragmentTestContainer<U : Reviewable, T : ReviewableTabFragment<U>> constructor(
-    val testedFragment: KClass<T>
+    private val testedFragment: KClass<T>
 ) {
 
     /**
@@ -96,7 +95,7 @@ class ReviewableTabFragmentTestContainer<U : Reviewable, T : ReviewableTabFragme
                     this.perform(click())
                 }
             }
-        val text: String? = getList()?.map { it.toString() }
+        val text: String = getList()?.map { it.toString() }
             ?.sortedBy {
                 it
             }?.let {
@@ -107,14 +106,14 @@ class ReviewableTabFragmentTestContainer<U : Reviewable, T : ReviewableTabFragme
         onRecyclerView().check(matches(hasDescendant(withText(text))))
     }
 
-    fun onRecyclerView(): ViewInteraction = onView(isAssignableFrom(RecyclerView::class.java))
+    private fun onRecyclerView(): ViewInteraction =
+        onView(isAssignableFrom(RecyclerView::class.java))
 
     @ExperimentalCoroutinesApi
     fun startReviewOnClick() {
         createScenario()
         init()
-        Espresso.onView(withText(getItem(0)?.toString()))
-            .perform(click())
+        onView(withText(getItem(0)?.toString())).perform(click())
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }

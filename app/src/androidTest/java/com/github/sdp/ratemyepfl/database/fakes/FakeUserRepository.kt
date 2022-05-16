@@ -14,7 +14,7 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     companion object {
         val timetable: ArrayList<Class> =
-            arrayListOf<Class>(
+            arrayListOf(
                 Class("CS-306", "Bamboula", "René", "CM3", 0, 10, 12),
                 Class("fake", "pain", "singe", "in", 1, 8, 14)
             )

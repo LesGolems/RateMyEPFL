@@ -35,7 +35,7 @@ class GradeInfoRepositoryImpl private constructor(
     ) : this(
         RepositoryImpl<GradeInfo>(
             db,
-            GradeInfoRepositoryImpl.GRADE_INFO_COLLECTION_PATH
+            GRADE_INFO_COLLECTION_PATH
         ) {
             it.toGradeInfo()
         }, courseRepository, classroomRepository, restaurantRepository, eventRepository

@@ -176,8 +176,8 @@ class ReviewTest {
 
     @Test
     fun serializeWorks() {
-        val serializedReview = Companion.EXPECTED_REVIEW.serialize()
-        assertEquals(serializedReview, Companion.EXPECTED_JSON)
+        val serializedReview = EXPECTED_REVIEW.serialize()
+        assertEquals(serializedReview, EXPECTED_JSON)
     }
 
     companion object {

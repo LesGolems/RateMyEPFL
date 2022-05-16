@@ -13,7 +13,7 @@ class ItemSerializerTest {
     fun serializationTestForClassroom() {
         val t: Reviewable = Classroom("a", 0.0, 0)
         val ser: String = ItemSerializer.serialize(t)
-        val deser: Reviewable? = ItemSerializer.deserialize(ser)
+        val deser: Reviewable = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
     }
 
@@ -21,7 +21,7 @@ class ItemSerializerTest {
     fun serializationTestForCourse() {
         val t: Reviewable = Course("", "", "", 0, "", 0.0, 0)
         val ser: String = ItemSerializer.serialize(t)
-        val deser: Reviewable? = ItemSerializer.deserialize(ser)
+        val deser: Reviewable = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
     }
 
@@ -29,7 +29,7 @@ class ItemSerializerTest {
     fun serializationTestForRestaurant() {
         val t: Reviewable = Restaurant("a", 0, 0.0, 0, 0.0, 0.0)
         val ser: String = ItemSerializer.serialize(t)
-        val deser: Reviewable? = ItemSerializer.deserialize(ser)
+        val deser: Reviewable = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
     }
 
@@ -42,7 +42,7 @@ class ItemSerializerTest {
             .setGrade(0.0)
             .setNumReviews(0)
             .build()
-        val ser: String = "bad serialization"
+        val ser = "bad serialization"
 
         assertThrows(
             Exception::class.java

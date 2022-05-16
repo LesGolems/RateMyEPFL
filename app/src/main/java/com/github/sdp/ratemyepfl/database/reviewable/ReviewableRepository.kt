@@ -11,9 +11,6 @@ import java.lang.Integer.min
 
 /**
  * Decorator for Repository that defines reviewable related operations
- *
- * @param repository: a [LoaderRepositoryImpl] to decorate
- * @param idFieldName: the name of the field that holds the id of the [Reviewable]
  */
 interface ReviewableRepository<T : Reviewable> : LoaderRepository<T> {
 

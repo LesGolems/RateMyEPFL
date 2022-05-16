@@ -26,7 +26,7 @@ object CustomViewActions {
                 return "Custom view action to press navigation view"
             }
 
-            override fun perform(uiController: UiController?, view: android.view.View?) {
+            override fun perform(uiController: UiController?, view: View?) {
                 perform(uiController, view)
             }
         }

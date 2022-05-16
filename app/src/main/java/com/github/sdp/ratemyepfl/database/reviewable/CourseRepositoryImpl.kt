@@ -42,7 +42,7 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
         const val GRADING_FIELD_NAME = "grading"
         const val LANGUAGE_FIELD_NAME = "language"
 
-        val OFFLINE_COURSES = listOf<Course>(
+        val OFFLINE_COURSES = listOf(
             Course(
                 title = "Advanced information, computation, communication I",
                 section = "IC",
@@ -134,7 +134,7 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
 
     private val loadQuery = repository
         .query()
-        .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
+        .orderBy(AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
         .orderBy(COURSE_CODE_FIELD_NAME)
 
 

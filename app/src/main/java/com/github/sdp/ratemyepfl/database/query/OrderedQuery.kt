@@ -130,7 +130,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * with [whereArrayContainsAny].
      *
      * @param field: the field to filter
-     * @param values: the values to filter with
+     * @param value: the value to filter with
      *
      * @return a filtered [OrderedQuery]
      */
@@ -297,8 +297,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      */
     fun orderBy(
         field: String,
-        direction: com.google.firebase.firestore.Query.Direction =
-            com.google.firebase.firestore.Query.Direction.ASCENDING
+        direction: com.google.firebase.firestore.Query.Direction = ASCENDING
     ): OrderedQuery =
         if (fields.names().contains(field))
             throw IllegalArgumentException("Cannot order the query twice on the same field ($field)")

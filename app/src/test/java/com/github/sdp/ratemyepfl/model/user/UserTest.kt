@@ -18,7 +18,7 @@ class UserTest {
     @Test
     fun constructorWithLoggedInUserWorks() {
         val user = User(object : ConnectedUser {
-            override fun getUsername(): String? {
+            override fun getUsername(): String {
                 return "Jean"
             }
 
@@ -26,11 +26,11 @@ class UserTest {
                 return true
             }
 
-            override fun getUserId(): String? {
+            override fun getUserId(): String {
                 return "12345"
             }
 
-            override fun getEmail(): String? {
+            override fun getEmail(): String {
                 return "user@email.ch"
             }
         })

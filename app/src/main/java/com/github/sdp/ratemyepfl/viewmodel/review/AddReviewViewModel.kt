@@ -81,7 +81,7 @@ class AddReviewViewModel @Inject constructor(
      * @return the rating of the review or null if the construction didn't work
      * @throws IllegalStateException if the user is not connected, or if one of the fields is empty
      */
-    fun submitReview(): ReviewRating? {
+    fun submitReview(): ReviewRating {
         val rating = rating.value
         val comment = comment.value
         val title = title.value

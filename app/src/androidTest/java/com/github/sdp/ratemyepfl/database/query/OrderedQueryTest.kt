@@ -174,14 +174,14 @@ class OrderedQueryTest {
         assertThrows(IllegalArgumentException::class.java) {
             query.orderBy(Item.DATA_FIELD)
         }
-        checkQuery(query.orderBy(Item.ID_FIELD),
+        checkQuery(query.orderBy(ID_FIELD),
             items.sortedBy { it.data })
     }
 
     @Test
     fun orderByReverse() = runTest {
         query.orderBy(
-            Item.ID_FIELD,
+            ID_FIELD,
             com.google.firebase.firestore.Query.Direction.DESCENDING
         ).execute(1000u)
             .mapResult { it.mapNotNull { it.toItem() } }

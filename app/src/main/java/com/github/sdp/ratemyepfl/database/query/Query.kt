@@ -129,7 +129,7 @@ data class Query(private val query: FirebaseQuery) {
      * with [whereArrayContainsAny].
      *
      * @param field: the field to filter
-     * @param values: the values to filter with
+     * @param value: the value to filter with
      *
      * @return a filtered [Query]
      */

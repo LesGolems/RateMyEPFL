@@ -17,7 +17,7 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
         var gradeById = NO_REVIEW
     }
 
-    override suspend fun getGradeInfoById(itemId: String): GradeInfo? = gradeById
+    override suspend fun getGradeInfoById(itemId: String): GradeInfo = gradeById
 
     override suspend fun updateLikeRatio(
         item: Reviewable,

@@ -62,8 +62,8 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     }
 
     /**
-     * Starts a [EventActivity] for the corresponding [Reviewable].
-     * @param reviewable: the reviewable for which we display the reviews
+     * Starts a [ReviewActivity] for the corresponding [Event].
+     * @param event: the event for which we display the reviews
      */
     private fun displayReviews(event: Event) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)

@@ -24,7 +24,6 @@ interface Repository<T : RepositoryItem> : Queryable {
      */
     suspend fun getById(id: String): DocumentSnapshot
 
-
     /**
      * @param id : the identifier of the item to delete
      */
@@ -44,9 +43,6 @@ interface Repository<T : RepositoryItem> : Queryable {
      * @param id: The id of the document to edit
      * @param transform: the transform to apply to the stored data
      *
-     * @throws DatabaseException: if the document does not exist.
-     *
-     * @return
      */
     fun update(id: String, transform: (T) -> T): Task<Transaction>
 

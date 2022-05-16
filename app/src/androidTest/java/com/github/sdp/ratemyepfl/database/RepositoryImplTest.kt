@@ -32,7 +32,7 @@ class RepositoryImplTest {
     @Before
     fun setup() {
         hiltRule.inject()
-        repository = RepositoryImpl<Item>(db, "repositoryTest") { it.toItem() }
+        repository = RepositoryImpl(db, "repositoryTest") { it.toItem() }
     }
 
     @After

@@ -16,7 +16,7 @@ class QueryResultTest {
         }.asQueryResult()
 
     private val list =
-        QueryResult.success(listOf<Int>(1, 2, 3))
+        QueryResult.success(listOf(1, 2, 3))
 
     private val success = QueryResult.success(1)
     private val error = Exception("Failed")
@@ -103,7 +103,7 @@ class QueryResultTest {
 
     @Test
     fun builderConstructorEmitsTheFailureIfSomethingFails() = runTest {
-        var x = 0
+        val x = 0
         val error = Exception()
         QueryResult<Int> {
             throw error

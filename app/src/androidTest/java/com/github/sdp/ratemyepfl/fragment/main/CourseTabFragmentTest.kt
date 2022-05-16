@@ -3,15 +3,12 @@ package com.github.sdp.ratemyepfl.fragment.main
 import android.widget.SearchView
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.matcher.IntentMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.intent.Intents.*
+import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
@@ -45,7 +42,7 @@ class CourseTabFragmentTest {
 
     private val cycleBachelor = TestUtils.getString(R.string.cycle_bachelor_field_title)
 
-    val courses = CourseRepositoryImpl.OFFLINE_COURSES +
+    private val courses = CourseRepositoryImpl.OFFLINE_COURSES +
             Course(
                 title = "Some sv",
                 section = "SV",
@@ -77,9 +74,7 @@ class CourseTabFragmentTest {
         numReviews = 1
     )
 
-    val fillers = (0..10).map {
-        fillerCourse(it)
-    }
+    private val fillers = (0..10).map { fillerCourse(it) }
 
     @Before
     fun setUp() {
@@ -108,12 +103,12 @@ class CourseTabFragmentTest {
     fun startsReviewWhenUserClicksOnCourse() {
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
         Thread.sleep(1000)
-        Intents.init()
+        init()
 
-        Espresso.onView(ViewMatchers.withText(courses.first().toString()))
-            .perform(ViewActions.click())
-        Intents.intended(IntentMatchers.toPackage("com.github.sdp.ratemyepfl"))
-        Intents.release()
+        onView(withText(courses.first().toString()))
+            .perform(click())
+        intended(toPackage("com.github.sdp.ratemyepfl"))
+        release()
     }
 
     @Test
@@ -145,7 +140,7 @@ class CourseTabFragmentTest {
     @Test
     fun sortAlphabeticallyWorks() {
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
-        onView(ViewMatchers.withId(R.id.filterMenuButton)).perform(longClick())
+        onView(withId(R.id.filterMenuButton)).perform(longClick())
         onView(withText(R.string.sort_by_title)).perform(click())
         onView(withText(TestUtils.getString(R.string.alphabetic_order))).perform(click())
 
@@ -182,7 +177,7 @@ class CourseTabFragmentTest {
     @Test
     fun sortByBestRatedWorks() {
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
-        onView(ViewMatchers.withId(R.id.filterMenuButton)).perform(longClick())
+        onView(withId(R.id.filterMenuButton)).perform(longClick())
         onView(withText(R.string.sort_by_title)).perform(click())
         onView(withText(TestUtils.getString(R.string.best_rated_order_title))).perform(click())
         onView(isAssignableFrom(RecyclerView::class.java)).check(
@@ -217,7 +212,7 @@ class CourseTabFragmentTest {
     fun filterBy7CreditsWorks() {
         val credits = 7
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
-        onView(ViewMatchers.withId(R.id.filterMenuButton)).perform(longClick())
+        onView(withId(R.id.filterMenuButton)).perform(longClick())
         onView(withText(R.string.credits)).perform(click())
         onView(withText(credits.toString())).perform(click())
         onView(isAssignableFrom(RecyclerView::class.java)).check(
@@ -235,7 +230,7 @@ class CourseTabFragmentTest {
     fun filterBySectionSVWorks() {
         val section = "SV"
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
-        onView(ViewMatchers.withId(R.id.filterMenuButton)).perform(longClick())
+        onView(withId(R.id.filterMenuButton)).perform(longClick())
         onView(withText(R.string.section_picker_title)).perform(click())
         onView(withText(TestUtils.getString(R.string.life_sciences_section_title))).perform(click())
         onView(isAssignableFrom(RecyclerView::class.java)).check(
@@ -252,7 +247,7 @@ class CourseTabFragmentTest {
     @Test
     fun filterByCycleBachelorWorks() {
         HiltUtils.launchFragmentInHiltContainer<CourseTabFragment> {}
-        onView(ViewMatchers.withId(R.id.filterMenuButton)).perform(longClick())
+        onView(withId(R.id.filterMenuButton)).perform(longClick())
         onView(withText(R.string.cycle_picker_title)).perform(click())
         onView(withText(TestUtils.getString(R.string.cycle_bachelor_title))).perform(click())
         onView(isAssignableFrom(RecyclerView::class.java)).check(

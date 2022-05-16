@@ -33,7 +33,7 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
         const val LONGITUDE_FIELD_NAME = "long"
         const val OCCUPANCY_FIELD_NAME = "occupancy"
 
-        val OFFLINE_RESTAURANTS = listOf<Restaurant>(
+        val OFFLINE_RESTAURANTS = listOf(
             Restaurant(
                 name = "Arcadie",
                 occupancy = 0,
