@@ -100,12 +100,9 @@ class ReviewListFragmentTest {
         launch()
         val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
-        FakeImageStorage.images.put(
-            FakeUserRepository.UID1,
-            ImageFile(
-                "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.raw.fake_profile_picture)
-            )
+        FakeImageStorage.images[FakeUserRepository.UID1] = ImageFile(
+            "${FakeUserRepository.UID1}.jpg",
+            resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
@@ -130,12 +127,9 @@ class ReviewListFragmentTest {
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
-        FakeImageStorage.images.put(
-            FakeUserRepository.UID1,
-            ImageFile(
-                "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.raw.fake_profile_picture)
-            )
+        FakeImageStorage.images[FakeUserRepository.UID1] = ImageFile(
+            "${FakeUserRepository.UID1}.jpg",
+            resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
@@ -158,12 +152,9 @@ class ReviewListFragmentTest {
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
-        FakeImageStorage.images.put(
-            FakeUserRepository.UID1,
-            ImageFile(
-                "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.raw.fake_profile_picture)
-            )
+        FakeImageStorage.images[FakeUserRepository.UID1] = ImageFile(
+            "${FakeUserRepository.UID1}.jpg",
+            resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
@@ -188,12 +179,9 @@ class ReviewListFragmentTest {
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
-        FakeImageStorage.images.put(
-            FakeUserRepository.UID1,
-            ImageFile(
-                "${FakeUserRepository.UID1}.jpg",
-                resourceToBitmap(R.raw.fake_profile_picture)
-            )
+        FakeImageStorage.images[FakeUserRepository.UID1] = ImageFile(
+            "${FakeUserRepository.UID1}.jpg",
+            resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())

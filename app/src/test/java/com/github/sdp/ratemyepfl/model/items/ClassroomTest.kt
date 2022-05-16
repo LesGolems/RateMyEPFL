@@ -8,8 +8,11 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
-    val EXPECTED_ROOM = Classroom("CE 1 3", 0.0, 0, "Auditorium")
-    val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
+
+    companion object {
+        private val EXPECTED_ROOM = Classroom("CE 1 3", 0.0, 0, "Auditorium")
+        private val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
+    }
 
     @Test
     fun constructorWithDefaultValuesWorks() {

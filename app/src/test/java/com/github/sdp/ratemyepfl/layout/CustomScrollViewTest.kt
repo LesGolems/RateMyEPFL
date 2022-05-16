@@ -5,9 +5,12 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class CustomScrollViewTest {
-    val CUSTOM_SCROLL_VIEW_1 = CustomScrollView(null)
-    val CUSTOM_SCROLL_VIEW_2 = CustomScrollView(null, null)
-    val CUSTOM_SCROLL_VIEW_3 = CustomScrollView(null, null, 0)
+
+    companion object {
+        private val CUSTOM_SCROLL_VIEW_1 = CustomScrollView(null)
+        private val CUSTOM_SCROLL_VIEW_2 = CustomScrollView(null, null)
+        private val CUSTOM_SCROLL_VIEW_3 = CustomScrollView(null, null, 0)
+    }
 
     @Test
     fun constructorsWork() {

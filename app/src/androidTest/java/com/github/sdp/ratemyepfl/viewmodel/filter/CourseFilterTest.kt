@@ -68,7 +68,7 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderQueryTest() = runTest {
+    fun alphabeticalOrderQueryTest() = runTest {
         CourseFilter.AlphabeticalOrder.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }
@@ -83,7 +83,7 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderReversedQueryTest() = runTest {
+    fun alphabeticalOrderReversedQueryTest() = runTest {
         CourseFilter.AlphabeticalOrderReversed.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }

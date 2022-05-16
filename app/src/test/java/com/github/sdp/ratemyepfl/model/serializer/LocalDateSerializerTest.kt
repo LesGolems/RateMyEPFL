@@ -7,8 +7,10 @@ import java.time.LocalDate
 
 class LocalDateSerializerTest {
 
-    val EXPECTED_DATE = LocalDate.of(2022, 12, 4)
-    val EXPECTED_JSON = "\"2022-12-04\""
+    companion object {
+        private val EXPECTED_DATE = LocalDate.of(2022, 12, 4)
+        private const val EXPECTED_JSON = "\"2022-12-04\""
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     @Test

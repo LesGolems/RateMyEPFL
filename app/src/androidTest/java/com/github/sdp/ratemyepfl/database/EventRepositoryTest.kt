@@ -25,11 +25,14 @@ import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class EventRepositoryTest {
-    private val USER_ID = "Kevin du 13"
+
+    companion object {
+        private const val USER_ID = "Kevin du 13"
+    }
+
     private val testEvent = Event(
         "Fake id", "Fake id", 0,
         1, listOf(), "creator", 0.0, 0, 0.0, 0.0, LocalDateTime.now()
