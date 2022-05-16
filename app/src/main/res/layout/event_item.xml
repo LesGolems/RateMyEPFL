@@ -53,7 +53,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/ic_baseline_edit_24"
-        android:src="@drawable/ic_baseline_edit_24" />
+        android:src="@drawable/ic_baseline_edit_24"
+        android:contentDescription="@string/button_for_editing_an_event" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerButton"

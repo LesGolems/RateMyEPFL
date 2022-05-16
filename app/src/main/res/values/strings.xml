@@ -130,4 +130,5 @@
     <string name="button_for_deleting_a_review">Button for deleting a review</string>
     <string name="start">Start</string>
     <string name="end">End</string>
+    <string name="button_for_editing_an_event">Button for editing an event</string>
 </resources>
