@@ -34,6 +34,9 @@ class UserViewModel @Inject constructor(
 
     init {
         refreshUser()
+        currentUser.addCallBack {
+            refreshUser()
+        }
     }
 
     /**
