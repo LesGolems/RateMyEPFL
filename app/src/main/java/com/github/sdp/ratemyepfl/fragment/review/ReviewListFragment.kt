@@ -16,8 +16,8 @@ import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
-import com.github.sdp.ratemyepfl.viewmodel.review.ReviewListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
+import com.github.sdp.ratemyepfl.viewmodel.review.ReviewListViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,9 +67,11 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
             getListener { r, s -> reviewsViewModel.updateUpVotes(r, s) },
             getListener { r, s -> reviewsViewModel.updateDownVotes(r, s) },
-            { rwa -> lifecycleScope.launch {
-                reviewsViewModel.removeReview(rwa.review.getId())
-            }}
+            { rwa ->
+                lifecycleScope.launch {
+                    reviewsViewModel.removeReview(rwa.review.getId())
+                }
+            }
         ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
         recyclerView.adapter = reviewAdapter

@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.model
 
-import android.graphics.Color
 import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepositoryImpl
 import com.google.gson.Gson

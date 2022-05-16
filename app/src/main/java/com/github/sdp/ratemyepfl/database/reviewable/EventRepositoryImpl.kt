@@ -33,7 +33,6 @@ class EventRepositoryImpl private constructor(
     )
 
 
-
     companion object {
         const val ID_FIELD_NAME: String = "eventId"
         const val NAME_FIELD_NAME: String = "name"

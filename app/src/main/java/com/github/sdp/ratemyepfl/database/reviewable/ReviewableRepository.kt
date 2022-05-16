@@ -5,7 +5,6 @@ import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.FirebaseNetworkException
 import java.lang.Integer.min
 
@@ -36,8 +35,15 @@ interface ReviewableRepository<T : Reviewable> : LoaderRepository<T> {
      * @return a [QueryResult] containing a [List] of matched values. It matches at most
      * [LIMIT_QUERY_SEARCH] values.
      */
-    fun search(field: String, prefix: String, number: UInt = LIMIT_QUERY_SEARCH): QueryResult<List<T>> =
-        this.load(query().match(field, prefix), min(number.toInt(), LIMIT_QUERY_SEARCH.toInt()).toUInt())
+    fun search(
+        field: String,
+        prefix: String,
+        number: UInt = LIMIT_QUERY_SEARCH
+    ): QueryResult<List<T>> =
+        this.load(
+            query().match(field, prefix),
+            min(number.toInt(), LIMIT_QUERY_SEARCH.toInt()).toUInt()
+        )
 
 
     /**

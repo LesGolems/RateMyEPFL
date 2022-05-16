@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database.reviewable
 
-import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 
 interface CourseRepository : ReviewableRepository<Course> {

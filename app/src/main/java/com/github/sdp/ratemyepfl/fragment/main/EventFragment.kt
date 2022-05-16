@@ -120,9 +120,18 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, event.name)
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
         val dateTime = event.date
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(dateTime.hour, dateTime.minute))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(event.lat, event.long))
+        intent.putExtra(
+            EditEventActitivity.EXTRA_EVENT_TIME,
+            intArrayOf(dateTime.hour, dateTime.minute)
+        )
+        intent.putExtra(
+            EditEventActitivity.EXTRA_EVENT_DATE,
+            intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth)
+        )
+        intent.putExtra(
+            EditEventActitivity.EXTRA_EVENT_LOCATION,
+            doubleArrayOf(event.lat, event.long)
+        )
         startActivity(intent)
     }
 }

@@ -45,13 +45,13 @@ class AddClassFragment : Fragment(R.layout.fragment_add_class) {
                 userViewModel.addClass(addClassViewModel.createClass())
                 reset()
                 Navigation.findNavController(requireView()).popBackStack()
-            } catch (e : MissingInputException){
+            } catch (e: MissingInputException) {
                 displayMessage(e.message)
             }
         }
     }
 
-    private fun reset(){
+    private fun reset() {
         addClassViewModel.room.postValue(null)
         addClassViewModel.course.postValue(null)
         addClassViewModel.day.postValue(null)

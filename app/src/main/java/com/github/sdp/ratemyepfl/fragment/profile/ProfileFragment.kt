@@ -58,16 +58,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     /**
      * Observers handling user information display
      */
-    private fun setUpObservers(){
+    private fun setUpObservers() {
         userViewModel.picture.observe(viewLifecycleOwner) {
             profilePicture.setImageBitmap(it?.data)
         }
 
-        userViewModel.user.observe(viewLifecycleOwner){
-            if(it != null){
+        userViewModel.user.observe(viewLifecycleOwner) {
+            if (it != null) {
                 usernameText.setText(it.username.orEmpty())
                 emailText.setText(it.email.orEmpty())
-            }else{
+            } else {
                 usernameText.setText(getString(R.string.visitor))
                 emailText.setText(getString(R.string.not_logged_in_text))
             }

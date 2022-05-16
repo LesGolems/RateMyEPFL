@@ -71,15 +71,15 @@ class EditEventActitivity : AppCompatActivity() {
     private fun mapContainerInit() {
         mapContainer = findViewById(R.id.mapContainer)
         val mapFragment = mapContainer.getFragment<MapFragment>()
-        mapFragment.onClickLocation.observeForever{ latLng ->
+        mapFragment.onClickLocation.observeForever { latLng ->
             editEventViewModel.setLocation(doubleArrayOf(latLng.latitude, latLng.longitude))
         }
     }
 
     private fun nameTextInit() {
         eventNameText = findViewById(R.id.editEventName)
-        eventNameText.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher {
-            text, _, _, _ -> editEventViewModel.setTitle(text?.toString())
+        eventNameText.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher { text, _, _, _ ->
+            editEventViewModel.setTitle(text?.toString())
         })
 
         if (!editEventViewModel.isNewEvent) {

@@ -18,8 +18,8 @@ import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
-import com.github.sdp.ratemyepfl.viewmodel.main.ReviewableListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.ReviewableListViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -64,7 +64,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState);
+                super.onScrollStateChanged(recyclerView, newState)
 
                 if (!recyclerView.canScrollVertically(1) && !isSearching) {
                     displayResult(viewModel.loadMore())

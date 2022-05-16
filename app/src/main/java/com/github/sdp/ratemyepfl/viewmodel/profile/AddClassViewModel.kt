@@ -25,15 +25,23 @@ class AddClassViewModel : ViewModel() {
         val startHour = startHour.value
         val endHour = endHour.value
 
-        if(course == null){
+        if (course == null) {
             throw MissingInputException("You need to enter a course")
         }
-        if(room == null){
+        if (room == null) {
             throw MissingInputException("You need to enter a room")
         }
-        if(day == null){
+        if (day == null) {
             throw MissingInputException("You need to select a day")
         }
-        return Class(course.getId(), course.title, course.teacher, room.name, day, startHour, endHour)
+        return Class(
+            course.getId(),
+            course.title,
+            course.teacher,
+            room.name,
+            day,
+            startHour,
+            endHour
+        )
     }
 }

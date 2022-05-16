@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import kotlinx.serialization.Serializable
-
 /**
  * An item that is displayed on the map
  */

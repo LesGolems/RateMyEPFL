@@ -11,9 +11,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
+import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -96,9 +96,9 @@ class ReviewAdapter(
                 }
 
                 /* Delete button UI */
-                if(it != null && it.isAdmin){
+                if (it != null && it.isAdmin) {
                     deleteButton.visibility = VISIBLE
-                } else{
+                } else {
                     deleteButton.visibility = INVISIBLE
                 }
             }

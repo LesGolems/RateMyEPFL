@@ -31,11 +31,10 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
         super.onViewCreated(view, savedInstanceState)
 
         // Enable button only if user is signed in
-        userViewModel.isUserLoggedIn.observe(viewLifecycleOwner){
-            if(it) {
+        userViewModel.isUserLoggedIn.observe(viewLifecycleOwner) {
+            if (it) {
                 addClassFAB.visibility = VISIBLE
-            }
-            else {
+            } else {
                 addClassFAB.visibility = INVISIBLE
             }
         }

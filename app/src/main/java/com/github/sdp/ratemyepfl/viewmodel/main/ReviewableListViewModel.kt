@@ -30,7 +30,8 @@ sealed class ReviewableListViewModel<T : Reviewable>(
      *
      * @see repository
      */
-    open fun search(prefix: String, number: UInt = ReviewableRepository.LIMIT_QUERY_SEARCH) = postResult(repository.search(idFieldName, prefix, number))
+    open fun search(prefix: String, number: UInt = ReviewableRepository.LIMIT_QUERY_SEARCH) =
+        postResult(repository.search(idFieldName, prefix, number))
 
     /**
      * Execute a load on the previous filter.
@@ -96,7 +97,10 @@ sealed class ReviewableListViewModel<T : Reviewable>(
     /**
      * Post the results, i.e., actualise the displayed elements and the current filter
      */
-    protected fun postResult(result: QueryResult<List<T>>, withFilter: ReviewableFilter<T>? = null): QueryResult<List<T>> = result.mapResult {
+    protected fun postResult(
+        result: QueryResult<List<T>>,
+        withFilter: ReviewableFilter<T>? = null
+    ): QueryResult<List<T>> = result.mapResult {
         it.apply {
             if (withFilter != null) {
                 currentFilter = withFilter
@@ -104,7 +108,6 @@ sealed class ReviewableListViewModel<T : Reviewable>(
             elements.postValue(it)
         }
     }
-
 
 
 }

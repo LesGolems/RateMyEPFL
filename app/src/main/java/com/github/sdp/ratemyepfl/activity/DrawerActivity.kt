@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels

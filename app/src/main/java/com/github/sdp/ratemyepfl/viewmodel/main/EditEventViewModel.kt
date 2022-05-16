@@ -31,13 +31,15 @@ class EditEventViewModel @Inject constructor(
         const val NO_LOCATION_MESSAGE: String = "Please select a location"
     }
 
-    val isNewEvent: Boolean = savedStateHandle.get<Boolean>(EditEventActitivity.EXTRA_IS_NEW_EVENT)!!
+    val isNewEvent: Boolean =
+        savedStateHandle.get<Boolean>(EditEventActitivity.EXTRA_IS_NEW_EVENT)!!
     val eventId: String? = savedStateHandle.get<String>(EditEventActitivity.EXTRA_EVENT_ID)
     val eventTitle: String? = savedStateHandle.get<String>(EditEventActitivity.EXTRA_EVENT_TITLE)
     val eventLimPart: Int? = savedStateHandle.get<Int>(EditEventActitivity.EXTRA_EVENT_LIM_PART)
     val eventTime: IntArray? = savedStateHandle.get<IntArray>(EditEventActitivity.EXTRA_EVENT_TIME)
     val eventDate: IntArray? = savedStateHandle.get<IntArray>(EditEventActitivity.EXTRA_EVENT_DATE)
-    val eventLocation: DoubleArray? = savedStateHandle.get<DoubleArray>(EditEventActitivity.EXTRA_EVENT_LOCATION)
+    val eventLocation: DoubleArray? =
+        savedStateHandle.get<DoubleArray>(EditEventActitivity.EXTRA_EVENT_LOCATION)
 
     val title: MutableLiveData<String> = MutableLiveData(eventTitle)
     val limPart: MutableLiveData<Int> = MutableLiveData(eventLimPart)
@@ -104,7 +106,8 @@ class EditEventViewModel @Inject constructor(
         } else {
             viewModelScope.launch {
                 eventRepo.updateEditedEvent(eventId, title, limPart, lat, long, dateTime)
-            } } // For CodeClimate ^^
+            }
+        } // For CodeClimate ^^
     }
 
     /**

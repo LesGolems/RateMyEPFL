@@ -5,9 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.viewmodel.main.RestaurantListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.filter.RestaurantFilter
 import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.RestaurantListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,8 +22,8 @@ class RestaurantTabFragment : ReviewableTabFragment<Restaurant>(R.menu.restauran
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.elements
             .observe(viewLifecycleOwner) { restaurants ->
-            reviewableAdapter.submitData(restaurants)
-        }
+                reviewableAdapter.submitData(restaurants)
+            }
 
         super.onViewCreated(view, savedInstanceState)
     }

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CourseInfoViewModel @Inject constructor(
     private val courseRepo: CourseRepository,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel(){
+) : ViewModel() {
 
     // Id
     val id: String =

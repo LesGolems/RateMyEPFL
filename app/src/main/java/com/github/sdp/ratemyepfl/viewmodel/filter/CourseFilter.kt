@@ -60,13 +60,19 @@ sealed interface CourseFilter : ReviewableFilter<Course> {
 
     object BestRated : CourseFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery =
-            initialQuery.orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
+            initialQuery.orderBy(
+                ReviewableRepository.AVERAGE_GRADE_FIELD_NAME,
+                OrderDirection.DESCENDING
+            )
                 .orderBy(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME)
     }
 
     object WorstRated : CourseFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery =
-            initialQuery.orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.ASCENDING)
+            initialQuery.orderBy(
+                ReviewableRepository.AVERAGE_GRADE_FIELD_NAME,
+                OrderDirection.ASCENDING
+            )
                 .orderBy(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME)
     }
 }

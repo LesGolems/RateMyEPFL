@@ -84,8 +84,8 @@ class OccupancyService : Service(), LocationListener {
      */
     override fun onDestroy() {
         super.onDestroy()
-        if(insideRestaurantId != null){
-            scope.launch{
+        if (insideRestaurantId != null) {
+            scope.launch {
                 repository.decrementOccupancy(insideRestaurantId!!)
             }
         }

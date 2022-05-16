@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.database.query
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
 import kotlin.math.min
 
 typealias FirebaseQuery = com.google.firebase.firestore.Query

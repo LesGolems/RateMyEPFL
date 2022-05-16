@@ -12,6 +12,4 @@ class ClassroomListViewModel @Inject constructor(repository: ClassroomRepository
         repository,
         ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME,
         ClassroomFilter.BestRated
-    ) {
-
-}
+    )

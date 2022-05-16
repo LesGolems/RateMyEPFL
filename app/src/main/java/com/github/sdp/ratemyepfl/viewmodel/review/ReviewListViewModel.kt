@@ -38,6 +38,7 @@ open class ReviewListViewModel @Inject constructor(
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     val itemReviewed = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
+
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()
 
@@ -63,7 +64,7 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    suspend fun removeReview(reviewId: String){
+    suspend fun removeReview(reviewId: String) {
         reviewRepo.remove(reviewId).await()
         gradeInfoRepo.removeReview(itemReviewed, reviewId)
         updateReviewsList()

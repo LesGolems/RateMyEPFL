@@ -6,10 +6,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.serializer.ItemSerializer
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.RuntimeException
 
 /*
 General activity for the review part of the app, it has a different layout (navigation) for each reviewable item.

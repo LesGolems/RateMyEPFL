@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ImageDetailActivity
-import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.utils.AdapterUtil
 
 class RoomPictureAdapter :
     ListAdapter<ImageFile, RoomPictureAdapter.RoomPictureViewHolder>(AdapterUtil.diffCallback<ImageFile>()) {

@@ -37,7 +37,8 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.room.observe(viewLifecycleOwner) {
             view.findViewById<TextView>(R.id.roomIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.roomNumReview).text = getNumReviewString(requireContext(), it.numReviews)
+            view.findViewById<TextView>(R.id.roomNumReview).text =
+                getNumReviewString(requireContext(), it.numReviews)
             view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.grade.toFloat()
         }
 

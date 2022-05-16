@@ -6,9 +6,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.viewmodel.main.CourseListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
 import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.CourseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
