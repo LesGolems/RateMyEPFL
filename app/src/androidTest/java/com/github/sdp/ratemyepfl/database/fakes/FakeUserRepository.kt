@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.UserRepository
-import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.database.query.QueryResult
+import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -14,8 +14,10 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     companion object {
         val timetable: ArrayList<Class> =
-            arrayListOf<Class>(Class("CS-306","Bamboula", "René", "CM3", 0, 10, 12),
-                Class("fake","pain","singe","in",1,8,14))
+            arrayListOf<Class>(
+                Class("CS-306", "Bamboula", "René", "CM3", 0, 10, 12),
+                Class("fake", "pain", "singe", "in", 1, 8, 14)
+            )
         const val UID1 = "56789"
         const val UID2 = "18189"
         const val UID3 = "30220"
@@ -40,7 +42,13 @@ class FakeUserRepository @Inject constructor() : UserRepository {
                 "Celestin.Renaut@gmail.com",
                 timetable = ArrayList()
             ),
-            UID4 to User("12345", "John Smith", "john@example.com", timetable = timetable, isAdmin = true)
+            UID4 to User(
+                "12345",
+                "John Smith",
+                "john@example.com",
+                timetable = timetable,
+                isAdmin = true
+            )
         )
     }
 

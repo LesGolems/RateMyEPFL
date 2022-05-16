@@ -8,7 +8,8 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.hasItem
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -45,7 +46,7 @@ class ChannelTest {
             id = "1234",
             title = "fake title",
             members = listOf("0000", "1111"),
-            database =  db
+            database = db
         )
     }
 

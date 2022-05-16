@@ -4,13 +4,14 @@ import com.github.sdp.ratemyepfl.R
 import com.google.android.gms.maps.model.LatLng
 import org.junit.Assert.*
 import org.junit.Test
-import java.time.LocalDateTime
 
 class EventItemTest {
     private val LATLNG = LatLng(46.52, 6.569)
     private val NAME = "Balélec"
     private val EVENT = Event(
-        NAME, NAME,  0, 0, listOf(), "", 0.0, 0, LATLNG.latitude, LATLNG.longitude)
+        NAME, NAME, 0, 0, listOf(), "", 0.0, 0,
+        LATLNG.latitude, LATLNG.longitude
+    )
     private val EVENT_ITEM = EventItem(EVENT, R.raw.arcadie, null)
 
     @Test

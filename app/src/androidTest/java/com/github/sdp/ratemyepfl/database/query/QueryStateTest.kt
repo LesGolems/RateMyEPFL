@@ -1,9 +1,7 @@
 package com.github.sdp.ratemyepfl.database.query
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Test
-import java.lang.RuntimeException
 
 class QueryStateTest {
 

@@ -44,7 +44,7 @@ class ReviewFragmentTest {
     lateinit var restaurantRepo: RestaurantRepositoryImpl
 
     @Before
-    fun setup() = runTest{
+    fun setup() = runTest {
         hiltAndroidRule.inject()
         courseRepo.add(FakeCourseRepository.COURSE_LIST[0]).await()
         classroomRepo.add(FakeClassroomRepository.CLASSROOM_LIST[0]).await()

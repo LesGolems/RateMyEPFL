@@ -39,7 +39,8 @@ class EditEventActivityTest {
     @Test
     fun clickOnDoneBeforeFillingDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -52,7 +53,8 @@ class EditEventActivityTest {
     @Test
     fun clickOnDoneHavingFilledOnlyNameDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -66,7 +68,8 @@ class EditEventActivityTest {
     @Test
     fun clickOnDoneLoggedOutDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -79,7 +82,8 @@ class EditEventActivityTest {
     @Test
     fun clickOnCancelButtonWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -93,7 +97,8 @@ class EditEventActivityTest {
     @Test
     fun swipeOnTheFillersWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -107,7 +112,8 @@ class EditEventActivityTest {
     @Test
     fun clickOnMapWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
@@ -120,7 +126,8 @@ class EditEventActivityTest {
     @Test
     fun submittingWhenFilledWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, "fake")
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
@@ -140,7 +147,8 @@ class EditEventActivityTest {
     @Test
     fun submittingWhenFilledWorkForNewEvent() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
+        val intent =
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
         intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, 50)

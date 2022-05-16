@@ -12,14 +12,18 @@ import javax.inject.Inject
 @Suppress("UNCHECKED_CAST")
 class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
 
-    companion object{
+    companion object {
         val NO_REVIEW = GradeInfo("id", mapOf())
         var gradeById = NO_REVIEW
     }
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = gradeById
 
-    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Transaction> {
+    override suspend fun updateLikeRatio(
+        item: Reviewable,
+        reviewId: String,
+        inc: Int
+    ): Task<Transaction> {
         return Mockito.mock(Task::class.java) as Task<Transaction>
     }
 

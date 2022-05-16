@@ -7,22 +7,15 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeEventRepository
-import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.model.GradeInfo
-import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -36,6 +29,7 @@ class EventReviewInfoFragmentTest {
         .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeEventRepository.DEFAULT_EVENT)
 
     var scenario: ActivityScenario<ReviewActivity>? = null
+
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 

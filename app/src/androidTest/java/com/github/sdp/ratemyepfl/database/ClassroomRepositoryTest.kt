@@ -4,7 +4,6 @@ import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl.Companion.toClassroom
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -85,7 +84,7 @@ class ClassroomRepositoryTest {
 
 
         val classroom: Classroom? = snapshot.toClassroom()
-        val fakeClassroom = Classroom(fake, 2.5, 15,fake)
+        val fakeClassroom = Classroom(fake, 2.5, 15, fake)
         assertEquals(fakeClassroom, classroom)
 
     }

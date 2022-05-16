@@ -8,7 +8,7 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class RestaurantTest {
-    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 0, 0.0, 0,46.52, 6.569)
+    val EXPECTED_RESTAURANT = Restaurant("Arcadie", 0, 0.0, 0, 46.52, 6.569)
     val EXPECTED_JSON = Json.encodeToString(EXPECTED_RESTAURANT)
 
     @Test

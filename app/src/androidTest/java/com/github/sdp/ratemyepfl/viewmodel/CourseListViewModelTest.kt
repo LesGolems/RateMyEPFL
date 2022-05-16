@@ -175,7 +175,9 @@ class CourseListViewModelTest {
                     is QueryState.Failure -> throw it.error
                     is QueryState.Loading -> {}
                     is QueryState.Success -> {
-                        assertEquals(true, viewModel.elements.value?.all { course -> course.title == title })
+                        assertEquals(
+                            true,
+                            viewModel.elements.value?.all { course -> course.title == title })
                     }
                 }
             }

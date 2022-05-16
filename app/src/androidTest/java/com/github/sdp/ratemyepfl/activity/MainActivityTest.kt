@@ -7,7 +7,6 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import android.os.SystemClock
-import android.util.Log
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
@@ -38,7 +37,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runners.MethodSorters
 
-
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class MainActivityTest {
@@ -59,11 +57,11 @@ class MainActivityTest {
 
     fun updateLocation(latitude: Double, longitude: Double) {
         val location = Location(providerName)
-        location.setLatitude(latitude)
-        location.setLongitude(longitude)
-        location.setAccuracy(1.0f)
-        location.setTime(System.currentTimeMillis())
-        location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos())
+        location.latitude = latitude
+        location.longitude = longitude
+        location.accuracy = 1.0f
+        location.time = System.currentTimeMillis()
+        location.elapsedRealtimeNanos = SystemClock.elapsedRealtimeNanos()
         mManager.setTestProviderLocation(providerName, location)
     }
 
@@ -82,7 +80,7 @@ class MainActivityTest {
             false, // supportsBearing,
             Criteria.POWER_MEDIUM, // powerRequirement
             Criteria.ACCURACY_FINE
-        ); // accuracy
+        ) // accuracy
         mManager.setTestProviderEnabled(providerName, true)
 
 

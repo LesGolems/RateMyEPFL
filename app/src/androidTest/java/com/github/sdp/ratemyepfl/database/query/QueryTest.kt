@@ -1,12 +1,12 @@
 package com.github.sdp.ratemyepfl.database.query
 
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapEach
 import com.github.sdp.ratemyepfl.database.util.ArrayItem
 import com.github.sdp.ratemyepfl.database.util.ArrayItem.Companion.toArrayItem
 import com.github.sdp.ratemyepfl.database.util.Item
 import com.github.sdp.ratemyepfl.database.util.Item.Companion.toItem
 import com.github.sdp.ratemyepfl.database.util.RepositoryUtil
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule

@@ -21,7 +21,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 @HiltAndroidTest
 class ImageDetailActivityTest {
     lateinit var scenario: ActivityScenario<ImageDetailActivity>
@@ -51,30 +50,22 @@ class ImageDetailActivityTest {
 
     @Test
     fun imageIsVisible() {
-        onView(withId(R.id.detailImageView)).check(
-            matches(isDisplayed())
-        )
+        onView(withId(R.id.detailImageView)).check(matches(isDisplayed()))
     }
 
     @Test
     fun imageDisplayedIsTheCorrectOne() {
-        onView(withId(R.id.detailImageView)).check(
-            matches(withDrawable(pictureId))
-        )
+        onView(withId(R.id.detailImageView)).check(matches(withDrawable(pictureId)))
     }
 
     @Test
     fun imageIsZoomedInWhenUserPinchesOut() {
-        onView(withId(R.id.detailImageView)).perform(
-            pinchOut()
-        )
+        onView(withId(R.id.detailImageView)).perform(pinchOut())
     }
 
     @Test
     fun imageIsZoomedOutWhenUserPinchesIn() {
-        onView(withId(R.id.detailImageView)).perform(
-            pinchIn()
-        )
+        onView(withId(R.id.detailImageView)).perform(pinchIn())
     }
 
 }

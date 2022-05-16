@@ -27,7 +27,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationTestForRestaurant() {
-        val t: Reviewable = Restaurant("a", 0, 0.0, 0, 0.0,0.0)
+        val t: Reviewable = Restaurant("a", 0, 0.0, 0, 0.0, 0.0)
         val ser: String = ItemSerializer.serialize(t)
         val deser: Reviewable? = ItemSerializer.deserialize(ser)
         assertEquals(t, deser)
@@ -45,7 +45,8 @@ class ItemSerializerTest {
         val ser: String = "bad serialization"
 
         assertThrows(
-            Exception::class.java){
+            Exception::class.java
+        ) {
             ItemSerializer.deserialize(ser)
         }
 

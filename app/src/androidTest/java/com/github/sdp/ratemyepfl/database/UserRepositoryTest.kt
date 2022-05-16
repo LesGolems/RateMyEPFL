@@ -58,7 +58,8 @@ class UserRepositoryTest {
     @Test
     fun updateTimetableWorks() {
         runTest {
-            val c = Class("fake", "fake", "fake",
+            val c = Class(
+                "fake", "fake", "fake",
                 "fake", 5, 15, 10
             )
             val updateUser = testUser.copy(

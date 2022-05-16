@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.auth
 
-import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 

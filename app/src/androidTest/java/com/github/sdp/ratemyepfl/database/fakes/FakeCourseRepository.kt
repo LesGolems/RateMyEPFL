@@ -1,20 +1,15 @@
 package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.LoaderRepository
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryState
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FakeCourseRepository @Inject constructor(val repository: FakeLoaderRepository<Course>) :
     CourseRepository,
-    ReviewableRepository<Course>,  LoaderRepository<Course> by repository {
+    ReviewableRepository<Course>, LoaderRepository<Course> by repository {
 
     override val offlineData: List<Course> = CourseRepositoryImpl.OFFLINE_COURSES
 

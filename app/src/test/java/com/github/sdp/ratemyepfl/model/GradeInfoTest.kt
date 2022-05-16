@@ -8,14 +8,14 @@ class GradeInfoTest {
 
     @Test
     fun constructorWithAllFieldsWorks() {
-        val gradeInfo = GradeInfo("id", mapOf(Pair("rid", ReviewInfo(5 ,5))))
+        val gradeInfo = GradeInfo("id", mapOf(Pair("rid", ReviewInfo(5, 5))))
         assertEquals("id", gradeInfo.itemId)
         assertEquals(5, gradeInfo.reviewsData["rid"]!!.reviewGrade)
         assertEquals(5, gradeInfo.reviewsData["rid"]!!.likeRatio)
     }
 
     @Test
-    fun builderWorks(){
+    fun builderWorks() {
         val builder = GradeInfo.Builder("id")
         val g = builder.build()
         assertEquals("id", g.itemId)

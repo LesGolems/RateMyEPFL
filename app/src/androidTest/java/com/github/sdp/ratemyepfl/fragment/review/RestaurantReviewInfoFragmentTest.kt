@@ -9,10 +9,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -35,10 +33,16 @@ class RestaurantReviewInfoFragmentTest {
 
     private fun launch() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_restaurant_review)
+        intent.putExtra(
+            ReviewActivity.EXTRA_MENU_ID,
+            R.menu.bottom_navigation_menu_restaurant_review
+        )
         intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
-        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeRestaurantRepository.DEFAULT_RESTAURANT)
+        intent.putExtra(
+            ReviewActivity.EXTRA_ITEM_REVIEWED,
+            FakeRestaurantRepository.DEFAULT_RESTAURANT
+        )
         scenario = ActivityScenario.launch(intent)
     }
 

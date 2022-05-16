@@ -24,9 +24,9 @@ class ClassroomTest {
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val g =  0.0
+        val g = 0.0
         val n = 0
-        val r = Classroom("CM 1 4", g, n,"Auditorium")
+        val r = Classroom("CM 1 4", g, n, "Auditorium")
         assertEquals("CM 1 4", r.name)
         assertEquals(g, r.grade, 0.01)
         assertEquals(n, r.numReviews)

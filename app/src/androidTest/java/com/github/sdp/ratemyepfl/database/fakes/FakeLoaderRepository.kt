@@ -7,7 +7,6 @@ import com.github.sdp.ratemyepfl.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Transaction
@@ -15,7 +14,7 @@ import org.mockito.Mockito
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class FakeLoaderRepository<T: RepositoryItem> @Inject constructor() : LoaderRepository<T> {
+class FakeLoaderRepository<T : RepositoryItem> @Inject constructor() : LoaderRepository<T> {
     override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> =
         QueryResult.success(listOf())
 
@@ -24,7 +23,8 @@ class FakeLoaderRepository<T: RepositoryItem> @Inject constructor() : LoaderRepo
 
     override suspend fun take(number: Long): QuerySnapshot = Mockito.mock(QuerySnapshot::class.java)
 
-    override suspend fun getById(id: String): DocumentSnapshot = Mockito.mock(DocumentSnapshot::class.java)
+    override suspend fun getById(id: String): DocumentSnapshot =
+        Mockito.mock(DocumentSnapshot::class.java)
 
     override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
 

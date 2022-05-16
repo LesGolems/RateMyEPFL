@@ -75,7 +75,7 @@ class CourseFilterTest {
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw it.error
-                    is QueryState.Loading -> { }
+                    is QueryState.Loading -> {}
                     is QueryState.Success ->
                         assertEquals(it.data, it.data.sortedBy { course -> course.title })
                 }
@@ -90,9 +90,12 @@ class CourseFilterTest {
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw it.error
-                    is QueryState.Loading -> { }
+                    is QueryState.Loading -> {}
                     is QueryState.Success ->
-                        assertEquals(it.data, it.data.sortedBy { course -> course.title }.reversed())
+                        assertEquals(
+                            it.data,
+                            it.data.sortedBy { course -> course.title }.reversed()
+                        )
                 }
             }
     }

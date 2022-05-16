@@ -28,7 +28,9 @@ import kotlin.reflect.KClass
 /**
  * Container for behavior that is inherited from a [ReviewableTabFragment]
  */
-class ReviewableTabFragmentTestContainer<U: Reviewable, T : ReviewableTabFragment<U>> constructor(val testedFragment: KClass<T>) {
+class ReviewableTabFragmentTestContainer<U : Reviewable, T : ReviewableTabFragment<U>> constructor(
+    val testedFragment: KClass<T>
+) {
 
     /**
      * Test all inherited behavior

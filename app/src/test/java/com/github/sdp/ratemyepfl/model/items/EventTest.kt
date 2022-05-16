@@ -89,7 +89,7 @@ class EventTest {
             .setLimitParticipants(70)
 
         val event = builder.build()
-        val expected = Event(fake, fake,0, 70, listOf(), USER_ID, g, n, lat, long, DATE)
+        val expected = Event(fake, fake, 0, 70, listOf(), USER_ID, g, n, lat, long, DATE)
         assertEquals(event.name, expected.name)
 
         assertEquals(event.eventId, expected.eventId)

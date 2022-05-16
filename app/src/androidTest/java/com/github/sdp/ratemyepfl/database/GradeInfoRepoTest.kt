@@ -18,10 +18,13 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
 class GradeInfoRepoTest {
-    private val testGradeInfo = GradeInfo("item id", mapOf(Pair("rid1", ReviewInfo(5, 5)),
-        Pair("rid6", ReviewInfo(2, 0)),
-        Pair("rid7", ReviewInfo(1, -4))
-    ))
+    private val testGradeInfo = GradeInfo(
+        "item id", mapOf(
+            Pair("rid1", ReviewInfo(5, 5)),
+            Pair("rid6", ReviewInfo(2, 0)),
+            Pair("rid7", ReviewInfo(1, -4))
+        )
+    )
 
     private val testItem = Classroom("item id", 0.0, 0)
 
@@ -32,7 +35,7 @@ class GradeInfoRepoTest {
     lateinit var gradeInfoRepo: GradeInfoRepositoryImpl
 
     @Before
-    fun setup(){
+    fun setup() {
         hiltRule.inject()
         runTest {
             gradeInfoRepo.add(testGradeInfo).await()
@@ -40,7 +43,7 @@ class GradeInfoRepoTest {
     }
 
     @Test
-    fun updateLikeRatioWorks(){
+    fun updateLikeRatioWorks() {
         runTest {
             gradeInfoRepo.updateLikeRatio(testItem, "rid1", -1).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
@@ -51,7 +54,7 @@ class GradeInfoRepoTest {
     }
 
     @Test
-    fun addReviewWorksWhenIdExists(){
+    fun addReviewWorksWhenIdExists() {
         runTest {
             gradeInfoRepo.addReview(testItem, "rid3", ReviewRating.EXCELLENT).await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById(testGradeInfo.itemId)
@@ -62,7 +65,7 @@ class GradeInfoRepoTest {
     }
 
     @Test
-    fun removeReviewWorks(){
+    fun removeReviewWorks() {
         runTest {
             gradeInfoRepo.addReview(testItem, "rid4", ReviewRating.EXCELLENT).await()
             gradeInfoRepo.removeReview(testItem, "rid4")
@@ -73,9 +76,10 @@ class GradeInfoRepoTest {
     }
 
     @Test
-    fun addReviewWorksWhenIdNotExists(){
+    fun addReviewWorksWhenIdNotExists() {
         runTest {
-            gradeInfoRepo.addReview(testItem.copy(name = "new id"), "rid3", ReviewRating.EXCELLENT).await()
+            gradeInfoRepo.addReview(testItem.copy(name = "new id"), "rid3", ReviewRating.EXCELLENT)
+                .await()
             val gradeInfo = gradeInfoRepo.getGradeInfoById("new id")
             assertNotNull(gradeInfo)
             assertNotNull(gradeInfo!!.reviewsData["rid3"])

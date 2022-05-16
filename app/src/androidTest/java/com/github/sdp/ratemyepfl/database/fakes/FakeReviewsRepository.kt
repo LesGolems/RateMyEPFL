@@ -131,8 +131,8 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository {
     override fun remove(id: String): Task<Void> {
         val newList = arrayListOf<Review>()
 
-        for (r in reviewList){
-            if(r.getId() != id){
+        for (r in reviewList) {
+            if (r.getId() != id) {
                 newList.add(r)
             }
         }
