@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.EditEventActitivity
+import com.github.sdp.ratemyepfl.activity.EditEventActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
@@ -32,14 +32,14 @@ class EditEventViewModel @Inject constructor(
     }
 
     val isNewEvent: Boolean =
-        savedStateHandle.get<Boolean>(EditEventActitivity.EXTRA_IS_NEW_EVENT)!!
-    val eventId: String? = savedStateHandle.get<String>(EditEventActitivity.EXTRA_EVENT_ID)
-    val eventTitle: String? = savedStateHandle.get<String>(EditEventActitivity.EXTRA_EVENT_TITLE)
-    val eventLimPart: Int? = savedStateHandle.get<Int>(EditEventActitivity.EXTRA_EVENT_LIM_PART)
-    val eventTime: IntArray? = savedStateHandle.get<IntArray>(EditEventActitivity.EXTRA_EVENT_TIME)
-    val eventDate: IntArray? = savedStateHandle.get<IntArray>(EditEventActitivity.EXTRA_EVENT_DATE)
+        savedStateHandle.get<Boolean>(EditEventActivity.EXTRA_IS_NEW_EVENT)!!
+    val eventId: String? = savedStateHandle.get<String>(EditEventActivity.EXTRA_EVENT_ID)
+    val eventTitle: String? = savedStateHandle.get<String>(EditEventActivity.EXTRA_EVENT_TITLE)
+    val eventLimPart: Int? = savedStateHandle.get<Int>(EditEventActivity.EXTRA_EVENT_LIM_PART)
+    val eventTime: IntArray? = savedStateHandle.get<IntArray>(EditEventActivity.EXTRA_EVENT_TIME)
+    val eventDate: IntArray? = savedStateHandle.get<IntArray>(EditEventActivity.EXTRA_EVENT_DATE)
     val eventLocation: DoubleArray? =
-        savedStateHandle.get<DoubleArray>(EditEventActitivity.EXTRA_EVENT_LOCATION)
+        savedStateHandle.get<DoubleArray>(EditEventActivity.EXTRA_EVENT_LOCATION)
 
     val title: MutableLiveData<String> = MutableLiveData(eventTitle)
     val limPart: MutableLiveData<Int> = MutableLiveData(eventLimPart)

@@ -127,8 +127,8 @@ class QueryResultTest {
         runTest {
             failure.collect {
                 when (it) {
-                    is QueryState.Failure -> throw Exception("Should be succeess")
-                    is QueryState.Loading -> throw Exception("Should be succeess")
+                    is QueryState.Failure -> throw Exception("Should be success")
+                    is QueryState.Loading -> throw Exception("Should be success")
                     is QueryState.Success -> assertEquals(0, it.data)
                 }
             }

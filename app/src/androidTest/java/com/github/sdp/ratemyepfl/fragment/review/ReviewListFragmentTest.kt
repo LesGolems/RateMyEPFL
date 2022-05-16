@@ -118,7 +118,7 @@ class ReviewListFragmentTest {
                 )
             )
         ).perform(click())
-        // checks if the informations are correct
+        // checks if the information are correct
         onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
         onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
         onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))

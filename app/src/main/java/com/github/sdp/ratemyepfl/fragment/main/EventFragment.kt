@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.EditEventActitivity
+import com.github.sdp.ratemyepfl.activity.EditEventActivity
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
@@ -52,7 +52,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
 
         addEventButton = view.findViewById(R.id.addEventButton)
         addEventButton.setOnClickListener {
-            displayEditEventActitvity()
+            displayEditEventActivity()
         }
     }
 
@@ -98,10 +98,10 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
     /**
      * Display the edit event activity if the user is logged in (add mode)
      */
-    private fun displayEditEventActitvity() {
+    private fun displayEditEventActivity() {
         if (auth.isLoggedIn()) {
-            val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
-            intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            val intent = Intent(activity?.applicationContext, EditEventActivity::class.java)
+            intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
             startActivity(intent)
         } else {
             Snackbar.make(requireView(), R.string.edit_event_no_login_text, Snackbar.LENGTH_SHORT)
@@ -114,22 +114,22 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
      * Display the edit event activity (edit mode)
      */
     private fun editListener(event: Event) {
-        val intent = Intent(activity?.applicationContext, EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, event.eventId)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, event.name)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
+        val intent = Intent(activity?.applicationContext, EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, false)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_ID, event.eventId)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TITLE, event.name)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
         val dateTime = event.date
         intent.putExtra(
-            EditEventActitivity.EXTRA_EVENT_TIME,
+            EditEventActivity.EXTRA_EVENT_TIME,
             intArrayOf(dateTime.hour, dateTime.minute)
         )
         intent.putExtra(
-            EditEventActitivity.EXTRA_EVENT_DATE,
+            EditEventActivity.EXTRA_EVENT_DATE,
             intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth)
         )
         intent.putExtra(
-            EditEventActitivity.EXTRA_EVENT_LOCATION,
+            EditEventActivity.EXTRA_EVENT_LOCATION,
             doubleArrayOf(event.lat, event.long)
         )
         startActivity(intent)

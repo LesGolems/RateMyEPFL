@@ -24,7 +24,7 @@ class AdapterUtilTest {
     fun sameContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
             .areContentsTheSame(
-                Item("id1", "content", "some garbade"),
+                Item("id1", "content", "some garbage"),
                 Item("id2", "content", "a lot of garbage")
             )
         assertEquals(true, diff)
@@ -34,7 +34,7 @@ class AdapterUtilTest {
     fun differentContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
             .areContentsTheSame(
-                Item("id1", "content1", "some garbade"),
+                Item("id1", "content1", "some garbage"),
                 Item("id2", "content2", "a lot of garbage")
             )
         assertEquals(false, diff)

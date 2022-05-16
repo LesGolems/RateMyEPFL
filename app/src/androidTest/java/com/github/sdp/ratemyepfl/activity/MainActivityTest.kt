@@ -67,7 +67,7 @@ class MainActivityTest {
 
     // 'a' to run the test first
     @Test
-    fun alocationWorks() {
+    fun allocationWorks() {
         mContext = getInstrumentation().targetContext
         mManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         mManager.addTestProvider(

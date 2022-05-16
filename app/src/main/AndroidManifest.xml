@@ -26,7 +26,8 @@
         <service
             android:name=".service.OccupancyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
 
         <activity
             android:name=".activity.ReviewActivity"
@@ -43,7 +44,7 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.EditEventActitivity"
+            android:name=".activity.EditEventActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ImageDetailActivity"

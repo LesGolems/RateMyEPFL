@@ -88,7 +88,8 @@
             android:layoutDirection="ltr"
             android:padding="4dp"
             android:switchPadding="10dp"
-            android:text="@string/anonymous"></androidx.appcompat.widget.SwitchCompat>
+            android:text="@string/anonymous">
+        </androidx.appcompat.widget.SwitchCompat>
 
         <Button
             android:id="@+id/doneButton"

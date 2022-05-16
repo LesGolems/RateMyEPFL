@@ -22,7 +22,7 @@ import java.time.LocalDate
 
 
 @AndroidEntryPoint
-class EditEventActitivity : AppCompatActivity() {
+class EditEventActivity : AppCompatActivity() {
 
     private lateinit var eventScrollView: CustomScrollView
     private lateinit var eventNameText: TextInputEditText

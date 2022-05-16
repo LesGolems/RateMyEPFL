@@ -22,7 +22,7 @@ import org.junit.Test
 
 @HiltAndroidTest
 class EditEventActivityTest {
-    lateinit var scenario: ActivityScenario<EditEventActitivity>
+    lateinit var scenario: ActivityScenario<EditEventActivity>
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -40,8 +40,8 @@ class EditEventActivityTest {
     fun clickOnDoneBeforeFillingDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.doneButton)).perform(scrollTo())
@@ -54,8 +54,8 @@ class EditEventActivityTest {
     fun clickOnDoneHavingFilledOnlyNameDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.editEventName)).perform(typeText("Truc de fou"), closeSoftKeyboard())
@@ -69,8 +69,8 @@ class EditEventActivityTest {
     fun clickOnDoneLoggedOutDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.doneButton)).perform(scrollTo())
@@ -83,8 +83,8 @@ class EditEventActivityTest {
     fun clickOnCancelButtonWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         init()
@@ -98,8 +98,8 @@ class EditEventActivityTest {
     fun swipeOnTheFillersWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.limitPicker)).perform(swipeDown())
@@ -113,8 +113,8 @@ class EditEventActivityTest {
     fun clickOnMapWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
         scenario = ActivityScenario.launch(intent)
 
         onView(withId(R.id.mapContainer)).perform(scrollTo())
@@ -127,14 +127,14 @@ class EditEventActivityTest {
     fun submittingWhenFilledWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, false)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, "fake")
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, 50)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, false)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_ID, "fake")
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TITLE, "fake")
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_LIM_PART, 50)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
         scenario = ActivityScenario.launch(intent)
 
         init()
@@ -148,13 +148,13 @@ class EditEventActivityTest {
     fun submittingWhenFilledWorkForNewEvent() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent =
-            Intent(ApplicationProvider.getApplicationContext(), EditEventActitivity::class.java)
-        intent.putExtra(EditEventActitivity.EXTRA_IS_NEW_EVENT, true)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, "fake")
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, 50)
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
+            Intent(ApplicationProvider.getApplicationContext(), EditEventActivity::class.java)
+        intent.putExtra(EditEventActivity.EXTRA_IS_NEW_EVENT, true)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TITLE, "fake")
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_LIM_PART, 50)
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TIME, intArrayOf(11, 30))
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_DATE, intArrayOf(2022, 5, 12))
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_LOCATION, doubleArrayOf(0.0, 0.0))
         scenario = ActivityScenario.launch(intent)
 
         init()
