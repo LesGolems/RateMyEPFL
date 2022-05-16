@@ -112,6 +112,7 @@ open class AudioRecordActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
+        @Suppress("DEPRECATION")
         recorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)

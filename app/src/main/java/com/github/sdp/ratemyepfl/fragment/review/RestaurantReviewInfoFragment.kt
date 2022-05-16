@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.sdp.ratemyepfl.R
@@ -40,11 +41,16 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
 
     private fun setupOccupancyUI(view: View, n: Int) {
         occupancyBar.progressTintList = when (n) {
-            1 -> ColorStateList.valueOf(resources.getColor(R.color.green))
-            2 -> ColorStateList.valueOf(resources.getColor(R.color.yellow))
-            3 -> ColorStateList.valueOf(resources.getColor(R.color.orange))
-            4 -> ColorStateList.valueOf(resources.getColor(R.color.dark_orange))
-            else -> ColorStateList.valueOf(resources.getColor(R.color.red))
+            1 -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.green))
+            2 -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.yellow))
+            3 -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.orange))
+            4 -> ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_orange
+                )
+            )
+            else -> ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.red))
         }
         occupancyBar.rating = n.toFloat()
         view.findViewById<TextView>(R.id.occupancyRating).text = when {

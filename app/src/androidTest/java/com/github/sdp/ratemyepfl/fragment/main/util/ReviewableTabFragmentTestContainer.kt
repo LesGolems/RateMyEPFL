@@ -118,6 +118,7 @@ class ReviewableTabFragmentTestContainer<U : Reviewable, T : ReviewableTabFragme
         release()
     }
 
+    @Suppress("IMPLICIT_CAST_TO_ANY")
     @ExperimentalCoroutinesApi
     private fun createScenario() = when (testedFragment) {
         ClassroomTabFragment::class -> HiltUtils.launchFragmentInHiltContainer<ClassroomTabFragment> { }

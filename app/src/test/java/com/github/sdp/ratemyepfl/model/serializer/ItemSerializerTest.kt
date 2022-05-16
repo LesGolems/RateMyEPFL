@@ -35,7 +35,7 @@ class ItemSerializerTest {
 
     @Test
     fun serializationFailsForInvalidParameters() {
-        val t: Reviewable = Restaurant.Builder()
+        Restaurant.Builder()
             .setName("fake")
             .setLat(0.0)
             .setLong(0.0)
