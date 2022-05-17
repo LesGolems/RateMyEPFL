@@ -10,7 +10,10 @@
     <color name="primaryColor">@color/purple_500</color>
     <color name="orange">#FF8C00</color>
     <color name="red">#FF0000</color>
+    <color name="pale_red">#EC1C24</color>
+    <color name="dark_red">#88001b</color>
     <color name="green">#66FF00</color>
     <color name="yellow">#ffff00</color>
     <color name="dark_orange">#FF6100</color>
+    <color name="orange_white">#FFF8E2</color>
 </resources>
