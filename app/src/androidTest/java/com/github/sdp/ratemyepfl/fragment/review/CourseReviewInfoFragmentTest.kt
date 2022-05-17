@@ -10,8 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
-import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
-import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
@@ -49,24 +47,20 @@ class CourseReviewInfoFragmentTest {
         val fakeCourse = FakeCourseRepository.COURSE_WITH_REVIEW
         FakeCourseRepository.courseById = fakeCourse
 
-        val titleText = "Title : ${fakeCourse.title}"
-        val teacherText = "Teacher : ${fakeCourse.teacher}"
-        val sectionText = "Section : ${fakeCourse.section}"
-        val creditsText = "Credits : ${fakeCourse.credits}"
         val numReviewText = "(${fakeCourse.numReviews} reviews)"
 
         launch()
 
-        onView(withId(R.id.courseId))
+        onView(withId(R.id.courseCode))
             .check(matches(withText(fakeCourse.courseCode)))
         onView(withId(R.id.courseTitle))
-            .check(matches(withText(titleText)))
+            .check(matches(withText(fakeCourse.title)))
         onView(withId(R.id.courseTeacher))
-            .check(matches(withText(teacherText)))
+            .check(matches(withText(fakeCourse.teacher)))
         onView(withId(R.id.courseSection))
-            .check(matches(withText(sectionText)))
+            .check(matches(withText(fakeCourse.section)))
         onView(withId(R.id.courseCredits))
-            .check(matches(withText(creditsText)))
+            .check(matches(withText(fakeCourse.credits.toString())))
         onView(withId(R.id.courseNumReview)).check(matches(withText(numReviewText)))
     }
 
