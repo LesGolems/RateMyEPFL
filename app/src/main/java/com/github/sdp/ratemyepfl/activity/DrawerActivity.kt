@@ -53,6 +53,9 @@ open class DrawerActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.profileFragment -> hideBottomNav()
                 R.id.timetableFragment -> hideBottomNav()
+                R.id.addClassFragment -> hideBottomNav()
+                R.id.selectCourseFragment -> hideBottomNav()
+                R.id.selectRoomFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
@@ -89,6 +92,8 @@ open class DrawerActivity : AppCompatActivity() {
         userViewModel.isUserLoggedIn.observe(this) { loggedIn ->
             drawerView.menu.findItem(R.id.login).isVisible = !(loggedIn)
             drawerView.menu.findItem(R.id.logout).isVisible = loggedIn
+            drawerView.menu.findItem(R.id.timetable).isVisible = loggedIn
+            drawerView.menu.findItem(R.id.profile).isVisible = loggedIn
         }
 
         drawerView.menu.findItem(R.id.login).setOnMenuItemClickListener {

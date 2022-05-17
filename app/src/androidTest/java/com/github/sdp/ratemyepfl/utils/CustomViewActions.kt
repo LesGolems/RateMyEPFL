@@ -4,6 +4,7 @@ import android.graphics.Point
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
+import android.widget.NumberPicker
 import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.TextView
@@ -18,6 +19,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.Matcher
+
 
 object CustomViewActions {
     inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
@@ -277,4 +279,28 @@ object CustomViewActions {
             }
         }
     }
+
+    object NumberPickerActions {
+
+        /**
+         * Set the number of a number picker
+         */
+        fun setNumber(num: Int): ViewAction? {
+            return object : ViewAction {
+                override fun perform(uiController: UiController?, view: View) {
+                    val np = view as NumberPicker
+                    np.value = num
+                }
+
+                override fun getDescription(): String {
+                    return "Set the passed number into the NumberPicker"
+                }
+
+                override fun getConstraints(): Matcher<View> {
+                    return ViewMatchers.isAssignableFrom(NumberPicker::class.java)
+                }
+            }
+        }
+    }
+
 }

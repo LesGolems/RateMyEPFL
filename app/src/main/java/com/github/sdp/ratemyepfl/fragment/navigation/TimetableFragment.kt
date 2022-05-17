@@ -1,14 +1,21 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.FragmentViewPagerAdapter
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
+import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +27,27 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
-    private val viewModel: UserProfileViewModel by viewModels()
+    private lateinit var addClassFAB: FloatingActionButton
+
+    private val viewModel: UserProfileViewModel by activityViewModels()
+    private val sideBarViewModel: UserViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sideBarViewModel.isUserLoggedIn.observe(viewLifecycleOwner){
+            if(it) {
+                addClassFAB.visibility = VISIBLE
+            }
+            else {
+                addClassFAB.visibility = INVISIBLE
+            }
+        }
+
+        addClassFAB = view.findViewById(R.id.addClassButton)
+        addClassFAB.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.addClassFragment)
+        }
 
         tabLayout = view.findViewById(R.id.timetableTabLayout)
         viewPager = view.findViewById(R.id.timetableTabViewPager)
@@ -36,27 +60,30 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
     }
 
     private fun createFragments(timetable: ArrayList<Class>) {
-        if (timetable.isNotEmpty()) {
-            val fragments = DayFragment.DAYS.values()
-                .map {
-                    val classes =
-                        timetable.filter { c -> c.day == it.ordinal }.toCollection(ArrayList())
-                    it.toFragment(it.day, classes)
-                }
-                .toList()
+        val fragments = DayFragment.DAYS.values()
+            .map {
+                val classes =
+                    timetable.filter { c -> c.day == it.ordinal }.toCollection(ArrayList())
+                it.toFragment(it.day, classes)
+            }
+            .toList()
 
-            val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2
-            viewPager.currentItem = if (today in 0..4) today else 0
+        val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2
+        viewPager.currentItem = if (today in 0..4) today else 0
 
-            viewPager.offscreenPageLimit = fragments.size
-            val viewPagerAdapter = FragmentViewPagerAdapter(fragments, this)
-            viewPager.adapter = viewPagerAdapter
+        viewPager.offscreenPageLimit = fragments.size
+        val viewPagerAdapter = FragmentViewPagerAdapter(fragments, this)
+        viewPager.adapter = viewPagerAdapter
 
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = DayFragment.DAYS
-                    .values()[position]
-                    .day
-            }.attach()
-        }
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = DayFragment.DAYS
+                .values()[position]
+                .day
+        }.attach()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshProfile()
     }
 }

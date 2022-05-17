@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/addClassScrollView">
+
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context=".fragment.navigation.AddClassFragment">
+
+        <TextView
+            android:id="@+id/addClassTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:text="@string/title_class_creation"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/purple_700"
+            android:typeface="monospace" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/course_class_creation"
+            android:paddingTop="35dp"
+            app:startIconContentDescription="Course icon for class"
+            app:startIconDrawable="@drawable/ic_book_open_page_variant">
+
+            <EditText
+                android:id="@+id/courseClassInputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/room_class_creation"
+            android:paddingTop="35dp"
+            app:startIconContentDescription="Course icon for class"
+            app:startIconDrawable="@drawable/ic_table_chair">
+
+            <EditText
+                android:id="@+id/roomClassInputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:editable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/selectDayText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:text="@string/day_class_creation"
+            android:textAlignment="center"
+            android:textColor="@color/purple_700"
+            android:textSize="15sp"
+            android:typeface="monospace" />
+
+        <ca.antonious.materialdaypicker.MaterialDayPicker
+            android:id="@+id/dayPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:paddingTop="35dp"
+            app:selectionMode="ca.antonious.materialdaypicker.SingleSelectionMode" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_height="125dp"
+            android:layout_marginStart="25dp">
+
+            <TextView
+                android:id="@+id/startText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                style="@style/IconOnly"
+                android:textSize="11sp"
+                android:text="Start"/>
+
+            <NumberPicker
+                android:id="@+id/startTimePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:layout_toEndOf="@id/startText"/>
+
+            <TextView
+                android:id="@+id/endText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_centerVertical="true"
+                style="@style/IconOnly"
+                android:textSize="11sp"
+                android:text="End"
+                android:layout_toEndOf="@id/startTimePicker"/>
+
+            <NumberPicker
+                android:id="@+id/endTimePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:layout_toEndOf="@id/endText"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/doneButton"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="240dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/done_button_text" />
+    </LinearLayout>
+
+</ScrollView>

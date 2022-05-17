@@ -170,6 +170,9 @@ class MainActivityTest {
 
     @Test
     fun navigateToProfileWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.profile)).perform(click())
         onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
@@ -177,6 +180,9 @@ class MainActivityTest {
 
     @Test
     fun navigateToTimetableWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.timetable)).perform(click())
         onView(withId(R.id.timetableTabLayout)).check(matches(isDisplayed()))
