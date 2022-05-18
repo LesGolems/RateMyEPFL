@@ -46,7 +46,7 @@ class ClassroomInfoViewModel @Inject constructor(
         viewModelScope.launch {
             val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById(id)
             if (roomNoiseInfo != null) {
-                noiseData.postValue(roomNoiseInfo.noiseData.sortedBy { it.date })
+                noiseData.postValue(roomNoiseInfo.noiseData.sortedBy { it.date }.reversed())
             }
         }
     }

@@ -4,9 +4,14 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaRecorder
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,6 +38,7 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
     private lateinit var decibelTextView: TextView
     private lateinit var noiseTextView: TextView
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emojiView: ImageView
 
     private lateinit var dialog: Dialog
 
@@ -50,7 +56,6 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
 
     companion object {
         private const val referenceAmplitude = 25
-        const val EXTRA_MEASUREMENT_VALUE: String = "com.github.sdp.extra_measurement_value"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,6 +87,7 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
 
         decibelTextView = dialog.findViewById(R.id.decibelTextView)
         noiseTextView = dialog.findViewById(R.id.noiseTextView)
+        emojiView = dialog.findViewById(R.id.dialog_smiley)
     }
 
     /**
@@ -109,8 +115,8 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
     private fun onRecord() {
         if (start) {
             recordButton.setImageResource(R.drawable.stop_circle_outline)
-            decibelTextView.visibility = View.VISIBLE
-            noiseTextView.visibility = View.VISIBLE
+            decibelTextView.visibility = VISIBLE
+            noiseTextView.visibility = VISIBLE
             startRecording()
         } else {
             recordButton.setImageResource(R.drawable.record_circle)
@@ -172,16 +178,18 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
     }
 
     private fun displayDecibels(intensity: Int) {
-        val (text, color, _) = SoundDisplayUtils.decibelMap(intensity)
+        val (text, color, emoji) = SoundDisplayUtils.decibelMap(intensity)
         decibelTextView.text = getString(R.string.decibels, intensity.toString())
         decibelTextView.setTextColor(color)
         noiseTextView.text = getString(R.string.noise, text)
         noiseTextView.setTextColor(color)
+        emojiView.setImageResource(emoji)
     }
 
     private fun sendAudioResults(measure: Int) {
         viewModel.submitNoiseMeasure(measure)
         dialog.hide()
+        viewModel.refresh()
     }
 
 }
