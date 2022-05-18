@@ -1,9 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.Manifest
-import android.content.Intent
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -13,12 +10,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.fragment.review.AudioRecordFragment
 import com.github.sdp.ratemyepfl.utils.TestUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.CoreMatchers.not
-import org.junit.After
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,7 +25,7 @@ class AudioRecordActivityTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val testRule = ActivityScenarioRule(AudioRecordActivity::class.java)
+    val testRule = ActivityScenarioRule(AudioRecordFragment::class.java)
 
     @get:Rule(order = 2)
     val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
