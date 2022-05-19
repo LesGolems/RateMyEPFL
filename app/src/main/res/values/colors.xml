@@ -11,7 +11,7 @@
     <color name="primaryColor">@color/red</color>
     <color name="secondaryColor">@color/dark_red</color>
     <color name="tertiaryColor">@color/pale_red</color>
-    <color name="backgroundColor">#FFEEE8</color>
+    <color name="backgroundColor">#FFF1E8</color>
 
     <color name="orange">#FF8C00</color>
     <color name="red">#E1C20000</color>
