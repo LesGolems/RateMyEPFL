@@ -8,7 +8,7 @@
         android:icon="@drawable/ic_home_white_24dp"
         android:title="@string/home_nav_title" />
     <item
-        android:id="@+id/review"
+        android:id="@+id/reviewable"
         android:contentDescription="@string/reviews_nav_title"
         android:enabled="true"
         android:icon="@drawable/ic_rate_review_white_24dp"

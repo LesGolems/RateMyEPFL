@@ -98,7 +98,6 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         } catch (e: Exception) {
             e.message?.let {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(R.id.reviewBottomNavigationView)
                     .show()
             }
         }

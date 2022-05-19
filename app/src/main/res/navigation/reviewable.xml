@@ -2,12 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/review"
-    app:startDestination="@id/reviewFragment">
+    android:id="@+id/reviewable"
+    app:startDestination="@id/reviewableFragment">
 
     <fragment
-        android:id="@+id/reviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewFragment"
-        android:label="Review"
+        android:id="@+id/reviewableFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.navigation.ReviewableFragment"
+        android:label="@string/reviews_nav_title"
         tools:layout="@layout/fragment_review" />
 </navigation>

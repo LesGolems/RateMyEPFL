@@ -61,8 +61,6 @@ class DayFragment : Fragment(R.layout.fragment_day) {
             val c = courseRepo.getCourseById(id)
             if (c != null) {
                 displayReviews(
-                    R.menu.bottom_navigation_menu_course_review,
-                    R.navigation.nav_graph_course_review,
                     id,
                     c
                 )
@@ -75,8 +73,6 @@ class DayFragment : Fragment(R.layout.fragment_day) {
             val r = roomRepo.getRoomById(id)
             if (r != null) {
                 displayReviews(
-                    R.menu.bottom_navigation_menu_room_review,
-                    R.navigation.nav_graph_room_review,
                     id,
                     r
                 )
@@ -84,10 +80,8 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         }
     }
 
-    private fun displayReviews(bottomNavId: Int, graphNavId: Int, id: String, r: Reviewable) {
+    private fun displayReviews(id: String, r: Reviewable) {
         val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, bottomNavId)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, graphNavId)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, id)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, r)
         startActivity(intent)

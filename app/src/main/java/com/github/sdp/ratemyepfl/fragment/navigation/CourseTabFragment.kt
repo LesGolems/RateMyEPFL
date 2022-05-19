@@ -16,8 +16,6 @@ open class CourseTabFragment : ReviewableTabFragment<Course>(R.menu.courses_opti
 
     override val viewModel: CourseListViewModel by viewModels()
 
-    override val reviewActivityMenuId: Int = R.menu.bottom_navigation_menu_course_review
-    override val reviewActivityGraphId: Int = R.navigation.nav_graph_course_review
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.elements
             .observe(viewLifecycleOwner) { courses ->

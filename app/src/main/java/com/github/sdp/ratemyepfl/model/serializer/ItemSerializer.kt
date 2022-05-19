@@ -35,6 +35,15 @@ fun Intent.putExtra(key: String, item: Reviewable): Intent {
     return putExtra(key, serialized)
 }
 
+fun Intent.getReviewable(key: String): Reviewable {
+    val deserialized = extras?.get(key)
+    if (deserialized != null) {
+        return ItemSerializer.deserialize(deserialized as String)
+    } else {
+        throw IllegalArgumentException("Cannot deserialize from a non valid key")
+    }
+}
+
 fun SavedStateHandle.getReviewable(key: String): Reviewable {
     val deserialized = get<String>(key)
     if (deserialized != null) {

@@ -14,8 +14,6 @@ abstract class MapItem(
     val photo: Int,
     val icon: BitmapDescriptor?
 ) : ClusterItem {
-    protected abstract val layout: Int
-    protected abstract val graph: Int
 
     override fun getPosition(): LatLng {
         return position
@@ -32,8 +30,6 @@ abstract class MapItem(
     fun onClickIntent(activity: FragmentActivity?): Intent {
         val intent = Intent(activity, ReviewActivity::class.java)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, name)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, layout)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, graph)
         return intent
     }
 }
