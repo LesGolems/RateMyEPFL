@@ -9,10 +9,10 @@
         android:title="@string/home_nav_title" />
     <item
         android:id="@+id/reviewable"
-        android:contentDescription="@string/reviews_nav_title"
+        android:contentDescription="@string/reviewable_nav_title"
         android:enabled="true"
         android:icon="@drawable/ic_rate_review_white_24dp"
-        android:title="@string/reviews_nav_title" />
+        android:title="@string/reviewable_nav_title" />
     <item
         android:id="@+id/event"
         android:contentDescription="@string/event_page_title"

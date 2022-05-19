@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -37,8 +39,6 @@ class CourseReviewInfoFragmentTest {
     private fun launch() {
         val reviewable: Reviewable = Course("Fake", "Fake", "Fake", 4, "Fake id", 0.0, 0)
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         scenario = ActivityScenario.launch(intent)
@@ -75,10 +75,6 @@ class CourseReviewInfoFragmentTest {
         FakeCourseRepository.courseById = FakeCourseRepository.COURSE_NO_REVIEW
 
         launch()
-
-        // Refresh
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.courseNumReview)).check(matches(withText(numReviewText)))

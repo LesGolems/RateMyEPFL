@@ -10,4 +10,9 @@
         android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewFragment"
         android:label="Review"
         tools:layout="@layout/fragment_review" />
+
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
+        android:label="Add a review" />
 </navigation>

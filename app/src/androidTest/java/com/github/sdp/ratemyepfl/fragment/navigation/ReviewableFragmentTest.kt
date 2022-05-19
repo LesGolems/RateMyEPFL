@@ -13,8 +13,9 @@ import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.utils.TabAction
-import com.github.sdp.ratemyepfl.utils.ViewPagerAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class ReviewFragmentTest {
+class ReviewableFragmentTest {
     @get:Rule
     val hiltAndroidRule: HiltAndroidRule = HiltAndroidRule(this)
 

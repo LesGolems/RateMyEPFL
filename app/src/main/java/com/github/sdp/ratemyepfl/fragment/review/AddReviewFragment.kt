@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
@@ -111,6 +112,8 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
             reset()
             // Bar that will appear at the bottom of the screen
             displayOnSnackbar(getString(R.string.review_sent_text))
+
+            Navigation.findNavController(requireView()).popBackStack()
         } catch (due: DisconnectedUserException) {
             displayOnSnackbar(due.message)
         } catch (mie: MissingInputException) {

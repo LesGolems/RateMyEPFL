@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.model.items
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
@@ -10,6 +11,7 @@ import com.google.maps.android.clustering.ClusterItem
 
 abstract class MapItem(
     private val position: LatLng,
+    val item: Reviewable,
     val name: String,
     val photo: Int,
     val icon: BitmapDescriptor?
@@ -29,6 +31,7 @@ abstract class MapItem(
 
     fun onClickIntent(activity: FragmentActivity?): Intent {
         val intent = Intent(activity, ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, item)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, name)
         return intent
     }
