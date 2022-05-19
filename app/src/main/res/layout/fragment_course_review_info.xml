@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange_white"
+    android:background="@color/backgroundColor"
     tools:context=".fragment.review.CourseReviewInfoFragment">
 
     <ImageView
@@ -22,7 +22,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="200dp"
         android:src="@drawable/ic_book_open_solid"
-        app:tint="@color/red" />
+        app:tint="@color/primaryColor" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardCourseCode"
@@ -46,182 +46,172 @@
             android:textAlignment="center"
             android:textSize="38sp"
             android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="@color/dark_red"
+            android:textColor="@color/secondaryColor"
             android:typeface="normal" />
 
     </androidx.cardview.widget.CardView>
 
-    <RelativeLayout
-        android:id="@+id/courseTitleLayout"
+    <TableLayout
+        android:id="@+id/courseInfoLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardCourseCode"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/cardCourseCode">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCourseTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            app:cardBackgroundColor="@color/dark_red">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/courseTitleText"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
-                android:fontFamily="@font/pt_sans_bold"
-                android:text="@string/course_title_text"
-                android:textColor="@color/orange_white"
-                android:textSize="11sp"/>
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
 
-        </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/courseTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/course_title_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
 
-        <TextView
-            android:id="@+id/courseTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/cardCourseTitle"
-            android:maxWidth="260dp"
-            android:fontFamily="@font/pt_sans_bold"
-            android:text="@string/course_title"
-            android:textSize="20sp"
-            android:textColor="@color/black" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/courseTeacherLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/courseTitleLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCourseTeacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            app:cardBackgroundColor="@color/dark_red">
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/courseTeacherText"
+                android:id="@+id/courseTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:maxWidth="260dp"
                 android:fontFamily="@font/pt_sans_bold"
-                android:text="@string/course_teacher_text"
-                android:textColor="@color/orange_white"
-                android:textSize="11sp"/>
+                android:text="@string/course_title"
+                android:textSize="20sp"
+                android:textColor="@color/black" />
+        </TableRow>
 
-        </androidx.cardview.widget.CardView>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/courseTeacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/cardCourseTeacher"
-            android:layout_marginStart="5dp"
-            android:textSize="20sp"
-            android:fontFamily="@font/pt_sans_bold"
-            android:text="@string/course_teacher"
-            android:textColor="@color/black" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseTeacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/courseTeacherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/course_teacher_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
 
-    <RelativeLayout
-        android:id="@+id/courseSectionLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/courseTeacherLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCourseSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            app:cardBackgroundColor="@color/dark_red">
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/courseSectionText"
+                android:id="@+id/courseTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:textSize="20sp"
                 android:fontFamily="@font/pt_sans_bold"
-                android:text="@string/course_section_text"
-                android:textColor="@color/orange_white"
-                android:textSize="11sp"/>
+                android:text="@string/course_teacher"
+                android:textColor="@color/black" />
+        </TableRow>
 
-        </androidx.cardview.widget.CardView>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/courseSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/cardCourseSection"
-            android:layout_marginStart="5dp"
-            android:textSize="20sp"
-            android:fontFamily="@font/pt_sans_bold"
-            android:text="@string/course_section"
-            android:textColor="@color/black" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/courseSectionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/course_section_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
 
-    <RelativeLayout
-        android:id="@+id/courseCreditsLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/courseSectionLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardCourseCredits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            app:cardBackgroundColor="@color/dark_red">
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/courseCreditsText"
+                android:id="@+id/courseSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:textSize="20sp"
                 android:fontFamily="@font/pt_sans_bold"
-                android:text="@string/course_credits_text"
-                android:textColor="@color/orange_white"
-                android:textSize="11sp"/>
+                android:text="@string/course_section"
+                android:textColor="@color/black" />
+        </TableRow>
 
-        </androidx.cardview.widget.CardView>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/courseCredits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/cardCourseCredits"
-            android:layout_marginStart="5dp"
-            android:textSize="20sp"
-            android:fontFamily="@font/pt_sans_bold"
-            android:text="@string/course_credits"
-            android:textColor="@color/black" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseCredits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/courseCreditsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/course_credits_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/courseCredits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="@string/course_credits"
+                android:textColor="@color/black" />
+        </TableRow>
+
+    </TableLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardCourseRating"
         android:layout_width="200dp"
         android:layout_height="52dp"
-        android:layout_below="@id/courseCreditsLayout"
-        android:layout_marginTop="50dp"
+        android:layout_below="@id/courseInfoLayout"
+        android:layout_marginTop="60dp"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="30dp">
 
@@ -235,8 +225,8 @@
             android:padding="5dp"
             android:scaleY="0.75"
             android:scaleX="0.75"
-            android:progressTint="@color/dark_red"
-            android:secondaryProgressTint="@color/pale_red"
+            android:progressTint="@color/secondaryColor"
+            android:secondaryProgressTint="@color/tertiaryColor"
             android:stepSize="0.1" />
     </com.google.android.material.card.MaterialCardView>
 

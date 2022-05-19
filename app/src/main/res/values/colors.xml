@@ -7,7 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
     <color name="primaryColor">@color/red</color>
+    <color name="secondaryColor">@color/dark_red</color>
+    <color name="tertiaryColor">@color/pale_red</color>
+    <color name="backgroundColor">#FFEEE8</color>
+
     <color name="orange">#FF8C00</color>
     <color name="red">#E1C20000</color>
     <color name="pale_red">#EA2D34</color>
@@ -16,5 +21,5 @@
     <color name="green">#66FF00</color>
     <color name="yellow">#ffff00</color>
     <color name="dark_orange">#FF6100</color>
-    <color name="orange_white">#FFF8E2</color>
+    <color name="orange_white">#FFE9E2</color>
 </resources>
