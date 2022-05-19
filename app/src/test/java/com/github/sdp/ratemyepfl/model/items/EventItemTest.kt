@@ -27,9 +27,4 @@ class EventItemTest {
     fun getSnippetReturnsNull() {
         assertNull(EVENT_ITEM.snippet)
     }
-
-    @Test
-    fun onClickIntentReturnTheCorrectIntent() {
-        assertNotNull(EVENT_ITEM.onClickIntent(null))
-    }
 }
