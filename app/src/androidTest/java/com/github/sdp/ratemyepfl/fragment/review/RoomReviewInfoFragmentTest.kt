@@ -51,25 +51,6 @@ class RoomReviewInfoFragmentTest {
     }
 
     @Test
-    fun audioReturnsDisplayed(){
-        init()
-        launch()
-        val intent = Intent()
-        intent.putExtra("com.github.sdp.extra_measurement_value", 50)
-        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
-        onView(withId(R.id.noiseMeasureButton)).perform(click())
-
-        ViewPagerAction.swipeNext()
-        ViewPagerAction.swipePrevious()
-        Thread.sleep(1000)
-
-        val dbText = "Calm (50 dB) - 0 minutes ago"
-        onView(withId(R.id.roomNoiseInfoTextView)).check(matches(withText(dbText)))
-        release()
-    }
-
-    @Test
     fun allInformationCorrectlyDisplayed() {
         val fakeRoom = FakeClassroomRepository.ROOM_WITH_REVIEW
         FakeClassroomRepository.roomById = fakeRoom
