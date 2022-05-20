@@ -1,5 +1,13 @@
-package com.github.sdp.ratemyepfl.database
+package com.github.sdp.ratemyepfl.database.post
 
+import com.github.sdp.ratemyepfl.database.Repository
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.COMMENT_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.DATE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.DISLIKERS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.LIKERS_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.TITLE_FIELD_NAME
+import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.UID_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -22,13 +30,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"
         const val RATING_FIELD_NAME = "rating"
-        const val TITLE_FIELD_NAME = "title"
-        const val COMMENT_FIELD_NAME = "comment"
         const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
-        const val DATE_FIELD_NAME = "date"
-        const val UID_FIELD_NAME = "uid"
-        const val LIKERS_FIELD_NAME = "likers"
-        const val DISLIKERS_FIELD_NAME = "dislikers"
 
         /**
          * Converts a json data into a Review
@@ -37,10 +39,10 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
          */
         fun DocumentSnapshot.toReview(): Review? = try {
             val builder = Review.Builder()
+                .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
                 .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
                 .setTitle(getString(TITLE_FIELD_NAME))
                 .setComment(getString(COMMENT_FIELD_NAME))
-                .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
                 .setUid(getString(UID_FIELD_NAME))
                 .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
@@ -112,30 +114,30 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
             .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
     }
 
-    override suspend fun addUpVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun addUpVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             if (!review.likers.contains(userId))
                 review.copy(likers = review.likers.plus(userId))
             else review
         }.await()
     }
 
-    override suspend fun removeUpVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun removeUpVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             review.copy(likers = review.likers.minus(userId))
         }.await()
     }
 
-    override suspend fun addDownVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun addDownVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             if (!review.dislikers.contains(userId)) {
                 review.copy(dislikers = review.dislikers.plus(userId))
             } else review
         }.await()
     }
 
-    override suspend fun removeDownVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun removeDownVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             review.copy(dislikers = review.dislikers.minus(userId))
         }.await()
     }

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.database.ReviewRepository
+import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -104,10 +104,10 @@ class AddReviewViewModel @Inject constructor(
         }
 
         val builder = Review.Builder()
-            .setTitle(title)
             .setRating(rating)
-            .setComment(comment)
             .setReviewableID(id)
+            .setTitle(title)
+            .setComment(comment)
             .setDate(date)
             .setUid(uid)
         try {

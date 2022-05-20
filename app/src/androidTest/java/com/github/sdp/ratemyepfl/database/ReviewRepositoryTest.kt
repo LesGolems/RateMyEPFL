@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
+import com.github.sdp.ratemyepfl.database.post.PostRepository
+import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl
+import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl.Companion.toReview
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
@@ -159,25 +161,25 @@ class ReviewRepositoryTest {
             .thenReturn(fakeId)
         Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
             .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.TITLE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.TITLE_FIELD_NAME))
             .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.COMMENT_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.COMMENT_FIELD_NAME))
             .thenReturn(fakeComment)
         Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
             .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.DATE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.LIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(PostRepository.LIKERS_FIELD_NAME))
             .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.DISLIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(PostRepository.DISLIKERS_FIELD_NAME))
             .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()
         val fakeReview = Review.Builder()
             .setRating(ReviewRating.valueOf(fakeRating))
+            .setReviewableID(fakeReviewableId)
             .setTitle(fakeTitle)
             .setComment(fakeComment)
-            .setReviewableID(fakeReviewableId)
             .setDate(LocalDate.parse(fakeDate))
             .setLikers(fakeLikers)
             .setDislikers(fakeDislikers)
@@ -202,17 +204,17 @@ class ReviewRepositoryTest {
             .thenReturn(fakeId)
         Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
             .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.TITLE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.TITLE_FIELD_NAME))
             .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.COMMENT_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.COMMENT_FIELD_NAME))
             .thenReturn(fakeComment)
         Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
             .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.DATE_FIELD_NAME))
+        Mockito.`when`(snapshot.getString(PostRepository.DATE_FIELD_NAME))
             .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.LIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(PostRepository.LIKERS_FIELD_NAME))
             .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(ReviewRepositoryImpl.DISLIKERS_FIELD_NAME))
+        Mockito.`when`(snapshot.get(PostRepository.DISLIKERS_FIELD_NAME))
             .thenReturn(fakeDislikers)
 
         val review: Review? = snapshot.toReview()

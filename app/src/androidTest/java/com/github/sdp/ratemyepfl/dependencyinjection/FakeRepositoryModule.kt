@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.database.fakes.*
+import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository

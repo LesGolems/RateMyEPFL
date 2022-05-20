@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
 import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.database.post.ReviewRepository
+import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.*
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
