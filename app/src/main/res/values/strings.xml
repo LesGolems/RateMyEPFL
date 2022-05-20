@@ -133,4 +133,5 @@
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="display_comments">Display comments</string>
     <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
+    <string name="reply">Reply</string>
 </resources>

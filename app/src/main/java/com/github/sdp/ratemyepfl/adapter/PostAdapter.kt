@@ -127,8 +127,8 @@ open class PostAdapter<T : Post>(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
-        holder.bind(post)
+        val postWithAuthor = getItem(position)
+        holder.bind(postWithAuthor)
     }
 
 }

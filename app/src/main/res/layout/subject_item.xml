@@ -6,68 +6,90 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Subject information layout -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/authorProfilePicture"
+            android:id="@+id/author_profile_picture"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@raw/blank_profile_picture" />
 
         <TextView
-            android:id="@+id/authorUsername"
+            android:id="@+id/author_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/authorProfilePicture"
-            android:layout_alignBottom="@id/authorProfilePicture"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignBottom="@id/author_profile_picture"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/authorProfilePicture"
+            android:layout_toEndOf="@+id/author_profile_picture"
             android:gravity="center"
             android:hint="@string/anonymous" />
 
         <TextView
-            android:id="@+id/subjectDate"
-            style="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/separator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/authorProfilePicture"
-            android:layout_alignBottom="@id/authorProfilePicture"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignBottom="@id/author_profile_picture"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/authorUsername"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toEndOf="@+id/author_username"
+            android:gravity="center"
             android:text="·"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/subjectType"
+            android:id="@+id/dateReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/authorProfilePicture"
-            android:layout_alignBottom="@id/authorProfilePicture"
-            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignBottom="@id/author_profile_picture"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/separator"
+            android:gravity="center"
             android:text="%s" />
 
+        <TextView
+            android:id="@+id/subjectKind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignBottom="@id/author_profile_picture"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="%s" />
     </RelativeLayout>
 
 
+    <!-- Line separator -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/holo_red_light" />
+
+
+    <!-- Subject description layout -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/subjectTitle"
+            android:id="@+id/titleReview"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_review_list"
             tools:ignore="RelativeOverlap" />
 
-
         <ImageButton
-            android:id="@+id/subjectDeleteButton"
+            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -76,19 +98,26 @@
             android:src="@drawable/ic_delete_outline" />
 
         <TextView
-            android:id="@+id/subjectComment"
+            android:id="@+id/commentReview"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectTitle"
+            android:layout_below="@id/titleReview"
             android:text="@string/comment_review_list" />
+    </RelativeLayout>
 
+
+    <!-- User interaction layout -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <!-- Comment -->
         <ImageButton
             android:id="@+id/subjectCommentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
-            android:layout_toStartOf="@id/subjectCommentCount"
             android:background="@color/white"
             android:contentDescription="@string/display_comments"
             android:foreground="?android:attr/selectableItemBackground"
@@ -98,51 +127,57 @@
             android:id="@+id/subjectCommentCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/subjectLikeButton" />
+            android:layout_toEndOf="@id/subjectCommentButton" />
 
         <ImageButton
-            android:id="@+id/subjectLikeButton"
+            android:id="@+id/subjectReplyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
-            android:layout_toStartOf="@id/subjectLikeCount"
+            android:layout_toEndOf="@id/subjectCommentCount"
+            android:background="@color/white"
+            android:contentDescription="@string/reply"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_reply" />
+
+        <!-- Like -->
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/likeCount"
             android:background="@color/white"
             android:contentDescription="@string/i_like_this_review"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_like" />
 
         <TextView
-            android:id="@+id/subjectLikeCount"
+            android:id="@+id/likeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/subjectDislikeButton" />
+            android:layout_toStartOf="@id/dislikeButton" />
 
+        <!-- Dislike -->
         <ImageButton
-            android:id="@+id/subjectDislikeButton"
+            android:id="@+id/dislikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
-            android:layout_toStartOf="@id/subjectDislikeCount"
+            android:layout_toStartOf="@id/dislikeCount"
             android:background="@color/white"
             android:contentDescription="@string/i_don_t_like_this_review"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_dislike" />
 
         <TextView
-            android:id="@+id/subjectDislikeCount"
+            android:id="@+id/dislikeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectComment"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="2dp" />
-
     </RelativeLayout>
 
 </LinearLayout>

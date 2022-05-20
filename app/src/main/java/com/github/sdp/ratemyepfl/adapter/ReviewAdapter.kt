@@ -1,11 +1,9 @@
 package com.github.sdp.ratemyepfl.adapter
 
-import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 
 class ReviewAdapter(
@@ -25,16 +23,11 @@ class ReviewAdapter(
     R.layout.review_item
 ) {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    inner class ReviewViewHolder(reviewView: View) : PostViewHolder(reviewView) {
-        private val rateView: TextView = reviewView.findViewById(R.id.rateReview)
-
-        override fun bind(postWithAuthor: ReviewWithAuthor) {
-            rateView.text = post.rating.toString()
-        }
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        val postWithAuthor = getItem(position)
+        holder.itemView.findViewById<TextView>(R.id.rateReview).text =
+            postWithAuthor.post.rating.toString()
     }
 
 }

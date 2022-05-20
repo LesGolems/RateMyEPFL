@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
-import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.google.android.gms.tasks.Task
@@ -49,8 +48,19 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     }
 
     override suspend fun getSubjects(): List<Subject> =
-        repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }
+        listOf(
+            Subject(
+                "TITLE",
+                "comment",
+                LocalDate.now(),
+                "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
+                likers = listOf("uid1"),
+                dislikers = listOf("uid2"),
+                commentators = listOf("uid1", "uid2")
+            )
+        )
+    /*repository.take(DEFAULT_QUERY_LIMIT.toLong())
+        .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }*/
 
 
     override suspend fun addAndGetId(item: Subject): String {
