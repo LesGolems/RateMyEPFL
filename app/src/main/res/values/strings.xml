@@ -129,6 +129,8 @@
     <string name="noise">%s</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
     <string name="room_noise_info">%s (%s dB) - %s</string>
+    <string name="noise_no_measure">No measure yet</string>
+    <string name="noise_string">NOISE</string>
     <string name="addClassButton">Add Class Button</string>
     <string name="addclassfragment">Choose a class to add</string>
 </resources>

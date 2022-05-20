@@ -17,9 +17,7 @@ import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
-import com.github.sdp.ratemyepfl.database.fakes.FakeGradeInfoRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
-import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -68,7 +66,7 @@ class RoomReviewInfoFragmentTest {
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.roomReviewInfoFragment))
 
         val dbText = "Calm (50 dB) - 0 minutes ago"
-        onView(withId(R.id.roomNoiseInfoTextView)).check(matches(withText(dbText)))
+        onView(withId(R.id.roomNoiseInfo)).check(matches(withText(dbText)))
         release()
     }
 
@@ -80,7 +78,7 @@ class RoomReviewInfoFragmentTest {
         launch()
 
         val numReviewText = "(${fakeRoom.numReviews} reviews)"
-        onView(withId(R.id.roomIdInfo))
+        onView(withId(R.id.roomCode))
             .check(matches(withText(fakeRoom.name)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
     }
