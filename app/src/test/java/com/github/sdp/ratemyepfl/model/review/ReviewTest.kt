@@ -157,33 +157,4 @@ class ReviewTest {
 
         assertEquals(reviewableId, review.reviewableId)
     }
-
-    /*@Test
-    fun serializationIsConsistent() {
-        val review: Review = Review.Builder()
-            .setRating(ReviewRating.EXCELLENT)
-            .setReviewableID("ID")
-            .setComment("My comment")
-            .setTitle("My title")
-            .setDate(LocalDate.of(2020, 3, 8))
-            .build()
-
-        val serializedReview = review.serialize()
-        val deserializedReview = Post.deserialize<Review>(serializedReview)
-
-        assertEquals(review, deserializedReview)
-    }
-
-    @Test
-    fun serializeWorks() {
-        val serializedReview = EXPECTED_REVIEW.serialize()
-        assertEquals(serializedReview, EXPECTED_JSON)
-    }
-
-    companion object {
-        const val EXPECTED_JSON =
-            "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
-        private val EXPECTED_REVIEW =
-            Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
-    }*/
 }

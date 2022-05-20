@@ -3,6 +3,8 @@ package com.github.sdp.ratemyepfl.dependencyinjection
 import com.github.sdp.ratemyepfl.database.*
 import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl
+import com.github.sdp.ratemyepfl.database.post.SubjectRepository
+import com.github.sdp.ratemyepfl.database.post.SubjectRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.*
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
@@ -34,6 +36,10 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun provideReviewRepo(repo: ReviewRepositoryImpl): ReviewRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideSubjectRepo(repo: SubjectRepositoryImpl): SubjectRepository
 
     @Singleton
     @Binds

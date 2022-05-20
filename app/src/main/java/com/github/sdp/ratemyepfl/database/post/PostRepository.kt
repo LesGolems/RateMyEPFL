@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.model.review.Post
+import com.google.android.gms.tasks.Task
 
 interface PostRepository<T : Post> : Repository<T> {
 
@@ -20,6 +21,15 @@ interface PostRepository<T : Post> : Repository<T> {
      * @param item: the [Post] to add
      */
     suspend fun addAndGetId(item: T): String
+
+    /**
+     * Add a [Post] with a provided id. This should be used carefully as it may overwrite data.
+     *
+     * @param item: [Post] to add
+     * @param withId: a provided unique identifier
+     *
+     */
+    fun addWithId(item: T, withId: String): Task<Void>
 
     /**
      * Adds an up vote from [userId] to the post with id [postId]. If the user

@@ -22,8 +22,6 @@ data class Review constructor(
         }
     }
 
-    //override fun serialize(): String = Companion.serialize(this)
-
     /**
      * Creates a hash map of the review
      */
@@ -45,6 +43,7 @@ data class Review constructor(
         private var rating: ReviewRating? = null,
         private var reviewableId: String? = null,
     ) : Post.Builder<Review>() {
+
         /**
          * Sets the rating of the review
          * @param rating: the new rating of the review

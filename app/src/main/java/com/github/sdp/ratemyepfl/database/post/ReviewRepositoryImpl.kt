@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.TITLE_FI
 import com.github.sdp.ratemyepfl.database.post.PostRepository.Companion.UID_FIELD_NAME
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
@@ -87,8 +88,8 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
      * @param withId: a provided unique identifier
      *
      */
-    fun addWithId(review: Review, withId: String) =
-        repository.add(review.withId(withId))
+    override fun addWithId(item: Review, withId: String): Task<Void> =
+        repository.add(item.withId(withId))
 
 
     override suspend fun getReviews(): List<Review> =
