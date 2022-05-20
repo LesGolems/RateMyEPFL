@@ -132,4 +132,6 @@
     <string name="day_class_creation">Select the day and time</string>
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="add_review_button">Add Review Button</string>
+    <string name="default_noise_text">You can click on the button to start a new recording !</string>
+    <string name="emoji">&#128522;</string>
 </resources>
