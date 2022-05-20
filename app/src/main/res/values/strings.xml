@@ -131,4 +131,6 @@
     <string name="title_class_creation">Add a class</string>
     <string name="day_class_creation">Select the day and time</string>
     <string name="not_logged_in_text">You are not logged in</string>
+    <string name="display_comments">Display comments</string>
+    <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
 </resources>

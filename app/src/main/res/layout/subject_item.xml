@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/authorProfilePicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@raw/blank_profile_picture" />
+
+        <TextView
+            android:id="@+id/authorUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/authorProfilePicture"
+            android:layout_alignBottom="@id/authorProfilePicture"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/authorProfilePicture"
+            android:gravity="center"
+            android:hint="@string/anonymous" />
+
+        <TextView
+            android:id="@+id/subjectDate"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/authorProfilePicture"
+            android:layout_alignBottom="@id/authorProfilePicture"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/authorUsername"
+            android:text="·"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subjectType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/authorProfilePicture"
+            android:layout_alignBottom="@id/authorProfilePicture"
+            android:layout_alignParentEnd="true"
+            android:text="%s" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/subjectTitle"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_review_list"
+            tools:ignore="RelativeOverlap" />
+
+
+        <ImageButton
+            android:id="@+id/subjectDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@color/white"
+            android:contentDescription="@string/button_for_deleting_a_subject"
+            android:src="@drawable/ic_delete_outline" />
+
+        <TextView
+            android:id="@+id/subjectComment"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectTitle"
+            android:text="@string/comment_review_list" />
+
+        <ImageButton
+            android:id="@+id/subjectCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_toStartOf="@id/subjectCommentCount"
+            android:background="@color/white"
+            android:contentDescription="@string/display_comments"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_comment" />
+
+        <TextView
+            android:id="@+id/subjectCommentCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/subjectLikeButton" />
+
+        <ImageButton
+            android:id="@+id/subjectLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_toStartOf="@id/subjectLikeCount"
+            android:background="@color/white"
+            android:contentDescription="@string/i_like_this_review"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_like" />
+
+        <TextView
+            android:id="@+id/subjectLikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/subjectDislikeButton" />
+
+        <ImageButton
+            android:id="@+id/subjectDislikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_toStartOf="@id/subjectDislikeCount"
+            android:background="@color/white"
+            android:contentDescription="@string/i_don_t_like_this_review"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_dislike" />
+
+        <TextView
+            android:id="@+id/subjectDislikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectComment"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="2dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

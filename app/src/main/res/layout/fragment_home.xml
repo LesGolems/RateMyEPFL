@@ -6,15 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment">
 
-    <TextView
-        android:id="@+id/homePageTitle"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/subjectSwipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/home_page_title"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subjectRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

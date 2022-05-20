@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.adapter.OnClickListener
+import com.github.sdp.ratemyepfl.adapter.PostAdapter
 import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -92,7 +94,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
      * Creates the onClickListener from the function given as input, encapsulating it in a
      * try catch to display the error message as SnackBar
      */
-    private fun getListener(f: (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
+    private fun getListener(f: (Review, String?) -> Unit) = OnClickListener<Review> { rwa ->
         try {
             f(rwa.post, rwa.author?.uid)
         } catch (e: Exception) {
