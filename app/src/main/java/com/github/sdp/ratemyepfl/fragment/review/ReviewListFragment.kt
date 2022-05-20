@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.OnClickListener
-import com.github.sdp.ratemyepfl.adapter.PostAdapter
-import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.adapter.post.OnClickListener
+import com.github.sdp.ratemyepfl.adapter.post.ReviewAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -32,9 +31,11 @@ Fragment for the list of reviews, shared among all reviewed items
  */
 @AndroidEntryPoint
 class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
+
     private lateinit var reviewAdapter: ReviewAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
+
     private lateinit var profilePanel: SlidingUpPanelLayout
     private lateinit var authorPanelImage: CircleImageView
     private lateinit var authorPanelUsername: TextView
@@ -51,9 +52,39 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeReviewList(view)
+        initializeProfilePanel(view)
+    }
+
+    private fun initializeReviewList(view: View) {
+        reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
+            getListener { r, s -> viewModel.updateUpVotes(r, s) },
+            getListener { r, s -> viewModel.updateDownVotes(r, s) },
+            { rwa ->
+                lifecycleScope.launch {
+                    viewModel.removeReview(rwa.post.getId())
+                }
+            }
+        ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
+
+        recyclerView = view.findViewById(R.id.reviewRecyclerView)
+        recyclerView.adapter = reviewAdapter
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        )
 
         swipeRefresher = view.findViewById(R.id.reviewSwipeRefresh)
-        recyclerView = view.findViewById(R.id.reviewRecyclerView)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.updateReviewsList()
+            swipeRefresher.isRefreshing = false
+        }
+
+        viewModel.reviews.observe(viewLifecycleOwner) {
+            it?.let { reviewAdapter.submitList(it) }
+        }
+    }
+
+    private fun initializeProfilePanel(view: View) {
         profilePanel = view.findViewById(R.id.author_profile_panel)
         authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
         authorPanelUsername = view.findViewById(R.id.author_panel_username)
@@ -62,31 +93,8 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         karmaCount = view.findViewById(R.id.karmaCount)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
-
         profilePanel.setFadeOnClickListener {
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
-        }
-        reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
-            getListener { r, s -> viewModel.updateUpVotes(r, s) },
-            getListener { r, s -> viewModel.updateDownVotes(r, s) },
-            { rwa -> lifecycleScope.launch {
-                viewModel.removeReview(rwa.post.getId())
-            }}
-        ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
-
-        recyclerView.adapter = reviewAdapter
-
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        )
-
-        swipeRefresher.setOnRefreshListener {
-            viewModel.updateReviewsList()
-            swipeRefresher.isRefreshing = false
-        }
-
-        viewModel.reviews.observe(viewLifecycleOwner) {
-            it?.let { reviewAdapter.submitList(it) }
         }
     }
 

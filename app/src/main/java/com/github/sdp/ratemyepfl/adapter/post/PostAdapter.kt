@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.adapter
+package com.github.sdp.ratemyepfl.adapter.post
 
 import android.view.LayoutInflater
 import android.view.View

@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.adapter.OnClickListener
-import com.github.sdp.ratemyepfl.adapter.SubjectAdapter
+import com.github.sdp.ratemyepfl.adapter.post.OnClickListener
+import com.github.sdp.ratemyepfl.adapter.post.SubjectAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Subject
@@ -40,20 +40,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
 
-
     @Inject
     lateinit var connectedUser: ConnectedUser
 
     private val viewModel by activityViewModels<HomeViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeReviewList(view)
+        initializeProfilePanel(view)
+    }
 
-        swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
-        recyclerView = view.findViewById(R.id.subjectRecyclerView)
-
+    private fun initializeReviewList(view: View) {
         subjectAdapter = SubjectAdapter(viewLifecycleOwner, userViewModel,
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
@@ -64,12 +63,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         ) { swa -> displayProfilePanel(swa.author, swa.image) }
 
+        recyclerView = view.findViewById(R.id.subjectRecyclerView)
         recyclerView.adapter = subjectAdapter
-
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
+        swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             viewModel.updateSubjectsList()
             swipeRefresher.isRefreshing = false
@@ -77,6 +77,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewModel.subjects.observe(viewLifecycleOwner) {
             it?.let { subjectAdapter.submitList(it) }
+        }
+    }
+
+    private fun initializeProfilePanel(view: View) {
+        profilePanel = view.findViewById(R.id.author_profile_panel)
+        authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
+        authorPanelUsername = view.findViewById(R.id.author_panel_username)
+        authorPanelEmail = view.findViewById(R.id.author_panel_email)
+        authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
+        karmaCount = view.findViewById(R.id.karmaCount)
+
+        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        profilePanel.setFadeOnClickListener {
+            profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
     }
 
@@ -112,5 +126,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         viewModel.updateSubjectsList()
+        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

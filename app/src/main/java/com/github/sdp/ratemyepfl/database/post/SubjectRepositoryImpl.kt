@@ -50,8 +50,17 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override suspend fun getSubjects(): List<Subject> =
         listOf(
             Subject(
-                "TITLE",
-                "comment",
+                "Where is the best place to eat at EPFL?",
+                "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
+                LocalDate.now(),
+                "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
+                likers = listOf("uid1"),
+                dislikers = listOf("uid2"),
+                commentators = listOf("uid1", "uid2")
+            ),
+            Subject(
+                "What is the drun is the best place to eat at EPFL?",
+                "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
                 LocalDate.now(),
                 "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
                 likers = listOf("uid1"),

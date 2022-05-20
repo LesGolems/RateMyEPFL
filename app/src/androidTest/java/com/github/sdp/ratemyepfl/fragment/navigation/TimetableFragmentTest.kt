@@ -17,13 +17,15 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.HiltTestActivity
 import com.github.sdp.ratemyepfl.activity.MainActivity
-import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.adapter.post.ReviewAdapter
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.TabAction
 import com.github.sdp.ratemyepfl.utils.clickOnViewChild
@@ -269,7 +271,7 @@ class TimetableFragmentTest {
         init()
 
         onView(withId(R.id.classRecyclerView)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.classname)
             )
@@ -293,7 +295,7 @@ class TimetableFragmentTest {
         init()
 
         onView(withId(R.id.classRecyclerView)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.room)
             )

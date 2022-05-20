@@ -11,7 +11,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeImageStorage
@@ -75,7 +75,7 @@ class ReviewListFragmentTest {
      */
     private fun likeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.likeButton)
             )
@@ -87,7 +87,7 @@ class ReviewListFragmentTest {
      */
     private fun dislikeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.dislikeButton)
             )
@@ -400,7 +400,7 @@ class ReviewListFragmentTest {
         launch()
 
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.deleteButton)
             )
