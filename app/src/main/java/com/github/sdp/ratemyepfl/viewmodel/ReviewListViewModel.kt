@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
@@ -53,13 +54,13 @@ open class ReviewListViewModel @Inject constructor(
             reviews.postValue(reviewRepo.getByReviewableId(id)
                 .toMutableList()
                 .map { review ->
-                    ReviewWithAuthor(
+                    PostWithAuthor<Review>(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
                         review.uid?.let { imageStorage.get(it) }
                     )
                 }
-                .sortedBy { rwa -> -rwa.review.likers.size })
+                .sortedBy { rwa -> -rwa.post.likers.size })
         }
     }
 

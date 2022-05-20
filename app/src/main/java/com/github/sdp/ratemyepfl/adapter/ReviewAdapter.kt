@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -58,7 +57,7 @@ class ReviewAdapter(
         private lateinit var review: Review
 
         fun bind(reviewWithAuthor: ReviewWithAuthor) {
-            review = reviewWithAuthor.review
+            review = reviewWithAuthor.post
 
             titleView.text = review.title
             rateView.text = review.rating.toString()
@@ -87,11 +86,11 @@ class ReviewAdapter(
                 dislikeButton.setImageResource(R.drawable.ic_dislike)
                 if (it != null) {
                     // The user liked the review
-                    if (reviewWithAuthor.review.likers.contains(it.uid)) {
+                    if (reviewWithAuthor.post.likers.contains(it.uid)) {
                         likeButton.setImageResource(R.drawable.ic_like_toggled)
                     }
                     // The user disliked the review
-                    if (reviewWithAuthor.review.dislikers.contains(it.uid)) {
+                    if (reviewWithAuthor.post.dislikers.contains(it.uid)) {
                         dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
                     }
                 }

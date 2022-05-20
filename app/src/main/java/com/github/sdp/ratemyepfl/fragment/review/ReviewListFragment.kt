@@ -68,7 +68,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
             { rwa -> lifecycleScope.launch {
-                viewModel.removeReview(rwa.review.getId())
+                viewModel.removeReview(rwa.post.getId())
             }}
         ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
 
@@ -94,7 +94,7 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
      */
     private fun getListener(f: (Review, String?) -> Unit) = ReviewAdapter.OnClickListener { rwa ->
         try {
-            f(rwa.review, rwa.author?.uid)
+            f(rwa.post, rwa.author?.uid)
         } catch (e: Exception) {
             e.message?.let {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)

@@ -31,8 +31,11 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.FixMethodOrder
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runners.MethodSorters
 import java.time.LocalDate
 
@@ -41,11 +44,12 @@ import java.time.LocalDate
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
 
-    private val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
-        .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
-        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
+    private val intent =
+        Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+            .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
+            .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
+            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
 
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -61,7 +65,7 @@ class ReviewListFragmentTest {
         scenario.close()
     }
 
-    private fun refresh(){
+    private fun refresh() {
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
         onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
     }
@@ -221,10 +225,11 @@ class ReviewListFragmentTest {
     fun swipeRefreshes() {
         launch()
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .build()
         )
@@ -239,10 +244,11 @@ class ReviewListFragmentTest {
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
@@ -270,10 +276,11 @@ class ReviewListFragmentTest {
     fun dislikeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
@@ -301,10 +308,11 @@ class ReviewListFragmentTest {
     fun likeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
@@ -332,10 +340,11 @@ class ReviewListFragmentTest {
     fun dislikeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setLikers(
                     listOf(
@@ -378,10 +387,11 @@ class ReviewListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
 
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setUid(FakeConnectedUser.fakeUser2.uid)
                 .build()
@@ -418,10 +428,11 @@ class ReviewListFragmentTest {
     fun likeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
@@ -438,10 +449,11 @@ class ReviewListFragmentTest {
     fun dislikeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         FakeReviewsRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(LocalDate.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()

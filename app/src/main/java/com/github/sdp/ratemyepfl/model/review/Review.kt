@@ -22,6 +22,8 @@ data class Review constructor(
         }
     }
 
+    //override fun serialize(): String = Companion.serialize(this)
+
     /**
      * Creates a hash map of the review
      */

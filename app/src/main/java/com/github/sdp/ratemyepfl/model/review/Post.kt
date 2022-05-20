@@ -23,26 +23,6 @@ abstract class Post @OptIn(ExperimentalSerializationApi::class) constructor(
 
     abstract var postId: String
 
-    companion object {
-        /**
-         * Function to serialize a Post easily, based on kotlin serialization plugin.
-         *
-         * @param post: Post to serialize
-         * @return the serialization (in JSON) of the post
-         */
-        fun serialize(post: Post): String = Json.encodeToString(post)
-
-        /**
-         * Function to deserialize a Post
-         *
-         * @param post: Post to deserialize (in JSON)
-         * @return the deserialized post
-         */
-        fun deserialize(post: String): Post = Json.decodeFromString(post)
-    }
-
-    fun serialize(): String = serialize(this)
-
     override fun getId(): String = postId
 
     /**
