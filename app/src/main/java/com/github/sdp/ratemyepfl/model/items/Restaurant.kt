@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
@@ -14,7 +14,7 @@ data class Restaurant constructor(
     override val numReviews: Int,
     val lat: Double,
     val long: Double,
-) : Reviewable(), Displayable {
+) : Reviewable(), DisplayableOnMap {
 
     companion object {
         const val MAX_OCCUPANCY = 50

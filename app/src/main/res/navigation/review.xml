@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.main.ReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.ReviewFragment"
         android:label="@string/reviews_nav_title"
         tools:layout="@layout/fragment_review" />
 </navigation>

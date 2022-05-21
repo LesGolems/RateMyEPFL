@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
+import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test

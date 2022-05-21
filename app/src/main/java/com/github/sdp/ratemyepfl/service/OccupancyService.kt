@@ -8,7 +8,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.IBinder
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

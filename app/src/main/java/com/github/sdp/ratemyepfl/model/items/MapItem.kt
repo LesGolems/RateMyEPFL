@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.model.items
 
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem

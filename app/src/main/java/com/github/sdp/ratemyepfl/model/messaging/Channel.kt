@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.messaging
 
-import com.github.sdp.ratemyepfl.database.ChannelListener
-import com.github.sdp.ratemyepfl.database.IChannel
+import com.github.sdp.ratemyepfl.backend.database.ChannelListener
+import com.github.sdp.ratemyepfl.backend.database.IChannel
 import com.google.firebase.firestore.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

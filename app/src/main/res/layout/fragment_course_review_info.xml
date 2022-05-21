@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.review.CourseReviewInfoFragment">
+    tools:context=".ui.fragment.review.CourseReviewInfoFragment">
 
     <ImageView
         android:id="@+id/courseIcon"

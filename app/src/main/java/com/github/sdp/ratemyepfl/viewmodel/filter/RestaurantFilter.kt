@@ -1,10 +1,10 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
-import com.github.sdp.ratemyepfl.database.query.OrderDirection
-import com.github.sdp.ratemyepfl.database.query.OrderedQuery
-import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
+import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
+import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 
 sealed interface RestaurantFilter : ReviewableFilter<Restaurant> {

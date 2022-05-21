@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.user
 
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.UserRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.firebase.UserRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.google.gson.Gson
 import kotlinx.serialization.Serializable

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest

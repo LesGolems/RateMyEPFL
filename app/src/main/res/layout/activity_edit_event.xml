@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.sdp.ratemyepfl.layout.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.sdp.ratemyepfl.ui.layout.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.sdp.ratemyepfl.activity.EditEventActivity">
+    tools:context="com.github.sdp.ratemyepfl.ui.activity.EditEventActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -139,7 +139,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/mapContainer"
-            android:name="com.github.sdp.ratemyepfl.fragment.main.MapFragment"
+            android:name="com.github.sdp.ratemyepfl.ui.fragment.main.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:paddingBottom="25dp" />
@@ -175,4 +175,4 @@
                 android:text="@string/done_button_text" />
         </RelativeLayout>
     </LinearLayout>
-</com.github.sdp.ratemyepfl.layout.CustomScrollView>
+</com.github.sdp.ratemyepfl.ui.layout.CustomScrollView>

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -23,7 +23,7 @@ data class Event @OptIn(ExperimentalSerializationApi::class) constructor(
     val long: Double,
     @Serializable(with = LocalDateTimeSerializer::class)
     val date: LocalDateTime = LocalDateTime.now()
-) : Reviewable(), Displayable {
+) : Reviewable(), DisplayableOnMap {
 
     override fun toString(): String {
         return name

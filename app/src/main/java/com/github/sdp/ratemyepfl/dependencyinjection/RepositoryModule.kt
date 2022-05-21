@@ -1,7 +1,12 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.*
-import com.github.sdp.ratemyepfl.database.reviewable.*
+import com.github.sdp.ratemyepfl.backend.database.*
+import com.github.sdp.ratemyepfl.backend.database.firebase.*
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.reviewable.*
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module

@@ -30,7 +30,7 @@
         </service>
 
         <activity
-            android:name=".activity.ReviewActivity"
+            android:name=".ui.activity.ReviewActivity"
             android:exported="false" />
 
         <meta-data
@@ -41,17 +41,17 @@
             android:value="@string/maps_api_key" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.EditEventActivity"
+            android:name=".ui.activity.EditEventActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ImageDetailActivity"
+            android:name=".ui.activity.ImageDetailActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.SplashScreen"
+            android:name=".ui.activity.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

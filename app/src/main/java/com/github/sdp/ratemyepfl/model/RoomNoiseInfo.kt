@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model
 
-import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.RoomNoiseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.firebase.RoomNoiseRepositoryImpl
 import com.google.gson.Gson
 import kotlinx.serialization.Serializable
 

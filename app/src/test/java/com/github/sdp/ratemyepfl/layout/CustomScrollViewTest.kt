@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.layout
 
 import android.view.View
+import com.github.sdp.ratemyepfl.ui.layout.CustomScrollView
 import org.junit.Assert.*
 import org.junit.Test
 

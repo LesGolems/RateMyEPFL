@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/courseReviewInfoFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.CourseReviewInfoFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.CourseReviewInfoFragment"
         android:label="Course Info"
         tools:layout="@layout/fragment_course_review_info" />
     <fragment
         android:id="@+id/reviewListFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.ReviewListFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.ReviewListFragment"
         android:label="Review List"
         tools:layout="@layout/fragment_review_list" />
     <fragment
         android:id="@+id/addReviewFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment"
         android:label="Add a review" />
     <include app:graph="@navigation/timetable" />
     <include app:graph="@navigation/profile" />

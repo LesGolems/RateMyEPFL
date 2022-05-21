@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.EditEventActivity
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.ui.activity.EditEventActivity
+import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.items.Event

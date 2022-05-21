@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.auth.GoogleAuthenticator
-import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.auth.GoogleAuthenticator
+import com.github.sdp.ratemyepfl.backend.database.Storage
+import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class

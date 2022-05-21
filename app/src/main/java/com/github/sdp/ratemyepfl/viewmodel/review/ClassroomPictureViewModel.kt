@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

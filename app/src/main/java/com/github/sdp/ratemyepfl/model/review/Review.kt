@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.firebase.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable

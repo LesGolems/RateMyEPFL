@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
-import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.utils.TimeUtils

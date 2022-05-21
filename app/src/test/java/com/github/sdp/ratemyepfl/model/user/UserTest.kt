@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model.user
 
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
