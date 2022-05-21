@@ -24,16 +24,23 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     private val viewModel by activityViewModels<RestaurantInfoViewModel>()
 
     private lateinit var occupancyBar: RatingBar
+    private lateinit var restaurantIdInfo: TextView
+    private lateinit var restaurantNumReview: TextView
+    private lateinit var restaurantRatingBar: RatingBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        restaurantIdInfo = view.findViewById(R.id.restaurantIdInfo)
+        restaurantNumReview = view.findViewById(R.id.restaurantNumReview)
+        restaurantRatingBar = view.findViewById(R.id.restaurantRatingBar)
+        occupancyBar = view.findViewById(R.id.occupancyMetric)
+
         viewModel.restaurant.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.restaurantIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.restaurantNumReview).text =
+            restaurantIdInfo.text = it?.toString()
+            restaurantNumReview.text =
                 getNumReviewString(requireContext(), it.numReviews)
-            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
+            restaurantRatingBar.rating =
                 it.grade.toFloat()
-            occupancyBar = view.findViewById(R.id.occupancyMetric)
             val n = occupancyMetric(it)
             setupOccupancyUI(view, n)
         }
