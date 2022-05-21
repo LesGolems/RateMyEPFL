@@ -16,13 +16,21 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
     // Gets the shared view model
     private val viewModel by activityViewModels<EventInfoViewModel>()
 
+    private lateinit var eventIdInfo: TextView
+    private lateinit var eventNumReview: TextView
+    private lateinit var eventRatingBar: RatingBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        eventIdInfo =  view.findViewById(R.id.eventIdInfo)
+        eventNumReview = view.findViewById(R.id.eventNumReview)
+        eventRatingBar = view.findViewById(R.id.eventRatingBar)
+
         viewModel.event.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.eventIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.eventNumReview).text =
+            eventIdInfo.text = it?.toString()
+            eventNumReview.text =
                 getNumReviewString(requireContext(), it.numReviews)
-            view.findViewById<RatingBar>(R.id.eventRatingBar).rating = it.grade.toFloat()
+            eventRatingBar.rating = it.grade.toFloat()
         }
     }
 
