@@ -133,4 +133,6 @@
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
     <string name="emoji">&#128522;</string>
+    <string name="last_message">last_message</string>
+    <string name="last_message_date">last_message_date</string>
 </resources>
