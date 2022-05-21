@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<ImageFile> {
+class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Storage<ImageFile> {
     private val storageRef = storage.reference.child("images")
 
     override val MAX_ITEM_SIZE: Long = 20 * 1024 * 1024 // 1 MB

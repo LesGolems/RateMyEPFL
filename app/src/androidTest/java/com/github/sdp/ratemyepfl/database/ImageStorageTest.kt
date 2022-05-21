@@ -22,7 +22,7 @@ class ImageStorageTest {
     var hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var imageStorage: ImageStorage
+    lateinit var imageStorage: FirebaseImageStorage
 
     @Before
     fun setup() {

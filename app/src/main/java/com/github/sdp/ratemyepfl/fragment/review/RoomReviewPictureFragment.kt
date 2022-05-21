@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.RoomPictureAdapter
-import com.github.sdp.ratemyepfl.database.ImageStorage
+import com.github.sdp.ratemyepfl.database.FirebaseImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.utils.TimeUtils
@@ -150,7 +150,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     private fun createImageFile(): File {
         val id = TimeUtils.timeStamp()
         val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(id, ImageStorage.FILE_EXTENSION, storageDir)
+        return File.createTempFile(id, FirebaseImageStorage.FILE_EXTENSION, storageDir)
             .apply { currentPhotoPath = absolutePath }
     }
 }

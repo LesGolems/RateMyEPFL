@@ -47,5 +47,5 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideImageStorage(repo: ImageStorage): Storage<ImageFile>
+    abstract fun provideImageStorage(repo: FirebaseImageStorage): Storage<ImageFile>
 }
