@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="10dp">
 
     <!-- Subject information layout -->
     <RelativeLayout
@@ -22,36 +22,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/author_profile_picture"
-            android:layout_alignBottom="@id/author_profile_picture"
-            android:layout_centerHorizontal="true"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/author_profile_picture"
-            android:gravity="center"
             android:hint="@string/anonymous" />
-
-        <TextView
-            android:id="@+id/separator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/author_profile_picture"
-            android:layout_alignBottom="@id/author_profile_picture"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_toEndOf="@+id/author_username"
-            android:gravity="center"
-            android:text="·"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dateReview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/author_profile_picture"
             android:layout_alignBottom="@id/author_profile_picture"
             android:layout_centerInParent="true"
-            android:layout_toEndOf="@+id/separator"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/author_profile_picture"
             android:gravity="center"
             android:text="%s" />
 
@@ -111,7 +93,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
 
         <!-- Comment -->
         <ImageButton

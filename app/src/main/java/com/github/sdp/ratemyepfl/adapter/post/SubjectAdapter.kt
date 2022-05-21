@@ -13,8 +13,9 @@ class SubjectAdapter(
     override val likeListener: OnClickListener<Subject>,
     override val dislikeListener: OnClickListener<Subject>,
     override val deleteListener: OnClickListener<Subject>,
-    override val profileClickListener: OnClickListener<Subject>,
-) : PostAdapter<Subject>(
+    private val commentListener: OnClickListener<Subject>,
+    override val profileClickListener: OnClickListener<Subject>
+    ) : PostAdapter<Subject>(
     lifecycleOwner,
     userViewModel,
     likeListener,
@@ -27,15 +28,18 @@ class SubjectAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         val postWithAuthor = getItem(position)
+        val postView = holder.itemView
 
-        holder.itemView.findViewById<ImageButton>(R.id.subjectCommentButton).setOnClickListener {
+        val commentButton: ImageButton = postView.findViewById(R.id.subjectCommentButton)
+        val subjectKind: TextView = postView.findViewById(R.id.subjectKind)
+        val commentCount: TextView = postView.findViewById(R.id.subjectCommentCount)
 
+        commentButton.setOnClickListener {
+            commentListener.onClick(postWithAuthor)
         }
 
-        holder.itemView.findViewById<TextView>(R.id.subjectKind).text =
-            "FOOD"
+        subjectKind.text = "FOOD"
 
-        holder.itemView.findViewById<TextView>(R.id.subjectCommentCount).text =
-            postWithAuthor.post.commentators.size.toString()
+        commentCount.text = postWithAuthor.post.commentators.size.toString()
     }
 }

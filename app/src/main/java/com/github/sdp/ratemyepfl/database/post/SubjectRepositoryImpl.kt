@@ -24,9 +24,9 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         const val COMMENTATORS_FIELD_NAME = "commentators"
 
         /**
-         * Converts a json data into a Review
+         * Converts a json data into a Subject
          *
-         * @return the review if the json contains the necessary data, null otherwise
+         * @return the subject if the json contains the necessary data, null otherwise
          */
         fun DocumentSnapshot.toSubject(): Subject? = try {
             val builder = Subject.Builder()
@@ -59,10 +59,10 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
                 commentators = listOf("uid1", "uid2")
             ),
             Subject(
-                "What is the drun is the best place to eat at EPFL?",
-                "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
+                "What is the drunkest section?",
+                "I'd say IC because full chomeurs, but I want to be sure",
                 LocalDate.now(),
-                "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
+                "xMhzXCCsyYTfzh7GXEJDR2NvT9G2",
                 likers = listOf("uid1"),
                 dislikers = listOf("uid2"),
                 commentators = listOf("uid1", "uid2")

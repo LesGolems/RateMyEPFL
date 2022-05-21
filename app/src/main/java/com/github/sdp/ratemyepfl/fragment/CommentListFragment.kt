@@ -1,6 +1,5 @@
-package com.github.sdp.ratemyepfl.fragment.navigation
+package com.github.sdp.ratemyepfl.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -13,16 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.post.OnClickListener
-import com.github.sdp.ratemyepfl.adapter.post.SubjectAdapter
+import com.github.sdp.ratemyepfl.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.fragment.CommentListFragment
-import com.github.sdp.ratemyepfl.fragment.CommentListFragment.Companion.EXTRA_SUBJECT_COMMENTED_ID
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.user.User
-import com.github.sdp.ratemyepfl.viewmodel.HomeViewModel
+import com.github.sdp.ratemyepfl.viewmodel.CommentListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -30,9 +26,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
 
-    private lateinit var subjectAdapter: SubjectAdapter
+    private lateinit var commentAdapter: PostAdapter<Comment>
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
 
@@ -46,8 +42,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var connectedUser: ConnectedUser
 
-    private val viewModel by activityViewModels<HomeViewModel>()
+    // Gets the shared view model
+    private val viewModel by activityViewModels<CommentListViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+
+    companion object {
+        const val EXTRA_SUBJECT_COMMENTED_ID: String = "com.github.sdp.extra_subject_commented_id"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,33 +57,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initializeReviewList(view: View) {
-        subjectAdapter = SubjectAdapter(viewLifecycleOwner, userViewModel,
+        commentAdapter = PostAdapter(
+            viewLifecycleOwner, userViewModel,
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
-            { swa ->
+            { cwa ->
                 lifecycleScope.launch {
-                    viewModel.removeSubject(swa.post.getId())
+                    viewModel.removeComment(cwa.post.getId())
                 }
             },
-            { swa ->
+            { cwa -> displayProfilePanel(cwa.author, cwa.image) },
+            R.layout.subject_item
+        )
 
-            }
-        ) { swa -> displayProfilePanel(swa.author, swa.image) }
-
-        recyclerView = view.findViewById(R.id.subjectRecyclerView)
-        recyclerView.adapter = subjectAdapter
+        recyclerView = view.findViewById(R.id.reviewRecyclerView)
+        recyclerView.adapter = commentAdapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
-        swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
+        swipeRefresher = view.findViewById(R.id.reviewSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
-            viewModel.updateSubjectsList()
+            viewModel.updateCommentsList()
             swipeRefresher.isRefreshing = false
         }
 
-        viewModel.subjects.observe(viewLifecycleOwner) {
-            it?.let { subjectAdapter.submitList(it) }
+        viewModel.comments.observe(viewLifecycleOwner) {
+            it?.let { commentAdapter.submitList(it) }
         }
     }
 
@@ -104,15 +105,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * Creates the onClickListener from the function given as input, encapsulating it in a
      * try catch to display the error message as SnackBar
      */
-    private fun getListener(f: (Subject, String?) -> Unit) = OnClickListener<Subject> { swa ->
+    private fun getListener(f: (Comment, String?) -> Unit) = OnClickListener<Comment> { cwa ->
         try {
-            f(swa.post, swa.author?.uid)
+            f(cwa.post, cwa.author?.uid)
         } catch (e: Exception) {
-            e.message?.let {
+            /*e.message?.let {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(R.id.activityMainBottomNavigationView)
+                    .setAnchorView(R.id.reviewBottomNavigationView)
                     .show()
-            }
+            }*/
         }
     }
 
@@ -131,7 +132,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateSubjectsList()
+        viewModel.updateCommentsList()
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

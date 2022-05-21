@@ -11,3 +11,4 @@ open class PostWithAuthor<T : Post>(
 
 typealias ReviewWithAuthor = PostWithAuthor<Review>
 typealias SubjectWithAuthor = PostWithAuthor<Subject>
+typealias CommentWithAuthor = PostWithAuthor<Comment>
