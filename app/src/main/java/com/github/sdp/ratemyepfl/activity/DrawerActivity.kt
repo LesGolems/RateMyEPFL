@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.activity
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +10,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupWithNavController
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -25,41 +21,12 @@ open class DrawerActivity : AppCompatActivity() {
     protected lateinit var navController: NavController
     protected lateinit var appBarConfiguration: AppBarConfiguration
     protected lateinit var drawerLayout: DrawerLayout
-    protected lateinit var bottomNavigationView: BottomNavigationView
     protected lateinit var drawerView: NavigationView
 
     private val userViewModel: UserViewModel by viewModels()
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration)
-    }
-
-    private fun showBottomNav() {
-        bottomNavigationView.visibility = View.VISIBLE
-
-    }
-
-    private fun hideBottomNav() {
-        bottomNavigationView.visibility = View.GONE
-    }
-
-    /**
-     * Setups the bottom navigation, when on user profile the bottom bar is not shown
-     */
-    protected fun setUpBottomNavigation() {
-        bottomNavigationView.setupWithNavController(navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.profileFragment -> hideBottomNav()
-                R.id.timetableFragment -> hideBottomNav()
-                R.id.addClassFragment -> hideBottomNav()
-                R.id.selectCourseFragment -> hideBottomNav()
-                R.id.selectRoomFragment -> hideBottomNav()
-                R.id.audioRecordFragment -> hideBottomNav()
-                else -> showBottomNav()
-            }
-        }
     }
 
     protected fun setUpProfile() {

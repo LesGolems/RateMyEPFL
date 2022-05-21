@@ -25,9 +25,4 @@ class RestaurantItemTest {
     fun getSnippetReturnsNull() {
         assertNull(RESTAURANT_ITEM.snippet)
     }
-
-    @Test
-    fun onClickIntentReturnTheCorrectIntent() {
-        assertNotNull(RESTAURANT_ITEM.onClickIntent(null))
-    }
 }

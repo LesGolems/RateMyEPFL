@@ -31,9 +31,6 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
 
     open val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
 
-    abstract val reviewActivityMenuId: Int
-    abstract val reviewActivityGraphId: Int
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
@@ -201,9 +198,6 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
             reviewable.getId()
         )
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
-
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, reviewActivityMenuId)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, reviewActivityGraphId)
         startActivity(intent)
     }
 
