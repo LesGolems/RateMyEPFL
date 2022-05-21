@@ -45,7 +45,7 @@ class SplashScreenTest {
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
         onView(withId(R.id.visitorButton)).perform(click())
-        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
+        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.ui.activity.MainActivity"))
         scenario.close()
         release()
     }

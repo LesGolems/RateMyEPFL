@@ -148,7 +148,7 @@ class MainActivityTest {
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.login)).perform(click())
-        intended(hasComponent("com.github.sdp.ratemyepfl.activity.SplashScreen"))
+        intended(hasComponent("com.github.sdp.ratemyepfl.ui.activity.SplashScreen"))
         release()
         scenario.close()
     }
