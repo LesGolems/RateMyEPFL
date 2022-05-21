@@ -33,7 +33,7 @@ class SplashScreenTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), SplashScreen::class.java)
         val scenario: ActivityScenario<SplashScreen> = ActivityScenario.launch(intent)
-        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.activity.MainActivity"))
+        intended(IntentMatchers.hasComponent("com.github.sdp.ratemyepfl.ui.activity.MainActivity"))
         scenario.close()
         release()
     }
