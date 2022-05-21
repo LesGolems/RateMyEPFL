@@ -55,6 +55,7 @@ open class DrawerActivity : AppCompatActivity() {
                 R.id.addClassFragment -> hideBottomNav()
                 R.id.selectCourseFragment -> hideBottomNav()
                 R.id.selectRoomFragment -> hideBottomNav()
+                R.id.audioRecordFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

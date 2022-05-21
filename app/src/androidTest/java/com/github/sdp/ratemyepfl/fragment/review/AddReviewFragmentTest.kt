@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
-import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
@@ -33,7 +33,7 @@ class AddReviewFragmentTest {
 
     @Before
     fun setUp() {
-        val reviewable = Classroom("Fake id", 0.0, 0)
+        val reviewable = Course("Fake id", "fake", "fake", 0, "fake", 0.0, 0)
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
         intent.putExtra(

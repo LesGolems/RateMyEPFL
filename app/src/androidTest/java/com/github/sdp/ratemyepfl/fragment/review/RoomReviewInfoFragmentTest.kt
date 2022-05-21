@@ -1,16 +1,15 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.Manifest
-import android.app.Activity
-import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.intent.Intents.*
-import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
+import androidx.test.espresso.intent.Intents.init
+import androidx.test.espresso.intent.Intents.release
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
@@ -18,6 +17,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.fakes.FakeClassroomRepository
 import com.github.sdp.ratemyepfl.database.fakes.FakeReviewRepository
+import com.github.sdp.ratemyepfl.database.fakes.FakeRoomNoiseRepository
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -56,24 +56,6 @@ class RoomReviewInfoFragmentTest {
     }
 
     @Test
-    fun audioReturnsDisplayed() {
-        init()
-        launch()
-        val intent = Intent()
-        intent.putExtra("com.github.sdp.extra_measurement_value", 50)
-        val result = Instrumentation.ActivityResult(Activity.RESULT_OK, intent)
-        intending(toPackage("com.github.sdp.ratemyepfl")).respondWith(result)
-        onView(withId(R.id.noiseMeasureButton)).perform(click())
-
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.roomReviewInfoFragment))
-
-        val dbText = "Calm (50 dB) - 0 minutes ago"
-        onView(withId(R.id.roomNoiseInfoTextView)).check(matches(withText(dbText)))
-        release()
-    }
-
-    @Test
     fun allInformationCorrectlyDisplayed() {
         val fakeRoom = FakeClassroomRepository.ROOM_WITH_REVIEW
         FakeClassroomRepository.roomById = fakeRoom
@@ -102,11 +84,12 @@ class RoomReviewInfoFragmentTest {
     }
 
     @Test
-    fun firesAnIntentWhenUserClicksOnMicrophone() {
+    fun displaysCorrectFragmentWhenUserClicksOnMicrophone() {
+        FakeRoomNoiseRepository.measureInfo = FakeRoomNoiseRepository.WITH_MEASURE
         launch()
         init()
         onView(withId(R.id.noiseMeasureButton)).perform(click())
-        intended(toPackage("com.github.sdp.ratemyepfl"))
+        onView(withId(R.id.recordRecyclerView)).check(matches(ViewMatchers.isDisplayed()))
         release()
     }
 

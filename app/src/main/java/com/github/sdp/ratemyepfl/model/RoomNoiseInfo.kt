@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RoomNoiseInfo(
     val roomId: String,
-    val noiseData: Map<String, Int> = mapOf()
+    val noiseData: List<NoiseInfo> = listOf()
 ) : RepositoryItem {
 
     override fun getId(): String = roomId
@@ -23,11 +23,11 @@ data class RoomNoiseInfo(
 
     class Builder(
         private val roomId: String?,
-        private val noiseData: Map<String, Int>? = mapOf(),
+        private val noiseData: List<NoiseInfo>? = listOf(),
     ) {
         fun build(): RoomNoiseInfo {
             val roomId = this.roomId
-            val noiseData = this.noiseData ?: mapOf()
+            val noiseData = this.noiseData ?: listOf()
 
             if (roomId != null) {
                 return RoomNoiseInfo(roomId, noiseData)
