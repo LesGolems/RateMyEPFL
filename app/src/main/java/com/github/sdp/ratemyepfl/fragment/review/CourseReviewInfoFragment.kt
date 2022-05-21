@@ -21,26 +21,42 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
     // Gets the shared view model
     private val viewModel by activityViewModels<CourseInfoViewModel>()
 
+    private lateinit var courseId: TextView
+    private lateinit var courseTitle: TextView
+    private lateinit var courseTeacher: TextView
+    private lateinit var courseSection: TextView
+    private lateinit var courseCredits: TextView
+    private lateinit var courseNumReview: TextView
+    private lateinit var courseRatingBar: RatingBar
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        courseId = view.findViewById(R.id.courseId)
+        courseTitle = view.findViewById(R.id.courseTitle)
+        courseTeacher = view.findViewById(R.id.courseTeacher)
+        courseSection = view.findViewById(R.id.courseSection)
+        courseCredits = view.findViewById(R.id.courseCredits)
+        courseNumReview = view.findViewById(R.id.courseNumReview)
+        courseRatingBar = view.findViewById(R.id.courseRatingBar)
+
         viewModel.course.observe(viewLifecycleOwner) {
             setUpCourseInfo(view, it)
         }
     }
 
     private fun setUpCourseInfo(view: View, course: Course) {
-        view.findViewById<TextView>(R.id.courseId).text = course.courseCode
-        view.findViewById<TextView>(R.id.courseTitle).text =
+        courseId.text = course.courseCode
+        courseTitle.text =
             getString(R.string.course_title, course.title)
-        view.findViewById<TextView>(R.id.courseTeacher).text =
+        courseTeacher.text =
             getString(R.string.course_teacher, course.teacher)
-        view.findViewById<TextView>(R.id.courseSection).text =
+        courseSection.text =
             getString(R.string.course_section, course.section)
-        view.findViewById<TextView>(R.id.courseCredits).text =
+        courseCredits.text =
             getString(R.string.course_credits, course.credits.toString())
-        view.findViewById<TextView>(R.id.courseNumReview).text =
+        courseNumReview.text =
             getNumReviewString(requireContext(), course.numReviews)
-        view.findViewById<RatingBar>(R.id.courseRatingBar).rating = course.grade.toFloat()
+        courseRatingBar.rating = course.grade.toFloat()
     }
 
     override fun onResume() {
