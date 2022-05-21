@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -89,10 +88,9 @@ class CourseRepositoryImplTest {
     }
 
     @After
-    fun teardown() = runTest {
-        repository.getCourses()
-            .map { it.getId() }
-            .forEach { repository.remove(it).await() }
+    fun teardown() {
+        val c = courses.map { repository.remove(it.getId()) }
+        c.forEach { runTest { it.await() } }
     }
 
 //    @Test
