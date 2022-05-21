@@ -193,7 +193,7 @@ class MainActivityTest {
 //     */
     @Test
     fun navigateHomePageAddsTheCorrectFragment() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         navigate(Destination.HOME)
         checkHomePage()
     }
@@ -201,7 +201,7 @@ class MainActivityTest {
     //
     @Test
     fun pressesBackReturnsToHome() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         navigate(Destination.EVENT)
         navigate(Destination.MAP)
         Espresso.pressBack()
@@ -209,7 +209,7 @@ class MainActivityTest {
     }
 
     private fun checkHomePage() = checkPage(Destination.HOME)
-    private fun checkReviewPage() = checkPage(Destination.REVIEW)
+    private fun checkReviewPage() = checkPage(Destination.REVIEWABLE)
     private fun checkEventPage() = checkPage(Destination.EVENT)
     private fun checkMapPage() = checkPage(Destination.MAP)
 
@@ -223,7 +223,7 @@ class MainActivityTest {
 
     enum class Destination(val id: Int, private val stringId: Int) {
         HOME(R.id.home, R.string.home_nav_title),
-        REVIEW(R.id.review, R.string.reviews_nav_title),
+        REVIEWABLE(R.id.reviewable, R.string.reviewable_nav_title),
         EVENT(R.id.event, R.string.event_page_title),
         MAP(R.id.map, R.string.map_nav_title);
 
@@ -234,7 +234,7 @@ class MainActivityTest {
     //
     @Test
     fun navigateToReviewAddsTheCorrectFragment() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         checkReviewPage()
     }
 

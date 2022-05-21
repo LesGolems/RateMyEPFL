@@ -8,11 +8,10 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeRestaurantRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -33,11 +32,6 @@ class RestaurantReviewInfoFragmentTest {
 
     private fun launch() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(
-            ReviewActivity.EXTRA_MENU_ID,
-            R.menu.bottom_navigation_menu_restaurant_review
-        )
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(
             ReviewActivity.EXTRA_ITEM_REVIEWED,
@@ -98,10 +92,6 @@ class RestaurantReviewInfoFragmentTest {
         FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_NO_REVIEWS
 
         launch()
-
-        // Refresh
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.restaurantReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))

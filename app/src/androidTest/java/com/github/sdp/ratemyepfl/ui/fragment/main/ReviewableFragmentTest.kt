@@ -13,8 +13,9 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomR
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.utils.TabAction
-import com.github.sdp.ratemyepfl.utils.ViewPagerAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +29,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
-class ReviewFragmentTest {
+class ReviewableFragmentTest {
     @get:Rule
     val hiltAndroidRule: HiltAndroidRule = HiltAndroidRule(this)
 
@@ -63,7 +64,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         TabAction.selectTab(ReviewableTabFragment.TAB.COURSE.tabName)
         checkCourse()
     }
@@ -71,7 +72,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         TabAction.selectTab(ReviewableTabFragment.TAB.CLASSROOM.tabName)
         checkClassroom()
     }
@@ -79,7 +80,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         TabAction.selectTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
         checkRestaurant()
     }
@@ -88,7 +89,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheRightOfCourseTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> { }
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> { }
         ViewPagerAction.swipeNext()
         checkClassroom()
     }
@@ -96,7 +97,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersSwipeToTheRightOfClassroomTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         ViewPagerAction.apply {
             swipeNext()
         }.swipeNext()
@@ -106,7 +107,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         Thread.sleep(1000)
@@ -117,7 +118,7 @@ class ReviewFragmentTest {
     @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
-        HiltUtils.launchFragmentInHiltContainer<ReviewFragment> {}
+        HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
         TabAction.onTab(ReviewableTabFragment.TAB.RESTAURANT.tabName)
             .perform(click())
         ViewPagerAction.apply { swipePrevious() }.swipePrevious()

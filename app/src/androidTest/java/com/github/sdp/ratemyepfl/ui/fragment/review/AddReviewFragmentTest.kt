@@ -15,8 +15,8 @@ import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.RatingAction.performSetRating
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -36,15 +36,12 @@ class AddReviewFragmentTest {
         val reviewable = Course("Fake id", "fake", "fake", 0, "fake", 0.0, 0)
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(
-            ReviewActivity.EXTRA_MENU_ID,
-            R.menu.bottom_navigation_menu_course_review
-        ) // can be any
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         scenario = ActivityScenario.launch(intent)
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
+        ViewPagerAction.swipeNext()
+        Thread.sleep(1000)
+        onView(withId(R.id.addReviewButton)).perform(click())
     }
 
     @After
@@ -53,7 +50,7 @@ class AddReviewFragmentTest {
     }
 
     @Test
-    fun nullGradeNoReset() {
+    fun nullGradeDoesNotWork() {
         val comment = "Good"
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
@@ -62,7 +59,7 @@ class AddReviewFragmentTest {
     }
 
     @Test
-    fun nullCommentNoReset() {
+    fun nullCommentDoesNotWork() {
         val title = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(click())
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
@@ -72,7 +69,7 @@ class AddReviewFragmentTest {
     }
 
     @Test
-    fun nullTitleNoReset() {
+    fun nullTitleDoesNotWork() {
         val comment = "Good"
         onView(withId(R.id.reviewRatingBar)).perform(performSetRating(ReviewRating.GOOD))
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
@@ -83,7 +80,7 @@ class AddReviewFragmentTest {
 
 
     @Test
-    fun nonNullArgumentsResetsAddReview() {
+    fun nonNullArgumentsAddsReview() {
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
@@ -96,14 +93,12 @@ class AddReviewFragmentTest {
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
-        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
+        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
     }
 
     @Test
-    fun userNotConnectedNoReset() {
+    fun userNotConnectedDoesNotWork() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.addReviewFragment))
         val comment = "Good"
         val title = "Good title"
         onView(withId(R.id.reviewRatingBar)).perform(
@@ -151,7 +146,6 @@ class AddReviewFragmentTest {
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.addReviewComment)).check(matches(withText("")))
-        onView(withId(R.id.addReviewTitle)).check(matches(withText("")))
+        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
     }
 }

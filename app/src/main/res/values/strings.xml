@@ -28,7 +28,7 @@
     <string name="title_edit_text">Give a title to your review</string>
     <string name="maps_api_key" tools:ignore="TypographyDashes,Typos">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
     <string name="home_nav_title">Home</string>
-    <string name="reviews_nav_title">Reviews</string>
+    <string name="reviewable_nav_title">Reviewables</string>
     <string name="events_nav_item">Events</string>
     <string name="map_nav_title">Map</string>
     <string name="home_page_title">HOME PAGE</string>
@@ -131,6 +131,7 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="button_for_editing_an_event">Button for editing an event</string>
+    <string name="add_review_button">Add Review Button</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
     <string name="emoji">&#128522;</string>
 </resources>

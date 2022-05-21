@@ -25,7 +25,7 @@ import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
-import com.github.sdp.ratemyepfl.utils.TabAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

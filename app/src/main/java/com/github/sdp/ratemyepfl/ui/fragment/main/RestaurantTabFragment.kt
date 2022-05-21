@@ -15,10 +15,6 @@ class RestaurantTabFragment : ReviewableTabFragment<Restaurant>(R.menu.restauran
 
     override val viewModel: RestaurantListViewModel by viewModels()
 
-    override val reviewActivityMenuId: Int = R.menu.bottom_navigation_menu_restaurant_review
-
-    override val reviewActivityGraphId: Int = R.navigation.nav_graph_restaurant_review
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.elements
             .observe(viewLifecycleOwner) { restaurants ->

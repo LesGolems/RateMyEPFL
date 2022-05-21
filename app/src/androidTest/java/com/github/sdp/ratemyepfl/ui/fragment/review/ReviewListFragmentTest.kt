@@ -23,6 +23,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
@@ -44,12 +45,9 @@ import java.time.LocalDate
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
 
-    private val intent =
-        Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-            .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_course_review)
-            .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_course_review)
-            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
-            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
+    private val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
 
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -57,7 +55,8 @@ class ReviewListFragmentTest {
     fun launch() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         scenario = ActivityScenario.launch(intent)
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+        ViewPagerAction.swipeNext()
+        Thread.sleep(1000)
     }
 
     @After
@@ -65,9 +64,10 @@ class ReviewListFragmentTest {
         scenario.close()
     }
 
-    private fun refresh() {
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.courseReviewInfoFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
+    private fun refresh(){
+        ViewPagerAction.swipePrevious()
+        ViewPagerAction.swipeNext()
+        Thread.sleep(1000)
     }
 
     /**

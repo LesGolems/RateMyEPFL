@@ -7,7 +7,17 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.ReviewFragment"
-        android:label="@string/reviews_nav_title"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.ReviewFragment"
+        android:label="Review"
         tools:layout="@layout/fragment_review" />
+
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment"
+        android:label="Add a review" />
+
+    <fragment
+        android:id="@+id/audioRecordFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.review.AudioRecordFragment"
+        android:label="Audio records"/>
 </navigation>

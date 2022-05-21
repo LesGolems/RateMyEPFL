@@ -17,7 +17,9 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeImageStorage
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.navigateTo
+import com.github.sdp.ratemyepfl.model.items.Classroom
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
@@ -45,12 +47,14 @@ class RoomReviewPictureFragmentTest {
 
     @Before
     fun setUp() {
+        val reviewable = Classroom("Fake id", 0.0, 0)
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_room_review)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_room_review)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
-        onView(withId(R.id.reviewBottomNavigationView)).perform(navigateTo(R.id.roomReviewPictureFragment))
+        ViewPagerAction.swipeNext()
+        ViewPagerAction.swipeNext()
+        Thread.sleep(1000)
     }
 
     @After
