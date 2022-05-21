@@ -75,7 +75,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         val storagePermissionLauncher =
             PermissionUtils.requestPermissionLauncher({ startGallery() }, this, requireContext())
         selectPhotoFAB.setOnClickListener {
-            PermissionUtils.startPhoneFeature(
+            PermissionUtils.verifyPermissionAndExecute(
                 { startGallery() },
                 storagePermissionLauncher,
                 requireContext(),
@@ -87,7 +87,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
         val cameraPermissionLauncher =
             PermissionUtils.requestPermissionLauncher({ startCamera() }, this, requireContext())
         capturePhotoFAB.setOnClickListener {
-            PermissionUtils.startPhoneFeature(
+            PermissionUtils.verifyPermissionAndExecute(
                 { startCamera() },
                 cameraPermissionLauncher,
                 requireContext(),

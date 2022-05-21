@@ -44,7 +44,7 @@ object PermissionUtils {
      * @param context The current context
      * @param permissions The permissions that need be to granted by the user
      */
-    fun startPhoneFeature(
+    fun verifyPermissionAndExecute(
         useFeature: () -> Unit,
         resultLauncher: ActivityResultLauncher<Array<String>>,
         context: Context,

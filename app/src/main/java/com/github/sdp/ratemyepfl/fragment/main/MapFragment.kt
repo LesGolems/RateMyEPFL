@@ -212,7 +212,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
-        PermissionUtils.startPhoneFeature(
+        PermissionUtils.verifyPermissionAndExecute(
             {
                 map.isMyLocationEnabled = true
                 permissionDenied = false

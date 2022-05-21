@@ -36,7 +36,7 @@ class MainActivity : DrawerActivity() {
         // Start location service
         val locationPermissionLauncher =
             PermissionUtils.requestPermissionLauncher({ startOccupancyService() }, this, this)
-        PermissionUtils.startPhoneFeature(
+        PermissionUtils.verifyPermissionAndExecute(
             { startOccupancyService() },
             locationPermissionLauncher,
             this,

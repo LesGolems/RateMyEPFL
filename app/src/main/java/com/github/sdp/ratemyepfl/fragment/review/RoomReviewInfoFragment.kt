@@ -30,19 +30,27 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     // Gets the shared view model
     private val viewModel by activityViewModels<ClassroomInfoViewModel>()
 
+    private lateinit var roomIdInfo : TextView
+    private lateinit var roomNumReview : TextView
+    private lateinit var roomRatingBar: RatingBar
+
     private lateinit var roomNoiseInfoTextView: TextView
     private lateinit var noiseMeasureButton: ImageButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        roomIdInfo = view.findViewById(R.id.roomIdInfo)
+        roomNumReview = view.findViewById(R.id.roomNumReview)
+        roomRatingBar = view.findViewById(R.id.roomRatingBar)
+        roomNoiseInfoTextView = view.findViewById(R.id.roomNoiseInfoTextView)
+
         viewModel.room.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.roomIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.roomNumReview).text =
+            roomIdInfo.text = it?.toString()
+            roomNumReview.text =
                 getNumReviewString(requireContext(), it.numReviews)
-            view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.grade.toFloat()
+            roomRatingBar.rating = it.grade.toFloat()
         }
 
-        roomNoiseInfoTextView = view.findViewById(R.id.roomNoiseInfoTextView)
         viewModel.noiseData.observe(viewLifecycleOwner) {
             displayRoomNoise(it)
         }
@@ -53,7 +61,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
         noiseMeasureButton = view.findViewById(R.id.noiseMeasureButton)
         noiseMeasureButton.setOnClickListener {
-            PermissionUtils.startPhoneFeature(
+            PermissionUtils.verifyPermissionAndExecute(
                 { startAudio() },
                 audioPermissionLauncher,
                 requireContext(),
