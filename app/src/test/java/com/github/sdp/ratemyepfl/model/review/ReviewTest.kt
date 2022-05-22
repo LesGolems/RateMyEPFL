@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.model.review
 
+import com.github.sdp.ratemyepfl.model.time.Date
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
@@ -21,7 +22,7 @@ class ReviewTest {
             .setComment("My comment")
             .setTitle("My title")
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
             .build()
 
         assertEquals(rating, builder.rating)
@@ -34,7 +35,7 @@ class ReviewTest {
             .setComment("Hello")
             .setTitle("Hello")
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -47,7 +48,7 @@ class ReviewTest {
             .setComment("Hello")
             .setRating(ReviewRating.AVERAGE)
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -60,7 +61,7 @@ class ReviewTest {
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -73,7 +74,7 @@ class ReviewTest {
             .setRating(ReviewRating.AVERAGE)
             .setTitle("Hello")
             .setComment("Hello")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -101,7 +102,7 @@ class ReviewTest {
             .setComment("My comment")
             .setTitle(title)
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
             .build()
 
         assertEquals(title, builder.title)
@@ -115,7 +116,7 @@ class ReviewTest {
             .setComment(comment)
             .setTitle("My title")
             .setReviewableID("ID")
-            .setDate(LocalDate.now())
+            .setDate(Date.now())
             .build()
 
         assertEquals(comment, builder.comment)
@@ -126,7 +127,7 @@ class ReviewTest {
         val rate = ReviewRating.GOOD
         val title = "My title"
         val comment = "My comment"
-        val date = LocalDate.of(2022, 3, 8)
+        val date = Date(2022, 3, 8)
 
         val review = Review.Builder()
             .setRating(rate)
@@ -145,7 +146,7 @@ class ReviewTest {
         val title = "My title"
         val comment = "My comment"
         val reviewableId = "Id"
-        val date = LocalDate.of(2022, 3, 8)
+        val date = Date(2022, 3, 8)
 
         val review = Review.Builder()
             .setRating(rate)
@@ -165,7 +166,7 @@ class ReviewTest {
             .setComment("My comment")
             .setTitle("My title")
             .setReviewableID("ID")
-            .setDate(LocalDate.of(2020, 3, 8))
+            .setDate(Date(2020, 3, 8))
             .build()
 
         val serializedReview = review.serialize()
@@ -174,16 +175,4 @@ class ReviewTest {
         assertEquals(review, deserializedReview)
     }
 
-    @Test
-    fun serializeWorks() {
-        val serializedReview = Companion.EXPECTED_REVIEW.serialize()
-        assertEquals(serializedReview, Companion.EXPECTED_JSON)
-    }
-
-    companion object {
-        const val EXPECTED_JSON =
-            "{\"rating\":\"EXCELLENT\",\"title\":\"My title\",\"comment\":\"My comment\",\"reviewableId\":\"ID\",\"date\":\"2020-03-08\"}"
-        private val EXPECTED_REVIEW =
-            Review(ReviewRating.EXCELLENT, "My title", "My comment", "ID", LocalDate.of(2020, 3, 8))
-    }
 }

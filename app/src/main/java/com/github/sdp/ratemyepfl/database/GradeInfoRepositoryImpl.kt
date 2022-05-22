@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
@@ -49,20 +50,7 @@ class GradeInfoRepositoryImpl private constructor(
         const val ITEM_ID_FIELD = "itemId"
         const val REVIEWS_INFO_FIELD = "reviewsData"
 
-        fun DocumentSnapshot.toGradeInfo(): GradeInfo? {
-            val type = object : TypeToken<Map<String, ReviewInfo>>() {}.type
-            val reviewsData = getString(REVIEWS_INFO_FIELD)?.let {
-                Gson().fromJson<Map<String, ReviewInfo>>(it, type)
-            }
-            return try {
-                GradeInfo.Builder(
-                    getString(ITEM_ID_FIELD),
-                    reviewsData
-                ).build()
-            } catch (e: IllegalStateException) {
-                null
-            }
-        }
+        fun DocumentSnapshot.toGradeInfo(): GradeInfo? = toItem()
     }
 
     /**

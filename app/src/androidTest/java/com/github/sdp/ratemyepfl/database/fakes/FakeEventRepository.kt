@@ -17,7 +17,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
     override val offlineData: List<Event> = listOf()
     companion object {
         val DATE = LocalDateTime.now()
-        private val baseEvent = Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0, DATE)
+        private val baseEvent = Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0)
         val EVENT_LIST = listOf(
             baseEvent.copy(
                 name = "Evenement de dingue",
@@ -56,12 +56,12 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
-    override fun add(event: Event): Task<Void> {
-        return Mockito.mock(Task::class.java) as Task<Void>
+    override fun add(event: Event): Task<String> {
+        return Mockito.mock(Task::class.java) as Task<String>
     }
 
-    override fun addEventWithId(event: Event): Task<Void> {
-        return Mockito.mock(Task::class.java) as Task<Void>
+    override fun addEventWithId(event: Event): Task<String> {
+        return Mockito.mock(Task::class.java) as Task<String>
     }
 
     override suspend fun getEvents(): List<Event> = eventList
@@ -76,16 +76,5 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
             listOf(baseEvent.copy(participants = listOf(userId)))
         }
         return true
-    }
-
-    override suspend fun updateEditedEvent(
-        eventId: String,
-        name: String,
-        limPart: Int,
-        lat: Double,
-        long: Double,
-        date: LocalDateTime
-    ) {
-        val e = baseEvent
     }
 }

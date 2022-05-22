@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
+import com.github.sdp.ratemyepfl.model.time.Date
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,7 +86,7 @@ class AddReviewViewModel @Inject constructor(
         val rating = rating.value
         val comment = comment.value
         val title = title.value
-        val date = LocalDate.now()
+        val date = Date.now()
         var uid: String? = null
 
         // only connected users may add reviews

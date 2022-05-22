@@ -10,22 +10,11 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class GradeInfo(
-    val itemId: String,
+    val itemId: String = "",
     val reviewsData: Map<String, ReviewInfo> = mapOf()
 ) : RepositoryItem {
 
     override fun getId(): String = itemId
-
-    /**
-     * Creates an hash map of the grade info
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        val json = Gson().toJson(reviewsData)
-        return hashMapOf(
-            GradeInfoRepositoryImpl.ITEM_ID_FIELD to itemId,
-            GradeInfoRepositoryImpl.REVIEWS_INFO_FIELD to json
-        )
-    }
 
     class Builder(
         private val itemId: String?,

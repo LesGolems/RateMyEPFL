@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -29,20 +30,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         const val ROOM_NAME_FIELD_NAME = "name"
         const val ROOMS_INFO_FIELD_NAME = "noiseData"
 
-        fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? {
-            val type = object : TypeToken<Map<String, Int>>() {}.type
-            val noiseData = getString(ROOMS_INFO_FIELD_NAME)?.let {
-                Gson().fromJson<Map<String, Int>>(it, type)
-            }
-            return try {
-                RoomNoiseInfo.Builder(
-                    getString(ROOM_NAME_FIELD_NAME),
-                    noiseData
-                ).build()
-            } catch (e: IllegalStateException) {
-                null
-            }
-        }
+        fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? = toItem()
     }
 
     override suspend fun addMeasurement(

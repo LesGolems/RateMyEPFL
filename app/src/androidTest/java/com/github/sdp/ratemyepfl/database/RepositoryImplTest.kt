@@ -150,4 +150,11 @@ class RepositoryImplTest {
 
         assertEquals(1, x?.data)
     }
+
+    @Test
+    fun t() = runTest {
+        assertEquals(null, repository.update("someRandomId") {
+            it
+        }.await())
+    }
 }

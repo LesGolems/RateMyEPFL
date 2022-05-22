@@ -19,7 +19,7 @@ open class FakeRepository<T : RepositoryItem> @Inject constructor() : Repository
 
     override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
 
-    override fun add(item: T): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
+    override fun add(item: T): Task<String> = Mockito.mock(Task::class.java) as Task<String>
 
     override fun update(id: String, transform: (T) -> T): Task<T> =
         Mockito.mock(Task::class.java) as Task<T>

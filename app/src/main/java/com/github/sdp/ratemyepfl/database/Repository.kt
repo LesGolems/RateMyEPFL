@@ -34,19 +34,20 @@ interface Repository<T : RepositoryItem> : Queryable {
      * Add an item in the database. If the id of the item is null, it auto-generates it
      *
      * @param item: object to add
+     *
+     * @return the id of the element added
      */
-    fun add(item: T): Task<Void>
+    fun add(item: T): Task<String>
 
     /**
      * Update the the document with the provided [id] by transforming the data.
-     * If the document does not exist yet, it fails.
+     * If the document does not exist yet, it fails and returns null.
      *
      * @param id: The id of the document to edit
      * @param transform: the transform to apply to the stored data
      *
-     * @throws DatabaseException: if the document does not exist.
      *
-     * @return the transformed data
+     * @return the transformed data, or null if the document does not exist.
      */
     fun update(id: String, transform: (T) -> T): Task<T>
 

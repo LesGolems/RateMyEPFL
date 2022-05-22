@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -35,24 +36,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
          *
          * @return the review if the json contains the necessary data, null otherwise
          */
-        fun DocumentSnapshot.toReview(): Review? = try {
-            val builder = Review.Builder()
-                .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
-                .setTitle(getString(TITLE_FIELD_NAME))
-                .setComment(getString(COMMENT_FIELD_NAME))
-                .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
-                .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
-                .setUid(getString(UID_FIELD_NAME))
-                .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
-                .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
-
-            builder.build()
-                .withId(id)
-        } catch (e: IllegalStateException) {
-            null
-        } catch (e: Exception) {
-            throw DatabaseException("Failed to retrieve and convert the review (from $e \n ${e.stackTrace})")
-        }
+        fun DocumentSnapshot.toReview(): Review? = toItem()
     }
 
     /**
@@ -61,7 +45,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
      *
      * @param item: the [Review] to add
      */
-    override fun add(item: Review): Task<Void> {
+    override fun add(item: Review): Task<String> {
         val document = repository
             .collection
             .document()

@@ -54,12 +54,12 @@ class QueryTest {
     fun setup() {
         hiltAndroidRule.inject()
         collection = db.collection("query_test")
-        items.map { collection.document(it.getId()).set(it.toHashMap()) }
+        items.map { collection.document(it.getId()).set(it) }
             .forEach { runTest { it.await() } }
         query = Query(collection)
 
         arrayCollection = db.collection("query_test_array")
-        arrayItems.map { arrayCollection.document().set(it.toHashMap()) }
+        arrayItems.map { arrayCollection.document().set(it) }
             .forEach { runTest { it.await() } }
         arrayQuery = Query(arrayCollection)
     }

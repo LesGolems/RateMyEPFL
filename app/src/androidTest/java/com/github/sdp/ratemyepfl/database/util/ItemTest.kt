@@ -15,6 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -35,31 +36,5 @@ class ItemTest {
         hilt.inject()
         collection = db.collection("itemsTest")
         repository = RepositoryImpl(db, "itemsTest") { it.toItem() }
-    }
-
-    @Test
-    fun test() = runTest {
-        val item = Item("id", 0)
-        collection.add(item).await()
-        assertEquals(null, collection.get()
-            .await()
-            .mapNotNull { it.toObject(Item::class.java) })
-    }
-
-    @Test
-    fun test2() = runTest {
-        val item = Item("id", 0)
-        val i = repository.query()
-            .whereEqualTo(Item.ID_FIELD, "id")
-            .execute(1u)
-            .mapResult { it.mapNotNull { it.toItem() } }
-            .collect {
-                when (it) {
-                    is QueryState.Failure -> throw Exception()
-                    is QueryState.Loading -> {}
-                    is QueryState.Success -> assertEquals(it.data.first(), item)
-                }
-            }
-
     }
 }

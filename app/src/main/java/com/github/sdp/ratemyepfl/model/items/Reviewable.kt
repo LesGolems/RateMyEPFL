@@ -17,8 +17,4 @@ sealed class Reviewable : RepositoryItem {
     abstract val grade: Double
     abstract val numReviews: Int
 
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
-        Pair(AVERAGE_GRADE_FIELD_NAME, grade),
-        Pair(NUM_REVIEWS_FIELD_NAME, numReviews)
-    )
 }

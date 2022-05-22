@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.database.query.QueryResult.Companion.mapDocuments
@@ -43,7 +44,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         const val KARMA_FIELD_NAME = "karma"
 
         fun DocumentSnapshot.toUser(): User? {
-            val timetable = getString(TIMETABLE_FIELD_NAME)?.let {
+            /*val timetable = getString(TIMETABLE_FIELD_NAME)?.let {
                 Gson().fromJson(it, Array<Class>::class.java).toCollection(ArrayList())
             } ?: User.DEFAULT_TIMETABLE
             return try {
@@ -59,7 +60,8 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
                 null
             } catch (e: Exception) {
                 throw DatabaseException("Cannot convert the document to a User (from $e \n ${e.stackTrace}")
-            }
+            }*/
+            return toItem()
         }
     }
 

@@ -21,6 +21,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
@@ -225,7 +226,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .build()
         )
         Thread.sleep(2000) // if no wait, the new list is direclty displayed
@@ -243,7 +244,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -274,7 +275,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -305,7 +306,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -336,7 +337,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -382,7 +383,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setUid(FakeConnectedUser.fakeUser2.uid)
                 .build()
         )
@@ -422,7 +423,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
         )
@@ -442,7 +443,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(Date.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
         )
