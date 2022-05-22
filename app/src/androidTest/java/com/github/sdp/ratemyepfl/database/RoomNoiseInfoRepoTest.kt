@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -20,7 +21,7 @@ class RoomNoiseInfoRepoTest {
     private val testDate = LocalDateTime.of(2022, 5, 10, 18, 45, 18)
     private val testDateString = testDate.toString()
 
-    private val testRoomNoiseInfo = RoomNoiseInfo("id", mapOf(Pair(testDateString, 38)))
+    private val testRoomNoiseInfo = RoomNoiseInfo("id", listOf(NoiseInfo(testDateString, 38)))
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -42,8 +43,7 @@ class RoomNoiseInfoRepoTest {
             roomNoiseRepo.addMeasurement(testRoomNoiseInfo.roomId, testDate, 50).await()
             val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById(testRoomNoiseInfo.roomId)
             assertNotNull(roomNoiseInfo)
-            assertNotNull(roomNoiseInfo!!.noiseData[testDateString])
-            assertEquals(50, roomNoiseInfo.noiseData[testDateString])
+            assertEquals(2, roomNoiseInfo!!.noiseData.size)
         }
     }
 
@@ -53,8 +53,7 @@ class RoomNoiseInfoRepoTest {
             roomNoiseRepo.addMeasurement("new id", testDate, 50).await()
             val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById("new id")
             assertNotNull(roomNoiseInfo)
-            assertNotNull(roomNoiseInfo!!.noiseData[testDateString])
-            assertEquals(50, roomNoiseInfo.noiseData[testDateString])
+            assertEquals(1, roomNoiseInfo!!.noiseData.size)
         }
     }
 }

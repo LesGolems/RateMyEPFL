@@ -1,10 +1,13 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.model.NoiseInfo
+import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
+import com.google.firebase.firestore.ktx.getField
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.tasks.await
@@ -28,11 +31,11 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         const val ROOMS_INFO_FIELD_NAME = "noiseData"
 
         fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? {
-            val type = object : TypeToken<Map<String, Int>>() {}.type
-            val noiseData = getString(ROOMS_INFO_FIELD_NAME)?.let {
-                Gson().fromJson<Map<String, Int>>(it, type)
-            }
             return try {
+                val type = object : TypeToken<List<NoiseInfo>>() {}.type
+                val noiseData = getString(ROOMS_INFO_FIELD_NAME)?.let {
+                    Gson().fromJson<List<NoiseInfo>>(it, type)
+                }
                 RoomNoiseInfo.Builder(
                     getString(ROOM_NAME_FIELD_NAME),
                     noiseData
@@ -55,7 +58,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
 
         return repository.update(roomId) {
             val newData = it.noiseData.plus(
-                Pair(
+                NoiseInfo(
                     date.toString(),
                     measure
                 )
