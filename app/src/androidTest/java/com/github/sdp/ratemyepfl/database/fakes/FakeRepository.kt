@@ -10,12 +10,12 @@ import com.google.firebase.firestore.QuerySnapshot
 import org.mockito.Mockito
 import javax.inject.Inject
 
-open class FakeRepository<T : RepositoryItem> @Inject constructor() : Repository<T> {
+open class FakeRepository<T : RepositoryItem> constructor(val defaultValue: T) : Repository<T> {
 
-    override suspend fun take(number: Long): QuerySnapshot = Mockito.mock(QuerySnapshot::class.java)
+    override suspend fun take(number: Long): List<T> = listOf(defaultValue)
 
-    override suspend fun getById(id: String): DocumentSnapshot =
-        Mockito.mock(DocumentSnapshot::class.java)
+    override suspend fun getById(id: String): T? =
+        defaultValue
 
     override fun remove(id: String): Task<Void> = Mockito.mock(Task::class.java) as Task<Void>
 
@@ -27,5 +27,4 @@ open class FakeRepository<T : RepositoryItem> @Inject constructor() : Repository
     override fun transform(document: DocumentSnapshot): T? = null
 
     override fun query(): Query = Query(Mockito.mock(FirebaseQuery::class.java))
-
 }

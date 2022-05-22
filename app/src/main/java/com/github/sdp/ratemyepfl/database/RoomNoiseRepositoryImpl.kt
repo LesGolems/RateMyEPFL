@@ -54,6 +54,5 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
 
     override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =
         repository.getById(roomId)
-            .toRoomNoiseInfo()
 
 }

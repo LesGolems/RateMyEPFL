@@ -2,14 +2,11 @@ package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 import javax.inject.Inject
 
 class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepository,
@@ -75,12 +72,9 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
 
     override suspend fun getReviews(): List<Review> =
         repository.take(DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
-
 
     override suspend fun getReviewById(id: String): Review? = repository
         .getById(id)
-        .toReview()
         ?.withId(id)
 
     override suspend fun getByReviewableId(id: String?): List<Review> {

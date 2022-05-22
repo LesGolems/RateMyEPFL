@@ -149,7 +149,7 @@ class ReviewRepositoryTest {
         val id = "id"
         reviewRepo.addWithId(testReview, id).await()
 
-        val fetched = reviewRepo.getById(id).toReview()
+        val fetched = reviewRepo.getById(id)
         assertEquals(testReview, fetched)
 
         reviewRepo.remove(id).await()
@@ -178,7 +178,7 @@ class ReviewRepositoryTest {
         val uid = "uid"
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf("1", uid), updated.likers)
         reviewRepo.remove(id).await()
         clean()
@@ -194,7 +194,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.likers)
         reviewRepo.remove(id).await()
         clean()
@@ -208,7 +208,7 @@ class ReviewRepositoryTest {
         val uid = "uid"
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf("1", uid), updated.dislikers)
         reviewRepo.remove(id).await()
         clean()
@@ -224,7 +224,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.dislikers)
         reviewRepo.remove(id).await()
         clean()
@@ -239,7 +239,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.removeUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf<String>(), updated.likers)
         reviewRepo.remove(id).await()
         clean()
@@ -262,7 +262,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.removeUpVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.likers)
         reviewRepo.remove(id).await()
         clean()
@@ -277,7 +277,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.removeDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf<String>(), updated.dislikers)
         reviewRepo.remove(id).await()
         clean()
@@ -292,7 +292,7 @@ class ReviewRepositoryTest {
 
         reviewRepo.removeDownVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.dislikers)
         reviewRepo.remove(id).await()
         clean()

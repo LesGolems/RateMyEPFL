@@ -69,13 +69,11 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
 
     }
 
-    override suspend fun getRestaurants(): List<Restaurant> {
-        return repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toRestaurant() }
-    }
+    override suspend fun getRestaurants(): List<Restaurant> = repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
+
 
     override suspend fun getRestaurantById(id: String): Restaurant? =
-        repository.getById(id).toRestaurant()
+        repository.getById(id)
 
     override suspend fun incrementOccupancy(id: String) {
         repository.update(id) { restaurant ->

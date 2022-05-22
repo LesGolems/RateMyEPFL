@@ -117,11 +117,11 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
 
     override suspend fun getCourses(): List<Course> =
         repository
-            .take(Query.DEFAULT_QUERY_LIMIT.toLong()).mapNotNull { obj -> obj.toCourse() }
+            .take(Query.DEFAULT_QUERY_LIMIT.toLong())
 
     override suspend fun getCourseById(id: String): Course? =
         repository
-            .getById(id).toCourse()
+            .getById(id)
 
 
 }

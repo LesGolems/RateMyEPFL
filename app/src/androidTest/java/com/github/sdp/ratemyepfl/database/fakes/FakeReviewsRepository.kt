@@ -2,20 +2,16 @@ package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.ReviewRepository
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toReview
-import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Date
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.Transaction
-import org.mockito.Mockito
-import java.time.LocalDate
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class FakeReviewsRepository @Inject constructor() : ReviewRepository, FakeRepository<Review>() {
+class FakeReviewsRepository @Inject constructor() : ReviewRepository, FakeRepository<Review>(
+    fakeList.first()
+) {
 
     companion object {
         const val FAKE_UID_1 = "ID1"

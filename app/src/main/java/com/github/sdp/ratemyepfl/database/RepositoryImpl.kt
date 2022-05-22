@@ -25,9 +25,11 @@ class RepositoryImpl<T : RepositoryItem> (
         }
     }
 
-    override suspend fun take(number: Long): QuerySnapshot {
-        return collection.limit(number).get().await()
-    }
+    override suspend fun take(number: Long) =
+        collection.limit(number)
+            .get()
+            .await()
+            .mapNotNull(transform)
 
     /**
      * Creates a new query to execute
@@ -37,8 +39,10 @@ class RepositoryImpl<T : RepositoryItem> (
     override fun query(): Query = Query(collection)
 
 
-    override suspend fun getById(id: String): DocumentSnapshot =
-        collection.document(id).get().await()
+    override suspend fun getById(id: String) =
+        transform(collection.document(id)
+            .get()
+            .await())
 
 
     override fun remove(id: String) = collection

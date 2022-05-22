@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.fakes
 
 import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -11,10 +10,14 @@ import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
+class FakeEventRepository(val repository: FakeLoaderRepository<Event>) :
     EventRepository, ReviewableRepository<Event>, LoaderRepository<Event> by repository {
 
+    @Inject
+    constructor() : this(FakeLoaderRepository(baseEvent))
+
     override val offlineData: List<Event> = listOf()
+
     companion object {
         val DATE = LocalDateTime.now()
         private val baseEvent = Event("name", "name", 0, 0, listOf(), "creator", 0.0, 0, 0.0, 0.0)
@@ -70,9 +73,9 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean {
         eventList = EVENT_LIST
-        eventList = if(eventList[0].participants.contains(userId)){
+        eventList = if (eventList[0].participants.contains(userId)) {
             listOf(baseEvent.copy(participants = listOf()))
-        }else{
+        } else {
             listOf(baseEvent.copy(participants = listOf(userId)))
         }
         return true

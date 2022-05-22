@@ -152,7 +152,6 @@ class GradeInfoRepositoryImpl private constructor(
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
-        .toGradeInfo()
 
     private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Unit> =
         when (item) {

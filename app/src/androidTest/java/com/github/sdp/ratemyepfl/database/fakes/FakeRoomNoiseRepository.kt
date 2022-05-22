@@ -28,9 +28,9 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
         roomId: String,
         date: LocalDateTime,
         measure: Int
-    ): Task<Transaction> {
+    ): Task<Unit> {
         measureInfo = NO_MEASURE.copy(noiseData = listOf(NoiseInfo(date.toString(), measure)))
-        return Mockito.mock(Task::class.java) as Task<Transaction>
+        return Mockito.mock(Task::class.java) as Task<Unit>
     }
 
     override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? = measureInfo

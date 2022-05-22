@@ -15,14 +15,14 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @return a QuerySnapshot of the request
      */
-    suspend fun take(number: Long): QuerySnapshot
+    suspend fun take(number: Long): List<T>
 
     /**
      * Retrieve an element by id from the collection
      *
      * @param id: the unique identifier (or key) of the object to retrieve
      */
-    suspend fun getById(id: String): DocumentSnapshot
+    suspend fun getById(id: String): T?
 
 
     /**

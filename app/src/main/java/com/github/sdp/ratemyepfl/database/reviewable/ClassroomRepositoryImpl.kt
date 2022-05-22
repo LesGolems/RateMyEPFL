@@ -46,12 +46,10 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
 
     }
 
-    override suspend fun getClassrooms(): List<Classroom> {
-        return repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toClassroom() }
-    }
+    override suspend fun getClassrooms() = repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
 
-    override suspend fun getRoomById(id: String): Classroom? = repository.getById(id).toClassroom()
+
+    override suspend fun getRoomById(id: String) = repository.getById(id)
 
 
 }

@@ -63,9 +63,8 @@ class EventRepositoryImpl private constructor(
     }
 
     override suspend fun getEvents(): List<Event> = take(DEFAULT_QUERY_LIMIT.toLong())
-        .mapNotNull { it.toEvent() }
 
-    override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
+    override suspend fun getEventById(id: String): Event? = getById(id)
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean {
         var success = true

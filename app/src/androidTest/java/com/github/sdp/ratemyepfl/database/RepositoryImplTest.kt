@@ -52,7 +52,6 @@ class RepositoryImplTest {
         runTest {
             repository.add(item).await()
             val fetched = repository.getById(id)
-                .toItem()
             assertEquals(item, fetched)
         }
         clearRepo()
@@ -89,7 +88,7 @@ class RepositoryImplTest {
             repository.add(item).await()
             repository.remove(item.getId()).await()
 
-            assertEquals(null, repository.getById(item.getId()).toItem())
+            assertEquals(null, repository.getById(item.getId()))
         }
     }
 
@@ -146,7 +145,7 @@ class RepositoryImplTest {
             it.copy(data = 1)
         }.await()
 
-        val x = repository.getById(item.getId()).toItem()
+        val x = repository.getById(item.getId())
 
         assertEquals(1, x?.data)
     }
