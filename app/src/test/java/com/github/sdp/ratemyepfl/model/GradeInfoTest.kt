@@ -14,19 +14,4 @@ class GradeInfoTest {
         assertEquals(5, gradeInfo.reviewsData["rid"]!!.likeRatio)
     }
 
-    @Test
-    fun builderWorks(){
-        val builder = GradeInfo.Builder("id")
-        val g = builder.build()
-        assertEquals("id", g.itemId)
-    }
-
-    @Test
-    fun builderThrowsForMissingId() {
-        val builder = GradeInfo.Builder(null)
-
-        Assert.assertThrows(IllegalStateException::class.java) {
-            builder.build()
-        }
-    }
 }
