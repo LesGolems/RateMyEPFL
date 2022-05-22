@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -62,7 +60,7 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
     }
 
-    private fun displayRoomNoise(noiseData: Map<String, Int>) {
+    private fun displayRoomNoise(noiseData: List<NoiseInfo>) {
         if (noiseData.isEmpty()) {
             roomNoiseInfoTextView.text = getString(R.string.noise_no_measure)
             roomNoiseInfoTextView.setTextColor(Color.BLACK)
