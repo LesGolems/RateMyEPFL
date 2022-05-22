@@ -1,10 +1,13 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.*
+import com.github.sdp.ratemyepfl.database.GradeInfoRepository
+import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
+import com.github.sdp.ratemyepfl.database.Storage
+import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.fakes.*
+import com.github.sdp.ratemyepfl.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.database.post.SubjectRepository
-import com.github.sdp.ratemyepfl.database.post.SubjectRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
@@ -46,6 +49,10 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideSubjectRepo(repo: FakeSubjectRepository): SubjectRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideCommentRepo(repo: FakeCommentRepository): CommentRepository
 
     @Singleton
     @Binds
