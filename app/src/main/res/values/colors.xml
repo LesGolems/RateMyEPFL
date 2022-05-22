@@ -13,6 +13,7 @@
     <color name="green">#66FF00</color>
     <color name="yellow">#ffff00</color>
     <color name="dark_orange">#FF6100</color>
+    <color name="light_grey">#999999</color>
 
     <color name="dayPressed">@color/colorPrimaryDark</color>
     <color name="daySelected">@color/colorPrimary</color>
