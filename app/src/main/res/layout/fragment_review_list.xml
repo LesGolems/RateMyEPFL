@@ -25,7 +25,6 @@
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
 
-
     <RelativeLayout
         android:id="@+id/panelProfile"
         android:layout_width="match_parent"
