@@ -34,6 +34,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
+    private lateinit var userTop1Picture: CircleImageView
+    private lateinit var userTop2Picture: CircleImageView
+    private lateinit var userTop3Picture: CircleImageView
+
     private lateinit var subjectAdapter: SubjectAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
@@ -45,6 +49,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
 
+    private lateinit var userProfilePicture: CircleImageView
     private lateinit var subjectInputText: EditText
 
     @Inject
@@ -55,12 +60,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializePodium(view)
+        initializePersonalTab(view)
         initializeReviewList(view)
         initializeProfilePanel(view)
+    }
 
+    private fun initializePodium(view: View) {
+        userTop1Picture = view.findViewById(R.id.userTop1Picture)
+        userTop2Picture = view.findViewById(R.id.userTop2Picture)
+        userTop3Picture = view.findViewById(R.id.userTop3Picture)
+
+        Log.d("TAG", viewModel.topUsers.value.toString())
+        viewModel.topUsersPictures.observe(viewLifecycleOwner) {
+            it?.let {
+                userTop1Picture.setImageBitmap(it[0]?.data)
+                userTop2Picture.setImageBitmap(it[1]?.data)
+                userTop3Picture.setImageBitmap(it[2]?.data)
+            }
+        }
+    }
+
+    private fun initializePersonalTab(view: View) {
         subjectInputText = view.findViewById(R.id.subjectInputText)
         subjectInputText.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.addSubjectFragment)
+        }
+
+        userProfilePicture = view.findViewById(R.id.userProfilePicture)
+        userViewModel.picture.observe(viewLifecycleOwner) {
+            it?.let { userProfilePicture.setImageBitmap(it.data) }
+        }
+        userProfilePicture.setOnClickListener {
+            // TODO open side bar
         }
     }
 
@@ -72,7 +104,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 lifecycleScope.launch { viewModel.removeSubject(swa.post.postId) }
             },
             { swa ->
-                Log.d("ID", swa.post.postId)
                 val bundle =
                     bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.postId)
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
@@ -88,6 +119,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             viewModel.updateSubjectsList()
+            viewModel.updatePodium()
             swipeRefresher.isRefreshing = false
         }
 

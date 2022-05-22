@@ -88,9 +88,6 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
             } else if (checkedIds.size == 1) {
                 val ordinal = checkedIds[0] - 1 // The group is counted as the first child
                 addSubjectViewModel.setKind(SubjectKind.values()[ordinal])
-            } else {
-                // Default subject
-                addSubjectViewModel.setKind(SubjectKind.OTHER)
             }
         }
     }

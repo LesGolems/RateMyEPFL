@@ -25,7 +25,8 @@
             android:layout_alignTop="@id/author_profile_picture"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/author_profile_picture"
-            android:hint="@string/anonymous" />
+            android:hint="@string/anonymous"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dateReview"
@@ -36,14 +37,17 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/author_profile_picture"
             android:gravity="center"
-            android:text="%s" />
+            android:text="%s"
+            android:textStyle="italic" />
 
         <ImageView
             android:id="@+id/subjectKindIcon"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_above="@id/subjectKindText"
+            android:layout_alignStart="@id/subjectKindText"
             android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignEnd="@id/subjectKindText"
             android:layout_alignParentEnd="true"
             android:contentDescription="@string/icon_of_the_subject"
             android:gravity="center" />

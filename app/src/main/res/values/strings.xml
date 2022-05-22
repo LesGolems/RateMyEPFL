@@ -137,4 +137,10 @@
     <string name="add_a_comment">Add a comment…</string>
     <string name="reply">Reply</string>
     <string name="icon_of_the_subject">Icon of the subject</string>
+    <string name="podium_of_the_top_karma_users">Podium of the top karma users</string>
+    <string name="picture_of_the_top_1_user">Picture of the top 1 user</string>
+    <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
+    <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
+    <string name="create_post">Create Post…</string>
+    <string name="button_for_creating_a_poll">Button for creating a poll</string>
 </resources>

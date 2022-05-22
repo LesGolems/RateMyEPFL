@@ -20,7 +20,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository, Repository<User> by repository{
+class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository,
+    Repository<User> by repository {
 
     @Inject
     constructor(db: FirebaseFirestore) : this(
@@ -118,6 +119,13 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             it.copy(timetable = it.timetable)
         }.await()
     }
+
+    override suspend fun getTopKarmaUsers(): QueryResult<List<User>> =
+        repository
+            .query()
+            .orderBy(KARMA_FIELD_NAME, com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .execute(3u)
+            .mapDocuments { it.toUser() }
 
     override suspend fun register(user: User): Task<Boolean> =
         if (getUserByUid(user.getId()) == null) {

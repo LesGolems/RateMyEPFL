@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
+import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -28,11 +29,31 @@ class HomeViewModel @Inject constructor(
     // Subjects
     val subjects = MutableLiveData<List<SubjectWithAuthor>>()
 
+    val topUsers = MutableLiveData<List<User>>()
+    val topUsersPictures = MutableLiveData<List<ImageFile?>>()
+
     @Inject
     lateinit var auth: ConnectedUser
 
     init {
+        updatePodium()
         updateSubjectsList()
+    }
+
+    fun updatePodium() {
+        viewModelScope.launch {
+            userRepo.getTopKarmaUsers().mapResult {
+                topUsers.postValue(it)
+            }
+        }
+
+        viewModelScope.launch {
+            topUsersPictures.postValue(
+                topUsers.value?.map {
+                    it.uid.let { uid -> imageStorage.get(uid) }
+                }
+            )
+        }
     }
 
     fun updateSubjectsList() {
