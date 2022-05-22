@@ -10,4 +10,10 @@
         android:name="com.github.sdp.ratemyepfl.fragment.navigation.HomeFragment"
         android:label="@string/home_nav_title"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/commentListFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.CommentListFragment"
+        android:label="Comment List"
+        tools:layout="@layout/fragment_comment_list" />
 </navigation>

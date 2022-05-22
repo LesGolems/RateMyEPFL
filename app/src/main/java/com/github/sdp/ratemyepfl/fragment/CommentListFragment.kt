@@ -1,9 +1,13 @@
 package com.github.sdp.ratemyepfl.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,11 +18,14 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.adapter.post.OnClickListener
 import com.github.sdp.ratemyepfl.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.MissingInputException
+import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.CommentListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -39,6 +46,12 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
 
+    private lateinit var slidingLayout: SlidingUpPanelLayout
+    private lateinit var comment: TextInputEditText
+    private lateinit var anonymousSwitch: SwitchCompat
+    private lateinit var doneButton: Button
+    private lateinit var textLayout: TextInputLayout
+
     @Inject
     lateinit var connectedUser: ConnectedUser
 
@@ -52,11 +65,50 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeReviewList(view)
-        initializeProfilePanel(view)
+        initializeCommentList(view)
+        //initializeProfilePanel(view)
+
+        val id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
+        Log.d("ARGUMENTS", id)
+        viewModel.id = id
+
+        slidingLayout = view.findViewById(R.id.slidingAddComment)
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+
+        textLayout = view.findViewById(R.id.textLayout)
+
+        doneButton = view.findViewById(R.id.doneButton)
+        comment = view.findViewById(R.id.addComment)
+        anonymousSwitch = view.findViewById(R.id.addCommentAnonymousSwitch)
+
+        setupListeners()
     }
 
-    private fun initializeReviewList(view: View) {
+    private fun setupListeners() {
+
+        // Expands the panel when the user wants to comment
+        comment.setOnClickListener {
+            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            else
+                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        }
+
+        comment.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher { text, _, _, _ ->
+            viewModel.setComment(text?.toString())
+        })
+
+        anonymousSwitch.setOnCheckedChangeListener { _, b ->
+            viewModel.setAnonymous(b)
+        }
+
+        doneButton.setOnClickListener {
+            addComment()
+        }
+    }
+
+
+    private fun initializeCommentList(view: View) {
         commentAdapter = PostAdapter(
             viewLifecycleOwner, userViewModel,
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
@@ -66,17 +118,17 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
                     viewModel.removeComment(cwa.post.getId())
                 }
             },
-            { cwa -> displayProfilePanel(cwa.author, cwa.image) },
-            R.layout.subject_item
+            { cwa -> },//displayProfilePanel(cwa.author, cwa.image) },
+            R.layout.comment_item
         )
 
-        recyclerView = view.findViewById(R.id.reviewRecyclerView)
+        recyclerView = view.findViewById(R.id.commentRecyclerView)
         recyclerView.adapter = commentAdapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
-        swipeRefresher = view.findViewById(R.id.reviewSwipeRefresh)
+        swipeRefresher = view.findViewById(R.id.commentSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             viewModel.updateCommentsList()
             swipeRefresher.isRefreshing = false
@@ -84,20 +136,6 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
 
         viewModel.comments.observe(viewLifecycleOwner) {
             it?.let { commentAdapter.submitList(it) }
-        }
-    }
-
-    private fun initializeProfilePanel(view: View) {
-        profilePanel = view.findViewById(R.id.author_profile_panel)
-        authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
-        authorPanelUsername = view.findViewById(R.id.author_panel_username)
-        authorPanelEmail = view.findViewById(R.id.author_panel_email)
-        authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
-        karmaCount = view.findViewById(R.id.karmaCount)
-
-        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
-        profilePanel.setFadeOnClickListener {
-            profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
     }
 
@@ -109,11 +147,23 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
         try {
             f(cwa.post, cwa.author?.uid)
         } catch (e: Exception) {
-            /*e.message?.let {
-                Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(R.id.reviewBottomNavigationView)
-                    .show()
-            }*/
+            e.message?.let {
+                displayOnToast(it)
+            }
+        }
+    }
+
+    /*private fun initializeProfilePanel(view: View) {
+        profilePanel = view.findViewById(R.id.author_profile_panel)
+        authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
+        authorPanelUsername = view.findViewById(R.id.author_panel_username)
+        authorPanelEmail = view.findViewById(R.id.author_panel_email)
+        authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
+        karmaCount = view.findViewById(R.id.karmaCount)
+
+        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        profilePanel.setFadeOnClickListener {
+            profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
     }
 
@@ -128,11 +178,35 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
             }
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         }
+    }*/
+
+    private fun addComment() {
+        try {
+            viewModel.submitComment()
+            comment.setText("")
+            displayOnToast("Your post was submitted!")
+            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        } catch (due: DisconnectedUserException) {
+            displayOnToast(due.message)
+        } catch (mie: MissingInputException) {
+            if (comment.text.isNullOrEmpty()) {
+                comment.error = mie.message
+            } else {
+                displayOnToast(mie.message)
+            }
+        }
+    }
+
+    private fun displayOnToast(message: String?) {
+        if (message != null) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.updateCommentsList()
-        profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+        //slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        //profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

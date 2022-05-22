@@ -1,13 +1,14 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,7 +17,6 @@ import com.github.sdp.ratemyepfl.adapter.post.OnClickListener
 import com.github.sdp.ratemyepfl.adapter.post.SubjectAdapter
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.fragment.CommentListFragment
-import com.github.sdp.ratemyepfl.fragment.CommentListFragment.Companion.EXTRA_SUBJECT_COMMENTED_ID
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.user.User
@@ -60,12 +60,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
             { swa ->
-                lifecycleScope.launch {
-                    viewModel.removeSubject(swa.post.getId())
-                }
+                lifecycleScope.launch { viewModel.removeSubject(swa.post.getId()) }
             },
             { swa ->
-
+                val bundle =
+                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
+                Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
             }
         ) { swa -> displayProfilePanel(swa.author, swa.image) }
 

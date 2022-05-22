@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <!-- Subject information layout -->
+    <!-- Comment information layout -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -37,19 +37,18 @@
             android:gravity="center"
             android:text="%s" />
 
-        <TextView
-            android:id="@+id/subjectKind"
+        <ImageButton
+            android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/author_profile_picture"
-            android:layout_alignBottom="@id/author_profile_picture"
             android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:text="%s" />
+            android:background="@color/white"
+            android:contentDescription="@string/button_for_deleting_a_comment"
+            android:src="@drawable/ic_delete_outline" />
     </RelativeLayout>
 
 
-    <!-- Subject description layout -->
+    <!-- Comment description layout -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,15 +61,6 @@
             android:layout_height="wrap_content"
             android:text="@string/title_review_list"
             tools:ignore="RelativeOverlap" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:background="@color/white"
-            android:contentDescription="@string/button_for_deleting_a_subject"
-            android:src="@drawable/ic_delete_outline" />
 
         <TextView
             android:id="@+id/commentReview"
@@ -87,25 +77,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-
-        <!-- Comment -->
-        <ImageButton
-            android:id="@+id/subjectCommentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:contentDescription="@string/display_comments"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_comment" />
-
-        <TextView
-            android:id="@+id/subjectCommentCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@id/subjectCommentButton"
-            tools:ignore="RelativeOverlap" />
 
         <!-- Like -->
         <ImageButton

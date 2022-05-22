@@ -1,32 +1,33 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class CommentListViewModel @Inject constructor(
     private val commentRepo: CommentRepository,
+    private val connectedUser: ConnectedUser,
     private val userRepo: UserRepository,
     private val imageStorage: ImageStorage,
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : AddPostViewModel<Comment>() {
 
-    val id: String = "ID"
+    lateinit var id: String
 
     // Comments
     val comments = MutableLiveData<List<CommentWithAuthor>>()
@@ -103,6 +104,39 @@ class CommentListViewModel @Inject constructor(
                 userRepo.updateKarma(authorUid, 1)
             }
             updateCommentsList()
+        }
+    }
+
+    fun submitComment() {
+        val comment = comment.value
+        val date = LocalDate.now()
+        var uid: String? = null
+
+        // only connected users may add reviews
+        if (!connectedUser.isLoggedIn()) {
+            throw DisconnectedUserException()
+        } else if (comment.isNullOrEmpty()) {
+            throw MissingInputException(EMPTY_COMMENT_MESSAGE)
+        }
+
+        if (!anonymous.value!!) {
+            uid = connectedUser.getUserId()
+        }
+
+        val builder = Comment.Builder()
+            .setSubjectID(id)
+            .setComment(comment)
+            .setDate(date)
+            .setUid(uid)
+
+        try {
+            val com = builder.build()
+            viewModelScope.launch(Dispatchers.IO) {
+                commentRepo.addAndGetId(com)
+                updateCommentsList()
+            }
+        } catch (e: IllegalStateException) {
+            throw IllegalStateException("Failed to build the comment (from ${e.message}")
         }
     }
 }

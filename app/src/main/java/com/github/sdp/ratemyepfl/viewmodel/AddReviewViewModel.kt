@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
@@ -21,9 +20,9 @@ import java.time.LocalDate
 import javax.inject.Inject
 
 /**
- * View model for the course reviewing feature.
+ * View model for the reviewing feature.
  *
- * @constructor: throws an IllegalArgumentException if no course can be induced from
+ * @constructor: throws an IllegalArgumentException if no reviewable can be induced from
  *               the savedStateHandle
  */
 @HiltViewModel
@@ -31,25 +30,18 @@ class AddReviewViewModel @Inject constructor(
     private val reviewRepo: ReviewRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val connectedUser: ConnectedUser,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
-
-    // Id
-    val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
-
-    val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
+    savedStateHandle: SavedStateHandle
+) : AddPostViewModel<Review>() {
 
     companion object {
-        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
-        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
         const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
     }
 
+    // Id
+    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
+    val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
+
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
-    val title: MutableLiveData<String> = MutableLiveData(null)
-    val comment: MutableLiveData<String> = MutableLiveData(null)
-    var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * Set the rating entered by the user
@@ -57,22 +49,6 @@ class AddReviewViewModel @Inject constructor(
      */
     fun setRating(rating: ReviewRating?) {
         this.rating.postValue(rating)
-    }
-
-    /**
-     * Set the title entered by the user
-     * @param title: title entered by the user
-     */
-    fun setTitle(title: String?) = this.title.postValue(title)
-
-    /**
-     * Set the comment entered by the user
-     * @param comment: comment entered by the user
-     */
-    fun setComment(comment: String?) = this.comment.postValue(comment)
-
-    fun setAnonymous(anonymous: Boolean) {
-        this.anonymous.postValue(anonymous)
     }
 
     /**
