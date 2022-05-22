@@ -21,6 +21,7 @@
             android:id="@+id/author_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/dateReview"
             android:layout_alignTop="@id/author_profile_picture"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/author_profile_picture"
@@ -37,11 +38,20 @@
             android:gravity="center"
             android:text="%s" />
 
+        <ImageView
+            android:id="@+id/subjectKindIcon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_above="@id/subjectKindText"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/icon_of_the_subject"
+            android:gravity="center" />
+
         <TextView
-            android:id="@+id/subjectKind"
+            android:id="@+id/subjectKindText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/author_profile_picture"
             android:layout_alignBottom="@id/author_profile_picture"
             android:layout_alignParentEnd="true"
             android:gravity="center"

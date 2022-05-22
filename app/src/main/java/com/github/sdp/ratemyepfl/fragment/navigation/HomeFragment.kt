@@ -1,7 +1,9 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
@@ -43,6 +45,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
 
+    private lateinit var subjectInputText: EditText
+
     @Inject
     lateinit var connectedUser: ConnectedUser
 
@@ -53,6 +57,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         initializeReviewList(view)
         initializeProfilePanel(view)
+
+        subjectInputText = view.findViewById(R.id.subjectInputText)
+        subjectInputText.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.addSubjectFragment)
+        }
     }
 
     private fun initializeReviewList(view: View) {
@@ -60,11 +69,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
             { swa ->
-                lifecycleScope.launch { viewModel.removeSubject(swa.post.getId()) }
+                lifecycleScope.launch { viewModel.removeSubject(swa.post.postId) }
             },
             { swa ->
+                Log.d("ID", swa.post.postId)
                 val bundle =
-                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
+                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.postId)
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
             }
         ) { swa -> displayProfilePanel(swa.author, swa.image) }
