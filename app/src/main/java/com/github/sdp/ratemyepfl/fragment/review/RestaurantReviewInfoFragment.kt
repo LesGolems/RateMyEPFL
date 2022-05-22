@@ -25,30 +25,33 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     // Gets the shared view model
     private val viewModel by activityViewModels<RestaurantInfoViewModel>()
 
+    private lateinit var restaurantName: TextView
+    private lateinit var restaurantNumReview: TextView
+    private lateinit var restaurantRatingBar: RatingBar
     private lateinit var occupancyGauge: ArcGauge
     private lateinit var occupancyRating: TextView
     private lateinit var restaurantImage: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.restaurant.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.restaurantName).text = it?.toString()
-            view.findViewById<TextView>(R.id.restaurantNumReview).text =
-                getNumReviewString(requireContext(), it.numReviews)
-            view.findViewById<RatingBar>(R.id.restaurantRatingBar).rating =
-                it.grade.toFloat()
+        restaurantName = view.findViewById(R.id.restaurantName)
+        restaurantNumReview = view.findViewById(R.id.restaurantNumReview)
+        restaurantRatingBar = view.findViewById(R.id.restaurantRatingBar)
+        occupancyGauge = view.findViewById(R.id.occupancyGauge)
+        occupancyRating = view.findViewById(R.id.occupancyRating)
+        restaurantImage = view.findViewById(R.id.restaurantInfoImage)
 
-            occupancyGauge = view.findViewById(R.id.occupancyGauge)
-            occupancyRating = view.findViewById(R.id.occupancyRating)
+        viewModel.restaurant.observe(viewLifecycleOwner) {
+            restaurantName.text = it.toString()
+            restaurantNumReview.text = getNumReviewString(requireContext(), it.numReviews)
+            restaurantRatingBar.rating = it.grade.toFloat()
+
             val ratio = occupancyMetric(it)
             setupOccupancyUI(ratio)
 
-            restaurantImage = view.findViewById(R.id.restaurantInfoImage)
-            it?.let {
-                restaurantImage.setImageResource(
-                    MapActivityUtils.PHOTO_MAPPING.getOrDefault(it.name, R.raw.arcadie)
-                )
-            }
+            restaurantImage.setImageResource(
+                MapActivityUtils.PHOTO_MAPPING.getOrDefault(it.name, R.raw.arcadie)
+            )
         }
     }
 

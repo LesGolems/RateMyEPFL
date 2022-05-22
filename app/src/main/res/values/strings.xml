@@ -66,7 +66,7 @@
     <string name="overall_score_review">Overall score: %s</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
-    <string name="title_edit_text">Give a title to your review</string>
+    <string name="title_edit_text">Your review title</string>
 
     -- COURSE --
     <string name="course_content_description">course icon</string>
@@ -130,6 +130,12 @@
     <string name="event_content_description">event icon</string>
     <string name="register">Register</string>
     <string name="participants">Participants</string>
+    <string name="event_date_info_text">DATE</string>
+    <string name="event_time_info_text">TIME</string>
+    <string name="event_participation_info_text">PARTICIPATION</string>
+    <string name="event_date_info">Event date</string>
+    <string name="event_time_info">Event time</string>
+    <string name="event_creator_info">hosted by %s</string>
 
     -- CLASSROOM --
     <string name="button_to_record_noise_intensity_of_a_room">Button to record noise intensity of a room</string>

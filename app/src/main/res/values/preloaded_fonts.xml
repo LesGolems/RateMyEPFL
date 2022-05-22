@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/pt_sans</item>
         <item>@font/pt_sans_bold</item>
+        <item>@font/pt_sans_italic</item>
         <item>@font/quantico</item>
         <item>@font/raleway_bold</item>
     </array>
