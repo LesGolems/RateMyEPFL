@@ -17,7 +17,7 @@ import javax.inject.Inject
 @Suppress("UNCHECKED_CAST")
 class FakeLoaderRepository<T: RepositoryItem>(defaultValue: T)  : LoaderRepository<T>, FakeRepository<T>(defaultValue) {
     override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> =
-        QueryResult.success(listOf())
+        QueryResult.success(elements.toList())
 
 
     override fun loaded(query: OrderedQuery): List<T>? = null
