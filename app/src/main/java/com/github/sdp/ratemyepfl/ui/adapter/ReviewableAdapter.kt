@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
@@ -29,7 +30,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
 
         init {
             reviewableView.isClickable = true
-            reviewableView.findViewById<LinearLayout>(R.id.reviewableItemLayout)
+            reviewableView.findViewById<CardView>(R.id.reviewableItemLayout)
                 .setOnClickListener {
                     currentReviewable?.let {
                         onClick(it)

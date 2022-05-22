@@ -59,9 +59,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
-        )
+        //recyclerView.addItemDecoration( DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL) )
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
