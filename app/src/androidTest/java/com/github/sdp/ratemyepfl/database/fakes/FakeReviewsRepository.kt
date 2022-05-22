@@ -5,7 +5,9 @@ import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toRevie
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Date
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import org.mockito.Mockito
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
@@ -105,19 +107,35 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository, FakeReposi
     }
 
     override suspend fun addUpVote(reviewId: String, userId: String) {
-        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2, userId)
+        reviewList.map {
+            if (it.getId() == reviewId) {
+                it.copy(likers = it.likers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeUpVote(reviewId: String, userId: String) {
-        reviewList[0].likers = listOf(FAKE_UID_1, FAKE_UID_2)
+        reviewList.map {
+            if (it.getId() == reviewId) {
+                it.copy(likers = it.likers.minus(userId))
+            } else it
+        }
     }
 
     override suspend fun addDownVote(reviewId: String, userId: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4, userId)
+        reviewList.map {
+            if (it.getId() == reviewId) {
+                it.copy(likers = it.dislikers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeDownVote(reviewId: String, userId: String) {
-        reviewList[0].dislikers = listOf(FAKE_UID_3, FAKE_UID_4)
+        reviewList.map {
+            if (it.getId() == reviewId) {
+                it.copy(likers = it.dislikers.minus(userId))
+            } else it
+        }
     }
 
     override suspend fun addAndGetId(item: Review): String = "Nothing"
@@ -125,4 +143,17 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository, FakeReposi
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
 
+    override fun remove(id: String): Task<Void> {
+        val newList = arrayListOf<Review>()
+
+        for (r in reviewList){
+            if(r.getId() != id){
+                newList.add(r)
+            }
+        }
+
+        reviewList = newList
+
+        return Mockito.mock(Task::class.java) as Task<Void>
+    }
 }
