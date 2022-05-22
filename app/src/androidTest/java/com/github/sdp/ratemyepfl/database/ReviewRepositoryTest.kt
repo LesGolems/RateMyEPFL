@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.Date.Companion.toDate
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,7 @@ class ReviewRepositoryTest {
         "title",
         "comment",
         "Fake reviewable id",
-        Date(2022, 4, 8),
+        DateTime(2022, 4, 8, 0, 0),
     ).withId("Fake id")
 
     @get:Rule
@@ -58,7 +59,7 @@ class ReviewRepositoryTest {
             "title",
             "comment",
             "Fake reviewable id",
-            LocalDate.of(2022, 4, 8).toDate()
+            DateTime(2022, 4, 8, 0, 0)
         )
         runTest {
             val id = reviewRepo.add(testReviewNoId).await()
@@ -254,7 +255,7 @@ class ReviewRepositoryTest {
             "title",
             "comment",
             "Fake reviewable id",
-            Date(2022, 4, 8),
+            DateTime.DEFAULT_DATE_TIME,
             likers = listOf(uid)
         ).withId(id)
 

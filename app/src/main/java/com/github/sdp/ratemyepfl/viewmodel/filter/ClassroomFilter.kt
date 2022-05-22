@@ -32,7 +32,7 @@ sealed interface ClassroomFilter : ReviewableFilter<Classroom> {
 
     object BestRated : ClassroomFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery = initialQuery
-            .orderBy(ReviewableRepository.GRADE_FIELD_NAME)
+            .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
             .orderBy(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)
     }
 

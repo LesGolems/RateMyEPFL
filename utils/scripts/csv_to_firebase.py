@@ -34,7 +34,7 @@ data_types = []
 # poorly optimized for now, database writes should be batched
 with open(CSV_FILE_PATH, 'r') as csv_file:
     reader = csv.reader(csv_file, delimiter=',')
-    collection_name = "courses2"
+    collection_name = "courses"
     header = next(reader)[0:]
     data_types = next(reader)[0:]
 
@@ -55,7 +55,6 @@ with open(CSV_FILE_PATH, 'r') as csv_file:
                         tuple[header[index]] = float(attribute)
                     else:
                         tuple[header[index]] = attribute
-            print(tuple)
             DB.collection(collection_name).document(key).set(tuple)
             print('Added ' + key)
 
