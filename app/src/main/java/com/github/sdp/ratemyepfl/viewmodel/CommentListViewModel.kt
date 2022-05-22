@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.ImageStorage
 import com.github.sdp.ratemyepfl.database.UserRepository
 import com.github.sdp.ratemyepfl.database.post.CommentRepository
+import com.github.sdp.ratemyepfl.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommentListViewModel @Inject constructor(
+    private val subjectRepo: SubjectRepository,
     private val commentRepo: CommentRepository,
     private val connectedUser: ConnectedUser,
     private val userRepo: UserRepository,
@@ -51,8 +53,11 @@ class CommentListViewModel @Inject constructor(
     }
 
     suspend fun removeComment(commentId: String) {
-        commentRepo.remove(commentId).await()
-        updateCommentsList()
+        viewModelScope.launch(Dispatchers.IO) {
+            commentRepo.remove(commentId).await()
+            subjectRepo.removeComment(id, commentId)
+            updateCommentsList()
+        }
     }
 
     fun updateDownVotes(comment: Comment, authorUid: String?) {
@@ -132,7 +137,8 @@ class CommentListViewModel @Inject constructor(
         try {
             val com = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                commentRepo.addAndGetId(com)
+                val commentId = commentRepo.addAndGetId(com)
+                subjectRepo.addComment(id, commentId)
                 updateCommentsList()
             }
         } catch (e: IllegalStateException) {

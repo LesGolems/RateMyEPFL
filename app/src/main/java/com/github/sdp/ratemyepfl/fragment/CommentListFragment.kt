@@ -1,12 +1,10 @@
 package com.github.sdp.ratemyepfl.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,6 +20,7 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
 import com.github.sdp.ratemyepfl.viewmodel.CommentListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -68,9 +67,7 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
         initializeCommentList(view)
         //initializeProfilePanel(view)
 
-        val id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
-        Log.d("ARGUMENTS", id)
-        viewModel.id = id
+        viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
 
         slidingLayout = view.findViewById(R.id.slidingAddComment)
         slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
@@ -114,9 +111,7 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
             getListener { r, s -> viewModel.updateUpVotes(r, s) },
             getListener { r, s -> viewModel.updateDownVotes(r, s) },
             { cwa ->
-                lifecycleScope.launch {
-                    viewModel.removeComment(cwa.post.getId())
-                }
+                lifecycleScope.launch { viewModel.removeComment(cwa.post.postId) }
             },
             { cwa -> },//displayProfilePanel(cwa.author, cwa.image) },
             R.layout.comment_item
@@ -148,7 +143,7 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
             f(cwa.post, cwa.author?.uid)
         } catch (e: Exception) {
             e.message?.let {
-                displayOnToast(it)
+                displayOnToast(requireContext(), it)
             }
         }
     }
@@ -181,32 +176,28 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
     }*/
 
     private fun addComment() {
+        val context = requireContext()
         try {
             viewModel.submitComment()
             comment.setText("")
-            displayOnToast("Your post was submitted!")
+            displayOnToast(context, "Your post was submitted!")
             slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         } catch (due: DisconnectedUserException) {
-            displayOnToast(due.message)
+            displayOnToast(context, due.message)
         } catch (mie: MissingInputException) {
             if (comment.text.isNullOrEmpty()) {
                 comment.error = mie.message
             } else {
-                displayOnToast(mie.message)
+                displayOnToast(context, mie.message)
             }
         }
     }
 
-    private fun displayOnToast(message: String?) {
-        if (message != null) {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     override fun onResume() {
         super.onResume()
         viewModel.updateCommentsList()
-        //slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         //profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }

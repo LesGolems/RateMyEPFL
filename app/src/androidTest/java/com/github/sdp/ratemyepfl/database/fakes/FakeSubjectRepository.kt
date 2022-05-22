@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.database.post.SubjectRepositoryImpl.Companion.toSubject
 import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
@@ -26,18 +27,20 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository {
                 "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
                 LocalDate.now(),
                 "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
-                likers = listOf(FAKE_UID_1),
-                dislikers = listOf(FAKE_UID_2),
-                comments = listOf("c1", "c2")
+                listOf(FAKE_UID_1),
+                listOf(FAKE_UID_2),
+                listOf("c1", "c2"),
+                SubjectKind.FOOD
             ),
             Subject(
-                "What is the drun is the best place to eat at EPFL?",
-                "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
+                "Does anyone know when should we receive the first results this year?",
+                "",
                 LocalDate.now(),
                 "xMhzXCCsyYTfzh7GXEJDR2NvT9G2",
-                likers = listOf(FAKE_UID_1),
-                dislikers = listOf(FAKE_UID_2),
-                comments = listOf("c1", "c2")
+                listOf(FAKE_UID_1),
+                listOf(FAKE_UID_2),
+                listOf("c1", "c2"),
+                SubjectKind.EXAMS
             )
         )
 
@@ -46,6 +49,14 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository {
 
     override suspend fun getSubjects(): List<Subject> {
         return subjectList
+    }
+
+    override suspend fun addComment(subjectId: String, commentId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeComment(subjectId: String, commentId: String) {
+        TODO("Not yet implemented")
     }
 
     override suspend fun addAndGetId(item: Subject): String =

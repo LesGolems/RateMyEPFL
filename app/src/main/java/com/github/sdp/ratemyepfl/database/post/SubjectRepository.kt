@@ -11,4 +11,22 @@ interface SubjectRepository : PostRepository<Subject> {
      */
     suspend fun getSubjects(): List<Subject>
 
+    /**
+     * Adds a comment to the subject with id [subjectId].
+     * There are no restriction on the number of comments for a user
+
+     * @param subjectId: id of the subject
+     * @param commentId: TODO
+     */
+    suspend fun addComment(subjectId: String, commentId: String)
+
+    /**
+     * Adds a comment to the subject with id [subjectId].
+     * There are no restriction on the number of comments for a user
+     *
+     * @param subjectId: id of the subject
+     * @param commentId: TODO
+     */
+    suspend fun removeComment(subjectId: String, commentId: String)
+
 }

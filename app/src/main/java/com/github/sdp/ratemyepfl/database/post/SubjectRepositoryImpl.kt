@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,6 +24,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     companion object {
         const val SUBJECT_COLLECTION_PATH = "subjects"
         const val COMMENTS_FIELD_NAME = "comments"
+        const val KIND_FIELD_NAME = "kind"
 
         /**
          * Converts a json data into a Subject
@@ -32,6 +34,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         fun DocumentSnapshot.toSubject(): Subject? = try {
             val builder = Subject.Builder()
                 .setComments(get(COMMENTS_FIELD_NAME) as List<String>)
+                .setKind(getString(KIND_FIELD_NAME)?.let { kind -> SubjectKind.valueOf(kind) })
                 .setTitle(getString(PostRepository.TITLE_FIELD_NAME))
                 .setComment(getString(PostRepository.COMMENT_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(PostRepository.DATE_FIELD_NAME)))
@@ -51,6 +54,18 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override suspend fun getSubjects(): List<Subject> =
         repository.take(DEFAULT_QUERY_LIMIT.toLong())
             .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }
+
+    override suspend fun addComment(subjectId: String, commentId: String) {
+        repository.update(subjectId) { subject ->
+            subject.copy(comments = subject.comments.plus(commentId))
+        }.await()
+    }
+
+    override suspend fun removeComment(subjectId: String, commentId: String) {
+        repository.update(subjectId) { subject ->
+            subject.copy(comments = subject.comments.minus(commentId))
+        }
+    }
 
     override suspend fun addAndGetId(item: Subject): String {
         val document = repository

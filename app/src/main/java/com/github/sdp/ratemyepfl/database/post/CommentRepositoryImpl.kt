@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
-import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.google.android.gms.tasks.Task
@@ -49,8 +48,16 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
 
 
     override suspend fun getBySubjectId(id: String?): List<Comment> =
-        repository.take(DEFAULT_QUERY_LIMIT.toLong())
+        getBy(SUBJECT_ID_FIELD_NAME, id.orEmpty())
+
+    private suspend fun getBy(fieldName: String, value: String): List<Comment> {
+        return repository
+            .collection
+            .whereEqualTo(fieldName, value)
+            .get()
+            .await()
             .mapNotNull { obj -> obj.toComment()?.withId(obj.id) }
+    }
 
     override suspend fun addAndGetId(item: Comment): String {
         val document = repository
