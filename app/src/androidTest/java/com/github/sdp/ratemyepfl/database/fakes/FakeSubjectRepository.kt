@@ -28,7 +28,7 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository {
                 "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
                 likers = listOf(FAKE_UID_1),
                 dislikers = listOf(FAKE_UID_2),
-                commentators = listOf(FAKE_UID_1, FAKE_UID_2)
+                comments = listOf("c1", "c2")
             ),
             Subject(
                 "What is the drun is the best place to eat at EPFL?",
@@ -37,7 +37,7 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository {
                 "xMhzXCCsyYTfzh7GXEJDR2NvT9G2",
                 likers = listOf(FAKE_UID_1),
                 dislikers = listOf(FAKE_UID_2),
-                commentators = listOf(FAKE_UID_1, FAKE_UID_2)
+                comments = listOf("c1", "c2")
             )
         )
 

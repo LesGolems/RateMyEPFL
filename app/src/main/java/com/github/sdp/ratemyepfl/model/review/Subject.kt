@@ -10,7 +10,7 @@ data class Subject constructor(
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf(),
-    val commentators: List<String> = listOf()
+    val comments: List<String> = listOf()
 ) : Post(title, comment, date, uid, likers, dislikers) {
 
     override var postId: String = this.hashCode().toString()
@@ -26,7 +26,7 @@ data class Subject constructor(
      */
     override fun toHashMap(): HashMap<String, Any?> {
         return hashMapOf<String, Any?>(
-            SubjectRepositoryImpl.COMMENTATORS_FIELD_NAME to commentators,
+            SubjectRepositoryImpl.COMMENTS_FIELD_NAME to comments,
         ).apply { this.putAll(super.toHashMap()) }
     }
 
@@ -34,11 +34,11 @@ data class Subject constructor(
      * Allows to create a [Subject] incrementally
      */
     data class Builder(
-        private var commentators: List<String>? = listOf()
+        private var comments: List<String>? = listOf()
     ) : Post.Builder<Subject>() {
 
-        fun setCommentators(commentators: List<String>?) = apply {
-            this.commentators = commentators
+        fun setComments(comments: List<String>?) = apply {
+            this.comments = comments
         }
 
         override fun build(): Subject {
@@ -48,7 +48,7 @@ data class Subject constructor(
             val uid = this.uid
             val likers = this asMandatory this.likers
             val dislikers = this asMandatory this.dislikers
-            val commentators = this asMandatory commentators
+            val commentators = this asMandatory comments
 
             return Subject(
                 title, comment, date, uid, likers, dislikers, commentators

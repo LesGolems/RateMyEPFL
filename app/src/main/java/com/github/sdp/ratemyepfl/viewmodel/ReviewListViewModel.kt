@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.database.Storage
 import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -31,14 +31,14 @@ open class ReviewListViewModel @Inject constructor(
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     // Id
-    val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
+    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
-    val itemReviewed = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
+    private val itemReviewed = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
+
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()
 
@@ -54,7 +54,7 @@ open class ReviewListViewModel @Inject constructor(
             reviews.postValue(reviewRepo.getByReviewableId(id)
                 .toMutableList()
                 .map { review ->
-                    PostWithAuthor<Review>(
+                    PostWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
                         review.uid?.let { imageStorage.get(it) }
@@ -64,7 +64,7 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    suspend fun removeReview(reviewId: String){
+    suspend fun removeReview(reviewId: String) {
         reviewRepo.remove(reviewId).await()
         gradeInfoRepo.removeReview(itemReviewed, reviewId)
         updateReviewsList()

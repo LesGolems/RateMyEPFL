@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.google.android.gms.tasks.Task
@@ -21,7 +22,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
 
     companion object {
         const val SUBJECT_COLLECTION_PATH = "subjects"
-        const val COMMENTATORS_FIELD_NAME = "commentators"
+        const val COMMENTS_FIELD_NAME = "comments"
 
         /**
          * Converts a json data into a Subject
@@ -30,7 +31,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
          */
         fun DocumentSnapshot.toSubject(): Subject? = try {
             val builder = Subject.Builder()
-                .setCommentators(getString(COMMENTATORS_FIELD_NAME) as List<String>)
+                .setComments(get(COMMENTS_FIELD_NAME) as List<String>)
                 .setTitle(getString(PostRepository.TITLE_FIELD_NAME))
                 .setComment(getString(PostRepository.COMMENT_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(PostRepository.DATE_FIELD_NAME)))
@@ -48,29 +49,8 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     }
 
     override suspend fun getSubjects(): List<Subject> =
-        listOf(
-            Subject(
-                "Where is the best place to eat at EPFL?",
-                "I am looking ideally for Asian/Middle-East food for max 20 CHF. Thanks!",
-                LocalDate.now(),
-                "AsiDGo8e1QhVmxjQYVTUWIFtBfo1",
-                likers = listOf("uid1"),
-                dislikers = listOf("uid2"),
-                commentators = listOf("uid1", "uid2")
-            ),
-            Subject(
-                "What is the drunkest section?",
-                "I'd say IC because full chomeurs, but I want to be sure",
-                LocalDate.now(),
-                "xMhzXCCsyYTfzh7GXEJDR2NvT9G2",
-                likers = listOf("uid1"),
-                dislikers = listOf("uid2"),
-                commentators = listOf("uid1", "uid2")
-            )
-        )
-    /*repository.take(DEFAULT_QUERY_LIMIT.toLong())
-        .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }*/
-
+        repository.take(DEFAULT_QUERY_LIMIT.toLong())
+            .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }
 
     override suspend fun addAndGetId(item: Subject): String {
         val document = repository

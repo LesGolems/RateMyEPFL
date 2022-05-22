@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.google.android.gms.tasks.Task
@@ -31,7 +32,6 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
         fun DocumentSnapshot.toComment(): Comment? = try {
             val builder = Comment.Builder()
                 .setSubjectID(getString(SUBJECT_ID_FIELD_NAME))
-                .setTitle(getString(PostRepository.TITLE_FIELD_NAME))
                 .setComment(getString(PostRepository.COMMENT_FIELD_NAME))
                 .setDate(LocalDate.parse(getString(PostRepository.DATE_FIELD_NAME)))
                 .setUid(getString(PostRepository.UID_FIELD_NAME))
@@ -49,20 +49,8 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
 
 
     override suspend fun getBySubjectId(id: String?): List<Comment> =
-        listOf(
-            Comment(
-                "ID",
-                "Definity the Roulotte du Soleil!",
-                LocalDate.now(),
-                "xMhzXCCsyYTfzh7GXEJDR2NvT9G2",
-                likers = listOf("uid1"),
-                dislikers = listOf("uid2")
-            )
-        )
-
-    /*repository.take(DEFAULT_QUERY_LIMIT.toLong())
-        .mapNotNull { obj -> obj.toComment()?.withId(obj.id) }*/
-
+        repository.take(DEFAULT_QUERY_LIMIT.toLong())
+            .mapNotNull { obj -> obj.toComment()?.withId(obj.id) }
 
     override suspend fun addAndGetId(item: Comment): String {
         val document = repository

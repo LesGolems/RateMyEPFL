@@ -15,7 +15,7 @@ class SubjectAdapter(
     override val deleteListener: OnClickListener<Subject>,
     private val commentListener: OnClickListener<Subject>,
     override val profileClickListener: OnClickListener<Subject>
-    ) : PostAdapter<Subject>(
+) : PostAdapter<Subject>(
     lifecycleOwner,
     userViewModel,
     likeListener,
@@ -40,6 +40,6 @@ class SubjectAdapter(
 
         subjectKind.text = "FOOD"
 
-        commentCount.text = postWithAuthor.post.commentators.size.toString()
+        commentCount.text = postWithAuthor.post.comments.size.toString()
     }
 }

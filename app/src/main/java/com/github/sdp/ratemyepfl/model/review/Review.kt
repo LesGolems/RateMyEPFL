@@ -63,7 +63,7 @@ data class Review constructor(
         }
 
         /**
-         * Builds the corresponding CourseReview
+         * Builds the corresponding Review
          *
          * @throws IllegalStateException if one of the properties is null
          */
