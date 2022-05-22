@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -35,8 +37,6 @@ class RestaurantReviewInfoFragmentTest {
 
     private fun launch() {
         val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_restaurant_review)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_restaurant_review)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeRestaurantRepository.DEFAULT_RESTAURANT)
         scenario = ActivityScenario.launch(intent)
@@ -94,10 +94,6 @@ class RestaurantReviewInfoFragmentTest {
         FakeRestaurantRepository.restaurantById = FakeRestaurantRepository.RESTAURANT_NO_REVIEWS
 
         launch()
-
-        // Refresh
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.restaurantReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))

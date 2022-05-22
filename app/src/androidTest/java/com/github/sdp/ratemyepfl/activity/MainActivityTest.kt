@@ -170,6 +170,9 @@ class MainActivityTest {
 
     @Test
     fun navigateToProfileWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.profile)).perform(click())
         onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
@@ -177,6 +180,9 @@ class MainActivityTest {
 
     @Test
     fun navigateToTimetableWorks() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
+        val intent = Intent(ApplicationProvider.getApplicationContext(), MainActivity::class.java)
+        scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.timetable)).perform(click())
         onView(withId(R.id.timetableTabLayout)).check(matches(isDisplayed()))
@@ -189,7 +195,7 @@ class MainActivityTest {
 //     */
     @Test
     fun navigateHomePageAddsTheCorrectFragment() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         navigate(Destination.HOME)
         checkHomePage()
     }
@@ -197,7 +203,7 @@ class MainActivityTest {
     //
     @Test
     fun pressesBackReturnsToHome() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         navigate(Destination.EVENT)
         navigate(Destination.MAP)
         Espresso.pressBack()
@@ -205,7 +211,7 @@ class MainActivityTest {
     }
 
     private fun checkHomePage() = checkPage(Destination.HOME)
-    private fun checkReviewPage() = checkPage(Destination.REVIEW)
+    private fun checkReviewPage() = checkPage(Destination.REVIEWABLE)
     private fun checkEventPage() = checkPage(Destination.EVENT)
     private fun checkMapPage() = checkPage(Destination.MAP)
 
@@ -219,7 +225,7 @@ class MainActivityTest {
 
     enum class Destination(val id: Int, val stringId: Int) {
         HOME(R.id.home, R.string.home_nav_title),
-        REVIEW(R.id.review, R.string.reviews_nav_title),
+        REVIEWABLE(R.id.reviewable, R.string.reviewable_nav_title),
         EVENT(R.id.event, R.string.event_page_title),
         MAP(R.id.map, R.string.map_nav_title);
 
@@ -230,7 +236,7 @@ class MainActivityTest {
     //
     @Test
     fun navigateToReviewAddsTheCorrectFragment() {
-        navigate(Destination.REVIEW)
+        navigate(Destination.REVIEWABLE)
         checkReviewPage()
     }
 

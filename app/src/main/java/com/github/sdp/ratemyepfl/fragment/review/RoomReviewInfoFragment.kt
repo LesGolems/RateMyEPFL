@@ -9,12 +9,11 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.activity.AudioRecordActivity
+import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils
@@ -70,11 +69,15 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
             return
         }
 
-        val sortedMap = noiseData.toSortedMap()
-        val mostRecentDate = sortedMap.lastKey()
-        val mostRecentMeasure = sortedMap[mostRecentDate]
+        val sortedList = noiseData.sortedBy {
+            it.date
+        }
+        val mostRecentDate = sortedList.last().date
+        val mostRecentMeasure = noiseData.first {
+            it.date == mostRecentDate
+        }.measure
 
-        val (text, color) = SoundDisplayUtils.decibelMap(mostRecentMeasure!!)
+        val (text, color, _) = SoundDisplayUtils.decibelMap(mostRecentMeasure)
         roomNoiseInfoTextView.text =
             getString(
                 R.string.room_noise_info,
@@ -87,29 +90,11 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
 
 
     /**
-     * Gets the noise intensity that was measured by the user in [AudioRecordActivity]
+     * Gets the noise intensity that was measured by the user in [AudioRecordFragment]
      */
     private fun startAudio() {
-        val intent = Intent(requireContext(), AudioRecordActivity::class.java)
-        getAudioResults.launch(intent)
+        Navigation.findNavController(requireView()).navigate(R.id.audioRecordFragment)
     }
-
-    private val getAudioResults =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                val measure = data?.getIntExtra(AudioRecordActivity.EXTRA_MEASUREMENT_VALUE, 0)
-                if (measure != null) {
-                    viewModel.submitNoiseMeasure(measure)
-                    viewModel.refresh()
-                    Toast.makeText(
-                        requireContext(),
-                        "Your measure ($measure dB) was uploaded successfully!",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-        }
 
     override fun onResume() {
         super.onResume()

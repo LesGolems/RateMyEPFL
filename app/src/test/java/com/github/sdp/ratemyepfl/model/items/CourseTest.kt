@@ -53,7 +53,7 @@ class CourseTest {
 
     @Test
     fun toStringWorks() {
-        assertEquals(EXPECTED_COURSE.toString(), "CS-306 SDP")
+        assertEquals(EXPECTED_COURSE.toString(), "SDP")
     }
 
     @Test

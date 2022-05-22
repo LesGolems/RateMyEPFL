@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -30,8 +32,6 @@ import org.junit.Test
 class EventReviewInfoFragmentTest {
 
     val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        .putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_event_review)
-        .putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_event_review)
         .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeEventRepository.DEFAULT_EVENT)
 
@@ -66,10 +66,6 @@ class EventReviewInfoFragmentTest {
         FakeEventRepository.eventById = FakeEventRepository.EVENT_NO_REVIEW
 
         launch()
-
-        // Refresh
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.reviewListFragment))
-        onView(withId(R.id.reviewBottomNavigationView)).perform(CustomViewActions.navigateTo(R.id.eventReviewInfoFragment))
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))

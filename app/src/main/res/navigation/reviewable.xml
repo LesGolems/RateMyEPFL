@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reviewable"
+    app:startDestination="@id/reviewableFragment">
+
+    <fragment
+        android:id="@+id/reviewableFragment"
+        android:name="com.github.sdp.ratemyepfl.fragment.navigation.ReviewableFragment"
+        android:label="@string/reviewable_nav_title"
+        tools:layout="@layout/fragment_review" />
+</navigation>

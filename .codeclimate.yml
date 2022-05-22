@@ -2,10 +2,10 @@ version: "2"
 checks:
   similar-code:
     config:
-      threshold: 100
+      threshold: 150
   identical-code:
     config:
-      threshold: 100
+      threshold: 150
 
 exclude_patterns:
 - "**/test/"

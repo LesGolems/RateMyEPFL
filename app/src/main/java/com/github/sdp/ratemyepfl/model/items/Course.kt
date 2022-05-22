@@ -19,7 +19,7 @@ data class Course constructor(
 ) : Reviewable() {
 
     override fun toString(): String {
-        return "$courseCode $title"
+        return title
     }
 
     override fun getId(): String = courseCode
