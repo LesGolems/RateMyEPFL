@@ -27,10 +27,12 @@ data class Duration(
     init {
         Time.checkMinutes(minutes)
         Time.checkHours(hours)
-        assert(days >= 0)
+        if (days < 0) {
+            throw IllegalArgumentException("A duration must have a positive number of days")
+        }
     }
 
-    infix fun plus(that: Duration): Duration {
+    infix operator fun plus(that: Duration): Duration {
         val minutes = this.minutes + that.minutes
         val remainingMinutes = minutes % Time.MAX_MINUTE
 
@@ -39,7 +41,7 @@ data class Duration(
 
         val days = this.days + that.days + (hours - remainingHours) / Time.MAX_HOUR
 
-        return Duration(days, hours, minutes)
+        return Duration(days, remainingHours, remainingMinutes)
     }
 
     companion object {

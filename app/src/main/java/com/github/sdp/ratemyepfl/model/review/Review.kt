@@ -1,16 +1,11 @@
 package com.github.sdp.ratemyepfl.model.review
 
 import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.DateTime
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
 
 @Serializable
 data class Review constructor(

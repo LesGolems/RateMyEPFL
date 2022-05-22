@@ -33,4 +33,10 @@ class TimeTest {
     fun equalityHoldsForSameTime() {
         assertEquals(Time(12, 12), Time(12, 12))
     }
+
+    @Test
+    fun toStringHasTheRightFormat() {
+        val t = Time(1, 1)
+        assertEquals("01h01", t.toString())
+    }
 }

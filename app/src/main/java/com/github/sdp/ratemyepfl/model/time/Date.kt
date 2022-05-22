@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.model.time
 
+import com.github.sdp.ratemyepfl.model.time.Date.Companion.toDate
 import kotlinx.serialization.Serializable
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.Month
 
@@ -22,7 +24,7 @@ data class Date(
     val year: Int = DEFAULT_DATE.year,
     val month: Month = DEFAULT_DATE.month,
     val dayOfMonth: Int = DEFAULT_DATE.dayOfMonth
-): Comparable<Date> {
+) : Comparable<Date> {
 
     constructor(year: Int, month: Int, day: Int) : this(year, Month.of(month), day)
 
@@ -40,12 +42,15 @@ data class Date(
         }
     }
 
-    override fun toString(): String = "$year-$month-$dayOfMonth"
+    override fun toString(): String =
+        "${year}-${MONTH_FORMAT.format(month.value)}-${DAY_FORMAT.format(dayOfMonth)}"
 
     fun toLocalDate(): LocalDate = LocalDate.of(year, month, dayOfMonth)
-    
+
     companion object {
         val DEFAULT_DATE = Date(2022, 1, 1)
+        private val MONTH_FORMAT = DecimalFormat("00")
+        private val DAY_FORMAT = DecimalFormat("00")
         fun LocalDate.toDate(): Date = Date(year, month, dayOfMonth)
 
         /**

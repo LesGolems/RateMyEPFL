@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.model.time
 
 import kotlinx.serialization.Serializable
+import java.text.DecimalFormat
 
 /**
  * A Serializable object that represents the time of a day. It is Firebase compatible as it defines
@@ -14,13 +15,15 @@ data class Time(val hours: Int = MIDNIGHT.hours, val minutes: Int = MIDNIGHT.min
         checkMinutes(minutes)
     }
 
-    override fun toString(): String = "${hours}h$minutes"
+    override fun toString(): String = "${TIME_FORMAT.format(hours)}h${TIME_FORMAT.format(minutes)}"
 
     companion object {
         const val MIN_HOUR = 0
         const val MAX_HOUR = 24
         const val MIN_MINUTE = 0
         const val MAX_MINUTE = 60
+
+        val TIME_FORMAT = DecimalFormat("00")
 
         /**
          * Check if the provided hours satisfies the bound constraints.

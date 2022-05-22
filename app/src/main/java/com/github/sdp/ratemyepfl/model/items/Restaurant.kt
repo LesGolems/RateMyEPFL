@@ -1,13 +1,9 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
 
 @Serializable
 data class Restaurant constructor(

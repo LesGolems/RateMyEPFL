@@ -16,6 +16,12 @@ class DateTest {
     }
 
     @Test
+    fun toStringGivesTheCorrectFormat() {
+        val d = Date(2001, 1, 1)
+        assertEquals("2001-01-01", d.toString())
+    }
+
+    @Test
     fun toDateConvertsCorrectlyALocalDate() {
         val l = LocalDate.of(2001, 1, 1)
         val d = Date(2001, 1, 1)
