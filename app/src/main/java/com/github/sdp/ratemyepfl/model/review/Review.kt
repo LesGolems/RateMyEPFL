@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.database.RepositoryItem
 import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
 import com.github.sdp.ratemyepfl.model.time.Date
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -17,7 +18,7 @@ data class Review constructor(
     val title: String = "",
     val comment: String = "",
     val reviewableId: String = "",
-    val date: Date = Date.DEFAULT_DATE,
+    val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
@@ -72,7 +73,7 @@ data class Review constructor(
         private var title: String? = null,
         private var comment: String? = null,
         private var reviewableId: String? = null,
-        private var date: Date? = null,
+        private var date: DateTime? = null,
         private var uid: String? = null,
         private var likers: List<String>? = listOf(),
         private var dislikers: List<String>? = listOf(),
@@ -128,7 +129,7 @@ data class Review constructor(
          * @param date: the new date of the review
          * @return this
          */
-        fun setDate(date: Date?) = apply {
+        fun setDate(date: DateTime?) = apply {
             this.date = date
         }
 

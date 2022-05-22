@@ -14,6 +14,8 @@ data class Time(val hours: Int = MIDNIGHT.hours, val minutes: Int = MIDNIGHT.min
         checkMinutes(minutes)
     }
 
+    override fun toString(): String = "${hours}h$minutes"
+
     companion object {
         const val MIN_HOUR = 0
         const val MAX_HOUR = 24

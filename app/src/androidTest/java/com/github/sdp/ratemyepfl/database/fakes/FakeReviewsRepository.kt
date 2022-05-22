@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl.Companion.toRevie
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Date
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import org.mockito.Mockito
@@ -20,7 +21,7 @@ class FakeReviewsRepository @Inject constructor() : ReviewRepository, FakeReposi
         const val FAKE_UID_2 = "ID2"
         const val FAKE_UID_3 = "ID3"
         const val FAKE_UID_4 = "ID4"
-        val DATE = Date(2000, 1, 1)
+        val DATE = DateTime(2000, 1, 1, 0, 0)
 
         val fakeList = listOf(
             Review.Builder().setTitle("Absolument dé-men-tiel")

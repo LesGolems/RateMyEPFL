@@ -35,6 +35,7 @@ data class DateTime(val date: Date = DEFAULT_DATE, val time: Time = Time.MIDNIGH
             .plusDays(duration.days.toLong())
             .toDateTime()
 
+    override fun toString(): String = "$date $time"
 
     /**
      * Convert into [LocalDateTime].
@@ -47,6 +48,9 @@ data class DateTime(val date: Date = DEFAULT_DATE, val time: Time = Time.MIDNIGH
 
         fun LocalDateTime.toDateTime(): DateTime =
             DateTime(toLocalDate().toDate(), Time(hour, minute))
+
+        fun now(): DateTime =
+            LocalDateTime.now().toDateTime()
     }
 
     override fun compareTo(other: DateTime): Int {
