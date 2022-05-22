@@ -111,7 +111,7 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
 
     private val loadQuery = repository
         .query()
-        .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
+        .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
         .orderBy(COURSE_CODE_FIELD_NAME)
 
 

@@ -1,17 +1,8 @@
 package com.github.sdp.ratemyepfl.database
 
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.CREATOR_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.ID_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.toEvent
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.Period
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,8 +14,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 

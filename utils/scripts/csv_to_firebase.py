@@ -17,7 +17,7 @@ from firebase_admin import credentials, firestore
 
 # modify this with your own files
 CSV_FILE_PATH = 'course_list.csv'
-CERTIFICATE_PATH = 'ratemyepfl-firebase-adminsdk-he1ed-c6d62b7650.json'
+CERTIFICATE_PATH = 'ratemyepfl-firebase-adminsdk-he1ed-fe04b864dd.json'
 
 # You need to set the environment variable in order for the script to work
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CERTIFICATE_PATH
@@ -34,9 +34,9 @@ data_types = []
 # poorly optimized for now, database writes should be batched
 with open(CSV_FILE_PATH, 'r') as csv_file:
     reader = csv.reader(csv_file, delimiter=',')
-    collection_name = "courses"
-    header = next(reader)[1:]
-    data_types = next(reader)[1:]
+    collection_name = "courses2"
+    header = next(reader)[0:]
+    data_types = next(reader)[0:]
 
     print(f"collection_name {collection_name}")
     print(f"header: {header}")
@@ -45,6 +45,7 @@ with open(CSV_FILE_PATH, 'r') as csv_file:
     for row in reader:
         tuple = {}
         key = row.pop(0)
+        row.insert(0, key)
         if key:
             for index, attribute in enumerate(row):
                 if attribute:
@@ -54,7 +55,8 @@ with open(CSV_FILE_PATH, 'r') as csv_file:
                         tuple[header[index]] = float(attribute)
                     else:
                         tuple[header[index]] = attribute
-                DB.collection(collection_name).document(key).set(tuple)
-                print('Added ' + key)
+            print(tuple)
+            DB.collection(collection_name).document(key).set(tuple)
+            print('Added ' + key)
 
 csv_file.close()

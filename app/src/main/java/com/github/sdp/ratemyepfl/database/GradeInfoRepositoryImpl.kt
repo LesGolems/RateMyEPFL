@@ -11,6 +11,7 @@ import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
 import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
@@ -167,5 +168,6 @@ class GradeInfoRepositoryImpl private constructor(
             is Restaurant -> restaurantRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
             }
+           // else -> Tasks.forResult(2)
         }.continueWith {}
 }
