@@ -71,9 +71,10 @@ class UserProfileViewModel @Inject constructor(
             }
 
         } else {
-            username.postValue("Visitor")
-            email.postValue("You are not logged in")
+            username.postValue(null)
+            email.postValue(null)
             picture.postValue(null)
+            timetable.postValue(arrayListOf())
         }
     }
 

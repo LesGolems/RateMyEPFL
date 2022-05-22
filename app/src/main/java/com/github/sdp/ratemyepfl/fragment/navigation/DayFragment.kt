@@ -1,26 +1,36 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
+import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.adapter.ClassAdapter
+import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.viewmodel.UserProfileViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DayFragment : Fragment(R.layout.fragment_day) {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var addClassFAB: FloatingActionButton
+
+    @Inject
+    lateinit var courseRepo: CourseRepository
+
+    @Inject
+    lateinit var roomRepo: ClassroomRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,14 +40,8 @@ class DayFragment : Fragment(R.layout.fragment_day) {
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
 
-    private val userViewModel: UserProfileViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addClassFAB = view.findViewById(R.id.addClass)
-        addClassFAB.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.addClassFragment)
-        }
 
         val day = arguments?.get("day")?.toString()
         val timetable = arguments?.getSerializable("timetable")
@@ -46,7 +50,41 @@ class DayFragment : Fragment(R.layout.fragment_day) {
 
         recyclerView = view.findViewById(R.id.classRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = ClassAdapter(day, timetable as List<Class>)
+        recyclerView.adapter = ClassAdapter(timetable as List<Class>,
+            { id -> displayCourseReviews(id) },
+            { id -> displayRoomReviews(id) }
+        )
+    }
+
+    private fun displayCourseReviews(id: String) {
+        lifecycleScope.launch {
+            val c = courseRepo.getCourseById(id)
+            if (c != null) {
+                displayReviews(
+                    id,
+                    c
+                )
+            }
+        }
+    }
+
+    private fun displayRoomReviews(id: String) {
+        lifecycleScope.launch {
+            val r = roomRepo.getRoomById(id)
+            if (r != null) {
+                displayReviews(
+                    id,
+                    r
+                )
+            }
+        }
+    }
+
+    private fun displayReviews(id: String, r: Reviewable) {
+        val intent = Intent(activity?.applicationContext, ReviewActivity::class.java)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, id)
+        intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, r)
+        startActivity(intent)
     }
 
     enum class DAYS(val day: String) {

@@ -4,7 +4,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/home">
     <include app:graph="@navigation/home" />
-    <include app:graph="@navigation/review" />
+    <include app:graph="@navigation/reviewable" />
     <include app:graph="@navigation/event" />
     <include app:graph="@navigation/map" />
     <include app:graph="@navigation/timetable" />

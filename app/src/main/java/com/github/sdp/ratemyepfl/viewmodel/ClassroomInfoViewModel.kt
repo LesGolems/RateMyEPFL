@@ -8,6 +8,7 @@ import com.github.sdp.ratemyepfl.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.utils.TimeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +30,7 @@ class ClassroomInfoViewModel @Inject constructor(
 
     val room = MutableLiveData<Classroom>()
 
-    val noiseData = MutableLiveData<Map<String, Int>>()
+    val noiseData = MutableLiveData<List<NoiseInfo>>()
 
     init {
         updateRoom()
@@ -45,7 +46,7 @@ class ClassroomInfoViewModel @Inject constructor(
         viewModelScope.launch {
             val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById(id)
             if (roomNoiseInfo != null) {
-                noiseData.postValue(roomNoiseInfo.noiseData)
+                noiseData.postValue(roomNoiseInfo.noiseData.sortedBy { it.date }.reversed())
             }
         }
     }

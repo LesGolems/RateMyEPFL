@@ -14,8 +14,8 @@ class FakeUserRepository @Inject constructor() : UserRepository, FakeRepository<
 
     companion object {
         val timetable: ArrayList<Class> =
-            arrayListOf<Class>(Class(1, "Bamboula", "René", "bc", 0, 10, 12),
-                Class(2,"pain","singe","in",1,8,14))
+            arrayListOf<Class>(Class("CS-306","Bamboula", "René", "CM3", 0, 10, 12),
+                Class("fake","pain","singe","in",1,8,14))
         const val UID1 = "56789"
         const val UID2 = "18189"
         const val UID3 = "30220"

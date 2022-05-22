@@ -4,20 +4,27 @@ import android.graphics.Point
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
+import android.widget.NumberPicker
 import android.widget.RatingBar
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
+
 
 object CustomViewActions {
     inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
@@ -277,4 +284,99 @@ object CustomViewActions {
             }
         }
     }
+
+    object NumberPickerActions {
+
+        /**
+         * Set the number of a number picker
+         */
+        fun setNumber(num: Int): ViewAction? {
+            return object : ViewAction {
+                override fun perform(uiController: UiController?, view: View) {
+                    val np = view as NumberPicker
+                    np.value = num
+                }
+
+                override fun getDescription(): String {
+                    return "Set the passed number into the NumberPicker"
+                }
+
+                override fun getConstraints(): Matcher<View> {
+                    return ViewMatchers.isAssignableFrom(NumberPicker::class.java)
+                }
+            }
+        }
+    }
+
+    object TabAction {
+        fun selectTab(tabName: String) {
+            onTab(tabName).perform(ViewActions.click())
+        }
+
+        fun verifySelectedTab(text: String) {
+            onTab(text).check(ViewAssertions.matches(ViewMatchers.isSelected()))
+        }
+
+        fun onTab(tabName: String) = onView(
+            CoreMatchers.allOf(
+                ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(TabLayout::class.java)),
+                ViewMatchers.withChild(withText(tabName))
+            )
+        )
+    }
+
+    object ViewPagerAction {
+        private class SwipeAction(val direction: Direction) : ViewAction {
+            enum class Direction {
+                FORWARD,
+                BACKWARD
+            }
+
+            override fun getDescription(): String = "Swiping $direction"
+
+            override fun getConstraints(): Matcher<View> =
+                CoreMatchers.allOf(
+                    CoreMatchers.anyOf(
+                        ViewMatchers.isAssignableFrom(ViewPager2::class.java),
+                        ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(ViewPager2::class.java))
+                    ),
+                    ViewMatchers.isDisplayingAtLeast(90)
+                )
+
+            override fun perform(uiController: UiController, view: View) {
+                val vp = if (view is ViewPager2) {
+                    view
+                } else {
+                    var parent = view.parent
+                    while (parent !is ViewPager2 && parent != null) {
+                        parent = parent.parent
+                    }
+                    parent as ViewPager2
+                }
+                val isForward = direction == Direction.FORWARD
+                val swipeAction: ViewAction
+                if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
+                    swipeAction =
+                        if (isForward == vp.isRtl()) ViewActions.swipeRight() else ViewActions.swipeLeft()
+                } else {
+                    swipeAction = if (isForward) ViewActions.swipeUp() else ViewActions.swipeDown()
+                }
+                swipeAction.perform(uiController, view)
+            }
+
+            private fun ViewPager2.isRtl(): Boolean {
+                return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
+            }
+        }
+
+        fun onViewPager() = onView(ViewMatchers.isAssignableFrom(ViewPager2::class.java))
+
+        fun swipeNext() = onViewPager()
+            .perform(SwipeAction(SwipeAction.Direction.FORWARD))
+
+        fun swipePrevious() = onViewPager()
+            .perform(SwipeAction(SwipeAction.Direction.BACKWARD))
+
+    }
+
 }
