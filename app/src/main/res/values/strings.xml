@@ -1,35 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">RateMyEPFL</string>
-    <string name="title_review">What do you think about %s</string>
-    <string name="comment_edit_text">Your opinion</string>
-    <string name="done_button_text">DONE</string>
     <string name="sort_by_title">Sort by</string>
     <string name="alphabetic_order">A-Z</string>
     <string name="alphabetic_order_decreasing">Z-A</string>
-    <string name="cancel_button_text">Cancel</string>
     <string name="sort_alphabetically">Sort alphabetically</string>
     <string name="increasing_order">A-Z</string>
     <string name="decreasing_order">Z-A</string>
-    <string name="credits">Credits</string>
-    <string name="login_google_text">Sign In with Google</string>
-    <string name="visitor_text">Continue as a visitor</string>
     <string name="logo_text">RATE MY</string>
-    <string name="overall_score_review">Overall score: %s</string>
-    <string name="credit_2">2</string>
-    <string name="credit_3">3</string>
-    <string name="credit_4">4</string>
-    <string name="credit_5">5</string>
-    <string name="credit_6">6</string>
-    <string name="credit_7">7</string>
-    <string name="credit_8">8</string>
-    <string name="epfl_logo_description">epfl_logo</string>
-    <string name="review_text_button">REVIEW</string>
-    <string name="title_review_list">Title</string>
-    <string name="comment_review_list">Comment</string>
-    <string name="date_review_list">Date</string>
-    <string name="rate_review_list">Rate</string>
-    <string name="title_edit_text">Give a title to your review</string>
-    <string name="maps_api_key" tools:ignore="TypographyDashes,Typos">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
     <string name="home_nav_title">Home</string>
     <string name="reviews_nav_title">Reviews</string>
     <string name="events_nav_item">Events</string>
@@ -39,20 +16,57 @@
     <string name="info_review_icon">Info</string>
     <string name="list_review_icon">Reviews</string>
     <string name="pictures_review_icon">Pictures</string>
+    <string name="epfl_logo_description">epfl_logo</string>
+    <string name="default_id_text">Default id text</string>
+    <string name="photo_cluster_item">Photo of cluster item</string>
+    <string name="timetable_nav_title">Timetable</string>
+    <string name="button_for_capturing_a_photo_from_the_camera">Button for capturing a photo from the camera</string>
+    <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
+    <string name="no_coin">0</string>
+    <string name="coin">Coin</string>
+    <string name="credits_item">Credits item</string>
+    <string name="loading_progress_bar_text">Loading</string>
+    <string name="database_error_loading_text">Failed to retrieve data</string>
+    <string name="section_picker_title">Section</string>
+    <string name="cycle_picker_title">Cycle</string>
+    <string name="sort_by_grade_picker_title">Sort by grade</string>
+    <string name="section_item_description">sectionItem</string>
+    <string name="cycle_picker_description">cyclePickerDescription</string>
+
+    -- CONNECTION --
+    <string name="login_google_text">Sign In with Google</string>
+    <string name="visitor_text">Continue as a visitor</string>
+    <string name="maps_api_key" tools:ignore="TypographyDashes,Typos">AIzaSyBmyu-adSXBHO7qfyQ4SoAyPt6YO--At1U</string>
+    <string name="username">username</string>
+    <string name="email">email</string>
+    <string name="modify_profile_icon">Modify profile icon</string>
+    <string name="gmail_icon">Gmail icon</string>
+    <string name="profile_menu">My Profile</string>
+    <string name="visitor">Visitor</string>
+    <string name="login_drawer">Login</string>
+    <string name="logout_drawer">Logout</string>
+
+    -- REVIEW --
     <string name="add_review">Add review</string>
     <string name="review_sent_text">Your review was submitted !</string>
-    <string name="event_sent_text">Your event was submitted !</string>
-    <string name="full_event_text">This event is full!</string>
-    <string name="registration_no_login_text">You need to login to be able to register!</string>
-    <string name="edit_event_no_login_text">You need to login to be able to add an event!</string>
-    <string name="image_seen_in_detail">Image seen in detail</string>
-    <string name="picture_of_an_epfl_room">Picture of an EPFL room</string>
-    <string name="default_id_text">Default id text</string>
-    <string name="restaurant_content_description">restaurant icon</string>
     <string name="num_reviews">(%s reviews)</string>
     <string name="zero_num_reviews">(No review submitted)</string>
-    <string name="room_content_description">room icon</string>
-    <string name="event_content_description">event icon</string>
+    <string name="i_like_this_review">I like this review</string>
+    <string name="i_don_t_like_this_review">I don\'t like this review</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="best_rated_order_title">Best rated</string>
+    <string name="worst_rated_order_title">Worst rated</string>
+    <string name="title_review">What do you think about %s</string>
+    <string name="comment_edit_text">Your opinion</string>
+    <string name="done_button_text">DONE</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="review_text_button">REVIEW</string>
+    <string name="title_review_list">Title</string>
+    <string name="comment_review_list">Comment</string>
+    <string name="overall_score_review">Overall score: %s</string>
+    <string name="date_review_list">Date</string>
+    <string name="rate_review_list">Rate</string>
+    <string name="title_edit_text">Give a title to your review</string>
 
     -- COURSE --
     <string name="course_content_description">course icon</string>
@@ -64,37 +78,14 @@
     <string name="course_section_text">SECTION</string>
     <string name="course_credits">Course credits</string>
     <string name="course_credits_text">CREDITS</string>
-
-    <string name="i_like_this_review">I like this review</string>
-    <string name="i_don_t_like_this_review">I don\'t like this review</string>
-    <string name="anonymous">Anonymous</string>
-    <string name="register">Register</string>
-    <string name="participants">Participants</string>
-    <string name="username">username</string>
-    <string name="email">email</string>
-    <string name="modify_profile_icon">Modify profile icon</string>
-    <string name="gmail_icon">Gmail icon</string>
-    <string name="photo_cluster_item">Photo of cluster item</string>
-    <string name="OccupancyMessage">%s</string>
-    <string name="timetable_nav_title">Timetable</string>
-    <string name="button_for_capturing_a_photo_from_the_camera">Button for capturing a photo from the camera</string>
-    <string name="button_for_selecting_a_photo_from_the_gallery">Button for selecting a photo from the gallery</string>
-    <string name="profile_menu">My Profile</string>
-    <string name="visitor">Visitor</string>
-    <string name="login_drawer">Login</string>
-    <string name="logout_drawer">Logout</string>
-    <string name="no_coin">0</string>
-    <string name="coin">Coin</string>
-    <string name="credits_item">Credits item</string>
-    <string name="loading_progress_bar_text">Loading</string>
-    <string name="database_error_loading_text">Failed to retrieve data</string>
-    <string name="section_picker_title">Section</string>
-    <string name="cycle_picker_title">Cycle</string>
-    <string name="sort_by_grade_picker_title">Sort by grade</string>
-    <string name="best_rated_order_title">Best rated</string>
-    <string name="worst_rated_order_title">Worst rated</string>
-    <string name="section_item_description">sectionItem</string>
-    <string name="cycle_picker_description">cyclePickerDescription</string>
+    <string name="credits">Credits</string>
+    <string name="credit_2">2</string>
+    <string name="credit_3">3</string>
+    <string name="credit_4">4</string>
+    <string name="credit_5">5</string>
+    <string name="credit_6">6</string>
+    <string name="credit_7">7</string>
+    <string name="credit_8">8</string>
     <string name="cycle_propedeutics_field_title">Propedeutics</string>
     <string name="cycle_bachelor_field_title">bachelor</string>
     <string name="cycle_master_field_title">master</string>
@@ -115,7 +106,15 @@
     <string name="micro_engineering_section_title">Micro Engineering</string>
     <string name="mte_section_title">MTE</string>
     <string name="physics_section_title">Physics</string>
+
+    -- RESTAURANT --
+    <string name="restaurant_content_description">restaurant icon</string>
     <string name="closest_restaurant_title">Closest</string>
+    <string name="occupancy_clear">CLEAR</string>
+    <string name="occupancy_busy">BUSY</string>
+    <string name="occupancy_full">FULL</string>
+
+    -- EVENT --
     <string name="edit_event_title">Edit your event</string>
     <string name="edit_event_name">Your event name</string>
     <string name="limit_participation">Maximum number of participants:</string>
@@ -124,6 +123,15 @@
     <string name="event_location">Your event location:</string>
     <string name="add_event">Add event</string>
     <string name="creator">Creator</string>
+    <string name="full_event_text">This event is full!</string>
+    <string name="registration_no_login_text">You need to login to be able to register!</string>
+    <string name="edit_event_no_login_text">You need to login to be able to add an event!</string>
+    <string name="event_sent_text">Your event was submitted !</string>
+    <string name="event_content_description">event icon</string>
+    <string name="register">Register</string>
+    <string name="participants">Participants</string>
+
+    -- CLASSROOM --
     <string name="button_to_record_noise_intensity_of_a_room">Button to record noise intensity of a room</string>
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
@@ -133,4 +141,7 @@
     <string name="noise_string">NOISE</string>
     <string name="addClassButton">Add Class Button</string>
     <string name="addclassfragment">Choose a class to add</string>
+    <string name="room_content_description">room icon</string>
+    <string name="image_seen_in_detail">Image seen in detail</string>
+    <string name="picture_of_an_epfl_room">Picture of an EPFL room</string>
 </resources>

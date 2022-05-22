@@ -151,6 +151,8 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     androidTestImplementation('androidx.test.uiautomator:uiautomator:2.2.0')
+
+    implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
 }
 
 configurations.all {
