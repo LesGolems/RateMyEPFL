@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.adapter.FragmentViewPagerAdapter
 import com.github.sdp.ratemyepfl.model.items.Class
+import com.github.sdp.ratemyepfl.ui.adapter.FragmentViewPagerAdapter
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -32,11 +32,7 @@ class TimetableFragment : Fragment(R.layout.fragment_timetable) {
 
         // Enable button only if user is signed in
         userViewModel.isUserLoggedIn.observe(viewLifecycleOwner) {
-            if (it) {
-                addClassFAB.visibility = VISIBLE
-            } else {
-                addClassFAB.visibility = INVISIBLE
-            }
+            addClassFAB.visibility = if (it) VISIBLE else INVISIBLE
         }
 
         addClassFAB = view.findViewById(R.id.addClassButton)
