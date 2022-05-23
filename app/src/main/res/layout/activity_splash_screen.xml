@@ -7,18 +7,18 @@
     android:background="@raw/red4"
     tools:context=".ui.activity.SplashScreen">
 
-    <TextView
-        android:id="@+id/logoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/rate"
+        android:layout_width="246dp"
+        android:layout_height="82dp"
         android:gravity="center"
         android:text="@string/logo_text"
-        android:textColor="@color/primaryColor"
-        android:textSize="40sp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/logoEPFL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.202"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@raw/rate" />
 
     <ImageView
         android:id="@+id/logoEPFL"
