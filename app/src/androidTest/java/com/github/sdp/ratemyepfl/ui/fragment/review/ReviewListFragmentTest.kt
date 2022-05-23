@@ -22,6 +22,7 @@ import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
@@ -55,8 +56,12 @@ class ReviewListFragmentTest {
     fun launch() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         scenario = ActivityScenario.launch(intent)
-        ViewPagerAction.swipeNext()
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                1
+            )
+        )
+        Thread.sleep(1500)
     }
 
     @After
@@ -65,9 +70,19 @@ class ReviewListFragmentTest {
     }
 
     private fun refresh() {
-        ViewPagerAction.swipePrevious()
-        ViewPagerAction.swipeNext()
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                0
+            )
+        )
+        Thread.sleep(1500)
+
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                1
+            )
+        )
+        Thread.sleep(1500)
     }
 
     /**
