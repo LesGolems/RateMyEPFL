@@ -10,23 +10,18 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
-import com.github.sdp.ratemyepfl.database.fakes.FakeReviewsRepository
-
-=======
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
@@ -237,16 +232,12 @@ class ReviewListFragmentTest {
     @Test
     fun swipeRefreshes() {
         launch()
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setTitle("Absolument dé-men-tiel")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
@@ -262,14 +253,8 @@ class ReviewListFragmentTest {
     @Test
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -300,14 +285,8 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -338,14 +317,8 @@ class ReviewListFragmentTest {
     @Test
     fun likeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -376,14 +349,8 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -428,15 +395,8 @@ class ReviewListFragmentTest {
     @Test
     fun deleteButtonRemovesReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -476,14 +436,8 @@ class ReviewListFragmentTest {
     @Test
     fun likeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
@@ -503,14 +457,8 @@ class ReviewListFragmentTest {
     @Test
     fun dislikeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-<<<<<<< HEAD:app/src/androidTest/java/com/github/sdp/ratemyepfl/fragment/review/ReviewListFragmentTest.kt
-        FakeReviewsRepository.reviewList = listOf(
-            Review.Builder()
-=======
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
->>>>>>> origin/main:app/src/androidTest/java/com/github/sdp/ratemyepfl/ui/fragment/review/ReviewListFragmentTest.kt
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
                 .setTitle("Absolument dé-men-tiel")
