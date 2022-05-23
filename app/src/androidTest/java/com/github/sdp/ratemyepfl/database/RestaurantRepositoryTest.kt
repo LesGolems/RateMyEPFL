@@ -4,7 +4,6 @@ import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
 import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -97,41 +96,4 @@ class RestaurantRepositoryTest {
             assertEquals(1, restaurant.occupancy)
         }
     }
-
-    @Test
-    fun returnsARestaurantForCompleteSnapshot() {
-        val fake = "fake"
-        val lat = 0.0
-        val long = 0.0
-        val occupancy = 0
-        val grade = 0.0
-        val n = 0
-
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME))
-            .thenReturn(fake)
-        Mockito.`when`(
-            snapshot.getField<Int>(
-                ReviewableRepository.NUM_REVIEWS_FIELD_NAME
-            )
-        ).thenReturn(n)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
-            .thenReturn(grade)
-        Mockito.`when`(snapshot.getDouble("lat")).thenReturn(lat)
-        Mockito.`when`(snapshot.getDouble("long")).thenReturn(long)
-        Mockito.`when`(snapshot.getField<Int>("occupancy")).thenReturn(occupancy)
-
-        val restaurant = snapshot.toRestaurant()
-        val fakeRestaurant = Restaurant.Builder()
-            .setName(fake)
-            .setLat(lat)
-            .setLong(long)
-            .setOccupancy(0)
-            .setGrade(grade)
-            .setNumReviews(n)
-            .build()
-        assertEquals(fakeRestaurant, restaurant)
-    }
-
 }

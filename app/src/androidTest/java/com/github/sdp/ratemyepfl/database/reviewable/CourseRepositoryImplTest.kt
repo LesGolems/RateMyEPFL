@@ -31,7 +31,7 @@ class CourseRepositoryImplTest {
     private val numReviews = 0
     private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
+    private val courseBuilder = Course(
         fake,
         fake,
         fake,
@@ -48,14 +48,11 @@ class CourseRepositoryImplTest {
     private val title = "title"
     private val courseCode = "courseCode"
     private val personalizedCourse = courseBuilder
-        .setTeacher(personalizedTeacher)
-        .setTitle(title)
-        .setCourseCode(courseCode)
-        .build()
+        .copy(teacher = personalizedTeacher, title = title, courseCode = courseCode)
 
     private val courses: List<Course> = (0..30)
         .map { n ->
-            Course.Builder(
+            Course(
                 fake,
                 fake,
                 fake,
@@ -68,8 +65,7 @@ class CourseRepositoryImplTest {
                 fake,
                 fake
             )
-                .setCourseCode(n.toString())
-                .build()
+                .copy(courseCode = n.toString())
         }.plus(personalizedCourse)
 
     @Test
@@ -91,7 +87,7 @@ class CourseRepositoryImplTest {
 
     @After
     fun teardown() = runTest {
-        repository.getCourses()
+        courses
             .map { it.getId() }
             .forEach { repository.remove(it).await() }
     }

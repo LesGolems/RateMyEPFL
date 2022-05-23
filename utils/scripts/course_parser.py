@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import requests
 
 SERVER_BASE_URL = "https://edu.epfl.ch/studyplan/en/{cycle}/{section}"
+DEF_NUM_REVIEWS = "0"
+DEF_GRADE = "0.0"
 
 IDS = set()
 
@@ -37,10 +39,10 @@ def get_courses(c, s):
                 teacher = line.find('div', {'class': 'enseignement-name'}).text
                 language = line.find('div', {'data-title': 'Language'}).text
 
-                course = [id, title, cycle, section, credits, session, grading, teacher, language]
+                course = [id, title, cycle, section, credits, session, grading, teacher, language, DEF_GRADE, DEF_NUM_REVIEWS]
                 for i in range(len(course)):
                     if ',' in course[i]:
-                        course[i] = '"' + course[i] + '"'
+                        course[i] = '"' + course[i].replace(",", ", ") + '"'
 
                 courses.append(course)
 
@@ -63,11 +65,13 @@ def get_sections(c):
 
 def main():
     cycles = ['propedeutics', 'bachelor', 'master', 'doctoral_school', 'minor']
-    header = ['id', 'title', 'cycle', 'section', 'credits',
-              'session', 'grading', 'teacher', 'language']
-
+    header = ['courseCode', 'title', 'cycle', 'section', 'credits',
+              'session', 'grading', 'teacher', 'language', 'grade', 'numReviews']
+    data_types = ['str', 'str', 'str', 'str', 'int', 'str', 'str', 'str', 'str', 'float', 'int']
+    
     with open('course_list.csv', 'w') as file:
         file.write(','.join(header) + '\n')
+        file.write(','.join(data_types) + '\n')
         for cycle in cycles:
             sections = get_sections(cycle)
             for section in sections:
