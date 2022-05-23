@@ -1,12 +1,12 @@
 package com.github.sdp.ratemyepfl.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
@@ -40,7 +40,7 @@ class ReviewAdapter(
         RecyclerView.ViewHolder(reviewView) {
 
         private val titleView: TextView = reviewView.findViewById(R.id.titleReview)
-        private val rateView: TextView = reviewView.findViewById(R.id.rateReview)
+        private val rateView: RatingBar = reviewView.findViewById(R.id.reviewRatingBar)
         private val commentView: TextView = reviewView.findViewById(R.id.commentReview)
         private val dateView: TextView = reviewView.findViewById(R.id.dateReview)
 
@@ -61,7 +61,7 @@ class ReviewAdapter(
             review = reviewWithAuthor.review
 
             titleView.text = review.title
-            rateView.text = review.rating.toString()
+            rateView.rating = review.rating.rating.toFloat()
             commentView.text = review.comment
             dateView.text = review.date.toString()
 
@@ -108,7 +108,9 @@ class ReviewAdapter(
             val author = reviewWithAuthor.author
             val image = reviewWithAuthor.image
 
-            authorUsername.text = author?.username.orEmpty()
+            author?.let {
+                authorUsername.text = it.username
+            }
             authorProfilePicture.setOnClickListener {
                 profileClickListener.onClick(reviewWithAuthor)
             }

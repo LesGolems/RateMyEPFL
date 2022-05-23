@@ -67,10 +67,6 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         }
 
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        )
-
         swipeRefresher.setOnRefreshListener {
             viewModel.updateReviewsList()
             swipeRefresher.isRefreshing = false

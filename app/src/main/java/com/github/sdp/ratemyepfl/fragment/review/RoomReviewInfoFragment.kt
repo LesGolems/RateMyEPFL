@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.review
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -33,13 +34,12 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.room.observe(viewLifecycleOwner) {
-            view.findViewById<TextView>(R.id.roomIdInfo).text = it?.toString()
-            view.findViewById<TextView>(R.id.roomNumReview).text =
-                getNumReviewString(requireContext(), it.numReviews)
+            view.findViewById<TextView>(R.id.roomCode).text = it?.toString()
+            view.findViewById<TextView>(R.id.roomNumReview).text = getNumReviewString(requireContext(), it.numReviews)
             view.findViewById<RatingBar>(R.id.roomRatingBar).rating = it.grade.toFloat()
         }
 
-        roomNoiseInfoTextView = view.findViewById(R.id.roomNoiseInfoTextView)
+        roomNoiseInfoTextView = view.findViewById(R.id.roomNoiseInfo)
         viewModel.noiseData.observe(viewLifecycleOwner) {
             displayRoomNoise(it)
         }
@@ -61,7 +61,11 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     }
 
     private fun displayRoomNoise(noiseData: List<NoiseInfo>) {
-        if (noiseData.isEmpty()) return
+        if (noiseData.isEmpty()) {
+            roomNoiseInfoTextView.text = getString(R.string.noise_no_measure)
+            roomNoiseInfoTextView.setTextColor(Color.BLACK)
+            return
+        }
 
         val sortedList = noiseData.sortedBy {
             it.date
