@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.model.messaging.Channel
 import com.github.sdp.ratemyepfl.model.messaging.Message
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
