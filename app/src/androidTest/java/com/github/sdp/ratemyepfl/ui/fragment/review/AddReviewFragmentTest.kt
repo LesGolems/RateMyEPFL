@@ -10,11 +10,11 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.RatingAction.performSetRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -117,18 +117,18 @@ class AddReviewFragmentTest {
 
     @Test
     fun anonymousSwitchIsDisplayedAndUncheckedOnLoad() {
-        onView(withId(R.id.anonymous_switch)).check(matches(isDisplayed()))
-        onView(withId(R.id.anonymous_switch)).check(matches(withText("Anonymous")))
-        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
+        onView(withId(R.id.anonymousSwitch)).check(matches(isDisplayed()))
+        onView(withId(R.id.anonymousSwitch)).check(matches(withText("Anonymous")))
+        onView(withId(R.id.anonymousSwitch)).check(matches(isNotChecked()))
     }
 
     @Test
     fun anonymousSwitchWorks() {
-        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
-        onView(withId(R.id.anonymous_switch)).perform(click())
-        onView(withId(R.id.anonymous_switch)).check(matches(isChecked()))
-        onView(withId(R.id.anonymous_switch)).perform(click())
-        onView(withId(R.id.anonymous_switch)).check(matches(isNotChecked()))
+        onView(withId(R.id.anonymousSwitch)).check(matches(isNotChecked()))
+        onView(withId(R.id.anonymousSwitch)).perform(click())
+        onView(withId(R.id.anonymousSwitch)).check(matches(isChecked()))
+        onView(withId(R.id.anonymousSwitch)).perform(click())
+        onView(withId(R.id.anonymousSwitch)).check(matches(isNotChecked()))
     }
 
     @Test
@@ -140,7 +140,7 @@ class AddReviewFragmentTest {
                 ReviewRating.GOOD
             )
         )
-        onView(withId(R.id.anonymous_switch)).perform(click())
+        onView(withId(R.id.anonymousSwitch)).perform(click())
         onView(withId(R.id.addReviewComment)).perform(typeText(comment))
         closeSoftKeyboard()
         onView(withId(R.id.addReviewTitle)).perform(typeText(title))

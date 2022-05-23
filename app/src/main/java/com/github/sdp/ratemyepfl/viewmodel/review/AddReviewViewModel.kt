@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
@@ -13,13 +12,12 @@ import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
-import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.DateTime
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 import javax.inject.Inject
 
 /**
@@ -45,7 +43,8 @@ class AddReviewViewModel @Inject constructor(
     companion object {
         const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
         const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
-        const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
+        const val NO_GRADE_MESSAGE: String = "You need to give a grade!"
+        const val NO_GRADE_TEXT: String = "Click to rate"
     }
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)

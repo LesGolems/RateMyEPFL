@@ -17,7 +17,7 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel
-import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel.Companion.NO_GRADE_MESSAGE
+import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel.Companion.NO_GRADE_TEXT
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +49,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
     private lateinit var doneButton: Button
     private lateinit var anonymousSwitch: SwitchCompat
 
-    private lateinit var reviewIndicationTitle: TextView
+    private lateinit var reviewableName: TextView
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -64,17 +64,13 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         comment = view.findViewById(R.id.addReviewComment)
         title = view.findViewById(R.id.addReviewTitle)
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
-        anonymousSwitch = view.findViewById(R.id.anonymous_switch)
+        anonymousSwitch = view.findViewById(R.id.anonymousSwitch)
+        reviewableName = view.findViewById(R.id.reviewableName)
 
-        reviewIndicationTitle = view.findViewById(R.id.reviewTitle)
-
-        reviewIndicationTitle.text = getString(R.string.title_review, addReviewViewModel.id)
+        reviewableName.text = addReviewViewModel.id
 
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
-            scoreTextView.text = getString(
-                R.string.overall_score_review,
-                rating?.toString() ?: NO_GRADE_MESSAGE
-            )
+            scoreTextView.text = rating?.toString() ?: NO_GRADE_TEXT
         }
 
         setupListeners()

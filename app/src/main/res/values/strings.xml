@@ -62,16 +62,18 @@
     <string name="anonymous">Anonymous</string>
     <string name="best_rated_order_title">Best rated</string>
     <string name="worst_rated_order_title">Worst rated</string>
-    <string name="title_review">What do you think about %s</string>
-    <string name="comment_edit_text">Your opinion</string>
+    <string name="title_review">How was it?</string>
     <string name="done_button_text">DONE</string>
     <string name="review_text_button">REVIEW</string>
     <string name="title_review_list">Title</string>
     <string name="comment_review_list">Comment</string>
-    <string name="overall_score_review">Overall score: %s</string>
+    <string name="review_rate">Click to rate</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
-    <string name="title_edit_text">Your review title</string>
+    <string name="input_title_text">Your review title</string>
+    <string name="title_edit_text">Summarise your opinion</string>
+    <string name="input_comment_text">Your opinion</string>
+    <string name="comment_edit_text">Share your opinion with the community</string>
     <string name="button_for_deleting_a_review">Button for deleting a review</string>
     <string name="add_review_button">Add Review Button</string>
 
