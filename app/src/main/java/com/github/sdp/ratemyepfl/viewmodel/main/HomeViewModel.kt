@@ -30,29 +30,11 @@ class HomeViewModel @Inject constructor(
     // Subjects
     val subjects = MutableLiveData<List<SubjectWithAuthor>>()
 
-    val topUsers = MutableLiveData<List<User>>()
-    val topUsersPictures = MutableLiveData<List<ImageFile?>>()
-
     @Inject
     lateinit var auth: ConnectedUser
 
     init {
-        updatePodium()
         updateSubjectsList()
-    }
-
-    fun updatePodium() {
-        viewModelScope.launch {
-            userRepo.getTopKarmaUsers().mapResult {
-                topUsers.postValue(it)
-            }.collect {}
-
-            topUsersPictures.postValue(
-                topUsers.value?.map {
-                    it.uid.let { uid -> imageStorage.get(uid) }
-                }
-            )
-        }
     }
 
     fun updateSubjectsList() {

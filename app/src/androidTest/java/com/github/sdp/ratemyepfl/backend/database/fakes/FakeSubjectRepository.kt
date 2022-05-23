@@ -54,10 +54,6 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
         TODO("Not yet implemented")
     }
 
-    override suspend fun addAndGetId(item: Subject): String {
-        TODO("Not yet implemented")
-    }
-
     override fun addWithId(item: Subject, withId: String): Task<String> {
         TODO("Not yet implemented")
     }

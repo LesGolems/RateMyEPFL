@@ -138,7 +138,7 @@ class CommentListViewModel @Inject constructor(
         try {
             val com = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                val commentId = commentRepo.addAndGetId(com)
+                val commentId = commentRepo.add(com).await()
                 subjectRepo.addComment(id, commentId)
                 updateCommentsList()
             }

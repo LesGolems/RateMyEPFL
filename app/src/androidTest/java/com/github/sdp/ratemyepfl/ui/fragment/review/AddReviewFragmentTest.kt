@@ -15,6 +15,7 @@ import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.RatingAction.performSetRating
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -39,8 +40,12 @@ class AddReviewFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         scenario = ActivityScenario.launch(intent)
-        ViewPagerAction.swipeNext()
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                1
+            )
+        )
+        Thread.sleep(1500)
         onView(withId(R.id.addReviewButton)).perform(click())
     }
 

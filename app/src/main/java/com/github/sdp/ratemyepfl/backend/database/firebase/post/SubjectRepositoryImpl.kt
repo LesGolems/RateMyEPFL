@@ -44,15 +44,6 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         return addWithId(item, document.id)
     }
 
-    override suspend fun addAndGetId(item: Subject): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
     override fun addWithId(item: Subject, withId: String): Task<String> =
         repository.add(item.withId(withId))
 
@@ -74,7 +65,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override suspend fun removeComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
             subject.copy(comments = subject.comments.minus(commentId))
-        }
+        }.await()
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {

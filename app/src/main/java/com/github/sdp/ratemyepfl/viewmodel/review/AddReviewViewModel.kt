@@ -92,7 +92,7 @@ class AddReviewViewModel @Inject constructor(
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                val reviewId = reviewRepo.addAndGetId(review)
+                val reviewId = reviewRepo.add(review).await()
                 gradeInfoRepo.addReview(item, reviewId, review.rating).await()
             }
         } catch (e: IllegalStateException) {

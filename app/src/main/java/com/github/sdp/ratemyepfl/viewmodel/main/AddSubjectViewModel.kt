@@ -13,6 +13,7 @@ import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,7 +73,7 @@ class AddSubjectViewModel @Inject constructor(
         try {
             val subject = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                subjectRepo.addAndGetId(subject)
+                subjectRepo.add(subject).await()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the subject (from ${e.message}")

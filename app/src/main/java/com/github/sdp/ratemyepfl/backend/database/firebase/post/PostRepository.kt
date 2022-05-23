@@ -7,13 +7,6 @@ import com.google.android.gms.tasks.Task
 interface PostRepository<T : Post> : Repository<T> {
 
     /**
-     * Add a [Post] with an auto-generated ID, and returns this ID
-     *
-     * @param item: the [Post] to add
-     */
-    suspend fun addAndGetId(item: T): String
-
-    /**
      * Add a [Post] with a provided id. This should be used carefully as it may overwrite data.
      *
      * @param item: [Post] to add
