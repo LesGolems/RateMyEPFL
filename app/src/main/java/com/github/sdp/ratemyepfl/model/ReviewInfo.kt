@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class ReviewInfo(
-    val reviewGrade: Int,
-    val likeRatio: Int,
+    val reviewGrade: Int = 0,
+    val likeRatio: Int = 0,
 ) {
     companion object {
         val DEFAULT_REVIEW_INFO = ReviewInfo(0, 0)

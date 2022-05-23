@@ -21,6 +21,8 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.model.time.Date
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
@@ -37,16 +39,16 @@ import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runners.MethodSorters
-import java.time.LocalDate
 
 @HiltAndroidTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ReviewListFragmentTest {
     lateinit var scenario: ActivityScenario<ReviewActivity>
 
-    private val intent = Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
-        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
-        .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
+    private val intent =
+        Intent(ApplicationProvider.getApplicationContext(), ReviewActivity::class.java)
+            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
+            .putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, FakeCourseRepository.COURSE_LIST.first())
 
     @get:Rule(order = 0)
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -63,7 +65,7 @@ class ReviewListFragmentTest {
         scenario.close()
     }
 
-    private fun refresh(){
+    private fun refresh() {
         ViewPagerAction.swipePrevious()
         ViewPagerAction.swipeNext()
         Thread.sleep(1000)
@@ -228,7 +230,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .build()
         )
         Thread.sleep(2000) // if no wait, the new list is direclty displayed
@@ -246,7 +248,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -277,7 +279,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -308,7 +310,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -339,7 +341,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setLikers(
                     listOf(
                         FakeReviewsRepository.FAKE_UID_1,
@@ -385,7 +387,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser2.uid)
                 .build()
         )
@@ -425,7 +427,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
         )
@@ -445,7 +447,7 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
-                .setDate(LocalDate.now())
+                .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
         )

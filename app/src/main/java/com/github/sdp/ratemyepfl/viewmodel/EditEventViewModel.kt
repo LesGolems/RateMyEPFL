@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.time.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -49,31 +50,31 @@ class EditEventViewModel @Inject constructor(
      * Set the title entered by the user
      * @param title: title entered by the user
      */
-    fun setTitle(title: String?) = this.title.postValue(title)
+    fun setTitle(title: String) = this.title.postValue(title)
 
     /**
      * Set the limit of participants entered by the user
      * @param limPart: limit of participants entered by the user
      */
-    fun setLimPart(limPart: Int?) = this.limPart.postValue(limPart)
+    fun setLimPart(limPart: Int) = this.limPart.postValue(limPart)
 
     /**
      * Set the time entered by the user
      * @param time: time entered by the user
      */
-    fun setTime(time: IntArray?) = this.time.postValue(time)
+    fun setTime(time: IntArray) = this.time.postValue(time)
 
     /**
      * Set the date entered by the user
      * @param date: date entered by the user
      */
-    fun setDate(date: IntArray?) = this.date.postValue(date)
+    fun setDate(date: IntArray) = this.date.postValue(date)
 
     /**
      * Set the location entered by the user
      * @param location: location entered by the user
      */
-    fun setLocation(location: DoubleArray?) = this.location.postValue(location)
+    fun setLocation(location: DoubleArray) = this.location.postValue(location)
 
     /**
      * Builds and submits the event to the database
@@ -89,9 +90,12 @@ class EditEventViewModel @Inject constructor(
         val lat = location[0]
         val long = location[1]
         val uid = connectedUser.getUserId()!!
-        val time = time.value!!
-        val date = date.value!!
-        val dateTime = LocalDateTime.of(date[0], date[1], date[2], time[0], time[1])
+        val timeArray = time.value!!
+        val dateArray = date.value!!
+        val date = Date(dateArray[0], dateArray[1], dateArray[2])
+        val time = Time(timeArray[0], timeArray[1])
+        val duration = Duration()
+        val period = Period(DateTime(date, time), duration)
         if (eventId == null) {
             val builder = Event.Builder()
                 .name(title)
@@ -99,11 +103,19 @@ class EditEventViewModel @Inject constructor(
                 .setCreator(uid)
                 .setLat(lat)
                 .setLong(long)
-                .setDate(dateTime)
+                .setPeriod(period)
             newEventBehavior(builder)
         } else {
             viewModelScope.launch {
-                eventRepo.updateEditedEvent(eventId, title, limPart, lat, long, dateTime)
+                eventRepo.update(eventId) {
+                    it.copy(
+                        name = title,
+                        limitParticipants = limPart,
+                        lat = lat,
+                        long = long,
+                        period = period
+                    )
+                }.await()
             } } // For CodeClimate ^^
     }
 

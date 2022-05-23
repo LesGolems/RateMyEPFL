@@ -59,7 +59,7 @@ class OrderedQueryTest {
             .orderBy(Item.DATA_FIELD)
 
         arrayCollection = db.collection("query_test_array")
-        arrayItems.map { arrayCollection.document().set(it.toHashMap()) }
+        arrayItems.map { arrayCollection.document().set(it) }
             .forEach { runTest { it.await() } }
         arrayQuery = Query(arrayCollection)
             .orderBy(ArrayItem.DATA_FIELD)
