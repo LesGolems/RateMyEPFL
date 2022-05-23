@@ -21,7 +21,7 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
     // Gets the shared view model
     private val viewModel by activityViewModels<CourseInfoViewModel>()
 
-    private lateinit var courseId: TextView
+    private lateinit var courseCode: TextView
     private lateinit var courseTitle: TextView
     private lateinit var courseTeacher: TextView
     private lateinit var courseSection: TextView
@@ -31,7 +31,7 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        courseId = view.findViewById(R.id.courseId)
+        courseCode = view.findViewById(R.id.courseCode)
         courseTitle = view.findViewById(R.id.courseTitle)
         courseTeacher = view.findViewById(R.id.courseTeacher)
         courseSection = view.findViewById(R.id.courseSection)
@@ -40,22 +40,17 @@ class CourseReviewInfoFragment : Fragment(R.layout.fragment_course_review_info) 
         courseRatingBar = view.findViewById(R.id.courseRatingBar)
 
         viewModel.course.observe(viewLifecycleOwner) {
-            setUpCourseInfo(view, it)
+            setUpCourseInfo(it)
         }
     }
 
-    private fun setUpCourseInfo(view: View, course: Course) {
-        courseId.text = course.courseCode
-        courseTitle.text =
-            getString(R.string.course_title, course.title)
-        courseTeacher.text =
-            getString(R.string.course_teacher, course.teacher)
-        courseSection.text =
-            getString(R.string.course_section, course.section)
-        courseCredits.text =
-            getString(R.string.course_credits, course.credits.toString())
-        courseNumReview.text =
-            getNumReviewString(requireContext(), course.numReviews)
+    private fun setUpCourseInfo(course: Course) {
+        courseCode.text = course.courseCode
+        courseTitle.text = course.title
+        courseTeacher.text = course.teacher
+        courseSection.text = course.section
+        courseCredits.text = course.credits.toString()
+        courseNumReview.text = getNumReviewString(requireContext(), course.numReviews)
         courseRatingBar.rating = course.grade.toFloat()
     }
 

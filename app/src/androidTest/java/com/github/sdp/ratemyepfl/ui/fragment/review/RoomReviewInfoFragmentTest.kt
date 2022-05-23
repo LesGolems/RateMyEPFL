@@ -60,7 +60,7 @@ class RoomReviewInfoFragmentTest {
         launch()
 
         val numReviewText = "(${fakeRoom.numReviews} reviews)"
-        onView(withId(R.id.roomIdInfo))
+        onView(withId(R.id.roomCode))
             .check(matches(withText(fakeRoom.name)))
         onView(withId(R.id.roomNumReview)).check(matches(withText(numReviewText)))
     }

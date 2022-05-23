@@ -49,7 +49,7 @@ class RestaurantReviewInfoFragmentTest {
 
         launch()
 
-        onView(withId(R.id.restaurantIdInfo))
+        onView(withId(R.id.restaurantName))
             .check(matches(withText(fakeRestaurant.name)))
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))
     }
@@ -62,7 +62,7 @@ class RestaurantReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.occupancyRating))
-            .check(matches(withText("Clear")))
+            .check(matches(withText("CLEAR")))
     }
 
     @Test
@@ -73,7 +73,7 @@ class RestaurantReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.occupancyRating))
-            .check(matches(withText("Busy")))
+            .check(matches(withText("BUSY")))
     }
 
     @Test
@@ -84,7 +84,7 @@ class RestaurantReviewInfoFragmentTest {
         launch()
 
         onView(withId(R.id.occupancyRating))
-            .check(matches(withText("Full")))
+            .check(matches(withText("FULL")))
     }
 
     @Test

@@ -108,10 +108,15 @@ class ReviewListFragmentTest {
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
-            hasSibling(
-                allOf(
-                    withId(R.id.author_username),
-                    withText(user?.username)
+            allOf(
+                hasSibling(
+                    allOf(
+                        withId(R.id.author_username),
+                        withText(user?.username)
+                    )
+                ),
+                hasSibling(
+                    withId(R.id.deleteButton),
                 )
             )
         ).perform(click())
@@ -135,10 +140,15 @@ class ReviewListFragmentTest {
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
-            hasSibling(
-                allOf(
-                    withId(R.id.author_username),
-                    withText(username1)
+            allOf(
+                hasSibling(
+                    allOf(
+                        withId(R.id.author_username),
+                        withText(username1)
+                    )
+                ),
+                hasSibling(
+                    withId(R.id.deleteButton),
                 )
             )
         ).perform(click())
@@ -160,10 +170,15 @@ class ReviewListFragmentTest {
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
-            hasSibling(
-                allOf(
-                    withId(R.id.author_username),
-                    withText(username1)
+            allOf(
+                hasSibling(
+                    allOf(
+                        withId(R.id.author_username),
+                        withText(username1)
+                    )
+                ),
+                hasSibling(
+                    withId(R.id.deleteButton),
                 )
             )
         ).perform(click())
@@ -187,10 +202,15 @@ class ReviewListFragmentTest {
         onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
         // then check if displayed
         onView(
-            hasSibling(
-                allOf(
-                    withId(R.id.author_username),
-                    withText(username1)
+            allOf(
+                hasSibling(
+                    allOf(
+                        withId(R.id.author_username),
+                        withText(username1)
+                    )
+                ),
+                hasSibling(
+                    withId(R.id.deleteButton),
                 )
             )
         ).check(

@@ -50,7 +50,7 @@ class EventReviewInfoFragmentTest {
         launch()
 
         val numReviewText = "(${fakeEvent.numReviews} reviews)"
-        onView(withId(R.id.eventIdInfo))
+        onView(withId(R.id.eventName))
             .check(matches(withText(fakeEvent.name)))
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))
     }

@@ -4,8 +4,6 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.swipeLeft
-import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -15,7 +13,6 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -47,24 +44,20 @@ class CourseReviewInfoFragmentTest {
         val fakeCourse = FakeCourseRepository.COURSE_WITH_REVIEW
         FakeCourseRepository.courseById = fakeCourse
 
-        val titleText = "Title : ${fakeCourse.title}"
-        val teacherText = "Teacher : ${fakeCourse.teacher}"
-        val sectionText = "Section : ${fakeCourse.section}"
-        val creditsText = "Credits : ${fakeCourse.credits}"
         val numReviewText = "(${fakeCourse.numReviews} reviews)"
 
         launch()
 
-        onView(withId(R.id.courseId))
+        onView(withId(R.id.courseCode))
             .check(matches(withText(fakeCourse.courseCode)))
         onView(withId(R.id.courseTitle))
-            .check(matches(withText(titleText)))
+            .check(matches(withText(fakeCourse.title)))
         onView(withId(R.id.courseTeacher))
-            .check(matches(withText(teacherText)))
+            .check(matches(withText(fakeCourse.teacher)))
         onView(withId(R.id.courseSection))
-            .check(matches(withText(sectionText)))
+            .check(matches(withText(fakeCourse.section)))
         onView(withId(R.id.courseCredits))
-            .check(matches(withText(creditsText)))
+            .check(matches(withText(fakeCourse.credits.toString())))
         onView(withId(R.id.courseNumReview)).check(matches(withText(numReviewText)))
     }
 
