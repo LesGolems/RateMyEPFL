@@ -42,8 +42,8 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
             eventCreator.text = getString(R.string.event_creator_info, it.creator)
             eventNumReview.text = getNumReviewString(requireContext(), it.numReviews)
             eventRatingBar.rating = it.grade.toFloat()
-            eventDate.text = it.date.toLocalDate().toString()
-            eventTime.text = it.date.toLocalTime().toString()
+            eventDate.text = it.period.start.date.toString()
+            eventTime.text = it.period.start.time.toString()
             setParticipationGauge(it)
         }
     }
