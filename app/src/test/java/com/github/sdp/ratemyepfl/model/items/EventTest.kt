@@ -1,45 +1,26 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.model.time.Period
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
-import java.time.LocalDateTime
 
 class EventTest {
 
-    companion object {
-        private const val EVENT_ID = "Evenement de dingue"
-        private const val USER_ID = "Kevin du 13"
-        private const val SHOW_PARTICIPANTS = "Participants: 64/70"
-        private val DATE = LocalDateTime.now()
-        private val EXPECTED_EVENT = Event(
-            EVENT_ID, EVENT_ID,
-            64, 70, listOf(USER_ID), USER_ID, 0.0, 0, 46.52, 6.569, DATE
-        )
-        private val EXPECTED_HASH_MAP = hashMapOf(
-            EventRepositoryImpl.ID_FIELD_NAME to EXPECTED_EVENT.eventId,
-            NAME_FIELD_NAME to EXPECTED_EVENT.name,
-            EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.numParticipants,
-            EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.limitParticipants,
-            EventRepositoryImpl.PARTICIPANTS_FIELD_NAME to EXPECTED_EVENT.participants,
-            EventRepositoryImpl.CREATOR_FIELD_NAME to EXPECTED_EVENT.creator,
-            EventRepositoryImpl.LATITUDE_FIELD_NAME to EXPECTED_EVENT.lat,
-            EventRepositoryImpl.LONGITUDE_FIELD_NAME to EXPECTED_EVENT.long,
-            EventRepositoryImpl.DATE_FIELD_NAME to DATE.toString(),
-            ReviewableRepository.AVERAGE_GRADE_FIELD_NAME to EXPECTED_EVENT.grade,
-            ReviewableRepository.NUM_REVIEWS_FIELD_NAME to EXPECTED_EVENT.numReviews
-        )
-
-    }
+    private val ID = "Evenement de dingue"
+    private val USER_ID = "Kevin du 13"
+    private val SHOW_PARTICIPANTS = "Participants: 64/70"
+    private val DATE = Period.DEFAULT_PERIOD
+    private val EXPECTED_EVENT = Event(
+        ID, ID,
+        64, 70, listOf(USER_ID), USER_ID, 0.0, 0, 46.52, 6.569, DATE
+    )
 
     @Test
     fun defaultConstructorWorks() {
         val e = EXPECTED_EVENT
-        assertEquals(EVENT_ID, e.eventId)
-        assertEquals(EVENT_ID, e.name)
+        assertEquals(ID, e.eventId)
+        assertEquals(ID, e.name)
         assertEquals(64, e.numParticipants)
         assertEquals(70, e.limitParticipants)
         assertEquals(listOf(USER_ID), e.participants)
@@ -55,13 +36,9 @@ class EventTest {
 
     @Test
     fun toStringWorks() {
-        assertEquals(EXPECTED_EVENT.toString(), EVENT_ID)
+        assertEquals(EXPECTED_EVENT.toString(), ID)
     }
 
-    @Test
-    fun toHashMapWorks() {
-        assertEquals(EXPECTED_EVENT.toHashMap(), EXPECTED_HASH_MAP)
-    }
 
     @Test
     fun builderThrowsForMissingId() {
@@ -86,7 +63,7 @@ class EventTest {
             .setCreator(USER_ID)
             .setLat(lat)
             .setLong(long)
-            .setDate(DATE)
+            .setPeriod(DATE)
             .setGrade(g)
             .setNumReviews(n)
             .setNumParticipants(0)
@@ -100,7 +77,7 @@ class EventTest {
         assertEquals(event.name, expected.name)
         assertEquals(event.lat, expected.lat, 0.01)
         assertEquals(event.long, expected.long, 0.01)
-        assertEquals(event.date, expected.date)
+        assertEquals(event.period, expected.period)
         assertEquals(event.numParticipants, expected.numParticipants)
         assertEquals(event.limitParticipants, expected.limitParticipants)
         assertEquals(event.participants, expected.participants)

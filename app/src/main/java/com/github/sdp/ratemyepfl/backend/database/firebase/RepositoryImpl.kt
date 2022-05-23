@@ -4,9 +4,11 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
 import com.github.sdp.ratemyepfl.backend.database.query.Query
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.github.sdp.ratemyepfl.exceptions.DatabaseConversionException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class RepositoryImpl<T : RepositoryItem>(
@@ -18,9 +20,19 @@ class RepositoryImpl<T : RepositoryItem>(
     Repository<T> {
     val collection = database.collection(collectionPath)
 
-    override suspend fun take(number: Long): QuerySnapshot {
-        return collection.limit(number).get().await()
+    companion object {
+        inline fun <reified T : RepositoryItem> DocumentSnapshot.toItem(): T? = try {
+            toObject(T::class.java)
+        } catch (e: Exception) {
+            throw DatabaseConversionException(T::class.java, e.message ?: "")
+        }
     }
+
+    override suspend fun take(number: Long) =
+        collection.limit(number)
+            .get()
+            .await()
+            .mapNotNull(transform)
 
     /**
      * Creates a new query to execute
@@ -30,8 +42,12 @@ class RepositoryImpl<T : RepositoryItem>(
     override fun query(): Query = Query(collection)
 
 
-    override suspend fun getById(id: String): DocumentSnapshot =
-        collection.document(id).get().await()
+    override suspend fun getById(id: String) =
+        transform(
+            collection.document(id)
+                .get()
+                .await()
+        )
 
 
     override fun remove(id: String) = collection
@@ -39,22 +55,23 @@ class RepositoryImpl<T : RepositoryItem>(
         .delete()
 
 
-    override fun add(item: T) =
+    override fun add(item: T): Task<String> = item.getId().let { id ->
         collection
-            .document(item.getId())
-            .set(item.toHashMap())
+            .document(id)
+            .set(item)
+            .continueWith { id }
+    }
 
-    override fun update(id: String, transform: (T) -> T): Task<Transaction> {
+
+    override fun update(id: String, transform: (T) -> T): Task<T> {
         val docRef = collection
             .document(id)
         return database
             .runTransaction { transaction ->
                 val snapshot = transaction.get(docRef)
                 this.transform(snapshot)?.let { data ->
-                    try {
-                        transaction.update(docRef, transform(data).toHashMap())
-                    } catch (e: FirebaseFirestoreException) {
-                        throw DatabaseException("Cannot update a document (id: $id) that does not exist")
+                    transform(data).apply {
+                        transaction.set(docRef, this)
                     }
                 }
             }

@@ -3,8 +3,6 @@ package com.github.sdp.ratemyepfl.backend.database
 import com.github.sdp.ratemyepfl.backend.database.query.Queryable
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.Transaction
 
 interface Repository<T : RepositoryItem> : Queryable {
 
@@ -15,14 +13,14 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @return a QuerySnapshot of the request
      */
-    suspend fun take(number: Long): QuerySnapshot
+    suspend fun take(number: Long): List<T>
 
     /**
      * Retrieve an element by id from the collection
      *
      * @param id: the unique identifier (or key) of the object to retrieve
      */
-    suspend fun getById(id: String): DocumentSnapshot
+    suspend fun getById(id: String): T?
 
     /**
      * @param id : the identifier of the item to delete
@@ -33,18 +31,22 @@ interface Repository<T : RepositoryItem> : Queryable {
      * Add an item in the database. If the id of the item is null, it auto-generates it
      *
      * @param item: object to add
+     *
+     * @return the id of the element added
      */
-    fun add(item: T): Task<Void>
+    fun add(item: T): Task<String>
 
     /**
      * Update the the document with the provided [id] by transforming the data.
-     * If the document does not exist yet, it fails. This methods should only be called
+     * If the document does not exist yet, it fails and returns null.
      *
      * @param id: The id of the document to edit
      * @param transform: the transform to apply to the stored data
      *
+     *
+     * @return the transformed data, or null if the document does not exist.
      */
-    fun update(id: String, transform: (T) -> T): Task<Transaction>
+    fun update(id: String, transform: (T) -> T): Task<T>
 
     /**
      * Transform fetched [DocumentSnapshot] into [T]

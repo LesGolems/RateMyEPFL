@@ -2,14 +2,13 @@ package com.github.sdp.ratemyepfl.backend.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.gms.tasks.Task
-import java.time.LocalDateTime
 
 interface EventRepository : ReviewableRepository<Event> {
 
     /**
      * Add an event which already has an id to the database
      */
-    fun addEventWithId(event: Event): Task<Void>
+    fun addEventWithId(event: Event): Task<String>
 
     /**
      * Retrieve the event from the repository
@@ -30,13 +29,4 @@ interface EventRepository : ReviewableRepository<Event> {
      *  either this function has succeeded or not
      */
     suspend fun updateParticipants(eventId: String, userId: String): Boolean
-
-    /**
-     *  Update the given event after edition
-     */
-    suspend fun updateEditedEvent(
-        eventId: String, name: String,
-        limPart: Int, lat: Double, long: Double,
-        date: LocalDateTime
-    )
 }

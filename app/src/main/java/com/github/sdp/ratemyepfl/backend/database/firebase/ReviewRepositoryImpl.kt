@@ -2,15 +2,13 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 import javax.inject.Inject
 
 class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepository,
@@ -37,25 +35,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
          *
          * @return the review if the json contains the necessary data, null otherwise
          */
-        @Suppress("UNCHECKED_CAST")
-        fun DocumentSnapshot.toReview(): Review? = try {
-            val builder = Review.Builder()
-                .setRating(getString(RATING_FIELD_NAME)?.let { rating -> ReviewRating.valueOf(rating) })
-                .setTitle(getString(TITLE_FIELD_NAME))
-                .setComment(getString(COMMENT_FIELD_NAME))
-                .setReviewableID(getString(REVIEWABLE_ID_FIELD_NAME))
-                .setDate(LocalDate.parse(getString(DATE_FIELD_NAME)))
-                .setUid(getString(UID_FIELD_NAME))
-                .setLikers(get(LIKERS_FIELD_NAME) as List<String>)
-                .setDislikers(get(DISLIKERS_FIELD_NAME) as List<String>)
-
-            builder.build()
-                .withId(id)
-        } catch (e: IllegalStateException) {
-            null
-        } catch (e: Exception) {
-            throw DatabaseException("Failed to retrieve and convert the review (from $e \n ${e.stackTrace})")
-        }
+        fun DocumentSnapshot.toReview(): Review? = toItem()
     }
 
     /**
@@ -64,7 +44,7 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
      *
      * @param item: the [Review] to add
      */
-    override fun add(item: Review): Task<Void> {
+    override fun add(item: Review): Task<String> {
         val document = repository
             .collection
             .document()
@@ -94,12 +74,9 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
 
     override suspend fun getReviews(): List<Review> =
         repository.take(DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
-
 
     override suspend fun getReviewById(id: String): Review? = repository
         .getById(id)
-        .toReview()
         ?.withId(id)
 
     override suspend fun getByReviewableId(id: String?): List<Review> {

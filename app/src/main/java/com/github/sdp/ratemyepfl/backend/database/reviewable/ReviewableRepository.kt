@@ -17,7 +17,7 @@ interface ReviewableRepository<T : Reviewable> : LoaderRepository<T> {
 
     companion object {
         const val NUM_REVIEWS_FIELD_NAME = "numReviews"
-        const val AVERAGE_GRADE_FIELD_NAME = "averageGrade"
+        const val GRADE_FIELD_NAME = "grade"
         const val LIMIT_QUERY_SEARCH = 10u
 
     }

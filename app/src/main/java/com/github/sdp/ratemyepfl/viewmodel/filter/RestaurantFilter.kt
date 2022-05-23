@@ -1,9 +1,9 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.backend.database.query.Query
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 
@@ -39,16 +39,13 @@ sealed interface RestaurantFilter : ReviewableFilter<Restaurant> {
 
     object BestRated : RestaurantFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery = initialQuery
-            .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
+            .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
             .orderBy(RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME)
     }
 
     object WorstRated : RestaurantFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery =
-            initialQuery.orderBy(
-                ReviewableRepository.AVERAGE_GRADE_FIELD_NAME,
-                OrderDirection.ASCENDING
-            )
+            initialQuery.orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.ASCENDING)
                 .orderBy(RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME)
     }
 }

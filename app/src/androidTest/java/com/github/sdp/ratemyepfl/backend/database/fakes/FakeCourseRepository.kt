@@ -1,17 +1,23 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
-import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import javax.inject.Inject
 
-class FakeCourseRepository @Inject constructor(val repository: FakeLoaderRepository<Course>) :
+class FakeCourseRepository @Inject constructor(
+    val repository: FakeLoaderRepository<Course>
+) :
     CourseRepository,
     ReviewableRepository<Course>, LoaderRepository<Course> by repository {
 
     override val offlineData: List<Course> = CourseRepositoryImpl.OFFLINE_COURSES
+
+    init {
+        repository.elements = COURSE_LIST.toSet()
+    }
 
     companion object {
         val COURSE_LIST = listOf(

@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
-import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import javax.inject.Inject
@@ -12,6 +12,10 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
     LoaderRepository<Restaurant> by repository {
 
     override val offlineData: List<Restaurant> = RestaurantRepositoryImpl.OFFLINE_RESTAURANTS
+
+    init {
+        repository.elements = offlineData.toSet()
+    }
 
     companion object {
         private val baseRestaurant = Restaurant(

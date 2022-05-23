@@ -5,21 +5,20 @@ import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.time.Period
 import com.google.android.gms.tasks.Task
-import org.mockito.Mockito
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
     EventRepository, ReviewableRepository<Event>, LoaderRepository<Event> by repository {
 
+
     override val offlineData: List<Event> = listOf()
 
     companion object {
-        private val DATE: LocalDateTime = LocalDateTime.now()
         private val baseEvent = Event(
             "name", "name", 0, 0, listOf(),
-            "creator", 0.0, 0, 0.0, 0.0, DATE
+            "creator", 0.0, 0, 0.0, 0.0, Period.DEFAULT_PERIOD
         )
         val EVENT_LIST = listOf(
             baseEvent.copy(
@@ -59,14 +58,9 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
         var rate: ReviewRating = ReviewRating.AVERAGE
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun add(item: Event): Task<Void> {
-        return Mockito.mock(Task::class.java) as Task<Void>
-    }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun addEventWithId(event: Event): Task<Void> {
-        return Mockito.mock(Task::class.java) as Task<Void>
+    override fun addEventWithId(event: Event): Task<String> {
+        return repository.add(event)
     }
 
     override suspend fun getEvents(): List<Event> = eventList
@@ -81,15 +75,5 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
             listOf(baseEvent.copy(participants = listOf(userId)))
         }
         return true
-    }
-
-    override suspend fun updateEditedEvent(
-        eventId: String,
-        name: String,
-        limPart: Int,
-        lat: Double,
-        long: Double,
-        date: LocalDateTime
-    ) {
     }
 }

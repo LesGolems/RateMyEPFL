@@ -9,12 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.EditEventActivity
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.EditEventActivity
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.EventAdapter
 import com.github.sdp.ratemyepfl.viewmodel.main.EventListViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -116,14 +116,13 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         intent.putExtra(EditEventActivity.EXTRA_EVENT_ID, event.eventId)
         intent.putExtra(EditEventActivity.EXTRA_EVENT_TITLE, event.name)
         intent.putExtra(EditEventActivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
-        val dateTime = event.date
-        intent.putExtra(
-            EditEventActivity.EXTRA_EVENT_TIME,
-            intArrayOf(dateTime.hour, dateTime.minute)
-        )
+        val dateTime = event.period
+        val date = dateTime.start.date
+        val time = dateTime.start.time
+        intent.putExtra(EditEventActivity.EXTRA_EVENT_TIME, intArrayOf(time.hours, time.hours))
         intent.putExtra(
             EditEventActivity.EXTRA_EVENT_DATE,
-            intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth)
+            intArrayOf(date.year, date.month.value, date.dayOfMonth)
         )
         intent.putExtra(
             EditEventActivity.EXTRA_EVENT_LOCATION,

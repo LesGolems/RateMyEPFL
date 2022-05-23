@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.mapDocuments
@@ -13,9 +14,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Transaction
-import com.google.firebase.firestore.ktx.getField
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -45,25 +43,8 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         const val TIMETABLE_FIELD_NAME = "timetable"
         const val KARMA_FIELD_NAME = "karma"
 
-        fun DocumentSnapshot.toUser(): User? {
-            val timetable = getString(TIMETABLE_FIELD_NAME)?.let {
-                Gson().fromJson(it, Array<Class>::class.java).toCollection(ArrayList())
-            } ?: User.DEFAULT_TIMETABLE
-            return try {
-                User.Builder(
-                    uid = getString(USER_UID_FIELD_NAME),
-                    isAdmin = getBoolean(ADMIN_FIELD_NAME),
-                    username = getString(USERNAME_FIELD_NAME),
-                    email = getString(EMAIL_FIELD_NAME),
-                    karma = getField<Int>(KARMA_FIELD_NAME),
-                    timetable = timetable
-                ).build()
-            } catch (e: IllegalStateException) {
-                null
-            } catch (e: Exception) {
-                throw DatabaseException("Cannot convert the document to a User (from $e \n ${e.stackTrace}")
-            }
-        }
+        fun DocumentSnapshot.toUser(): User? = toItem()
+
     }
 
 
@@ -73,7 +54,6 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
      */
     override suspend fun getUserByUid(uid: String): User? = repository
         .getById(uid)
-        .toUser()
 
     private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
@@ -102,10 +82,6 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
                 else QueryState.success(it.data.first())
             }
         }.asQueryResult()
-
-    override fun update(id: String, transform: (User) -> User): Task<Transaction> {
-        return repository.update(id, transform)
-    }
 
     override suspend fun updateKarma(uid: String?, inc: Int) {
         if (uid == null) return

@@ -3,17 +3,15 @@ package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.getField
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class EventRepositoryImpl private constructor(
@@ -48,39 +46,7 @@ class EventRepositoryImpl private constructor(
         const val DATE_FIELD_NAME = "date"
 
         private val OFFLINE_EVENTS = listOf<Event>()
-
-        @Suppress("UNCHECKED_CAST")
-        fun DocumentSnapshot.toEvent(): Event? {
-            val eventId = getString(ID_FIELD_NAME)
-            val name = getString(NAME_FIELD_NAME)
-            val lat = getDouble(LATITUDE_FIELD_NAME)
-            val long = getDouble(LONGITUDE_FIELD_NAME)
-            val numParticipants = getField<Int>(NUMBER_PARTICIPANTS_FIELD_NAME)
-            val limitParticipants = getField<Int>(LIMIT_PARTICIPANTS_FIELD_NAME)
-            val participants = get(PARTICIPANTS_FIELD_NAME) as List<String>?
-            val creator = getString(CREATOR_FIELD_NAME)
-            val date = LocalDateTime.parse(getString(DATE_FIELD_NAME))
-            val grade = getDouble(AVERAGE_GRADE_FIELD_NAME)
-            val numReviews = getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME)
-            return try {
-                Event.Builder(
-                    eventId,
-                    name,
-                    numParticipants,
-                    limitParticipants,
-                    participants,
-                    creator,
-                    grade,
-                    numReviews,
-                    lat,
-                    long,
-                    date
-                )
-                    .build()
-            } catch (e: IllegalStateException) {
-                null
-            }
-        }
+        fun DocumentSnapshot.toEvent(): Event? = toItem()
     }
 
     /**
@@ -88,18 +54,17 @@ class EventRepositoryImpl private constructor(
      *
      * @param item: the [Event] to add
      */
-    override fun add(item: Event): Task<Void> {
+    override fun add(item: Event): Task<String> {
         return repository.add(item.withId(item.hashCode().toString()))
     }
 
-    override fun addEventWithId(event: Event): Task<Void> {
+    override fun addEventWithId(event: Event): Task<String> {
         return repository.add(event)
     }
 
     override suspend fun getEvents(): List<Event> = take(DEFAULT_QUERY_LIMIT.toLong())
-        .mapNotNull { it.toEvent() }
 
-    override suspend fun getEventById(id: String): Event? = getById(id).toEvent()
+    override suspend fun getEventById(id: String): Event? = getById(id)
 
     override suspend fun updateParticipants(eventId: String, userId: String): Boolean {
         var success = true
@@ -124,19 +89,4 @@ class EventRepositoryImpl private constructor(
         return success
     }
 
-    override suspend fun updateEditedEvent(
-        eventId: String, name: String,
-        limPart: Int, lat: Double, long: Double,
-        date: LocalDateTime
-    ) {
-        repository.update(eventId) { event ->
-            event.copy(
-                name = name,
-                limitParticipants = limPart,
-                lat = lat,
-                long = long,
-                date = date
-            )
-        }.await()
-    }
 }

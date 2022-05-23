@@ -3,16 +3,21 @@ package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.Query
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.github.sdp.ratemyepfl.database.LoaderRepository
+import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
+import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
 class ClassroomRepositoryImpl private constructor(private val repository: LoaderRepository<Classroom>) :
@@ -47,28 +52,14 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
             Classroom("ELA 1", 0.0, 0),
         )
 
-        fun DocumentSnapshot.toClassroom(): Classroom? = try {
-            val builder = Classroom.Builder()
-                .setName(getString(ROOM_NAME_FIELD_NAME))
-                .setRoomKind(getString(ROOM_KIND_FIELD_NAME))
-                .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
-                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
-
-            builder.build()
-        } catch (e: IllegalStateException) {
-            null
-        } catch (e: Exception) {
-            throw DatabaseException("Failed to convert the fetched document in Classroom")
-        }
+        fun DocumentSnapshot.toClassroom(): Classroom? = toItem()
 
     }
 
-    override suspend fun getClassrooms(): List<Classroom> {
-        return repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toClassroom() }
-    }
+    override suspend fun getClassrooms() = repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
 
-    override suspend fun getRoomById(id: String): Classroom? = repository.getById(id).toClassroom()
+
+    override suspend fun getRoomById(id: String) = repository.getById(id)
 
 
 }

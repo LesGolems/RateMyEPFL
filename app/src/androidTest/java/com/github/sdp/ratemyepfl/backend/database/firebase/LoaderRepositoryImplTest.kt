@@ -65,7 +65,6 @@ class LoaderRepositoryImplTest {
         })
         val query = items.map { repository.add(it) }
         query.forEach { runTest { it.await() } }
-
         query0 = repository
             .query()
             .whereLessThan(Item.DATA_FIELD, 10)

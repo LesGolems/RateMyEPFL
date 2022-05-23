@@ -1,14 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.CREATOR_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.ID_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.EventRepositoryImpl.Companion.toEvent
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.getField
+import com.github.sdp.ratemyepfl.model.time.Period
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,8 +13,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -34,7 +25,7 @@ class EventRepositoryTest {
 
     private val testEvent = Event(
         "Fake id", "Fake id", 0,
-        1, listOf(), "creator", 0.0, 0, 0.0, 0.0, LocalDateTime.now()
+        1, listOf(), "creator", 0.0, 0, 0.0, 0.0, Period.DEFAULT_PERIOD
     )
 
     @get:Rule
@@ -105,78 +96,5 @@ class EventRepositoryTest {
             assertEquals(0, event.numParticipants)
             assert(!event.participants.contains(USER_ID))
         }
-    }
-
-    @Test
-    fun editEventWorks() {
-        runTest {
-            eventRepo.updateEditedEvent(
-                testEvent.eventId, "new name",
-                10, 0.0, 0.0, LocalDateTime.now()
-            )
-            val event = eventRepo.getEventById(testEvent.eventId)
-            assertNotNull(event)
-            assertEquals(testEvent.eventId, event!!.eventId)
-            assertEquals("new name", event.name)
-            assertEquals(10, event.limitParticipants)
-        }
-    }
-
-    @Test
-    fun returnsAnEventForCompleteSnapshot() {
-        val fake = "fake"
-        val lat = 0.0
-        val long = 0.0
-        val numParticipants = 0
-        val limitParticipants = 0
-        val g = 2.5
-        val n = 15
-        val participants = listOf<String>()
-        val date = LocalDateTime.now()
-
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ID_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(NAME_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(NUM_REVIEWS_FIELD_NAME)).thenReturn(n)
-        Mockito.`when`(snapshot.getDouble(AVERAGE_GRADE_FIELD_NAME)).thenReturn(g)
-        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LATITUDE_FIELD_NAME)).thenReturn(lat)
-        Mockito.`when`(snapshot.getDouble(EventRepositoryImpl.LONGITUDE_FIELD_NAME))
-            .thenReturn(long)
-        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.NUMBER_PARTICIPANTS_FIELD_NAME))
-            .thenReturn(numParticipants)
-        Mockito.`when`(snapshot.getField<Int>(EventRepositoryImpl.LIMIT_PARTICIPANTS_FIELD_NAME))
-            .thenReturn(limitParticipants)
-        Mockito.`when`(snapshot.get(EventRepositoryImpl.PARTICIPANTS_FIELD_NAME))
-            .thenReturn(participants)
-        Mockito.`when`(snapshot.getString(CREATOR_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(EventRepositoryImpl.DATE_FIELD_NAME))
-            .thenReturn(date.toString())
-
-        val event = snapshot.toEvent()!!
-        val expected = Event.Builder()
-            .setId(fake)
-            .name(fake)
-            .setLat(lat)
-            .setLong(long)
-            .setNumParticipants(numParticipants)
-            .setLimitParticipants(limitParticipants)
-            .setParticipants(participants)
-            .setDate(date)
-            .setGrade(g)
-            .setNumReviews(n)
-            .setCreator(fake)
-            .build()
-        assertEquals(event.eventId, expected.eventId)
-        assertEquals(event.name, expected.name)
-        assertEquals(event.lat, expected.lat, 0.01)
-        assertEquals(event.long, expected.long, 0.01)
-        assertEquals(event.date, expected.date)
-        assertEquals(event.numParticipants, expected.numParticipants)
-        assertEquals(event.limitParticipants, expected.limitParticipants)
-        assertEquals(event.participants, expected.participants)
-        assertEquals(expected.grade, event.grade, 0.1)
-        assertEquals(expected.numReviews, event.numReviews)
-        assertEquals(event.creator, expected.creator)
     }
 }

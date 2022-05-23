@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 interface RoomNoiseRepository {
 
-    suspend fun addMeasurement(roomId: String, date: LocalDateTime, measure: Int): Task<Transaction>
+    suspend fun addMeasurement(roomId: String, date: LocalDateTime, measure: Int): Task<Unit>
 
     suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo?
 }

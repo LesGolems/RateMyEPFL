@@ -40,15 +40,14 @@ class ReviewableRepositoryImplTest {
     private val numReviews = 0
     private val personalizedTeacher = "myPersonalTeacher2.0"
     private val courseBuilder =
-        Course.Builder(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
+        Course(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
 
-    private val personalizedCourse = courseBuilder.setTeacher(personalizedTeacher).build()
+    private val personalizedCourse = courseBuilder.copy(teacher = personalizedTeacher)
 
     private val courses: List<ReviewableItem> = (0..30)
         .map { n ->
-            Course.Builder(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
-                .setCourseCode(n.toString())
-                .build()
+            Course(fake, fake, fake, 0, fake, grade, numReviews, fake, fake, fake, fake)
+                .copy(courseCode = n.toString())
         }.plus(personalizedCourse)
 
     @Before
@@ -61,7 +60,7 @@ class ReviewableRepositoryImplTest {
 
     @After
     fun teardown() {
-        RepositoryUtil.clear(db.collection("reviewableTest"))
+        RepositoryUtil.clear(db.collection(CourseRepositoryImpl.COURSE_COLLECTION_PATH))
     }
 
     @Test

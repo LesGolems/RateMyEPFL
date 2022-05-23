@@ -79,7 +79,7 @@ class EditEventActivity : AppCompatActivity() {
     private fun nameTextInit() {
         eventNameText = findViewById(R.id.editEventName)
         eventNameText.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher { text, _, _, _ ->
-            editEventViewModel.setTitle(text?.toString())
+            text?.toString()?.run { editEventViewModel.setTitle(this) }
         })
 
         if (!editEventViewModel.isNewEvent) {

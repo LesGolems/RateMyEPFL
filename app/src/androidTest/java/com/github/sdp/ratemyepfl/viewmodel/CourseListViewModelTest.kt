@@ -10,6 +10,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -33,7 +34,7 @@ class CourseListViewModelTest {
 
     private val fake = "fake"
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
+    private val courseBuilder = Course(
         fake,
         fake,
         fake,
@@ -50,14 +51,11 @@ class CourseListViewModelTest {
     private val title = "title"
     private val courseCode = "courseCode"
     private val personalizedCourse = courseBuilder
-        .setTeacher(personalizedTeacher)
-        .setTitle(title)
-        .setCourseCode(courseCode)
-        .build()
+        .copy(teacher = personalizedTeacher, title = title, courseCode = courseCode)
 
     private val courses: List<Course> = (0..30)
         .map { n ->
-            Course.Builder(
+            Course(
                 fake,
                 fake,
                 fake,
@@ -69,24 +67,21 @@ class CourseListViewModelTest {
                 fake,
                 fake,
                 fake
-            )
-                .setCourseCode(n.toString())
-                .setGrade(((n + 2) % 5 + 1).toDouble())
-                .build()
+            ).copy(courseCode = n.toString(), grade = ((n + 2) % 5 + 1).toDouble())
         }.plus(personalizedCourse)
 
     @Before
     fun setup() {
         hiltAndroidRule.inject()
         courses.forEach {
-            runTest { repository.add(it) }
+            runTest { repository.add(it).await() }
         }
     }
 
     @After
     fun teardown() {
         courses.forEach {
-            runTest { repository.remove(it.getId()) }
+            runTest { repository.remove(it.getId()).await() }
         }
     }
 

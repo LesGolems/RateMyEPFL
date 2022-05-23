@@ -1,28 +1,20 @@
 package com.github.sdp.ratemyepfl.backend.database.util
 
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.google.firebase.firestore.DocumentSnapshot
 
 @Suppress("UNCHECKED_CAST")
-data class ArrayItem(private val id: String, val data: List<Int>) : RepositoryItem {
+data class ArrayItem(private val id: String = "", val data: List<Int> = listOf()) : RepositoryItem {
 
     companion object {
         const val DATA_FIELD = "data"
 
-        fun DocumentSnapshot.toArrayItem(): ArrayItem? = try {
-            ArrayItem(id, get(DATA_FIELD) as List<Int>)
-        } catch (e: Exception) {
-            null
-        }
+        fun DocumentSnapshot.toArrayItem(): ArrayItem? = toItem()
 
     }
 
     override fun getId(): String =
         id
-
-
-    override fun toHashMap(): HashMap<String, Any?> = hashMapOf(
-        DATA_FIELD to data
-    )
 
 }

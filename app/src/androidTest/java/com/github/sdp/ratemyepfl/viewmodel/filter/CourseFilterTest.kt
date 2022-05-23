@@ -26,7 +26,7 @@ class CourseFilterTest {
 
     private val fake = "fake"
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
+    private val courseBuilder = Course(
         fake,
         fake,
         fake,
@@ -43,10 +43,7 @@ class CourseFilterTest {
     private val title = "title"
     private val courseCode = "courseCode"
     private val personalizedCourse = courseBuilder
-        .setTeacher(personalizedTeacher)
-        .setTitle(title)
-        .setCourseCode(courseCode)
-        .build()
+        .copy(teacher = personalizedTeacher, title = title, courseCode = courseCode)
 
     private val courses: List<Course> = listOf(
         personalizedCourse, personalizedCourse.copy(title = "z")

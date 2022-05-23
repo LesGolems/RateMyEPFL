@@ -2,15 +2,16 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
+import com.github.sdp.ratemyepfl.database.UserRepository
+import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.Transaction
-import org.mockito.Mockito
 import javax.inject.Inject
 
-class FakeUserRepository @Inject constructor() : UserRepository {
+class FakeUserRepository @Inject constructor() : UserRepository,
+    FakeRepository<User>() {
 
     companion object {
         val timetable: ArrayList<Class> =
@@ -63,10 +64,6 @@ class FakeUserRepository @Inject constructor() : UserRepository {
 
     override fun getUserByEmail(email: String): QueryResult<User> =
         QueryResult.success(users.filterValues { user -> user.email.equals(email) }.values.toList()[0])
-
-    @Suppress("UNCHECKED_CAST")
-    override fun update(id: String, transform: (User) -> User): Task<Transaction> =
-        Mockito.mock(Task::class.java) as Task<Transaction>
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun register(user: User): Task<Boolean> =

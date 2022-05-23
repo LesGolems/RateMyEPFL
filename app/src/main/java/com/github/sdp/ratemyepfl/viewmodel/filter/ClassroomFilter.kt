@@ -1,9 +1,9 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
 import com.github.sdp.ratemyepfl.backend.database.query.Query
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
 
@@ -32,16 +32,13 @@ sealed interface ClassroomFilter : ReviewableFilter<Classroom> {
 
     object BestRated : ClassroomFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery = initialQuery
-            .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME)
+            .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
             .orderBy(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)
     }
 
     object WorstRated : ClassroomFilter {
         override fun toQuery(initialQuery: Query): OrderedQuery =
-            initialQuery.orderBy(
-                ReviewableRepository.AVERAGE_GRADE_FIELD_NAME,
-                OrderDirection.ASCENDING
-            )
+            initialQuery.orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.ASCENDING)
                 .orderBy(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME)
     }
 
