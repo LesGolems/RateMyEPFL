@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/podiumDisplay"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/podium"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_marginTop="75dp"
+        android:contentDescription="@string/podium_of_the_top_karma_users"
+        android:src="@drawable/ic_podium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- TOP 1 -->
+    <TextView
+        android:id="@+id/userTop1Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userTop1Picture"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userTop1Picture"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="127dp"
+        android:background="@raw/blank_profile_picture"
+        android:contentDescription="@string/picture_of_the_top_1_user"
+        app:civ_border_color="@color/red"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop1Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="59dp"
+        android:textColor="@color/red"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@id/userTop1Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop1Picture"
+        app:layout_constraintTop_toBottomOf="@id/userTop1Picture" />
+
+
+    <!-- TOP 2 -->
+    <TextView
+        android:id="@+id/userTop2Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/userTop2Picture"
+        app:layout_constraintEnd_toEndOf="@id/userTop2Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop2Picture" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userTop2Picture"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginTop="245dp"
+        android:background="@raw/blank_profile_picture"
+        android:contentDescription="@string/picture_of_the_top_2_user"
+        app:civ_border_color="@color/orange"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop2Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange"
+        android:layout_marginTop="5dp"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="@id/userTop2Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop2Picture"
+        app:layout_constraintTop_toBottomOf="@id/userTop2Picture" />
+
+
+    <!-- TOP 3 -->
+    <TextView
+        android:id="@+id/userTop3Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/userTop3Picture"
+        app:layout_constraintEnd_toEndOf="@id/userTop3Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop3Picture" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userTop3Picture"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="277dp"
+        android:layout_marginStart="55dp"
+        android:background="@raw/blank_profile_picture"
+        android:contentDescription="@string/picture_of_the_top_3_user"
+        app:civ_border_color="#00CC00"
+        app:civ_border_width="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop3Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#00CC00"
+        android:textSize="25sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@id/userTop3Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop3Picture"
+        app:layout_constraintTop_toBottomOf="@id/userTop3Picture" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
