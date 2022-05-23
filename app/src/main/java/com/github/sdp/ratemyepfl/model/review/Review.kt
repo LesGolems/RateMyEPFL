@@ -1,14 +1,15 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl
-import java.time.LocalDate
+import com.github.sdp.ratemyepfl.model.time.DateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Review constructor(
-    val rating: ReviewRating,
-    override val title: String,
-    override val comment: String,
-    val reviewableId: String,
-    override val date: LocalDate,
+    val rating: ReviewRating = ReviewRating.AVERAGE,
+    override val title: String = "",
+    override val comment: String = "",
+    val reviewableId: String = "",
+    override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
@@ -16,28 +17,21 @@ data class Review constructor(
 
     override var postId: String = this.hashCode().toString()
 
+    override fun getId(): String = postId
+
     override fun withId(id: String): Review {
         return this.apply {
             this.postId = id
         }
     }
 
-    /**
-     * Creates a hash map of the review
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
-            ReviewRepositoryImpl.RATING_FIELD_NAME to rating,
-            ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId
-        ).apply { this.putAll(super.toHashMap()) }
-    }
 
     /**
-     * Allows to create a ReviewRating incrementally.
+     * Allows to create a [Review] incrementally.
      * NB: Even if a user can create a review incrementally, he
      * must specify every property of the review.
      *
-     * Mandatory: [rating], [title], [comment], [reviewableId], [date]
+     * Mandatory: [rating], [title], [comment], [reviewableId], [date], [uid], [likers], [dislikers]
      */
     data class Builder(
         private var rating: ReviewRating? = null,
@@ -63,12 +57,12 @@ data class Review constructor(
         }
 
         /**
-         * Builds the corresponding Review
+         * Builds the corresponding [Review]
          *
          * @throws IllegalStateException if one of the properties is null
          */
         override fun build(): Review {
-            val rate = this asMandatory rating
+            val rating = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
@@ -78,7 +72,7 @@ data class Review constructor(
             val dislikers = this asMandatory this.dislikers
 
             return Review(
-                rate,
+                rating,
                 title,
                 comment,
                 reviewableId,

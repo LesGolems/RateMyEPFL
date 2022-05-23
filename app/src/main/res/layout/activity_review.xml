@@ -7,33 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".activity.ReviewActivity">
 
-    <RelativeLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/reviewNavHostContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/reviewNavHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/reviewBottomNavigationView"
-            app:defaultNavHost="true" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/reviewBottomNavigationView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom"
-            android:background="@color/primaryColor"
-            app:itemBackground="@drawable/bottom_navigation_line_selector"
-            app:itemIconSize="@dimen/bottomNavigationItemIconSizeReview"
-            app:itemIconTint="@drawable/bottom_navigation_color"
-            app:itemTextColor="@drawable/bottom_navigation_color"
-            app:labelVisibilityMode="unlabeled" />
-
-    </RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_review" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/drawerView"

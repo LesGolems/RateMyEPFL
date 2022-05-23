@@ -8,10 +8,10 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,7 +44,7 @@ class AddSubjectViewModel @Inject constructor(
         val kind = kind.value
         val comment = comment.value
         val title = title.value
-        val date = LocalDate.now()
+        val date = DateTime.now()
         var uid: String? = null
 
         // only connected users may add reviews

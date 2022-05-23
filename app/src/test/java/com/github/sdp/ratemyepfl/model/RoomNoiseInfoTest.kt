@@ -8,9 +8,9 @@ class RoomNoiseInfoTest {
 
     @Test
     fun constructorWithAllFieldsWorks() {
-        val roomNoiseInfo = RoomNoiseInfo("id", mapOf(Pair("2022-05-10T18:45:18.640", 38)))
+        val roomNoiseInfo = RoomNoiseInfo("id", listOf(NoiseInfo("2022-05-10T18:45:18.640", 38)))
         assertEquals("id", roomNoiseInfo.roomId)
-        assertEquals(38, roomNoiseInfo.noiseData["2022-05-10T18:45:18.640"])
+        assertEquals(38, roomNoiseInfo.noiseData[0].measure)
     }
 
     @Test

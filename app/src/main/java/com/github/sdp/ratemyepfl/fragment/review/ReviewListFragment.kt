@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,6 +20,7 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.ReviewListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,6 +81,26 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
             swipeRefresher.isRefreshing = false
         }
 
+        setUpAdapter()
+
+        view.findViewById<FloatingActionButton>(R.id.addReviewButton).setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.addReviewFragment)
+        }
+    }
+
+    private fun setUpAdapter() {
+        reviewAdapter = ReviewAdapter(viewLifecycleOwner, userViewModel,
+            getListener { r, s -> viewModel.updateUpVotes(r, s) },
+            getListener { r, s -> viewModel.updateDownVotes(r, s) },
+            { rwa ->
+                lifecycleScope.launch {
+                    viewModel.removeReview(rwa.post.getId())
+                }
+            }
+        ) { rwa -> displayProfilePanel(rwa.author, rwa.image) }
+
+        recyclerView.adapter = reviewAdapter
+
         viewModel.reviews.observe(viewLifecycleOwner) {
             it?.let { reviewAdapter.submitList(it) }
         }
@@ -108,7 +130,6 @@ class ReviewListFragment : Fragment(R.layout.fragment_review_list) {
         } catch (e: Exception) {
             e.message?.let {
                 Snackbar.make(requireView(), it, Snackbar.LENGTH_SHORT)
-                    .setAnchorView(R.id.reviewBottomNavigationView)
                     .show()
             }
         }

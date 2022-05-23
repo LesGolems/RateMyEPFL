@@ -116,10 +116,6 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
         }
     }
 
-    private fun chosenKind() {
-
-    }
-
     /**
      * Once a review is submitted all the information are reset to default
      */

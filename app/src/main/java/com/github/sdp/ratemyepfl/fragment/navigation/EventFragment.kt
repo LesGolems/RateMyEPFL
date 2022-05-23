@@ -72,8 +72,6 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
             event.getId()
         )
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, event)
-        intent.putExtra(ReviewActivity.EXTRA_MENU_ID, R.menu.bottom_navigation_menu_event_review)
-        intent.putExtra(ReviewActivity.EXTRA_GRAPH_ID, R.navigation.nav_graph_event_review)
         startActivity(intent)
     }
 
@@ -119,9 +117,11 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_ID, event.eventId)
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_TITLE, event.name)
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_LIM_PART, event.limitParticipants)
-        val dateTime = event.date
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(dateTime.hour, dateTime.minute))
-        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(dateTime.year, dateTime.monthValue, dateTime.dayOfMonth))
+        val dateTime = event.period
+        val date = dateTime.start.date
+        val time = dateTime.start.time
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_TIME, intArrayOf(time.hours, time.hours))
+        intent.putExtra(EditEventActitivity.EXTRA_EVENT_DATE, intArrayOf(date.year, date.month.value, date.dayOfMonth))
         intent.putExtra(EditEventActitivity.EXTRA_EVENT_LOCATION, doubleArrayOf(event.lat, event.long))
         startActivity(intent)
     }

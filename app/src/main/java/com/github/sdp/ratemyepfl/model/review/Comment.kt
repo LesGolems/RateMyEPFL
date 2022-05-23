@@ -1,32 +1,25 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.post.CommentRepositoryImpl
-import java.time.LocalDate
+import com.github.sdp.ratemyepfl.model.time.DateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Comment constructor(
-    val subjectId: String,
-    override val comment: String,
-    override val date: LocalDate,
+    val subjectId: String = "",
+    override val comment: String = "",
+    override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
 ) : Post("", comment, date, uid, likers, dislikers) {
 
     override var postId: String = this.hashCode().toString()
+    override fun getId(): String = postId
 
     override fun withId(id: String): Comment {
         return this.apply {
             this.postId = id
         }
-    }
-
-    /**
-     * Creates a hash map of the comment
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
-            CommentRepositoryImpl.SUBJECT_ID_FIELD_NAME to subjectId
-        ).apply { this.putAll(super.toHashMap()) }
     }
 
     data class Builder(
@@ -43,7 +36,7 @@ data class Comment constructor(
         }
 
         /**
-         * Builds the corresponding Comment
+         * Builds the corresponding [Comment]
          *
          * @throws IllegalStateException if one of the properties is null
          */

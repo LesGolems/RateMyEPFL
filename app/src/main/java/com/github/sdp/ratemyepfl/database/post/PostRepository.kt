@@ -29,7 +29,7 @@ interface PostRepository<T : Post> : Repository<T> {
      * @param withId: a provided unique identifier
      *
      */
-    fun addWithId(item: T, withId: String): Task<Void>
+    fun addWithId(item: T, withId: String): Task<String>
 
     /**
      * Adds an up vote from [userId] to the post with id [postId]. If the user

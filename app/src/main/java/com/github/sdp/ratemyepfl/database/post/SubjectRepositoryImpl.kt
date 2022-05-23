@@ -2,15 +2,13 @@ package com.github.sdp.ratemyepfl.database.post
 
 import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.review.Subject
-import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 import javax.inject.Inject
 
 class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRepository,
@@ -31,29 +29,24 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
          *
          * @return the subject if the json contains the necessary data, null otherwise
          */
-        fun DocumentSnapshot.toSubject(): Subject? = try {
-            val builder = Subject.Builder()
-                .setComments(get(COMMENTS_FIELD_NAME) as List<String>)
-                .setKind(getString(KIND_FIELD_NAME)?.let { kind -> SubjectKind.valueOf(kind) })
-                .setTitle(getString(PostRepository.TITLE_FIELD_NAME))
-                .setComment(getString(PostRepository.COMMENT_FIELD_NAME))
-                .setDate(LocalDate.parse(getString(PostRepository.DATE_FIELD_NAME)))
-                .setUid(getString(PostRepository.UID_FIELD_NAME))
-                .setLikers(get(PostRepository.LIKERS_FIELD_NAME) as List<String>)
-                .setDislikers(get(PostRepository.DISLIKERS_FIELD_NAME) as List<String>)
-
-            builder.build()
-                .withId(id)
-        } catch (e: IllegalStateException) {
-            null
-        } catch (e: Exception) {
-            throw DatabaseException("Failed to retrieve and convert the subject (from $e \n ${e.stackTrace})")
-        }
+        fun DocumentSnapshot.toSubject(): Subject? = toItem()
     }
+
+    override suspend fun addAndGetId(item: Subject): String {
+        val document = repository
+            .collection
+            .document()
+
+        addWithId(item, document.id).await()
+        return document.id
+    }
+
+    override fun addWithId(item: Subject, withId: String): Task<String> =
+        repository.add(item.withId(withId))
+
 
     override suspend fun getSubjects(): List<Subject> =
         repository.take(DEFAULT_QUERY_LIMIT.toLong())
-            .mapNotNull { obj -> obj.toSubject()?.withId(obj.id) }
 
     override suspend fun addComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
@@ -67,17 +60,6 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         }
     }
 
-    override suspend fun addAndGetId(item: Subject): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
-    override fun addWithId(item: Subject, withId: String): Task<Void> =
-        repository.add(item.withId(withId))
 
     override suspend fun addUpVote(postId: String, userId: String) {
         repository.update(postId) { subject ->

@@ -13,11 +13,11 @@ import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -114,7 +114,7 @@ class CommentListViewModel @Inject constructor(
 
     fun submitComment() {
         val comment = comment.value
-        val date = LocalDate.now()
+        val date = DateTime.now()
         var uid: String? = null
 
         // only connected users may add reviews

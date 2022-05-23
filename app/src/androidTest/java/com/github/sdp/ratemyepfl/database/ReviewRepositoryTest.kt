@@ -1,11 +1,9 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.post.PostRepository
 import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl
-import com.github.sdp.ratemyepfl.database.post.ReviewRepositoryImpl.Companion.toReview
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.firebase.firestore.DocumentSnapshot
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,8 +15,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
-import java.time.LocalDate
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -29,7 +25,7 @@ class ReviewRepositoryTest {
         "title",
         "comment",
         "Fake reviewable id",
-        LocalDate.of(2022, 4, 8)
+        DateTime(2022, 4, 8, 0, 0),
     ).withId("Fake id")
 
     @get:Rule
@@ -60,10 +56,10 @@ class ReviewRepositoryTest {
             "title",
             "comment",
             "Fake reviewable id",
-            LocalDate.of(2022, 4, 8)
+            DateTime(2022, 4, 8, 0, 0)
         )
         runTest {
-            val id = reviewRepo.addAndGetId(testReviewNoId)
+            val id = reviewRepo.add(testReviewNoId).await()
             assertNotNull(id)
             reviewRepo.remove(id).await()
         }
@@ -146,203 +142,86 @@ class ReviewRepositoryTest {
     }
 
     @Test
-    fun toItemReturnsAReviewForCompleteSnapshot() {
-        val fakeId = "fake"
-        val fakeRating = "AVERAGE"
-        val fakeTitle = "My title"
-        val fakeComment = "My comment"
-        val fakeReviewableId = "CS-666"
-        val fakeDate = "2022-04-05"
-        val fakeLikers = listOf("liker Id")
-        val fakeDislikers = listOf("disliker Id")
-
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id)
-            .thenReturn(fakeId)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
-            .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(PostRepository.TITLE_FIELD_NAME))
-            .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(PostRepository.COMMENT_FIELD_NAME))
-            .thenReturn(fakeComment)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
-            .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(PostRepository.DATE_FIELD_NAME))
-            .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(PostRepository.LIKERS_FIELD_NAME))
-            .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(PostRepository.DISLIKERS_FIELD_NAME))
-            .thenReturn(fakeDislikers)
-
-        val review: Review? = snapshot.toReview()
-        val fakeReview = Review.Builder()
-            .setRating(ReviewRating.valueOf(fakeRating))
-            .setReviewableID(fakeReviewableId)
-            .setTitle(fakeTitle)
-            .setComment(fakeComment)
-            .setDate(LocalDate.parse(fakeDate))
-            .setLikers(fakeLikers)
-            .setDislikers(fakeDislikers)
-            .build()
-
-        assertEquals(review, fakeReview)
-    }
-
-    @Test
-    fun toItemReturnsNullForIncompleteSnapshot() {
-        val fakeId = null
-        val fakeRating = null
-        val fakeTitle = "My title"
-        val fakeComment = "My comment"
-        val fakeReviewableId = null
-        val fakeDate = "2022-04-05"
-        val fakeLikers = listOf("liker Id")
-        val fakeDislikers = listOf("disliker Id")
-
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id)
-            .thenReturn(fakeId)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.RATING_FIELD_NAME))
-            .thenReturn(fakeRating)
-        Mockito.`when`(snapshot.getString(PostRepository.TITLE_FIELD_NAME))
-            .thenReturn(fakeTitle)
-        Mockito.`when`(snapshot.getString(PostRepository.COMMENT_FIELD_NAME))
-            .thenReturn(fakeComment)
-        Mockito.`when`(snapshot.getString(ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME))
-            .thenReturn(fakeReviewableId)
-        Mockito.`when`(snapshot.getString(PostRepository.DATE_FIELD_NAME))
-            .thenReturn(fakeDate)
-        Mockito.`when`(snapshot.get(PostRepository.LIKERS_FIELD_NAME))
-            .thenReturn(fakeLikers)
-        Mockito.`when`(snapshot.get(PostRepository.DISLIKERS_FIELD_NAME))
-            .thenReturn(fakeDislikers)
-
-        val review: Review? = snapshot.toReview()
-        assertEquals(null, review)
-    }
-
-    @Test
     fun addWithIdRegisterWithTheGivenId() = runTest {
         val id = "id"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8)
-        ).withId(id)
+        reviewRepo.addWithId(testReview, id).await()
 
-        reviewRepo.addWithId(review, id).await()
+        val fetched = reviewRepo.getById(id)
+        assertEquals(testReview, fetched)
 
-        val fetched = reviewRepo.getById(id).toReview()
-        assertEquals(review, fetched)
+        reviewRepo.remove(id).await()
     }
 
     @Test
     fun addWithoutIdUsesARandomOne() = runTest {
         val title = "addRandom"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            title,
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8)
-        )
-
-        reviewRepo.add(review).await()
+        val review = testReview.copy(title = title)
+        val id = reviewRepo.add(review).await()
 
         val fetched = reviewRepo.getReviews()
             .first { it.title == title }
         assertEquals(review, fetched)
+        reviewRepo.remove(id).await()
     }
 
     @Test
     fun addUpVoteOnceWorks() = runTest {
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            likers = listOf("1")
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(
+            testReview.copy(likers = listOf("1")), id
+        ).await()
 
         val uid = "uid"
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf("1", uid), updated.likers)
+        reviewRepo.remove(id).await()
         clean()
     }
-
 
     @Test
     fun addUpVoteTwiceOnlyAddsItOnceWorks() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            likers = listOf(uid)
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(likers = listOf(uid)), id).await()
 
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.likers)
+        reviewRepo.remove(id).await()
         clean()
     }
 
     @Test
     fun addDownVoteOnceWorks() = runTest {
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            dislikers = listOf("1")
-        ).withId(id)
-
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf("1")), id).await()
 
         val uid = "uid"
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf("1", uid), updated.dislikers)
+        reviewRepo.remove(id).await()
         clean()
     }
-
 
     @Test
     fun addDownVoteTwiceOnlyAddsItOnceWorks() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            dislikers = listOf(uid)
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
 
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.dislikers)
+        reviewRepo.remove(id).await()
         clean()
     }
 
@@ -350,21 +229,14 @@ class ReviewRepositoryTest {
     fun removeUpVoteRemoveExistingUpVote() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            likers = listOf(uid)
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(likers = listOf("uid")), id).await()
 
         reviewRepo.removeUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf<String>(), updated.likers)
+        reviewRepo.remove(id).await()
         clean()
     }
 
@@ -377,7 +249,7 @@ class ReviewRepositoryTest {
             "title",
             "comment",
             "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
+            DateTime.DEFAULT_DATE_TIME,
             likers = listOf(uid)
         ).withId(id)
 
@@ -385,8 +257,9 @@ class ReviewRepositoryTest {
 
         reviewRepo.removeUpVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.likers)
+        reviewRepo.remove(id).await()
         clean()
     }
 
@@ -394,21 +267,14 @@ class ReviewRepositoryTest {
     fun removeDownVoteRemoveExistingUpVote() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            dislikers = listOf(uid)
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
 
         reviewRepo.removeDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf<String>(), updated.dislikers)
+        reviewRepo.remove(id).await()
         clean()
     }
 
@@ -416,21 +282,14 @@ class ReviewRepositoryTest {
     fun removeNonExistingDownVoteDoesNotChange() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review(
-            ReviewRating.EXCELLENT,
-            "title",
-            "comment",
-            "Fake reviewable id",
-            LocalDate.of(2022, 4, 8),
-            dislikers = listOf(uid)
-        ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
 
         reviewRepo.removeDownVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id).toReview()!!
+        val updated = reviewRepo.getById(id)!!
         assertEquals(listOf(uid), updated.dislikers)
+        reviewRepo.remove(id).await()
         clean()
     }
 }

@@ -18,7 +18,7 @@ class FakeCommentRepository @Inject constructor() : CommentRepository {
         TODO("Not yet implemented")
     }
 
-    override fun addWithId(item: Comment, withId: String): Task<Void> {
+    override fun addWithId(item: Comment, withId: String): Task<String> {
         TODO("Not yet implemented")
     }
 
@@ -38,11 +38,11 @@ class FakeCommentRepository @Inject constructor() : CommentRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun take(number: Long): QuerySnapshot {
+    override suspend fun take(number: Long): List<Comment> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getById(id: String): DocumentSnapshot {
+    override suspend fun getById(id: String): Comment? {
         TODO("Not yet implemented")
     }
 
@@ -50,11 +50,11 @@ class FakeCommentRepository @Inject constructor() : CommentRepository {
         TODO("Not yet implemented")
     }
 
-    override fun add(item: Comment): Task<Void> {
+    override fun add(item: Comment): Task<String> {
         TODO("Not yet implemented")
     }
 
-    override fun update(id: String, transform: (Comment) -> Comment): Task<Transaction> {
+    override fun update(id: String, transform: (Comment) -> Comment): Task<Comment> {
         TODO("Not yet implemented")
     }
 

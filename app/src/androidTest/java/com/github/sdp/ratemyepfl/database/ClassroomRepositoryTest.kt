@@ -67,44 +67,4 @@ class ClassroomRepositoryTest {
             assertEquals(testRoom.name, room!!.name)
         }
     }
-
-    @Test
-    fun toItemReturnsAClassroomForCompleteSnapshot() {
-        val fake = "fake"
-
-        val snapshot = mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME))
-            .thenReturn(fake)
-        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
-            .thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
-            .thenReturn(15)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
-            .thenReturn(2.5)
-
-
-        val classroom: Classroom? = snapshot.toClassroom()
-        val fakeClassroom = Classroom(fake, 2.5, 15,fake)
-        assertEquals(fakeClassroom, classroom)
-
-    }
-
-    @Test
-    fun toItemReturnsNullForInCompleteSnapshot() {
-        val snapshot = mock(DocumentSnapshot::class.java)
-
-        Mockito.`when`(snapshot.id).thenReturn(null)
-        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_NAME_FIELD_NAME))
-            .thenReturn(null)
-        Mockito.`when`(snapshot.getString(ClassroomRepositoryImpl.ROOM_KIND_FIELD_NAME))
-            .thenReturn(null)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
-            .thenReturn(null)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
-            .thenReturn(null)
-
-        val classroom: Classroom? = snapshot.toClassroom()
-        assertEquals(null, classroom)
-    }
 }

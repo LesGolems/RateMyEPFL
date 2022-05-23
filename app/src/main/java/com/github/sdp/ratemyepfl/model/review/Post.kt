@@ -1,23 +1,30 @@
 package com.github.sdp.ratemyepfl.model.review
 
 import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.post.PostRepository
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import kotlinx.serialization.ExperimentalSerializationApi
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
 
+/**
+ * Note: "@Transient" impeaches the properties of this abstract class to be serialized
+ * before they are overridden by the sub-class
+ */
 @Serializable
-abstract class Post @OptIn(ExperimentalSerializationApi::class) constructor(
-    open val title: String,
-    open val comment: String,
-    @Serializable(with = LocalDateSerializer::class)
-    open val date: LocalDate,
+abstract class Post constructor(
+    @Transient
+    open val title: String = "",
+    @Transient
+    open val comment: String = "",
+    @Transient
+    open val date: DateTime = DateTime.DEFAULT_DATE_TIME,
+    @Transient
     open val uid: String? = null,
+    @Transient
     open var likers: List<String> = listOf(),
+    @Transient
     open var dislikers: List<String> = listOf()
 ) : RepositoryItem {
 
@@ -35,30 +42,16 @@ abstract class Post @OptIn(ExperimentalSerializationApi::class) constructor(
     abstract fun withId(id: String): Post
 
     /**
-     * Creates a hash map of the post
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            PostRepository.TITLE_FIELD_NAME to title,
-            PostRepository.COMMENT_FIELD_NAME to comment,
-            PostRepository.DATE_FIELD_NAME to date.toString(),
-            PostRepository.UID_FIELD_NAME to uid,
-            PostRepository.LIKERS_FIELD_NAME to likers,
-            PostRepository.DISLIKERS_FIELD_NAME to dislikers
-        )
-    }
-
-    /**
      * Allows to create a Post incrementally.
      * NB: Even if a user can create a post incrementally, he
      * must specify every property of the post.
      *
-     * Mandatory: [title], [comment], [date], TODO
+     * Mandatory: [title], [comment], [date], [uid], [likers], [dislikers]
      */
-    abstract class Builder<T: Post>(
+    abstract class Builder<T : Post>(
         protected var title: String? = null,
         protected var comment: String? = null,
-        protected var date: LocalDate? = null,
+        protected var date: DateTime? = null,
         protected var uid: String? = null,
         protected var likers: List<String>? = listOf(),
         protected var dislikers: List<String>? = listOf(),
@@ -87,7 +80,7 @@ abstract class Post @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param date: the new date of the post
          * @return this
          */
-        fun setDate(date: LocalDate?) = apply {
+        fun setDate(date: DateTime?) = apply {
             this.date = date
         }
 

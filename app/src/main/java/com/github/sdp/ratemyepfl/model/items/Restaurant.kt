@@ -1,22 +1,18 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepositoryImpl
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateTimeSerializer
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
 
 @Serializable
 data class Restaurant constructor(
-    val name: String,
-    val occupancy: Int,
-    override val grade: Double,
-    override val numReviews: Int,
-    val lat: Double,
-    val long: Double,
+    val name: String = "",
+    val occupancy: Int = 0,
+    override val grade: Double = 0.0,
+    override val numReviews: Int = 0,
+    val lat: Double = 0.0,
+    val long: Double = 0.0,
 ) : Reviewable(), Displayable {
 
     companion object {
@@ -29,18 +25,6 @@ data class Restaurant constructor(
 
     override fun getId(): String = name
 
-    /**
-     * Creates an hash map of the Restaurant, to add it to the DB
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
-            RestaurantRepositoryImpl.RESTAURANT_NAME_FIELD_NAME to name,
-            RestaurantRepositoryImpl.OCCUPANCY_FIELD_NAME to occupancy,
-            RestaurantRepositoryImpl.LATITUDE_FIELD_NAME to lat,
-            RestaurantRepositoryImpl.LONGITUDE_FIELD_NAME to long,
-        ).apply { this.putAll(super.toHashMap()) }
-    }
-
     override fun toMapItem(): MapItem {
         return RestaurantItem(
             this,
@@ -50,56 +34,6 @@ data class Restaurant constructor(
             ), // Arbitrary default value
             BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
         )
-    }
-
-    /**
-     * Builder to create a restaurant step by step
-     * Mandatory fields are:
-     *  - [name]
-     */
-    class Builder(
-        private var name: String? = null,
-        private var occupancy: Int? = 0,
-        private var grade: Double? = null,
-        private var numReviews: Int? = null,
-        private var lat: Double? = null,
-        private var long: Double? = null
-    ) : ReviewableBuilder<Restaurant> {
-
-
-        fun setName(name: String?) = apply {
-            this.name = name
-        }
-
-        fun setLat(lat: Double?) = apply {
-            this.lat = lat
-        }
-
-        fun setLong(long: Double?) = apply {
-            this.long = long
-        }
-
-        fun setOccupancy(occupancy: Int?) = apply {
-            this.occupancy = occupancy
-        }
-
-        fun setGrade(grade: Double?) = apply {
-            this.grade = grade
-        }
-
-        fun setNumReviews(numReviews: Int?) = apply {
-            this.numReviews = numReviews
-        }
-
-        override fun build(): Restaurant {
-            val name = this asMandatory name
-            val occupancy = this asMandatory occupancy
-            val grade = this asMandatory grade
-            val lat = this asMandatory lat
-            val long = this asMandatory long
-            val numReviews = this asMandatory numReviews
-            return Restaurant(name, occupancy, grade, numReviews, lat, long)
-        }
     }
 
 }

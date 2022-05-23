@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.database
 
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
@@ -10,6 +11,7 @@ import com.github.sdp.ratemyepfl.model.ReviewInfo.Companion.DEFAULT_REVIEW_INFO
 import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
@@ -49,20 +51,7 @@ class GradeInfoRepositoryImpl private constructor(
         const val ITEM_ID_FIELD = "itemId"
         const val REVIEWS_INFO_FIELD = "reviewsData"
 
-        fun DocumentSnapshot.toGradeInfo(): GradeInfo? {
-            val type = object : TypeToken<Map<String, ReviewInfo>>() {}.type
-            val reviewsData = getString(REVIEWS_INFO_FIELD)?.let {
-                Gson().fromJson<Map<String, ReviewInfo>>(it, type)
-            }
-            return try {
-                GradeInfo.Builder(
-                    getString(ITEM_ID_FIELD),
-                    reviewsData
-                ).build()
-            } catch (e: IllegalStateException) {
-                null
-            }
-        }
+        fun DocumentSnapshot.toGradeInfo(): GradeInfo? = toItem()
     }
 
     /**
@@ -95,7 +84,7 @@ class GradeInfoRepositoryImpl private constructor(
         item: Reviewable,
         reviewId: String,
         inc: Int
-    ): Task<Transaction> {
+    ): Task<Unit> {
         var computedGrade = 0.0
         repository.update(item.getId()) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, DEFAULT_REVIEW_INFO)
@@ -120,7 +109,7 @@ class GradeInfoRepositoryImpl private constructor(
     override suspend fun removeReview(
         item: Reviewable,
         reviewId: String
-    ): Task<Transaction> {
+    ): Task<Unit> {
         var computedGrade = 0.0
 
         repository.update(item.getId()) {
@@ -138,7 +127,7 @@ class GradeInfoRepositoryImpl private constructor(
         item: Reviewable,
         reviewId: String,
         rating: ReviewRating
-    ): Task<Transaction> {
+    ): Task<Unit> {
         if (getGradeInfoById(item.getId()) == null) {
             repository.add(GradeInfo(item.getId())).await()
         }
@@ -163,9 +152,8 @@ class GradeInfoRepositoryImpl private constructor(
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
-        .toGradeInfo()
 
-    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Transaction> =
+    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Unit> =
         when (item) {
             is Classroom -> classroomRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
@@ -179,6 +167,6 @@ class GradeInfoRepositoryImpl private constructor(
             is Restaurant -> restaurantRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
             }
-            else -> throw Exception("")
-        }
+           // else -> Tasks.forResult(2)
+        }.continueWith {}
 }

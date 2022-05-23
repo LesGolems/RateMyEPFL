@@ -48,13 +48,6 @@ class CourseRepositoryTest {
     }
 
     @Test
-    fun conversionTest() = runTest {
-        courseRepo.add(testCourse).await()
-        val c = courseRepo.getCourseById(testCourse.getId())
-        assertEquals(testCourse, c)
-    }
-
-    @Test
     fun getCoursesWorks() {
         runTest {
             val course = courseRepo.getCourses()[0]
@@ -90,49 +83,4 @@ class CourseRepositoryTest {
         }
     }
 
-    @Test
-    fun toItemReturnsACourseForCompleteSnapshot() {
-        val fake = "fake"
-        val fakeCredit = 0
-
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-        Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TITLE_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.SECTION_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TEACHER_FIELD_NAME)).thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(CourseRepositoryImpl.CREDITS_FIELD_NAME))
-            .thenReturn(fakeCredit)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME))
-            .thenReturn(fake)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
-            .thenReturn(15)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
-            .thenReturn(2.5)
-
-        val course: Course? = snapshot.toCourse()
-        val fakeCourse = Course(fake, fake, fake, fakeCredit, fake, 2.5, 15)
-        assertEquals(fakeCourse, course)
-
-    }
-
-    @Test
-    fun toItemReturnsNullForInCompleteSnapshot() {
-        val fake = "fake"
-        val snapshot = Mockito.mock(DocumentSnapshot::class.java)
-
-        Mockito.`when`(snapshot.id).thenReturn(fake)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TITLE_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.SECTION_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.TEACHER_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.CREDITS_FIELD_NAME)).thenReturn(null)
-        Mockito.`when`(snapshot.getString(CourseRepositoryImpl.COURSE_CODE_FIELD_NAME))
-            .thenReturn(null)
-        Mockito.`when`(snapshot.getField<Int>(ReviewableRepository.NUM_REVIEWS_FIELD_NAME))
-            .thenReturn(null)
-        Mockito.`when`(snapshot.getDouble(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME))
-            .thenReturn(null)
-
-        val course: Course? = snapshot.toCourse()
-        assertEquals(null, course)
-    }
 }

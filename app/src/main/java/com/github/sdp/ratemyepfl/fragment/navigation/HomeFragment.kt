@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -129,8 +130,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 lifecycleScope.launch { viewModel.removeSubject(swa.post.postId) }
             },
             { swa ->
+                Log.d("ID", swa.post.getId())
                 val bundle =
-                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.postId)
+                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
             }
         ) { swa -> displayProfilePanel(swa.author, swa.image) }

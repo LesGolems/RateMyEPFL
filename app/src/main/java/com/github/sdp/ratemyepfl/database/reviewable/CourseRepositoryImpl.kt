@@ -3,15 +3,12 @@ package com.github.sdp.ratemyepfl.database.reviewable
 import com.github.sdp.ratemyepfl.database.LoaderRepository
 import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
+import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.database.query.Query
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.getField
 import javax.inject.Inject
 
 class CourseRepositoryImpl private constructor(private val repository: LoaderRepository<Course>) :
@@ -108,43 +105,23 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
             )
         )
 
-        fun DocumentSnapshot.toCourse(): Course? = try {
-            val builder = Course.Builder()
-                .setCourseCode(getString(COURSE_CODE_FIELD_NAME))
-                .setTitle(getString(TITLE_FIELD_NAME))
-                .setSection(getString(SECTION_FIELD_NAME))
-                .setTeacher(getString(TEACHER_FIELD_NAME))
-                .setCredits(getField<Int>(CREDITS_FIELD_NAME))
-                .setCycle(getString(CYCLE_FIELD_NAME))
-                .setSession(getString(SESSION_FIELD_NAME))
-                .setGrading(getString(GRADING_FIELD_NAME))
-                .setLanguage(getString(LANGUAGE_FIELD_NAME))
-                .setGrade(getDouble(AVERAGE_GRADE_FIELD_NAME))
-                .setNumReviews(getField<Int>(NUM_REVIEWS_FIELD_NAME))
-
-            builder.build()
-        } catch (e: IllegalStateException) {
-            null
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw DatabaseException("Failed to convert the document into course (from $e)")
-        }
+        fun DocumentSnapshot.toCourse(): Course? = toItem()
 
     }
 
     private val loadQuery = repository
         .query()
-        .orderBy(ReviewableRepository.AVERAGE_GRADE_FIELD_NAME, OrderDirection.DESCENDING)
+        .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
         .orderBy(COURSE_CODE_FIELD_NAME)
 
 
     override suspend fun getCourses(): List<Course> =
         repository
-            .take(Query.DEFAULT_QUERY_LIMIT.toLong()).mapNotNull { obj -> obj.toCourse() }
+            .take(Query.DEFAULT_QUERY_LIMIT.toLong())
 
     override suspend fun getCourseById(id: String): Course? =
         repository
-            .getById(id).toCourse()
+            .getById(id)
 
 
 }

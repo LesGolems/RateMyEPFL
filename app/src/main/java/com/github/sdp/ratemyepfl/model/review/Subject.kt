@@ -1,35 +1,27 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.post.SubjectRepositoryImpl
-import java.time.LocalDate
+import com.github.sdp.ratemyepfl.model.time.DateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Subject constructor(
-    override val title: String,
-    override val comment: String,
-    override val date: LocalDate,
+    override val title: String = "",
+    override val comment: String = "",
+    override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf(),
     val comments: List<String> = listOf(),
-    val kind: SubjectKind
+    val kind: SubjectKind = SubjectKind.OTHER
 ) : Post(title, comment, date, uid, likers, dislikers) {
 
     override var postId: String = this.hashCode().toString()
+    override fun getId(): String = postId
 
     override fun withId(id: String): Subject {
         return this.apply {
             this.postId = id
         }
-    }
-
-    /**
-     * Creates a hash map of the subject
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf<String, Any?>(
-            SubjectRepositoryImpl.COMMENTS_FIELD_NAME to comments,
-            SubjectRepositoryImpl.KIND_FIELD_NAME to kind
-        ).apply { this.putAll(super.toHashMap()) }
     }
 
     /**
@@ -40,14 +32,29 @@ data class Subject constructor(
         private var kind: SubjectKind? = null
     ) : Post.Builder<Subject>() {
 
+        /**
+         * Sets the comments of the subject
+         * @param comments: comments of the subject
+         * @return this
+         */
         fun setComments(comments: List<String>?) = apply {
             this.comments = comments
         }
 
+        /**
+         * Sets the kind of the subject
+         * @param kind: kind of the subject
+         * @return this
+         */
         fun setKind(kind: SubjectKind?) = apply {
             this.kind = kind
         }
 
+        /**
+         * Builds the corresponding [Subject]
+         *
+         * @throws IllegalStateException if one of the properties is null
+         */
         override fun build(): Subject {
             val title = this asMandatory title
             val comment = this asMandatory comment
