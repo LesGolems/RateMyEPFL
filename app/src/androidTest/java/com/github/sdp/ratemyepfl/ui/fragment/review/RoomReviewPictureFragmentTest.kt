@@ -8,7 +8,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.contrib.ViewPagerActions
 import androidx.test.espresso.intent.Intents.*
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
@@ -20,6 +19,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
@@ -53,7 +53,9 @@ class RoomReviewPictureFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
         Thread.sleep(1000)
-        ViewPagerActions.scrollToPage(2)
+        ViewPagerAction.swipeNext()
+        Thread.sleep(2000)
+        ViewPagerAction.swipeNext()
         Thread.sleep(2000)
     }
 
