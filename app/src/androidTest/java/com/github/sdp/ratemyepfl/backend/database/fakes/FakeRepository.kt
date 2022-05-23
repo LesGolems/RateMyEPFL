@@ -2,10 +2,10 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
-import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery2
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import org.mockito.Mockito
 
 @Suppress("UNCHECKED_CAST")
@@ -40,5 +40,5 @@ open class FakeRepository<T : RepositoryItem> : Repository<T> {
 
     override fun transform(document: DocumentSnapshot): T? = null
 
-    override fun query(): FirebaseQuery = FirebaseQuery(Mockito.mock(FirebaseQuery2::class.java))
+    override fun query(): FirebaseQuery = FirebaseQuery(Mockito.mock(Query::class.java))
 }

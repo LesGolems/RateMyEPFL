@@ -1,13 +1,13 @@
 package com.github.sdp.ratemyepfl.backend.database
 
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
-import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery2
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.backend.database.util.Item
 import com.github.sdp.ratemyepfl.backend.database.util.Item.Companion.toItem
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -97,7 +97,7 @@ class QueryTest {
 
     @Test
     fun executeReturnsAFailureWhenAnErrorOccurs() = runTest {
-        val mockQuery = Mockito.mock(FirebaseQuery2::class.java)
+        val mockQuery = Mockito.mock(Query::class.java)
         Mockito.`when`(mockQuery.get()).thenThrow(RuntimeException::class.java)
 
         FirebaseQuery(mockQuery).execute()
