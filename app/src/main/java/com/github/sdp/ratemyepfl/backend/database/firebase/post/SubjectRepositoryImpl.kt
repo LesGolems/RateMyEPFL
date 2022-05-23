@@ -74,7 +74,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override suspend fun removeComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
             subject.copy(comments = subject.comments.minus(commentId))
-        }
+        }.await()
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {
