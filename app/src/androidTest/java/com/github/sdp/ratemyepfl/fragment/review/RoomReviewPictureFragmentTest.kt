@@ -52,7 +52,9 @@ class RoomReviewPictureFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
+        Thread.sleep(500)
         ViewPagerAction.swipeNext()
+        Thread.sleep(500)
         ViewPagerAction.swipeNext()
         Thread.sleep(1000)
     }
