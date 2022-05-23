@@ -2,13 +2,11 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/author_profile_panel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoDragView="@id/panelProfile"
-    tools:context="com.github.sdp.ratemyepfl.ui.fragment.main.HomeFragment">
+    sothree:umanoDragView="@id/panelProfile">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/subjectSwipeRefresh"
@@ -49,6 +47,5 @@
         layout="@layout/author_profile_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

@@ -8,7 +8,10 @@ import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.ui.adapter.post.ReviewAdapter
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
+import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.review.ReviewListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +40,15 @@ class ReviewListFragment : PostListFragment<Review>(
             Navigation.findNavController(view).navigate(R.id.addReviewFragment)
         }
     }
+
+    override fun setupAdapter(view: View): PostAdapter<Review> =
+        ReviewAdapter(
+            viewLifecycleOwner, userViewModel,
+            getListener({ review, uid -> updateUpVotes(review, uid) }, view),
+            getListener({ review, uid -> updateDownVotes(review, uid) }, view),
+            { rwa -> removePost(rwa.post.getId()) },
+            { rwa -> displayProfilePanel(rwa.author, rwa.image) }
+        )
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Review>>> {
         return reviewsViewModel.reviews

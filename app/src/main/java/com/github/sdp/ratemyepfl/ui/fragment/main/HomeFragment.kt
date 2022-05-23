@@ -108,11 +108,12 @@ class HomeFragment : PostListFragment<Subject>(
     override fun setupAdapter(view: View): PostAdapter<Subject> =
         SubjectAdapter(
             viewLifecycleOwner, userViewModel,
-            getListener({ r, s -> viewModel.updateUpVotes(r, s) }, view),
-            getListener({ r, s -> viewModel.updateDownVotes(r, s) }, view),
+            getListener({ subject, s -> viewModel.updateUpVotes(subject, s) }, view),
+            getListener({ subject, s -> viewModel.updateDownVotes(subject, s) }, view),
             { swa -> viewModel.removeSubject(swa.post.postId) },
             { swa ->
-                val bundle = bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
+                val bundle =
+                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
             },
             { swa -> displayProfilePanel(swa.author, swa.image) })

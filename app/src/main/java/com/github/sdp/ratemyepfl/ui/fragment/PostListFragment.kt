@@ -23,6 +23,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
 
+/**
+ * Fragment for a list of posts (Review, Subject, Comment)
+ */
 abstract class PostListFragment<T : Post>(
     fragmentLayout: Int,
     private val recyclerViewLayout: Int,
@@ -48,7 +51,6 @@ abstract class PostListFragment<T : Post>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializePostList(view)
         initializeProfilePanel(view)
     }
@@ -58,7 +60,6 @@ abstract class PostListFragment<T : Post>(
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)
     abstract fun removePost(postId: String)
-
 
     open fun initializePostList(view: View) {
         recyclerView = view.findViewById(recyclerViewLayout)

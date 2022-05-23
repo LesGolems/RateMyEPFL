@@ -19,17 +19,6 @@ object FragmentUtils {
      * Creates the onClickListener from the function given as input, encapsulating it in a
      * try catch to display the error message as SnackBar
      */
-    /*fun <T : Post> getListener(f: (T, String?) -> Unit, context: Context) =
-        OnClickListener<T> { postWithAuthor ->
-            try {
-                f(postWithAuthor.post, postWithAuthor.author?.uid)
-            } catch (e: Exception) {
-                e.message?.let {
-                    displayOnToast(context, it)
-                }
-            }
-        }*/
-
     fun <T : Post> getListener(f: (T, String?) -> Unit, view: View) =
         OnClickListener<T> { postWithAuthor ->
             try {

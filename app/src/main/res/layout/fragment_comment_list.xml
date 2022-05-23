@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
@@ -41,89 +40,9 @@
 
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
-    <RelativeLayout
-        android:id="@+id/panelProfile"
+    <include
+        layout="@layout/author_profile_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
-
-        <RelativeLayout
-            android:id="@+id/profile_slider_background"
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:background="@raw/background">
-
-            <TextView
-                android:id="@+id/author_panel_username"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="145dp"
-                android:layout_marginBottom="20dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/anonymous"
-                android:selectAllOnFocus="true"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <include
-                layout="@layout/karma_display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="15dp"
-                android:layout_toEndOf="@id/author_panel_username" />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/author_panel_email_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profile_slider_background"
-            android:layout_marginTop="35dp"
-            android:background="@color/white"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/author_panel_email_icon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/fui_ic_googleg_color_24dp"
-                android:contentDescription="@string/gmail_icon" />
-
-            <TextView
-                android:id="@+id/author_panel_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@id/author_panel_email_icon"
-                android:layout_marginStart="50dp"
-                android:textSize="25sp" />
-
-            <View
-                android:id="@+id/divider1"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/author_panel_email"
-                android:layout_marginTop="20dp"
-                android:background="@color/browser_actions_bg_grey" />
-
-        </RelativeLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/author_panel_profile_image"
-            android:layout_width="125dp"
-            android:layout_height="125dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
-            android:background="@raw/blank_profile_picture"
-            app:civ_border_color="#FFFFFF"
-            app:civ_border_width="5dp" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
