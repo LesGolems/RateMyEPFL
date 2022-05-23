@@ -13,7 +13,7 @@ data class Restaurant constructor(
     override val numReviews: Int = 0,
     val lat: Double = 0.0,
     val long: Double = 0.0,
-) : Reviewable(), Displayable {
+) : Reviewable(), DisplayableOnMap {
 
     companion object {
         const val MAX_OCCUPANCY = 50

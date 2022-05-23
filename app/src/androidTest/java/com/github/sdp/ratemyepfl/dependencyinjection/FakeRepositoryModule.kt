@@ -1,17 +1,19 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.database.RoomNoiseRepository
-import com.github.sdp.ratemyepfl.database.Storage
-import com.github.sdp.ratemyepfl.database.UserRepository
-import com.github.sdp.ratemyepfl.database.fakes.*
-import com.github.sdp.ratemyepfl.database.post.CommentRepository
-import com.github.sdp.ratemyepfl.database.post.ReviewRepository
-import com.github.sdp.ratemyepfl.database.post.SubjectRepository
-import com.github.sdp.ratemyepfl.database.reviewable.ClassroomRepository
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepository
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepository
-import com.github.sdp.ratemyepfl.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
+import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
+import com.github.sdp.ratemyepfl.backend.database.Storage
+import com.github.sdp.ratemyepfl.backend.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.database.fakes.*
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
+import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
+import com.github.sdp.ratemyepfl.backend.database.fakes.FakeSubjectRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module
@@ -44,7 +46,7 @@ abstract class FakeRepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun provideReviewRepo(repo: FakeReviewsRepository): ReviewRepository
+    abstract fun provideReviewRepo(repo: FakeReviewRepository): ReviewRepository
 
     @Singleton
     @Binds

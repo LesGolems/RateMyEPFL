@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@raw/background"
-    tools:context=".activity.SplashScreen">
+    tools:context=".ui.activity.SplashScreen">
 
     <TextView
         android:id="@+id/logoText"
@@ -15,13 +15,13 @@
         android:text="@string/logo_text"
         android:textColor="#FFF000"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/logoEpfl"
+        app:layout_constraintBottom_toTopOf="@+id/logoEPFL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.303"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/logoEpfl"
+        android:id="@+id/logoEPFL"
         android:layout_width="327dp"
         android:layout_height="95dp"
         android:contentDescription="@string/epfl_logo_description"

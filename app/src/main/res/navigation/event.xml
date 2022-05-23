@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.EventFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.EventFragment"
         android:label="@string/event_page_title"
         tools:layout="@layout/fragment_event" />
 </navigation>

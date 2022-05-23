@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model
 
-import com.github.sdp.ratemyepfl.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
 import kotlinx.serialization.Serializable
 
 /**

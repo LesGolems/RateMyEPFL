@@ -8,8 +8,11 @@ import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class ClassroomTest {
-    val EXPECTED_ROOM = Classroom("CE 1 3", 0.0, 0, "Auditorium")
-    val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
+
+    companion object {
+        private val EXPECTED_ROOM = Classroom("CE 1 3", 0.0, 0, "Auditorium")
+        private val EXPECTED_JSON = Json.encodeToString(EXPECTED_ROOM)
+    }
 
     @Test
     fun constructorWithDefaultValuesWorks() {
@@ -24,9 +27,9 @@ class ClassroomTest {
 
     @Test
     fun constructorWithAllValuesWorks() {
-        val g =  0.0
+        val g = 0.0
         val n = 0
-        val r = Classroom("CM 1 4", g, n,"Auditorium")
+        val r = Classroom("CM 1 4", g, n, "Auditorium")
         assertEquals("CM 1 4", r.name)
         assertEquals(g, r.grade, 0.01)
         assertEquals(n, r.numReviews)

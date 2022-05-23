@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
-import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.toCourse
 import com.github.sdp.ratemyepfl.model.items.Course
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -65,7 +65,7 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderQueryTest() = runTest {
+    fun alphabeticalOrderQueryTest() = runTest {
         CourseFilter.AlphabeticalOrder.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }
@@ -80,7 +80,7 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderReversedQueryTest() = runTest {
+    fun alphabeticalOrderReversedQueryTest() = runTest {
         CourseFilter.AlphabeticalOrderReversed.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }

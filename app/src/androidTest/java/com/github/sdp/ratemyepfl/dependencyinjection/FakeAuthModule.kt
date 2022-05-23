@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.auth.FakeConnectedUser
+import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
