@@ -44,15 +44,6 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
         return addWithId(item, document.id)
     }
 
-    override suspend fun addAndGetId(item: Comment): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
     override fun addWithId(item: Comment, withId: String): Task<String> =
         repository.add(item.withId(withId))
 

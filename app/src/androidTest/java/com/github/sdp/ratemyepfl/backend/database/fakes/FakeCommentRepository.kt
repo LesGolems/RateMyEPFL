@@ -12,10 +12,6 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
         TODO("Not yet implemented")
     }
 
-    override suspend fun addAndGetId(item: Comment): String {
-        TODO("Not yet implemented")
-    }
-
     override fun addWithId(item: Comment, withId: String): Task<String> {
         TODO("Not yet implemented")
     }

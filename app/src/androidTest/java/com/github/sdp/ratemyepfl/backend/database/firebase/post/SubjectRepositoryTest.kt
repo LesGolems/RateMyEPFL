@@ -34,7 +34,7 @@ class SubjectRepositoryTest {
     fun setup() {
         hiltRule.inject()
         runTest {
-            currentId = subjectRepository.addAndGetId(testSubject)
+            currentId = subjectRepository.add(testSubject).await()
         }
     }
 
@@ -46,14 +46,12 @@ class SubjectRepositoryTest {
     }
 
     @Test
-    fun addWithoutIdWorks() {
+    fun getSubjectsWorks() {
         runTest {
-            subjectRepository.add(testSubject2).await()
             val subjects = subjectRepository.getSubjects()
             assertNotNull(subjects)
-            assertEquals(2, subjects.size)
-            assertEquals("Fake comment", subjects.last().comment)
-            subjectRepository.remove(subjects.last().getId()).await()
+            assertEquals(1, subjects.size)
+            assertEquals("Fake comment", subjects.first().comment)
         }
     }
 

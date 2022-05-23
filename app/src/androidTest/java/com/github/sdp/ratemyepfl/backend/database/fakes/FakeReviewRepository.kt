@@ -146,8 +146,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
         }
     }
 
-    override suspend fun addAndGetId(item: Review): String = "Nothing"
-
     override fun addWithId(item: Review, withId: String): Task<String> {
         TODO("Not yet implemented")
     }

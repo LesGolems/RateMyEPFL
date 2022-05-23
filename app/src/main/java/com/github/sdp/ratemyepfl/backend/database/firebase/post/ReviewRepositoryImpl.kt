@@ -45,15 +45,6 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
         return addWithId(item, document.id)
     }
 
-    override suspend fun addAndGetId(item: Review): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
     override fun addWithId(item: Review, withId: String): Task<String> =
         repository.add(item.withId(withId))
 

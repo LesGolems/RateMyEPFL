@@ -44,15 +44,6 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         return addWithId(item, document.id)
     }
 
-    override suspend fun addAndGetId(item: Subject): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
     override fun addWithId(item: Subject, withId: String): Task<String> =
         repository.add(item.withId(withId))
 

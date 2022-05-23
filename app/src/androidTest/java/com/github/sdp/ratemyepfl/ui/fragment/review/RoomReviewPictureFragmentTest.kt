@@ -67,7 +67,6 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun imageGridIsVisible() {
         onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
-        scenario.close()
     }
 
     @Test
