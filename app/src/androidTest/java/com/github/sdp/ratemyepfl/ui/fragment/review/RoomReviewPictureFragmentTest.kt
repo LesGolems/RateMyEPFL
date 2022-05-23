@@ -76,17 +76,6 @@ class RoomReviewPictureFragmentTest {
     }
 
     @Test
-    fun imageGridIsCorrectlyDisplayed() {
-        for (id: Int in FakeImageStorage.pictureIds) {
-            onView(withId(R.id.pictureRecyclerView)).check(
-                matches(
-                    hasDescendant(withDrawable(id))
-                )
-            )
-        }
-    }
-
-    @Test
     fun firesAnIntentWhenUserClicksOnAnImage() {
         init()
         onView(withId(R.id.pictureRecyclerView)).perform(
