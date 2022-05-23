@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.ui.fragment.review
+package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
 import android.view.View
@@ -19,8 +19,9 @@ import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.ui.adapter.post.OnClickListener
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
-import com.github.sdp.ratemyepfl.viewmodel.CommentListViewModel
+import com.github.sdp.ratemyepfl.viewmodel.main.CommentListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout

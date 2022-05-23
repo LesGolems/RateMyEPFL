@@ -27,6 +27,10 @@ open class AddPostViewModel<T : Post> : ViewModel() {
      */
     fun setComment(comment: String?) = this.comment.postValue(comment)
 
+    /**
+     * Set the anonymous option
+     * @param anonymous: whether or not the user wants to post as anonymous
+     */
     fun setAnonymous(anonymous: Boolean) {
         this.anonymous.postValue(anonymous)
     }

@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.ui.fragment.review
+package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,9 +14,10 @@ import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
+import com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
-import com.github.sdp.ratemyepfl.viewmodel.AddSubjectViewModel
-import com.github.sdp.ratemyepfl.viewmodel.AddSubjectViewModel.Companion.ONLY_ONE_KIND_MESSAGE
+import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel
+import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel.Companion.ONLY_ONE_KIND_MESSAGE
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
@@ -52,6 +53,7 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
 
     @SuppressLint("ResourceType")
     private fun setupKinds() {
+        kinds.removeAllViews()
         for (kind in SubjectKind.values()) {
             val context = requireContext()
             val chip = Chip(context).apply {

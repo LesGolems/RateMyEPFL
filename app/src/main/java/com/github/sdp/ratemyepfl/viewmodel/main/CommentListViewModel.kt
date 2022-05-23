@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.viewmodel
+package com.github.sdp.ratemyepfl.viewmodel.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -14,6 +14,7 @@ import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.time.DateTime
+import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
