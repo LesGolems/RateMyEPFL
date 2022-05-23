@@ -102,7 +102,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         repository
             .query()
             .orderBy(KARMA_FIELD_NAME, com.google.firebase.firestore.Query.Direction.DESCENDING)
-            .execute(3u)
+            .execute(10u)
             .mapDocuments { it.toUser() }
 
     override suspend fun register(user: User): Task<Boolean> =

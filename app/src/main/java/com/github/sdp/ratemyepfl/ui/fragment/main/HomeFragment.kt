@@ -32,19 +32,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-
-    private lateinit var userTop1Picture: CircleImageView
-    private lateinit var userTop1Name: TextView
-    private lateinit var userTop1Karma: TextView
-
-    private lateinit var userTop2Picture: CircleImageView
-    private lateinit var userTop2Name: TextView
-    private lateinit var userTop2Karma: TextView
-
-    private lateinit var userTop3Picture: CircleImageView
-    private lateinit var userTop3Name: TextView
-    private lateinit var userTop3Karma: TextView
-
     private lateinit var subjectAdapter: SubjectAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
@@ -67,43 +54,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializePodium(view)
         initializePersonalTab(view)
         initializeReviewList(view)
         initializeProfilePanel(view)
-    }
-
-    private fun initializePodium(view: View) {
-        userTop1Picture = view.findViewById(R.id.userTop1Picture)
-        userTop1Name = view.findViewById(R.id.userTop1Name)
-        userTop1Karma = view.findViewById(R.id.userTop1Karma)
-
-        userTop2Picture = view.findViewById(R.id.userTop2Picture)
-        userTop2Name = view.findViewById(R.id.userTop2Name)
-        userTop2Karma = view.findViewById(R.id.userTop2Karma)
-
-        userTop3Picture = view.findViewById(R.id.userTop3Picture)
-        userTop3Name = view.findViewById(R.id.userTop3Name)
-        userTop3Karma = view.findViewById(R.id.userTop3Karma)
-
-        viewModel.topUsersPictures.observe(viewLifecycleOwner) {
-            it?.let {
-                userTop1Picture.setImageBitmap(it[0]?.data)
-                userTop2Picture.setImageBitmap(it[1]?.data)
-                userTop3Picture.setImageBitmap(it[2]?.data)
-            }
-        }
-
-        viewModel.topUsers.observe(viewLifecycleOwner) {
-            it?.let {
-                userTop1Name.text = it[0].username
-                userTop1Karma.text = it[0].karma.toString()
-                userTop2Name.text = it[1].username
-                userTop2Karma.text = it[1].karma.toString()
-                userTop3Name.text = it[2].username
-                userTop3Karma.text = it[2].karma.toString()
-            }
-        }
     }
 
     private fun initializePersonalTab(view: View) {
@@ -145,7 +98,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             viewModel.updateSubjectsList()
-            viewModel.updatePodium()
             swipeRefresher.isRefreshing = false
         }
 
