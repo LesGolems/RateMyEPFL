@@ -5,25 +5,27 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.adapter.post.SubjectAdapter
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.main.HomeViewModel
-import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : PostListFragment<Subject>(R.layout.fragment_home) {
+class HomeFragment : PostListFragment<Subject>(
+    R.layout.fragment_home,
+    R.id.subjectRecyclerView,
+    R.id.subjectSwipeRefresh,
+    R.layout.subject_item
+) {
 
     private lateinit var userTop1Picture: CircleImageView
     private lateinit var userTop1Name: TextView
@@ -37,24 +39,21 @@ class HomeFragment : PostListFragment<Subject>(R.layout.fragment_home) {
     private lateinit var userTop3Name: TextView
     private lateinit var userTop3Karma: TextView
 
-    private lateinit var subjectAdapter: SubjectAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var swipeRefresher: SwipeRefreshLayout
-
     private lateinit var personalProfilePicture: CircleImageView
     private lateinit var createPostEditText: TextInputEditText
 
-    @Inject
-    lateinit var connectedUser: ConnectedUser
-
     private val viewModel by activityViewModels<HomeViewModel>()
-    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePodium(view)
         initializePersonalTab(view)
-        initializeSubjectList(view)
+
+        swipeRefresher.setOnRefreshListener {
+            updatePostsList()
+            viewModel.updatePodium()
+            swipeRefresher.isRefreshing = false
+        }
     }
 
     private fun initializePodium(view: View) {
@@ -105,44 +104,37 @@ class HomeFragment : PostListFragment<Subject>(R.layout.fragment_home) {
         }
     }
 
-    private fun initializeSubjectList(view: View) {
-        recyclerView = view.findViewById(R.id.subjectRecyclerView)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        )
 
-        swipeRefresher = view.findViewById(R.id.subjectSwipeRefresh)
-        swipeRefresher.setOnRefreshListener {
-            viewModel.updateSubjectsList()
-            viewModel.updatePodium()
-            swipeRefresher.isRefreshing = false
-        }
-
-        setupAdapter(view)
-    }
-
-    private fun setupAdapter(view: View) {
-        val context = requireContext()
-        subjectAdapter = SubjectAdapter(viewLifecycleOwner, userViewModel,
-            getListener({ r, s -> viewModel.updateUpVotes(r, s) }, context),
-            getListener({ r, s -> viewModel.updateDownVotes(r, s) }, context),
+    override fun setupAdapter(view: View): PostAdapter<Subject> =
+        SubjectAdapter(
+            viewLifecycleOwner, userViewModel,
+            getListener({ r, s -> viewModel.updateUpVotes(r, s) }, view),
+            getListener({ r, s -> viewModel.updateDownVotes(r, s) }, view),
             { swa -> viewModel.removeSubject(swa.post.postId) },
             { swa ->
-                val bundle =
-                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
+                val bundle = bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
-            }
-        ) { swa -> displayProfilePanel(swa.author, swa.image) }
-        recyclerView.adapter = subjectAdapter
+            },
+            { swa -> displayProfilePanel(swa.author, swa.image) })
 
-        viewModel.subjects.observe(viewLifecycleOwner) {
-            it?.let { subjectAdapter.submitList(it) }
-        }
+
+    override fun posts(): MutableLiveData<List<PostWithAuthor<Subject>>> {
+        return viewModel.subjects
     }
 
-
-    override fun onResume() {
-        super.onResume()
+    override fun updatePostsList() {
         viewModel.updateSubjectsList()
+    }
+
+    override fun updateUpVotes(post: Subject, uid: String?) {
+        viewModel.updateUpVotes(post, uid)
+    }
+
+    override fun updateDownVotes(post: Subject, uid: String?) {
+        viewModel.updateDownVotes(post, uid)
+    }
+
+    override fun removePost(postId: String) {
+        viewModel.removeSubject(postId)
     }
 }

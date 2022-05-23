@@ -79,7 +79,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateDownVotes(subject: Subject, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
-        if (uid == authorUid) throw VoteException("You can't dislike your own review")
+        if (uid == authorUid) throw VoteException("You can't dislike your own post")
         val subjectId = subject.getId()
 
         viewModelScope.launch {

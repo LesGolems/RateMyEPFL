@@ -24,42 +24,43 @@ import de.hdodenhof.circleimageview.CircleImageView
 import javax.inject.Inject
 
 abstract class PostListFragment<T : Post>(
-    val layout: Int,
-    /*private val recyclerViewLayout: Int,
+    fragmentLayout: Int,
+    private val recyclerViewLayout: Int,
     private val swipeRefreshLayout: Int,
-    private val adapterLayout: Int,*/
-) : Fragment(layout) {
+    private val adapterLayout: Int
+) : Fragment(fragmentLayout) {
 
-    /*private lateinit var postAdapter: PostAdapter<T>
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var swipeRefresher: SwipeRefreshLayout*/
+    lateinit var postAdapter: PostAdapter<T>
+    lateinit var recyclerView: RecyclerView
+    lateinit var swipeRefresher: SwipeRefreshLayout
 
-    private lateinit var profilePanel: SlidingUpPanelLayout
-    private lateinit var authorPanelImage: CircleImageView
-    private lateinit var authorPanelUsername: TextView
-    private lateinit var authorPanelEmail: TextView
-    private lateinit var authorPanelEmailIcon: ImageView
-    private lateinit var karmaCount: TextView
+    lateinit var profilePanel: SlidingUpPanelLayout
+    lateinit var authorPanelImage: CircleImageView
+    lateinit var authorPanelUsername: TextView
+    lateinit var authorPanelEmail: TextView
+    lateinit var authorPanelEmailIcon: ImageView
+    lateinit var karmaCount: TextView
 
-    /*@Inject
+    @Inject
     lateinit var connectedUser: ConnectedUser
 
-    private val userViewModel by activityViewModels<UserViewModel>()*/
+    protected val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //initializeReviewList(view)
+        initializePostList(view)
         initializeProfilePanel(view)
     }
 
-    /*abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
+    abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)
     abstract fun removePost(postId: String)
 
-    private fun initializeReviewList(view: View) {
+
+    open fun initializePostList(view: View) {
         recyclerView = view.findViewById(recyclerViewLayout)
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
@@ -71,37 +72,25 @@ abstract class PostListFragment<T : Post>(
             swipeRefresher.isRefreshing = false
         }
 
-        setUpAdapter()
-    }
-
-    private fun setUpAdapter() {
-        val context = requireContext()
-        postAdapter = PostAdapter(
-            viewLifecycleOwner, userViewModel,
-            getListener(
-                { post, uid -> updateUpVotes(post, uid) },
-                context
-            ),
-            getListener(
-                { post, uid -> updateDownVotes(post, uid) },
-                context
-            ),
-            { postWithAuthor ->
-                removePost(postWithAuthor.post.getId())
-
-            },
-            { rwa -> displayProfilePanel(rwa.author, rwa.image) },
-            adapterLayout
-        )
-
+        postAdapter = setupAdapter(view)
         recyclerView.adapter = postAdapter
 
         posts().observe(viewLifecycleOwner) {
             it?.let { postAdapter.submitList(it) }
         }
-    }*/
+    }
 
-    private fun initializeProfilePanel(view: View) {
+    open fun setupAdapter(view: View): PostAdapter<T> =
+        PostAdapter(
+            viewLifecycleOwner, userViewModel,
+            getListener({ post, uid -> updateUpVotes(post, uid) }, view),
+            getListener({ post, uid -> updateDownVotes(post, uid) }, view),
+            { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
+            { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
+            adapterLayout
+        )
+
+    open fun initializeProfilePanel(view: View) {
         profilePanel = view.findViewById(R.id.author_profile_panel)
         authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
         authorPanelUsername = view.findViewById(R.id.author_panel_username)
@@ -115,7 +104,7 @@ abstract class PostListFragment<T : Post>(
         }
     }
 
-    protected fun displayProfilePanel(author: User?, image: ImageFile?) {
+    open fun displayProfilePanel(author: User?, image: ImageFile?) {
         if (author != null) {
             authorPanelUsername.text = author.username
             authorPanelEmail.text = author.email
@@ -130,7 +119,7 @@ abstract class PostListFragment<T : Post>(
 
     override fun onResume() {
         super.onResume()
-        //updatePostsList()
+        updatePostsList()
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
     }
 }
