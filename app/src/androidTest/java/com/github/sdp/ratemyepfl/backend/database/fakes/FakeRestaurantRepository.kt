@@ -14,7 +14,7 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
     override val offlineData: List<Restaurant> = RestaurantRepositoryImpl.OFFLINE_RESTAURANTS
 
     init {
-        repository.elements = offlineData.toSet()
+        repository.elements = RESTAURANT_LIST.toSet()
     }
 
     companion object {

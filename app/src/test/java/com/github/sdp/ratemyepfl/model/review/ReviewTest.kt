@@ -173,5 +173,5 @@ class ReviewTest {
 
         assertEquals(review, deserializedReview)
     }
-    
+
 }

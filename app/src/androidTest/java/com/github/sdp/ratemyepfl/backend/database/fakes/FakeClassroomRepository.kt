@@ -16,7 +16,7 @@ class FakeClassroomRepository @Inject constructor(
     override val offlineData: List<Classroom> = ClassroomRepositoryImpl.OFFLINE_CLASSROOMS
 
     init {
-        repository.elements = offlineData.toSet()
+        repository.elements = CLASSROOM_LIST.toSet()
     }
 
     companion object {

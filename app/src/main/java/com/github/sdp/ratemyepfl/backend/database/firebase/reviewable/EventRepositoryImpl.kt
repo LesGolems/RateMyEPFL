@@ -46,6 +46,7 @@ class EventRepositoryImpl private constructor(
         const val DATE_FIELD_NAME = "date"
 
         private val OFFLINE_EVENTS = listOf<Event>()
+
         fun DocumentSnapshot.toEvent(): Event? = toItem()
     }
 

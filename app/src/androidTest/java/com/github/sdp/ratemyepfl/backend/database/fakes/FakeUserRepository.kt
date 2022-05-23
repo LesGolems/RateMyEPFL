@@ -2,8 +2,6 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.UserRepository
-import com.github.sdp.ratemyepfl.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task

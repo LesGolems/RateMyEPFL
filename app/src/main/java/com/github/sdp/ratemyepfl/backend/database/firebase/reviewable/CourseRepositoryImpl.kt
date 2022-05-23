@@ -4,19 +4,9 @@ import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.backend.database.query.Query
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
-import com.github.sdp.ratemyepfl.database.LoaderRepository
-import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
-import com.github.sdp.ratemyepfl.database.RepositoryImpl
-import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.database.query.OrderDirection
-import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -119,12 +109,6 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
         fun DocumentSnapshot.toCourse(): Course? = toItem()
 
     }
-
-    private val loadQuery = repository
-        .query()
-        .orderBy(ReviewableRepository.GRADE_FIELD_NAME, OrderDirection.DESCENDING)
-        .orderBy(COURSE_CODE_FIELD_NAME)
-
 
     override suspend fun getCourses(): List<Course> =
         repository

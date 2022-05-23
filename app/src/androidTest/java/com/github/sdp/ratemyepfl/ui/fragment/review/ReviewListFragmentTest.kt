@@ -10,8 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeImageStorage
@@ -21,11 +19,11 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
-import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
-import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.DateTime
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
+import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap

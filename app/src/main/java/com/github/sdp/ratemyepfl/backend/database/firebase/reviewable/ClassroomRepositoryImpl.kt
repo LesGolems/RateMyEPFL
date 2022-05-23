@@ -7,14 +7,6 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Compan
 import com.github.sdp.ratemyepfl.backend.database.query.Query
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.AVERAGE_GRADE_FIELD_NAME
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository.Companion.NUM_REVIEWS_FIELD_NAME
-import com.github.sdp.ratemyepfl.exceptions.DatabaseException
-import com.github.sdp.ratemyepfl.database.LoaderRepository
-import com.github.sdp.ratemyepfl.database.LoaderRepositoryImpl
-import com.github.sdp.ratemyepfl.database.RepositoryImpl
-import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.database.query.Query
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
