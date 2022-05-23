@@ -32,7 +32,7 @@ class OrderedQueryTest {
 
     private lateinit var arrayCollection: CollectionReference
 
-    private lateinit var arrayQuery: OrderedQuery
+    private lateinit var arrayQuery: FirebaseOrderedQuery
 
     private val arrayItems = listOf(
         ArrayItem("id1", listOf(0, 1, 2, 3)),
@@ -55,18 +55,18 @@ class OrderedQueryTest {
         this.collection = db.collection("ordered_query_test")
         items.map { collection.document(it.getId()).set(it) }
             .forEach { runTest { it.await() } }
-        query = Query(collection)
+        query = FirebaseQuery(collection)
             .orderBy(Item.DATA_FIELD)
 
         arrayCollection = db.collection("query_test_array")
         arrayItems.map { arrayCollection.document().set(it) }
             .forEach { runTest { it.await() } }
-        arrayQuery = Query(arrayCollection)
+        arrayQuery = FirebaseQuery(arrayCollection)
             .orderBy(ArrayItem.DATA_FIELD)
 
     }
 
-    private lateinit var query: OrderedQuery
+    private lateinit var query: FirebaseOrderedQuery
 
     @After
     fun teardown() = runTest {
@@ -157,14 +157,14 @@ class OrderedQueryTest {
         query.execute()
             .collect {
                 if (it is QueryState.Success) {
-                    assertEquals(Query.DEFAULT_QUERY_LIMIT.toInt(), it.data.size())
+                    assertEquals(FirebaseQuery.DEFAULT_QUERY_LIMIT.toInt(), it.data.size())
                 }
             }
 
         query.execute(10000u)
             .collect {
                 if (it is QueryState.Success) {
-                    assertEquals(true, it.data.size() <= Query.MAX_QUERY_LIMIT.toInt())
+                    assertEquals(true, it.data.size() <= FirebaseQuery.MAX_QUERY_LIMIT.toInt())
                 }
             }
     }
@@ -195,7 +195,7 @@ class OrderedQueryTest {
 
     @Test
     fun match() = runTest {
-        Query(collection)
+        FirebaseQuery(collection)
             .orderBy(ID_FIELD)
             .match("1")
             .execute()
@@ -210,7 +210,7 @@ class OrderedQueryTest {
                 }
             }
 
-        Query(collection)
+        FirebaseQuery(collection)
             .orderBy(ID_FIELD)
             .match("nothing")
             .execute()
@@ -226,7 +226,7 @@ class OrderedQueryTest {
             }
 
         assertThrows(IllegalStateException::class.java) {
-            Query(collection)
+            FirebaseQuery(collection)
                 .orderBy(ID_FIELD, OrderDirection.DESCENDING)
                 .match("nothing")
         }
@@ -281,7 +281,7 @@ class OrderedQueryTest {
             items.filter { it.data < 3 })
     }
 
-    private fun checkQuery(query: OrderedQuery, expected: List<Item>) = runTest {
+    private fun checkQuery(query: FirebaseOrderedQuery, expected: List<Item>) = runTest {
         query.execute(items.size.toUInt())
             .mapResult {
                 it.mapNotNull {

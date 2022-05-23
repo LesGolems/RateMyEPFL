@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Course
@@ -112,7 +112,7 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
 
     override suspend fun getCourses(): List<Course> =
         repository
-            .take(Query.DEFAULT_QUERY_LIMIT.toLong())
+            .take(FirebaseQuery.DEFAULT_QUERY_LIMIT.toLong())
 
     override suspend fun getCourseById(id: String): Course? =
         repository

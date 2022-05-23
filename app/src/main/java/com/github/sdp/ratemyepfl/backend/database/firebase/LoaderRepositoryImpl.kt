@@ -3,8 +3,8 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery.OrderedField.Companion.names
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery.OrderedField.Companion.names
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.google.firebase.firestore.DocumentSnapshot
 
@@ -19,12 +19,12 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
     val repository: RepositoryImpl<T>,
 ) : Repository<T> by repository, LoaderRepository<T> {
 
-    private val loadedData: HashMap<OrderedQuery, List<T>> = hashMapOf()
-    private val lastLoaded: HashMap<OrderedQuery, DocumentSnapshot> = hashMapOf()
+    private val loadedData: HashMap<FirebaseOrderedQuery, List<T>> = hashMapOf()
+    private val lastLoaded: HashMap<FirebaseOrderedQuery, DocumentSnapshot> = hashMapOf()
 
     fun getCollection() = repository.collection
 
-    override fun load(query: OrderedQuery, number: UInt): QueryResult<List<T>> {
+    override fun load(query: FirebaseOrderedQuery, number: UInt): QueryResult<List<T>> {
         val lastLoaded = query.fields
             .names()
             .map { lastLoaded[query]?.get(it) }
@@ -46,7 +46,7 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
      *
      * @return a list containing the data loaded so far
      */
-    private fun updateData(query: OrderedQuery, data: List<DocumentSnapshot>): List<T> {
+    private fun updateData(query: FirebaseOrderedQuery, data: List<DocumentSnapshot>): List<T> {
         val loaded = loadedData.getOrDefault(query, listOf())
         return if (data.isNotEmpty()) {
             val last = data.last()
@@ -57,7 +57,7 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
         } else loaded
     }
 
-    override fun loaded(query: OrderedQuery): List<T>? =
+    override fun loaded(query: FirebaseOrderedQuery): List<T>? =
         loadedData[query]
 
 }

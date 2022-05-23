@@ -2,8 +2,8 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery2
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
-import com.github.sdp.ratemyepfl.backend.database.query.Query
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import org.mockito.Mockito
@@ -40,5 +40,5 @@ open class FakeRepository<T : RepositoryItem> : Repository<T> {
 
     override fun transform(document: DocumentSnapshot): T? = null
 
-    override fun query(): Query = Query(Mockito.mock(FirebaseQuery::class.java))
+    override fun query(): FirebaseQuery = FirebaseQuery(Mockito.mock(FirebaseQuery2::class.java))
 }

@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database
 
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery2
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
-import com.github.sdp.ratemyepfl.backend.database.query.Query
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.backend.database.util.Item
 import com.github.sdp.ratemyepfl.backend.database.util.Item.Companion.toItem
@@ -97,10 +97,10 @@ class QueryTest {
 
     @Test
     fun executeReturnsAFailureWhenAnErrorOccurs() = runTest {
-        val mockQuery = Mockito.mock(FirebaseQuery::class.java)
+        val mockQuery = Mockito.mock(FirebaseQuery2::class.java)
         Mockito.`when`(mockQuery.get()).thenThrow(RuntimeException::class.java)
 
-        Query(mockQuery).execute()
+        FirebaseQuery(mockQuery).execute()
             .collect {
                 when (it) {
                     is QueryState.Success -> throw Exception("Test should fail")
@@ -124,7 +124,7 @@ class QueryTest {
                         is QueryState.Failure -> throw Exception("Test should succeed")
                         is QueryState.Loading -> {}
                         is QueryState.Success -> assertEquals(
-                            Query.MAX_QUERY_LIMIT.toInt(),
+                            FirebaseQuery.MAX_QUERY_LIMIT.toInt(),
                             it.data.size()
                         )
                     }

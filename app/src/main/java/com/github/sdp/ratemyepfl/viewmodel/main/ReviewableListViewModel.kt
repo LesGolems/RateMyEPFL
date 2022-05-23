@@ -2,8 +2,8 @@ package com.github.sdp.ratemyepfl.viewmodel.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
-import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
@@ -39,7 +39,7 @@ sealed class ReviewableListViewModel<T : Reviewable>(
      * @param number: Number of elements to load.
      *
      */
-    open fun loadMore(number: UInt = Query.DEFAULT_QUERY_LIMIT): QueryResult<List<T>> =
+    open fun loadMore(number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT): QueryResult<List<T>> =
         load(currentFilter, number)
 
     /**
@@ -53,7 +53,7 @@ sealed class ReviewableListViewModel<T : Reviewable>(
      */
     open fun load(
         filter: ReviewableFilter<T>,
-        number: UInt = Query.DEFAULT_QUERY_LIMIT
+        number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT
     ): QueryResult<List<T>> {
         val query = fromFilter(filter)
         return postResult(repository.load(query, number), filter)
@@ -70,7 +70,7 @@ sealed class ReviewableListViewModel<T : Reviewable>(
      */
     open fun loadIfAbsent(
         filter: ReviewableFilter<T>,
-        number: UInt = Query.DEFAULT_QUERY_LIMIT
+        number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT
     ): QueryResult<List<T>> {
         val query = fromFilter(filter)
         val loaded = repository.loaded(query)
@@ -86,10 +86,10 @@ sealed class ReviewableListViewModel<T : Reviewable>(
      *
      * @return a [QueryResult] containing the result
      */
-    open fun loadIfAbsent(number: UInt = Query.DEFAULT_QUERY_LIMIT): QueryResult<List<T>> =
+    open fun loadIfAbsent(number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT): QueryResult<List<T>> =
         loadIfAbsent(currentFilter, number)
 
-    private fun fromFilter(filter: ReviewableFilter<T>): OrderedQuery =
+    private fun fromFilter(filter: ReviewableFilter<T>): FirebaseOrderedQuery =
         filter.toQuery(repository.query())
 
     fun getCurrentFilter(): ReviewableFilter<T> = currentFilter

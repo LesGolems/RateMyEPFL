@@ -1,25 +1,26 @@
 package com.github.sdp.ratemyepfl.backend.database.query
 
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery.OrderedField.Companion.names
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery.OrderedField.Companion.orders
-import com.github.sdp.ratemyepfl.backend.database.query.Query.Companion.DEFAULT_QUERY_LIMIT
-import com.github.sdp.ratemyepfl.backend.database.query.Query.Companion.MAX_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery.OrderedField.Companion.names
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery.OrderedField.Companion.orders
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.MAX_QUERY_LIMIT
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.Query.Direction.ASCENDING
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.firestore.QuerySnapshot
 
-typealias OrderDirection = com.google.firebase.firestore.Query.Direction
+typealias OrderDirection = Query.Direction
 
 /**
  * A query ordered on provided fields. The query is order by the order of the fields in
  * [fields].
  */
-data class OrderedQuery(private val query: FirebaseQuery, val fields: List<OrderedField>) {
+data class FirebaseOrderedQuery(private val query: Query, val fields: List<OrderedField>) {
 
-    private fun orderedQuery(query: FirebaseQuery) =
-        OrderedQuery(query, fields)
+    private fun orderedQuery(query: Query) =
+        FirebaseOrderedQuery(query, fields)
 
-    constructor(query: FirebaseQuery, vararg fields: OrderedField) : this(query, fields.toList())
+    constructor(query: Query, vararg fields: OrderedField) : this(query, fields.toList())
 
     companion object {
         private const val SUFFIX_MATCHER = "\uf8ff"
@@ -31,7 +32,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereEqualTo(field: String, value: Any) =
         orderedQuery(query.whereEqualTo(field, value))
@@ -42,7 +43,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereGreaterThan(field: String, value: Any) =
         orderedQuery(query.whereGreaterThan(field, value))
@@ -53,7 +54,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereGreaterThanOrEqualTo(field: String, value: Any) =
         orderedQuery(query.whereGreaterThanOrEqualTo(field, value))
@@ -64,7 +65,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereLessThan(field: String, value: Any) =
         orderedQuery(query.whereLessThan(field, value))
@@ -75,7 +76,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereLessThanOrEqualTo(field: String, value: Any) =
         orderedQuery(query.whereLessThanOrEqualTo(field, value))
@@ -88,7 +89,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereNotEqualTo(field: String, value: Any) =
         orderedQuery(query.whereNotEqualTo(field, value))
@@ -102,7 +103,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereIn(field: String, values: List<Any>) =
         orderedQuery(query.whereIn(field, values))
@@ -118,7 +119,7 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereNotIn(field: String, values: List<Any>) =
         orderedQuery(query.whereNotIn(field, values))
@@ -126,13 +127,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
      * specified field, the value must be an array, and that the array must contain the provided
-     * value. A [Query] can have only one [whereArrayContains] filter and it cannot be combined
+     * value. A [FirebaseQuery] can have only one [whereArrayContains] filter and it cannot be combined
      * with [whereArrayContainsAny].
      *
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereArrayContains(field: String, value: Any) =
         orderedQuery(query.whereArrayContains(field, value))
@@ -140,13 +141,13 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
      * specified field, the value must be an array, and that the array must contain the provided
-     * value. A [Query] can have only one [whereArrayContainsAny] filter and it cannot be combined
+     * value. A [FirebaseQuery] can have only one [whereArrayContainsAny] filter and it cannot be combined
      * with [whereArrayContains] or [whereIn].
      *
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereArrayContainsAny(field: String, values: List<Any>) =
         orderedQuery(query.whereArrayContainsAny(field, values))
@@ -163,121 +164,121 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
     fun execute(
         limit: UInt = DEFAULT_QUERY_LIMIT,
     ): QueryResult<QuerySnapshot> =
-        Query(query).execute(limit)
+        FirebaseQuery(query).execute(limit)
 
     /**
-     * Creates and returns a new [OrderedQuery] that starts at the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that starts at the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that starts at the given tuple
+     * @return an [FirebaseOrderedQuery] that starts at the given tuple
      */
     fun startAt(values: List<Any?>) =
         orderedQuery(query.startAt(*check(values)))
 
     /**
-     * Creates and returns a new [OrderedQuery] that starts after the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that starts after the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that starts after the given tuple
+     * @return an [FirebaseOrderedQuery] that starts after the given tuple
      */
     fun startAfter(values: List<Any?>) =
         orderedQuery(query.startAfter(*check(values)))
 
     /**
-     * Creates and returns a new [OrderedQuery] that ends at the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that ends at the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that ends at the given tuple
+     * @return an [FirebaseOrderedQuery] that ends at the given tuple
      */
     fun endAt(values: List<Any?>) =
         orderedQuery(query.endAt(*check(values)))
 
     /**
-     * Creates and returns a new [OrderedQuery] that ends before the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that ends before the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that ends before the given tuple
+     * @return an [FirebaseOrderedQuery] that ends before the given tuple
      */
     fun endBefore(values: List<Any?>) =
         orderedQuery(query.endBefore(*check(values)))
 
     /**
-     * Creates and returns a new [OrderedQuery] that starts at the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that starts at the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that starts at the given tuple
+     * @return an [FirebaseOrderedQuery] that starts at the given tuple
      */
     fun startAt(vararg values: Any?) = startAt(values.toList())
 
     /**
-     * Creates and returns a new [OrderedQuery] that starts after the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that starts after the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that starts after the given tuple
+     * @return an [FirebaseOrderedQuery] that starts after the given tuple
      */
     fun startAfter(vararg values: Any?) = startAfter(values.toList())
 
     /**
-     * Creates and returns a new [OrderedQuery] that ends at the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that ends at the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that ends at the given tuple
+     * @return an [FirebaseOrderedQuery] that ends at the given tuple
      */
     fun endAt(vararg values: Any?) = endAt(values.toList())
 
     /**
-     * Creates and returns a new [OrderedQuery] that ends before the provided fields relative to the
+     * Creates and returns a new [FirebaseOrderedQuery] that ends before the provided fields relative to the
      * order of the query. The order of the field values must match the order of [names] that
-     * define the order of the [OrderedQuery]
+     * define the order of the [FirebaseOrderedQuery]
      *
      * @param values: a [List] of value for each field on which the query is ordered
      *
      * @throws IllegalArgumentException if [values] does not contain the same number of field as
      * [names]
      *
-     * @return an [OrderedQuery] that ends before the given tuple
+     * @return an [FirebaseOrderedQuery] that ends before the given tuple
      */
     fun endBefore(vararg values: Any?) = endBefore(values.toList())
 
@@ -293,28 +294,31 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
      * @param field: the field to order
      * @param direction: the direction f the order, ascending by default
      *
-     * @return an [OrderedQuery]
+     * @return an [FirebaseOrderedQuery]
      */
     fun orderBy(
         field: String,
         direction: com.google.firebase.firestore.Query.Direction = ASCENDING
-    ): OrderedQuery =
+    ): FirebaseOrderedQuery =
         if (fields.names().contains(field))
             throw IllegalArgumentException("Cannot order the query twice on the same field ($field)")
         else
-            OrderedQuery(query.orderBy(field, direction), fields + OrderedField(field, direction))
+            FirebaseOrderedQuery(
+                query.orderBy(field, direction),
+                fields + OrderedField(field, direction)
+            )
 
     /**
-     * Return a new [OrderedQuery] where the documents matches a given prefix in the ordered
+     * Return a new [FirebaseOrderedQuery] where the documents matches a given prefix in the ordered
      * [names]. The ordered [names] must only contain [String] values.
      *
      * @param prefixes: the prefixes that the fields must match
      *
-     * @return an [OrderedQuery] that only contain values matching the prefix
+     * @return an [FirebaseOrderedQuery] that only contain values matching the prefix
      *
      * @throws IllegalStateException if one of the fields is ordered by [DESCENDING]
      */
-    private fun match(prefixes: List<String?>): OrderedQuery {
+    private fun match(prefixes: List<String?>): FirebaseOrderedQuery {
         if (fields.orders().any { it == OrderDirection.DESCENDING }) {
             throw IllegalStateException("Cannot match on a descending order")
         }
@@ -323,12 +327,12 @@ data class OrderedQuery(private val query: FirebaseQuery, val fields: List<Order
     }
 
     /**
-     * Return a new [OrderedQuery] where the documents matches a given prefix in the ordered
+     * Return a new [FirebaseOrderedQuery] where the documents matches a given prefix in the ordered
      * [names]. The ordered [names] must only contain [String] values, and must be [ASCENDING].
      *
      * @param prefixes: the prefixes that the fields must match
      *
-     * @return an [OrderedQuery] that only contain values matching the prefix
+     * @return an [FirebaseOrderedQuery] that only contain values matching the prefix
      */
     fun match(vararg prefixes: String?) = match(prefixes.toList())
 

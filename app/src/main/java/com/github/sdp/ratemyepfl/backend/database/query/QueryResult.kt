@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.*
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
- * It describes an simple abstraction on result of a [Query] depending on its state.
- * When the [Query] is started, the flow received a [QueryState.Loading]. It eventually
+ * It describes an simple abstraction on result of a [FirebaseQuery] depending on its state.
+ * When the [FirebaseQuery] is started, the flow received a [QueryState.Loading]. It eventually
  * completes with either a [QueryState.Success] or fails with a [QueryState.Failure].
  *
  * Wrap a [Flow] of [QueryState] to provide a simple abstraction. Delegation makes it behave as

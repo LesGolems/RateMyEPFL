@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.backend.database.query
 
 interface Queryable {
     /**
-     * Returns a new [Query] for the [Queryable]
+     * Returns a new [FirebaseQuery] for the [Queryable]
      */
-    fun query(): Query
+    fun query(): FirebaseQuery
 }

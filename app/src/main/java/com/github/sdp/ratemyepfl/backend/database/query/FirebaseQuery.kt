@@ -1,20 +1,19 @@
 package com.github.sdp.ratemyepfl.backend.database.query
 
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 import kotlin.math.min
-
-typealias FirebaseQuery = com.google.firebase.firestore.Query
 
 /**
  * Create an executable query that is limited in the number of fetched document. It can retrieve
  * up to **50** documents.
  *
- * If the [Query] fails during the execution, it returns
+ * If the [FirebaseQuery] fails during the execution, it returns
  * a [DatabaseException].
  */
-data class Query(private val query: FirebaseQuery) {
+data class FirebaseQuery(private val query: Query) {
 
     companion object {
         const val MAX_QUERY_LIMIT = 50u
@@ -27,10 +26,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereEqualTo(field: String, value: Any) =
-        Query(query.whereEqualTo(field, value))
+        FirebaseQuery(query.whereEqualTo(field, value))
 
     /**
      * Filter the result by comparison (>) on a given field, under the condition that the field exists
@@ -38,10 +37,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereGreaterThan(field: String, value: Any) =
-        Query(query.whereGreaterThan(field, value))
+        FirebaseQuery(query.whereGreaterThan(field, value))
 
     /**
      * Filter the result by comparison (>=) on a given field, under the condition that the field exists
@@ -49,10 +48,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [OrderedQuery]
+     * @return a filtered [FirebaseOrderedQuery]
      */
     fun whereGreaterThanOrEqualTo(field: String, value: Any) =
-        Query(query.whereGreaterThanOrEqualTo(field, value))
+        FirebaseQuery(query.whereGreaterThanOrEqualTo(field, value))
 
     /**
      * Filter the result by comparison (<) on a given field, under the condition that the field exists
@@ -60,10 +59,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereLessThan(field: String, value: Any) =
-        Query(query.whereLessThan(field, value))
+        FirebaseQuery(query.whereLessThan(field, value))
 
     /**
      * Filter the result by comparison (<=) on a given field, under the condition that the field exists
@@ -71,10 +70,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereLessThanOrEqualTo(field: String, value: Any) =
-        Query(query.whereLessThanOrEqualTo(field, value))
+        FirebaseQuery(query.whereLessThanOrEqualTo(field, value))
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
@@ -87,10 +86,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereNotEqualTo(field: String, value: Any) =
-        Query(query.whereNotEqualTo(field, value))
+        FirebaseQuery(query.whereNotEqualTo(field, value))
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
@@ -101,10 +100,10 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereIn(field: String, values: List<Any>) =
-        Query(query.whereIn(field, values))
+        FirebaseQuery(query.whereIn(field, values))
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
@@ -117,38 +116,38 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereNotIn(field: String, values: List<Any>) =
-        Query(query.whereNotIn(field, values))
+        FirebaseQuery(query.whereNotIn(field, values))
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
      * specified field, the value must be an array, and that the array must contain the provided
-     * value. A [Query] can have only one [whereArrayContains] filter and it cannot be combined
+     * value. A [FirebaseQuery] can have only one [whereArrayContains] filter and it cannot be combined
      * with [whereArrayContainsAny].
      *
      * @param field: the field to filter
      * @param value: the value to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereArrayContains(field: String, value: Any) =
-        Query(query.whereArrayContains(field, value))
+        FirebaseQuery(query.whereArrayContains(field, value))
 
     /**
      * Creates and returns a new Query with the additional filter that documents must contain the
      * specified field, the value must be an array, and that the array must contain the provided
-     * value. A [Query] can have only one [whereArrayContainsAny] filter and it cannot be combined
+     * value. A [FirebaseQuery] can have only one [whereArrayContainsAny] filter and it cannot be combined
      * with [whereArrayContains] or [whereIn].
      *
      * @param field: the field to filter
      * @param values: the values to filter with
      *
-     * @return a filtered [Query]
+     * @return a filtered [FirebaseQuery]
      */
     fun whereArrayContainsAny(field: String, values: List<Any>) =
-        Query(query.whereArrayContainsAny(field, values))
+        FirebaseQuery(query.whereArrayContainsAny(field, values))
 
     /**
      * Execute the query and returns the result as a flow. This limit the number of item
@@ -181,16 +180,19 @@ data class Query(private val query: FirebaseQuery) {
      * @param field: the field to order
      * @param direction: the direction f the order, ascending by default
      *
-     * @return an [OrderedQuery]
+     * @return an [FirebaseOrderedQuery]
      */
     fun orderBy(
         field: String,
-        direction: com.google.firebase.firestore.Query.Direction = com.google.firebase.firestore.Query.Direction.ASCENDING
-    ): OrderedQuery =
-        OrderedQuery(query.orderBy(field, direction), OrderedQuery.OrderedField(field, direction))
+        direction: Query.Direction = Query.Direction.ASCENDING
+    ): FirebaseOrderedQuery =
+        FirebaseOrderedQuery(
+            query.orderBy(field, direction),
+            FirebaseOrderedQuery.OrderedField(field, direction)
+        )
 
     /**
-     * Return a new [OrderedQuery] where the documents matches a given prefix in a given field.
+     * Return a new [FirebaseOrderedQuery] where the documents matches a given prefix in a given field.
      *
      * @param field: the field to match
      * @param prefix: the prefix that the value must match

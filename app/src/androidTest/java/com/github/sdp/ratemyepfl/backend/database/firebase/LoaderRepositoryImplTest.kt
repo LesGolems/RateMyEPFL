@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.backend.database.util.Item
 import com.github.sdp.ratemyepfl.backend.database.util.Item.Companion.toItem
@@ -35,9 +35,9 @@ class LoaderRepositoryImplTest {
         .map { Item(it.toString(), it) }
         .toList()
 
-    private lateinit var query0: OrderedQuery
-    private lateinit var query1: OrderedQuery
-    private lateinit var query2: OrderedQuery
+    private lateinit var query0: FirebaseOrderedQuery
+    private lateinit var query1: FirebaseOrderedQuery
+    private lateinit var query2: FirebaseOrderedQuery
 
     private val items0: List<Item> = items.filter {
         it.data in 0..9

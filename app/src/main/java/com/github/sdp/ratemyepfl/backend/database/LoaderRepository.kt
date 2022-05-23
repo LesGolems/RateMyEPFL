@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database
 
-import com.github.sdp.ratemyepfl.backend.database.query.OrderedQuery
-import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 
 interface LoaderRepository<T : RepositoryItem> : Repository<T> {
@@ -18,7 +18,7 @@ interface LoaderRepository<T : RepositoryItem> : Repository<T> {
      *
      * @return a [QueryResult] containing the result
      */
-    fun load(query: OrderedQuery, number: UInt = Query.DEFAULT_QUERY_LIMIT): QueryResult<List<T>>
+    fun load(query: FirebaseOrderedQuery, number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT): QueryResult<List<T>>
 
     /**
      * Returns the loaded element so far for a given query.
@@ -27,5 +27,5 @@ interface LoaderRepository<T : RepositoryItem> : Repository<T> {
      *
      * @return the list of data loaded or null if no data were loaded.
      */
-    fun loaded(query: OrderedQuery): List<T>?
+    fun loaded(query: FirebaseOrderedQuery): List<T>?
 }

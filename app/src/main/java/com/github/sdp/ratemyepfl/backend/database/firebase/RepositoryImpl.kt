@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
-import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.exceptions.DatabaseConversionException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
@@ -39,7 +39,7 @@ class RepositoryImpl<T : RepositoryItem>(
      *
      * @return a query on the repository [CollectionReference]
      */
-    override fun query(): Query = Query(collection)
+    override fun query(): FirebaseQuery = FirebaseQuery(collection)
 
 
     override suspend fun getById(id: String) =

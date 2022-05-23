@@ -30,11 +30,11 @@ class QueryTest {
 
     private lateinit var collection: CollectionReference
 
-    private lateinit var query: Query
+    private lateinit var query: FirebaseQuery
 
     private lateinit var arrayCollection: CollectionReference
 
-    private lateinit var arrayQuery: Query
+    private lateinit var arrayQuery: FirebaseQuery
 
     @get:Rule
     val hiltAndroidRule = HiltAndroidRule(this)
@@ -56,12 +56,12 @@ class QueryTest {
         collection = db.collection("query_test")
         items.map { collection.document(it.getId()).set(it) }
             .forEach { runTest { it.await() } }
-        query = Query(collection)
+        query = FirebaseQuery(collection)
 
         arrayCollection = db.collection("query_test_array")
         arrayItems.map { arrayCollection.document().set(it) }
             .forEach { runTest { it.await() } }
-        arrayQuery = Query(arrayCollection)
+        arrayQuery = FirebaseQuery(arrayCollection)
     }
 
     @After
@@ -152,14 +152,14 @@ class QueryTest {
         query.execute()
             .collect {
                 if (it is QueryState.Success) {
-                    assertEquals(Query.DEFAULT_QUERY_LIMIT.toInt(), it.data.size())
+                    assertEquals(FirebaseQuery.DEFAULT_QUERY_LIMIT.toInt(), it.data.size())
                 }
             }
 
         query.execute(10000u)
             .collect {
                 if (it is QueryState.Success) {
-                    assertEquals(true, it.data.size() <= Query.MAX_QUERY_LIMIT.toInt())
+                    assertEquals(true, it.data.size() <= FirebaseQuery.MAX_QUERY_LIMIT.toInt())
                 }
             }
     }
@@ -215,7 +215,7 @@ class QueryTest {
 
     }
 
-    private fun checkQuery(query: Query, expected: List<Item>) = runTest {
+    private fun checkQuery(query: FirebaseQuery, expected: List<Item>) = runTest {
         query.execute(items.size.toUInt())
             .mapResult {
                 it.mapNotNull {
@@ -235,7 +235,7 @@ class QueryTest {
             }
     }
 
-    private fun checkQuery(query: OrderedQuery, expected: List<Item>) = runTest {
+    private fun checkQuery(query: FirebaseOrderedQuery, expected: List<Item>) = runTest {
         query.execute(items.size.toUInt())
             .mapResult {
                 it.mapNotNull {

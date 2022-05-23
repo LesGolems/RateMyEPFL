@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.backend.database.query.Query
+import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
@@ -72,7 +72,7 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
     }
 
     override suspend fun getRestaurants(): List<Restaurant> =
-        repository.take(Query.DEFAULT_QUERY_LIMIT.toLong())
+        repository.take(FirebaseQuery.DEFAULT_QUERY_LIMIT.toLong())
 
 
     override suspend fun getRestaurantById(id: String): Restaurant? =
