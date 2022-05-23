@@ -4,6 +4,7 @@ import com.github.sdp.ratemyepfl.database.Repository
 import com.github.sdp.ratemyepfl.database.RepositoryImpl
 import com.github.sdp.ratemyepfl.database.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.review.Review
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,6 +31,20 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
         fun DocumentSnapshot.toComment(): Comment? = toItem()
     }
 
+    /**
+     * Add a [Comment] with an auto-generated ID. If you want to provide an id, please use the second
+     * method.
+     *
+     * @param item: the [Comment] to add
+     */
+    override fun add(item: Comment): Task<String> {
+        val document = repository
+            .collection
+            .document()
+
+        return addWithId(item, document.id)
+    }
+
     override suspend fun addAndGetId(item: Comment): String {
         val document = repository
             .collection
@@ -41,7 +56,6 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
 
     override fun addWithId(item: Comment, withId: String): Task<String> =
         repository.add(item.withId(withId))
-
 
     override suspend fun getBySubjectId(id: String?): List<Comment> =
         getBy(SUBJECT_ID_FIELD_NAME, id.orEmpty())

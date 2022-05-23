@@ -21,8 +21,6 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
 
     companion object {
         const val SUBJECT_COLLECTION_PATH = "subjects"
-        const val COMMENTS_FIELD_NAME = "comments"
-        const val KIND_FIELD_NAME = "kind"
 
         /**
          * Converts a json data into a Subject
@@ -30,6 +28,20 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
          * @return the subject if the json contains the necessary data, null otherwise
          */
         fun DocumentSnapshot.toSubject(): Subject? = toItem()
+    }
+
+    /**
+     * Add a [Subject] with an auto-generated ID. If you want to provide an id, please use the second
+     * method.
+     *
+     * @param item: the [Subject] to add
+     */
+    override fun add(item: Subject): Task<String> {
+        val document = repository
+            .collection
+            .document()
+
+        return addWithId(item, document.id)
     }
 
     override suspend fun addAndGetId(item: Subject): String {
@@ -44,9 +56,14 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override fun addWithId(item: Subject, withId: String): Task<String> =
         repository.add(item.withId(withId))
 
-
     override suspend fun getSubjects(): List<Subject> =
-        repository.take(DEFAULT_QUERY_LIMIT.toLong())
+        repository.collection
+            .limit(DEFAULT_QUERY_LIMIT.toLong())
+            .get()
+            .await()
+            .mapNotNull { obj ->
+                obj.toSubject()?.withId(obj.id)
+            }
 
     override suspend fun addComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
@@ -59,7 +76,6 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
             subject.copy(comments = subject.comments.minus(commentId))
         }
     }
-
 
     override suspend fun addUpVote(postId: String, userId: String) {
         repository.update(postId) { subject ->
