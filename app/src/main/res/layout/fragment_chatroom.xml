@@ -36,11 +36,11 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatroom_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/divider_top"
         android:layout_above="@+id/divider_bottom"
-        android:id="@+id/chatroom_recycler_view">
+        android:layout_below="@+id/divider_top">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -48,31 +48,40 @@
         android:id="@+id/divider_bottom"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_above="@+id/message_input_layout"
+        android:layout_above="@+id/message_writer"
         android:background="@color/browser_actions_bg_grey" />
 
     <RelativeLayout
+        android:id="@+id/message_writer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="80dp"
-        android:padding="10dp"
-        android:id="@+id/message_input_layout"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:padding="15dp">
 
         <RelativeLayout
-            android:layout_centerInParent="true"
             android:layout_width="275dp"
             android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/message_input_layout"
             android:background="@drawable/message_input_bubble">
 
             <EditText
+                android:id="@+id/message_input_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/message_input"/>
+                android:background="@android:color/transparent" />
 
         </RelativeLayout>
 
-    </RelativeLayout>
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/ic_baseline_send_24"/>
 
+    </RelativeLayout>
 
 </RelativeLayout>
