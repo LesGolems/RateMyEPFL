@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@raw/background"
+    android:background="@raw/red4"
     tools:context=".ui.activity.SplashScreen">
 
     <TextView
@@ -13,11 +13,11 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/logo_text"
-        android:textColor="#FFF000"
+        android:textColor="@color/primaryColor"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/logoEPFL"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        app:layout_constraintHorizontal_bias="0.202"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -27,9 +27,10 @@
         android:contentDescription="@string/epfl_logo_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@raw/epfl_logo_white" />
+        app:srcCompat="@raw/epfl_logo_red" />
 
     <Button
         android:id="@+id/loginButton"
@@ -39,7 +40,7 @@
         android:layout_marginBottom="120dp"
         android:text="@string/login_google_text"
         android:textAppearance="@style/FirebaseUI.Text.BodyText"
-        android:textColor="#BCAAA4"
+        android:textColor="@color/white"
         app:icon="@drawable/fui_ic_googleg_color_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +53,7 @@
         android:layout_marginBottom="60dp"
         android:text="@string/visitor_text"
         android:textAppearance="@style/FirebaseUI.Text.BodyText"
-        android:textColor="#D7CCC8"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
