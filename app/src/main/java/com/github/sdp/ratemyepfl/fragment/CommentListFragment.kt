@@ -72,7 +72,7 @@ class CommentListFragment : Fragment(R.layout.fragment_comment_list) {
         slidingLayout = view.findViewById(R.id.slidingAddComment)
         slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
 
-        textLayout = view.findViewById(R.id.textLayout)
+        textLayout = view.findViewById(R.id.createPostTextLayout)
 
         doneButton = view.findViewById(R.id.doneButton)
         comment = view.findViewById(R.id.addComment)

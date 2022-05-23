@@ -1,9 +1,7 @@
 package com.github.sdp.ratemyepfl.fragment.navigation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
@@ -25,6 +23,7 @@ import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.viewmodel.HomeViewModel
 import com.github.sdp.ratemyepfl.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
@@ -35,8 +34,16 @@ import javax.inject.Inject
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var userTop1Picture: CircleImageView
+    private lateinit var userTop1Name: TextView
+    private lateinit var userTop1Karma: TextView
+
     private lateinit var userTop2Picture: CircleImageView
+    private lateinit var userTop2Name: TextView
+    private lateinit var userTop2Karma: TextView
+
     private lateinit var userTop3Picture: CircleImageView
+    private lateinit var userTop3Name: TextView
+    private lateinit var userTop3Karma: TextView
 
     private lateinit var subjectAdapter: SubjectAdapter
     private lateinit var recyclerView: RecyclerView
@@ -49,8 +56,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var authorPanelEmailIcon: ImageView
     private lateinit var karmaCount: TextView
 
-    private lateinit var userProfilePicture: CircleImageView
-    private lateinit var subjectInputText: EditText
+    private lateinit var personalProfilePicture: CircleImageView
+    private lateinit var createPostEditText: TextInputEditText
 
     @Inject
     lateinit var connectedUser: ConnectedUser
@@ -68,10 +75,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initializePodium(view: View) {
         userTop1Picture = view.findViewById(R.id.userTop1Picture)
-        userTop2Picture = view.findViewById(R.id.userTop2Picture)
-        userTop3Picture = view.findViewById(R.id.userTop3Picture)
+        userTop1Name = view.findViewById(R.id.userTop1Name)
+        userTop1Karma = view.findViewById(R.id.userTop1Karma)
 
-        Log.d("TAG", viewModel.topUsers.value.toString())
+        userTop2Picture = view.findViewById(R.id.userTop2Picture)
+        userTop2Name = view.findViewById(R.id.userTop2Name)
+        userTop2Karma = view.findViewById(R.id.userTop2Karma)
+
+        userTop3Picture = view.findViewById(R.id.userTop3Picture)
+        userTop3Name = view.findViewById(R.id.userTop3Name)
+        userTop3Karma = view.findViewById(R.id.userTop3Karma)
+
         viewModel.topUsersPictures.observe(viewLifecycleOwner) {
             it?.let {
                 userTop1Picture.setImageBitmap(it[0]?.data)
@@ -79,19 +93,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 userTop3Picture.setImageBitmap(it[2]?.data)
             }
         }
+
+        viewModel.topUsers.observe(viewLifecycleOwner) {
+            it?.let {
+                userTop1Name.text = it[0].username
+                userTop1Karma.text = it[0].karma.toString()
+                userTop2Name.text = it[1].username
+                userTop2Karma.text = it[1].karma.toString()
+                userTop3Name.text = it[2].username
+                userTop3Karma.text = it[2].karma.toString()
+            }
+        }
     }
 
     private fun initializePersonalTab(view: View) {
-        subjectInputText = view.findViewById(R.id.subjectInputText)
-        subjectInputText.setOnClickListener {
+        createPostEditText = view.findViewById(R.id.createPostEditText)
+        createPostEditText.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.addSubjectFragment)
         }
 
-        userProfilePicture = view.findViewById(R.id.userProfilePicture)
+        personalProfilePicture = view.findViewById(R.id.personalProfilePicture)
         userViewModel.picture.observe(viewLifecycleOwner) {
-            it?.let { userProfilePicture.setImageBitmap(it.data) }
+            it?.let { personalProfilePicture.setImageBitmap(it.data) }
         }
-        userProfilePicture.setOnClickListener {
+        personalProfilePicture.setOnClickListener {
             // TODO open side bar
         }
     }

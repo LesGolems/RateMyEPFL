@@ -9,6 +9,7 @@
         android:id="@+id/podium"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
+        android:layout_marginTop="3dp"
         android:contentDescription="@string/podium_of_the_top_karma_users"
         android:src="@drawable/ic_podium"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,39 +17,110 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <!-- TOP 1 -->
+    <TextView
+        android:id="@+id/userTop1Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/userTop1Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop1Picture"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userTop1Picture"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="18dp"
         android:background="@raw/blank_profile_picture"
         android:contentDescription="@string/picture_of_the_top_1_user"
+        app:civ_border_color="@color/red"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop1Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="83dp"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="@id/userTop1Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop1Picture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- TOP 2 -->
+    <TextView
+        android:id="@+id/userTop2Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/userTop2Picture"
+        app:layout_constraintEnd_toEndOf="@id/userTop2Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop2Picture" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userTop2Picture"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="110dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="73dp"
         android:background="@raw/blank_profile_picture"
         android:contentDescription="@string/picture_of_the_top_2_user"
+        app:civ_border_color="@color/orange"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop2Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange"
+        app:layout_constraintEnd_toEndOf="@id/userTop2Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop2Picture"
+        app:layout_constraintTop_toBottomOf="@id/userTop2Picture" />
+
+
+    <!-- TOP 3 -->
+    <TextView
+        android:id="@+id/userTop3Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/userTop3Picture"
+        app:layout_constraintEnd_toEndOf="@id/userTop3Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop3Picture" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userTop3Picture"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="89dp"
         android:layout_marginEnd="110dp"
         android:background="@raw/blank_profile_picture"
         android:contentDescription="@string/picture_of_the_top_3_user"
+        app:civ_border_color="#00CC00"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/userTop3Karma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#00CC00"
+        app:layout_constraintEnd_toEndOf="@id/userTop3Picture"
+        app:layout_constraintStart_toStartOf="@id/userTop3Picture"
+        app:layout_constraintTop_toBottomOf="@id/userTop3Picture" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

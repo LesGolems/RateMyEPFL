@@ -44,10 +44,8 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             userRepo.getTopKarmaUsers().mapResult {
                 topUsers.postValue(it)
-            }
-        }
+            }.collect {}
 
-        viewModelScope.launch {
             topUsersPictures.postValue(
                 topUsers.value?.map {
                     it.uid.let { uid -> imageStorage.get(uid) }
@@ -104,7 +102,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateUpVotes(subject: Subject, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
-        if (uid == authorUid) throw VoteException("You can't like your own review")
+        if (uid == authorUid) throw VoteException("You can't like your own post")
         val reviewId = subject.getId()
 
         viewModelScope.launch {
