@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.adapter.util
 
+import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -23,7 +24,7 @@ class AdapterUtilTest {
     fun sameContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
             .areContentsTheSame(
-                Item("id1", "content", "some garbade"),
+                Item("id1", "content", "some garbage"),
                 Item("id2", "content", "a lot of garbage")
             )
         assertEquals(true, diff)
@@ -33,13 +34,13 @@ class AdapterUtilTest {
     fun differentContentItemTest() {
         val diff = AdapterUtil.diffCallback<Item>()
             .areContentsTheSame(
-                Item("id1", "content1", "some garbade"),
+                Item("id1", "content1", "some garbage"),
                 Item("id2", "content2", "a lot of garbage")
             )
         assertEquals(false, diff)
     }
 
-    class Item(val id: String, val content: String, val garbage: String) {
+    class Item(val id: String, private val content: String, val garbage: String) {
         override fun toString(): String {
             return content
         }

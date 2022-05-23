@@ -1,15 +1,10 @@
 package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.model.time.Date
-import com.github.sdp.ratemyepfl.model.time.Duration
 import com.github.sdp.ratemyepfl.model.time.Period
-import com.github.sdp.ratemyepfl.model.time.Time
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
 
 @Serializable
 data class Event(
@@ -17,14 +12,14 @@ data class Event(
     val name: String = "",
     val numParticipants: Int = 0,
     val limitParticipants: Int = 0,
-    var participants: List<String> = listOf(),
+    val participants: List<String> = listOf(),
     val creator: String = "",
     override val grade: Double = 0.0,
     override val numReviews: Int = 0,
     val lat: Double = 0.0,
     val long: Double = 0.0,
     val period: Period = Period.DEFAULT_PERIOD
-) : Reviewable(), Displayable {
+) : Reviewable(), DisplayableOnMap {
 
     override fun toString(): String {
         return name

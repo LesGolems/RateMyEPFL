@@ -13,9 +13,10 @@
         android:id="@+id/eventText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
 
         <TextView
             android:id="@+id/eventId"
@@ -26,42 +27,43 @@
 
         <TextView
             android:id="@+id/creator"
-            android:textStyle="italic"
             style="@style/TextAppearance.Material3.LabelSmall"
-            android:layout_marginTop="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/creator" />
+            android:layout_marginTop="2dp"
+            android:text="@string/creator"
+            android:textStyle="italic" />
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
             android:id="@+id/participants"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
             android:text="@string/participants" />
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/editButton"
-        android:src="@drawable/ic_baseline_edit_24"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/ic_baseline_edit_24"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/ic_baseline_edit_24"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:contentDescription="@string/button_for_editing_an_event" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/eventText"
-        android:layout_marginBottom="5dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/register"
         android:textColor="@color/white"
         app:backgroundTint="@color/purple_700"

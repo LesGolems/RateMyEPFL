@@ -1,178 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.sdp.ratemyepfl.layout.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.sdp.ratemyepfl.ui.layout.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.github.sdp.ratemyepfl.activity.EditEventActitivity">
+    tools:context="com.github.sdp.ratemyepfl.ui.activity.EditEventActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
-
-    <TextView
-        android:id="@+id/editEventTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="15dp"
-        android:text="@string/edit_event_title"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadline4"
-        android:textColor="@color/purple_700"
-        android:typeface="monospace"/>
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:hint="@string/edit_event_name"
-        android:paddingTop="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editEventName"
+        <TextView
+            android:id="@+id/editEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingTop="20dp"
+            android:paddingBottom="15dp"
+            android:text="@string/edit_event_title"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/purple_700"
+            android:typeface="monospace" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/limitText"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            style="@style/IconOnly"
-            android:textSize="11sp"
-            android:text="@string/limit_participation"/>
-
-        <NumberPicker
-            android:id="@+id/limitPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/limitText"
-            android:clickable="true" />
-    </RelativeLayout>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:dividerColor="@color/purple_200"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/datePickerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            style="@style/IconOnly"
-            android:textSize="11sp"
-            android:text="@string/event_date"/>
-
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/datePickerText"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"/>
-    </RelativeLayout>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:dividerColor="@color/purple_200"/>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/timePickerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            style="@style/IconOnly"
-            android:textSize="11sp"
-            android:text="@string/event_time"/>
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/timePickerText"
-            android:timePickerMode="spinner" />
-    </RelativeLayout>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:dividerColor="@color/purple_200"/>
-
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/IconOnly"
-        android:textSize="11sp"
-        android:text="@string/event_location"/>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/mapContainer"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:paddingBottom="25dp"
-        android:name="com.github.sdp.ratemyepfl.fragment.navigation.MapFragment"/>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:dividerColor="@color/purple_200"/>
-
-    <RelativeLayout
-        android:id="@+id/editEventButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp">
-
-        <Button
-            android:id="@+id/cancelButton"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_gravity="center"
-            android:text="@string/cancel_button_text" />
+            android:hint="@string/edit_event_name"
+            android:paddingTop="16dp">
 
-        <Button
-            android:id="@+id/doneButton"
-            android:layout_width="160dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
-            android:text="@string/done_button_text" />
-    </RelativeLayout>
-</LinearLayout>
-</com.github.sdp.ratemyepfl.layout.CustomScrollView>
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/limitText"
+                style="@style/IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/limit_participation"
+                android:textSize="11sp" />
+
+            <NumberPicker
+                android:id="@+id/limitPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/limitText"
+                android:clickable="true" />
+        </RelativeLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dividerColor="@color/purple_200" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/datePickerText"
+                style="@style/IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/event_date"
+                android:textSize="11sp" />
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/datePickerText"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+        </RelativeLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dividerColor="@color/purple_200" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/timePickerText"
+                style="@style/IconOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/event_time"
+                android:textSize="11sp" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/timePickerText"
+                android:timePickerMode="spinner" />
+        </RelativeLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dividerColor="@color/purple_200" />
+
+        <TextView
+            android:id="@+id/locationText"
+            style="@style/IconOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:text="@string/event_location"
+            android:textSize="11sp" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mapContainer"
+            android:name="com.github.sdp.ratemyepfl.ui.fragment.main.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:paddingBottom="25dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dividerColor="@color/purple_200" />
+
+        <RelativeLayout
+            android:id="@+id/editEventButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:id="@+id/cancelButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:text="@string/cancel_button_text" />
+
+            <Button
+                android:id="@+id/doneButton"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:text="@string/done_button_text" />
+        </RelativeLayout>
+    </LinearLayout>
+</com.github.sdp.ratemyepfl.ui.layout.CustomScrollView>

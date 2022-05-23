@@ -23,8 +23,7 @@ data class Class(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Int::class.java.classLoader) as? Int
-    ) {
-    }
+    )
 
     fun duration() = (end ?: 0) - (start ?: 0)
 

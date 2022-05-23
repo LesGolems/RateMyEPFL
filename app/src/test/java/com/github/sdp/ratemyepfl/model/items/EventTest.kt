@@ -1,18 +1,12 @@
 package com.github.sdp.ratemyepfl.model.items
 
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.EventRepositoryImpl.Companion.NAME_FIELD_NAME
-import com.github.sdp.ratemyepfl.database.reviewable.ReviewableRepository
-import com.github.sdp.ratemyepfl.model.time.Date
-import com.github.sdp.ratemyepfl.model.time.Duration
 import com.github.sdp.ratemyepfl.model.time.Period
-import com.github.sdp.ratemyepfl.model.time.Time
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
-import java.time.LocalDateTime
 
 class EventTest {
+
     private val ID = "Evenement de dingue"
     private val USER_ID = "Kevin du 13"
     private val SHOW_PARTICIPANTS = "Participants: 64/70"
@@ -76,7 +70,7 @@ class EventTest {
             .setLimitParticipants(70)
 
         val event = builder.build()
-        val expected = Event(fake, fake,0, 70, listOf(), USER_ID, g, n, lat, long, DATE)
+        val expected = Event(fake, fake, 0, 70, listOf(), USER_ID, g, n, lat, long, DATE)
         assertEquals(event.name, expected.name)
 
         assertEquals(event.eventId, expected.eventId)

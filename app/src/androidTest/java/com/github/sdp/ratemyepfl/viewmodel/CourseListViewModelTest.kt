@@ -1,10 +1,11 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.CourseListViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,7 +33,6 @@ class CourseListViewModelTest {
     lateinit var repository: CourseRepositoryImpl
 
     private val fake = "fake"
-    private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
     private val courseBuilder = Course(
         fake,
@@ -169,7 +169,9 @@ class CourseListViewModelTest {
                     is QueryState.Failure -> throw it.error
                     is QueryState.Loading -> {}
                     is QueryState.Success -> {
-                        assertEquals(true, viewModel.elements.value?.all { course -> course.title == title })
+                        assertEquals(
+                            true,
+                            viewModel.elements.value?.all { course -> course.title == title })
                     }
                 }
             }

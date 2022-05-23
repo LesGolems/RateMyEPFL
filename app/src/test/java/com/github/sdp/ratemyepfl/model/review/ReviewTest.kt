@@ -1,11 +1,9 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.model.time.Date
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
-import java.time.LocalDate
 
 class ReviewTest {
 
