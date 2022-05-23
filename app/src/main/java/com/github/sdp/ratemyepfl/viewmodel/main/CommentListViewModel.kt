@@ -53,8 +53,8 @@ class CommentListViewModel @Inject constructor(
         }
     }
 
-    suspend fun removeComment(commentId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun removeComment(commentId: String) {
+        viewModelScope.launch {
             commentRepo.remove(commentId).await()
             subjectRepo.removeComment(id, commentId)
             updateCommentsList()

@@ -70,9 +70,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    suspend fun removeSubject(subjectId: String) {
-        subjectRepo.remove(subjectId).await()
-        updateSubjectsList()
+    fun removeSubject(subjectId: String) {
+        viewModelScope.launch {
+            subjectRepo.remove(subjectId).await()
+            updateSubjectsList()
+        }
     }
 
     fun updateDownVotes(subject: Subject, authorUid: String?) {

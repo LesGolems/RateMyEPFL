@@ -63,10 +63,12 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    suspend fun removeReview(reviewId: String) {
-        reviewRepo.remove(reviewId).await()
-        gradeInfoRepo.removeReview(itemReviewed, reviewId)
-        updateReviewsList()
+    fun removeReview(reviewId: String) {
+        viewModelScope.launch {
+            reviewRepo.remove(reviewId).await()
+            gradeInfoRepo.removeReview(itemReviewed, reviewId)
+            updateReviewsList()
+        }
     }
 
     fun updateDownVotes(review: Review, authorUid: String?) {
