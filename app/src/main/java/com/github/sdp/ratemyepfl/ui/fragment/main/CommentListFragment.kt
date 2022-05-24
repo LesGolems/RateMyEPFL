@@ -11,8 +11,8 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
-import com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
 import com.github.sdp.ratemyepfl.viewmodel.main.CommentListViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -64,7 +64,7 @@ class CommentListFragment : PostListFragment<Comment>(
                 slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
 
-        comment.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher { text, _, _, _ ->
+        comment.addTextChangedListener(AddPostFragment.onTextChangedTextWatcher { text, _, _, _ ->
             viewModel.setComment(text?.toString())
         })
 
