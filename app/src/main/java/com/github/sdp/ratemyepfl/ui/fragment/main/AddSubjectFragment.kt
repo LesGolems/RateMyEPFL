@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment
-import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
+import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel
 import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel.Companion.ONLY_ONE_KIND_MESSAGE
 import com.google.android.material.chip.Chip
@@ -58,6 +58,7 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
             val context = requireContext()
             val chip = Chip(context).apply {
                 text = kind.id
+                tag = "chip_${kind.id}"
                 chipIcon = ContextCompat.getDrawable(context, kind.icon)
                 isCheckable = true
                 chipEndPadding = 6F
@@ -83,14 +84,15 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
             addSubjectViewModel.setAnonymous(b)
         }
 
-        kinds.setOnCheckedStateChangeListener { _, checkedIds ->
+        kinds.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
             if (checkedIds.size > 1) {
-                displayOnToast(requireContext(), ONLY_ONE_KIND_MESSAGE)
-                addSubjectViewModel.setKind(null)
-            } else if (checkedIds.size == 1) {
-                val ordinal = checkedIds[0] - 1 // The group is counted as the first child
-                addSubjectViewModel.setKind(SubjectKind.values()[ordinal])
+                displayOnSnackbar(requireView(), ONLY_ONE_KIND_MESSAGE)
             }
+            val kinds = checkedIds.map {
+                val chip = chipGroup.findViewById<Chip>(it)
+                SubjectKind.fromId(chip.text.toString())!!
+            }
+            addSubjectViewModel.setKinds(kinds)
         }
     }
 
@@ -98,23 +100,24 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
      *  Adds the review to the database
      */
     private fun addSubject() {
-        val context = requireContext()
+        val view = requireView()
         try {
             addSubjectViewModel.submitSubject()
             reset()
-            // Bar that will appear at the bottom of the screen
-            displayOnToast(context, "Your post was submitted!")
-            Navigation.findNavController(requireView()).popBackStack()
+            displayOnSnackbar(view, getString(R.string.subject_sent_text))
+            Navigation.findNavController(view).popBackStack()
         } catch (due: DisconnectedUserException) {
-            displayOnToast(context, due.message)
+            displayOnSnackbar(view, due.message)
         } catch (mie: MissingInputException) {
             if (title.text.isNullOrEmpty()) {
                 title.error = mie.message
             } else if (comment.text.isNullOrEmpty()) {
                 comment.error = mie.message
             } else {
-                displayOnToast(context, mie.message)
+                displayOnSnackbar(view, mie.message)
             }
+        } catch (ise: IllegalStateException) {
+            displayOnSnackbar(view, ise.message)
         }
     }
 
@@ -124,6 +127,7 @@ class AddSubjectFragment : Fragment(R.layout.fragment_add_subject) {
     private fun reset() {
         title.setText("")
         comment.setText("")
+        kinds.clearCheck()
     }
 
 

@@ -181,4 +181,6 @@
     <string name="button_for_creating_a_poll">Button for creating a poll</string>
     <string name="i_don_t_like_this_subject">I don\'t like this subject</string>
     <string name="i_like_this_subject">i like this subject</string>
+    <string name="create_a_post">Create a post</string>
+    <string name="subject_sent_text">Your post was submitted!</string>
 </resources>

@@ -25,6 +25,7 @@ import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
+import com.github.sdp.ratemyepfl.utils.TestUtils.checkSnackbarText
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
@@ -465,8 +466,7 @@ class ReviewListFragmentTest {
         launch()
 
         likeReview(0)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText("You can't like your own review")))
+        checkSnackbarText("You can't like your own review")
     }
 
     @Test
@@ -486,7 +486,6 @@ class ReviewListFragmentTest {
         launch()
 
         dislikeReview(0)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText("You can't dislike your own review")))
+        checkSnackbarText("You can't dislike your own review")
     }
 }

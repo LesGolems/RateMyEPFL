@@ -27,14 +27,14 @@ class AddSubjectViewModel @Inject constructor(
         const val ONLY_ONE_KIND_MESSAGE: String = "You must choose at most 1 kind!"
     }
 
-    val kind: MutableLiveData<SubjectKind> = MutableLiveData(null)
+    private val kinds: MutableLiveData<List<SubjectKind>> = MutableLiveData(null)
 
     /**
      * Set the kind chosen by the user
      * @param kind: kind chosen by the user
      */
-    fun setKind(kind: SubjectKind?) {
-        this.kind.postValue(kind)
+    fun setKinds(kinds: List<SubjectKind>?) {
+        this.kinds.postValue(kinds)
     }
 
     /**
@@ -43,7 +43,7 @@ class AddSubjectViewModel @Inject constructor(
      * @throws IllegalStateException if the user is not connected, or if one of the fields is empty
      */
     fun submitSubject() {
-        val kind = kind.value
+        val kinds = kinds.value
         val comment = comment.value
         val title = title.value
         val date = DateTime.now()
@@ -56,8 +56,10 @@ class AddSubjectViewModel @Inject constructor(
             throw MissingInputException(EMPTY_COMMENT_MESSAGE)
         } else if (title.isNullOrEmpty()) {
             throw MissingInputException(EMPTY_TITLE_MESSAGE)
-        } else if (kind == null) {
+        } else if (kinds == null || kinds.isEmpty()) {
             throw MissingInputException(NO_KIND_MESSAGE)
+        } else if (kinds.size > 1) {
+            throw IllegalStateException(ONLY_ONE_KIND_MESSAGE)
         }
 
         if (!anonymous.value!!) {
@@ -65,7 +67,7 @@ class AddSubjectViewModel @Inject constructor(
         }
 
         val builder = Subject.Builder()
-            .setKind(kind)
+            .setKind(kinds[0])
             .setTitle(title)
             .setComment(comment)
             .setDate(date)

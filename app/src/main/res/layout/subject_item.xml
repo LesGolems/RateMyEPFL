@@ -58,11 +58,10 @@
 
             <ImageView
                 android:id="@+id/subjectKindIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_above="@id/subjectKindText"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_alignStart="@id/subjectKindText"
-                android:layout_alignTop="@id/author_profile_picture"
+                android:layout_alignTop="@id/author_username"
                 android:layout_alignEnd="@id/subjectKindText"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/icon_of_the_subject"
@@ -73,9 +72,10 @@
                 android:id="@+id/subjectKindText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/author_profile_picture"
+                android:layout_below="@id/subjectKindIcon"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
+                android:text="@string/add_a_comment"
                 tools:ignore="RelativeOverlap" />
         </RelativeLayout>
 

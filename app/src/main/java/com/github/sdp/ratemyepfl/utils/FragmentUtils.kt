@@ -9,24 +9,33 @@ import com.google.android.material.snackbar.Snackbar
 
 object FragmentUtils {
 
+    /**
+     * Displays [message] in a [Toast] at the bottom of the current view
+     */
     fun displayOnToast(context: Context, message: String?) {
-        if (message != null) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        message?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
 
     /**
-     * Creates the onClickListener from the function given as input, encapsulating it in a
-     * try catch to display the error message as SnackBar
+     * Displays [message] in a [Snackbar] at the bottom of the current view
+     */
+    fun displayOnSnackbar(view: View, message: String?) {
+        message?.let {
+            Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Creates the [OnClickListener] from function [f] and displays an exception message if any
      */
     fun <T : Post> getListener(f: (T, String?) -> Unit, view: View) =
         OnClickListener<T> { postWithAuthor ->
             try {
                 f(postWithAuthor.post, postWithAuthor.author?.uid)
             } catch (e: Exception) {
-                e.message?.let {
-                    Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
-                }
+                displayOnSnackbar(view, e.message)
             }
         }
 }

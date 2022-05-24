@@ -16,6 +16,7 @@ import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel
 import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel.Companion.NO_GRADE_MESSAGE
 import com.google.android.material.snackbar.Snackbar
@@ -107,32 +108,25 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
      *  Adds the review to the database
      */
     private fun addReview() {
+        val view = requireView()
         try {
             addReviewViewModel.submitReview()
             reset()
-            // Bar that will appear at the bottom of the screen
-            displayOnSnackbar(getString(R.string.review_sent_text))
-
+            displayOnSnackbar(view, getString(R.string.review_sent_text))
             Navigation.findNavController(requireView()).popBackStack()
         } catch (due: DisconnectedUserException) {
-            displayOnSnackbar(due.message)
+            displayOnSnackbar(view, due.message)
         } catch (mie: MissingInputException) {
             if (title.text.isNullOrEmpty()) {
                 title.error = mie.message
             } else if (comment.text.isNullOrEmpty()) {
                 comment.error = mie.message
             } else {
-                displayOnSnackbar(mie.message)
+                displayOnSnackbar(view, mie.message)
             }
         }
     }
 
-    private fun displayOnSnackbar(message: String?) {
-        if (message != null) {
-            Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
-                .show()
-        }
-    }
 
     /**
      * Once a review is submitted all the information are reset to default

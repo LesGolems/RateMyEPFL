@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="Create a post"
+            android:text="@string/create_a_post"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline4"
             android:typeface="monospace" />
