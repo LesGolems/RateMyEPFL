@@ -11,7 +11,7 @@
         android:layoutDirection="rtl">
 
         <TextView
-            android:id="@+id/message_sender"
+            android:id="@+id/outgoing_message_sender"
             android:layout_marginStart="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,24 +20,25 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message_sender"
-            android:layout_alignStart="@+id/message_sender">
+            android:layout_below="@+id/outgoing_message_sender"
+            android:layout_alignStart="@+id/outgoing_message_sender">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:padding="5dp"
-                android:id="@+id/message_body"
+                android:id="@+id/outgoing_message_body"
                 android:textColor="@color/white"
                 android:text="Hello"
                 android:background="@drawable/outgoing_message_bubble"
                 />
 
             <TextView
+                android:id="@+id/outgoing_message_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/message_body"
+                android:layout_below="@+id/outgoing_message_body"
                 android:hint="Month Day, Year, hour:minute">
             </TextView>
 

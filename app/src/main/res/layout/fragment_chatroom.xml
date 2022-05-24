@@ -12,9 +12,10 @@
         android:id="@+id/chatroom_info">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chatroom_picture"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@raw/blank_profile_picture"/>
+            android:background="@raw/blank_profile_picture" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,6 +76,7 @@
         </RelativeLayout>
 
         <Button
+            android:id="@+id/send_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
