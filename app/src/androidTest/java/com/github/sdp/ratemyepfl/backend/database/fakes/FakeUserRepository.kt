@@ -27,26 +27,30 @@ class FakeUserRepository @Inject constructor() : UserRepository,
                 UID1,
                 "Marc",
                 "Marc.Antoine@gmail.com",
-                timetable = ArrayList()
+                timetable = ArrayList(),
+                karma = 500
             ),
             UID2 to User(
                 UID2,
                 "Charolais",
                 "Etienne.cdp@gmail.com",
-                timetable = ArrayList()
+                timetable = ArrayList(),
+                karma = 400
             ),
             UID3 to User(
                 UID3,
                 "x_sasuke9",
                 "Celestin.Renaut@gmail.com",
-                timetable = ArrayList()
+                timetable = ArrayList(),
+                karma = 300
             ),
             UID4 to User(
                 "12345",
                 "John Smith",
                 "john@example.com",
                 timetable = timetable,
-                isAdmin = true
+                isAdmin = true,
+                karma = 200
             )
         )
     }

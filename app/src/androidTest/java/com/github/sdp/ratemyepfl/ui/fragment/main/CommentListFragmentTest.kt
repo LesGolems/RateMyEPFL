@@ -2,9 +2,7 @@ package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.github.sdp.ratemyepfl.R
@@ -63,7 +61,7 @@ class CommentListFragmentTest {
     }
 
     private fun refresh() {
-        onView(withId(R.id.commentSwipeRefresh)).perform(ViewActions.swipeDown())
+        onView(withId(R.id.commentSwipeRefresh)).perform(swipeDown())
     }
 
     @Test
@@ -71,8 +69,8 @@ class CommentListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         launch()
 
+        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-        onView(withId(R.id.addComment)).perform(click())
         onView(withId(R.id.doneButton)).perform(click())
     }
 
@@ -81,18 +79,17 @@ class CommentListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         launch()
 
-        onView(withId(R.id.addComment)).perform(click())
-        onView(withId(R.id.addComment)).perform(click())
+        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
         onView(withId(R.id.doneButton)).perform(click())
     }
 
     @Test
-    fun addAnonCommentWorks() {
+    fun addAnonymousCommentWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         launch()
 
+        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-        onView(withId(R.id.addComment)).perform(click())
         onView(withId(R.id.addCommentAnonymousSwitch)).perform(click())
         onView(withId(R.id.doneButton)).perform(click())
     }
@@ -102,9 +99,8 @@ class CommentListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         launch()
 
+        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-        onView(withId(R.id.addComment)).perform(click())
-        onView(withId(R.id.doneButton)).perform(click())
     }
 
     @Test
