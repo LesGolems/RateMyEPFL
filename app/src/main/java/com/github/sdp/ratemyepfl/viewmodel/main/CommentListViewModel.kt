@@ -3,13 +3,14 @@ package com.github.sdp.ratemyepfl.viewmodel.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.FirebaseImageStorage
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
@@ -27,7 +28,7 @@ class CommentListViewModel @Inject constructor(
     private val commentRepo: CommentRepository,
     private val connectedUser: ConnectedUser,
     private val userRepo: UserRepository,
-    private val imageStorage: FirebaseImageStorage,
+    private val imageStorage: Storage<ImageFile>,
 ) : AddPostViewModel<Comment>() {
 
     lateinit var id: String

@@ -34,7 +34,6 @@ class AddSubjectFragment : AddPostFragment<Subject>(R.layout.fragment_add_subjec
 
     @SuppressLint("ResourceType")
     private fun setupKinds() {
-        subjectKinds.clearCheck()
         subjectKinds.removeAllViews()
         for (kind in SubjectKind.values()) {
             val context = requireContext()
@@ -42,7 +41,6 @@ class AddSubjectFragment : AddPostFragment<Subject>(R.layout.fragment_add_subjec
                 text = kind.id
                 chipIcon = ContextCompat.getDrawable(context, kind.icon)
                 isCheckable = true
-                chipEndPadding = 6F
             }
             subjectKinds.addView(chip)
         }

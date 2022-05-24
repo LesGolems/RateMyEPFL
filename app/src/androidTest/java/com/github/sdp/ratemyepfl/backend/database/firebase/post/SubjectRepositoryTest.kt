@@ -19,10 +19,6 @@ class SubjectRepositoryTest {
         "Fake title",
         "Fake comment"
     )
-    private val testSubject2 = Subject(
-        "Fake title 2",
-        "Fake comment"
-    )
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -56,7 +52,7 @@ class SubjectRepositoryTest {
     }
 
     @Test
-    fun addAndRemoveCommentWorks(){
+    fun addAndRemoveCommentWorks() {
         runTest {
             subjectRepository.addComment(currentId, "Fake")
             var subject = subjectRepository.getById(currentId)
