@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@raw/red4"
+    android:background="@raw/red5"
     tools:context=".ui.activity.SplashScreen">
 
     <ImageView
@@ -12,8 +12,6 @@
         android:layout_width="246dp"
         android:layout_height="82dp"
         android:gravity="center"
-        android:text="@string/logo_text"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/logoEPFL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.162"
