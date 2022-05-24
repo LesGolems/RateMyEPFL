@@ -15,7 +15,7 @@ import javax.inject.Inject
 class RankingViewModel @Inject constructor(
     private val userRepo: UserRepository,
     private val imageStorage: Storage<ImageFile>
-) : ViewModel(){
+) : ViewModel() {
 
     val topUsers = MutableLiveData<List<User>>()
     val topUsersPictures = MutableLiveData<List<ImageFile?>>()
@@ -24,7 +24,7 @@ class RankingViewModel @Inject constructor(
         refreshUsers()
     }
 
-    fun refreshUsers(){
+    fun refreshUsers() {
         viewModelScope.launch {
             userRepo.getTopKarmaUsers().mapResult {
                 topUsers.postValue(it)

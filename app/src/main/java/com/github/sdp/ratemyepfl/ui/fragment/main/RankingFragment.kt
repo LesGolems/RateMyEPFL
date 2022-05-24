@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.viewmodel.main.RankingViewModel
@@ -27,6 +28,8 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     private lateinit var userTop3Name: TextView
     private lateinit var userTop3Karma: TextView
 
+    private lateinit var swipeRefresher: SwipeRefreshLayout
+
     @Inject
     lateinit var connectedUser: ConnectedUser
 
@@ -35,17 +38,21 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePodium(view)
+
+        swipeRefresher = view.findViewById(R.id.podiumSwipeRefresh)
+        swipeRefresher.setOnRefreshListener {
+            viewModel.refreshUsers()
+            swipeRefresher.isRefreshing = false
+        }
     }
 
     private fun initializePodium(view: View) {
         userTop1Picture = view.findViewById(R.id.userTop1Picture)
         userTop1Name = view.findViewById(R.id.userTop1Name)
         userTop1Karma = view.findViewById(R.id.userTop1Karma)
-
         userTop2Picture = view.findViewById(R.id.userTop2Picture)
         userTop2Name = view.findViewById(R.id.userTop2Name)
         userTop2Karma = view.findViewById(R.id.userTop2Karma)
-
         userTop3Picture = view.findViewById(R.id.userTop3Picture)
         userTop3Name = view.findViewById(R.id.userTop3Name)
         userTop3Karma = view.findViewById(R.id.userTop3Karma)
@@ -57,7 +64,6 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
                 userTop3Picture.setImageBitmap(it[2]?.data)
             }
         }
-
         viewModel.topUsers.observe(viewLifecycleOwner) {
             it?.let {
                 userTop1Name.text = it[0].username

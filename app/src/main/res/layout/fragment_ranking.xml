@@ -8,12 +8,19 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Congratulations to NICOLAS MATEKALO, OUR BEST USER"/>
+        android:text="Congratulations to NICOLAS MATEKALO, OUR BEST USER" />
 
-    <!-- PODIUM -->
-    <include
-        layout="@layout/podium_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/podiumSwipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- PODIUM -->
+        <include
+            layout="@layout/podium_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
