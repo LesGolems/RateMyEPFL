@@ -1,34 +1,15 @@
 package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.Subject
-import com.github.sdp.ratemyepfl.model.user.User
-import com.github.sdp.ratemyepfl.ui.adapter.post.OnClickListener
-import com.github.sdp.ratemyepfl.ui.adapter.post.SubjectAdapter
-import com.github.sdp.ratemyepfl.viewmodel.main.HomeViewModel
 import com.github.sdp.ratemyepfl.viewmodel.main.RankingViewModel
-import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

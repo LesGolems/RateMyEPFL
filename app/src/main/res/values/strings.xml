@@ -179,4 +179,6 @@
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="create_post">Create Post…</string>
     <string name="button_for_creating_a_poll">Button for creating a poll</string>
+    <string name="i_don_t_like_this_subject">I don\'t like this subject</string>
+    <string name="i_like_this_subject">i like this subject</string>
 </resources>
