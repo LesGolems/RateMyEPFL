@@ -17,6 +17,7 @@
 
     <color name="navigationBar">@color/white</color>
     <color name="navigationItems">@color/primaryColor</color>
+    <color name="timetableFrame">#D3FF1B1B</color>
 
     <color name="orange">#FF8C00</color>
     <color name="red">#C20000</color>

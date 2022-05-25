@@ -23,7 +23,7 @@
             android:text="@string/edit_event_title"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/tertiaryColor"
             android:typeface="monospace" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +67,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/pale_red" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/pale_red" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/pale_red" />
 
         <TextView
             android:id="@+id/locationText"
@@ -147,7 +147,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/pale_red" />
 
         <RelativeLayout
             android:id="@+id/editEventButtons"
