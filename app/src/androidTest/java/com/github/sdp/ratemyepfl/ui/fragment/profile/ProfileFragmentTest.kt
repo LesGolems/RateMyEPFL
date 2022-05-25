@@ -15,7 +15,6 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.HiltTestActivity
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.ui.fragment.profile.ProfileFragment
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
@@ -47,9 +46,9 @@ class ProfileFragmentTest {
 
     @Test
     fun userProfileVisibleOnLaunch() {
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
         onView(withId(R.id.modify_profile_button)).check(matches(isDisplayed()))
     }
 
@@ -64,9 +63,9 @@ class ProfileFragmentTest {
     fun clickOnModifyButtonEnablesModifications() {
         onView(withId(R.id.modify_profile_button)).perform(click())
 
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
 
         onView(withId(R.id.username_text)).check(matches(isEnabled()))
         onView(withId(R.id.emailText)).check(matches(isEnabled()))
@@ -78,9 +77,9 @@ class ProfileFragmentTest {
         onView(withId(R.id.modify_profile_button)).perform(click())
         onView(withId(R.id.modify_profile_button)).perform(click())
 
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
+        onView(withId(R.id.profilePictureImage)).check(matches(isDisplayed()))
 
         onView(withId(R.id.username_text)).check(matches(isNotEnabled()))
         onView(withId(R.id.emailText)).check(matches(isNotEnabled()))

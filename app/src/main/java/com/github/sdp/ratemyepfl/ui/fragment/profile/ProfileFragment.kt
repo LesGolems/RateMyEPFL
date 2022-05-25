@@ -8,16 +8,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.ui.layout.LoadingCircleImageView
+import com.github.sdp.ratemyepfl.ui.layout.LoadingView
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,11 +33,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         const val SELECT_IMAGE = 1044
     }
 
-    private lateinit var profilePicture: CircleImageView
     private lateinit var cameraIcon: CircleImageView
     private lateinit var emailText: EditText
     private lateinit var usernameText: EditText
     private lateinit var modifyButton: ImageButton
+
+    private lateinit var profilePicture: LoadingView<CircleImageView>
 
     @Inject
     lateinit var currentUser: ConnectedUser
@@ -41,7 +48,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profilePicture = view.findViewById(R.id.profile_image)
+        val profilePictureLayout = view.findViewById<View>(R.id.profilePictureLoadingImage)
+        profilePicture = LoadingCircleImageView(profilePictureLayout, R.raw.blank_profile_picture)
         cameraIcon = view.findViewById(R.id.modify_profile_image_button)
         emailText = view.findViewById(R.id.emailText)
         usernameText = view.findViewById(R.id.username_text)
@@ -55,12 +63,33 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         modifyButton.setOnClickListener(updateProfile)
     }
 
+    override fun onResume() {
+        refreshProfilePicture()
+        super.onResume()
+    }
+
+    private fun refreshProfilePicture() {
+        userViewModel.viewModelScope
+            .launch {
+                profilePicture.display(userViewModel.loadImage(), { image ->
+                    userViewModel.picture.postValue(image)
+                }) {
+                    Toast.makeText(
+                        context,
+                        "Failed to download the profile picture",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+    }
+
     /**
      * Observers handling user information display
      */
     private fun setUpObservers() {
         userViewModel.picture.observe(viewLifecycleOwner) {
-            profilePicture.setImageBitmap(it?.data)
+            profilePicture.view.setImageBitmap(it?.data)
         }
 
         userViewModel.user.observe(viewLifecycleOwner) {

@@ -1,5 +1,9 @@
 package com.github.sdp.ratemyepfl.backend.database
 
+import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
+import com.github.sdp.ratemyepfl.model.ImageFile
+import kotlinx.coroutines.flow.Flow
+
 /**
  * An interface representing an item collection, in which items may have a maximum size.
  * This interface is mostly for implementing adapters of Firebase Storage.
@@ -15,7 +19,7 @@ interface Storage<T> {
      * Returns the item for the given [id].
      * Returns null in case of errors.
      */
-    suspend fun get(id: String): T?
+    fun get(id: String): Flow<ImageFile>
 
     /**
      * Adds [item] to the collection.
@@ -31,7 +35,7 @@ interface Storage<T> {
     /**
      * Returns all the items in the sub-directory [dir].
      */
-    suspend fun getByDirectory(dir: String): List<T>
+    fun getByDirectory(dir: String): Flow<ImageFile>
 
     /**
      * Adds [item] to the collection in the sub-directory [dir].

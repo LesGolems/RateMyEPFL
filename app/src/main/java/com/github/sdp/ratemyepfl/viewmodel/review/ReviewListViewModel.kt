@@ -17,6 +17,7 @@ import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -57,7 +58,7 @@ open class ReviewListViewModel @Inject constructor(
                     ReviewWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
-                        review.uid?.let { imageStorage.get(it) }
+                        review.uid?.let { imageStorage.get(it).last() }
                     )
                 }
                 .sortedBy { rwa -> -rwa.review.likers.size })
