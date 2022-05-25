@@ -34,11 +34,6 @@ class HomeFragment : PostListFragment<Subject>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePersonalTab(view)
-
-        swipeRefresher.setOnRefreshListener {
-            updatePostsList()
-            swipeRefresher.isRefreshing = false
-        }
     }
 
     private fun initializePersonalTab(view: View) {
