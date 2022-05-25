@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database
 
 import com.github.sdp.ratemyepfl.model.review.Review
+import kotlinx.coroutines.flow.Flow
 
 interface ReviewRepository : Repository<Review> {
 
@@ -30,7 +31,7 @@ interface ReviewRepository : Repository<Review> {
      *
      * @return the list non-null reviews of the reviewable
      */
-    suspend fun getByReviewableId(id: String?): List<Review>
+    fun getByReviewableId(id: String): Flow<List<Review>>
 
     /**
      * Adds an up vote from [userId] to the review with id [reviewId]. If the user

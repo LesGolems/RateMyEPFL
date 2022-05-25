@@ -1,14 +1,10 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl.Companion.toRestaurant
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Restaurant
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.getField
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -16,7 +12,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -41,13 +36,13 @@ class RestaurantRepositoryTest {
 
     @After
     fun clean() = runTest {
-        restaurantRepo.remove(testRestaurant.getId()).await()
+        restaurantRepo.remove(testRestaurant.getId()).collect()
     }
 
     @Test
     fun conversionTest() = runTest {
-        restaurantRepo.add(testRestaurant).await()
-        val c = restaurantRepo.getRestaurantById(testRestaurant.getId())
+        restaurantRepo.add(testRestaurant).collect()
+        val c = restaurantRepo.getRestaurantByName(testRestaurant.getId())
         assertEquals(testRestaurant, c)
     }
 
@@ -69,9 +64,9 @@ class RestaurantRepositoryTest {
     @Test
     fun getRestaurantByIdWorks() {
         runTest {
-            val restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
+            val restaurant = restaurantRepo.getRestaurantByName(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.name, restaurant!!.name)
+            assertEquals(testRestaurant.name, restaurant.name)
             assertEquals(testRestaurant.lat, restaurant.lat, 0.1)
             assertEquals(testRestaurant.long, restaurant.long, 0.1)
             assertEquals(testRestaurant.grade, restaurant.grade, 0.1)
@@ -83,15 +78,15 @@ class RestaurantRepositoryTest {
     fun occupancyWorks() {
         runTest {
             restaurantRepo.incrementOccupancy(testRestaurant.name)
-            var restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
+            var restaurant = restaurantRepo.getRestaurantByName(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.name, restaurant!!.name)
+            assertEquals(testRestaurant.name, restaurant.name)
             assertEquals(2, restaurant.occupancy)
 
             restaurantRepo.decrementOccupancy(testRestaurant.name)
-            restaurant = restaurantRepo.getRestaurantById(testRestaurant.name)
+            restaurant = restaurantRepo.getRestaurantByName(testRestaurant.name)
             assertNotNull(restaurant)
-            assertEquals(testRestaurant.name, restaurant!!.name)
+            assertEquals(testRestaurant.name, restaurant.name)
             assertEquals(1, restaurant.occupancy)
         }
     }

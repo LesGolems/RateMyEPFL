@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
@@ -16,10 +15,13 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
@@ -46,29 +48,24 @@ open class ReviewListViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-    init {
-        updateReviewsList()
-    }
 
-    fun updateReviewsList() {
-        viewModelScope.launch {
-            reviews.postValue(reviewRepo.getByReviewableId(id)
-                .toMutableList()
-                .map { review ->
+    fun getReviews(): Flow<List<ReviewWithAuthor>> =
+        reviewRepo.getByReviewableId(id)
+            .map { reviews ->
+                reviews.map { review ->
                     ReviewWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
                         review.uid?.let { imageStorage.get(it).last() }
                     )
                 }
-                .sortedBy { rwa -> -rwa.review.likers.size })
-        }
-    }
+                    .sortedBy { rwa -> -rwa.review.likers.size }
+            }
+
 
     suspend fun removeReview(reviewId: String) {
-        reviewRepo.remove(reviewId).await()
+        reviewRepo.remove(reviewId).collect()
         gradeInfoRepo.removeReview(itemReviewed, reviewId)
-        updateReviewsList()
     }
 
     fun updateDownVotes(review: Review, authorUid: String?) {
@@ -96,7 +93,6 @@ open class ReviewListViewModel @Inject constructor(
                 userRepo.updateKarma(authorUid, -1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, -1)
             }
-            updateReviewsList()
         }
     }
 
@@ -125,7 +121,6 @@ open class ReviewListViewModel @Inject constructor(
                 userRepo.updateKarma(authorUid, 1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, 1)
             }
-            updateReviewsList()
         }
     }
 }

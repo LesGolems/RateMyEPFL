@@ -13,7 +13,7 @@ open class FakeRepository<T : RepositoryItem> : Repository<T> {
 
     var elements: Set<T> = setOf()
 
-    override suspend fun take(number: Long): List<T> = elements.toList()
+    override suspend fun get(number: Long): List<T> = elements.toList()
 
     override suspend fun getById(id: String): T? =
         elements.firstOrNull { it.getId() == id }

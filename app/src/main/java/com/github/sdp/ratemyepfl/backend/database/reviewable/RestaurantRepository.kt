@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.model.items.Restaurant
 
 interface RestaurantRepository : ReviewableRepository<Restaurant> {
     /**
-     * Retrieve the restaurant from the repository
+     * Retrieve the restaurants from the repository
      *
      * @return a list of non-null restaurant
      */
@@ -14,8 +14,10 @@ interface RestaurantRepository : ReviewableRepository<Restaurant> {
      * Retrieve an restaurant from id.
      *
      * @return the restaurant if found, otherwise null
+     *
+     * @throws NoSuchElementException if no element with the provided id exists
      */
-    suspend fun getRestaurantById(id: String): Restaurant?
+    suspend fun getRestaurantByName(name: String): Restaurant
 
     /**
      *  Increment occupancy of given restaurant

@@ -111,7 +111,7 @@ class UserViewModel @Inject constructor(
                 if (newUsername != null && newEmail != null) {
                     userDatabase.update(id) {
                         it.copy(username = newUsername, email = newEmail)
-                    }.await()
+                    }.last()
                 }
             }
         } else {

@@ -14,7 +14,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,8 +52,9 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
      */
-    override suspend fun getUserByUid(uid: String): User? = repository
+    override suspend fun getUserByUid(uid: String): User = repository
         .getById(uid)
+        .last()
 
     private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
@@ -87,7 +88,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         if (uid == null) return
         update(uid) {
             it.copy(karma = it.karma + inc)
-        }.await()
+        }.collect()
     }
 
     override suspend fun updateTimetable(uid: String?, c: Class) {
@@ -95,14 +96,17 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         update(uid) {
             it.timetable.add(c)
             it.copy(timetable = it.timetable)
-        }.await()
+        }.collect()
     }
 
-    override suspend fun register(user: User): Task<Boolean> =
+    override suspend fun register(user: User): Flow<Boolean> = flow {
         if (getUserByUid(user.getId()) == null) {
-            repository.add(user).continueWith { false }
+            repository.add(user)
+            emit(false)
         } else {
-            Tasks.forResult(true)
+            emit(true)
         }
+    }
+
 
 }

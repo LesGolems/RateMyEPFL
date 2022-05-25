@@ -11,9 +11,9 @@ import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -50,7 +50,7 @@ class SplashScreen : AppCompatActivity() {
         if (user.isLoggedIn()) {
             runBlocking {
                 launch(Dispatchers.IO) {
-                    repository.register(User(user)).await()
+                    repository.register(User(user)).collect()
                 }
             }
             goToMain()

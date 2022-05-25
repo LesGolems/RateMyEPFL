@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -55,7 +55,7 @@ class ReviewableRepositoryImplTest {
         hiltRule.inject()
         repository = CourseRepositoryImpl(db)
         val c = courses.map { repository.add(it) }
-        c.forEach { it.await() }
+        c.forEach { it.collect() }
     }
 
     @After

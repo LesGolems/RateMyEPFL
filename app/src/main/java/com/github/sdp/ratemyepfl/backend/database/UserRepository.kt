@@ -5,10 +5,11 @@ import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Transaction
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository : Repository<User> {
 
-    suspend fun getUserByUid(uid: String): User?
+    suspend fun getUserByUid(uid: String): User
 
     fun getUsersByUsername(username: String): QueryResult<List<User>>
 
@@ -21,7 +22,7 @@ interface UserRepository : Repository<User> {
      * @param user: the user to register
      *
      */
-    suspend fun register(user: User): Task<Boolean>
+    suspend fun register(user: User): Flow<Boolean>
 
 
     /**

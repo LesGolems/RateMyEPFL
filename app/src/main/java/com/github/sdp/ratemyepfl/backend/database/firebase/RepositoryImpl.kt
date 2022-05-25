@@ -9,6 +9,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class RepositoryImpl<T : RepositoryItem>(
@@ -28,11 +30,13 @@ class RepositoryImpl<T : RepositoryItem>(
         }
     }
 
-    override suspend fun take(number: Long) =
-        collection.limit(number)
+    override suspend fun get(number: Long) = flow {
+        val results = collection.limit(number)
             .get()
             .await()
             .mapNotNull(transform)
+        emit(results)
+    }
 
     /**
      * Creates a new query to execute
@@ -42,39 +46,49 @@ class RepositoryImpl<T : RepositoryItem>(
     override fun query(): FirebaseQuery = FirebaseQuery(collection)
 
 
-    override suspend fun getById(id: String) =
-        transform(
+    override suspend fun getById(id: String) = flow {
+        val result: T = transform(
             collection.document(id)
                 .get()
                 .await()
-        )
-
-
-    override fun remove(id: String) = collection
-        .document(id)
-        .delete()
-
-
-    override fun add(item: T): Task<String> = item.getId().let { id ->
-        collection
-            .document(id)
-            .set(item)
-            .continueWith { id }
+        ) ?: throw NoSuchElementException("No element match the id $id")
+        emit(result)
     }
 
 
-    override fun update(id: String, transform: (T) -> T): Task<T> {
+    override fun remove(id: String) = flow {
+        val result = collection
+            .document(id)
+            .delete()
+        emit(true)
+    }
+
+
+    override fun add(item: T) = flow {
+        val id = item.getId().let { id ->
+            collection
+                .document(id)
+                .set(item)
+                .continueWith { id }
+                .await()
+        }
+        emit(id)
+    }
+
+
+    override fun update(id: String, transform: (T) -> T): Flow<T> = flow {
         val docRef = collection
             .document(id)
-        return database
+        val result = database
             .runTransaction { transaction ->
                 val snapshot = transaction.get(docRef)
-                this.transform(snapshot)?.let { data ->
+                this@RepositoryImpl.transform(snapshot)?.let { data ->
                     transform(data).apply {
                         transaction.set(docRef, this)
                     }
                 }
-            }
+            }.await()
+        emit(result)
     }
 
     override fun transform(document: DocumentSnapshot): T? = this.transform.invoke(document)

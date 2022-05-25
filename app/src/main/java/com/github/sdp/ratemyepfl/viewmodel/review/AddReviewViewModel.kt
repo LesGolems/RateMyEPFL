@@ -116,7 +116,7 @@ class AddReviewViewModel @Inject constructor(
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
                 val reviewId = reviewRepo.addAndGetId(review)
-                gradeInfoRepo.addReview(item, reviewId, review.rating).await()
+                gradeInfoRepo.addReview(item, reviewId, review.rating)
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the review (from ${e.message}")

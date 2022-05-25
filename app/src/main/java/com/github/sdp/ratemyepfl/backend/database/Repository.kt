@@ -3,29 +3,37 @@ package com.github.sdp.ratemyepfl.backend.database
 import com.github.sdp.ratemyepfl.backend.database.query.Queryable
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.flow.Flow
 
 interface Repository<T : RepositoryItem> : Queryable {
 
+    companion object {
+        const val DEFAULT_NUMBER_ITEMS = 10L
+    }
     /**
      * Retrieve a given number of items from the collection
      *
      * @param number: the number of element to retrieve
      *
-     * @return a QuerySnapshot of the request
+     * @return a list of results
      */
-    suspend fun take(number: Long): List<T>
+    suspend fun get(number: Long = DEFAULT_NUMBER_ITEMS): Flow<List<T>>
 
     /**
      * Retrieve an element by id from the collection
      *
      * @param id: the unique identifier (or key) of the object to retrieve
+     *
+     * @return the first element matching the provided id
+     *
+     * @throws NoSuchElementException if the element was not found
      */
-    suspend fun getById(id: String): T?
+    suspend fun getById(id: String): Flow<T>
 
     /**
      * @param id : the identifier of the item to delete
      */
-    fun remove(id: String): Task<Void>
+    fun remove(id: String): Flow<Boolean>
 
     /**
      * Add an item in the database. If the id of the item is null, it auto-generates it
@@ -34,7 +42,7 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @return the id of the element added
      */
-    fun add(item: T): Task<String>
+    fun add(item: T): Flow<String>
 
     /**
      * Update the the document with the provided [id] by transforming the data.
@@ -46,7 +54,7 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @return the transformed data, or null if the document does not exist.
      */
-    fun update(id: String, transform: (T) -> T): Task<T>
+    fun update(id: String, transform: (T) -> T): Flow<T>
 
     /**
      * Transform fetched [DocumentSnapshot] into [T]
