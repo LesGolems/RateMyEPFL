@@ -104,6 +104,13 @@ class CommentListFragmentTest {
     }
 
     @Test
+    fun clickOnFadeOut() {
+        launch()
+        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
+        onView(withId(R.id.slidingAddComment)).perform(click())
+    }
+
+    @Test
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeCommentRepository.commentList = listOf(

@@ -50,7 +50,8 @@ class CommentListFragment : PostListFragment<Comment>(
         slidingLayout = view.findViewById(R.id.slidingAddComment)
         slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         slidingLayout.setFadeOnClickListener {
-            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
+                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
         doneButton = view.findViewById(R.id.doneButton)
         comment = view.findViewById(R.id.addComment)
@@ -84,7 +85,7 @@ class CommentListFragment : PostListFragment<Comment>(
         try {
             viewModel.submitComment()
             comment.setText("")
-            displayOnToast(context, "Your comment was submitted!")
+            displayOnToast(context, getString(R.string.comment_sent_text))
             slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         } catch (due: DisconnectedUserException) {
             displayOnToast(context, due.message)
