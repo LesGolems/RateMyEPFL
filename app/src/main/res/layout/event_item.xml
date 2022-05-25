@@ -66,7 +66,7 @@
         android:layout_marginBottom="5dp"
         android:text="@string/register"
         android:textColor="@color/white"
-        app:backgroundTint="@color/purple_700"
+        app:backgroundTint="@color/primaryColor"
         app:icon="@drawable/ic_login_black_24dp"
         app:iconTint="@color/white"
         app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
