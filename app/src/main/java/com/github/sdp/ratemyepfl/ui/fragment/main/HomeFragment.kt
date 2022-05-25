@@ -34,6 +34,13 @@ class HomeFragment : PostListFragment<Subject>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePersonalTab(view)
+
+        // Displays the most recent posts first
+        posts().observe(viewLifecycleOwner) {
+            it?.let { postAdapter.submitList(it.sortedByDescending {
+                pwa -> pwa.post.date.toString()
+            }) }
+        }
     }
 
     private fun initializePersonalTab(view: View) {
@@ -45,9 +52,6 @@ class HomeFragment : PostListFragment<Subject>(
         personalProfilePicture = view.findViewById(R.id.personalProfilePicture)
         userViewModel.picture.observe(viewLifecycleOwner) {
             it?.let { personalProfilePicture.setImageBitmap(it.data) }
-        }
-        personalProfilePicture.setOnClickListener {
-            // TODO open side bar
         }
     }
 

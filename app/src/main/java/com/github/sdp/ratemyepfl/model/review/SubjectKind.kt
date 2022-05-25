@@ -18,6 +18,7 @@ enum class SubjectKind(val id: String, @RawRes val icon: Int) {
     PROJECTS("Projects", R.raw.emoji_scientist),
     COMPLAINT("Complaint", R.raw.emoji_facepalming),
     WARNING("Warning", R.raw.emoji_warning),
+    DEBATE("Debate", R.raw.emoji_debate),
     OTHER("Other", R.raw.emoji_other);
 
     companion object {
