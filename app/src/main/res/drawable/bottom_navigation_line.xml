@@ -7,7 +7,7 @@
             <stroke
                 android:width="3dp"
                 android:height="0dp"
-                android:color="@color/white" />
+                android:color="@color/navigationItems" />
             <corners android:radius="5dp" />
         </shape>
     </item>
