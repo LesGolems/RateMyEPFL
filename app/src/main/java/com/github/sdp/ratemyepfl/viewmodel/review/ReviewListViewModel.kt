@@ -4,18 +4,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
-    private val reviewRepo: ReviewRepository,
+    private val reviewRepo: com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository,
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
@@ -34,8 +34,7 @@ open class ReviewListViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Id
-    val id: String =
-        savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
+    val id: String = savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
     private val itemReviewed = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
@@ -54,20 +53,22 @@ open class ReviewListViewModel @Inject constructor(
             reviews.postValue(reviewRepo.getByReviewableId(id)
                 .toMutableList()
                 .map { review ->
-                    ReviewWithAuthor(
+                    PostWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
                         review.uid?.let { imageStorage.get(it) }
                     )
                 }
-                .sortedBy { rwa -> -rwa.review.likers.size })
+                .sortedBy { rwa -> -rwa.post.likers.size })
         }
     }
 
-    suspend fun removeReview(reviewId: String) {
-        reviewRepo.remove(reviewId).await()
-        gradeInfoRepo.removeReview(itemReviewed, reviewId)
-        updateReviewsList()
+    fun removeReview(reviewId: String) {
+        viewModelScope.launch {
+            reviewRepo.remove(reviewId).await()
+            gradeInfoRepo.removeReview(itemReviewed, reviewId)
+            updateReviewsList()
+        }
     }
 
     fun updateDownVotes(review: Review, authorUid: String?) {

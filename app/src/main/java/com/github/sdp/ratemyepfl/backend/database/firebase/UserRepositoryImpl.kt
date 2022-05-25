@@ -98,6 +98,13 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         }.await()
     }
 
+    override suspend fun getTopKarmaUsers(): QueryResult<List<User>> =
+        repository
+            .query()
+            .orderBy(KARMA_FIELD_NAME, com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .execute(10u)
+            .mapDocuments { it.toUser() }
+
     override suspend fun register(user: User): Task<Boolean> =
         if (getUserByUid(user.getId()) == null) {
             repository.add(user).continueWith { false }

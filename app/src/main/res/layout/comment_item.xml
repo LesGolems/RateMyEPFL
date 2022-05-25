@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <!-- Comment information layout -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/author_profile_picture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@raw/blank_profile_picture" />
+
+        <TextView
+            android:id="@+id/author_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/author_profile_picture"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/author_profile_picture"
+            android:hint="@string/anonymous" />
+
+        <TextView
+            android:id="@+id/dateReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/author_profile_picture"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/author_profile_picture"
+            android:gravity="center"
+            android:text="%s" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@color/white"
+            android:contentDescription="@string/button_for_deleting_a_comment"
+            android:src="@drawable/ic_delete_outline" />
+    </RelativeLayout>
+
+
+    <!-- Comment description layout -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/titleReview"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_review_list"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/commentReview"
+            style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleReview"
+            android:text="@string/comment_review_list" />
+    </RelativeLayout>
+
+
+    <!-- User interaction layout -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <!-- Like -->
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/likeCount"
+            android:background="@color/white"
+            android:contentDescription="@string/i_like_this_review"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_like" />
+
+        <TextView
+            android:id="@+id/likeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/dislikeButton" />
+
+        <!-- Dislike -->
+        <ImageButton
+            android:id="@+id/dislikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/dislikeCount"
+            android:background="@color/white"
+            android:contentDescription="@string/i_don_t_like_this_review"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_dislike" />
+
+        <TextView
+            android:id="@+id/dislikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="2dp" />
+    </RelativeLayout>
+
+</LinearLayout>
