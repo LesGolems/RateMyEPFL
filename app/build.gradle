@@ -154,6 +154,7 @@ dependencies {
 
     implementation 'com.github.Gruzer:simple-gauge-android:0.3.1'
     implementation "ca.antonious:materialdaypicker:0.7.4"
+    implementation "com.tomer:fadingtextview:2.5"
 }
 
 configurations.all {

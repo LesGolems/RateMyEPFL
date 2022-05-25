@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="podium_quote_author">
+        <item>Keanu Reeves</item>
+        <item>Yannick Noah</item>
+        <item>Steve Jobs</item>
+        <item>John Lennon</item>
+    </string-array>
+
+    <string-array name="podium_quote">
+        <item>\"When you truly understand karma, then you realize you are responsible for everything in your life\"</item>
+        <item>\"Je crois au Karma. Si le bien est semé, le bien est collecté. Lorsque des choses positives sont faites, cela revient bien.\"</item>
+        <item>\"Vous devez faire confiance à quelque chose - votre instinct, votre destin, votre vie, votre karma, peu importe.\"</item>
+        <item>\"Le karma instantané va vous avoir.\"</item>
+    </string-array>
+</resources>
