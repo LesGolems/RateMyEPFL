@@ -20,6 +20,9 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -51,7 +54,7 @@ class CommentListViewModel @Inject constructor(
                     PostWithAuthor(
                         comment,
                         comment.uid?.let { userRepo.getUserByUid(it) },
-                        comment.uid?.let { imageStorage.get(it) }
+                        comment.uid?.let { imageStorage.get(it).catch {  }.lastOrNull() }
                     )
                 }
                 .sortedBy { cwa -> -cwa.post.likers.size })

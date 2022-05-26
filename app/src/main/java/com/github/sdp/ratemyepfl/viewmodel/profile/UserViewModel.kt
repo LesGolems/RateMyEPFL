@@ -13,6 +13,8 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -36,6 +38,12 @@ class UserViewModel @Inject constructor(
         refreshUser()
     }
 
+    fun loadImage(): Flow<ImageFile> =
+        currentUser.getUserId()?.let {
+            imageStorage.get(it)
+        } ?: throw DisconnectedUserException("Cannot fetch the image of a disconnected user")
+
+
     /**
      * Refreshes the user profile, if the user is not connected set the user and picture to null
      */
@@ -46,7 +54,7 @@ class UserViewModel @Inject constructor(
         if (uid != null) {
             viewModelScope.launch {
                 userDatabase.getUserByUid(uid)?.let { user.postValue(it) }
-                imageStorage.get(uid)?.let { picture.postValue(it) }
+                imageStorage.get(uid).lastOrNull()?.let { picture.postValue(it) }
             }
         } else {
             user.postValue(null)
