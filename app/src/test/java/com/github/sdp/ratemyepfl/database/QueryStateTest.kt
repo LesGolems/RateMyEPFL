@@ -33,7 +33,7 @@ class QueryStateTest {
     fun test() = runTest {
         var x = 0
         QueryResult {
-            emit(QueryState.success(3))
+            3
         }.mapResult {
             x = 3
             it

@@ -165,6 +165,8 @@
     <string name="select_room_fragment">Choose a room</string>
     <string name="room_class_creation">Click here to select a room</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
+    <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
+    <string name="content_description_loading_image">%s</string>
 
     -- SUBJECT --
     <string name="create_post">Create post…</string>

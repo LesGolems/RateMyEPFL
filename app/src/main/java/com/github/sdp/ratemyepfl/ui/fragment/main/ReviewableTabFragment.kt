@@ -5,25 +5,25 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ReviewableAdapter
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.ReviewableAdapter
+import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
 import com.github.sdp.ratemyepfl.viewmodel.filter.ReviewableFilter
 import com.github.sdp.ratemyepfl.viewmodel.main.ReviewableListViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
 
     open val reviewableAdapter = ReviewableAdapter { t -> displayReviews(t) }
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var loadingRecyclerView: LoadingRecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
 
@@ -48,30 +48,18 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressBar = view.findViewById(R.id.loading_progress_bar)
-        progressText = view.findViewById(R.id.loading_progress_bar_text)
-        recyclerView = view.findViewById(R.id.reviewableRecyclerView)
-        recyclerView.adapter = reviewableAdapter
+        progressBar = view.findViewById(R.id.loadingRecyclerViewProgressBar)
+        progressText = view.findViewById(R.id.loadindRecyclerViewProgressBarText)
 
-        setupRecyclerView(recyclerView)
+        val recyclerViewLayout: View = view.findViewById(R.id.reviewableRecyclerViewLayout)
+        loadingRecyclerView = LoadingRecyclerView(recyclerViewLayout)
+        loadingRecyclerView.recyclerView
+            .adapter = reviewableAdapter
+        loadingRecyclerView.setOnReachBottom {
+            loadMore()
+        }
         setupSearchBar(view)
         setupControls(view)
-    }
-
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        //recyclerView.addItemDecoration( DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL) )
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-
-                if (!recyclerView.canScrollVertically(1) && !isSearching) {
-                    displayResult(viewModel.loadMore())
-
-                }
-            }
-
-        })
     }
 
     /**
@@ -79,6 +67,10 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
      */
     private fun refresh() {
         displayResult(viewModel.loadIfAbsent())
+    }
+
+    private fun loadMore() {
+        displayResult(viewModel.loadMore())
     }
 
     override fun onResume() {
@@ -233,42 +225,20 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     fun displayResult(result: QueryResult<List<T>>) {
         viewModel.viewModelScope
             .launch {
-                result.collect {
+                loadingRecyclerView.display(result, {
                     when (it) {
-                        is QueryState.Failure -> {
-                            stopLoading()
-                            progressText.text = getString(R.string.database_error_loading_text)
-                            Snackbar.make(
-                                requireView(),
-                                "An error occurred while loading the data",
-                                Snackbar.LENGTH_LONG
-                            )
-                                .setAnchorView(recyclerView)
-                                .show()
-                        }
-                        is QueryState.Loading -> startLoading()
-                        is QueryState.Success -> {
-                            stopLoading()
-                        }
+                        is QueryState.Failure -> throw it.error
+                        is QueryState.Loading -> {loadingRecyclerView.textView.visibility = INVISIBLE}
+                        is QueryState.Success -> viewModel.elements.postValue(it.data)
                     }
+                }) {
+                    loadingRecyclerView.textView.text = it
+                    loadingRecyclerView.textView
+                        .visibility = VISIBLE
                 }
             }
     }
 
-    private fun startLoading() {
-        recyclerView.visibility = View.INVISIBLE
-        progressBar.visibility = View.VISIBLE
-        progressText.visibility = View.VISIBLE
-        progressText.text = getString(R.string.loading_progress_bar_text)
-
-        progressBar.animate()
-    }
-
-    private fun stopLoading() {
-        progressBar.visibility = View.INVISIBLE
-        progressText.visibility = View.INVISIBLE
-        recyclerView.visibility = View.VISIBLE
-    }
 
     /**
      * Return the alphabetic order filter for the corresponding [T]
