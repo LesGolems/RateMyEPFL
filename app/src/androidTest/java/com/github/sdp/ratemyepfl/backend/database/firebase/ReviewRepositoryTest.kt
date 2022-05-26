@@ -1,10 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.ReviewRepositoryImpl.Companion.toReview
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.github.sdp.ratemyepfl.model.time.Date
-import com.github.sdp.ratemyepfl.model.time.Date.Companion.toDate
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -17,7 +15,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.time.LocalDate
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -144,7 +141,6 @@ class ReviewRepositoryTest {
         }
     }
 
-
     @Test
     fun addWithIdRegisterWithTheGivenId() = runTest {
         val id = "id"
@@ -185,7 +181,6 @@ class ReviewRepositoryTest {
         clean()
     }
 
-
     @Test
     fun addUpVoteTwiceOnlyAddsItOnceWorks() = runTest {
         val uid = "uid"
@@ -214,7 +209,6 @@ class ReviewRepositoryTest {
         reviewRepo.remove(id).await()
         clean()
     }
-
 
     @Test
     fun addDownVoteTwiceOnlyAddsItOnceWorks() = runTest {
