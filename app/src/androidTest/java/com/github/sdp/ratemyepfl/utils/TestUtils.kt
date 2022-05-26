@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Point
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -52,20 +51,6 @@ object TestUtils {
     }
 
     /**
-     * Returns the coordinates of the center of the view.
-     */
-    fun centerPoint(view: View): Point {
-        val locationOnScreen = IntArray(2)
-        view.getLocationOnScreen(locationOnScreen)
-        val viewHeight = view.height * view.scaleY
-        val viewWidth = view.width * view.scaleX
-        return Point(
-            (locationOnScreen[0] + viewWidth / 2).toInt(),
-            (locationOnScreen[1] + viewHeight / 2).toInt()
-        )
-    }
-
-    /**
      * Returns the test current activity
      */
     fun <A : Activity> getActivity(scenario: ActivityScenario<A>): A {
@@ -107,7 +92,7 @@ object TestUtils {
         return Instrumentation.ActivityResult(Activity.RESULT_OK, resultData)
     }
 
-    fun isExpanded(): Matcher<in View>? = object : TypeSafeMatcher<View>() {
+    fun isExpanded(): Matcher<in View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description) {
             description.appendText("SlidingUpPanel that is expanded")
         }
@@ -118,7 +103,7 @@ object TestUtils {
         }
     }
 
-    fun isHidden(): Matcher<in View>? = object : TypeSafeMatcher<View>() {
+    fun isHidden(): Matcher<in View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description) {
             description.appendText("SlidingUpPanel that is hidden")
         }

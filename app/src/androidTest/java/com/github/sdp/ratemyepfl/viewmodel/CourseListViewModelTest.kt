@@ -1,14 +1,16 @@
 package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
+import com.github.sdp.ratemyepfl.viewmodel.main.CourseListViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -31,9 +33,8 @@ class CourseListViewModelTest {
     lateinit var repository: CourseRepositoryImpl
 
     private val fake = "fake"
-    private val fakeTeacher = fake
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
+    private val courseBuilder = Course(
         fake,
         fake,
         fake,
@@ -50,14 +51,11 @@ class CourseListViewModelTest {
     private val title = "title"
     private val courseCode = "courseCode"
     private val personalizedCourse = courseBuilder
-        .setTeacher(personalizedTeacher)
-        .setTitle(title)
-        .setCourseCode(courseCode)
-        .build()
+        .copy(teacher = personalizedTeacher, title = title, courseCode = courseCode)
 
     private val courses: List<Course> = (0..30)
         .map { n ->
-            Course.Builder(
+            Course(
                 fake,
                 fake,
                 fake,
@@ -69,24 +67,21 @@ class CourseListViewModelTest {
                 fake,
                 fake,
                 fake
-            )
-                .setCourseCode(n.toString())
-                .setGrade(((n + 2) % 5 + 1).toDouble())
-                .build()
+            ).copy(courseCode = n.toString(), grade = ((n + 2) % 5 + 1).toDouble())
         }.plus(personalizedCourse)
 
     @Before
     fun setup() {
         hiltAndroidRule.inject()
         courses.forEach {
-            runTest { repository.add(it) }
+            runTest { repository.add(it).await() }
         }
     }
 
     @After
     fun teardown() {
         courses.forEach {
-            runTest { repository.remove(it.getId()) }
+            runTest { repository.remove(it.getId()).await() }
         }
     }
 
@@ -174,7 +169,9 @@ class CourseListViewModelTest {
                     is QueryState.Failure -> throw it.error
                     is QueryState.Loading -> {}
                     is QueryState.Success -> {
-                        assertEquals(true, viewModel.elements.value?.all { course -> course.title == title })
+                        assertEquals(
+                            true,
+                            viewModel.elements.value?.all { course -> course.title == title })
                     }
                 }
             }

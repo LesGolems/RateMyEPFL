@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addClassScrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/addClassScrollView">
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        tools:context=".fragment.navigation.AddClassFragment">
+        tools:context=".ui.fragment.profile.AddClassFragment">
 
         <TextView
             android:id="@+id/addClassTitle"
@@ -37,7 +37,8 @@
                 android:id="@+id/courseClassInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false" />
+                android:editable="false"
+                tools:ignore="Autofill,Deprecated,LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -53,7 +54,8 @@
                 android:id="@+id/roomClassInputText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false" />
+                android:editable="false"
+                tools:ignore="Autofill,Deprecated,LabelFor,TextFields" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -77,54 +79,54 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_height="125dp"
-            android:layout_marginStart="25dp">
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/startText"
+                style="@style/IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                style="@style/IconOnly"
-                android:textSize="11sp"
-                android:text="Start"/>
+                android:text="@string/start"
+                android:textSize="11sp" />
 
             <NumberPicker
                 android:id="@+id/startTimePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_centerVertical="true"
-                android:clickable="true"
-                android:layout_toEndOf="@id/startText"/>
+                android:layout_toEndOf="@id/startText"
+                android:clickable="true" />
 
             <TextView
                 android:id="@+id/endText"
+                style="@style/IconOnly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
                 android:layout_centerVertical="true"
-                style="@style/IconOnly"
-                android:textSize="11sp"
-                android:text="End"
-                android:layout_toEndOf="@id/startTimePicker"/>
+                android:layout_marginStart="50dp"
+                android:layout_toEndOf="@id/startTimePicker"
+                android:text="@string/end"
+                android:textSize="11sp" />
 
             <NumberPicker
                 android:id="@+id/endTimePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
                 android:layout_centerVertical="true"
-                android:clickable="true"
-                android:layout_toEndOf="@id/endText"/>
+                android:layout_toEndOf="@id/endText"
+                android:clickable="true" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/doneButton"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="240dp"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:text="@string/done_button_text" />
     </LinearLayout>
 

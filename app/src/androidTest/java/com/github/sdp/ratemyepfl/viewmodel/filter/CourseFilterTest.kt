@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
-import com.github.sdp.ratemyepfl.database.query.QueryState
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl
-import com.github.sdp.ratemyepfl.database.reviewable.CourseRepositoryImpl.Companion.toCourse
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
+import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.toCourse
 import com.github.sdp.ratemyepfl.model.items.Course
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -26,7 +26,7 @@ class CourseFilterTest {
 
     private val fake = "fake"
     private val personalizedTeacher = "myPersonalTeacher"
-    private val courseBuilder = Course.Builder(
+    private val courseBuilder = Course(
         fake,
         fake,
         fake,
@@ -43,10 +43,7 @@ class CourseFilterTest {
     private val title = "title"
     private val courseCode = "courseCode"
     private val personalizedCourse = courseBuilder
-        .setTeacher(personalizedTeacher)
-        .setTitle(title)
-        .setCourseCode(courseCode)
-        .build()
+        .copy(teacher = personalizedTeacher, title = title, courseCode = courseCode)
 
     private val courses: List<Course> = listOf(
         personalizedCourse, personalizedCourse.copy(title = "z")
@@ -68,14 +65,14 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderQueryTest() = runTest {
+    fun alphabeticalOrderQueryTest() = runTest {
         CourseFilter.AlphabeticalOrder.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw it.error
-                    is QueryState.Loading -> { }
+                    is QueryState.Loading -> {}
                     is QueryState.Success ->
                         assertEquals(it.data, it.data.sortedBy { course -> course.title })
                 }
@@ -83,16 +80,19 @@ class CourseFilterTest {
     }
 
     @Test
-    fun AlphabeticalOrderReversedQueryTest() = runTest {
+    fun alphabeticalOrderReversedQueryTest() = runTest {
         CourseFilter.AlphabeticalOrderReversed.toQuery(repository.query())
             .execute(courses.size.toUInt())
             .mapResult { s -> s.mapNotNull { it.toCourse() } }
             .collect {
                 when (it) {
                     is QueryState.Failure -> throw it.error
-                    is QueryState.Loading -> { }
+                    is QueryState.Loading -> {}
                     is QueryState.Success ->
-                        assertEquals(it.data, it.data.sortedBy { course -> course.title }.reversed())
+                        assertEquals(
+                            it.data,
+                            it.data.sortedBy { course -> course.title }.reversed()
+                        )
                 }
             }
     }

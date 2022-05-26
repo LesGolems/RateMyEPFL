@@ -1,23 +1,19 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.database.RepositoryItem
-import com.github.sdp.ratemyepfl.database.ReviewRepositoryImpl
-import com.github.sdp.ratemyepfl.model.serializer.LocalDateSerializer
-import kotlinx.serialization.ExperimentalSerializationApi
+import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
+import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.LocalDate
 
 @Serializable
-data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
-    val rating: ReviewRating,
-    val title: String,
-    val comment: String,
-    val reviewableId: String,
-    @Serializable(with = LocalDateSerializer::class)
-    val date: LocalDate,
+data class Review constructor(
+    val rating: ReviewRating = ReviewRating.AVERAGE,
+    val title: String = "",
+    val comment: String = "",
+    val reviewableId: String = "",
+    val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     val uid: String? = null,
     var likers: List<String> = listOf(),
     var dislikers: List<String> = listOf()
@@ -61,22 +57,6 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
     }
 
     /**
-     * Creates a hash map of the review
-     */
-    override fun toHashMap(): HashMap<String, Any?> {
-        return hashMapOf(
-            ReviewRepositoryImpl.TITLE_FIELD_NAME to title,
-            ReviewRepositoryImpl.RATING_FIELD_NAME to rating.toString(),
-            ReviewRepositoryImpl.COMMENT_FIELD_NAME to comment,
-            ReviewRepositoryImpl.REVIEWABLE_ID_FIELD_NAME to reviewableId,
-            ReviewRepositoryImpl.DATE_FIELD_NAME to date.toString(),
-            ReviewRepositoryImpl.UID_FIELD_NAME to uid,
-            ReviewRepositoryImpl.LIKERS_FIELD_NAME to likers,
-            ReviewRepositoryImpl.DISLIKERS_FIELD_NAME to dislikers
-        )
-    }
-
-    /**
      * Allows to create a ReviewRating incrementally.
      * NB: Even if a user can create a review incrementally, he
      * must specify every property of the review.
@@ -88,7 +68,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
         private var title: String? = null,
         private var comment: String? = null,
         private var reviewableId: String? = null,
-        private var date: LocalDate? = null,
+        private var date: DateTime? = null,
         private var uid: String? = null,
         private var likers: List<String>? = listOf(),
         private var dislikers: List<String>? = listOf(),
@@ -144,7 +124,7 @@ data class Review @OptIn(ExperimentalSerializationApi::class) constructor(
          * @param date: the new date of the review
          * @return this
          */
-        fun setDate(date: LocalDate?) = apply {
+        fun setDate(date: DateTime?) = apply {
             this.date = date
         }
 

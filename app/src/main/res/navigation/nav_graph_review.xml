@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_review"
+    app:startDestination="@id/review">
+    <include app:graph="@navigation/review" />
+    <include app:graph="@navigation/timetable" />
+    <include app:graph="@navigation/profile" />
+</navigation>

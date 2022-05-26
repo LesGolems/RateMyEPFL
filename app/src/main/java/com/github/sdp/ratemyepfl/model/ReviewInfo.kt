@@ -3,12 +3,13 @@ package com.github.sdp.ratemyepfl.model
 import kotlinx.serialization.Serializable
 
 /**
- * Informations for a specific review.
+ * Information for a specific review.
  */
 @Serializable
 data class ReviewInfo(
-    val reviewGrade: Int,
-    val likeRatio: Int,
+
+    val reviewGrade: Int = DEFAULT_REVIEW_INFO.reviewGrade,
+    val likeRatio: Int = DEFAULT_REVIEW_INFO.likeRatio,
 ) {
     companion object {
         val DEFAULT_REVIEW_INFO = ReviewInfo(0, 0)

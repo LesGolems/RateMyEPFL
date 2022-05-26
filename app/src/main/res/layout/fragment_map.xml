@@ -9,7 +9,7 @@
     sothree:umanoDragView="@id/dragView"
     sothree:umanoFadeColor="@android:color/transparent"
     sothree:umanoShadowHeight="4dp"
-    tools:context=".activity.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
 
     <androidx.fragment.app.FragmentContainerView

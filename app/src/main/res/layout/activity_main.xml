@@ -5,7 +5,7 @@
     android:id="@+id/mainActivityDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.github.sdp.ratemyepfl.activity.MainActivity">
+    tools:context="com.github.sdp.ratemyepfl.ui.activity.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

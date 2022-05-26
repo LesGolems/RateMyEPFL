@@ -1,58 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.review.EventReviewInfoFragment">
+    android:background="@color/backgroundColor"
+    tools:context=".ui.fragment.review.EventReviewInfoFragment">
+
+    <ImageView
+        android:id="@+id/eventInfoImage"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@raw/event_info_event" />
 
     <ImageView
         android:id="@+id/eventIcon"
-        android:layout_width="118dp"
-        android:layout_height="118dp"
-        android:layout_marginTop="124dp"
-        android:contentDescription="@string/event_content_description"
-        android:src="@drawable/ic_baseline_event_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/ic_calendar_solid"
+        app:tint="@color/primaryColor" />
 
-    <TextView
-        android:id="@+id/eventIdInfo"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardEventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/eventIcon"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/default_id_text"
-        android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceHeadline4"
-        android:typeface="monospace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventIcon" />
+        app:cardCornerRadius="10dp">
 
-    <RatingBar
-        android:id="@+id/eventRatingBar"
-        style="@android:style/Widget.Material.RatingBar"
-        android:layout_width="240dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="140dp"
-        android:isIndicator="true"
-        android:progressTint="@color/purple_500"
-        android:secondaryProgressTint="@color/purple_200"
-        android:stepSize="0.1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventIdInfo" />
+        <TextView
+            android:id="@+id/eventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:paddingStart="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="5dp"
+            android:text="@string/default_id_text"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="@color/secondaryColor"
+            android:textSize="38sp"
+            android:typeface="normal" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/eventCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cardEventName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/pt_sans_italic"
+        android:text="@string/event_creator_info"
+        android:textColor="@color/secondaryColor"
+        android:textSize="12sp" />
+
+    <TableLayout
+        android:id="@+id/eventInfoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/cardEventName">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
+
+                <TextView
+                    android:id="@+id/courseTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/event_date_info_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:maxWidth="260dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="@string/event_date_info"
+                android:textSize="20sp"
+                android:textColor="@color/black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCourseTeacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:cardBackgroundColor="@color/secondaryColor">
+
+                <TextView
+                    android:id="@+id/courseTeacherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingHorizontal="5dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="@string/event_time_info_text"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="11sp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/eventTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:textSize="20sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="@string/event_time_info"
+                android:textColor="@color/black" />
+        </TableRow>
+    </TableLayout>
+
+    <com.ekn.gruzer.gaugelibrary.ArcGauge
+        android:id="@+id/participationGauge"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_below="@+id/eventInfoLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardParticipation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/participationGauge"
+        android:layout_marginBottom="7dp"
+        app:cardBackgroundColor="@color/secondaryColor">
+
+        <TextView
+            android:id="@+id/participationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingHorizontal="5dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/event_participation_info_text"
+            android:textColor="@color/backgroundColor"
+            android:textSize="10sp"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardEventRating"
+        android:layout_width="200dp"
+        android:layout_height="52dp"
+        android:layout_below="@id/participationGauge"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="30dp">
+
+        <RatingBar
+            android:id="@+id/eventRatingBar"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="250dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:isIndicator="true"
+            android:padding="5dp"
+            android:progressTint="@color/secondaryColor"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:secondaryProgressTint="@color/tertiaryColor"
+            android:stepSize="0.1" />
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/eventNumReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/cardEventRating"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
+        android:fontFamily="@font/pt_sans"
         android:text="@string/num_reviews"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventRatingBar" />
+        android:textColor="#494949" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -1,12 +1,14 @@
 package com.github.sdp.ratemyepfl.database
 
-import com.github.sdp.ratemyepfl.database.query.QueryResult
-import com.github.sdp.ratemyepfl.database.query.QueryState
+import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class QueryStateTest {
     @Test
     fun mapWorksForLoading() {
@@ -30,7 +32,7 @@ class QueryStateTest {
     @Test
     fun test() = runTest {
         var x = 0
-        val state = QueryResult {
+        QueryResult {
             emit(QueryState.success(3))
         }.mapResult {
             x = 3
