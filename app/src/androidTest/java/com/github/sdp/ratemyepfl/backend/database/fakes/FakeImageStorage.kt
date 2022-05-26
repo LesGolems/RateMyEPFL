@@ -4,6 +4,8 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
@@ -32,11 +34,10 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
     override val MAX_ITEM_SIZE: Long
         get() = 1024 * 1024
 
-    override suspend fun get(id: String): ImageFile? {
+    override fun get(id: String): Flow<ImageFile> = flow {
         if (images.containsKey(id)) {
-            return images[id]
+            emit(images[id]!!)
         }
-        return null
     }
 
     override suspend fun add(item: ImageFile) {
@@ -47,8 +48,10 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
         images.remove(id)
     }
 
-    override suspend fun getByDirectory(dir: String): List<ImageFile> {
-        return pictures
+    override fun getByDirectory(dir: String): Flow<ImageFile> = flow {
+        pictures.forEach {
+            emit(it)
+        }
     }
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {

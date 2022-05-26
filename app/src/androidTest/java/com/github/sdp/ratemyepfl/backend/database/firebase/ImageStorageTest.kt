@@ -1,14 +1,16 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.backend.database.firebase.FirebaseImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,10 +36,12 @@ class ImageStorageTest {
     fun getImageWorks() {
         runTest {
             imageStorage.add(pic)
-            val image = imageStorage.get("testPic")
-            assertNotNull(image)
-            assertEquals(pic.id, image!!.id)
-            assertEquals(pic.size, image.size)
+            imageStorage.get("testPic")
+                .collect { image ->
+                    assertNotNull(image)
+                    assertEquals(pic.id, image.id)
+                    assertEquals(pic.size, image.size)
+                }
             imageStorage.remove(pic.id)
         }
     }
@@ -46,10 +50,13 @@ class ImageStorageTest {
     fun getByDirectoryWorks() {
         runTest {
             imageStorage.addInDirectory(pic, "test")
-            val image = imageStorage.getByDirectory("test")[0]
-            assertNotNull(image)
-            assertEquals(pic.id, image.id)
-            assertEquals(pic.size, image.size)
+            imageStorage.getByDirectory("test")
+                .collectLatest { image ->
+                    assertNotNull(image)
+                    assertEquals(pic.id, image.id)
+                    assertEquals(pic.size, image.size)
+                }
+
             imageStorage.removeInDirectory(pic.id, "test")
         }
     }
@@ -57,8 +64,11 @@ class ImageStorageTest {
     @Test
     fun imageNotInDbReturnsNull() {
         runTest {
-            val image = imageStorage.get("not in db")
-            assertNull(image)
+            var failed = false
+            imageStorage.get("not in db")
+                .catch { failed = true }
+                .collect {}
+            assertEquals(failed, true)
         }
     }
 

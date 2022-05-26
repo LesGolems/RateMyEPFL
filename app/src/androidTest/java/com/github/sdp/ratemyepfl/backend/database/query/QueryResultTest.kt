@@ -85,7 +85,7 @@ class QueryResultTest {
         var x = 0
         var loading = false
         QueryResult {
-            emit(QueryState.success(0))
+            0
         }.collect {
             when (it) {
                 is QueryState.Failure -> x = 2
