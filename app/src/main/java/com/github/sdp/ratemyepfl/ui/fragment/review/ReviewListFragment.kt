@@ -27,10 +27,12 @@ Fragment for the list of reviews, shared among all reviewed items
 @AndroidEntryPoint
 class ReviewListFragment : PostListFragment<Review>(
     R.layout.fragment_review_list,
-    R.layout.review_item
+    R.layout.review_item,
+    R.id.reviewRecyclerView
 ) {
 
     private lateinit var addReviewButton: FloatingActionButton
+    private lateinit var emptyListMessage: String
 
     // Gets the shared view model
     private val reviewsViewModel by activityViewModels<ReviewListViewModel>()
@@ -43,7 +45,7 @@ class ReviewListFragment : PostListFragment<Review>(
             Navigation.findNavController(view).navigate(R.id.addReviewFragment)
         }
 
-        noPostTextView.text = getString(R.string.empty_post_list_message, "reviews")
+        emptyListMessage = getString(R.string.empty_post_list_message, "reviews")
     }
 
     override fun setupAdapter(view: View): PostAdapter<Review> =
@@ -65,7 +67,9 @@ class ReviewListFragment : PostListFragment<Review>(
 
     override fun updatePostsList() {
         reviewsViewModel.viewModelScope
-            .launch { displayPosts(reviewsViewModel.getReviews()) }
+            .launch {
+                displayPosts(reviewsViewModel.getReviews(), emptyListMessage)
+            }
     }
 
     override fun updateUpVotes(post: Review, uid: String?) {

@@ -19,7 +19,6 @@ import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
-import com.github.sdp.ratemyepfl.utils.FragmentUtils
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -32,7 +31,8 @@ import javax.inject.Inject
  */
 abstract class PostListFragment<T : Post> constructor(
     fragmentLayout: Int,
-    private val postListLayout: Int
+    private val postLayout: Int,
+    private val recyclerViewLayout: Int,
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
@@ -65,14 +65,17 @@ abstract class PostListFragment<T : Post> constructor(
     abstract fun updateDownVotes(post: T, uid: String?)
     abstract fun removePost(postId: String)
 
-    suspend fun displayPosts(posts: Flow<List<PostWithAuthor<T>>>) {
-        loadingRecyclerView.display(posts) {
+    suspend fun displayPosts(
+        posts: Flow<List<PostWithAuthor<T>>>,
+        emptyMessage: String,
+    ) {
+        loadingRecyclerView.display(posts, {
             posts().postValue(it)
-        }
+        }, { emptyMessage }, { it })
     }
 
     open fun initializePostList(view: View) {
-        val listLayout: View = view.findViewById(postListLayout)
+        val listLayout: View = view.findViewById(recyclerViewLayout)
         postAdapter = setupAdapter(view)
         loadingRecyclerView = LoadingRecyclerView(listLayout)
         loadingRecyclerView.recyclerView
@@ -99,7 +102,7 @@ abstract class PostListFragment<T : Post> constructor(
             getListener({ post, uid -> updateDownVotes(post, uid) }, view),
             { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
             { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
-            postListLayout
+            postLayout
         )
 
     open fun initializeProfilePanel(view: View) {

@@ -24,11 +24,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : PostListFragment<Subject>(
     R.layout.fragment_home,
-    R.layout.subject_item
+    R.layout.subject_item,
+    R.id.subjectRecyclerView
 ) {
 
     private lateinit var personalProfilePicture: CircleImageView
     private lateinit var createPostEditText: TextInputEditText
+
+    private lateinit var emptyListMessage: String
 
     private val viewModel by activityViewModels<HomeViewModel>()
 
@@ -44,7 +47,8 @@ class HomeFragment : PostListFragment<Subject>(
                 })
             }
         }
-        noPostTextView.text = getString(R.string.empty_post_list_message, "subjects")
+
+        emptyListMessage = getString(R.string.empty_post_list_message, "subjects")
     }
 
     private fun initializePersonalTab(view: View) {
@@ -85,7 +89,7 @@ class HomeFragment : PostListFragment<Subject>(
     override fun updatePostsList() {
         viewModel.viewModelScope
             .launch {
-                displayPosts(viewModel.getSubjects())
+                displayPosts(viewModel.getSubjects(), emptyListMessage)
             }
     }
 

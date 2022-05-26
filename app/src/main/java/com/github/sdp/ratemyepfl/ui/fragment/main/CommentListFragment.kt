@@ -25,7 +25,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CommentListFragment : PostListFragment<Comment>(
     R.layout.fragment_comment_list,
-    R.layout.comment_item
+    R.layout.comment_item,
+    R.id.commentRecyclerView
 ) {
 
     private lateinit var commentPanel: SlidingUpPanelLayout
@@ -36,6 +37,8 @@ class CommentListFragment : PostListFragment<Comment>(
     // Gets the shared view model
     private val viewModel by activityViewModels<CommentListViewModel>()
 
+    private lateinit var emptyListMessage: String
+
     companion object {
         const val EXTRA_SUBJECT_COMMENTED_ID: String = "com.github.sdp.extra_subject_commented_id"
     }
@@ -43,7 +46,7 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
-        noPostTextView.text = getString(R.string.empty_post_list_message, "comments")
+        emptyListMessage = getString(R.string.empty_post_list_message, "comments")
         initializeAddReview(view)
         setupListeners()
     }
@@ -118,7 +121,7 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun updatePostsList() {
         viewModel.viewModelScope
             .launch {
-                displayPosts(viewModel.getComments())
+                displayPosts(viewModel.getComments(), emptyListMessage)
             }
     }
 
