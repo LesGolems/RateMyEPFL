@@ -181,9 +181,9 @@
     <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
     <string name="subject_indication_title">Create a post</string>
     <string name="subject_sent_text">Your post was submitted!</string>
-    <string name="add_post_title">Yout post title</string>
+    <string name="add_post_title">Your post title</string>
     <string name="add_post_title_hint">Insert a title</string>
-    <string name="add_post_content">Yout post content</string>
+    <string name="add_post_content">Your post content</string>
     <string name="add_post_content_hint">Insert a content (optional)</string>
 
     -- COMMENT
@@ -198,6 +198,4 @@
     <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="podium_title">Best Karma Raters</string>
-    <string name="podium_quote_author">Keanu Reeves</string>
-    <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
 </resources>
