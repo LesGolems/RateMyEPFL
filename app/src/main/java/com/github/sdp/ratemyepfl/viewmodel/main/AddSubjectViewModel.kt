@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.viewmodel.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Subject

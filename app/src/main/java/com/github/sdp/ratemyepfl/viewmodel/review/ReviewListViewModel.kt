@@ -8,6 +8,7 @@ import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -17,7 +18,6 @@ import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -28,7 +28,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
-    private val reviewRepo: com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository,
+    private val reviewRepo: ReviewRepository,
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,

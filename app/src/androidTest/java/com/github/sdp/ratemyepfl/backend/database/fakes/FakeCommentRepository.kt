@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.android.gms.tasks.Task
