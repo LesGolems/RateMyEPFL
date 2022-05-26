@@ -168,7 +168,7 @@ data class FirebaseQuery(private val query: Query) {
                 .get()
                 .await()
 
-            emit(QueryState.success(result))
+            result
         }.mapError { error ->
             DatabaseException("Failed to execute the query $this. (From $error \n ${error.stackTrace}")
         }

@@ -5,8 +5,9 @@ import android.graphics.BitmapFactory
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -22,9 +23,9 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
         const val FILE_EXTENSION: String = ".jpg" // JPEG images
     }
 
-    override suspend fun get(id: String): ImageFile? {
+    override fun get(id: String): Flow<ImageFile> = flow {
         val imageRef = storageRef.child("$id$FILE_EXTENSION")
-        return getImage(imageRef)
+        emit(getImage(imageRef))
     }
 
     override suspend fun add(item: ImageFile) {
@@ -38,13 +39,17 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
             .await()
     }
 
-    override suspend fun getByDirectory(dir: String): List<ImageFile> {
-        return storageRef
+    override fun getByDirectory(dir: String): Flow<ImageFile> = flow {
+        val references = storageRef
             .child(dir)
             .listAll()
             .await()
             .items
-            .mapNotNull { getImage(it) }
+            .filterNotNull()
+
+        for (reference in references) {
+            emit(getImage(reference))
+        }
     }
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {
@@ -58,19 +63,15 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
     /**
      * Returns the [ImageFile] at the reference [imageRef].
      */
-    private suspend fun getImage(imageRef: StorageReference): ImageFile? {
-        return try {
-            val id = imageRef.name.dropLast(FILE_EXTENSION.length)
+    private suspend fun getImage(imageRef: StorageReference): ImageFile {
+        val id = imageRef.name.dropLast(FILE_EXTENSION.length)
 
-            val byteArray = imageRef
-                .getBytes(MAX_ITEM_SIZE)
-                .await()
+        val byteArray = imageRef
+            .getBytes(MAX_ITEM_SIZE)
+            .await()
 
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            ImageFile(id, bitmap)
-        } catch (e: StorageException) {
-            null
-        }
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        return ImageFile(id, bitmap)
     }
 
     /**
