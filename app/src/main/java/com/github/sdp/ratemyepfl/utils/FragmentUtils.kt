@@ -2,7 +2,9 @@ package com.github.sdp.ratemyepfl.utils
 
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.ui.adapter.post.OnClickListener
 import com.google.android.material.snackbar.Snackbar
@@ -38,4 +40,20 @@ object FragmentUtils {
                 displayOnSnackbar(view, e.message)
             }
         }
+
+    /**
+     * Displays the elements of [list] or the message [emptyText] if empty
+     */
+    fun emptyList(isEmpty: Boolean, list: RecyclerView, emptyText: TextView) {
+        when (isEmpty) {
+            true -> {
+                emptyText.visibility = View.VISIBLE
+                list.visibility = View.GONE
+            }
+            false -> {
+                emptyText.visibility = View.GONE
+                list.visibility = View.VISIBLE
+            }
+        }
+    }
 }

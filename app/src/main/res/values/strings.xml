@@ -38,6 +38,8 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="emoji">&#128522;</string>
+    <string name="empty_post_list_message">No %s yet. Be the first to share your thoughts!</string>
+    <string name="empty_photo_list_message">No photos yet. Be the first to upload a photo!</string>
 
     -- CONNECTION --
     <string name="login_google_text">Sign In with Google</string>

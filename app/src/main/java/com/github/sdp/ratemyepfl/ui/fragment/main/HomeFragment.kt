@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
@@ -21,8 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 @AndroidEntryPoint
 class HomeFragment : PostListFragment<Subject>(
     R.layout.fragment_home,
-    R.id.subjectRecyclerView,
-    R.id.subjectSwipeRefresh,
     R.layout.subject_item
 ) {
 
@@ -37,10 +36,13 @@ class HomeFragment : PostListFragment<Subject>(
 
         // Displays the most recent posts first
         posts().observe(viewLifecycleOwner) {
-            it?.let { postAdapter.submitList(it.sortedByDescending {
-                pwa -> pwa.post.date.toString()
-            }) }
+            it?.let {
+                postAdapter.submitList(it.sortedByDescending { pwa ->
+                    pwa.post.date.toString()
+                })
+            }
         }
+        noPostTextView.text = getString(R.string.empty_post_list_message, "subjects")
     }
 
     private fun initializePersonalTab(view: View) {
@@ -72,6 +74,10 @@ class HomeFragment : PostListFragment<Subject>(
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Subject>>> {
         return viewModel.subjects
+    }
+
+    override fun isEmpty(): LiveData<Boolean> {
+        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {
