@@ -1,8 +1,8 @@
 <vector
-    android:height="48dp"
+    android:height="42dp"
     android:viewportHeight="512"
     android:viewportWidth="448"
-    android:width="42dp"
+    android:width="36.75dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <path
         android:fillColor="@color/primaryColor"
