@@ -35,6 +35,7 @@
 
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
+
     <include
         layout="@layout/author_profile_layout"
         android:layout_width="match_parent"
