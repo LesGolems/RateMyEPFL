@@ -40,8 +40,8 @@
         android:shadowRadius="10"
         android:text="@string/visitor"
         android:textColor="@android:color/background_light"
-        android:textSize="14sp"
-        android:textStyle="normal|bold"
+        android:textSize="16sp"
+        android:fontFamily="@font/pt_sans_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pictureDrawer" />
 
@@ -57,6 +57,7 @@
         android:shadowRadius="10"
         android:text="@string/email"
         android:textColor="@android:color/background_light"
+        android:fontFamily="@font/pt_sans"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameDrawer" />

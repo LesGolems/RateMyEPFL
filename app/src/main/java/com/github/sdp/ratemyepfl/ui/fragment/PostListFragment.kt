@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
@@ -65,9 +64,6 @@ abstract class PostListFragment<T : Post>(
 
     open fun initializePostList(view: View) {
         recyclerView = view.findViewById(R.id.postRecyclerView)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        )
 
         swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
         swipeRefresher.setOnRefreshListener {

@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.model.items
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.time.Period
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -38,9 +37,9 @@ data class Event(
             this,
             MapActivityUtils.PHOTO_MAPPING.getOrDefault(
                 name,
-                R.raw.niki
+                R.raw.event_info_event
             ), // Arbitrary default value
-            BitmapDescriptorFactory.fromResource(R.raw.event_marker)
+            R.drawable.ic_calendar_solid_small
         )
     }
 
