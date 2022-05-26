@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepository<Subject>() {
@@ -54,7 +55,7 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
         TODO("Not yet implemented")
     }
 
-    override fun addWithId(item: Subject, withId: String): Task<String> {
+    override fun addWithId(item: Subject, withId: String): Flow<String> {
         TODO("Not yet implemented")
     }
 

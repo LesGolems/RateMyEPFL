@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
@@ -37,16 +36,15 @@ class HomeViewModel @Inject constructor(
 
     fun getSubjects(): Flow<List<PostWithAuthor<Subject>>> =
         subjectRepo.get()
-                .map { subjects ->
-                    subjects.map { subject ->
-                        PostWithAuthor(
-                            subject,
-                            subject.uid?.let { userRepo.getUserByUid(it) },
-                            subject.uid?.let { imageStorage.get(it).last() }
-                        )
-                    }.sortedBy { rwa -> -rwa.post.likers.size }
-                }
-
+            .map { subjects ->
+                subjects.map { subject ->
+                    PostWithAuthor(
+                        subject,
+                        subject.uid?.let { userRepo.getUserByUid(it) },
+                        subject.uid?.let { imageStorage.get(it).last() }
+                    )
+                }.sortedBy { rwa -> -rwa.post.likers.size }
+            }
 
 
     fun removeSubject(subjectId: String) {

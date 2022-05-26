@@ -6,6 +6,8 @@ import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.mockito.Mockito
 
 @Suppress("UNCHECKED_CAST")
@@ -13,28 +15,33 @@ open class FakeRepository<T : RepositoryItem> : Repository<T> {
 
     var elements: Set<T> = setOf()
 
-    override suspend fun get(number: Long): List<T> = elements.toList()
+    override fun get(number: Long): Flow<List<T>> = flow {
+        emit(elements.toList())
+    }
 
-    override suspend fun getById(id: String): T? =
+    override fun getById(id: String): Flow<T> = flow {
         elements.firstOrNull { it.getId() == id }
+            ?.run { emit(this) }
+    }
 
-    override fun remove(id: String): Task<Void> {
+    override fun remove(id: String): Flow<Boolean> {
         elements = elements.filter { it.getId() != id }.toSet()
-        return Mockito.mock(Task::class.java) as Task<Void>
+        return flow { emit(true) }
     }
 
-    override fun add(item: T): Task<String> {
+    override fun add(item: T): Flow<String> {
         elements = elements.plus(item)
-        return Mockito.mock(Task::class.java) as Task<String>
+        return flow { emit(item.getId()) }
     }
 
-    override fun update(id: String, transform: (T) -> T): Task<T> {
+    override fun update(id: String, transform: (T) -> T): Flow<T> = flow {
         elements.map {
             if (it.getId() == id) {
-                transform(it)
+                val res = transform(it)
+                emit(res)
+                res
             } else it
         }
-        return Mockito.mock(Task::class.java) as Task<T>
     }
 
 
