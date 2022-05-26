@@ -11,7 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.backend.database.firebase.FirebaseImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.utils.FragmentUtils
+import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.utils.TimeUtils
 import com.github.sdp.ratemyepfl.viewmodel.review.ClassroomPictureViewModel
@@ -41,39 +43,52 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
     }
 
     private lateinit var pictureAdapter: RoomPictureAdapter
-    private lateinit var pictureRecyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var noPictureText: TextView
+
     private lateinit var selectPhotoFAB: FloatingActionButton
     private lateinit var capturePhotoFAB: FloatingActionButton
     private lateinit var currentPhotoPath: String
 
-    private val pictureViewModel by activityViewModels<ClassroomPictureViewModel>()
+    private val viewModel by activityViewModels<ClassroomPictureViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
-        swipeRefresher = view.findViewById(R.id.photoSwipeRefresh)
-        selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
-        capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
+        initializePictureGrid(view)
+        initializeGallery(view)
+        initializeCamera(view)
+    }
 
-        // Initialize photo grid
-        pictureRecyclerView.layoutManager =
+    private fun initializePictureGrid(view: View) {
+        recyclerView = view.findViewById(R.id.pictureRecyclerView)
+        recyclerView.layoutManager =
             StaggeredGridLayoutManager(NUM_COLUMNS, StaggeredGridLayoutManager.VERTICAL)
 
-        // Initialize adapter
-        pictureAdapter = RoomPictureAdapter()
-        pictureRecyclerView.adapter = pictureAdapter
-        pictureViewModel.pictures.observe(viewLifecycleOwner) { pictureAdapter.setData(it.toMutableList()) }
-
-        // Initialize refresh
+        swipeRefresher = view.findViewById(R.id.pictureSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
-            pictureViewModel.updatePicturesList()
+            viewModel.updatePicturesList()
             swipeRefresher.isRefreshing = false
         }
 
-        // Open the gallery
+        pictureAdapter = RoomPictureAdapter()
+        recyclerView.adapter = pictureAdapter
+
+        viewModel.pictures.observe(viewLifecycleOwner) {
+            pictureAdapter.setData(it.toMutableList())
+        }
+
+        noPictureText = view.findViewById(R.id.noPictureText)
+        viewModel.isEmpty.observe(viewLifecycleOwner) {
+            FragmentUtils.emptyList(it, recyclerView, noPictureText)
+        }
+    }
+
+    private fun initializeGallery(view: View) {
         val storagePermissionLauncher =
             PermissionUtils.requestPermissionLauncher({ startGallery() }, this, requireContext())
+
+        selectPhotoFAB = view.findViewById(R.id.selectPhotoFAB)
         selectPhotoFAB.setOnClickListener {
             PermissionUtils.verifyPermissionAndExecute(
                 { startGallery() },
@@ -82,10 +97,13 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         }
+    }
 
-        // Open the camera
+    private fun initializeCamera(view: View) {
         val cameraPermissionLauncher =
             PermissionUtils.requestPermissionLauncher({ startCamera() }, this, requireContext())
+
+        capturePhotoFAB = view.findViewById(R.id.capturePhotoFAB)
         capturePhotoFAB.setOnClickListener {
             PermissionUtils.verifyPermissionAndExecute(
                 { startCamera() },
@@ -142,9 +160,8 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
     private fun uploadPicture(bitmap: Bitmap) {
         val id = TimeUtils.timeStamp()
-        pictureViewModel.uploadPicture(ImageFile(id, bitmap))
-        Toast.makeText(context, "Your photo was uploaded successfully!", Toast.LENGTH_LONG)
-            .show()
+        viewModel.uploadPicture(ImageFile(id, bitmap))
+        displayOnToast(requireContext(), "Your photo was uploaded successfully!")
     }
 
     private fun createImageFile(): File {
