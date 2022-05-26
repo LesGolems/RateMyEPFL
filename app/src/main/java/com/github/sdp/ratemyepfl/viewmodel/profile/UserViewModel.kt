@@ -14,7 +14,7 @@ import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -54,6 +54,7 @@ class UserViewModel @Inject constructor(
         if (uid != null) {
             viewModelScope.launch {
                 userDatabase.getUserByUid(uid)?.let { user.postValue(it) }
+                imageStorage.get(uid).lastOrNull()?.let { picture.postValue(it) }
             }
         } else {
             user.postValue(null)
