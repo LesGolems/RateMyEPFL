@@ -1,11 +1,19 @@
 package com.github.sdp.ratemyepfl.ui.adapter
 
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
@@ -26,6 +34,8 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         RecyclerView.ViewHolder(reviewableView) {
 
         private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
+        private val layout: FrameLayout = reviewableView.findViewById(R.id.ribbon_main)
+
         private var currentReviewable: Reviewable? = null
 
         init {
@@ -42,6 +52,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         fun bind(reviewable: Reviewable) {
             currentReviewable = reviewable
             reviewableTextView.text = reviewable.toString()
+            setRibbonColor(reviewable, layout)
         }
     }
 
@@ -62,4 +73,38 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
+    private fun setRibbonColor(reviewable: Reviewable, layout: FrameLayout) {
+        when {
+            reviewable.numReviews == 0 -> {
+                layout.background.setColorFilter(
+                    Color.parseColor("#ff807F7F"),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+            reviewable.grade <= 2 -> {
+                layout.background.setColorFilter(
+                    Color.parseColor("#ffFA1313"),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+            reviewable.grade <= 3 -> {
+                layout.background.setColorFilter(
+                    Color.parseColor("#ffFFB51E"),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+            reviewable.grade <= 4 -> {
+                layout.background.setColorFilter(
+                    Color.parseColor("#ff99E44C"),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+            reviewable.grade <= 5 -> {
+                layout.background.setColorFilter(
+                    Color.parseColor("#ff99CF04"),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+        }
+    }
 }
