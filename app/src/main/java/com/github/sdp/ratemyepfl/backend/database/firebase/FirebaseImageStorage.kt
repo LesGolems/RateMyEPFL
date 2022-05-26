@@ -3,15 +3,11 @@ package com.github.sdp.ratemyepfl.backend.database.firebase
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.github.sdp.ratemyepfl.backend.database.Storage
-import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
-import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.flatten
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -68,14 +64,14 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
      * Returns the [ImageFile] at the reference [imageRef].
      */
     private suspend fun getImage(imageRef: StorageReference): ImageFile {
-            val id = imageRef.name.dropLast(FILE_EXTENSION.length)
+        val id = imageRef.name.dropLast(FILE_EXTENSION.length)
 
-            val byteArray = imageRef
-                .getBytes(MAX_ITEM_SIZE)
-                .await()
+        val byteArray = imageRef
+            .getBytes(MAX_ITEM_SIZE)
+            .await()
 
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-            return ImageFile(id, bitmap)
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        return ImageFile(id, bitmap)
     }
 
     /**
