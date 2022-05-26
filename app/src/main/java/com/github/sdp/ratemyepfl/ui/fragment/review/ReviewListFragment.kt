@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.ui.fragment.review
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
@@ -39,6 +40,8 @@ class ReviewListFragment : PostListFragment<Review>(
         addReviewButton.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.addReviewFragment)
         }
+
+        noPostTextView.text = getString(R.string.empty_post_list_message, "reviews")
     }
 
     override fun setupAdapter(view: View): PostAdapter<Review> =
@@ -52,6 +55,10 @@ class ReviewListFragment : PostListFragment<Review>(
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Review>>> {
         return reviewsViewModel.reviews
+    }
+
+    override fun isEmpty(): LiveData<Boolean> {
+        return reviewsViewModel.isEmpty
     }
 
     override fun updatePostsList() {

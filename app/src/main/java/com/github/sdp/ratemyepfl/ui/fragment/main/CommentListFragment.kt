@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
@@ -42,6 +43,7 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
+        noPostTextView.text = getString(R.string.empty_post_list_message, "comments")
         initializeAddReview(view)
         setupListeners()
     }
@@ -105,6 +107,10 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Comment>>> {
         return viewModel.comments
+    }
+
+    override fun isEmpty(): LiveData<Boolean> {
+        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {

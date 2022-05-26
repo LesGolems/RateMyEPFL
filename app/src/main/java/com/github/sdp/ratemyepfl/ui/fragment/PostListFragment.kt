@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,7 @@ abstract class PostListFragment<T : Post>(
     lateinit var postAdapter: PostAdapter<T>
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefresher: SwipeRefreshLayout
+    lateinit var noPostTextView: TextView
 
     lateinit var profilePanel: SlidingUpPanelLayout
     lateinit var authorPanelImage: CircleImageView
@@ -56,6 +58,7 @@ abstract class PostListFragment<T : Post>(
     }
 
     abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
+    abstract fun isEmpty(): LiveData<Boolean>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)
@@ -78,6 +81,11 @@ abstract class PostListFragment<T : Post>(
 
         posts().observe(viewLifecycleOwner) {
             it?.let { postAdapter.submitList(it) }
+        }
+
+        noPostTextView = view.findViewById(R.id.noPostText)
+        isEmpty().observe(viewLifecycleOwner) {
+            it?.let { emptyList(it) }
         }
     }
 
@@ -122,5 +130,19 @@ abstract class PostListFragment<T : Post>(
         super.onResume()
         updatePostsList()
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+    }
+
+
+    private fun emptyList(isEmpty: Boolean) {
+        when (isEmpty) {
+            true -> {
+                noPostTextView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            }
+            false -> {
+                noPostTextView.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+            }
+        }
     }
 }

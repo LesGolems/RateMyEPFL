@@ -26,6 +26,11 @@
                 app:layoutManager="LinearLayoutManager" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <include
+            layout="@layout/empty_post_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addReviewButton"
             android:layout_width="wrap_content"
