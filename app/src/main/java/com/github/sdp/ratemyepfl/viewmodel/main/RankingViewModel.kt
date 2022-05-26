@@ -10,6 +10,9 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +27,9 @@ class RankingViewModel @Inject constructor(
     val topUsersPictures = Top3UserPictures()
 
     init {
-        refreshUsers()
+        viewModelScope.launch {
+            refreshUsers()
+        }
     }
 
     fun getTop3Pictures(): Triple<Flow<ImageFile>, Flow<ImageFile>, Flow<ImageFile>> {
@@ -37,21 +42,28 @@ class RankingViewModel @Inject constructor(
         return Triple(images[0], images[1], images[2])
     }
 
-//    fun getTop3Users(): Flow<Triple<User, User, User>> {
-//        viewModelScope.launch {
-//            val top3 = userRepo.getTopKarmaUsers().mapResult {
-//                Triple(it[0], it[1], it[2])
-//            }.last()
-//
-//            when(top3) {
-//                is QueryState.Failure -> throw (top3.error)
-//                is QueryState.Loading -> throw NoSuchElementException("No top3 users")
-//                is QueryState.Success -> top3.data
-//            }
-//        }
-//    }
-    fun refreshUsers() {
+    fun getPicture(user: User): Flow<ImageFile> =
+        imageStorage.get(user.getId())
 
+    suspend fun getTop3Users(): Flow<Triple<User, User, User>> =
+        userRepo.getTopKarmaUsers().mapResult {
+            Triple(it[0], it[1], it[2])
+        }.filter { it !is QueryState.Loading }
+            .map { top3 ->
+                when (top3) {
+                    is QueryState.Failure -> throw (top3.error)
+                    is QueryState.Loading -> throw NoSuchElementException("No top3 users")
+                    is QueryState.Success -> top3.data
+                }
+            }
+
+
+    suspend fun refreshUsers(): Triple<User, User, User> {
+        val users = getTop3Users().last()
+        topUsers.first.value = users.first
+        topUsers.second.value = users.second
+        topUsers.third.value = users.third
+        return users
     }
 
     data class Top3UserPictures(

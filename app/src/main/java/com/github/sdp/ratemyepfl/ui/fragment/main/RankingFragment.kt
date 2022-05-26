@@ -43,7 +43,7 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
 
         swipeRefresher = view.findViewById(R.id.podiumSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
-            viewModel.refreshUsers()
+            refreshUsers()
             swipeRefresher.isRefreshing = false
         }
     }
@@ -104,41 +104,47 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshUsers()
-        displayPictures()
+        refreshUsers()
     }
 
-    fun displayPictures() {
-        val flows = viewModel.getTop3Pictures()
-        val defaultImage = userTop1Picture.getDefaultImage()
+    fun refreshUsers() {
         viewModel.viewModelScope
             .launch {
-                val picture = viewModel.topUsersPictures.first
-                userTop1Picture.display(flows.first, {
-                    picture.postValue(it)
-                }) {
-                    picture.postValue(defaultImage)
-                }
-            }
+                viewModel.refreshUsers().run {
+                    val defaultImage = userTop1Picture.getDefaultImage()
+                    val firstImage = viewModel.getPicture(this.first)
+                    viewModel.viewModelScope
+                        .launch {
+                            val picture = viewModel.topUsersPictures.first
+                            userTop1Picture.display(firstImage, {
+                                picture.postValue(it)
+                            }) {
+                                picture.postValue(defaultImage)
+                            }
+                        }
+                    val secondImage = viewModel.getPicture(this.second)
+                    viewModel.viewModelScope
+                        .launch {
+                            val picture = viewModel.topUsersPictures.second
+                            userTop1Picture.display(secondImage, {
+                                picture.postValue(it)
+                            }) {
+                                picture.postValue(defaultImage)
+                            }
+                        }
+                    val thirdImage = viewModel.getPicture(this.third)
+                    viewModel.viewModelScope
+                        .launch {
+                            val picture = viewModel.topUsersPictures.third
+                            userTop1Picture.display(thirdImage, {
+                                picture.postValue(it)
+                            }) {
+                                picture.postValue(defaultImage)
+                            }
+                        }
 
-        viewModel.viewModelScope
-            .launch {
-                val picture = viewModel.topUsersPictures.second
-                userTop1Picture.display(flows.second, {
-                    picture.postValue(it)
-                }) {
-                    picture.postValue(defaultImage)
-                }
-            }
-
-        viewModel.viewModelScope
-            .launch {
-                val picture = viewModel.topUsersPictures.third
-                userTop1Picture.display(flows.third, {
-                    picture.postValue(it)
-                }) {
-                    picture.postValue(defaultImage)
                 }
             }
     }
+
 }
