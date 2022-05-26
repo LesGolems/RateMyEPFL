@@ -16,8 +16,8 @@ import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
@@ -93,8 +93,9 @@ class AddReviewViewModel @Inject constructor(
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                val reviewId = reviewRepo.add(review).await()
-                gradeInfoRepo.addReview(item, reviewId, review.rating).await()
+                val reviewId = reviewRepo.add(review).last()
+                gradeInfoRepo.addReview(item, reviewId, review.rating)
+
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the review (from ${e.message}")

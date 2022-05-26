@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -80,14 +81,14 @@ class CourseRepositoryImplTest {
         repository = CourseRepositoryImpl(db)
 
         val c = courses.map { repository.add(it) }
-        c.forEach { runTest { it.await() } }
+        c.forEach { runTest { it.collect() } }
     }
 
     @After
     fun teardown() = runTest {
         courses
             .map { it.getId() }
-            .forEach { repository.remove(it).await() }
+            .forEach { repository.remove(it).collect() }
     }
 
 //    @Test

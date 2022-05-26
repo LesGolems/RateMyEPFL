@@ -3,9 +3,6 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.Transaction
-import org.mockito.Mockito
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -29,9 +26,8 @@ class FakeRoomNoiseRepository @Inject constructor() : RoomNoiseRepository {
         roomId: String,
         date: LocalDateTime,
         measure: Int
-    ): Task<Unit> {
+    ) {
         measureInfo = NO_MEASURE.copy(noiseData = listOf(NoiseInfo(date.toString(), measure)))
-        return Mockito.mock(Task::class.java) as Task<Unit>
     }
 
     override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo = measureInfo

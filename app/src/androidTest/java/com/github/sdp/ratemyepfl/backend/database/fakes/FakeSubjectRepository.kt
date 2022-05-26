@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepository<Subject>() {
@@ -51,10 +52,14 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
     }
 
     override suspend fun removeComment(subjectId: String, commentId: String) {
-        TODO("Not yet implemented")
+        subjectList = subjectList.map {
+            if (it.getId() == subjectId) {
+                it.copy(comments = it.comments.minus(commentId))
+            } else it
+        }
     }
 
-    override fun addWithId(item: Subject, withId: String): Task<String> {
+    override fun addWithId(item: Subject, withId: String): Flow<String> {
         TODO("Not yet implemented")
     }
 

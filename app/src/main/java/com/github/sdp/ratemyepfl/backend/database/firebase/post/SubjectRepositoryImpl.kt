@@ -8,6 +8,8 @@ import com.github.sdp.ratemyepfl.model.review.Subject
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -36,7 +38,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
      *
      * @param item: the [Subject] to add
      */
-    override fun add(item: Subject): Task<String> {
+    override fun add(item: Subject): Flow<String> {
         val document = repository
             .collection
             .document()
@@ -44,7 +46,7 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
         return addWithId(item, document.id)
     }
 
-    override fun addWithId(item: Subject, withId: String): Task<String> =
+    override fun addWithId(item: Subject, withId: String) =
         repository.add(item.withId(withId))
 
     override suspend fun getSubjects(): List<Subject> =
@@ -59,13 +61,13 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
     override suspend fun addComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
             subject.copy(comments = subject.comments.plus(commentId))
-        }.await()
+        }.collect()
     }
 
     override suspend fun removeComment(subjectId: String, commentId: String) {
         repository.update(subjectId) { subject ->
             subject.copy(comments = subject.comments.minus(commentId))
-        }.await()
+        }.collect()
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {
@@ -73,13 +75,13 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
             if (!subject.likers.contains(userId))
                 subject.copy(likers = subject.likers.plus(userId))
             else subject
-        }.await()
+        }.collect()
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
         repository.update(postId) { subject ->
             subject.copy(likers = subject.likers.minus(userId))
-        }.await()
+        }.collect()
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
@@ -87,12 +89,12 @@ class SubjectRepositoryImpl(val repository: RepositoryImpl<Subject>) : SubjectRe
             if (!subject.dislikers.contains(userId)) {
                 subject.copy(dislikers = subject.dislikers.plus(userId))
             } else subject
-        }.await()
+        }.collect()
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
         repository.update(postId) { subject ->
             subject.copy(dislikers = subject.dislikers.minus(userId))
-        }.await()
+        }.collect()
     }
 }

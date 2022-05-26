@@ -14,6 +14,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -50,41 +51,12 @@ class GradeInfoRepositoryImpl private constructor(
         fun DocumentSnapshot.toGradeInfo(): GradeInfo? = toItem()
     }
 
-    /**
-     * Compute the overall grade the number of reviews from all the grade info
-     * (FOR NOW BASIC AVERAGE)
-     */
-    private fun computeGrade(reviewsData: Map<String, ReviewInfo>): Double {
-        var totalGrade = 0.0
-        var total = 0.0
-        for (ri in reviewsData.values) {
-            val w = reviewWeight(ri.likeRatio)
-            totalGrade += ri.reviewGrade * w
-            total += w
-        }
-        return totalGrade / total
-    }
-
-
-    /**
-     * Computes the weight of a review, the weight goes down as the review like ratio goes negative.
-     * The weight is based on the approximate number of users of the app
-     */
-    private fun reviewWeight(likeRatio: Int): Double {
-        return when {
-            likeRatio >= 0 -> 1.0
-            likeRatio < -NUM_USERS -> 0.0
-            else -> 1 - (-likeRatio) / NUM_USERS
-        }
-    }
-
     override suspend fun updateLikeRatio(
         item: Reviewable,
         reviewId: String,
         inc: Int
-    ): Task<Unit> {
-        var computedGrade = 0.0
-        repository.update(item.getId()) {
+    ) {
+        val computedGrade = repository.update(item.getId()) {
             val info: ReviewInfo = it.reviewsData.getOrDefault(reviewId, ReviewInfo(0, 0))
             val newData = it.reviewsData.plus(
                 Pair(
@@ -95,63 +67,63 @@ class GradeInfoRepositoryImpl private constructor(
                     )
                 )
             )
-            computedGrade = computeGrade(newData)
             it.copy(
                 reviewsData = newData
             )
-        }.await()
+        }
+            .last()
+            .computeGrade()
 
-        return updateItem(item, computedGrade, 0)
+        updateItem(item, computedGrade, 0)
     }
 
     override suspend fun removeReview(
         item: Reviewable,
         reviewId: String
-    ): Task<Unit> {
-        var computedGrade = 0.0
-
-        repository.update(item.getId()) {
+    ) {
+        val computedGrade = repository.update(item.getId()) {
             val newData = it.reviewsData.minus(reviewId)
-            computedGrade = computeGrade(newData)
             it.copy(
                 reviewsData = newData
             )
-        }.await()
+        }.last()
+            .computeGrade()
 
-        return updateItem(item, computedGrade, -1)
+        updateItem(item, computedGrade, -1)
     }
 
     override suspend fun addReview(
         item: Reviewable,
         reviewId: String,
         rating: ReviewRating
-    ): Task<Unit> {
-        if (getGradeInfoById(item.getId()) == null) {
-            repository.add(GradeInfo(item.getId())).await()
+    ) {
+        val id = item.getId()
+        if (getGradeInfoById(id) == null) {
+            repository.add(GradeInfo(id)).collect()
         }
 
-        var computedGrade = 0.0
-
-        repository.update(item.getId()) {
+        val computedGrade = repository.update(id) {
             val newData = it.reviewsData.plus(
                 Pair(
                     reviewId,
                     ReviewInfo(rating.toValue(), 0)
                 )
             )
-            computedGrade = computeGrade(newData)
             it.copy(
                 reviewsData = newData
             )
-        }.await()
+        }.map { it.computeGrade() }
+            .last()
 
-        return updateItem(item, computedGrade, 1)
+        updateItem(item, computedGrade, 1)
     }
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
+        .catch {  }
+        .lastOrNull()
 
-    private fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int): Task<Unit> =
+    private suspend fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int) =
         when (item) {
             is Classroom -> classroomRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
@@ -165,5 +137,5 @@ class GradeInfoRepositoryImpl private constructor(
             is Restaurant -> restaurantRepository.update(item.getId()) {
                 it.copy(grade = grade, numReviews = it.numReviews + incNumReviews)
             }
-        }.continueWith {}
+        }.collect()
 }

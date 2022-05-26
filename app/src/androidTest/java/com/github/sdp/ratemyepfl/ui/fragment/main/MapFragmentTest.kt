@@ -18,6 +18,7 @@ import com.github.sdp.ratemyepfl.utils.UiUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -43,13 +44,13 @@ class MapFragmentTest {
     fun setup() {
         hiltAndroidRule.inject()
         runTest {
-            repository.add(FakeRestaurantRepository.DEFAULT_RESTAURANT).await()
+            repository.add(FakeRestaurantRepository.DEFAULT_RESTAURANT).collect()
         }
     }
 
     @After
     fun tearDown() {
-        runTest { repository.remove(FakeRestaurantRepository.DEFAULT_RESTAURANT.getId()).await() }
+        runTest { repository.remove(FakeRestaurantRepository.DEFAULT_RESTAURANT.getId()).collect() }
     }
 
     @get:Rule

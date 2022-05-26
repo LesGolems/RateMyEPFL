@@ -171,6 +171,7 @@
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
+    <string name="add_review_string">Give your opinion</string>
 
     -- SUBJECT --
     <string name="create_post">Create post…</string>
@@ -200,4 +201,5 @@
     <string name="podium_title">Best Karma Raters</string>
     <string name="podium_quote_author">Keanu Reeves</string>
     <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
+    >>>>>>> feature/loading-images
 </resources>

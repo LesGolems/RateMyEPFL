@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
@@ -19,11 +20,13 @@ import com.github.sdp.ratemyepfl.viewmodel.main.CommentListViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CommentListFragment : PostListFragment<Comment>(
     R.layout.fragment_comment_list,
-    R.layout.comment_item
+    R.layout.comment_item,
+    R.id.commentRecyclerView
 ) {
 
     private lateinit var commentPanel: SlidingUpPanelLayout
@@ -34,6 +37,8 @@ class CommentListFragment : PostListFragment<Comment>(
     // Gets the shared view model
     private val viewModel by activityViewModels<CommentListViewModel>()
 
+    private lateinit var emptyListMessage: String
+
     companion object {
         const val EXTRA_SUBJECT_COMMENTED_ID: String = "com.github.sdp.extra_subject_commented_id"
     }
@@ -41,7 +46,7 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
-        noPostTextView.text = getString(R.string.empty_post_list_message, "comments")
+        emptyListMessage = getString(R.string.empty_post_list_message, "comments")
         initializeAddReview(view)
         setupListeners()
     }
@@ -84,6 +89,7 @@ class CommentListFragment : PostListFragment<Comment>(
         val context = requireContext()
         try {
             viewModel.submitComment()
+            updatePostsList()
             comment.setText("")
             displayOnToast(context, getString(R.string.comment_sent_text))
             commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
@@ -100,6 +106,7 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun onResume() {
         super.onResume()
+        updatePostsList()
         commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
@@ -112,18 +119,24 @@ class CommentListFragment : PostListFragment<Comment>(
     }
 
     override fun updatePostsList() {
-        viewModel.updateCommentsList()
+        viewModel.viewModelScope
+            .launch {
+                displayPosts(viewModel.getComments(), emptyListMessage)
+            }
     }
 
     override fun updateUpVotes(post: Comment, uid: String?) {
         viewModel.updateUpVotes(post, uid)
+        updatePostsList()
     }
 
     override fun updateDownVotes(post: Comment, uid: String?) {
         viewModel.updateDownVotes(post, uid)
+        updatePostsList()
     }
 
     override fun removePost(postId: String) {
         viewModel.removeComment(postId)
+        updatePostsList()
     }
 }

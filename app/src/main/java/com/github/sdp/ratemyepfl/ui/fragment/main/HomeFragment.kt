@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
@@ -18,15 +19,19 @@ import com.github.sdp.ratemyepfl.viewmodel.main.HomeViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : PostListFragment<Subject>(
     R.layout.fragment_home,
-    R.layout.subject_item
+    R.layout.subject_item,
+    R.id.subjectRecyclerView
 ) {
 
     private lateinit var personalProfilePicture: CircleImageView
     private lateinit var createPostEditText: TextInputEditText
+
+    private lateinit var emptyListMessage: String
 
     private val viewModel by activityViewModels<HomeViewModel>()
 
@@ -42,7 +47,8 @@ class HomeFragment : PostListFragment<Subject>(
                 })
             }
         }
-        noPostTextView.text = getString(R.string.empty_post_list_message, "subjects")
+
+        emptyListMessage = getString(R.string.empty_post_list_message, "subjects")
     }
 
     private fun initializePersonalTab(view: View) {
@@ -81,18 +87,24 @@ class HomeFragment : PostListFragment<Subject>(
     }
 
     override fun updatePostsList() {
-        viewModel.updateSubjectsList()
+        viewModel.viewModelScope
+            .launch {
+                displayPosts(viewModel.getSubjects(), emptyListMessage)
+            }
     }
 
     override fun updateUpVotes(post: Subject, uid: String?) {
         viewModel.updateUpVotes(post, uid)
+        updatePostsList()
     }
 
     override fun updateDownVotes(post: Subject, uid: String?) {
         viewModel.updateDownVotes(post, uid)
+        updatePostsList()
     }
 
     override fun removePost(postId: String) {
         viewModel.removeSubject(postId)
+        updatePostsList()
     }
 }

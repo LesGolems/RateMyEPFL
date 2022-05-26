@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
+import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
@@ -8,29 +9,33 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.as
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.mapDocuments
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository,
+class UserRepositoryImpl(
+    private val repository: Repository<User>,
+    private val imageStorage: Storage<ImageFile>
+) : UserRepository,
     Repository<User> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(
+    constructor(db: FirebaseFirestore, storage: FirebaseStorage) : this(
         LoaderRepositoryImpl(
             RepositoryImpl<User>(
                 db,
                 USER_COLLECTION_PATH
             ) {
                 it.toUser()
-            })
+            }),
+        FirebaseImageStorage(storage)
     )
 
     companion object {
@@ -53,6 +58,8 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
      */
     override suspend fun getUserByUid(uid: String): User? = repository
         .getById(uid)
+        .catch { }
+        .lastOrNull()
 
     private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
@@ -86,7 +93,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         if (uid == null) return
         update(uid) {
             it.copy(karma = it.karma + inc)
-        }.await()
+        }.collect()
     }
 
     override suspend fun updateTimetable(uid: String?, c: Class) {
@@ -94,7 +101,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
         update(uid) {
             it.timetable.add(c)
             it.copy(timetable = it.timetable)
-        }.await()
+        }.collect()
     }
 
     override suspend fun getTopKarmaUsers(): QueryResult<List<User>> =
@@ -104,11 +111,14 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             .execute(10u)
             .mapDocuments { it.toUser() }
 
-    override suspend fun register(user: User): Task<Boolean> =
+    override suspend fun register(user: User): Flow<Boolean> = flow {
         if (getUserByUid(user.getId()) == null) {
-            repository.add(user).continueWith { false }
+            repository.add(user).collect()
+            emit(false)
         } else {
-            Tasks.forResult(true)
+            emit(true)
         }
+    }
+
 
 }

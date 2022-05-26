@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.backend.database.firebase.post
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.model.review.Post
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.Flow
 
 interface PostRepository<T : Post> : Repository<T> {
 
@@ -13,7 +14,7 @@ interface PostRepository<T : Post> : Repository<T> {
      * @param withId: a provided unique identifier
      *
      */
-    fun addWithId(item: T, withId: String): Task<String>
+    fun addWithId(item: T, withId: String): Flow<String>
 
     /**
      * Add an up vote from [userId] to the post with id [postId].

@@ -5,7 +5,7 @@ import com.github.sdp.ratemyepfl.model.time.Period
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -37,13 +37,13 @@ class EventRepositoryTest {
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        eventRepo.addEventWithId(testEvent).await()
+        eventRepo.addEventWithId(testEvent).last()
     }
 
     @After
     fun clean() {
         runTest {
-            eventRepo.remove(testEvent.getId()).await()
+            eventRepo.remove(testEvent.getId()).last()
         }
     }
 
@@ -68,7 +68,7 @@ class EventRepositoryTest {
         runTest {
             val event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.eventId, event.eventId)
             assertEquals(testEvent.name, event.name)
             assertEquals(testEvent.lat, event.lat, 0.1)
             assertEquals(testEvent.long, event.long, 0.1)
@@ -83,7 +83,7 @@ class EventRepositoryTest {
             eventRepo.updateParticipants(testEvent.eventId, USER_ID)
             var event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.eventId, event.eventId)
             assertEquals(testEvent.name, event.name)
             assertEquals(1, event.numParticipants)
             assert(event.participants.contains(USER_ID))
@@ -91,7 +91,7 @@ class EventRepositoryTest {
             eventRepo.updateParticipants(testEvent.eventId, USER_ID)
             event = eventRepo.getEventById(testEvent.eventId)
             assertNotNull(event)
-            assertEquals(testEvent.eventId, event!!.eventId)
+            assertEquals(testEvent.eventId, event.eventId)
             assertEquals(testEvent.name, event.name)
             assertEquals(0, event.numParticipants)
             assert(!event.participants.contains(USER_ID))

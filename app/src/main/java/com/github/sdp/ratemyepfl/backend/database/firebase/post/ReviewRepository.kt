@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.post
 
 import com.github.sdp.ratemyepfl.model.review.Review
+import kotlinx.coroutines.flow.Flow
 
 interface ReviewRepository : PostRepository<Review> {
 
@@ -23,5 +24,5 @@ interface ReviewRepository : PostRepository<Review> {
      *
      * @return the list non-null reviews of the reviewable
      */
-    suspend fun getByReviewableId(id: String?): List<Review>
+    fun getByReviewableId(id: String): Flow<List<Review>>
 }

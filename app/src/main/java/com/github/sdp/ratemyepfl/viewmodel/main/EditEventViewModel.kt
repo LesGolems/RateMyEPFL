@@ -12,8 +12,8 @@ import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.time.*
 import com.github.sdp.ratemyepfl.ui.activity.EditEventActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -116,7 +116,7 @@ class EditEventViewModel @Inject constructor(
                         long = long,
                         period = period
                     )
-                }.await()
+                }.collect()
             }
         } // For CodeClimate ^^
     }
@@ -147,7 +147,7 @@ class EditEventViewModel @Inject constructor(
         try {
             val event = builder.build()
             viewModelScope.launch {
-                eventRepo.add(event).await()
+                eventRepo.add(event).collect()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the event (from ${e.message}")
