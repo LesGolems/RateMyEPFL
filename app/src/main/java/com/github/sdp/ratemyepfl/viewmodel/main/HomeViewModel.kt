@@ -16,6 +16,7 @@ import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(
                     PostWithAuthor(
                         subject,
                         subject.uid?.let { userRepo.getUserByUid(it) },
-                        subject.uid?.let { imageStorage.get(it) }
+                        subject.uid?.let { imageStorage.get(it).last() }
                     )
                 }
                 .sortedBy { rwa -> -rwa.post.likers.size })
