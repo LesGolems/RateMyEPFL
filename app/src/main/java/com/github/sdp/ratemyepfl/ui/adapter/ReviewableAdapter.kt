@@ -4,6 +4,9 @@ import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
+import org.w3c.dom.Text
+import java.math.RoundingMode
+import java.security.AccessController.getContext
+import java.text.DecimalFormat
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
     ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(AdapterUtil.diffCallback<Reviewable>()) {
@@ -34,7 +41,10 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         RecyclerView.ViewHolder(reviewableView) {
 
         private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
-        private val layout: FrameLayout = reviewableView.findViewById(R.id.ribbon_main)
+        private val layout: FrameLayout = reviewableView.findViewById(R.id.gradeLayout)
+        private val grade: TextView = layout.findViewById(R.id.reviewableGrade)
+        private val imageSpan: ImageSpan =
+            ImageSpan(reviewableView.context, R.drawable.ic_baseline_star_24)
 
         private var currentReviewable: Reviewable? = null
 
@@ -52,7 +62,18 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         fun bind(reviewable: Reviewable) {
             currentReviewable = reviewable
             reviewableTextView.text = reviewable.toString()
-            setRibbonColor(reviewable, layout)
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            val gradeText = df.format(reviewable.grade) + " "
+            val sb: SpannableStringBuilder = SpannableStringBuilder(gradeText)
+            sb.setSpan(
+                imageSpan,
+                gradeText.length - 1,
+                gradeText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            grade.text = gradeText
+            //setGradeColor(reviewable, layout)
         }
     }
 
@@ -73,7 +94,7 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
-    private fun setRibbonColor(reviewable: Reviewable, layout: FrameLayout) {
+    private fun setGradeColor(reviewable: Reviewable, layout: FrameLayout) {
         when {
             reviewable.numReviews == 0 -> {
                 layout.background.setColorFilter(

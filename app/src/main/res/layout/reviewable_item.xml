@@ -18,10 +18,19 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <FrameLayout
-        android:id="@+id/ribbon_main"
+        android:id="@+id/gradeLayout"
         android:layout_width="40dp"
-        android:layout_height="40dp"
         android:layout_gravity="end"
-        android:background="@drawable/rating_corner"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/reviewableGrade"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"/>
+    </FrameLayout>
+
 </androidx.cardview.widget.CardView>
