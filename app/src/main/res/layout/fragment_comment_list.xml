@@ -8,7 +8,7 @@
     sothree:umanoDragView="@id/panelProfile">
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        android:id="@+id/slidingAddComment"
+        android:id="@+id/commentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
