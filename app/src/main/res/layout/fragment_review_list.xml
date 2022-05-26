@@ -35,14 +35,9 @@
 
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
-<<<<<<< HEAD
 
-    <RelativeLayout
-        android:id="@+id/panelProfile"
-=======
     <include
         layout="@layout/author_profile_layout"
->>>>>>> main
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
