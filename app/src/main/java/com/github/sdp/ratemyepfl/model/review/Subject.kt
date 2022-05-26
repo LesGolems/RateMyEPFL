@@ -56,7 +56,7 @@ data class Subject constructor(
         override fun build(): Subject {
             val postId = this.postId ?: ""
             val title = this asMandatory title
-            val comment = this asMandatory comment
+            val comment = this.comment ?: ""
             val date = this asMandatory date
             val uid = this.uid
             val likers = this asMandatory this.likers
