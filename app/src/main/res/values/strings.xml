@@ -33,7 +33,7 @@
     <string name="sort_by_grade_picker_title">Sort by grade</string>
     <string name="section_item_description">sectionItem</string>
     <string name="cycle_picker_description">cyclePickerDescription</string>
-    <string name="day_class_creation">Select the day and time</string>
+    <string name="day_class_creation">SELECT THE DAY AND TIME</string>
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="start">Start</string>
     <string name="end">End</string>

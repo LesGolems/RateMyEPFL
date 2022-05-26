@@ -27,8 +27,8 @@
     <color name="dark_orange">#FF6100</color>
     <color name="orange_white">#FFE9E2</color>
 
-    <color name="dayPressed">@color/colorPrimaryDark</color>
-    <color name="daySelected">@color/colorPrimary</color>
+    <color name="dayPressed">@color/secondaryColor</color>
+    <color name="daySelected">@color/primaryColor</color>
     <color name="daySelectedTextColor">@android:color/white</color>
     <color name="dayDeselected">#FAFAFA</color>
     <color name="dayDeselectedTextColor">@android:color/black</color>
