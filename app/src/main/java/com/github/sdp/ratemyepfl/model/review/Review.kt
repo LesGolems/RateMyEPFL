@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Review constructor(
+    override var postId: String = "",
     val rating: ReviewRating = ReviewRating.AVERAGE,
     override val title: String = "",
     override val comment: String = "",
@@ -13,11 +14,7 @@ data class Review constructor(
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
-) : Post(title, comment, date, uid, likers, dislikers) {
-
-    override var postId: String = this.hashCode().toString()
-
-    override fun getId(): String = postId
+) : Post(postId, title, comment, date, uid, likers, dislikers) {
 
     override fun withId(id: String): Review {
         return this.apply {
@@ -62,6 +59,7 @@ data class Review constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         override fun build(): Review {
+            val postId = this.postId ?: ""
             val rating = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment
@@ -72,6 +70,7 @@ data class Review constructor(
             val dislikers = this asMandatory this.dislikers
 
             return Review(
+                postId,
                 rating,
                 title,
                 comment,

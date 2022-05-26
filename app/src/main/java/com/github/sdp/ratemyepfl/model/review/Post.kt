@@ -12,6 +12,8 @@ import kotlinx.serialization.Transient
 @Serializable
 abstract class Post constructor(
     @Transient
+    open var postId: String = "",
+    @Transient
     open val title: String = "",
     @Transient
     open val comment: String = "",
@@ -25,7 +27,6 @@ abstract class Post constructor(
     open var dislikers: List<String> = listOf()
 ) : RepositoryItem {
 
-    abstract var postId: String
 
     override fun getId(): String = postId
 
@@ -46,6 +47,7 @@ abstract class Post constructor(
      * Mandatory: [title], [comment], [date], [uid], [likers], [dislikers]
      */
     abstract class Builder<T : Post>(
+        protected var postId: String? = null,
         protected var title: String? = null,
         protected var comment: String? = null,
         protected var date: DateTime? = null,
@@ -53,6 +55,15 @@ abstract class Post constructor(
         protected var likers: List<String>? = listOf(),
         protected var dislikers: List<String>? = listOf(),
     ) {
+
+        /**
+         * Sets the id of the post
+         * @param postId: the new id of the post
+         * @return this
+         */
+        fun setPostId(postId: String?) = apply {
+            this.postId = postId
+        }
 
         /**
          * Sets the title of the post
