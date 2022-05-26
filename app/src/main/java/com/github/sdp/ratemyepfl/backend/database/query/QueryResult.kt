@@ -99,40 +99,6 @@ class QueryResult<T> private constructor(private val result: Flow<QueryState<T>>
         QueryResult(result.map(op))
 
     /**
-     * This function behaves like await(), and waits for the completion of the query.
-     *
-     * @return the result of the query, if it succeeds
-     *
-     * It propagates the source of the failure it it fails.
-     */
-    suspend fun collectResult(): T {
-        var result: T? = null
-        this@QueryResult.collect {
-            when (it) {
-                is QueryState.Failure -> throw it.error
-                is QueryState.Loading -> {} // Wait for the result
-                is QueryState.Success -> result = it.data
-            }
-        }
-        // By construction, the flow will either throw an exception or remove the nullability
-        // of the result
-        return result
-            ?: throw QueryExecutionException("The query should return a result, which is not the case")
-    }
-
-    /**
-     * Collect the result, or throws a [TimeoutCancellationException] if it does not complete in
-     * [duration] milliseconds.
-     *
-     * @param duration: the duration of the timeout in milliseconds
-     * @throws TimeoutCancellationException: if it does not succeed in a given amount of time
-     */
-    suspend fun collectResultWithTimeout(duration: Long = COLLECT_RESULT_TIMEOUT_MS) =
-        withTimeout(duration) {
-            collectResult()
-        }
-
-    /**
      *  Transform the result into a Success containing a default value if the error thrown is of
      *  type [E]. It can be used if we want to provide a success if the catch error has a given type.
      *
@@ -158,36 +124,6 @@ class QueryResult<T> private constructor(private val result: Flow<QueryState<T>>
             this.mapResult { list ->
                 list.map(op)
             }
-
-        /**
-         * Flatten a sequence of [QueryResult]. It either succeed if each result succeeds, or fails
-         * with the first failure.
-         */
-        fun <T> Iterable<QueryResult<T>>.flatten(): QueryResult<List<T>> {
-            val withoutLoading = this.map {
-                it.mapResult { result -> listOf(result) }
-                    .filter { state -> state !is QueryState.Loading }
-            }
-
-            val res = QueryResult(withoutLoading.reduce { acc, flow ->
-                val first = acc as QueryResult<List<T>>
-                first.zip(flow) { state1, state2 ->
-                    when (state1) {
-                        is QueryState.Failure -> state1
-                        is QueryState.Loading -> state2
-                        is QueryState.Success -> when (state2) {
-                            is QueryState.Failure -> state2
-                            is QueryState.Loading -> state1
-                            is QueryState.Success -> QueryState.success(state1.data.plus(state2.data))
-                        }
-                    }
-                }
-            })
-
-            return QueryResult {
-                res.collectResult()
-            }
-        }
 
         /**
          * Map each non-null documents of the [QuerySnapshot] with the provided operation.
