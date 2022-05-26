@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.viewmodel.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
@@ -37,6 +39,8 @@ class CommentListViewModel @Inject constructor(
 
     // Comments
     val comments = MutableLiveData<List<CommentWithAuthor>>()
+
+    val isEmpty: LiveData<Boolean> = comments.map { it.isEmpty() }
 
     @Inject
     lateinit var auth: ConnectedUser

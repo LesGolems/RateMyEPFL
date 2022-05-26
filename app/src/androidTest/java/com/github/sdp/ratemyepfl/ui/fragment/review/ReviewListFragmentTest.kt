@@ -23,7 +23,6 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.TestUtils.checkSnackbarText
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
@@ -90,7 +89,7 @@ class ReviewListFragmentTest {
      * Like the ([position]+1)-th review
      */
     private fun likeReview(position: Int) {
-        onView(withId(R.id.reviewRecyclerView)).perform(
+        onView(withId(R.id.postRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.likeButton)
@@ -102,7 +101,7 @@ class ReviewListFragmentTest {
      * Dislike the ([position]+1)-th review
      */
     private fun dislikeReview(position: Int) {
-        onView(withId(R.id.reviewRecyclerView)).perform(
+        onView(withId(R.id.postRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.dislikeButton)
@@ -121,7 +120,7 @@ class ReviewListFragmentTest {
             resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
             allOf(
@@ -153,7 +152,7 @@ class ReviewListFragmentTest {
             resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
             allOf(
@@ -183,7 +182,7 @@ class ReviewListFragmentTest {
             resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
         // click on profile
         onView(
             allOf(
@@ -215,7 +214,7 @@ class ReviewListFragmentTest {
             resourceToBitmap(R.raw.fake_profile_picture)
         )
         // then refresh
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
         // then check if displayed
         onView(
             allOf(
@@ -242,7 +241,7 @@ class ReviewListFragmentTest {
     @Test
     fun listIsVisible() {
         launch()
-        onView(withId(R.id.reviewRecyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.postRecyclerView)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -261,9 +260,9 @@ class ReviewListFragmentTest {
         )
         Thread.sleep(2000) // if no wait, the new list is direclty displayed
         FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
-        onView(withId(R.id.reviewRecyclerView)).check(matches(hasChildCount(1)))
-        onView(withId(R.id.reviewSwipeRefresh)).perform(swipeDown())
-        onView(withId(R.id.reviewRecyclerView)).check(matches(not(hasChildCount(1))))
+        onView(withId(R.id.postRecyclerView)).check(matches(hasChildCount(1)))
+        onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
+        onView(withId(R.id.postRecyclerView)).check(matches(not(hasChildCount(1))))
     }
 
     @Test
@@ -424,7 +423,7 @@ class ReviewListFragmentTest {
 
         launch()
 
-        onView(withId(R.id.reviewRecyclerView)).perform(
+        onView(withId(R.id.postRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.deleteButton)

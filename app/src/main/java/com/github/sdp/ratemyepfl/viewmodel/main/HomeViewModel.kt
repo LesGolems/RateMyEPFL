@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel.main
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
@@ -29,6 +27,8 @@ class HomeViewModel @Inject constructor(
 
     // Subjects
     val subjects = MutableLiveData<List<SubjectWithAuthor>>()
+
+    val isEmpty: LiveData<Boolean> = subjects.map { it.isEmpty() }
 
     @Inject
     lateinit var auth: ConnectedUser
