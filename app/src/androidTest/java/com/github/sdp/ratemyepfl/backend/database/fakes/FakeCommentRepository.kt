@@ -11,9 +11,9 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
 
     companion object {
         private val COMMENT_LIST = listOf(
-            Comment("id1", "comment1", DateTime.now(), "12345"),
-            Comment("id2", "comment2", DateTime.now()),
-            Comment("id3", "comment3", DateTime.now()),
+            Comment("","id1", "comment1", DateTime.now(), "12345"),
+            Comment("", "id2", "comment2", DateTime.now()),
+            Comment("", "id3", "comment3", DateTime.now()),
         )
         var commentList = COMMENT_LIST
     }

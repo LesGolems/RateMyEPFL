@@ -15,12 +15,8 @@ import javax.inject.Inject
 @HiltAndroidTest
 class CommentRepositoryTest {
     private lateinit var currentId: String
-    private val testComment = Comment(
+    private val testComment = Comment("",
         "Fake id",
-        "Fake comment"
-    )
-    private val testComment2 = Comment(
-        "Fake id 2",
         "Fake comment"
     )
 
