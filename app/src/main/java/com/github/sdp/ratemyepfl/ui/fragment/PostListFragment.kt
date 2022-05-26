@@ -18,6 +18,7 @@ import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.utils.FragmentUtils
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -83,7 +84,7 @@ abstract class PostListFragment<T : Post>(
 
         noPostTextView = view.findViewById(R.id.noPostText)
         isEmpty().observe(viewLifecycleOwner) {
-            it?.let { emptyList(it) }
+            it?.let { FragmentUtils.emptyList(it, recyclerView, noPostTextView) }
         }
     }
 
@@ -128,19 +129,5 @@ abstract class PostListFragment<T : Post>(
         super.onResume()
         updatePostsList()
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
-    }
-
-
-    private fun emptyList(isEmpty: Boolean) {
-        when (isEmpty) {
-            true -> {
-                noPostTextView.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-            }
-            false -> {
-                noPostTextView.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-            }
-        }
     }
 }

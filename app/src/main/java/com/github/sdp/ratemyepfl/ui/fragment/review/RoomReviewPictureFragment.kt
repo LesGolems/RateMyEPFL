@@ -23,6 +23,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.database.firebase.FirebaseImageStorage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.utils.FragmentUtils
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.utils.TimeUtils
@@ -79,16 +80,7 @@ class RoomReviewPictureFragment : Fragment(R.layout.fragment_room_review_picture
 
         noPictureText = view.findViewById(R.id.noPictureText)
         viewModel.isEmpty.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> {
-                    noPictureText.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
-                }
-                false -> {
-                    noPictureText.visibility = View.GONE
-                    recyclerView.visibility = View.VISIBLE
-                }
-            }
+            FragmentUtils.emptyList(it, recyclerView, noPictureText)
         }
     }
 
