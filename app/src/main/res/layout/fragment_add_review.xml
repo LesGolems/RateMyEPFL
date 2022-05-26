@@ -13,7 +13,7 @@
         android:paddingRight="16dp">
 
         <TextView
-            android:id="@+id/reviewTitle"
+            android:id="@+id/addPostIndicationTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -58,7 +58,7 @@
             android:paddingBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addReviewTitle"
+                android:id="@+id/addPostTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine" />
@@ -74,7 +74,7 @@
             android:paddingBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/addReviewComment"
+                android:id="@+id/addPostComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine" />
@@ -82,7 +82,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/anonymous_switch"
+            android:id="@+id/anonymousSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layoutDirection="ltr"

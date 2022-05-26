@@ -116,8 +116,8 @@
     <string name="select_course_fragment">Choose a course</string>
     <string name="add_class_fragment">Add a class</string>
     <string name="course_class_creation">Click here to select a course</string>
-    <string name="title_class_creation">Add a class</string>  
-  
+    <string name="title_class_creation">Add a class</string>
+
     -- RESTAURANT --
     <string name="restaurant_content_description">restaurant icon</string>
     <string name="closest_restaurant_title">Closest</string>
@@ -167,4 +167,29 @@
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
+
+    -- SUBJECT --
+    <string name="create_post">Create post…</string>
+    <string name="icon_of_the_subject">Icon of the subject</string>
+    <string name="display_comments">Display comments</string>
+    <string name="i_don_t_like_this_subject">I don\'t like this subject</string>
+    <string name="i_like_this_subject">i like this subject</string>
+    <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
+    <string name="subject_indication_title">Create a post</string>
+    <string name="subject_sent_text">Your post was submitted!</string>
+
+    -- COMMENT
+    <string name="add_a_comment">Add a comment…</string>
+    <string name="reply">Reply</string>
+    <string name="button_for_deleting_a_comment">Button for deleting a comment</string>
+    <string name="comment_sent_text">Your comment was submitted!</string>
+
+    -- PODIUM --
+    <string name="podium_of_the_top_karma_users">Podium of the top karma users</string>
+    <string name="picture_of_the_top_1_user">Picture of the top 1 user</string>
+    <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
+    <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
+    <string name="podium_title">Best Karma Raters</string>
+    <string name="podium_quote_author">Keanu Reeves</string>
+    <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
 </resources>

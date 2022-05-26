@@ -1,7 +1,7 @@
-package com.github.sdp.ratemyepfl.backend.database.firebase
+package com.github.sdp.ratemyepfl.backend.database.firebase.post
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
-import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -21,17 +21,10 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
 
     companion object {
         const val REVIEW_COLLECTION_PATH = "reviews"
-        const val RATING_FIELD_NAME = "rating"
-        const val TITLE_FIELD_NAME = "title"
-        const val COMMENT_FIELD_NAME = "comment"
         const val REVIEWABLE_ID_FIELD_NAME = "reviewableId"
-        const val DATE_FIELD_NAME = "date"
-        const val UID_FIELD_NAME = "uid"
-        const val LIKERS_FIELD_NAME = "likers"
-        const val DISLIKERS_FIELD_NAME = "dislikers"
 
         /**
-         * Converts a json data into a Review
+         * Converts a json data into a [Review]
          *
          * @return the review if the json contains the necessary data, null otherwise
          */
@@ -52,25 +45,8 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
         return addWithId(item, document.id)
     }
 
-    override suspend fun addAndGetId(item: Review): String {
-        val document = repository
-            .collection
-            .document()
-
-        addWithId(item, document.id).await()
-        return document.id
-    }
-
-    /**
-     * Add a [Review] with a provided id. This should be used carefully as it may overwrite data.
-     *
-     * @param review: [Review] to add
-     * @param withId: a provided unique identifier
-     *
-     */
-    fun addWithId(review: Review, withId: String) =
-        repository.add(review.withId(withId))
-
+    override fun addWithId(item: Review, withId: String): Task<String> =
+        repository.add(item.withId(withId))
 
     override suspend fun getReviews(): List<Review> =
         repository.take(DEFAULT_QUERY_LIMIT.toLong())
@@ -92,30 +68,30 @@ class ReviewRepositoryImpl(val repository: RepositoryImpl<Review>) : ReviewRepos
             .mapNotNull { obj -> obj.toReview()?.withId(obj.id) }
     }
 
-    override suspend fun addUpVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun addUpVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             if (!review.likers.contains(userId))
                 review.copy(likers = review.likers.plus(userId))
             else review
         }.await()
     }
 
-    override suspend fun removeUpVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun removeUpVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             review.copy(likers = review.likers.minus(userId))
         }.await()
     }
 
-    override suspend fun addDownVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun addDownVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             if (!review.dislikers.contains(userId)) {
                 review.copy(dislikers = review.dislikers.plus(userId))
             } else review
         }.await()
     }
 
-    override suspend fun removeDownVote(reviewId: String, userId: String) {
-        repository.update(reviewId) { review ->
+    override suspend fun removeDownVote(postId: String, userId: String) {
+        repository.update(postId) { review ->
             review.copy(dislikers = review.dislikers.minus(userId))
         }.await()
     }
