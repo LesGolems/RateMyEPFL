@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import com.github.sdp.ratemyepfl.backend.database.Repository
+import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
@@ -8,27 +11,31 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.as
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.mapDocuments
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
+import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepositoryImpl(private val repository: Repository<User>) : UserRepository,
+class UserRepositoryImpl(private val repository: Repository<User>, private val imageStorage: Storage<ImageFile>) : UserRepository,
     Repository<User> by repository {
 
     @Inject
-    constructor(db: FirebaseFirestore) : this(
+    constructor(db: FirebaseFirestore, storage: FirebaseStorage) : this(
         LoaderRepositoryImpl(
             RepositoryImpl<User>(
                 db,
                 USER_COLLECTION_PATH
             ) {
                 it.toUser()
-            })
+            }),
+        FirebaseImageStorage(storage)
     )
 
     companion object {

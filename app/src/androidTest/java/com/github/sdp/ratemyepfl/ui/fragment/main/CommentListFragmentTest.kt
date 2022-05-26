@@ -82,7 +82,7 @@ class CommentListFragmentTest {
 
         onView(withId(R.id.slidingAddComment)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-        onView(withId(R.id.doneButton)).perform(click())
+        //onView(withId(R.id.doneButton)).perform(click())
     }
 
     @Test
