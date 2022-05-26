@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -65,9 +66,9 @@ abstract class PostListFragment<T : Post> constructor(
     abstract fun removePost(postId: String)
 
     suspend fun displayPosts(posts: Flow<List<PostWithAuthor<T>>>) {
-        loadingRecyclerView.display(posts, {
+        loadingRecyclerView.display(posts) {
             posts().postValue(it)
-        })
+        }
     }
 
     open fun initializePostList(view: View) {
