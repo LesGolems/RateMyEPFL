@@ -41,7 +41,8 @@ class AddReviewViewModel @Inject constructor(
     val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     companion object {
-        const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
+        const val NO_GRADE_MESSAGE: String = "You need to give a grade!"
+        const val NO_GRADE_TEXT: String = "Click to rate"
     }
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)

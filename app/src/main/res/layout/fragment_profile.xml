@@ -50,7 +50,8 @@
                 android:selectAllOnFocus="true"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="50sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textSize="52sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -81,7 +82,8 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
-                android:textSize="25sp" />
+                android:fontFamily="@font/pt_sans"
+                android:textSize="26sp" />
 
             <View
                 android:id="@+id/divider1"

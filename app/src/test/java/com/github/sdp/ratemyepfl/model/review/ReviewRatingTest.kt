@@ -16,7 +16,6 @@ class ReviewRatingTest {
         assertEquals(GOOD_RATING, good.rating)
         val excellent = ReviewRating.EXCELLENT
         assertEquals(EXCELLENT_RATING, excellent.rating)
-
     }
 
     @Test
@@ -45,5 +44,19 @@ class ReviewRatingTest {
         assertEquals(good.toValue(), 4)
         val excellent = ReviewRating.EXCELLENT
         assertEquals(excellent.toValue(), 5)
+    }
+
+    @Test
+    fun toStringReturnsCorrectString() {
+        val terrible = ReviewRating.TERRIBLE
+        assertEquals(terrible.toString(), "Terrible")
+        val poor = ReviewRating.POOR
+        assertEquals(poor.toString(), "Poor")
+        val average = ReviewRating.AVERAGE
+        assertEquals(average.toString(), "Average")
+        val good = ReviewRating.GOOD
+        assertEquals(good.toString(), "Good")
+        val excellent = ReviewRating.EXCELLENT
+        assertEquals(excellent.toString(), "Excellent")
     }
 }
