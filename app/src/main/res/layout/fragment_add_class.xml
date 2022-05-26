@@ -14,7 +14,7 @@
         tools:context=".ui.fragment.profile.AddClassFragment">
 
         <TextView
-            android:id="@+id/editEventTitle"
+            android:id="@+id/addClassTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="25dp"
