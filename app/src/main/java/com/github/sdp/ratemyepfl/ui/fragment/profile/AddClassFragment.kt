@@ -84,8 +84,7 @@ class AddClassFragment : Fragment(R.layout.fragment_add_class) {
     }
 
     private fun setUpDayPicker() {
-        dayPicker.disableDay(MaterialDayPicker.Weekday.SATURDAY)
-        dayPicker.disableDay(MaterialDayPicker.Weekday.SUNDAY)
+        dayPicker.disableWeekends()
         dayPicker.firstDayOfWeek = MaterialDayPicker.Weekday.MONDAY
 
         dayPicker.setDaySelectionChangedListener {

@@ -33,7 +33,7 @@
     <string name="sort_by_grade_picker_title">Sort by grade</string>
     <string name="section_item_description">sectionItem</string>
     <string name="cycle_picker_description">cyclePickerDescription</string>
-    <string name="day_class_creation">Select the day and time</string>
+    <string name="day_class_creation">SELECT THE DAY AND TIME</string>
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="start">Start</string>
     <string name="end">End</string>
@@ -62,16 +62,18 @@
     <string name="anonymous">Anonymous</string>
     <string name="best_rated_order_title">Best rated</string>
     <string name="worst_rated_order_title">Worst rated</string>
-    <string name="title_review">What do you think about %s</string>
-    <string name="comment_edit_text">Your opinion</string>
+    <string name="title_review">How was it?</string>
     <string name="done_button_text">DONE</string>
     <string name="review_text_button">REVIEW</string>
     <string name="title_review_list">Title</string>
     <string name="comment_review_list">Comment</string>
-    <string name="overall_score_review">Overall score: %s</string>
+    <string name="review_rate">Click to rate</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
-    <string name="title_edit_text">Your review title</string>
+    <string name="input_title_text">Your review title</string>
+    <string name="title_edit_text">Summarise your opinion</string>
+    <string name="input_comment_text">Your opinion</string>
+    <string name="comment_edit_text">Share your opinion with the community</string>
     <string name="button_for_deleting_a_review">Button for deleting a review</string>
     <string name="add_review_button">Add Review Button</string>
 
@@ -177,6 +179,10 @@
     <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
     <string name="subject_indication_title">Create a post</string>
     <string name="subject_sent_text">Your post was submitted!</string>
+    <string name="add_post_title">Yout post title</string>
+    <string name="add_post_title_hint">Insert a title</string>
+    <string name="add_post_content">Yout post content</string>
+    <string name="add_post_content_hint">Insert a content (optional)</string>
 
     -- COMMENT
     <string name="add_a_comment">Add a comment…</string>
