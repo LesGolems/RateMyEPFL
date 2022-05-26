@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.backend.database.firebase.post
+package com.github.sdp.ratemyepfl.backend.database.post
 
 import com.github.sdp.ratemyepfl.model.review.Review
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/podiumSwipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,23 +25,26 @@
             android:textSize="38sp"
             android:typeface="normal" />
 
-        <TextView
+        <com.tomer.fadingtextview.FadingTextView
             android:id="@+id/podium_quote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="375dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:text="@string/podium_quote"
+            app:texts="@array/podium_quote"
+            app:timeout="3500"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="italic" />
 
-        <TextView
+        <com.tomer.fadingtextview.FadingTextView
+            android:id="@+id/podium_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/podium_quote_author"
+            app:texts="@array/podium_quote_author"
+            app:timeout="3500"
             android:textAlignment="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <!-- PODIUM -->
         <include

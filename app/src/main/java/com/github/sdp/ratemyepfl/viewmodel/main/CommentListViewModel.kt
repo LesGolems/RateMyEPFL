@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
@@ -21,7 +21,6 @@ import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

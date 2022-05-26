@@ -16,6 +16,7 @@ import javax.inject.Inject
 class SubjectRepositoryTest {
     private lateinit var currentId: String
     private val testSubject = Subject(
+        "",
         "Fake title",
         "Fake comment"
     )

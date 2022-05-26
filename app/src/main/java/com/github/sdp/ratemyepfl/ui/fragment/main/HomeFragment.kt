@@ -1,6 +1,9 @@
 package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
@@ -33,6 +36,8 @@ class HomeFragment : PostListFragment<Subject>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePersonalTab(view)
+
+        setHasOptionsMenu(true)
 
         // Displays the most recent posts first
         posts().observe(viewLifecycleOwner) {
@@ -94,5 +99,19 @@ class HomeFragment : PostListFragment<Subject>(
 
     override fun removePost(postId: String) {
         viewModel.removeSubject(postId)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.action_bar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId;
+
+        if (id == R.id.rankingButton) {
+            Navigation.findNavController(requireView()).navigate(R.id.rankingFragment)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
