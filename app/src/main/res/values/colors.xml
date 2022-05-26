@@ -19,7 +19,7 @@
 
     <color name="navigationBar">@color/white</color>
     <color name="navigationItems">@color/primaryColor</color>
-    <color name="timetableFrame">tertiaryColor</color>
+    <color name="timetableFrame">@color/tertiaryColor</color>
 
     <color name="orange">#FF8C00</color>
     <color name="red">#D50404</color>
