@@ -23,8 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CommentListFragment : PostListFragment<Comment>(
     R.layout.fragment_comment_list,
-    R.id.commentRecyclerView,
-    R.id.commentSwipeRefresh,
     R.layout.comment_item
 ) {
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/author_profile_panel"
     android:layout_width="match_parent"
@@ -15,30 +14,11 @@
         android:gravity="bottom"
         sothree:umanoDragView="@id/commentDragView">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- MAIN CONTENT: COMMENT LIST -->
+        <include
+            layout="@layout/post_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- MAIN CONTENT: COMMENT LIST -->
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/commentSwipeRefresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/commentRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical"
-                    app:layoutManager="LinearLayoutManager" />
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-            <include
-                layout="@layout/empty_post_list_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent" />
 
         <!-- DRAGGABLE VIEW: ADD COMMENT -->
         <include
@@ -47,7 +27,6 @@
             android:layout_height="wrap_content" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
     <include

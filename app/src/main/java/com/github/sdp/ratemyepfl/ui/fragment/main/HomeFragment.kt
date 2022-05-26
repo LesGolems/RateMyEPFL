@@ -22,8 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 @AndroidEntryPoint
 class HomeFragment : PostListFragment<Subject>(
     R.layout.fragment_home,
-    R.id.subjectRecyclerView,
-    R.id.subjectSwipeRefresh,
     R.layout.subject_item
 ) {
 

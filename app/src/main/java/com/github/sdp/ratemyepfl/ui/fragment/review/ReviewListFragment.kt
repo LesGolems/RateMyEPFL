@@ -23,8 +23,6 @@ Fragment for the list of reviews, shared among all reviewed items
 @AndroidEntryPoint
 class ReviewListFragment : PostListFragment<Review>(
     R.layout.fragment_review_list,
-    R.id.reviewRecyclerView,
-    R.id.reviewSwipeRefresh,
     R.layout.review_item
 ) {
 

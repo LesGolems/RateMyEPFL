@@ -29,9 +29,7 @@ import javax.inject.Inject
  */
 abstract class PostListFragment<T : Post>(
     fragmentLayout: Int,
-    private val recyclerViewLayout: Int,
-    private val swipeRefreshLayout: Int,
-    private val adapterLayout: Int
+    private val postLayout: Int
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
@@ -65,12 +63,12 @@ abstract class PostListFragment<T : Post>(
     abstract fun removePost(postId: String)
 
     open fun initializePostList(view: View) {
-        recyclerView = view.findViewById(recyclerViewLayout)
+        recyclerView = view.findViewById(R.id.postRecyclerView)
         recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
-        swipeRefresher = view.findViewById(swipeRefreshLayout)
+        swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             updatePostsList()
             swipeRefresher.isRefreshing = false
@@ -96,7 +94,7 @@ abstract class PostListFragment<T : Post>(
             getListener({ post, uid -> updateDownVotes(post, uid) }, view),
             { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
             { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
-            adapterLayout
+            postLayout
         )
 
     open fun initializeProfilePanel(view: View) {
