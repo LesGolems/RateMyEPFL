@@ -9,5 +9,5 @@ interface RoomNoiseRepository {
 
     suspend fun addMeasurement(roomId: String, date: LocalDateTime, measure: Int)
 
-    suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo
+    suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo?
 }

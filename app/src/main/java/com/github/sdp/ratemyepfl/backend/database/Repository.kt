@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database
 
 import com.github.sdp.ratemyepfl.backend.database.query.Queryable
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.flow.Flow
 
@@ -49,12 +48,12 @@ interface Repository<T : RepositoryItem> : Queryable {
      * If the document does not exist yet, it fails and returns null.
      *
      * @param id: The id of the document to edit
-     * @param transform: the transform to apply to the stored data
+     * @param update: the transform to apply to the stored data
      *
      *
      * @return the transformed data, or null if the document does not exist.
      */
-    fun update(id: String, transform: (T) -> T): Flow<T>
+    fun update(id: String, update: (T) -> T): Flow<T>
 
     /**
      * Transform fetched [DocumentSnapshot] into [T]

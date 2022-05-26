@@ -5,7 +5,6 @@ import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
 import com.github.sdp.ratemyepfl.exceptions.DatabaseConversionException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -76,18 +75,18 @@ class RepositoryImpl<T : RepositoryItem>(
     }
 
 
-    override fun update(id: String, transform: (T) -> T): Flow<T> = flow {
+    override fun update(id: String, update: (T) -> T): Flow<T> = flow {
         val docRef = collection
             .document(id)
         val result = database
             .runTransaction { transaction ->
                 val snapshot = transaction.get(docRef)
-                this@RepositoryImpl.transform(snapshot)?.let { data ->
-                    transform(data).apply {
+                transform(snapshot)?.let { data ->
+                    update(data).apply {
                         transaction.set(docRef, this)
                     }
                 }
-            }.await() ?: throw NoSuchElementException("Cannot update an item that does not exist")
+            }.await() ?: throw NoSuchElementException("Cannot update an item that does not exist (id: $id)")
         emit(result)
     }
 

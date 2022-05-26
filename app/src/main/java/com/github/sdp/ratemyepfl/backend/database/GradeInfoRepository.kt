@@ -21,6 +21,6 @@ interface GradeInfoRepository {
         reviewId: String
     )
 
-    suspend fun getGradeInfoById(itemId: String): GradeInfo
+    suspend fun getGradeInfoById(itemId: String): GradeInfo?
 
 }

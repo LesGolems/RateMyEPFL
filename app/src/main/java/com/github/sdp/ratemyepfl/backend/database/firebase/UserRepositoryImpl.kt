@@ -12,10 +12,7 @@ import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,9 +49,10 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
      * Retrieves a User object by their [uid].
      * Returns null in case of error.
      */
-    override suspend fun getUserByUid(uid: String): User = repository
+    override suspend fun getUserByUid(uid: String): User? = repository
         .getById(uid)
-        .last()
+        .catch {  }
+        .lastOrNull()
 
     private fun getBy(fieldName: String, value: String): QueryResult<List<User>> =
         repository
@@ -108,7 +106,7 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
 
     override suspend fun register(user: User): Flow<Boolean> = flow {
         if (getUserByUid(user.getId()) == null) {
-            repository.add(user)
+            repository.add(user).collect()
             emit(false)
         } else {
             emit(true)

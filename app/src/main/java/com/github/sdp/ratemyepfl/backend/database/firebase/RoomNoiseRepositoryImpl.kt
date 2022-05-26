@@ -8,6 +8,7 @@ import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
@@ -57,8 +58,9 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
         }.collect()
     }
 
-    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo =
+    override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =
         repository.getById(roomId)
-            .last()
+            .catch {  }
+            .lastOrNull()
 
 }

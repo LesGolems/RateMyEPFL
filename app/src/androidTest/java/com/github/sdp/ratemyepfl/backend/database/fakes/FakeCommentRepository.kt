@@ -18,11 +18,15 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
             Comment("id2", "comment2", DateTime.now()),
             Comment("id3", "comment3", DateTime.now()),
         )
-        var commentList = COMMENT_LIST
     }
 
-    override fun getBySubjectId(id: String): Flow<List<Comment>> = flow {
-        emit(commentList)
+    init {
+        elements = COMMENT_LIST.toSet()
+    }
+
+
+        override fun getBySubjectId(id: String): Flow<List<Comment>> = flow {
+        emit(elements.toList())
     }
 
     override fun addWithId(item: Comment, withId: String): Flow<String> {

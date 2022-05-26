@@ -29,9 +29,9 @@ class RestaurantRepositoryTest {
     lateinit var restaurantRepo: RestaurantRepositoryImpl
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        restaurantRepo.add(testRestaurant)
+        restaurantRepo.add(testRestaurant).collect()
     }
 
     @After

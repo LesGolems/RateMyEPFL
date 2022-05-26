@@ -5,9 +5,9 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import org.mockito.Mockito
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
@@ -110,13 +110,13 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
             .build()
     }
 
-    override suspend fun getByReviewableId(id: String?): List<Review> {
-        return reviewList
+    override fun getByReviewableId(id: String): Flow<List<Review>> {
+        TODO("Not yet implemented")
     }
 
-    override suspend fun addUpVote(reviewId: String, userId: String) {
+    override suspend fun addUpVote(postId: String, userId: String) {
         reviewList.map {
-            if (it.getId() == reviewId) {
+            if (it.getId() == postId) {
                 it.copy(likers = it.likers.plus(userId))
             } else it
         }
@@ -146,14 +146,14 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
         }
     }
 
-    override fun addWithId(item: Review, withId: String): Task<String> {
+    override fun addWithId(item: Review, withId: String): Flow<String> {
         TODO("Not yet implemented")
     }
 
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
 
-    override fun remove(id: String): Task<Void> {
+    override fun remove(id: String): Flow<Boolean> {
         val newList = arrayListOf<Review>()
 
         for (r in reviewList) {
@@ -164,6 +164,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
 
         reviewList = newList
 
-        return Mockito.mock(Task::class.java) as Task<Void>
+        return flow { emit(true) }
     }
 }

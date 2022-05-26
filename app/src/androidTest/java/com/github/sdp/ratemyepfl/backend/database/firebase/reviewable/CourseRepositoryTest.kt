@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 
+import com.github.sdp.ratemyepfl.backend.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,11 +30,14 @@ class CourseRepositoryTest {
 
     @Inject
     lateinit var courseRepo: CourseRepositoryImpl
+    @Inject
+    lateinit var firebaseFirestore: FirebaseFirestore
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        courseRepo.add(testCourse)
+        RepositoryUtil.clear(firebaseFirestore.collection(CourseRepositoryImpl.COURSE_COLLECTION_PATH))
+        courseRepo.add(testCourse).collect()
     }
 
     @After

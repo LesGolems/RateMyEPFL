@@ -9,8 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,11 +50,11 @@ class RoomNoiseInfoRepositoryTest {
 
     @Test
     fun addMeasurementWhenIdNotExists() {
-        runTest {
-            roomNoiseRepo.addMeasurement("new id", testDate, 50)
-            val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById("new id")
-            assertNotNull(roomNoiseInfo)
-            assertEquals(1, roomNoiseInfo!!.noiseData.size)
-        }
+            runTest {
+                roomNoiseRepo.addMeasurement("new id", testDate, 50)
+                val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById("new id")
+                assertNotNull(roomNoiseInfo)
+                assertEquals(1, roomNoiseInfo!!.noiseData.size)
+            }
     }
 }

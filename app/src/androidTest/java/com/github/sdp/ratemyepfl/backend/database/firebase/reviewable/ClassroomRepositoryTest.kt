@@ -26,14 +26,14 @@ class ClassroomRepositoryTest {
     lateinit var roomRepo: ClassroomRepositoryImpl
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        roomRepo.add(testRoom)
+        roomRepo.add(testRoom).collect()
     }
 
     @After
-    fun clean() {
-        roomRepo.remove(testRoom.name)
+    fun clean() = runTest {
+        roomRepo.remove(testRoom.name).collect()
     }
 
     @Test

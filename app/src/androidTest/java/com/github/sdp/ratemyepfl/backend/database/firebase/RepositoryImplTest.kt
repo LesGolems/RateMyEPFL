@@ -13,6 +13,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -82,15 +83,18 @@ class RepositoryImplTest {
     }
 
     @Test
-    fun removeCorrectlyExistingItem() = runTest {
+    fun removeCorrectlyExistingItem() {
         val id = "privateID"
         val data = -1
         val item = Item(id, data)
         runTest {
             repository.add(item).collect()
             repository.remove(item.getId()).collect()
-
-            assertEquals(null, repository.getById(item.getId()).last())
+        }
+        assertThrows(NoSuchElementException::class.java) {
+            runTest {
+                repository.getById(item.getId()).last()
+            }
         }
     }
 
@@ -150,12 +154,15 @@ class RepositoryImplTest {
         val x = repository.getById(item.getId()).last()
 
         assertEquals(1, x.data)
+
     }
 
     @Test
-    fun t() = runTest {
-        assertEquals(null, repository.update("someRandomId") {
-            it
-        }.last())
+    fun updateForNonExistingIdShouldFail() {
+        assertThrows(NoSuchElementException::class.java) {
+            runTest {
+                repository.update("SOME RANDOM ID") { it }.last()
+            }
+        }
     }
 }

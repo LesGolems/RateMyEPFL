@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.Flow
@@ -34,10 +33,10 @@ open class FakeRepository<T : RepositoryItem> : Repository<T> {
         return flow { emit(item.getId()) }
     }
 
-    override fun update(id: String, transform: (T) -> T): Flow<T> = flow {
+    override fun update(id: String, update: (T) -> T): Flow<T> = flow {
         elements.map {
             if (it.getId() == id) {
-                val res = transform(it)
+                val res = update(it)
                 emit(res)
                 res
             } else it

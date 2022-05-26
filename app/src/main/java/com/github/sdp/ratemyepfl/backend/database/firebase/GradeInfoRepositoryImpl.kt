@@ -14,10 +14,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -100,11 +97,12 @@ class GradeInfoRepositoryImpl private constructor(
         reviewId: String,
         rating: ReviewRating
     ) {
-        if (getGradeInfoById(item.getId()) == null) {
-            repository.add(GradeInfo(item.getId())).collect()
+        val id = item.getId()
+        if (getGradeInfoById(id) == null) {
+            repository.add(GradeInfo(id)).collect()
         }
 
-        val computedGrade = repository.update(item.getId()) {
+        val computedGrade = repository.update(id) {
             val newData = it.reviewsData.plus(
                 Pair(
                     reviewId,
@@ -120,8 +118,10 @@ class GradeInfoRepositoryImpl private constructor(
         updateItem(item, computedGrade, 1)
     }
 
-    override suspend fun getGradeInfoById(itemId: String): GradeInfo = repository
-        .getById(itemId).last()
+    override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
+        .getById(itemId)
+        .catch {  }
+        .lastOrNull()
 
     private suspend fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int) =
         when (item) {

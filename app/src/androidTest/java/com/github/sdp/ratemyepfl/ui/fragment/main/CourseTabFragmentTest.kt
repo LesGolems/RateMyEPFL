@@ -19,6 +19,7 @@ import com.github.sdp.ratemyepfl.utils.TestUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -80,10 +81,10 @@ class CourseTabFragmentTest {
     fun setUp() {
         hiltAndroidTestRule.inject()
         courses.forEach {
-            runTest { repository.add(it).await() }
+            runTest { repository.add(it).collect() }
         }
         fillers.forEach {
-            runTest { repository.add(it).await() }
+            runTest { repository.add(it).collect() }
         }
 
     }
@@ -91,10 +92,10 @@ class CourseTabFragmentTest {
     @After
     fun tearDown() {
         courses.forEach {
-            runTest { repository.remove(it.getId()).await() }
+            runTest { repository.remove(it.getId()).collect() }
         }
         fillers.forEach {
-            runTest { repository.remove(it.getId()).await() }
+            runTest { repository.remove(it.getId()).collect() }
         }
 
     }
