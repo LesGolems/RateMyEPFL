@@ -37,7 +37,7 @@ data class Event(
             this,
             MapActivityUtils.PHOTO_MAPPING.getOrDefault(
                 name,
-                R.raw.niki
+                R.raw.event_info_event
             ), // Arbitrary default value
             R.drawable.ic_calendar_solid_small
         )

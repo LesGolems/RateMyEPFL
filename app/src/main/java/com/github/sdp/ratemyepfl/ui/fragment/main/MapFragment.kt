@@ -206,7 +206,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
      * Collapse sliding panel if expanded
      */
     private fun collapsePanel() {
-        if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+        if (slidingLayout.panelState != SlidingUpPanelLayout.PanelState.COLLAPSED) {
             slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
     }
@@ -264,10 +264,10 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     }
 
     override fun onClusterItemClick(item: MapItem): Boolean {
-        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         titleView.text = item.name
         reviewButton.setOnClickListener { displayIntent(item) }
         photoView.setImageResource(item.photo)
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
 
         map.animateCamera(CameraUpdateFactory.newLatLng(item.position), 250, null)
 
