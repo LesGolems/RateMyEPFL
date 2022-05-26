@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.ui.fragment.main.MapFragment
-import com.github.sdp.ratemyepfl.ui.fragment.review.AddReviewFragment
 import com.github.sdp.ratemyepfl.ui.layout.CustomScrollView
 import com.github.sdp.ratemyepfl.viewmodel.main.EditEventViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -78,7 +78,7 @@ class EditEventActivity : AppCompatActivity() {
 
     private fun nameTextInit() {
         eventNameText = findViewById(R.id.editEventName)
-        eventNameText.addTextChangedListener(AddReviewFragment.onTextChangedTextWatcher { text, _, _, _ ->
+        eventNameText.addTextChangedListener(AddPostFragment.onTextChangedTextWatcher { text, _, _, _ ->
             text?.toString()?.run { editEventViewModel.setTitle(this) }
         })
 

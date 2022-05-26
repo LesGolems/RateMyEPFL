@@ -17,7 +17,6 @@ interface Storage<T> {
 
     /**
      * Returns the item for the given [id].
-     * Returns null in case of errors.
      */
     fun get(id: String): Flow<ImageFile>
 

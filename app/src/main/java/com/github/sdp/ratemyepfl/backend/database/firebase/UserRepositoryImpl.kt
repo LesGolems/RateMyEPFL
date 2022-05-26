@@ -10,12 +10,12 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -98,6 +98,13 @@ class UserRepositoryImpl(private val repository: Repository<User>) : UserReposit
             it.copy(timetable = it.timetable)
         }.collect()
     }
+
+    override suspend fun getTopKarmaUsers(): QueryResult<List<User>> =
+        repository
+            .query()
+            .orderBy(KARMA_FIELD_NAME, com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .execute(10u)
+            .mapDocuments { it.toUser() }
 
     override suspend fun register(user: User): Flow<Boolean> = flow {
         if (getUserByUid(user.getId()) == null) {

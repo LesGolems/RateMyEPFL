@@ -17,7 +17,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="175dp"
-                android:background="@raw/background" />
+                android:background="@raw/red3" />
 
             <include layout="@layout/layout_animated_circle_image_view"
                 android:id="@+id/profilePictureLoadingImage"

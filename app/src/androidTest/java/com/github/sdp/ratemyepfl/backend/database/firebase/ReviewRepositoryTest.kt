@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepositoryImpl
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime
@@ -95,7 +96,7 @@ class ReviewRepositoryTest {
     @Test
     fun getReviewByReviewableIdWorks() {
         runTest {
-            val review = reviewRepo.getByReviewableId(testReview.reviewableId)[0]
+            val review = reviewRepo.getByReviewableId(testReview.reviewableId).last()[0]
             assertEquals(testReview.getId(), review.getId())
             assertEquals(testReview.title, review.title)
             assertEquals(testReview.comment, review.comment)
@@ -141,7 +142,6 @@ class ReviewRepositoryTest {
         }
     }
 
-
     @Test
     fun addWithIdRegisterWithTheGivenId() = runTest {
         val id = "id"
@@ -183,7 +183,6 @@ class ReviewRepositoryTest {
         clean()
     }
 
-
     @Test
     fun addUpVoteTwiceOnlyAddsItOnceWorks() = runTest {
         val uid = "uid"
@@ -212,7 +211,6 @@ class ReviewRepositoryTest {
         reviewRepo.remove(id).last()
         clean()
     }
-
 
     @Test
     fun addDownVoteTwiceOnlyAddsItOnceWorks() = runTest {

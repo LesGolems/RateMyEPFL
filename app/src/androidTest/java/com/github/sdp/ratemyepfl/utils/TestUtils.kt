@@ -13,6 +13,10 @@ import androidx.annotation.DrawableRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.hamcrest.Description
 import org.hamcrest.Matcher
@@ -113,4 +117,13 @@ object TestUtils {
                     && item.panelState == SlidingUpPanelLayout.PanelState.HIDDEN
         }
     }
+
+    /**
+     * Check that the Snackbar at the bottom of the current view displays [text]
+     */
+    fun checkSnackbarText(text: String) {
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(text)))
+    }
+
 }

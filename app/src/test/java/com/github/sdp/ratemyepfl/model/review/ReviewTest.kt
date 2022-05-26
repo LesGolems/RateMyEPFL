@@ -18,9 +18,9 @@ class ReviewTest {
         val rating = ReviewRating.TERRIBLE
         val builder: Review = Review.Builder()
             .setRating(rating)
+            .setReviewableID("ID")
             .setComment("My comment")
             .setTitle("My title")
-            .setReviewableID("ID")
             .setDate(DateTime.now())
             .build()
 
@@ -31,11 +31,10 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfRateIsNull() {
         val builder = Review.Builder()
+            .setReviewableID("ID")
             .setComment("Hello")
             .setTitle("Hello")
-            .setReviewableID("ID")
             .setDate(DateTime.now())
-
         assertThrows(IllegalStateException::class.java) {
             builder.build()
         }
@@ -44,11 +43,10 @@ class ReviewTest {
     @Test
     fun builderThrowsExceptionIfTitleIsNull() {
         val builder = Review.Builder()
-            .setComment("Hello")
             .setRating(ReviewRating.AVERAGE)
             .setReviewableID("ID")
+            .setComment("Hello")
             .setDate(DateTime.now())
-
         assertThrows(IllegalStateException::class.java) {
             builder.build()
         }
@@ -58,8 +56,8 @@ class ReviewTest {
     fun builderThrowsExceptionIfCommentIsNull() {
         val builder = Review.Builder()
             .setRating(ReviewRating.AVERAGE)
-            .setTitle("Hello")
             .setReviewableID("ID")
+            .setTitle("Hello")
             .setDate(DateTime.now())
 
         assertThrows(IllegalStateException::class.java) {
@@ -84,9 +82,9 @@ class ReviewTest {
     fun builderThrowsExceptionIfDateIsNull() {
         val builder = Review.Builder()
             .setRating(ReviewRating.AVERAGE)
+            .setReviewableID("ID")
             .setTitle("Hello")
             .setComment("Hello")
-            .setReviewableID("ID")
 
         assertThrows(IllegalStateException::class.java) {
             builder.build()
@@ -98,9 +96,9 @@ class ReviewTest {
         val title = "My title"
         val builder: Review = Review.Builder()
             .setRating(ReviewRating.TERRIBLE)
+            .setReviewableID("ID")
             .setComment("My comment")
             .setTitle(title)
-            .setReviewableID("ID")
             .setDate(DateTime.now())
             .build()
 
@@ -112,9 +110,9 @@ class ReviewTest {
         val comment = "My comment"
         val builder: Review = Review.Builder()
             .setRating(ReviewRating.TERRIBLE)
+            .setReviewableID("ID")
             .setComment(comment)
             .setTitle("My title")
-            .setReviewableID("ID")
             .setDate(DateTime.now())
             .build()
 
@@ -130,9 +128,9 @@ class ReviewTest {
 
         val review = Review.Builder()
             .setRating(rate)
+            .setReviewableID("ID")
             .setTitle(title)
             .setComment(comment)
-            .setReviewableID("ID")
             .setDate(date)
             .build()
 
@@ -149,29 +147,12 @@ class ReviewTest {
 
         val review = Review.Builder()
             .setRating(rate)
+            .setReviewableID(reviewableId)
             .setTitle(title)
             .setComment(comment)
-            .setReviewableID(reviewableId)
             .setDate(date)
             .build()
 
         assertEquals(reviewableId, review.reviewableId)
     }
-
-    @Test
-    fun serializationIsConsistent() {
-        val review: Review = Review.Builder()
-            .setRating(ReviewRating.EXCELLENT)
-            .setComment("My comment")
-            .setTitle("My title")
-            .setReviewableID("ID")
-            .setDate(DateTime(2020, 3, 8, 0, 0))
-            .build()
-
-        val serializedReview = review.serialize()
-        val deserializedReview = Review.deserialize(serializedReview)
-
-        assertEquals(review, deserializedReview)
-    }
-
 }

@@ -6,7 +6,6 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.intent.Intents.*
@@ -15,15 +14,15 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction.selectTabAtPosition
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
-import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -52,11 +51,8 @@ class RoomReviewPictureFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
-        Thread.sleep(500)
-        onView(withId(R.id.roomInfoImage)).perform(swipeLeft())
-        Thread.sleep(500)
-        onView(withId(R.id.reviewRecyclerView)).perform(swipeLeft())
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(selectTabAtPosition(2))
+        Thread.sleep(1500)
     }
 
     @After
@@ -67,7 +63,6 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun imageGridIsVisible() {
         onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
-        scenario.close()
     }
 
     @Test
@@ -75,17 +70,6 @@ class RoomReviewPictureFragmentTest {
         onView(withId(R.id.pictureRecyclerView)).check(
             matches(hasChildCount(FakeImageStorage.pictures.size))
         )
-    }
-
-    @Test
-    fun imageGridIsCorrectlyDisplayed() {
-        for (id: Int in FakeImageStorage.pictureIds) {
-            onView(withId(R.id.pictureRecyclerView)).check(
-                matches(
-                    hasDescendant(withDrawable(id))
-                )
-            )
-        }
     }
 
     @Test
