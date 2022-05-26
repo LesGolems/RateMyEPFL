@@ -7,12 +7,10 @@
     android:background="@color/backgroundColor"
     tools:context=".ui.fragment.review.RestaurantReviewInfoFragment">
 
-    <ImageView
-        android:id="@+id/restaurantInfoImage"
+    <include layout="@layout/layout_loading_image_view"
+        android:id="@+id/restaurantInfoImageLayout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
+        android:layout_height="240dp"/>
 
     <ImageView
         android:id="@+id/restaurantIcon"
