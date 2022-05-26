@@ -29,11 +29,13 @@ class LoadingCircleImageView(
         defaultImageId
     )
 
+    constructor(parent: View): this(parent, R.raw.blank_profile_picture)
+
     init {
         image.setImageBitmap(getDefaultImage().data)
     }
 
-    private fun getDefaultImage(): ImageFile {
+    fun getDefaultImage(): ImageFile {
         val context = view.context
         val inputStream: InputStream = context.resources.openRawResource(defaultImageId)
         val bitmap = BitmapFactory.decodeStream(inputStream)

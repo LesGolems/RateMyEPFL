@@ -29,8 +29,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <include
         android:id="@+id/userTop1Picture"
+        layout="@layout/layout_animated_circle_image_view"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginTop="46dp"
@@ -65,8 +66,9 @@
         app:layout_constraintEnd_toEndOf="@id/userTop2Picture"
         app:layout_constraintStart_toStartOf="@id/userTop2Picture" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <include
         android:id="@+id/userTop2Picture"
+        layout="@layout/layout_animated_circle_image_view"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginTop="165dp"
@@ -101,8 +103,9 @@
         app:layout_constraintEnd_toEndOf="@id/userTop3Picture"
         app:layout_constraintStart_toStartOf="@id/userTop3Picture" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <include
         android:id="@+id/userTop3Picture"
+        layout="@layout/layout_animated_circle_image_view"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="55dp"
