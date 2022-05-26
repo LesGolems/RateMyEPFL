@@ -2,7 +2,8 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.google.android.gms.maps.model.LatLng
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class EventItemTest {
@@ -14,7 +15,7 @@ class EventItemTest {
             NAME, NAME, 0, 0, listOf(), "", 0.0, 0,
             LAT_LNG.latitude, LAT_LNG.longitude
         )
-        private val EVENT_ITEM = EventItem(EVENT, R.raw.arcadie, null)
+        private val EVENT_ITEM = EventItem(EVENT, R.raw.arcadie, 0)
     }
 
 
