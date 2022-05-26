@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content" />
 
             <!-- MAIN CONTENT: SUBJECT LIST -->
-            <androidx.recyclerview.widget.RecyclerView
+            <include layout="@layout/layout_loading_recycler_view"
                 android:id="@+id/subjectRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

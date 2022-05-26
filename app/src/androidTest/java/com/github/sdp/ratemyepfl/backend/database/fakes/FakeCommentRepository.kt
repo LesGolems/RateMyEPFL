@@ -18,7 +18,7 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
         var commentList = COMMENT_LIST
     }
 
-    override suspend fun getBySubjectId(id: String?): List<Comment> = commentList
+    override suspend fun getBySubjectId(id: String?): Flow<List<Comment>> = commentList
 
     @Suppress("UNCHECKED_CAST")
     override fun remove(id: String): Task<Void> {

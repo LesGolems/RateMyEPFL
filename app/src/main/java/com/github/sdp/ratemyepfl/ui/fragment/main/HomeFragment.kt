@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
@@ -17,6 +18,7 @@ import com.github.sdp.ratemyepfl.viewmodel.main.HomeViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : PostListFragment<Subject>(
@@ -75,18 +77,24 @@ class HomeFragment : PostListFragment<Subject>(
     }
 
     override fun updatePostsList() {
-        viewModel.updateSubjectsList()
+        viewModel.viewModelScope
+            .launch {
+                displayPosts(viewModel.getSubjects())
+            }
     }
 
     override fun updateUpVotes(post: Subject, uid: String?) {
         viewModel.updateUpVotes(post, uid)
+        updatePostsList()
     }
 
     override fun updateDownVotes(post: Subject, uid: String?) {
         viewModel.updateDownVotes(post, uid)
+        updatePostsList()
     }
 
     override fun removePost(postId: String) {
         viewModel.removeSubject(postId)
+        updatePostsList()
     }
 }

@@ -18,23 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <include
                 android:id="@+id/reviewRecyclerView"
+                layout="@layout/layout_loading_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 app:layoutManager="LinearLayoutManager" />
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <ProgressBar
-            android:id="@+id/reviewListProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/addReviewButton"
@@ -43,13 +36,12 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
-            android:text="@string/add_review_string"
-            app:icon="@android:drawable/ic_input_add"
-            app:borderWidth="0dp"
             android:elevation="50dp"
+            android:text="@string/add_review_string"
+            app:borderWidth="0dp"
+            app:icon="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

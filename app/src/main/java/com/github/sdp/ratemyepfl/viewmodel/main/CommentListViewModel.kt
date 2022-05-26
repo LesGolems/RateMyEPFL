@@ -18,11 +18,8 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,26 +39,22 @@ class CommentListViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-    fun updateCommentsList() {
-        viewModelScope.launch {
-            comments.postValue(commentRepo.getBySubjectId(id)
-                .toMutableList()
-                .map { comment ->
+    fun getComments() = commentRepo.getBySubjectId(id)
+        .map { comments ->
+            comments.map { comment ->
                     PostWithAuthor(
                         comment,
                         comment.uid?.let { userRepo.getUserByUid(it) },
                         comment.uid?.let { imageStorage.get(it).catch {  }.lastOrNull() }
                     )
                 }
-                .sortedBy { cwa -> -cwa.post.likers.size })
+                .sortedBy { cwa -> -cwa.post.likers.size }
         }
-    }
 
     fun removeComment(commentId: String) {
         viewModelScope.launch {
-            commentRepo.remove(commentId).await()
+            commentRepo.remove(commentId).collect()
             subjectRepo.removeComment(id, commentId)
-            updateCommentsList()
         }
     }
 
@@ -87,7 +80,6 @@ class CommentListViewModel @Inject constructor(
                 commentRepo.addDownVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
             }
-            updateCommentsList()
         }
     }
 
@@ -113,7 +105,6 @@ class CommentListViewModel @Inject constructor(
                 commentRepo.addUpVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
             }
-            updateCommentsList()
         }
     }
 
@@ -142,9 +133,8 @@ class CommentListViewModel @Inject constructor(
         try {
             val com = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                val commentId = commentRepo.add(com).await()
+                val commentId = commentRepo.add(com).last()
                 subjectRepo.addComment(id, commentId)
-                updateCommentsList()
             }
         } catch (e: IllegalStateException) {
             throw IllegalStateException("Failed to build the comment (from ${e.message}")

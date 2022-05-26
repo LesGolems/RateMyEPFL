@@ -30,7 +30,7 @@ class RepositoryImpl<T : RepositoryItem>(
         }
     }
 
-    override suspend fun get(number: Long) = flow {
+    override fun get(number: Long) = flow {
         val results = collection.limit(number)
             .get()
             .await()
@@ -46,7 +46,7 @@ class RepositoryImpl<T : RepositoryItem>(
     override fun query(): FirebaseQuery = FirebaseQuery(collection)
 
 
-    override suspend fun getById(id: String) = flow {
+    override fun getById(id: String) = flow {
         val result: T = transform(
             collection.document(id)
                 .get()

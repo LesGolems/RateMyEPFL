@@ -21,12 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <include
                 android:id="@+id/commentRecyclerView"
+                layout="@layout/layout_loading_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 app:layoutManager="LinearLayoutManager" />
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

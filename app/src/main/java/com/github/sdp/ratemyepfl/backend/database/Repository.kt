@@ -17,7 +17,7 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @return a list of results
      */
-    suspend fun get(number: Long = DEFAULT_NUMBER_ITEMS): Flow<List<T>>
+    fun get(number: Long = DEFAULT_NUMBER_ITEMS): Flow<List<T>>
 
     /**
      * Retrieve an element by id from the collection
@@ -28,7 +28,7 @@ interface Repository<T : RepositoryItem> : Queryable {
      *
      * @throws NoSuchElementException if the element was not found
      */
-    suspend fun getById(id: String): Flow<T>
+    fun getById(id: String): Flow<T>
 
     /**
      * @param id : the identifier of the item to delete

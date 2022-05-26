@@ -28,7 +28,7 @@ import javax.inject.Inject
 /**
  * Fragment for a list of posts (Review, Subject, Comment)
  */
-abstract class PostListFragment<T : Post>(
+abstract class PostListFragment<T : Post> constructor(
     fragmentLayout: Int,
     private val recyclerViewLayout: Int,
     private val swipeRefreshLayout: Int,
@@ -75,7 +75,8 @@ abstract class PostListFragment<T : Post>(
         val listLayout: View = view.findViewById(recyclerViewLayout)
         postAdapter = setupAdapter(view)
         loadingRecyclerView = LoadingRecyclerView(listLayout)
-
+        loadingRecyclerView.recyclerView
+            .adapter = postAdapter
         loadingRecyclerView.recyclerView.addItemDecoration(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
