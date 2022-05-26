@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- TOP LAYOUT -->
+        <RelativeLayout
+            android:id="@+id/subjectTopLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/author_profile_picture"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@raw/blank_profile_picture" />
+
+            <TextView
+                android:id="@+id/author_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/dateReview"
+                android:layout_alignTop="@id/author_profile_picture"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/author_profile_picture"
+                android:fontFamily="@font/pt_sans_bold"
+                android:gravity="center"
+                android:hint="@string/anonymous"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/dateReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/author_profile_picture"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/author_profile_picture"
+                android:fontFamily="@font/pt_sans"
+                android:gravity="center"
+                android:textColor="@color/grey"
+                android:textSize="11sp"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/subjectKindIcon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignStart="@id/subjectKindText"
+                android:layout_alignTop="@id/author_username"
+                android:layout_alignEnd="@id/subjectKindText"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/icon_of_the_subject"
+                android:gravity="center"
+                android:src="@drawable/ic_reply" />
+
+            <TextView
+                android:id="@+id/subjectKindText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/subjectKindIcon"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="@string/add_a_comment"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+
+
+        <!-- MIDDLE LAYOUT -->
+        <RelativeLayout
+            android:id="@+id/subjectMiddleLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectTopLayout"
+            android:layout_marginTop="5dp">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/titleReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="@string/title_review_list"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <!-- COMMENT -->
+            <TextView
+                android:id="@+id/commentReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleReview"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/pt_sans"
+                android:text="@string/comment_review_list"
+                android:textColor="@color/dark_grey"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <!-- DIVIDER -->
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectMiddleLayout"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="5dp" />
+
+        <!-- BOTTOM LAYOUT -->
+        <RelativeLayout
+            android:id="@+id/subjectBottomLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subjectMiddleLayout"
+            android:layout_marginTop="10dp">
+
+            <!-- COMMENT -->
+            <ImageButton
+                android:id="@+id/subjectCommentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@color/white"
+                android:contentDescription="@string/display_comments"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/subjectCommentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@id/subjectCommentButton"
+                tools:ignore="RelativeOverlap" />
+
+            <!-- DELETE -->
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:contentDescription="@string/button_for_deleting_a_subject"
+                android:src="@drawable/ic_delete_outline" />
+
+            <!-- LIKE -->
+            <ImageButton
+                android:id="@+id/likeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/likeCount"
+                android:background="@color/white"
+                android:contentDescription="@string/i_like_this_subject"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_like" />
+
+            <TextView
+                android:id="@+id/likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/dislikeButton" />
+
+            <!-- DISLIKE -->
+            <ImageButton
+                android:id="@+id/dislikeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/dislikeCount"
+                android:background="@color/white"
+                android:contentDescription="@string/i_don_t_like_this_subject"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_dislike" />
+
+            <TextView
+                android:id="@+id/dislikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

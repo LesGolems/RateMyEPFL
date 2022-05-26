@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/author_profile_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoDragView="@id/panelProfile">
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/slidingAddComment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoDragView="@id/commentDragView">
+
+        <!-- MAIN CONTENT: COMMENT LIST -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/commentSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layoutManager="LinearLayoutManager" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <!-- DRAGGABLE VIEW: ADD COMMENT -->
+        <include
+            layout="@layout/add_comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+
+    <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
+    <include
+        layout="@layout/author_profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

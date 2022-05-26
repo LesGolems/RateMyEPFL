@@ -1,11 +1,19 @@
 package com.github.sdp.ratemyepfl.dependencyinjection
 
-import com.github.sdp.ratemyepfl.backend.database.*
+import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
+import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
+import com.github.sdp.ratemyepfl.backend.database.Storage
+import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.*
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
+import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
+import com.github.sdp.ratemyepfl.backend.database.fakes.FakeSubjectRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module
@@ -39,6 +47,14 @@ abstract class FakeRepositoryModule {
     @Singleton
     @Binds
     abstract fun provideReviewRepo(repo: FakeReviewRepository): ReviewRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideSubjectRepo(repo: FakeSubjectRepository): SubjectRepository
+
+    @Singleton
+    @Binds
+    abstract fun provideCommentRepo(repo: FakeCommentRepository): CommentRepository
 
     @Singleton
     @Binds

@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-class RoomNoiseInfoRepoTest {
+class RoomNoiseInfoRepositoryTest {
     private val testDate = LocalDateTime.of(2022, 5, 10, 18, 45, 18)
     private val testDateString = testDate.toString()
 

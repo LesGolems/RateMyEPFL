@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ui.fragment.main.AddSubjectFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <!-- Header -->
+        <TextView
+            android:id="@+id/addPostIndicationTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/subject_indication_title"
+            android:textColor="@color/secondaryColor"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/inputReviewTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/add_post_title"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp" />
+
+        <!-- Title -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/add_post_title_hint"
+            android:layout_marginTop="2dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addPostTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/inputPostContentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/add_post_content"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp" />
+
+        <!-- Text -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/add_post_content_hint"
+            android:layout_marginTop="2dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addPostComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Anonymous -->
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/anonymousSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:foregroundTint="@color/primaryColorPale"
+            android:text="@string/anonymous"
+            android:textColor="@color/secondaryColor"
+            android:textSize="16sp"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+
+        <!-- SUBJECT KINDS -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/subjectKinds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="10dp"
+            app:chipSpacingVertical="-10dp" />
+
+
+        <Button
+            android:id="@+id/doneButton"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/primaryColor"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/done_button_text"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</ScrollView>

@@ -21,9 +21,11 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ReviewAdapter
+import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
+import com.github.sdp.ratemyepfl.utils.TestUtils.checkSnackbarText
 import com.github.sdp.ratemyepfl.utils.TestUtils.isExpanded
 import com.github.sdp.ratemyepfl.utils.TestUtils.isHidden
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
@@ -55,8 +57,12 @@ class ReviewListFragmentTest {
     fun launch() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         scenario = ActivityScenario.launch(intent)
-        ViewPagerAction.swipeNext()
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                1
+            )
+        )
+        Thread.sleep(1500)
     }
 
     @After
@@ -65,9 +71,19 @@ class ReviewListFragmentTest {
     }
 
     private fun refresh() {
-        ViewPagerAction.swipePrevious()
-        ViewPagerAction.swipeNext()
-        Thread.sleep(1000)
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                0
+            )
+        )
+        Thread.sleep(1500)
+
+        onView(withId(R.id.reviewTabLayout)).perform(
+            CustomViewActions.TabAction.selectTabAtPosition(
+                1
+            )
+        )
+        Thread.sleep(1500)
     }
 
     /**
@@ -75,7 +91,7 @@ class ReviewListFragmentTest {
      */
     private fun likeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.likeButton)
             )
@@ -87,7 +103,7 @@ class ReviewListFragmentTest {
      */
     private fun dislikeReview(position: Int) {
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.dislikeButton)
             )
@@ -233,10 +249,13 @@ class ReviewListFragmentTest {
     fun swipeRefreshes() {
         launch()
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .build()
         )
@@ -251,10 +270,11 @@ class ReviewListFragmentTest {
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
                     listOf(
@@ -282,10 +302,11 @@ class ReviewListFragmentTest {
     fun dislikeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
                     listOf(
@@ -313,10 +334,11 @@ class ReviewListFragmentTest {
     fun likeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
                     listOf(
@@ -344,10 +366,11 @@ class ReviewListFragmentTest {
     fun dislikeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
                     listOf(
@@ -388,12 +411,12 @@ class ReviewListFragmentTest {
     @Test
     fun deleteButtonRemovesReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser2.uid)
                 .build()
@@ -402,7 +425,7 @@ class ReviewListFragmentTest {
         launch()
 
         onView(withId(R.id.reviewRecyclerView)).perform(
-            actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.deleteButton)
             )
@@ -430,10 +453,11 @@ class ReviewListFragmentTest {
     fun likeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
@@ -442,18 +466,18 @@ class ReviewListFragmentTest {
         launch()
 
         likeReview(0)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText("You can't like your own review")))
+        checkSnackbarText("You can't like your own review")
     }
 
     @Test
     fun dislikeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         FakeReviewRepository.reviewList = listOf(
-            Review.Builder().setTitle("Absolument dé-men-tiel")
-                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
+            Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
                 .setReviewableID("CS-123")
+                .setTitle("Absolument dé-men-tiel")
+                .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
@@ -462,7 +486,6 @@ class ReviewListFragmentTest {
         launch()
 
         dislikeReview(0)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText("You can't dislike your own review")))
+        checkSnackbarText("You can't dislike your own review")
     }
 }

@@ -1,6 +1,8 @@
 package com.github.sdp.ratemyepfl.ui.activity
 
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -78,5 +80,18 @@ open class DrawerActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId;
+
+        if (id == R.id.rankingButton) {
+            navController.navigate(R.id.rankingFragment)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
 

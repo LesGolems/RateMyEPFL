@@ -10,4 +10,16 @@
         android:name="com.github.sdp.ratemyepfl.ui.fragment.main.HomeFragment"
         android:label="@string/home_nav_title"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/commentListFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.CommentListFragment"
+        android:label="Comment List"
+        tools:layout="@layout/fragment_comment_list" />
+
+    <fragment
+        android:id="@+id/addSubjectFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.AddSubjectFragment"
+        android:label="Add a subject"
+        tools:layout="@layout/fragment_add_subject" />
 </navigation>

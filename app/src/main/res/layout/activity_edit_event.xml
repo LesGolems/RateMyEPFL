@@ -22,15 +22,17 @@
             android:paddingBottom="15dp"
             android:text="@string/edit_event_title"
             android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="@color/purple_700"
-            android:typeface="monospace" />
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/secondaryColor"
+            android:textSize="40sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/edit_event_name"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
             android:paddingTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -49,6 +51,7 @@
             <TextView
                 android:id="@+id/limitText"
                 style="@style/IconOnly"
+                android:fontFamily="@font/pt_sans_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -67,7 +70,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/secondaryColor" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -77,6 +80,7 @@
             <TextView
                 android:id="@+id/datePickerText"
                 style="@style/IconOnly"
+                android:fontFamily="@font/pt_sans_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -96,7 +100,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/secondaryColor" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -124,7 +128,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/secondaryColor" />
 
         <TextView
             android:id="@+id/locationText"
@@ -147,7 +151,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/purple_200" />
+            app:dividerColor="@color/secondaryColor" />
 
         <RelativeLayout
             android:id="@+id/editEventButtons"
@@ -163,6 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
+                android:fontFamily="@font/pt_sans_bold"
                 android:text="@string/cancel_button_text" />
 
             <Button
@@ -172,6 +177,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
+                android:fontFamily="@font/pt_sans_bold"
                 android:text="@string/done_button_text" />
         </RelativeLayout>
     </LinearLayout>

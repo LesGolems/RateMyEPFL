@@ -1,78 +1,43 @@
 package com.github.sdp.ratemyepfl.model.review
 
-import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Serializable
 data class Review constructor(
     val rating: ReviewRating = ReviewRating.AVERAGE,
-    val title: String = "",
-    val comment: String = "",
+    override val title: String = "",
+    override val comment: String = "",
     val reviewableId: String = "",
-    val date: DateTime = DateTime.DEFAULT_DATE_TIME,
-    val uid: String? = null,
-    var likers: List<String> = listOf(),
-    var dislikers: List<String> = listOf()
-) : RepositoryItem {
+    override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
+    override val uid: String? = null,
+    override var likers: List<String> = listOf(),
+    override var dislikers: List<String> = listOf()
+) : Post(title, comment, date, uid, likers, dislikers) {
 
-    // By default, the id of the review is a hash of this review
-    private var id: String = this.hashCode().toString()
+    override var postId: String = this.hashCode().toString()
 
-    companion object {
-        /**
-         * Function to serialize a Review easily, based on kotlin serialization plugin.
-         *
-         * @param review: Review to serialize
-         * @return the serialization (in JSON) of the review
-         */
-        fun serialize(review: Review): String = Json.encodeToString(review)
+    override fun getId(): String = postId
 
-        /**
-         * Function to deserialize a Review
-         *
-         * @param review: Review to deserialize (in JSON)
-         * @return the deserialized review
-         */
-        fun deserialize(review: String): Review = Json.decodeFromString(review)
-
+    override fun withId(id: String): Review {
+        return this.apply {
+            this.postId = id
+        }
     }
 
-    fun serialize(): String = Companion.serialize(this)
-
-    override fun getId(): String = id
 
     /**
-     * Set the id of the [Review]
-     *
-     * @param id: Unique identifier of the review
-     *
-     * @return the [Review] with modified id
-     */
-    fun withId(id: String): Review = this.apply {
-        this.id = id
-    }
-
-    /**
-     * Allows to create a ReviewRating incrementally.
+     * Allows to create a [Review] incrementally.
      * NB: Even if a user can create a review incrementally, he
      * must specify every property of the review.
      *
-     * Mandatory: [rating], [title], [comment], [reviewableId], [date]
+     * Mandatory: [rating], [title], [comment], [reviewableId], [date], [uid], [likers], [dislikers]
      */
     data class Builder(
         private var rating: ReviewRating? = null,
-        private var title: String? = null,
-        private var comment: String? = null,
         private var reviewableId: String? = null,
-        private var date: DateTime? = null,
-        private var uid: String? = null,
-        private var likers: List<String>? = listOf(),
-        private var dislikers: List<String>? = listOf(),
-    ) {
+    ) : Post.Builder<Review>() {
+
         /**
          * Sets the rating of the review
          * @param rating: the new rating of the review
@@ -81,25 +46,6 @@ data class Review constructor(
         fun setRating(rating: ReviewRating?) = apply {
             this.rating = rating
         }
-
-        /**
-         * Sets the title of the review
-         * @param title: the new title of the review
-         * @return this
-         */
-        fun setTitle(title: String?) = apply {
-            this.title = title
-        }
-
-        /**
-         * Sets the comment of the review
-         * @param comment: the new comment of the review
-         * @return this
-         */
-        fun setComment(comment: String?) = apply {
-            this.comment = comment
-        }
-
 
         /**
          * Sets the id of the reviewed item
@@ -111,38 +57,12 @@ data class Review constructor(
         }
 
         /**
-         * Sets the uid of the author of the review
-         * @param uid: uid of author
-         * @return this
-         */
-        fun setUid(uid: String?) = apply {
-            this.uid = uid
-        }
-
-        /**
-         * Sets the date of publication the review
-         * @param date: the new date of the review
-         * @return this
-         */
-        fun setDate(date: DateTime?) = apply {
-            this.date = date
-        }
-
-        fun setLikers(likers: List<String>?) = apply {
-            this.likers = likers
-        }
-
-        fun setDislikers(dislikers: List<String>?) = apply {
-            this.dislikers = dislikers
-        }
-
-        /**
-         * Builds the corresponding CourseReview
+         * Builds the corresponding [Review]
          *
          * @throws IllegalStateException if one of the properties is null
          */
-        fun build(): Review {
-            val rate = this asMandatory rating
+        override fun build(): Review {
+            val rating = this asMandatory rating
             val title = this asMandatory title
             val comment = this asMandatory comment
             val reviewableId = this asMandatory reviewableId
@@ -152,18 +72,15 @@ data class Review constructor(
             val dislikers = this asMandatory this.dislikers
 
             return Review(
-                rate,
+                rating,
                 title,
                 comment,
                 reviewableId,
                 date,
                 uid,
-                likers = likers,
-                dislikers = dislikers
+                likers,
+                dislikers
             )
         }
-
-        private infix fun <T> asMandatory(field: T?): T =
-            field ?: throw IllegalStateException("A mandatory field cannot be null")
     }
 }

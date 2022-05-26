@@ -93,7 +93,7 @@ class EventAdapter(
             currentEvent = event
             eventTextView.text = event.toString()
             participantsTextView.text = event.showParticipation()
-            val creatorText = "by ${event.creator}"
+            val creatorText = "hosted by ${event.creator}"
             creatorTextView.text = creatorText
 
             setUpRegisterButton(event)

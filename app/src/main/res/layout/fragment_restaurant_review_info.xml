@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,100 +7,113 @@
     android:background="@color/backgroundColor"
     tools:context=".ui.fragment.review.RestaurantReviewInfoFragment">
 
-    <ImageView
-        android:id="@+id/restaurantInfoImage"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/restaurantIcon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="200dp"
-        android:src="@drawable/ic_utensils_solid"
-        app:tint="@color/primaryColor" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardRestaurantName"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/restaurantIcon"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="10dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/restaurantName"
+        <include layout="@layout/layout_loading_image_view"
+            android:id="@+id/restaurantInfoImageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"/>
+
+        <ImageView
+            android:id="@+id/restaurantInfoImage"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/restaurantIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="200dp"
+            android:src="@drawable/ic_utensils_solid"
+            app:tint="@color/primaryColor" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRestaurantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/restaurantIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/restaurantName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:text="@string/default_id_text"
+                android:textAlignment="center"
+                android:textSize="38sp"
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:textColor="@color/secondaryColor"
+                android:typeface="normal" />
+
+        </androidx.cardview.widget.CardView>
+
+        <com.ekn.gruzer.gaugelibrary.ArcGauge
+            android:id="@+id/occupancyGauge"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@id/cardRestaurantName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
+
+        <TextView
+            android:id="@+id/occupancyRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/occupancyGauge"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/pt_sans_bold"
-            android:paddingStart="15dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="5dp"
-            android:text="@string/default_id_text"
-            android:textAlignment="center"
-            android:textSize="38sp"
-            android:textAppearance="?attr/textAppearanceHeadline4"
-            android:textColor="@color/secondaryColor"
-            android:typeface="normal" />
+            android:text="@string/occupancy_clear"/>
 
-    </androidx.cardview.widget.CardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardRestaurantRating"
+            android:layout_width="200dp"
+            android:layout_height="52dp"
+            android:layout_below="@id/occupancyGauge"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="30dp">
 
-    <com.ekn.gruzer.gaugelibrary.ArcGauge
-        android:id="@+id/occupancyGauge"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="35dp"
-        android:layout_below="@id/cardRestaurantName"
-        android:layout_centerHorizontal="true" />
+            <RatingBar
+                android:id="@+id/restaurantRatingBar"
+                style="@style/Widget.AppCompat.RatingBar"
+                android:layout_width="250dp"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:padding="5dp"
+                android:scaleY="0.75"
+                android:scaleX="0.75"
+                android:progressTint="@color/secondaryColor"
+                android:secondaryProgressTint="@color/tertiaryColor"
+                android:stepSize="0.1" />
+        </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/occupancyRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/occupancyGauge"
-        android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/pt_sans_bold"
-        android:text="@string/occupancy_clear"/>
+        <TextView
+            android:id="@+id/restaurantNumReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cardRestaurantRating"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/pt_sans"
+            android:text="@string/num_reviews"
+            android:textColor="#494949" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardRestaurantRating"
-        android:layout_width="200dp"
-        android:layout_height="52dp"
-        android:layout_below="@id/occupancyGauge"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        app:cardCornerRadius="30dp">
-
-        <RatingBar
-            android:id="@+id/restaurantRatingBar"
-            style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="250dp"
-            android:layout_height="54dp"
-            android:layout_gravity="center"
-            android:isIndicator="true"
-            android:padding="5dp"
-            android:scaleY="0.75"
-            android:scaleX="0.75"
-            android:progressTint="@color/secondaryColor"
-            android:secondaryProgressTint="@color/tertiaryColor"
-            android:stepSize="0.1" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/restaurantNumReview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cardRestaurantRating"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/pt_sans"
-        android:text="@string/num_reviews"
-        android:textColor="#494949" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

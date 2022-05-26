@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -32,7 +31,7 @@ data class Restaurant constructor(
                 getId(),
                 R.raw.niki
             ), // Arbitrary default value
-            BitmapDescriptorFactory.fromResource(R.raw.restaurant_marker)
+            R.drawable.ic_utensils_solid_small
         )
     }
 

@@ -25,7 +25,7 @@
             android:id="@+id/activityMainBottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
+            android:background="@color/navigationBar"
             app:itemBackground="@drawable/bottom_navigation_line_selector"
             app:itemIconSize="@dimen/bottomNavigationItemIconSize"
             app:itemIconTint="@drawable/bottom_navigation_color"
