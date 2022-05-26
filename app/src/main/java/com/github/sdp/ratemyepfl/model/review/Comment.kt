@@ -14,7 +14,7 @@ data class Comment constructor(
 ) : Post("", comment, date, uid, likers, dislikers) {
 
     override var postId: String = this.hashCode().toString()
-    override fun getId(): String = postId
+
 
     override fun withId(id: String): Comment {
         return this.apply {

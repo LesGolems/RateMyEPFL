@@ -87,7 +87,7 @@ class RepositoryImpl<T : RepositoryItem>(
                         transaction.set(docRef, this)
                     }
                 }
-            }.await()
+            }.await() ?: throw NoSuchElementException("Cannot update an item that does not exist")
         emit(result)
     }
 
