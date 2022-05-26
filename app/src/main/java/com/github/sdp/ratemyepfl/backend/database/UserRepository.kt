@@ -32,4 +32,6 @@ interface UserRepository : Repository<User> {
 
     suspend fun updateTimetable(uid: String?, c: Class)
 
+
+    suspend fun getTopKarmaUsers(): QueryResult<List<User>>
 }

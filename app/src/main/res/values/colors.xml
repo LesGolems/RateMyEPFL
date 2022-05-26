@@ -17,8 +17,12 @@
     <color name="tertiaryColor">@color/pale_red</color>
     <color name="backgroundColor">#FFF1E8</color>
 
+    <color name="navigationBar">@color/white</color>
+    <color name="navigationItems">@color/primaryColor</color>
+    <color name="timetableFrame">tertiaryColor</color>
+
     <color name="orange">#FF8C00</color>
-    <color name="red">#C20000</color>
+    <color name="red">#D50404</color>
     <color name="pale_red">#EA2D34</color>
     <color name="red_pink">#E38286</color>
     <color name="dark_red">#7A0019</color>

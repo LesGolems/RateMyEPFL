@@ -70,7 +70,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/secondaryColor" />
+            app:dividerColor="@color/tertiaryColor" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/secondaryColor" />
+            app:dividerColor="@color/tertiaryColor" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/secondaryColor" />
+            app:dividerColor="@color/tertiaryColor" />
 
         <TextView
             android:id="@+id/locationText"
@@ -151,7 +151,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dividerColor="@color/secondaryColor" />
+            app:dividerColor="@color/tertiaryColor" />
 
         <RelativeLayout
             android:id="@+id/editEventButtons"

@@ -2,11 +2,10 @@ package com.github.sdp.ratemyepfl.viewmodel.review
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.backend.database.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -14,6 +13,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,9 +21,9 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
- * View model for the course reviewing feature.
+ * View model for the reviewing feature.
  *
- * @constructor: throws an IllegalArgumentException if no course can be induced from
+ * @constructor: throws an IllegalArgumentException if no reviewable can be induced from
  *               the savedStateHandle
  */
 @HiltViewModel
@@ -32,7 +32,7 @@ class AddReviewViewModel @Inject constructor(
     private val gradeInfoRepo: GradeInfoRepository,
     private val connectedUser: ConnectedUser,
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : AddPostViewModel<Review>() {
 
     // Id
     val id: String =
@@ -41,16 +41,11 @@ class AddReviewViewModel @Inject constructor(
     val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     companion object {
-        const val EMPTY_TITLE_MESSAGE: String = "Please enter a title"
-        const val EMPTY_COMMENT_MESSAGE: String = "Please enter a comment"
         const val NO_GRADE_MESSAGE: String = "You need to give a grade!"
         const val NO_GRADE_TEXT: String = "Click to rate"
     }
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)
-    val title: MutableLiveData<String> = MutableLiveData(null)
-    val comment: MutableLiveData<String> = MutableLiveData(null)
-    private var anonymous: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * Set the rating entered by the user
@@ -58,22 +53,6 @@ class AddReviewViewModel @Inject constructor(
      */
     fun setRating(rating: ReviewRating?) {
         this.rating.postValue(rating)
-    }
-
-    /**
-     * Set the title entered by the user
-     * @param title: title entered by the user
-     */
-    fun setTitle(title: String?) = this.title.postValue(title)
-
-    /**
-     * Set the comment entered by the user
-     * @param comment: comment entered by the user
-     */
-    fun setComment(comment: String?) = this.comment.postValue(comment)
-
-    fun setAnonymous(anonymous: Boolean) {
-        this.anonymous.postValue(anonymous)
     }
 
     /**
@@ -105,16 +84,16 @@ class AddReviewViewModel @Inject constructor(
         }
 
         val builder = Review.Builder()
-            .setTitle(title)
             .setRating(rating)
-            .setComment(comment)
             .setReviewableID(id)
+            .setTitle(title)
+            .setComment(comment)
             .setDate(date)
             .setUid(uid)
         try {
             val review = builder.build()
             viewModelScope.launch(Dispatchers.IO) {
-                val reviewId = reviewRepo.addAndGetId(review)
+                val reviewId = reviewRepo.add(review).await()
                 gradeInfoRepo.addReview(item, reviewId, review.rating).await()
             }
         } catch (e: IllegalStateException) {

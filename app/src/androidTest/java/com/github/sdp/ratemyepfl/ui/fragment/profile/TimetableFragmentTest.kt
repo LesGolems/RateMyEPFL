@@ -15,17 +15,18 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.toPackage
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.activity.HiltTestActivity
-import com.github.sdp.ratemyepfl.ui.activity.MainActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ReviewAdapter
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
+import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.ui.activity.MainActivity
+import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
-import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction
+import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -268,7 +269,7 @@ class TimetableFragmentTest {
         init()
 
         onView(withId(R.id.classRecyclerView)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
+            RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.classname)
             )
@@ -292,8 +293,9 @@ class TimetableFragmentTest {
         init()
 
         onView(withId(R.id.classRecyclerView)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<ReviewAdapter.ReviewViewHolder>(
-                0, clickOnViewChild(R.id.room)
+            RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
+                0,
+                clickOnViewChild(R.id.room)
             )
         )
         intended(toPackage("com.github.sdp.ratemyepfl"))

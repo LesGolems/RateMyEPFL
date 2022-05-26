@@ -9,4 +9,8 @@
     <include app:graph="@navigation/map" />
     <include app:graph="@navigation/timetable" />
     <include app:graph="@navigation/profile" />
+    <fragment
+        android:id="@+id/rankingFragment"
+        android:name="com.github.sdp.ratemyepfl.ui.fragment.main.RankingFragment"
+        android:label="Ranking" />
 </navigation>

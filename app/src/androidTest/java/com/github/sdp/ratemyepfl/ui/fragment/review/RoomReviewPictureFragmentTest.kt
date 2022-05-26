@@ -19,11 +19,10 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.ui.adapter.RoomPictureAdapter
-import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
+import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction.selectTabAtPosition
 import com.github.sdp.ratemyepfl.utils.TestUtils.createImageGallerySetResultStub
 import com.github.sdp.ratemyepfl.utils.TestUtils.getActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.savePickedImage
-import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
@@ -52,11 +51,8 @@ class RoomReviewPictureFragmentTest {
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED, reviewable)
         intent.putExtra(ReviewActivity.EXTRA_ITEM_REVIEWED_ID, "Fake id")
         scenario = ActivityScenario.launch(intent)
-        Thread.sleep(1000)
-        ViewPagerAction.swipeNext()
-        Thread.sleep(2000)
-        ViewPagerAction.swipeNext()
-        Thread.sleep(2000)
+        onView(withId(R.id.reviewTabLayout)).perform(selectTabAtPosition(2))
+        Thread.sleep(1500)
     }
 
     @After
@@ -67,7 +63,6 @@ class RoomReviewPictureFragmentTest {
     @Test
     fun imageGridIsVisible() {
         onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
-        scenario.close()
     }
 
     @Test
@@ -75,17 +70,6 @@ class RoomReviewPictureFragmentTest {
         onView(withId(R.id.pictureRecyclerView)).check(
             matches(hasChildCount(FakeImageStorage.pictures.size))
         )
-    }
-
-    @Test
-    fun imageGridIsCorrectlyDisplayed() {
-        for (id: Int in FakeImageStorage.pictureIds) {
-            onView(withId(R.id.pictureRecyclerView)).check(
-                matches(
-                    hasDescendant(withDrawable(id))
-                )
-            )
-        }
     }
 
     @Test

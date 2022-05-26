@@ -76,6 +76,7 @@ class MainActivity : DrawerActivity() {
                 R.id.addClassFragment -> hideBottomNav()
                 R.id.selectCourseFragment -> hideBottomNav()
                 R.id.selectRoomFragment -> hideBottomNav()
+                R.id.rankingFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
