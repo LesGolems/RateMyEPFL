@@ -14,7 +14,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel
-import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel.Companion.NO_GRADE_MESSAGE
+import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel.Companion.NO_GRADE_TEXT
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -30,7 +30,7 @@ class AddReviewFragment : AddPostFragment<Review>(R.layout.fragment_add_review) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        indicationTitle.text = getString(R.string.title_review, addReviewViewModel.id)
+        indicationTitle.text = addReviewViewModel.id
 
         ratingBar = view.findViewById(R.id.reviewRatingBar)
         ratingBar.setOnRatingBarChangeListener { _, float, _ ->
@@ -40,10 +40,7 @@ class AddReviewFragment : AddPostFragment<Review>(R.layout.fragment_add_review) 
 
         scoreTextView = view.findViewById(R.id.overallScoreTextView)
         addReviewViewModel.rating.observe(viewLifecycleOwner) { rating ->
-            scoreTextView.text = getString(
-                R.string.overall_score_review,
-                rating?.toString() ?: NO_GRADE_MESSAGE
-            )
+            scoreTextView.text = rating?.toString() ?: NO_GRADE_TEXT
         }
     }
 

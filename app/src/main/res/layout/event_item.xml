@@ -1,75 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/eventItemLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:minHeight="?attr/minTouchTargetSize"
-    android:orientation="horizontal">
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/eventText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical"
-        tools:ignore="RelativeOverlap">
+    <RelativeLayout
+        android:id="@+id/eventItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/eventId"
-            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_review_list" />
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toStartOf="@id/editButton"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="@string/title_review_list"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/creator"
-            style="@style/TextAppearance.Material3.LabelSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@string/creator"
-            android:textStyle="italic" />
+            android:layout_below="@id/eventId"
+            android:layout_marginStart="20dp"
+            android:text="@string/event_creator_info"
+            android:fontFamily="@font/pt_sans_italic"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/participants"
-            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
+            android:layout_below="@id/creator"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="@font/pt_sans"
             android:text="@string/participants" />
-    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/ic_baseline_edit_24"
-        android:src="@drawable/ic_baseline_edit_24"
-        android:contentDescription="@string/button_for_editing_an_event" />
+        <ImageButton
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="3dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/button_for_editing_an_event"
+            android:src="@drawable/ic_baseline_edit_24"
+            app:tint="@color/secondaryColor" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/eventText"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/primaryColor"
-        app:icon="@drawable/ic_login_black_24dp"
-        app:iconTint="@color/white"
-        app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button"
-        tools:ignore="RelativeOverlap" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBaseline="@id/participants"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/register"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/primaryColor"
+            app:icon="@drawable/ic_login_black_24dp"
+            app:iconTint="@color/white"
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Button" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -57,27 +57,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/pt_sans_bold"
             android:lines="1"
-            android:textSize="16sp"
+            android:textSize="20sp"
             tools:text="Name" />
 
         <TextView
             android:id="@+id/teacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/pt_sans"
             android:ellipsize="end"
             android:lines="1"
+            android:textSize="16sp"
             tools:text="Teacher" />
 
         <TextView
             android:id="@+id/room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:alpha="0.7"
             android:ellipsize="end"
             android:lines="1"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:fontFamily="@font/pt_sans"
             tools:text="Room" />
     </LinearLayout>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.R
@@ -24,12 +25,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CommentListFragment : PostListFragment<Comment>(
     R.layout.fragment_comment_list,
-    R.id.commentRecyclerView,
-    R.id.commentSwipeRefresh,
     R.layout.comment_item
 ) {
 
-    private lateinit var slidingLayout: SlidingUpPanelLayout
+    private lateinit var commentPanel: SlidingUpPanelLayout
     private lateinit var comment: TextInputEditText
     private lateinit var anonymousSwitch: SwitchCompat
     private lateinit var doneButton: Button
@@ -44,16 +43,17 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
+        noPostTextView.text = getString(R.string.empty_post_list_message, "comments")
         initializeAddReview(view)
         setupListeners()
     }
 
     private fun initializeAddReview(view: View) {
-        slidingLayout = view.findViewById(R.id.slidingAddComment)
-        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-        slidingLayout.setFadeOnClickListener {
-            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
-                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        commentPanel = view.findViewById(R.id.commentPanel)
+        commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        commentPanel.setFadeOnClickListener {
+            if (commentPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
+                commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
         doneButton = view.findViewById(R.id.doneButton)
         comment = view.findViewById(R.id.addComment)
@@ -63,10 +63,10 @@ class CommentListFragment : PostListFragment<Comment>(
     private fun setupListeners() {
         // Expands the panel when the user wants to comment
         comment.setOnClickListener {
-            if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            if (commentPanel.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                commentPanel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
             else
-                slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
 
         comment.addTextChangedListener(AddPostFragment.onTextChangedTextWatcher { text, _, _, _ ->
@@ -89,7 +89,7 @@ class CommentListFragment : PostListFragment<Comment>(
             updatePostsList()
             comment.setText("")
             displayOnToast(context, getString(R.string.comment_sent_text))
-            slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         } catch (due: DisconnectedUserException) {
             displayOnToast(context, due.message)
         } catch (mie: MissingInputException) {
@@ -104,11 +104,15 @@ class CommentListFragment : PostListFragment<Comment>(
     override fun onResume() {
         super.onResume()
         updatePostsList()
-        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Comment>>> {
         return viewModel.comments
+    }
+
+    override fun isEmpty(): LiveData<Boolean> {
+        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {

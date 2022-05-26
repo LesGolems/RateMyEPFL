@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.ui.fragment.review
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
@@ -26,8 +27,6 @@ Fragment for the list of reviews, shared among all reviewed items
 @AndroidEntryPoint
 class ReviewListFragment : PostListFragment<Review>(
     R.layout.fragment_review_list,
-    R.id.reviewRecyclerView,
-    R.id.reviewSwipeRefresh,
     R.layout.review_item
 ) {
 
@@ -43,6 +42,8 @@ class ReviewListFragment : PostListFragment<Review>(
         button.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.addReviewFragment)
         }
+
+        noPostTextView.text = getString(R.string.empty_post_list_message, "reviews")
     }
 
     override fun setupAdapter(view: View): PostAdapter<Review> =
@@ -56,6 +57,10 @@ class ReviewListFragment : PostListFragment<Review>(
 
     override fun posts(): MutableLiveData<List<PostWithAuthor<Review>>> {
         return reviewsViewModel.reviews
+    }
+
+    override fun isEmpty(): LiveData<Boolean> {
+        return reviewsViewModel.isEmpty
     }
 
     override fun updatePostsList() {

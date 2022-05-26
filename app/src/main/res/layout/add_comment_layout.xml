@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="15dp"
     app:cardCornerRadius="30dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="@string/add_a_comment"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,19 +32,26 @@
         android:id="@+id/addCommentAnonymousSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layoutDirection="ltr"
-        android:padding="4dp"
-        android:switchPadding="10dp"
-        android:text="@string/anonymous"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/createPostTextLayout" />
+        app:layout_constraintTop_toBottomOf="@id/createPostTextLayout"
+        android:fontFamily="@font/pt_sans_bold"
+        android:foregroundTint="@color/primaryColorPale"
+        android:text="@string/anonymous"
+        android:textColor="@color/secondaryColor"
+        android:textSize="16sp"
+        app:thumbTint="@color/switch_thumb_selector"
+        app:trackTint="@color/switch_track_selector" />
 
     <Button
         android:id="@+id/doneButton"
         style="?attr/materialButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center"
+        android:fontFamily="@font/pt_sans_bold"
         android:text="@string/reply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createPostTextLayout" />

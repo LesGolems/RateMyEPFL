@@ -8,33 +8,27 @@
     android:gravity="bottom"
     sothree:umanoDragView="@id/panelProfile">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/subjectSwipeRefresh"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- PERSONAL TAB -->
+        <include
+            layout="@layout/personal_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- MAIN CONTENT: SUBJECT LIST -->
+        <include
+            android:id="@+id/subjectRecyclerView"
+            layout="@layout/layout_loading_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!-- PERSONAL TAB -->
-            <include
-                layout="@layout/personal_tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- MAIN CONTENT: SUBJECT LIST -->
-            <include layout="@layout/layout_loading_recycler_view"
-                android:id="@+id/subjectRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                app:layoutManager="LinearLayoutManager" />
-        </LinearLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+            android:layout_margin="16dp"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager" />
+    </LinearLayout>
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
     <include

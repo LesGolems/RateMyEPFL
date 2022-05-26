@@ -1,9 +1,6 @@
 package com.github.sdp.ratemyepfl.viewmodel.review
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
@@ -42,6 +39,8 @@ open class ReviewListViewModel @Inject constructor(
 
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()
+
+    val isEmpty: LiveData<Boolean> = reviews.map { it.isEmpty() }
 
     @Inject
     lateinit var auth: ConnectedUser

@@ -2,11 +2,11 @@ package com.github.sdp.ratemyepfl.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +19,7 @@ import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
+import com.github.sdp.ratemyepfl.utils.FragmentUtils
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -31,9 +32,7 @@ import javax.inject.Inject
  */
 abstract class PostListFragment<T : Post> constructor(
     fragmentLayout: Int,
-    private val recyclerViewLayout: Int,
-    private val swipeRefreshLayout: Int,
-    private val adapterLayout: Int
+    private val postListLayout: Int
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
@@ -60,6 +59,7 @@ abstract class PostListFragment<T : Post> constructor(
     }
 
     abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
+    abstract fun isEmpty(): LiveData<Boolean>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)
@@ -72,8 +72,7 @@ abstract class PostListFragment<T : Post> constructor(
     }
 
     open fun initializePostList(view: View) {
-
-        val listLayout: View = view.findViewById(recyclerViewLayout)
+        val listLayout: View = view.findViewById(postListLayout)
         postAdapter = setupAdapter(view)
         loadingRecyclerView = LoadingRecyclerView(listLayout)
         loadingRecyclerView.recyclerView
@@ -82,7 +81,7 @@ abstract class PostListFragment<T : Post> constructor(
             DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         )
 
-        swipeRefresher = view.findViewById(swipeRefreshLayout)
+        swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             updatePostsList()
             swipeRefresher.isRefreshing = false
@@ -100,7 +99,7 @@ abstract class PostListFragment<T : Post> constructor(
             getListener({ post, uid -> updateDownVotes(post, uid) }, view),
             { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
             { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
-            adapterLayout
+            postListLayout
         )
 
     open fun initializeProfilePanel(view: View) {

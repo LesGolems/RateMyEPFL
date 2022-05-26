@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.DisplayableOnMap
 import com.github.sdp.ratemyepfl.model.items.MapItem
+import com.github.sdp.ratemyepfl.utils.MapActivityUtils.getMarkerIconFromDrawable
 import com.github.sdp.ratemyepfl.utils.PermissionUtils
 import com.github.sdp.ratemyepfl.viewmodel.main.EventListViewModel
 import com.github.sdp.ratemyepfl.viewmodel.main.RestaurantListViewModel
@@ -25,12 +26,16 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButtonClickListener,
@@ -67,7 +72,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         override fun onBeforeClusterItemRendered(item: MapItem, markerOptions: MarkerOptions) {
             markerOptions
                 .title(item.name)
-                .icon(item.icon)
+                .icon(getMarkerIconFromDrawable(resources, item.icon))
         }
 
         override fun onClusterItemUpdated(item: MapItem, marker: Marker) {
@@ -165,7 +170,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         onClickMarker = map.addMarker(
             MarkerOptions()
                 .position(LatLng(0.0, 0.0))
-                .icon(BitmapDescriptorFactory.fromResource(R.raw.on_click_marker))
+                .icon(getMarkerIconFromDrawable(resources, R.drawable.ic_location_dot_solid))
         )
         onClickMarker?.isVisible = false
     }
@@ -179,7 +184,7 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
             MarkerOptions()
                 .position(epfl)
                 .title("EPFL")
-                .icon(BitmapDescriptorFactory.fromResource(R.raw.school_marker))
+                .icon(getMarkerIconFromDrawable(resources, R.drawable.ic_school_solid_small))
         )
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(epfl, 16f))
     }
@@ -201,7 +206,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
      * Collapse sliding panel if expanded
      */
     private fun collapsePanel() {
-        if (slidingLayout.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+        if (slidingLayout.panelState != SlidingUpPanelLayout.PanelState.COLLAPSED &&
+                slidingLayout.panelState != SlidingUpPanelLayout.PanelState.HIDDEN) {
             slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
     }
@@ -259,10 +265,10 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
     }
 
     override fun onClusterItemClick(item: MapItem): Boolean {
-        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         titleView.text = item.name
         reviewButton.setOnClickListener { displayIntent(item) }
         photoView.setImageResource(item.photo)
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
 
         map.animateCamera(CameraUpdateFactory.newLatLng(item.position), 250, null)
 
