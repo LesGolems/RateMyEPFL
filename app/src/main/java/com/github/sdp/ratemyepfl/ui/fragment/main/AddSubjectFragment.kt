@@ -83,8 +83,6 @@ class AddSubjectFragment : AddPostFragment<Subject>(R.layout.fragment_add_subjec
         } catch (mie: MissingInputException) {
             if (title.text.isNullOrEmpty()) {
                 title.error = mie.message
-            } else if (comment.text.isNullOrEmpty()) {
-                comment.error = mie.message
             } else {
                 displayOnSnackbar(view, mie.message)
             }

@@ -158,7 +158,7 @@
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
-    <string name="room_noise_info">%s (%s dB) - %s</string>
+    <string name="room_noise_info">%1$s (%2$s dB) - %3$s</string>
     <string name="noise_no_measure">No measure yet</string>
     <string name="noise_string">NOISE</string>
     <string name="addClassButton">Add Class Button</string>
@@ -169,6 +169,8 @@
     <string name="select_room_fragment">Choose a room</string>
     <string name="room_class_creation">Click here to select a room</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
+    <string name="last_message">last_message</string>
+    <string name="last_message_date">last_message_date</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
 
@@ -198,6 +200,4 @@
     <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="podium_title">Best Karma Raters</string>
-    <string name="podium_quote_author">Keanu Reeves</string>
-    <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
 </resources>
