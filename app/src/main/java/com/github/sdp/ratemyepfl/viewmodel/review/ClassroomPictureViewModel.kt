@@ -1,13 +1,11 @@
 package com.github.sdp.ratemyepfl.viewmodel.review
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,13 +21,20 @@ open class ClassroomPictureViewModel @Inject constructor(
     // Room pictures
     val pictures = MutableLiveData<List<ImageFile?>>()
 
+    val isEmpty: LiveData<Boolean> = pictures.map { it.isEmpty() }
+
     init {
         updatePicturesList()
     }
 
     fun updatePicturesList() {
         viewModelScope.launch {
-            pictures.postValue(imageStorage.getByDirectory(id))
+            var posted: List<ImageFile> = listOf()
+            imageStorage.getByDirectory(id)
+                .collect {
+                    posted = posted + it
+                    pictures.postValue(posted)
+                }
         }
     }
 

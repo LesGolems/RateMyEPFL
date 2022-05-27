@@ -1,13 +1,11 @@
 package com.github.sdp.ratemyepfl.viewmodel.review
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -17,6 +15,7 @@ import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -26,7 +25,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
-    private val reviewRepo: com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository,
+    private val reviewRepo: ReviewRepository,
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,
@@ -40,6 +39,8 @@ open class ReviewListViewModel @Inject constructor(
 
     // Reviews
     val reviews = MutableLiveData<List<ReviewWithAuthor>>()
+
+    val isEmpty: LiveData<Boolean> = reviews.map { it.isEmpty() }
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -56,7 +57,7 @@ open class ReviewListViewModel @Inject constructor(
                     PostWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
-                        review.uid?.let { imageStorage.get(it) }
+                        review.uid?.let { imageStorage.get(it).lastOrNull() }
                     )
                 }
                 .sortedBy { rwa -> -rwa.post.likers.size })

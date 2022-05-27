@@ -34,6 +34,16 @@ enum class ReviewRating(val rating: Int) {
         EXCELLENT -> EXCELLENT_RATING
     }
 
+    override fun toString(): String {
+        return when (this) {
+            TERRIBLE -> "Terrible"
+            POOR -> "Poor"
+            AVERAGE -> "Average"
+            GOOD -> "Good"
+            EXCELLENT -> "Excellent"
+        }
+    }
+
     companion object {
         /**
          * Convert a float to the correspond rating. It rounds the value to the nearest integer,

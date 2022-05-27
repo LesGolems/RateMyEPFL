@@ -10,8 +10,8 @@ import androidx.fragment.app.activityViewModels
 import com.ekn.gruzer.gaugelibrary.ArcGauge
 import com.ekn.gruzer.gaugelibrary.Range
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Restaurant
+import com.github.sdp.ratemyepfl.ui.layout.LoadingImageView
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.utils.MapActivityUtils
 import com.github.sdp.ratemyepfl.viewmodel.review.RestaurantInfoViewModel
@@ -31,7 +31,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     private lateinit var restaurantRatingBar: RatingBar
     private lateinit var occupancyGauge: ArcGauge
     private lateinit var occupancyRating: TextView
-    private lateinit var restaurantImage: ImageView
+    private lateinit var restaurantImage: LoadingImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +40,9 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         restaurantRatingBar = view.findViewById(R.id.restaurantRatingBar)
         occupancyGauge = view.findViewById(R.id.occupancyGauge)
         occupancyRating = view.findViewById(R.id.occupancyRating)
-        restaurantImage = view.findViewById(R.id.restaurantInfoImage)
+        val image: View = view.findViewById(R.id.restaurantInfoImageLayout)
+        restaurantImage = LoadingImageView(image, R.raw.arcadie)
+
 
         viewModel.restaurant.observe(viewLifecycleOwner) {
             setUpRestaurantInfo(it)
@@ -55,7 +57,8 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
         val ratio = occupancyMetric(restaurant)
         setupOccupancyUI(ratio)
 
-        restaurantImage.setImageResource(
+        restaurantImage.image
+            .setImageResource(
             MapActivityUtils.PHOTO_MAPPING.getOrDefault(restaurant.name, R.raw.arcadie)
         )
     }
@@ -66,7 +69,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
     private fun setupOccupancyUI(ratio: Double) {
         val colors = listOf(
             resources.getColor(R.color.green),
-            resources.getColor(R.color.yellow),
+            resources.getColor(R.color.orange),
             resources.getColor(R.color.red)
         )
         setRanges(colors)
@@ -92,7 +95,7 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
             }
             ratio <= 2*thirdOf100 -> {
                 occupancyRating.text = getString(R.string.occupancy_busy)
-                occupancyRating.setTextColor(resources.getColor(R.color.yellow))
+                occupancyRating.setTextColor(resources.getColor(R.color.orange))
             }
             else -> {
                 occupancyRating.text = getString(R.string.occupancy_full)

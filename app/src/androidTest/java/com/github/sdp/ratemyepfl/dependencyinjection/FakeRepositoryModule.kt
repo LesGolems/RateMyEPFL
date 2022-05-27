@@ -5,9 +5,9 @@ import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.*
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository

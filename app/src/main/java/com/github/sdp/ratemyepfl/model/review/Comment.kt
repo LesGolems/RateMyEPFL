@@ -5,16 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Comment constructor(
+    override var postId: String = "",
     val subjectId: String = "",
     override val comment: String = "",
     override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
-) : Post("", comment, date, uid, likers, dislikers) {
-
-    override var postId: String = this.hashCode().toString()
-    override fun getId(): String = postId
+) : Post(postId,"", comment, date, uid, likers, dislikers) {
 
     override fun withId(id: String): Comment {
         return this.apply {
@@ -41,6 +39,7 @@ data class Comment constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         override fun build(): Comment {
+            val postId = this.postId ?: ""
             val subjectId = this asMandatory subjectId
             val comment = this asMandatory comment
             val date = this asMandatory date
@@ -49,6 +48,7 @@ data class Comment constructor(
             val dislikers = this asMandatory this.dislikers
 
             return Comment(
+                postId,
                 subjectId,
                 comment,
                 date,

@@ -8,6 +8,7 @@ import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +33,7 @@ class RankingViewModel @Inject constructor(
 
             topUsersPictures.postValue(
                 topUsers.value?.map {
-                    it.uid.let { uid -> imageStorage.get(uid) }
+                    it.uid.let { uid -> imageStorage.get(uid).last() }
                 }
             )
         }

@@ -6,8 +6,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
@@ -17,6 +17,7 @@ import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
+import com.github.sdp.ratemyepfl.utils.FragmentUtils
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -28,14 +29,13 @@ import javax.inject.Inject
  */
 abstract class PostListFragment<T : Post>(
     fragmentLayout: Int,
-    private val recyclerViewLayout: Int,
-    private val swipeRefreshLayout: Int,
-    private val adapterLayout: Int
+    private val postLayout: Int
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefresher: SwipeRefreshLayout
+    lateinit var noPostTextView: TextView
 
     lateinit var profilePanel: SlidingUpPanelLayout
     lateinit var authorPanelImage: CircleImageView
@@ -56,18 +56,16 @@ abstract class PostListFragment<T : Post>(
     }
 
     abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
+    abstract fun isEmpty(): LiveData<Boolean>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)
     abstract fun removePost(postId: String)
 
     open fun initializePostList(view: View) {
-        recyclerView = view.findViewById(recyclerViewLayout)
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
-        )
+        recyclerView = view.findViewById(R.id.postRecyclerView)
 
-        swipeRefresher = view.findViewById(swipeRefreshLayout)
+        swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
             updatePostsList()
             swipeRefresher.isRefreshing = false
@@ -79,6 +77,11 @@ abstract class PostListFragment<T : Post>(
         posts().observe(viewLifecycleOwner) {
             it?.let { postAdapter.submitList(it) }
         }
+
+        noPostTextView = view.findViewById(R.id.noPostText)
+        isEmpty().observe(viewLifecycleOwner) {
+            it?.let { FragmentUtils.emptyList(it, recyclerView, noPostTextView) }
+        }
     }
 
     open fun setupAdapter(view: View): PostAdapter<T> =
@@ -88,7 +91,7 @@ abstract class PostListFragment<T : Post>(
             getListener({ post, uid -> updateDownVotes(post, uid) }, view),
             { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
             { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
-            adapterLayout
+            postLayout
         )
 
     open fun initializeProfilePanel(view: View) {

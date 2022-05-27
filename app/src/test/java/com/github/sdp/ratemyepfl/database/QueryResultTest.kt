@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.ma
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,15 +16,13 @@ class QueryResultTest {
 
     @Test
     fun mapResultWorksForTrivialType() = runTest {
-        val qr = QueryResult(flow {
-            this.emit(QueryState.success(0))
-        })
+        val qr = QueryResult {
+            0
+        }
 
         val mapped = qr.mapResult { it.toString() }
 
-        mapped.collect {
-            assertEquals("0", (it as QueryState.Success).data)
-        }
+        assertEquals("0", (mapped.last() as QueryState.Success).data)
     }
 
     @Test
@@ -40,4 +39,5 @@ class QueryResultTest {
             assertEquals(30, (it as QueryState.Success).data)
         }
     }
+
 }

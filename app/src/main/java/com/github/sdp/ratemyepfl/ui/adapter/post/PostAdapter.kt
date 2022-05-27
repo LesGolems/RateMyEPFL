@@ -97,7 +97,7 @@ open class PostAdapter<T : Post>(
                 }
 
                 /* Delete button UI */
-                if (it != null && it.isAdmin) {
+                if (it != null && it.admin) {
                     deleteButton.visibility = VISIBLE
                 } else {
                     deleteButton.visibility = INVISIBLE

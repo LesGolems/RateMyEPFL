@@ -13,18 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/reviewSwipeRefresh"
+        <include
+            layout="@layout/post_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reviewRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                app:layoutManager="LinearLayoutManager" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addReviewButton"
@@ -43,6 +35,7 @@
 
 
     <!-- DRAGGABLE VIEW: SELECTED AUTHOR PROFILE -->
+
     <include
         layout="@layout/author_profile_layout"
         android:layout_width="match_parent"

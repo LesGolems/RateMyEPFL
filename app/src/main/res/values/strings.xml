@@ -33,11 +33,13 @@
     <string name="sort_by_grade_picker_title">Sort by grade</string>
     <string name="section_item_description">sectionItem</string>
     <string name="cycle_picker_description">cyclePickerDescription</string>
-    <string name="day_class_creation">Select the day and time</string>
+    <string name="day_class_creation">SELECT THE DAY AND TIME</string>
     <string name="not_logged_in_text">You are not logged in</string>
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="emoji">&#128522;</string>
+    <string name="empty_post_list_message">No %s yet. Be the first to share your thoughts!</string>
+    <string name="empty_photo_list_message">No photos yet. Be the first to upload a photo!</string>
 
     -- CONNECTION --
     <string name="login_google_text">Sign In with Google</string>
@@ -62,16 +64,18 @@
     <string name="anonymous">Anonymous</string>
     <string name="best_rated_order_title">Best rated</string>
     <string name="worst_rated_order_title">Worst rated</string>
-    <string name="title_review">What do you think about %s</string>
-    <string name="comment_edit_text">Your opinion</string>
+    <string name="title_review">How was it?</string>
     <string name="done_button_text">DONE</string>
     <string name="review_text_button">REVIEW</string>
     <string name="title_review_list">Title</string>
     <string name="comment_review_list">Comment</string>
-    <string name="overall_score_review">Overall score: %s</string>
+    <string name="review_rate">Click to rate</string>
     <string name="date_review_list">Date</string>
     <string name="rate_review_list">Rate</string>
-    <string name="title_edit_text">Your review title</string>
+    <string name="input_title_text">Your review title</string>
+    <string name="title_edit_text">Summarise your opinion</string>
+    <string name="input_comment_text">Your opinion</string>
+    <string name="comment_edit_text">Share your opinion with the community</string>
     <string name="button_for_deleting_a_review">Button for deleting a review</string>
     <string name="add_review_button">Add Review Button</string>
 
@@ -154,7 +158,7 @@
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
-    <string name="room_noise_info">%s (%s dB) - %s</string>
+    <string name="room_noise_info">%1$s (%2$s dB) - %3$s</string>
     <string name="noise_no_measure">No measure yet</string>
     <string name="noise_string">NOISE</string>
     <string name="addClassButton">Add Class Button</string>
@@ -165,6 +169,10 @@
     <string name="select_room_fragment">Choose a room</string>
     <string name="room_class_creation">Click here to select a room</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
+    <string name="last_message">last_message</string>
+    <string name="last_message_date">last_message_date</string>
+    <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
+    <string name="content_description_loading_image">%s</string>
 
     -- SUBJECT --
     <string name="create_post">Create post…</string>
@@ -175,6 +183,10 @@
     <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
     <string name="subject_indication_title">Create a post</string>
     <string name="subject_sent_text">Your post was submitted!</string>
+    <string name="add_post_title">Your post title</string>
+    <string name="add_post_title_hint">Insert a title</string>
+    <string name="add_post_content">Your post content</string>
+    <string name="add_post_content_hint">Insert a content (optional)</string>
 
     -- COMMENT
     <string name="add_a_comment">Add a comment…</string>
@@ -188,6 +200,4 @@
     <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="podium_title">Best Karma Raters</string>
-    <string name="podium_quote_author">Keanu Reeves</string>
-    <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
 </resources>

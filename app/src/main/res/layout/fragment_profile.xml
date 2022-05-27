@@ -19,21 +19,19 @@
                 android:layout_height="175dp"
                 android:background="@raw/red3" />
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:layout_width="175dp"
-                android:layout_height="175dp"
+            <include layout="@layout/layout_animated_circle_image_view"
+                android:id="@+id/profilePictureLoadingImage"
                 android:layout_centerInParent="true"
-                android:background="@raw/blank_profile_picture"
-                app:civ_border_color="#FFFFFF"
-                app:civ_border_width="5dp" />
+                android:layout_width="175dp"
+                android:layout_height="175dp"/>
+
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/modify_profile_image_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignEnd="@id/profile_image"
-                android:layout_alignBottom="@id/profile_image"
+                android:layout_alignEnd="@id/profilePictureLoadingImage"
+                android:layout_alignBottom="@id/profilePictureLoadingImage"
                 android:layout_centerInParent="true"
                 android:src="@raw/camera_icon"
                 app:civ_border_color="#fc8403"
@@ -43,7 +41,7 @@
                 android:id="@+id/username_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profile_image"
+                android:layout_below="@id/profilePictureLoadingImage"
                 android:layout_centerHorizontal="true"
                 android:autofillHints=""
                 android:background="@android:color/transparent"
@@ -52,7 +50,8 @@
                 android:selectAllOnFocus="true"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="50sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textSize="52sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -83,7 +82,8 @@
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
-                android:textSize="25sp" />
+                android:fontFamily="@font/pt_sans"
+                android:textSize="26sp" />
 
             <View
                 android:id="@+id/divider1"

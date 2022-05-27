@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.viewmodel.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Subject
@@ -52,8 +52,6 @@ class AddSubjectViewModel @Inject constructor(
         // only connected users may add reviews
         if (!connectedUser.isLoggedIn()) {
             throw DisconnectedUserException()
-        } else if (comment.isNullOrEmpty()) {
-            throw MissingInputException(EMPTY_COMMENT_MESSAGE)
         } else if (title.isNullOrEmpty()) {
             throw MissingInputException(EMPTY_TITLE_MESSAGE)
         } else if (kinds == null || kinds.isEmpty()) {

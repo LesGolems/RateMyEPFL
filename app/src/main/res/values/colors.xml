@@ -7,20 +7,22 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#808080</color>
+    <color name="light_grey">#DFDFDF</color>
+    <color name="grey">#8C8C8C</color>
     <color name="dark_grey">#535353</color>
 
-    <color name="primaryColor">#D50404</color>
+    <color name="primaryColor">@color/red</color>
+    <color name="primaryColorPale">#E28F8F</color>
     <color name="secondaryColor">@color/dark_red</color>
     <color name="tertiaryColor">@color/pale_red</color>
     <color name="backgroundColor">#FFF1E8</color>
 
     <color name="navigationBar">@color/white</color>
     <color name="navigationItems">@color/primaryColor</color>
-    <color name="timetableFrame">#D3FF1B1B</color>
+    <color name="timetableFrame">@color/tertiaryColor</color>
 
     <color name="orange">#FF8C00</color>
-    <color name="red">#C20000</color>
+    <color name="red">#D50404</color>
     <color name="pale_red">#EA2D34</color>
     <color name="red_pink">#E38286</color>
     <color name="dark_red">#7A0019</color>
@@ -29,8 +31,8 @@
     <color name="dark_orange">#FF6100</color>
     <color name="orange_white">#FFE9E2</color>
 
-    <color name="dayPressed">@color/colorPrimaryDark</color>
-    <color name="daySelected">@color/colorPrimary</color>
+    <color name="dayPressed">@color/secondaryColor</color>
+    <color name="daySelected">@color/primaryColor</color>
     <color name="daySelectedTextColor">@android:color/white</color>
     <color name="dayDeselected">#FAFAFA</color>
     <color name="dayDeselectedTextColor">@android:color/black</color>

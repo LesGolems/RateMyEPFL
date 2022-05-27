@@ -1,12 +1,14 @@
 package com.github.sdp.ratemyepfl.viewmodel.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
@@ -18,6 +20,8 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -36,6 +40,8 @@ class CommentListViewModel @Inject constructor(
     // Comments
     val comments = MutableLiveData<List<CommentWithAuthor>>()
 
+    val isEmpty: LiveData<Boolean> = comments.map { it.isEmpty() }
+
     @Inject
     lateinit var auth: ConnectedUser
 
@@ -47,7 +53,7 @@ class CommentListViewModel @Inject constructor(
                     PostWithAuthor(
                         comment,
                         comment.uid?.let { userRepo.getUserByUid(it) },
-                        comment.uid?.let { imageStorage.get(it) }
+                        comment.uid?.let { imageStorage.get(it).catch {  }.lastOrNull() }
                     )
                 }
                 .sortedBy { cwa -> -cwa.post.likers.size })

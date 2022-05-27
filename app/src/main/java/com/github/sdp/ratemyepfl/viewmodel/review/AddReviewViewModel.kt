@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -41,7 +41,8 @@ class AddReviewViewModel @Inject constructor(
     val item = savedStateHandle.getReviewable(ReviewActivity.EXTRA_ITEM_REVIEWED)
 
     companion object {
-        const val NO_GRADE_MESSAGE: String = "You need to give a grade !"
+        const val NO_GRADE_MESSAGE: String = "You need to give a grade!"
+        const val NO_GRADE_TEXT: String = "Click to rate"
     }
 
     val rating: MutableLiveData<ReviewRating> = MutableLiveData(null)

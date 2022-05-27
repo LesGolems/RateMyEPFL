@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="14dp"
+        android:fontFamily="@font/pt_sans"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <FrameLayout

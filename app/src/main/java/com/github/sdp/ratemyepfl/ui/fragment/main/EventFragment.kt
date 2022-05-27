@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
@@ -40,9 +39,6 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         recyclerView = view.findViewById(R.id.eventRecyclerView)
         eventAdapter.setUserId(auth.getUserId())
         recyclerView.adapter = eventAdapter
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(activity?.applicationContext, DividerItemDecoration.VERTICAL)
-        )
 
         viewModel.events
             .observe(viewLifecycleOwner) { events ->

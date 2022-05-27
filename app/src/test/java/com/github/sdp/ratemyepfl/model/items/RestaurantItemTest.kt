@@ -2,7 +2,8 @@ package com.github.sdp.ratemyepfl.model.items
 
 import com.github.sdp.ratemyepfl.R
 import com.google.android.gms.maps.model.LatLng
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class RestaurantItemTest {
@@ -11,7 +12,7 @@ class RestaurantItemTest {
         private val LAT_LNG = LatLng(46.52, 6.569)
         private const val NAME = "Arcadie"
         private val RESTAURANT = Restaurant(NAME, 0, 0.0, 0, LAT_LNG.latitude, LAT_LNG.longitude)
-        private val RESTAURANT_ITEM = RestaurantItem(RESTAURANT, R.raw.arcadie, null)
+        private val RESTAURANT_ITEM = RestaurantItem(RESTAURANT, R.raw.arcadie, 0)
     }
 
     @Test

@@ -1,21 +1,19 @@
 package com.github.sdp.ratemyepfl.viewmodel.main
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
-import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -29,6 +27,8 @@ class HomeViewModel @Inject constructor(
 
     // Subjects
     val subjects = MutableLiveData<List<SubjectWithAuthor>>()
+
+    val isEmpty: LiveData<Boolean> = subjects.map { it.isEmpty() }
 
     @Inject
     lateinit var auth: ConnectedUser
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
                     PostWithAuthor(
                         subject,
                         subject.uid?.let { userRepo.getUserByUid(it) },
-                        subject.uid?.let { imageStorage.get(it) }
+                        subject.uid?.let { imageStorage.get(it).lastOrNull() }
                     )
                 }
                 .sortedBy { rwa -> -rwa.post.likers.size })
