@@ -21,5 +21,7 @@ data class Course constructor(
         return title
     }
 
+    override fun toStringAddReview(): String = courseCode
+
     override fun getId(): String = courseCode
 }

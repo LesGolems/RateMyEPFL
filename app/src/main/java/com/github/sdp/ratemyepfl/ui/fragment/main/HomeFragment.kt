@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.adapter.post.SubjectAdapter
@@ -43,7 +43,7 @@ class HomeFragment : PostListFragment<Subject>(
         posts().observe(viewLifecycleOwner) {
             it?.let {
                 postAdapter.submitList(it.sortedByDescending { pwa ->
-                    pwa.post.date.toString()
+                    pwa.obj.date.toString()
                 })
             }
         }
@@ -68,16 +68,16 @@ class HomeFragment : PostListFragment<Subject>(
             viewLifecycleOwner, userViewModel,
             getListener({ subject, s -> viewModel.updateUpVotes(subject, s) }, view),
             getListener({ subject, s -> viewModel.updateDownVotes(subject, s) }, view),
-            { swa -> viewModel.removeSubject(swa.post.postId) },
+            { swa -> viewModel.removeSubject(swa.obj.postId) },
             { swa ->
                 val bundle =
-                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.post.getId())
+                    bundleOf(CommentListFragment.EXTRA_SUBJECT_COMMENTED_ID to swa.obj.getId())
                 Navigation.findNavController(view).navigate(R.id.commentListFragment, bundle)
             },
             { swa -> displayProfilePanel(swa.author, swa.image) })
 
 
-    override fun posts(): MutableLiveData<List<PostWithAuthor<Subject>>> {
+    override fun posts(): MutableLiveData<List<ObjectWithAuthor<Subject>>> {
         return viewModel.subjects
     }
 
