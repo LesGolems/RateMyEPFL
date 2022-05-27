@@ -14,26 +14,26 @@
         android:id="@+id/reviewableId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans"
         android:gravity="center_vertical"
         android:padding="14dp"
-        android:fontFamily="@font/pt_sans"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <FrameLayout
         android:id="@+id/gradeLayout"
         android:layout_width="40dp"
+        android:layout_height="30dp"
         android:layout_gravity="end"
-        android:visibility="visible"
         android:paddingTop="5dp"
-        android:layout_height="30dp">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/reviewableGrade"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_width="fill_parent"/>
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
     </FrameLayout>
 
 </androidx.cardview.widget.CardView>
