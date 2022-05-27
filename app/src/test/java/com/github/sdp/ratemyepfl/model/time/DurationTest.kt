@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.model.time
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Test
-import java.lang.IllegalArgumentException
 
 class DurationTest {
 
@@ -47,5 +47,11 @@ class DurationTest {
         val d1 = Duration(1, 3, 32)
         val d2 = Duration(1, 20, 48)
         assertEquals(Duration(3, 0, 20), d1 + d2)
+    }
+
+    @Test
+    fun constructorWithMinutesWorks() {
+        val d = Duration(Duration.MINUTES_PER_DAY.toLong())
+        assertEquals(Duration(1, 0, 0), d)
     }
 }
