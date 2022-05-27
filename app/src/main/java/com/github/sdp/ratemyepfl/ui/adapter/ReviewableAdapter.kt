@@ -1,9 +1,14 @@
 package com.github.sdp.ratemyepfl.ui.adapter
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ImageSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
@@ -11,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
     ListAdapter<Reviewable, ReviewableAdapter.ReviewableViewHolder>(AdapterUtil.diffCallback<Reviewable>()) {
@@ -26,6 +33,11 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         RecyclerView.ViewHolder(reviewableView) {
 
         private val reviewableTextView: TextView = reviewableView.findViewById(R.id.reviewableId)
+        private val layout: FrameLayout = reviewableView.findViewById(R.id.gradeLayout)
+        private val grade: TextView = layout.findViewById(R.id.reviewableGrade)
+        private val imageSpan: ImageSpan =
+            ImageSpan(reviewableView.context, R.drawable.ic_baseline_star_24)
+
         private var currentReviewable: Reviewable? = null
 
         init {
@@ -42,6 +54,18 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         fun bind(reviewable: Reviewable) {
             currentReviewable = reviewable
             reviewableTextView.text = reviewable.toString()
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.CEILING
+            val gradeText = df.format(reviewable.grade) + " "
+            val sb = SpannableStringBuilder(gradeText)
+            sb.setSpan(
+                imageSpan,
+                gradeText.length - 1,
+                gradeText.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            grade.text = sb
+            //setGradeColor(reviewable, layout)
         }
     }
 
@@ -62,4 +86,23 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
+    private fun setGradeColor(reviewable: Reviewable, layout: FrameLayout) {
+        when {
+            reviewable.numReviews == 0 -> {
+                layout.background.setColorFilter(Color.parseColor("#ff807F7F"), PorterDuff.Mode.SRC_ATOP);
+            }
+            reviewable.grade <= 2 -> {
+                layout.background.setColorFilter(Color.parseColor("#ffFA1313"), PorterDuff.Mode.SRC_ATOP);
+            }
+            reviewable.grade <= 3 -> {
+                layout.background.setColorFilter(Color.parseColor("#ffFFB51E"), PorterDuff.Mode.SRC_ATOP);
+            }
+            reviewable.grade <= 4 -> {
+                layout.background.setColorFilter(Color.parseColor("#ff99E44C"), PorterDuff.Mode.SRC_ATOP);
+            }
+            reviewable.grade <= 5 -> {
+                layout.background.setColorFilter(Color.parseColor("#ff99CF04"), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+    }
 }
