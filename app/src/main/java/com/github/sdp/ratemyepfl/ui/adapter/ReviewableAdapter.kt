@@ -65,14 +65,14 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.CEILING
             val gradeText = df.format(reviewable.grade) + " "
-            val sb: SpannableStringBuilder = SpannableStringBuilder(gradeText)
+            val sb = SpannableStringBuilder(gradeText)
             sb.setSpan(
                 imageSpan,
                 gradeText.length - 1,
                 gradeText.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            grade.text = gradeText
+            grade.text = sb
             //setGradeColor(reviewable, layout)
         }
     }
