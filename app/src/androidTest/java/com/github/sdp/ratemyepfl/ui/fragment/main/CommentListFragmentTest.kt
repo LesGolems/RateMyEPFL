@@ -10,7 +10,7 @@ import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -102,7 +102,7 @@ class CommentListFragmentTest {
         onView(withId(R.id.commentPanel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
         onView(withId(R.id.addCommentAnonymousSwitch)).perform(click())
-        onView(withId(R.id.doneButton)).perform(click())
+        //onView(withId(R.id.doneButton)).perform(click())
     }
 
     @Test
@@ -290,7 +290,7 @@ class CommentListFragmentTest {
 
         refresh()
 
-        Assert.assertEquals(listOf<Review>(), (repository as FakeCommentRepository).elements)
+        Assert.assertEquals(true, (repository as FakeCommentRepository).elements.isEmpty())
     }
 
     @Test
