@@ -93,6 +93,6 @@ class FakeUserRepository @Inject constructor() : UserRepository,
         //TODO()
     }
 
-    override suspend fun getTopKarmaUsers(): Flow<List<User>> =
+    override suspend fun getTopKarmaUsers(): QueryResult<List<User>> =
         QueryResult.success(users.values.sortedByDescending { it.karma }.take(3))
 }

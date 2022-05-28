@@ -64,6 +64,12 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
         userTop3Name = view.findViewById(R.id.userTop3Name)
         userTop3Karma = view.findViewById(R.id.userTop3Karma)
 
+        setupObservers()
+
+
+    }
+
+    private fun setupObservers() {
         viewModel.topUsersPictures.first.observe(viewLifecycleOwner) { image ->
             image.let {
                 userTop1Picture.image.setImageBitmap(it.data)
@@ -87,21 +93,19 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
             }
         }
 
-        viewModel.topUsers.first.observe(viewLifecycleOwner) {
+        viewModel.topUsers.second.observe(viewLifecycleOwner) {
             it.let {
                 userTop2Name.text = it.username
                 userTop2Karma.text = it.karma.toString()
             }
         }
 
-        viewModel.topUsers.first.observe(viewLifecycleOwner) {
+        viewModel.topUsers.third.observe(viewLifecycleOwner) {
             it.let {
                 userTop3Name.text = it.username
                 userTop3Karma.text = it.karma.toString()
             }
         }
-
-
     }
 
     override fun onResume() {

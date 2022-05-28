@@ -60,9 +60,9 @@ class RankingViewModel @Inject constructor(
 
     suspend fun refreshUsers(): Triple<User, User, User> {
         val users = getTop3Users().last()
-        topUsers.first.value = users.first
-        topUsers.second.value = users.second
-        topUsers.third.value = users.third
+        topUsers.first.postValue(users.first)
+        topUsers.second.postValue(users.second)
+        topUsers.third.postValue(users.third)
         return users
     }
 
