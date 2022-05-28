@@ -51,7 +51,7 @@ class FakeUserRepository @Inject constructor() : UserRepository,
                 "John Smith",
                 "john@example.com",
                 timetable = timetable,
-                isAdmin = true,
+                admin = true,
                 karma = 200
             )
         )
@@ -83,7 +83,7 @@ class FakeUserRepository @Inject constructor() : UserRepository,
                 user1.username,
                 user1.email,
                 user1.karma + inc,
-                user1.isAdmin,
+                user1.admin,
                 ArrayList()
             )
         )

@@ -45,14 +45,13 @@ class AddSubjectFragmentTest {
     }
 
     @Test
-    fun nullCommentDoesNotWork() {
+    fun noCommentWorks() {
         val title = "Good"
         onView(withId(R.id.addPostTitle)).perform(typeText(title))
         closeSoftKeyboard()
         clickOnKindChip("Help")
 
         onView(withId(R.id.doneButton)).perform(scrollTo(), click())
-        onView(withId(R.id.addPostTitle)).check(matches(withText(title)))
     }
 
     @Test

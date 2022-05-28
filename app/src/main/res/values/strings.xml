@@ -158,7 +158,7 @@
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
-    <string name="room_noise_info">%s (%s dB) - %s</string>
+    <string name="room_noise_info">%1$s (%2$s dB) - %3$s</string>
     <string name="noise_no_measure">No measure yet</string>
     <string name="noise_string">NOISE</string>
     <string name="addClassButton">Add Class Button</string>
@@ -169,6 +169,8 @@
     <string name="select_room_fragment">Choose a room</string>
     <string name="room_class_creation">Click here to select a room</string>
     <string name="default_noise_text">You can click on the button to start a new recording !</string>
+    <string name="last_message">last_message</string>
+    <string name="last_message_date">last_message_date</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
     <string name="add_review_string">Give your opinion</string>
@@ -182,9 +184,9 @@
     <string name="button_for_deleting_a_subject">Button for deleting a subject</string>
     <string name="subject_indication_title">Create a post</string>
     <string name="subject_sent_text">Your post was submitted!</string>
-    <string name="add_post_title">Yout post title</string>
+    <string name="add_post_title">Your post title</string>
     <string name="add_post_title_hint">Insert a title</string>
-    <string name="add_post_content">Yout post content</string>
+    <string name="add_post_content">Your post content</string>
     <string name="add_post_content_hint">Insert a content (optional)</string>
 
     -- COMMENT
@@ -201,5 +203,4 @@
     <string name="podium_title">Best Karma Raters</string>
     <string name="podium_quote_author">Keanu Reeves</string>
     <string name="podium_quote">\"When you truly understand karma, then you realize you are responsible for everything in your life\"</string>
-    >>>>>>> feature/loading-images
 </resources>
