@@ -13,7 +13,7 @@ data class User(
     val username: String? = null,
     val email: String? = null,
     val karma: Int = 0,
-    val isAdmin: Boolean = false,
+    val admin: Boolean = false,
     val timetable: ArrayList<Class> = DEFAULT_TIMETABLE
 ) : RepositoryItem {
 

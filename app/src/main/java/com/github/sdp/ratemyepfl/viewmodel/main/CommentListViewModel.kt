@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.CommentRepository
-import com.github.sdp.ratemyepfl.backend.database.firebase.post.SubjectRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
+import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
@@ -46,12 +46,12 @@ class CommentListViewModel @Inject constructor(
     fun getComments() = commentRepo.getBySubjectId(id)
         .map { comments ->
             comments.map { comment ->
-                    PostWithAuthor(
-                        comment,
-                        comment.uid?.let { userRepo.getUserByUid(it) },
-                        comment.uid?.let { imageStorage.get(it).catch {  }.lastOrNull() }
-                    )
-                }
+                PostWithAuthor(
+                    comment,
+                    comment.uid?.let { userRepo.getUserByUid(it) },
+                    comment.uid?.let { imageStorage.get(it).catch { }.lastOrNull() }
+                )
+            }
                 .sortedBy { cwa -> -cwa.post.likers.size }
         }
 
@@ -128,20 +128,10 @@ class CommentListViewModel @Inject constructor(
             uid = connectedUser.getUserId()
         }
 
-        val builder = Comment.Builder()
-            .setSubjectID(id)
-            .setComment(comment)
-            .setDate(date)
-            .setUid(uid)
-
-        try {
-            val com = builder.build()
-            viewModelScope.launch(Dispatchers.IO) {
-                val commentId = commentRepo.add(com).last()
-                subjectRepo.addComment(id, commentId)
-            }
-        } catch (e: IllegalStateException) {
-            throw IllegalStateException("Failed to build the comment (from ${e.message}")
+        val com = Comment(subjectId = id, comment = comment, date = date, uid = uid)
+        viewModelScope.launch(Dispatchers.IO) {
+            val commentId = commentRepo.add(com).last()
+            subjectRepo.addComment(id, commentId)
         }
     }
 }

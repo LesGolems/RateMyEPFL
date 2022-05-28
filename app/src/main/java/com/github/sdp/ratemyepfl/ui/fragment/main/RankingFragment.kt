@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.github.sdp.ratemyepfl.viewmodel.main.RankingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class RankingFragment : Fragment(R.layout.fragment_ranking) {

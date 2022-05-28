@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Subject constructor(
+    override var postId: String = "",
     override val title: String = "",
     override val comment: String = "",
     override val date: DateTime = DateTime.DEFAULT_DATE_TIME,
@@ -13,10 +14,7 @@ data class Subject constructor(
     override var dislikers: List<String> = listOf(),
     val comments: List<String> = listOf(),
     val kind: SubjectKind = SubjectKind.OTHER
-) : Post(title, comment, date, uid, likers, dislikers) {
-
-    override var postId: String = this.hashCode().toString()
-    override fun getId(): String = postId
+) : Post(postId, title, comment, date, uid, likers, dislikers) {
 
     override fun withId(id: String): Subject {
         return this.apply {
@@ -56,8 +54,9 @@ data class Subject constructor(
          * @throws IllegalStateException if one of the properties is null
          */
         override fun build(): Subject {
+            val postId = this.postId ?: ""
             val title = this asMandatory title
-            val comment = this asMandatory comment
+            val comment = this.comment ?: ""
             val date = this asMandatory date
             val uid = this.uid
             val likers = this asMandatory this.likers
@@ -65,7 +64,7 @@ data class Subject constructor(
             val comments = this asMandatory comments
             val kind = this asMandatory kind
 
-            return Subject(
+            return Subject(postId,
                 title, comment, date, uid, likers, dislikers, comments, kind
             )
         }

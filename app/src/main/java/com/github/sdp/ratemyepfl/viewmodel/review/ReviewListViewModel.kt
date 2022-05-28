@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
@@ -25,7 +26,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 open class ReviewListViewModel @Inject constructor(
-    private val reviewRepo: com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository,
+    private val reviewRepo: ReviewRepository,
     private val userRepo: UserRepository,
     private val gradeInfoRepo: GradeInfoRepository,
     private val imageStorage: Storage<ImageFile>,

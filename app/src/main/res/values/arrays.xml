@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="podium_quote_author">
+        <item>Keanu Reeves</item>
+        <item>Yannick Noah</item>
+        <item>Steve Jobs</item>
+        <item>John Lennon</item>
+        <item>Emilien Bambolino</item>
+    </string-array>
+
+    <string-array name="podium_quote">
+        <item>\"When you truly understand karma, then you realize you are responsible for everything in your life\"</item>
+        <item>\"I believe in Karma. If the good is sown, the good is gathered. When positive things are done, it comes back good.\"</item>
+        <item>\"You have to trust something - your instincts, your destiny, your life, your karma, whatever.\"</item>
+        <item>\"Instant karma is going to get you.\"</item>
+        <item>\"OUGA OUGA\"</item>
+    </string-array>
+</resources>

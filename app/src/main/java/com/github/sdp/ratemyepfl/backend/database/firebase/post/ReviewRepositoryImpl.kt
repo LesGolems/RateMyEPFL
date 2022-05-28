@@ -3,6 +3,7 @@ package com.github.sdp.ratemyepfl.backend.database.firebase.post
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.google.firebase.firestore.DocumentSnapshot
