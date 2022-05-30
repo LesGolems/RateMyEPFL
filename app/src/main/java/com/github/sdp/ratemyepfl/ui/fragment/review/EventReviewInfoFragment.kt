@@ -10,6 +10,7 @@ import com.ekn.gruzer.gaugelibrary.ArcGauge
 import com.ekn.gruzer.gaugelibrary.Range
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.viewmodel.review.EventInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,14 +38,15 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
         eventTime = view.findViewById(R.id.eventTime)
         participationGauge = view.findViewById(R.id.participationGauge)
 
-        viewModel.event.observe(viewLifecycleOwner) {
+        viewModel.eventWithAuthor.observe(viewLifecycleOwner) {
             setUpEventInfo(it)
         }
     }
 
-    private fun setUpEventInfo(event: Event) {
+    private fun setUpEventInfo(ewa: EventWithAuthor) {
+        val event = ewa.obj
         eventName.text = event.toString()
-        eventCreator.text = getString(R.string.event_creator_info, event.creator)
+        eventCreator.text = getString(R.string.event_creator_info, ewa.author?.username)
         eventNumReview.text = getNumReviewString(requireContext(), event.numReviews)
         eventRatingBar.rating = event.grade.toFloat()
         eventDate.text = event.period.start.date.toString()

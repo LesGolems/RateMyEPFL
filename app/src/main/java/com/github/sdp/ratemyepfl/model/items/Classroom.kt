@@ -12,6 +12,8 @@ data class Classroom constructor(
 
     override fun toString(): String = name
 
+    override fun toStringAddReview(): String = name
+
     override fun getId(): String = name
 
 }

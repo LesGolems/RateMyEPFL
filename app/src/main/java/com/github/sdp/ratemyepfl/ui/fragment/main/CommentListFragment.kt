@@ -11,7 +11,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
@@ -103,7 +103,7 @@ class CommentListFragment : PostListFragment<Comment>(
         commentPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
-    override fun posts(): MutableLiveData<List<PostWithAuthor<Comment>>> {
+    override fun posts(): MutableLiveData<List<ObjectWithAuthor<Comment>>> {
         return viewModel.comments
     }
 

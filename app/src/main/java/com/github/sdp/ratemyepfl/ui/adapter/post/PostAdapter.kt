@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.review.Post
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
 fun interface OnClickListener<U : Post> {
-    fun onClick(post: PostWithAuthor<U>)
+    fun onClick(post: ObjectWithAuthor<U>)
 }
 
 open class PostAdapter<T : Post>(
@@ -30,8 +30,8 @@ open class PostAdapter<T : Post>(
     open val profileClickListener: OnClickListener<T>,
     private val layout: Int
 ) : ListAdapter<
-        PostWithAuthor<T>,
-        PostAdapter<T>.PostViewHolder>(AdapterUtil.diffCallback<PostWithAuthor<T>>()) {
+        ObjectWithAuthor<T>,
+        PostAdapter<T>.PostViewHolder>(AdapterUtil.diffCallback<ObjectWithAuthor<T>>()) {
 
 
     /**
@@ -58,8 +58,8 @@ open class PostAdapter<T : Post>(
 
         protected lateinit var post: T
 
-        fun bind(postWithAuthor: PostWithAuthor<T>) {
-            post = postWithAuthor.post
+        fun bind(postWithAuthor: ObjectWithAuthor<T>) {
+            post = postWithAuthor.obj
 
             titleView.text = post.title
             commentView.text = post.comment
@@ -87,11 +87,11 @@ open class PostAdapter<T : Post>(
                 dislikeButton.setImageResource(R.drawable.ic_dislike)
                 if (it != null) {
                     // The user liked the review
-                    if (postWithAuthor.post.likers.contains(it.uid)) {
+                    if (postWithAuthor.obj.likers.contains(it.uid)) {
                         likeButton.setImageResource(R.drawable.ic_like_toggled)
                     }
                     // The user disliked the review
-                    if (postWithAuthor.post.dislikers.contains(it.uid)) {
+                    if (postWithAuthor.obj.dislikers.contains(it.uid)) {
                         dislikeButton.setImageResource(R.drawable.ic_dislike_toggled)
                     }
                 }
