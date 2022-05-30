@@ -14,4 +14,6 @@ sealed class Reviewable : RepositoryItem {
     abstract val grade: Double
     abstract val numReviews: Int
 
+    abstract fun toStringAddReview(): String
+
 }
