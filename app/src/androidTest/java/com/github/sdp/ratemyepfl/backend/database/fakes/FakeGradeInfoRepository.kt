@@ -17,15 +17,12 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
     }
 
     override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun addReview(item: Reviewable, reviewId: String, rating: ReviewRating) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun removeReview(item: Reviewable, reviewId: String) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo = gradeById
