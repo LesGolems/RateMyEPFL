@@ -95,7 +95,6 @@ class RestaurantReviewInfoFragmentTest {
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.restaurantNumReview)).check(matches(withText(numReviewText)))
-        FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
     }
 
 }

@@ -44,6 +44,10 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
         var subjectList = fakeList
     }
 
+    init {
+        elements = fakeList.toSet()
+    }
+
     override suspend fun getSubjects(): List<Subject> {
         return subjectList
     }
@@ -59,18 +63,41 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
         }
     }
 
-    override fun addWithId(item: Subject, withId: String): Flow<String> = flowOf(withId)
+    override fun addWithId(item: Subject, withId: String): Flow<String> {
+        elements = elements.plus(item)
+        return flowOf(withId)
+    }
 
     override suspend fun addUpVote(postId: String, userId: String) {
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.likers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.likers.minus(userId))
+            } else it
+        }
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.dislikers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.dislikers.minus(userId))
+            } else it
+        }
     }
 
 }

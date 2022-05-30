@@ -97,10 +97,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
         var reviewList = fakeList
     }
 
-    override suspend fun getReviews(): List<Review> {
-        return reviewList
-    }
-
     override suspend fun getReviewById(id: String): Review {
         return Review.Builder()
             .setRating(ReviewRating.EXCELLENT)
@@ -112,11 +108,11 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override fun getByReviewableId(id: String): Flow<List<Review>> = flow {
-        emit(elements.filter { it.getId() == id })
+        emit(reviewList)
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.likers.plus(userId))
             } else it
@@ -124,7 +120,7 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.likers.minus(userId))
             } else it
@@ -132,7 +128,7 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.dislikers.plus(userId))
             } else it
@@ -140,14 +136,17 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.dislikers.minus(userId))
             } else it
         }
     }
 
-    override fun addWithId(item: Review, withId: String): Flow<String> = flowOf(withId)
+    override fun addWithId(item: Review, withId: String): Flow<String> {
+        reviewList = reviewList.plus(item)
+        return flowOf(withId)
+    }
 
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
@@ -163,6 +162,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
 
         reviewList = newList
 
-        return flow { emit(true) }
+        return flowOf(true)
     }
 }
