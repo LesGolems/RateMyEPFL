@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Post
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
@@ -58,7 +58,7 @@ abstract class PostListFragment<T : Post> constructor(
         initializeProfilePanel(view)
     }
 
-    abstract fun posts(): MutableLiveData<List<PostWithAuthor<T>>>
+    abstract fun posts(): MutableLiveData<List<ObjectWithAuthor<T>>>
     abstract fun isEmpty(): LiveData<Boolean>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
@@ -100,7 +100,7 @@ abstract class PostListFragment<T : Post> constructor(
             viewLifecycleOwner, userViewModel,
             getListener({ post, uid -> updateUpVotes(post, uid) }, view),
             getListener({ post, uid -> updateDownVotes(post, uid) }, view),
-            { postWithAuthor -> removePost(postWithAuthor.post.getId()) },
+            { postWithAuthor -> removePost(postWithAuthor.obj.getId()) },
             { postWithAuthor -> displayProfilePanel(postWithAuthor.author, postWithAuthor.image) },
             postLayout
         )

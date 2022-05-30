@@ -22,6 +22,8 @@ data class Restaurant constructor(
         return name
     }
 
+    override fun toStringAddReview(): String = name
+
     override fun getId(): String = name
 
     override fun toMapItem(): MapItem {

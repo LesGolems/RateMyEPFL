@@ -39,9 +39,9 @@ class SubjectAdapter(
         val subjectKindText: TextView = postView.findViewById(R.id.subjectKindText)
 
         commentButton.setOnClickListener { commentListener.onClick(postWithAuthor) }
-        commentCount.text = postWithAuthor.post.comments.size.toString()
+        commentCount.text = postWithAuthor.obj.comments.size.toString()
 
-        subjectKindIcon.setImageResource(postWithAuthor.post.kind.icon)
-        subjectKindText.text = postWithAuthor.post.kind.id
+        subjectKindIcon.setImageResource(postWithAuthor.obj.kind.icon)
+        subjectKindText.text = postWithAuthor.obj.kind.id
     }
 }

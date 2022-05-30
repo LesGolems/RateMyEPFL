@@ -30,6 +30,8 @@ data class Event(
 
     fun withId(id: String): Event = this.copy(eventId = id)
 
+    override fun toStringAddReview(): String = name
+
     override fun getId(): String = eventId
 
     override fun toMapItem(): MapItem {

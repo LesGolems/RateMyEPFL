@@ -46,7 +46,6 @@ open class ReviewListViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-
     fun getReviews(): Flow<List<ReviewWithAuthor>> =
         reviewRepo.getByReviewableId(id)
             .map { reviews ->
@@ -57,9 +56,8 @@ open class ReviewListViewModel @Inject constructor(
                         review.uid?.let { imageStorage.get(it).lastOrNull() }
                     )
                 }
-                    .sortedBy { rwa -> -rwa.post.likers.size }
+                    .sortedBy { rwa -> -rwa.obj.likers.size }
             }
-
 
     fun removeReview(reviewId: String) {
         viewModelScope.launch {

@@ -35,7 +35,7 @@ object FragmentUtils {
     fun <T : Post> getListener(f: (T, String?) -> Unit, view: View) =
         OnClickListener<T> { postWithAuthor ->
             try {
-                f(postWithAuthor.post, postWithAuthor.author?.uid)
+                f(postWithAuthor.obj, postWithAuthor.author?.uid)
             } catch (e: Exception) {
                 displayOnSnackbar(view, e.message)
             }
