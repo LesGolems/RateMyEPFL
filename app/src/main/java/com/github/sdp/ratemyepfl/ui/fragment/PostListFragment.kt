@@ -66,7 +66,7 @@ abstract class PostListFragment<T : Post> constructor(
     abstract fun removePost(postId: String)
 
     suspend fun displayPosts(
-        posts: Flow<List<PostWithAuthor<T>>>,
+        posts: Flow<List<ObjectWithAuthor<T>>>,
         emptyMessage: String,
     ) {
         loadingRecyclerView.display(posts, {
