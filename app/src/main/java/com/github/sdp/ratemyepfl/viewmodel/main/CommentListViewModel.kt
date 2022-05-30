@@ -15,7 +15,7 @@ import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,13 +50,13 @@ class CommentListViewModel @Inject constructor(
             comments.postValue(commentRepo.getBySubjectId(id)
                 .toMutableList()
                 .map { comment ->
-                    PostWithAuthor(
+                    ObjectWithAuthor(
                         comment,
                         comment.uid?.let { userRepo.getUserByUid(it) },
                         comment.uid?.let { imageStorage.get(it).catch {  }.lastOrNull() }
                     )
                 }
-                .sortedBy { cwa -> -cwa.post.likers.size })
+                .sortedBy { cwa -> -cwa.obj.likers.size })
         }
     }
 

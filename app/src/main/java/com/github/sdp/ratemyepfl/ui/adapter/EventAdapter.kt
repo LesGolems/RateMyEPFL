@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.google.android.material.button.MaterialButton
 
@@ -18,7 +19,7 @@ class EventAdapter(
     private val registrationListener: (Event) -> Unit,
     private val editListener: (Event) -> Unit
 ) :
-    ListAdapter<Event, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<Event>()) {
+    ListAdapter<EventWithAuthor, EventAdapter.EventViewHolder>(AdapterUtil.diffCallback<EventWithAuthor>()) {
 
     private var uid: String? = null
 
@@ -89,15 +90,15 @@ class EventAdapter(
         /**
          * Bind event
          */
-        fun bind(event: Event) {
-            currentEvent = event
-            eventTextView.text = event.toString()
-            participantsTextView.text = event.showParticipation()
-            val creatorText = "hosted by ${event.creator}"
+        fun bind(ewa: EventWithAuthor) {
+            currentEvent = ewa.obj
+            eventTextView.text = ewa.obj.toString()
+            participantsTextView.text = ewa.obj.showParticipation()
+            val creatorText = "hosted by ${ewa.author?.username}"
             creatorTextView.text = creatorText
 
-            setUpRegisterButton(event)
-            setEditButton(event)
+            setUpRegisterButton(ewa.obj)
+            setEditButton(ewa.obj)
         }
     }
 

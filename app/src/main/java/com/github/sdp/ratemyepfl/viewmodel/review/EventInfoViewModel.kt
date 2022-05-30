@@ -4,16 +4,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.backend.database.Storage
+import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
-import com.github.sdp.ratemyepfl.model.items.Event
+import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventInfoViewModel @Inject constructor(
     private val eventRepo: EventRepository,
+    private val userRepo: UserRepository,
+    private val imageStorage: Storage<ImageFile>,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -21,7 +27,7 @@ class EventInfoViewModel @Inject constructor(
     val id: String =
         savedStateHandle.get<String>(ReviewActivity.EXTRA_ITEM_REVIEWED_ID)!!
 
-    val event = MutableLiveData<Event>()
+    val eventWithAuthor = MutableLiveData<EventWithAuthor>()
 
     init {
         updateEvent()
@@ -29,7 +35,14 @@ class EventInfoViewModel @Inject constructor(
 
     fun updateEvent() {
         viewModelScope.launch {
-            event.postValue(eventRepo.getEventById(id))
+            eventWithAuthor.postValue(
+                eventRepo.getEventById(id)?.let { event ->
+                    EventWithAuthor(
+                        event,
+                        event.creator.let { userRepo.getUserByUid(it) },
+                        event.creator.let { imageStorage.get(it).lastOrNull() })
+                }
+            )
         }
     }
 

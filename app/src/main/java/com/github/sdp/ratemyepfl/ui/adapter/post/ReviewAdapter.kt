@@ -28,7 +28,7 @@ class ReviewAdapter(
         val postWithAuthor = getItem(position)
 
         val rateView: RatingBar = holder.itemView.findViewById(R.id.reviewRatingBar)
-        rateView.rating = postWithAuthor.post.rating.rating.toFloat()
+        rateView.rating = postWithAuthor.obj.rating.rating.toFloat()
     }
 
 }
