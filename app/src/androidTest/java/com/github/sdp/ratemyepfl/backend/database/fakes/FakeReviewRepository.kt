@@ -112,7 +112,7 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override fun getByReviewableId(id: String): Flow<List<Review>> = flow {
-        elements.filter { it.getId() == id }
+        emit(elements.filter { it.getId() == id })
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {

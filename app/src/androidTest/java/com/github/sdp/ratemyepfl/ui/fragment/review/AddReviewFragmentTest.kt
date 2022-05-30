@@ -151,6 +151,6 @@ class AddReviewFragmentTest {
         onView(withId(R.id.addPostTitle)).perform(typeText(title))
         closeSoftKeyboard()
         onView(withId(R.id.doneButton)).perform(click())
-        onView(withId(R.id.postRecyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.reviewTabLayout)).check(matches(isDisplayed()))
     }
 }
