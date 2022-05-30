@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import org.mockito.Mockito
 import javax.inject.Inject
 
@@ -29,9 +30,7 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
         emit(elements.toList())
     }
 
-    override fun addWithId(item: Comment, withId: String): Flow<String> {
-        TODO("Not yet implemented")
-    }
+    override fun addWithId(item: Comment, withId: String): Flow<String> = flowOf(withId)
 
     override suspend fun addUpVote(postId: String, userId: String) {
     }

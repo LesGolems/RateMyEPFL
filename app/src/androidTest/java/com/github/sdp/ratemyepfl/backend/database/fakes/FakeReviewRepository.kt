@@ -8,6 +8,7 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
@@ -146,9 +147,7 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
         }
     }
 
-    override fun addWithId(item: Review, withId: String): Flow<String> {
-        TODO("Not yet implemented")
-    }
+    override fun addWithId(item: Review, withId: String): Flow<String> = flowOf(withId)
 
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
