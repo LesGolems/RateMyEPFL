@@ -72,26 +72,31 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     private fun setupObservers() {
         val firstPicture = viewModel.topUsersPictures.first
         val firstUser = viewModel.topUsers.first
-        setUpNthObservers(firstPicture, userTop1Picture, firstUser, userTop1Name, userTop1Karma)
+        setUpNthPicture(firstPicture, userTop1Picture)
+        setUpNthUser(firstUser, userTop1Name, userTop1Karma)
 
         val secondPicture = viewModel.topUsersPictures.second
         val secondUser = viewModel.topUsers.second
-        setUpNthObservers(secondPicture, userTop2Picture, secondUser, userTop2Name, userTop2Karma)
+        setUpNthPicture(secondPicture, userTop2Picture)
+        setUpNthUser(secondUser, userTop2Name, userTop2Karma)
 
         val thirdPicture = viewModel.topUsersPictures.third
         val thirdUser = viewModel.topUsers.third
-        setUpNthObservers(thirdPicture, userTop3Picture, thirdUser, userTop3Name, userTop3Karma)
+        setUpNthPicture(thirdPicture, userTop3Picture)
+        setUpNthUser(thirdUser, userTop3Name, userTop3Karma)
     }
 
-    private fun setUpNthObservers(nthPicture: MutableLiveData<ImageFile>,
-                                  nthCircleImageView: LoadingCircleImageView,
-                                  nthUser: MutableLiveData<User>, nthNameView: TextView,
-                                  nthKarmaView: TextView) {
+    private fun setUpNthPicture(nthPicture: MutableLiveData<ImageFile>,
+                                nthCircleImageView: LoadingCircleImageView) {
         nthPicture.observe(viewLifecycleOwner) { image ->
             image.let {
                 nthCircleImageView.image.setImageBitmap(it.data)
             }
         }
+    }
+
+    private fun setUpNthUser(nthUser: MutableLiveData<User>, nthNameView: TextView,
+                             nthKarmaView: TextView) {
         nthUser.observe(viewLifecycleOwner) {
             it.let {
                 nthNameView.text = it.username
