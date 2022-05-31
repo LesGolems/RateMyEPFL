@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ReviewableFragment : Fragment(R.layout.fragment_reviewable) {
+class ReviewableFragment : Fragment(R.layout.fragment_review) {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
