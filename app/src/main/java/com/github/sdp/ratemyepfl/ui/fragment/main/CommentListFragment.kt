@@ -131,12 +131,10 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun updateUpVotes(post: Comment, uid: String?) {
         viewModel.updateUpVotes(post, uid)
-        updatePostsList()
     }
 
     override fun updateDownVotes(post: Comment, uid: String?) {
         viewModel.updateDownVotes(post, uid)
-        updatePostsList()
     }
 
     override fun removePost(postId: String) {
