@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class LoadingRecyclerView(
     val recyclerView: RecyclerView,
@@ -34,21 +35,23 @@ class LoadingRecyclerView(
      */
     suspend fun<T> display(result: Flow<List<T>>, onSuccess: (List<T>) -> Unit, onEmptyMessage: () -> String, onError: (String) -> (String)) {
         startLoading()
-        result.catch {
-            it.message?.run {
-                displayTextMessage("Failed to load posts")
-            }
-
-        }
-            .collect {
-                if (it.isEmpty()) {
-                    displayTextMessage("No post for now...")
-                } else {
-                    onSuccess(it)
-                    displayList()
+        withTimeoutOrNull(LOADING_TIMEOUT_MS) {
+            result.catch {
+                it.message?.run {
+                    displayTextMessage("Failed to load posts")
                 }
 
             }
+                .collect {
+                    if (it.isEmpty()) {
+                        displayTextMessage("No post for now...")
+                    } else {
+                        onSuccess(it)
+                        displayList()
+                    }
+
+                }
+        } ?: displayTextMessage(TIMEOUT_ERROR_MESSAGE)
     }
 
     private fun startLoading() {
@@ -56,11 +59,6 @@ class LoadingRecyclerView(
         recyclerView.visibility = View.INVISIBLE
         textView.visibility = View.INVISIBLE
         progressBar.animate()
-    }
-
-
-    private fun stopLoading() {
-        progressBar.visibility = View.INVISIBLE
     }
 
     private fun displayList() {

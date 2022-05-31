@@ -10,6 +10,8 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 
 /**
  * A View that is animated while loading. It allows smooth display for I/O operations.
@@ -20,12 +22,14 @@ open class LoadingView<T: View>(val view: T, val progressBar: ProgressBar) {
 
     open suspend fun<U> display(result: Flow<U>, onCompletion: (U) -> Unit, onError: (String) -> Unit = { makeToastError(it) }) {
         startLoading()
-        result
-            .catch { it.message?.run(onError) }
-            .collect {
-            onCompletion(it)
-        }
-        stopLoading()
+        withTimeoutOrNull(LOADING_TIMEOUT_MS) {
+            result
+                .catch { it.message?.run(onError) }
+                .collect {
+                    onCompletion(it)
+                }
+            stopLoading()
+        } ?: onError(TIMEOUT_ERROR_MESSAGE)
     }
 
     private fun startLoading() {
@@ -42,5 +46,10 @@ open class LoadingView<T: View>(val view: T, val progressBar: ProgressBar) {
     private fun makeToastError(message: String) {
         Toast.makeText(view.context, message, Toast.LENGTH_SHORT)
             .show()
+    }
+
+    companion object {
+        const val LOADING_TIMEOUT_MS = 10000L
+        const val TIMEOUT_ERROR_MESSAGE = "An error occurred. Please try again."
     }
 }
