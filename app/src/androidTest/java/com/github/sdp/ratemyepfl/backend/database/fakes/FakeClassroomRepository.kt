@@ -46,6 +46,6 @@ class FakeClassroomRepository @Inject constructor(
 
     override suspend fun getClassrooms(): List<Classroom> = CLASSROOM_LIST
 
-    override suspend fun getRoomById(id: String): Classroom = roomById
+    override suspend fun getRoomByName(name: String): Classroom = roomById
 
 }

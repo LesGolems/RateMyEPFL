@@ -36,7 +36,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var usernameText: EditText
     private lateinit var modifyButton: ImageButton
 
-    private lateinit var profilePicture: LoadingView<CircleImageView>
+    private lateinit var profilePicture: LoadingCircleImageView
 
     @Inject
     lateinit var currentUser: ConnectedUser
@@ -72,6 +72,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 profilePicture.display(userViewModel.loadImage(), { image ->
                     userViewModel.picture.postValue(image)
                 }) {
+                    userViewModel.picture.postValue(profilePicture.getDefaultImage())
                     Toast.makeText(
                         context,
                         "Failed to download the profile picture",

@@ -8,18 +8,18 @@ import com.google.firebase.firestore.Transaction
 
 interface GradeInfoRepository {
 
-    suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Unit>
+    suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int)
 
     suspend fun addReview(
         item: Reviewable,
         reviewId: String,
         rating: ReviewRating
-    ): Task<Unit>
+    )
 
     suspend fun removeReview(
         item: Reviewable,
         reviewId: String
-    ): Task<Unit>
+    )
 
     suspend fun getGradeInfoById(itemId: String): GradeInfo?
 

@@ -13,8 +13,10 @@ interface CourseRepository : ReviewableRepository<Course> {
     /**
      * Retrieve an course from id.
      *
-     * @return the course if found, otherwise null
+     * @return the course if found
+     *
+     * @throws NoSuchElementException if no elemnt with the provided id exists
      */
-    suspend fun getCourseById(id: String): Course?
+    suspend fun getCourseByCourseCode(courseCode: String): Course
 
 }

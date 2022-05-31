@@ -6,10 +6,10 @@ import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,14 +34,14 @@ class RoomNoiseInfoRepositoryTest {
     fun setup() {
         hiltRule.inject()
         runTest {
-            roomNoiseRepo.add(testRoomNoiseInfo).await()
+            roomNoiseRepo.add(testRoomNoiseInfo).collect()
         }
     }
 
     @Test
     fun addMeasurementWhenIdExists() {
         runTest {
-            roomNoiseRepo.addMeasurement(testRoomNoiseInfo.roomId, testDate, 50).await()
+            roomNoiseRepo.addMeasurement(testRoomNoiseInfo.roomId, testDate, 50)
             val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById(testRoomNoiseInfo.roomId)
             assertNotNull(roomNoiseInfo)
             assertEquals(2, roomNoiseInfo!!.noiseData.size)
@@ -50,11 +50,11 @@ class RoomNoiseInfoRepositoryTest {
 
     @Test
     fun addMeasurementWhenIdNotExists() {
-        runTest {
-            roomNoiseRepo.addMeasurement("new id", testDate, 50).await()
-            val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById("new id")
-            assertNotNull(roomNoiseInfo)
-            assertEquals(1, roomNoiseInfo!!.noiseData.size)
-        }
+            runTest {
+                roomNoiseRepo.addMeasurement("new id", testDate, 50)
+                val roomNoiseInfo = roomNoiseRepo.getRoomNoiseInfoById("new id")
+                assertNotNull(roomNoiseInfo)
+                assertEquals(1, roomNoiseInfo!!.noiseData.size)
+            }
     }
 }

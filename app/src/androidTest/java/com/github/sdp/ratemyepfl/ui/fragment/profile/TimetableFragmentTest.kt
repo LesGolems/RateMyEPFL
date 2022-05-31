@@ -30,6 +30,7 @@ import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils.clickOnViewChild
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.not
@@ -60,20 +61,20 @@ class TimetableFragmentTest {
     fun setUp() {
         hiltAndroidRule.inject()
         courses.forEach {
-            runTest { courseRepo.add(it).await() }
+            runTest { courseRepo.add(it).collect() }
         }
         rooms.forEach {
-            runTest { roomRepo.add(it).await() }
+            runTest { roomRepo.add(it).collect() }
         }
     }
 
     @After
     fun tearDown() {
         courses.forEach {
-            runTest { courseRepo.remove(it.getId()).await() }
+            runTest { courseRepo.remove(it.getId()).collect() }
         }
         rooms.forEach {
-            runTest { roomRepo.remove(it.getId()).await() }
+            runTest { roomRepo.remove(it.getId()).collect() }
         }
 
     }

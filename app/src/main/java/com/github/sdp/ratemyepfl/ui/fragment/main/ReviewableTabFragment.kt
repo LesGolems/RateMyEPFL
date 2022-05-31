@@ -49,7 +49,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
         super.onViewCreated(view, savedInstanceState)
 
         progressBar = view.findViewById(R.id.loadingRecyclerViewProgressBar)
-        progressText = view.findViewById(R.id.loadindRecyclerViewProgressBarText)
+        progressText = view.findViewById(R.id.loadingRecyclerViewText)
 
         val recyclerViewLayout: View = view.findViewById(R.id.reviewableRecyclerViewLayout)
         loadingRecyclerView = LoadingRecyclerView(recyclerViewLayout)

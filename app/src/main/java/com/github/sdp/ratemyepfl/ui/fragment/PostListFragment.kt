@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
@@ -17,25 +18,27 @@ import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
-import com.github.sdp.ratemyepfl.utils.FragmentUtils
+import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
  * Fragment for a list of posts (Review, Subject, Comment)
  */
-abstract class PostListFragment<T : Post>(
+abstract class PostListFragment<T : Post> constructor(
     fragmentLayout: Int,
-    private val postLayout: Int
+    private val postLayout: Int,
+    private val recyclerViewLayout: Int,
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefresher: SwipeRefreshLayout
-    lateinit var noPostTextView: TextView
+    lateinit var loadingRecyclerView: LoadingRecyclerView
 
     lateinit var profilePanel: SlidingUpPanelLayout
     lateinit var authorPanelImage: CircleImageView
@@ -62,8 +65,24 @@ abstract class PostListFragment<T : Post>(
     abstract fun updateDownVotes(post: T, uid: String?)
     abstract fun removePost(postId: String)
 
+    suspend fun displayPosts(
+        posts: Flow<List<ObjectWithAuthor<T>>>,
+        emptyMessage: String,
+    ) {
+        loadingRecyclerView.display(posts, {
+            posts().postValue(it)
+        }, { emptyMessage }, { it })
+    }
+
     open fun initializePostList(view: View) {
-        recyclerView = view.findViewById(R.id.postRecyclerView)
+        val listLayout: View = view.findViewById(recyclerViewLayout)
+        postAdapter = setupAdapter(view)
+        loadingRecyclerView = LoadingRecyclerView(listLayout)
+        loadingRecyclerView.recyclerView
+            .adapter = postAdapter
+        loadingRecyclerView.recyclerView.addItemDecoration(
+            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        )
 
         swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
         swipeRefresher.setOnRefreshListener {
@@ -71,16 +90,8 @@ abstract class PostListFragment<T : Post>(
             swipeRefresher.isRefreshing = false
         }
 
-        postAdapter = setupAdapter(view)
-        recyclerView.adapter = postAdapter
-
         posts().observe(viewLifecycleOwner) {
             it?.let { postAdapter.submitList(it) }
-        }
-
-        noPostTextView = view.findViewById(R.id.noPostText)
-        isEmpty().observe(viewLifecycleOwner) {
-            it?.let { FragmentUtils.emptyList(it, recyclerView, noPostTextView) }
         }
     }
 

@@ -60,7 +60,7 @@ class FakeRestaurantRepository @Inject constructor(val repository: FakeLoaderRep
 
     override suspend fun getRestaurants(): List<Restaurant> = RESTAURANT_LIST
 
-    override suspend fun getRestaurantById(id: String): Restaurant = restaurantById
+    override suspend fun getRestaurantByName(name: String): Restaurant = restaurantById
 
     override suspend fun incrementOccupancy(id: String) {
         occupancyCounter += 1

@@ -6,7 +6,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.*
 import javax.inject.Inject
@@ -31,14 +31,14 @@ class SubjectRepositoryTest {
     fun setup() {
         hiltRule.inject()
         runTest {
-            currentId = subjectRepository.add(testSubject).await()
+            currentId = subjectRepository.add(testSubject).last()
         }
     }
 
     @After
     fun clean() {
         runTest {
-            subjectRepository.remove(currentId).await()
+            subjectRepository.remove(currentId).last()
         }
     }
 
@@ -56,14 +56,12 @@ class SubjectRepositoryTest {
     fun addAndRemoveCommentWorks() {
         runTest {
             subjectRepository.addComment(currentId, "Fake")
-            var subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            var subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(1, subject.comments.size)
             Assert.assertEquals("Fake", subject.comments.first())
 
             subjectRepository.removeComment(currentId, "Fake")
-            subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(0, subject.comments.size)
         }
     }
@@ -72,14 +70,12 @@ class SubjectRepositoryTest {
     fun likersWorks() {
         runTest {
             subjectRepository.addUpVote(currentId, "Fake uid")
-            var subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            var subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(1, subject.likers.size)
             Assert.assertEquals("Fake uid", subject.likers[0])
 
             subjectRepository.removeUpVote(currentId, "Fake uid")
-            subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(0, subject.likers.size)
         }
     }
@@ -88,14 +84,12 @@ class SubjectRepositoryTest {
     fun dislikersWorks() {
         runTest {
             subjectRepository.addDownVote(currentId, "Fake uid")
-            var subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            var subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(1, subject.dislikers.size)
             Assert.assertEquals("Fake uid", subject.dislikers[0])
 
             subjectRepository.removeDownVote(currentId, "Fake uid")
-            subject = subjectRepository.getById(currentId)
-            Assert.assertNotNull(subject!!)
+            subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(0, subject.dislikers.size)
         }
     }

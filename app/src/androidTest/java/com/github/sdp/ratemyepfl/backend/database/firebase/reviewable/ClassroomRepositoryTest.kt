@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.model.items.Classroom
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -26,20 +26,20 @@ class ClassroomRepositoryTest {
     lateinit var roomRepo: ClassroomRepositoryImpl
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        roomRepo.add(testRoom)
+        roomRepo.add(testRoom).collect()
     }
 
     @After
-    fun clean() {
-        roomRepo.remove(testRoom.name)
+    fun clean() = runTest {
+        roomRepo.remove(testRoom.name).collect()
     }
 
     @Test
     fun conversionTest() = runTest {
-        roomRepo.add(testRoom).await()
-        val c = roomRepo.getRoomById(testRoom.getId())
+        roomRepo.add(testRoom).collect()
+        val c = roomRepo.getRoomByName(testRoom.getId())
         assertEquals(testRoom, c)
     }
 
@@ -54,7 +54,7 @@ class ClassroomRepositoryTest {
     @Test
     fun getRoomByIdWorks() {
         runTest {
-            val room = roomRepo.getRoomById(testRoom.name)
+            val room = roomRepo.getRoomByName(testRoom.name)
             assertNotNull(room)
             assertEquals(testRoom.name, room!!.name)
         }

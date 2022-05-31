@@ -5,9 +5,11 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.model.review.Comment
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -37,7 +39,7 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
      *
      * @param item: the [Comment] to add
      */
-    override fun add(item: Comment): Task<String> {
+    override fun add(item: Comment): Flow<String> {
         val document = repository
             .collection
             .document()
@@ -45,19 +47,17 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
         return addWithId(item, document.id)
     }
 
-    override fun addWithId(item: Comment, withId: String): Task<String> =
+    override fun addWithId(item: Comment, withId: String) =
         repository.add(item.withId(withId))
 
-    override suspend fun getBySubjectId(id: String?): List<Comment> =
-        getBy(SUBJECT_ID_FIELD_NAME, id.orEmpty())
-
-    private suspend fun getBy(fieldName: String, value: String): List<Comment> {
-        return repository
+    override fun getBySubjectId(id: String) = flow {
+        val results = repository
             .collection
-            .whereEqualTo(fieldName, value)
+            .whereEqualTo(SUBJECT_ID_FIELD_NAME, id)
             .get()
             .await()
             .mapNotNull { obj -> obj.toComment()?.withId(obj.id) }
+        emit(results)
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {
@@ -65,13 +65,13 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
             if (!comment.likers.contains(userId))
                 comment.copy(likers = comment.likers.plus(userId))
             else comment
-        }.await()
+        }.collect()
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
         repository.update(postId) { comment ->
             comment.copy(likers = comment.likers.minus(userId))
-        }.await()
+        }.collect()
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
@@ -79,12 +79,12 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
             if (!comment.dislikers.contains(userId)) {
                 comment.copy(dislikers = comment.dislikers.plus(userId))
             } else comment
-        }.await()
+        }.collect()
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
         repository.update(postId) { comment ->
             comment.copy(dislikers = comment.dislikers.minus(userId))
-        }.await()
+        }.collect()
     }
 }

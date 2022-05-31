@@ -1,14 +1,12 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.reviewable
 
-import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.toCourse
-import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
+import com.github.sdp.ratemyepfl.backend.database.util.RepositoryUtil
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.ktx.getField
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -16,7 +14,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -33,16 +30,19 @@ class CourseRepositoryTest {
 
     @Inject
     lateinit var courseRepo: CourseRepositoryImpl
+    @Inject
+    lateinit var firebaseFirestore: FirebaseFirestore
 
     @Before
-    fun setup() {
+    fun setup() = runTest {
         hiltRule.inject()
-        courseRepo.add(testCourse)
+        RepositoryUtil.clear(firebaseFirestore.collection(CourseRepositoryImpl.COURSE_COLLECTION_PATH))
+        courseRepo.add(testCourse).collect()
     }
 
     @After
     fun clean() = runTest {
-        courseRepo.remove(testCourse.getId()).await()
+        courseRepo.remove(testCourse.getId()).collect()
     }
 
     @Test
@@ -65,7 +65,7 @@ class CourseRepositoryTest {
     @Test
     fun getCourseByIdWorks() {
         runTest {
-            val course = courseRepo.getCourseById(testCourse.courseCode)
+            val course = courseRepo.getCourseByCourseCode(testCourse.courseCode)
             assertNotNull(course)
             assertEquals(testCourse.courseCode, course!!.courseCode)
             assertEquals(testCourse.title, course.title)

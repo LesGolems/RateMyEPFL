@@ -14,9 +14,15 @@ class LoadingImageView(
     val image: ImageView,
     progressBar: ProgressBar,
     val errorText: TextView,
-    val defaultImageId: Int? = null
+    defaultImageId: Int? = null
 ) : LoadingView<ImageView>(image, progressBar) {
 
+    val defaultImage: ImageFile? = defaultImageId?.let {
+            val context = view.context
+            val inputStream: InputStream = context.resources.openRawResource(it)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            ImageFile("default", bitmap)
+        }
     /**
      * Should be use if the layout contains [R.layout.layout_animated_circle_image_view].
      *
@@ -34,14 +40,8 @@ class LoadingImageView(
         setDefaultImage()
     }
 
-    fun setDefaultImage() = getDefaultImage()?.run {
+    fun setDefaultImage() = defaultImage?.run {
         image.setImageBitmap(this.data)
     }
 
-    private fun getDefaultImage(): ImageFile? = defaultImageId?.let {
-        val context = view.context
-        val inputStream: InputStream = context.resources.openRawResource(it)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        ImageFile("default", bitmap)
-    }
 }

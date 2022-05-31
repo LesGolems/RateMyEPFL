@@ -29,7 +29,7 @@ class CourseInfoViewModel @Inject constructor(
 
     fun updateCourse() {
         viewModelScope.launch {
-            course.postValue(courseRepo.getCourseById(id))
+            course.postValue(courseRepo.getCourseByCourseCode(id))
         }
     }
 

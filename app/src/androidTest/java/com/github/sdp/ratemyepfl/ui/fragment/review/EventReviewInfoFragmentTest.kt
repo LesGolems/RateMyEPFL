@@ -63,7 +63,6 @@ class EventReviewInfoFragmentTest {
 
         val numReviewText = "(No review submitted)"
         onView(withId(R.id.eventNumReview)).check(matches(withText(numReviewText)))
-        FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
     }
 
 }

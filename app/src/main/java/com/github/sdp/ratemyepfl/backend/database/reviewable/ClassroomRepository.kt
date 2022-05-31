@@ -13,8 +13,10 @@ interface ClassroomRepository : ReviewableRepository<Classroom> {
     /**
      * Retrieve an rooms from id.
      *
-     * @return the rooms if found, otherwise null
+     * @return the rooms if found
+     *
+     * @throws NoSuchElementException if no elemnt with the provided id exists
      */
-    suspend fun getRoomById(id: String): Classroom?
+    suspend fun getRoomByName(name: String): Classroom
 
 }
