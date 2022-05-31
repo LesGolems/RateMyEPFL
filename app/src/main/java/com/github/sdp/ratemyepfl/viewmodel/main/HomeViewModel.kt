@@ -51,8 +51,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun addLikeInLiveData(id: String, uid: String?) =
-        subjects.value?.map {
+    private fun addLikeInLiveData(id: String, uid: String?, posts: List<SubjectWithAuthor>?) =
+        posts?.map {
             val subject = it.obj
             if (subject.getId() == id && uid != null) {
                 SubjectWithAuthor(
@@ -65,8 +65,8 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    private fun removeLikeInLiveData(id: String, uid: String?) =
-        subjects.value?.map {
+    private fun removeLikeInLiveData(id: String, uid: String?, posts: List<SubjectWithAuthor>?) =
+        posts?.map {
             val subject = it.obj
             if (subject.getId() == id && uid != null) {
                 SubjectWithAuthor(
@@ -79,8 +79,8 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    private fun addDislikeInLiveData(id: String, uid: String?) =
-        subjects.value?.map {
+    private fun addDislikeInLiveData(id: String, uid: String?, posts: List<SubjectWithAuthor>?) =
+        posts?.map {
             val subject = it.obj
             if (subject.getId() == id && uid != null) {
                 SubjectWithAuthor(
@@ -93,8 +93,8 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    private fun removeDislikeInLiveData(id: String, uid: String?) =
-        subjects.value?.map {
+    private fun removeDislikeInLiveData(id: String, uid: String?, posts: List<SubjectWithAuthor>?) =
+        posts?.map {
             val subject = it.obj
             if (subject.getId() == id && uid != null) {
                 SubjectWithAuthor(
@@ -111,6 +111,7 @@ class HomeViewModel @Inject constructor(
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't dislike your own post")
         val subjectId = subject.getId()
+        var posts = subjects.value
 
         viewModelScope.launch {
             // The user already disliked the review
@@ -118,20 +119,21 @@ class HomeViewModel @Inject constructor(
                 // Remove a dislike
                 subjectRepo.removeDownVote(subjectId, uid)
                 userRepo.updateKarma(authorUid, 1)
-                subjects.postValue(removeDislikeInLiveData(subject.getId(), uid))
+                posts = removeDislikeInLiveData(subject.getId(), uid, posts)
             } else {
                 // The user dislikes for the first time
                 if (subject.likers.contains(uid)) {
                     // The user changed from like to dislike
                     subjectRepo.removeUpVote(subjectId, uid)
                     userRepo.updateKarma(authorUid, -1)
-                    subjects.postValue(removeLikeInLiveData(subject.getId(), uid))
+                    posts = removeLikeInLiveData(subject.getId(), uid, posts)
                 }
                 // Add a dislike
                 subjectRepo.addDownVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
-                subjects.postValue(addDislikeInLiveData(subject.getId(), uid))
+                posts = addDislikeInLiveData(subject.getId(), uid, posts)
             }
+            posts.let { subjects.postValue(it) }
         }
     }
 
@@ -139,6 +141,7 @@ class HomeViewModel @Inject constructor(
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't like your own post")
         val reviewId = subject.getId()
+        var posts = subjects.value
 
         viewModelScope.launch {
             // The user already liked the review
@@ -146,20 +149,21 @@ class HomeViewModel @Inject constructor(
                 // Remove a like
                 subjectRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
-                subjects.postValue(removeLikeInLiveData(subject.getId(), uid))
+                posts = removeLikeInLiveData(subject.getId(), uid, posts)
             } else {
                 // The user likes for the first time
                 if (subject.dislikers.contains(uid)) {
                     // The user changed from dislike to like
                     subjectRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
-                    subjects.postValue(removeDislikeInLiveData(subject.getId(), uid))
+                    posts = removeDislikeInLiveData(subject.getId(), uid, posts)
                 }
                 // Add a like
                 subjectRepo.addUpVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
-                subjects.postValue(addLikeInLiveData(subject.getId(), uid))
+                posts = addLikeInLiveData(subject.getId(), uid, posts)
             }
+            posts.let { subjects.postValue(it) }
         }
     }
 }

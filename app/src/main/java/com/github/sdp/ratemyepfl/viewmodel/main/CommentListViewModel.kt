@@ -61,8 +61,8 @@ class CommentListViewModel @Inject constructor(
         }
     }
 
-    private fun addLikeInLiveData(id: String, uid: String?) =
-        comments.value?.map {
+    private fun addLikeInLiveData(id: String, uid: String?, posts: List<CommentWithAuthor>?) =
+        posts?.map {
             val comment = it.obj
             if (comment.getId() == id && uid != null) {
                 CommentWithAuthor(
@@ -75,8 +75,8 @@ class CommentListViewModel @Inject constructor(
             }
         }
 
-    private fun removeLikeInLiveData(id: String, uid: String?) =
-        comments.value?.map {
+    private fun removeLikeInLiveData(id: String, uid: String?, posts: List<CommentWithAuthor>?) =
+        posts?.map {
             val comment = it.obj
             if (comment.getId() == id && uid != null) {
                 CommentWithAuthor(
@@ -89,8 +89,8 @@ class CommentListViewModel @Inject constructor(
             }
         }
 
-    private fun addDislikeInLiveData(id: String, uid: String?) =
-        comments.value?.map {
+    private fun addDislikeInLiveData(id: String, uid: String?, posts: List<CommentWithAuthor>?) =
+        posts?.map {
             val comment = it.obj
             if (comment.getId() == id && uid != null) {
                 CommentWithAuthor(
@@ -103,8 +103,8 @@ class CommentListViewModel @Inject constructor(
             }
         }
 
-    private fun removeDislikeInLiveData(id: String, uid: String?) =
-        comments.value?.map {
+    private fun removeDislikeInLiveData(id: String, uid: String?, posts: List<CommentWithAuthor>?) =
+        posts?.map {
             val comment = it.obj
             if (comment.getId() == id && uid != null) {
                 CommentWithAuthor(
@@ -121,6 +121,7 @@ class CommentListViewModel @Inject constructor(
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't dislike your own review")
         val commentId = comment.getId()
+        var posts = comments.value
 
         viewModelScope.launch {
             // The user already disliked the review
@@ -128,20 +129,21 @@ class CommentListViewModel @Inject constructor(
                 // Remove a dislike
                 commentRepo.removeDownVote(commentId, uid)
                 userRepo.updateKarma(authorUid, 1)
-                comments.postValue(removeDislikeInLiveData(comment.getId(), uid))
+                posts =removeDislikeInLiveData(comment.getId(), uid, posts)
             } else {
                 // The user dislikes for the first time
                 if (comment.likers.contains(uid)) {
                     // The user changed from like to dislike
                     commentRepo.removeUpVote(commentId, uid)
                     userRepo.updateKarma(authorUid, -1)
-                    comments.postValue(removeLikeInLiveData(comment.getId(), uid))
+                    posts = removeLikeInLiveData(comment.getId(), uid, posts)
                 }
                 // Add a dislike
                 commentRepo.addDownVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
-                comments.postValue(addDislikeInLiveData(comment.getId(), uid))
+                posts = addDislikeInLiveData(comment.getId(), uid, posts)
             }
+            posts.let { comments.postValue(it) }
         }
     }
 
@@ -149,6 +151,7 @@ class CommentListViewModel @Inject constructor(
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't like your own review")
         val reviewId = comment.getId()
+        var posts = comments.value
 
         viewModelScope.launch {
             // The user already liked the review
@@ -156,20 +159,21 @@ class CommentListViewModel @Inject constructor(
                 // Remove a like
                 commentRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
-                comments.postValue(removeLikeInLiveData(comment.getId(), uid))
+                posts = removeLikeInLiveData(comment.getId(), uid, posts)
             } else {
                 // The user likes for the first time
                 if (comment.dislikers.contains(uid)) {
                     // The user changed from dislike to like
                     commentRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
-                    comments.postValue(removeDislikeInLiveData(comment.getId(), uid))
+                    posts = removeDislikeInLiveData(comment.getId(), uid, posts)
                 }
                 // Add a like
                 commentRepo.addUpVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
-                comments.postValue(addLikeInLiveData(comment.getId(), uid))
+                posts = addLikeInLiveData(comment.getId(), uid, posts)
             }
+            posts.let { comments.postValue(it) }
         }
     }
 
