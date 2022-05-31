@@ -61,28 +61,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         modifyButton.setOnClickListener(updateProfile)
     }
 
-    override fun onResume() {
-        refreshProfilePicture()
-        super.onResume()
-    }
-
-    private fun refreshProfilePicture() {
-        userViewModel.viewModelScope
-            .launch {
-                profilePicture.display(userViewModel.loadImage(), { image ->
-                    userViewModel.picture.postValue(image)
-                }) {
-                    userViewModel.picture.postValue(profilePicture.getDefaultImage())
-                    Toast.makeText(
-                        context,
-                        "Failed to download the profile picture",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
-    }
-
     /**
      * Observers handling user information display
      */
