@@ -51,6 +51,62 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun addLikeInLiveData(id: String, uid: String?) =
+        subjects.value?.map {
+            val subject = it.obj
+            if (subject.getId() == id && uid != null) {
+                SubjectWithAuthor(
+                    subject.copy(likers = subject.likers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun removeLikeInLiveData(id: String, uid: String?) =
+        subjects.value?.map {
+            val subject = it.obj
+            if (subject.getId() == id && uid != null) {
+                SubjectWithAuthor(
+                    subject.copy(likers = subject.likers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun addDislikeInLiveData(id: String, uid: String?) =
+        subjects.value?.map {
+            val subject = it.obj
+            if (subject.getId() == id && uid != null) {
+                SubjectWithAuthor(
+                    subject.copy(dislikers = subject.dislikers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun removeDislikeInLiveData(id: String, uid: String?) =
+        subjects.value?.map {
+            val subject = it.obj
+            if (subject.getId() == id && uid != null) {
+                SubjectWithAuthor(
+                    subject.copy(dislikers = subject.dislikers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
     fun updateDownVotes(subject: Subject, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't dislike your own post")
@@ -62,16 +118,19 @@ class HomeViewModel @Inject constructor(
                 // Remove a dislike
                 subjectRepo.removeDownVote(subjectId, uid)
                 userRepo.updateKarma(authorUid, 1)
+                subjects.postValue(removeDislikeInLiveData(subject.getId(), uid))
             } else {
                 // The user dislikes for the first time
                 if (subject.likers.contains(uid)) {
                     // The user changed from like to dislike
                     subjectRepo.removeUpVote(subjectId, uid)
                     userRepo.updateKarma(authorUid, -1)
+                    subjects.postValue(removeLikeInLiveData(subject.getId(), uid))
                 }
                 // Add a dislike
                 subjectRepo.addDownVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
+                subjects.postValue(addDislikeInLiveData(subject.getId(), uid))
             }
         }
     }
@@ -87,16 +146,19 @@ class HomeViewModel @Inject constructor(
                 // Remove a like
                 subjectRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
+                subjects.postValue(removeLikeInLiveData(subject.getId(), uid))
             } else {
                 // The user likes for the first time
                 if (subject.dislikers.contains(uid)) {
                     // The user changed from dislike to like
                     subjectRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
+                    subjects.postValue(removeDislikeInLiveData(subject.getId(), uid))
                 }
                 // Add a like
                 subjectRepo.addUpVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
+                subjects.postValue(addLikeInLiveData(subject.getId(), uid))
             }
         }
     }

@@ -61,6 +61,62 @@ class CommentListViewModel @Inject constructor(
         }
     }
 
+    private fun addLikeInLiveData(id: String, uid: String?) =
+        comments.value?.map {
+            val comment = it.obj
+            if (comment.getId() == id && uid != null) {
+                CommentWithAuthor(
+                    comment.copy(likers = comment.likers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun removeLikeInLiveData(id: String, uid: String?) =
+        comments.value?.map {
+            val comment = it.obj
+            if (comment.getId() == id && uid != null) {
+                CommentWithAuthor(
+                    comment.copy(likers = comment.likers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun addDislikeInLiveData(id: String, uid: String?) =
+        comments.value?.map {
+            val comment = it.obj
+            if (comment.getId() == id && uid != null) {
+                CommentWithAuthor(
+                    comment.copy(dislikers = comment.dislikers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
+    private fun removeDislikeInLiveData(id: String, uid: String?) =
+        comments.value?.map {
+            val comment = it.obj
+            if (comment.getId() == id && uid != null) {
+                CommentWithAuthor(
+                    comment.copy(dislikers = comment.dislikers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
     fun updateDownVotes(comment: Comment, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't dislike your own review")
@@ -72,16 +128,19 @@ class CommentListViewModel @Inject constructor(
                 // Remove a dislike
                 commentRepo.removeDownVote(commentId, uid)
                 userRepo.updateKarma(authorUid, 1)
+                comments.postValue(removeDislikeInLiveData(comment.getId(), uid))
             } else {
                 // The user dislikes for the first time
                 if (comment.likers.contains(uid)) {
                     // The user changed from like to dislike
                     commentRepo.removeUpVote(commentId, uid)
                     userRepo.updateKarma(authorUid, -1)
+                    comments.postValue(removeLikeInLiveData(comment.getId(), uid))
                 }
                 // Add a dislike
                 commentRepo.addDownVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
+                comments.postValue(addDislikeInLiveData(comment.getId(), uid))
             }
         }
     }
@@ -97,16 +156,19 @@ class CommentListViewModel @Inject constructor(
                 // Remove a like
                 commentRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
+                comments.postValue(removeLikeInLiveData(comment.getId(), uid))
             } else {
                 // The user likes for the first time
                 if (comment.dislikers.contains(uid)) {
                     // The user changed from dislike to like
                     commentRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
+                    comments.postValue(removeDislikeInLiveData(comment.getId(), uid))
                 }
                 // Add a like
                 commentRepo.addUpVote(comment.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
+                comments.postValue(addLikeInLiveData(comment.getId(), uid))
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.viewmodel.review
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
@@ -98,65 +97,62 @@ open class ReviewListViewModel @Inject constructor(
         }
     }
 
-    private fun removeLikeInLiveData(id : String, uid : String?) =
+    private fun addLikeInLiveData(id: String, uid: String?) =
         reviews.value?.map {
             val review = it.obj
-            if(review.getId() == id && uid != null){
-                ReviewWithAuthor(
-                    review.copy(likers = review.likers.minus(uid)),
-                    it.author,
-                    it.image
-                )
-            }
-            else {
-                it
-            }
-        }
-
-    private fun addLikeInLiveData(id : String, uid : String?) =
-        reviews.value?.map {
-            val review = it.obj
-            if(review.getId() == id && uid != null){
+            if (review.getId() == id && uid != null) {
                 ReviewWithAuthor(
                     review.copy(likers = review.likers.plus(uid)),
                     it.author,
                     it.image
                 )
-            }
-            else {
+            } else {
                 it
             }
         }
 
-    private fun removeDislikeInLiveData(id : String, uid : String?) =
+    private fun removeLikeInLiveData(id: String, uid: String?) =
         reviews.value?.map {
             val review = it.obj
-            if(review.getId() == id && uid != null){
+            if (review.getId() == id && uid != null) {
                 ReviewWithAuthor(
-                    review.copy(dislikers = review.dislikers.minus(uid)),
+                    review.copy(likers = review.likers.minus(uid)),
                     it.author,
                     it.image
                 )
-            }
-            else {
+            } else {
                 it
             }
         }
 
-    private fun addDislikeInLiveData(id : String, uid : String?) =
+    private fun addDislikeInLiveData(id: String, uid: String?) =
         reviews.value?.map {
             val review = it.obj
-            if(review.getId() == id && uid != null){
+            if (review.getId() == id && uid != null) {
                 ReviewWithAuthor(
                     review.copy(dislikers = review.dislikers.plus(uid)),
                     it.author,
                     it.image
                 )
-            }
-            else {
+            } else {
                 it
             }
         }
+
+    private fun removeDislikeInLiveData(id: String, uid: String?) =
+        reviews.value?.map {
+            val review = it.obj
+            if (review.getId() == id && uid != null) {
+                ReviewWithAuthor(
+                    review.copy(dislikers = review.dislikers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }
+
 
     fun updateUpVotes(review: Review, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
