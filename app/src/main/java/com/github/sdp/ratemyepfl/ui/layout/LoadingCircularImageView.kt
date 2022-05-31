@@ -33,7 +33,7 @@ class LoadingCircleImageView(
         image.setImageBitmap(getDefaultImage().data)
     }
 
-    private fun getDefaultImage(): ImageFile {
+    fun getDefaultImage(): ImageFile {
         val context = view.context
         val inputStream: InputStream = context.resources.openRawResource(defaultImageId)
         val bitmap = BitmapFactory.decodeStream(inputStream)

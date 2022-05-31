@@ -11,6 +11,7 @@ import com.google.firebase.firestore.Query
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -37,7 +38,7 @@ class QueryTest {
     fun setup() {
         hiltRule.inject()
         repository = RepositoryImpl(db, "repositoryTest") { it.toItem() }
-        runTest { initialItems.forEach { repository.add(it) } }
+        runTest { initialItems.forEach { repository.add(it).collect() } }
     }
 
     private val initialItems = (0..11)
@@ -114,7 +115,7 @@ class QueryTest {
         val size = 100
         (0..size).toList()
             .map { Item(it.toString(), it) }
-            .forEach { runTest { repository.add(it).await() } }
+            .forEach { runTest { repository.add(it).collect() } }
 
         runTest {
             repository.query()

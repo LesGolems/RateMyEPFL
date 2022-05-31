@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
+import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.Review
@@ -20,8 +21,10 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @HiltAndroidTest
 @ExperimentalCoroutinesApi
@@ -29,6 +32,14 @@ class CommentListFragmentTest {
 
     @get:Rule
     val hiltAndroidTestRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var repository: CommentRepository
+
+    @Before
+    fun setUp() {
+        hiltAndroidTestRule.inject()
+    }
 
     fun launch() {
         val b = Bundle()
@@ -40,7 +51,7 @@ class CommentListFragmentTest {
      * Like the ([position]+1)-th comment
      */
     private fun likeComment(position: Int) {
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 RecyclerViewUtils.clickOnViewChild(R.id.likeButton)
@@ -52,7 +63,7 @@ class CommentListFragmentTest {
      * Dislike the ([position]+1)-th comment
      */
     private fun dislikeComment(position: Int) {
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 RecyclerViewUtils.clickOnViewChild(R.id.dislikeButton)
@@ -64,15 +75,15 @@ class CommentListFragmentTest {
         onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
     }
 
-    /*@Test
+    @Test
     fun addCommentWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         launch()
 
-        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
+        onView(withId(R.id.author_profile_panel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
         onView(withId(R.id.doneButton)).perform(click())
-    }*/
+    }
 
     @Test
     fun addEmptyCommentDoesNotWork() {
@@ -113,7 +124,7 @@ class CommentListFragmentTest {
     @Test
     fun likeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -132,7 +143,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
-        )
+        ).toSet()
         launch()
 
         likeComment(0)
@@ -143,7 +154,7 @@ class CommentListFragmentTest {
     @Test
     fun dislikeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -162,7 +173,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
-        )
+        ).toSet()
         launch()
 
         dislikeComment(0)
@@ -173,7 +184,7 @@ class CommentListFragmentTest {
     @Test
     fun likeThenDislikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -192,7 +203,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
-        )
+        ).toSet()
         launch()
 
         likeComment(0)
@@ -203,7 +214,7 @@ class CommentListFragmentTest {
     @Test
     fun dislikeThenLikeReview() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -222,7 +233,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
-        )
+        ).toSet()
         launch()
 
         dislikeComment(0)
@@ -245,9 +256,9 @@ class CommentListFragmentTest {
     }
 
     @Test
-    fun deleteButtonRemovesReview() {
+    fun deleteButtonRemovesComment() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -266,11 +277,11 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
-        )
+        ).toSet()
 
         launch()
 
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             RecyclerViewActions.actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 RecyclerViewUtils.clickOnViewChild(R.id.deleteButton)
@@ -279,13 +290,13 @@ class CommentListFragmentTest {
 
         refresh()
 
-        Assert.assertEquals(listOf<Review>(), FakeCommentRepository.commentList)
+        Assert.assertEquals(true, (repository as FakeCommentRepository).elements.isEmpty())
     }
 
     @Test
     fun likeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -304,7 +315,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
-        )
+        ).toSet()
 
         launch()
 
@@ -314,7 +325,7 @@ class CommentListFragmentTest {
     @Test
     fun dislikeItsOwnReviewThrowsException() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
-        FakeCommentRepository.commentList = listOf(
+        (repository as FakeCommentRepository).elements = listOf(
             Comment.Builder()
                 .setSubjectID("id")
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
@@ -333,7 +344,7 @@ class CommentListFragmentTest {
                 )
                 .setUid(FakeConnectedUser.fakeUser1.uid)
                 .build()
-        )
+        ).toSet()
 
         launch()
 

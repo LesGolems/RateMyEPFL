@@ -10,7 +10,9 @@ import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepositor
 import com.github.sdp.ratemyepfl.model.items.Restaurant
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.lastOrNull
 import javax.inject.Inject
 
 class RestaurantRepositoryImpl private constructor(private val repository: LoaderRepository<Restaurant>) :
@@ -72,22 +74,24 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
     }
 
     override suspend fun getRestaurants(): List<Restaurant> =
-        repository.take(FirebaseQuery.DEFAULT_QUERY_LIMIT.toLong())
+        repository.get(FirebaseQuery.MAX_QUERY_LIMIT.toLong())
+            .last()
 
 
-    override suspend fun getRestaurantById(id: String): Restaurant? =
-        repository.getById(id)
+    override suspend fun getRestaurantByName(name: String): Restaurant =
+        repository.getById(name)
+            .last()
 
     override suspend fun incrementOccupancy(id: String) {
         repository.update(id) { restaurant ->
             restaurant.copy(occupancy = restaurant.occupancy + 1)
-        }.await()
+        }.collect()
     }
 
     override suspend fun decrementOccupancy(id: String) {
         repository.update(id) { restaurant ->
             restaurant.copy(occupancy = restaurant.occupancy - 1)
-        }.await()
+        }.collect()
     }
 
 

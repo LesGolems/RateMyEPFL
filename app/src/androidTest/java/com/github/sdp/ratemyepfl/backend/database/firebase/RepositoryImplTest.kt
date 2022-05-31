@@ -7,10 +7,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,8 +53,8 @@ class RepositoryImplTest {
         val data = -1
         val item = Item(id, data)
         runTest {
-            repository.add(item).await()
-            val fetched = repository.getById(id)
+            repository.add(item).collect()
+            val fetched = repository.getById(id).last()
             assertEquals(item, fetched)
         }
         clearRepo()
@@ -65,10 +68,10 @@ class RepositoryImplTest {
         clearRepo()
         runTest {
             initialItems.forEach { _ ->
-                repository.add(item).await()
+                repository.add(item).collect()
             }
-            repository.add(item).await()
-            repository.add(item).await()
+            repository.add(item).collect()
+            repository.add(item).collect()
             val size = repository
                 .collection
                 .get()
@@ -85,10 +88,13 @@ class RepositoryImplTest {
         val data = -1
         val item = Item(id, data)
         runTest {
-            repository.add(item).await()
-            repository.remove(item.getId()).await()
-
-            assertEquals(null, repository.getById(item.getId()))
+            repository.add(item).collect()
+            repository.remove(item.getId()).collect()
+        }
+        assertThrows(NoSuchElementException::class.java) {
+            runTest {
+                repository.getById(item.getId()).last()
+            }
         }
     }
 
@@ -96,7 +102,7 @@ class RepositoryImplTest {
     fun removeNonexistentItemDoesNotModifyTheContent() = runTest {
         clearRepo()
         initialItems.forEach {
-            repository.add(it)
+            repository.add(it).collect()
         }
 
         repository.remove("Some wrong id")
@@ -112,7 +118,7 @@ class RepositoryImplTest {
 
     @Test
     fun queryReturnsAnExecutableQuery() = runTest {
-        repository.add(initialItems[0]).await()
+        repository.add(initialItems[0]).collect()
         repository.query()
             .execute(1u)
             .collect {
@@ -132,7 +138,7 @@ class RepositoryImplTest {
             .map { it.id }
 
         list.forEach {
-            repository.remove(it).await()
+            repository.remove(it).collect()
         }
     }
 
@@ -140,20 +146,23 @@ class RepositoryImplTest {
     fun updateTest() = runTest {
         clearRepo()
         val item = Item("0", 0)
-        repository.add(item).await()
+        repository.add(item).collect()
         repository.update(item.getId()) {
             it.copy(data = 1)
-        }.await()
+        }.collect()
 
-        val x = repository.getById(item.getId())
+        val x = repository.getById(item.getId()).last()
 
-        assertEquals(1, x?.data)
+        assertEquals(1, x.data)
+
     }
 
     @Test
-    fun t() = runTest {
-        assertEquals(null, repository.update("someRandomId") {
-            it
-        }.await())
+    fun updateForNonExistingIdShouldFail() {
+        assertThrows(NoSuchElementException::class.java) {
+            runTest {
+                repository.update("SOME RANDOM ID") { it }.last()
+            }
+        }
     }
 }

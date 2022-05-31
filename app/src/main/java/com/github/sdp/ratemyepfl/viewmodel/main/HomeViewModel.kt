@@ -4,18 +4,18 @@ import androidx.lifecycle.*
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
-
 import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.lastOrNull
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,29 +33,21 @@ class HomeViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-    init {
-        updateSubjectsList()
-    }
-
-    fun updateSubjectsList() {
-        viewModelScope.launch {
-            subjects.postValue(subjectRepo.getSubjects()
-                .toMutableList()
-                .map { subject ->
-                    ObjectWithAuthor(
+    fun getSubjects(): Flow<List<SubjectWithAuthor>> =
+        subjectRepo.get()
+            .map { subjects ->
+                subjects.map { subject ->
+                    SubjectWithAuthor(
                         subject,
                         subject.uid?.let { userRepo.getUserByUid(it) },
-                        subject.uid?.let { imageStorage.get(it).lastOrNull() }
+                        subject.uid?.let { imageStorage.get(it).last() }
                     )
-                }
-                .sortedBy { rwa -> -rwa.obj.likers.size })
-        }
-    }
+                }.sortedBy { rwa -> -rwa.obj.likers.size }
+            }
 
     fun removeSubject(subjectId: String) {
         viewModelScope.launch {
-            subjectRepo.remove(subjectId).await()
-            updateSubjectsList()
+            subjectRepo.remove(subjectId).collect()
         }
     }
 
@@ -81,7 +73,6 @@ class HomeViewModel @Inject constructor(
                 subjectRepo.addDownVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
             }
-            updateSubjectsList()
         }
     }
 
@@ -107,7 +98,6 @@ class HomeViewModel @Inject constructor(
                 subjectRepo.addUpVote(subject.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
             }
-            updateSubjectsList()
         }
     }
 }

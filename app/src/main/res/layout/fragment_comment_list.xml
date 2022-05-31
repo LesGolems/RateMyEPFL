@@ -15,10 +15,16 @@
         sothree:umanoDragView="@id/commentDragView">
 
         <!-- MAIN CONTENT: COMMENT LIST -->
+
         <include
-            layout="@layout/post_list_layout"
+            android:id="@+id/commentRecyclerView"
+            layout="@layout/layout_loading_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+
+            android:layout_margin="16dp"
+            android:scrollbars="vertical" />
+
 
         <!-- DRAGGABLE VIEW: ADD COMMENT -->
         <include

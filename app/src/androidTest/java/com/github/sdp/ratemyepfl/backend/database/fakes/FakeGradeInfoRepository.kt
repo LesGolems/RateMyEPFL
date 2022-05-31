@@ -16,22 +16,16 @@ class FakeGradeInfoRepository @Inject constructor() : GradeInfoRepository {
         var gradeById = NO_REVIEW
     }
 
+    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int) {
+    }
+
+    override suspend fun addReview(item: Reviewable, reviewId: String, rating: ReviewRating) {
+    }
+
+    override suspend fun removeReview(item: Reviewable, reviewId: String) {
+    }
+
     override suspend fun getGradeInfoById(itemId: String): GradeInfo = gradeById
 
 
-    override suspend fun updateLikeRatio(item: Reviewable, reviewId: String, inc: Int): Task<Unit> {
-        return Mockito.mock(Task::class.java) as Task<Unit>
-    }
-
-    override suspend fun addReview(
-        item: Reviewable,
-        reviewId: String,
-        rating: ReviewRating
-    ): Task<Unit> {
-        return Mockito.mock(Task::class.java) as Task<Unit>
-    }
-
-    override suspend fun removeReview(item: Reviewable, reviewId: String): Task<Unit> {
-        return Mockito.mock(Task::class.java) as Task<Unit>
-    }
 }

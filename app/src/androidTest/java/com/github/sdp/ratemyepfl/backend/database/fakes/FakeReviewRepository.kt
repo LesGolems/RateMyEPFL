@@ -5,9 +5,10 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
-import org.mockito.Mockito
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
@@ -96,10 +97,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
         var reviewList = fakeList
     }
 
-    override suspend fun getReviews(): List<Review> {
-        return reviewList
-    }
-
     override suspend fun getReviewById(id: String): Review {
         return Review.Builder()
             .setRating(ReviewRating.EXCELLENT)
@@ -110,20 +107,20 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
             .build()
     }
 
-    override suspend fun getByReviewableId(id: String?): List<Review> {
-        return reviewList
+    override fun getByReviewableId(id: String): Flow<List<Review>> = flow {
+        emit(reviewList)
     }
 
-    override suspend fun addUpVote(reviewId: String, userId: String) {
-        reviewList.map {
-            if (it.getId() == reviewId) {
+    override suspend fun addUpVote(postId: String, userId: String) {
+        reviewList = reviewList.map {
+            if (it.getId() == postId) {
                 it.copy(likers = it.likers.plus(userId))
             } else it
         }
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.likers.minus(userId))
             } else it
@@ -131,7 +128,7 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.dislikers.plus(userId))
             } else it
@@ -139,21 +136,22 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
-        reviewList.map {
+        reviewList = reviewList.map {
             if (it.getId() == postId) {
                 it.copy(likers = it.dislikers.minus(userId))
             } else it
         }
     }
 
-    override fun addWithId(item: Review, withId: String): Task<String> {
-        TODO("Not yet implemented")
+    override fun addWithId(item: Review, withId: String): Flow<String> {
+        reviewList = reviewList.plus(item)
+        return flowOf(withId)
     }
 
     override fun transform(document: DocumentSnapshot): Review? =
         document.toReview()
 
-    override fun remove(id: String): Task<Void> {
+    override fun remove(id: String): Flow<Boolean> {
         val newList = arrayListOf<Review>()
 
         for (r in reviewList) {
@@ -164,6 +162,6 @@ class FakeReviewRepository @Inject constructor() : ReviewRepository, FakeReposit
 
         reviewList = newList
 
-        return Mockito.mock(Task::class.java) as Task<Void>
+        return flowOf(true)
     }
 }

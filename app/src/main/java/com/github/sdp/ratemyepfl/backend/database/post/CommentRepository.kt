@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.post
 
 import com.github.sdp.ratemyepfl.model.review.Comment
+import kotlinx.coroutines.flow.Flow
 
 interface CommentRepository : PostRepository<Comment> {
     /**
@@ -8,5 +9,5 @@ interface CommentRepository : PostRepository<Comment> {
      *
      * @return the list non-null comments of the subject
      */
-    suspend fun getBySubjectId(id: String?): List<Comment>
+    fun getBySubjectId(id: String): Flow<List<Comment>>
 }

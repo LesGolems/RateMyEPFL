@@ -9,6 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -64,7 +66,7 @@ class LoaderRepositoryImplTest {
             it.toItem()
         })
         val query = items.map { repository.add(it) }
-        query.forEach { runTest { it.await() } }
+        query.forEach { runTest { it.collect() } }
         query0 = repository
             .query()
             .whereLessThan(Item.DATA_FIELD, 10)
