@@ -173,6 +173,7 @@
     <string name="last_message_date">last_message_date</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
+    <string name="add_review_string">Give your opinion</string>
 
     -- SUBJECT --
     <string name="create_post">Create post…</string>

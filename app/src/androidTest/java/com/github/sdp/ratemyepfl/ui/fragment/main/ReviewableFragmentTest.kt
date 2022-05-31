@@ -19,6 +19,7 @@ import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -48,16 +49,16 @@ class ReviewableFragmentTest {
     @Before
     fun setup() = runTest {
         hiltAndroidRule.inject()
-        courseRepo.add(FakeCourseRepository.COURSE_LIST[0]).await()
-        classroomRepo.add(FakeClassroomRepository.CLASSROOM_LIST[0]).await()
-        restaurantRepo.add(FakeRestaurantRepository.RESTAURANT_LIST[0]).await()
+        courseRepo.add(FakeCourseRepository.COURSE_LIST[0]).collect()
+        classroomRepo.add(FakeClassroomRepository.CLASSROOM_LIST[0]).collect()
+        restaurantRepo.add(FakeRestaurantRepository.RESTAURANT_LIST[0]).collect()
     }
 
     @After
     fun teardown() = runTest {
-        courseRepo.remove(FakeCourseRepository.COURSE_LIST[0].getId()).await()
-        classroomRepo.remove(FakeClassroomRepository.CLASSROOM_LIST[0].getId()).await()
-        restaurantRepo.remove(FakeRestaurantRepository.RESTAURANT_LIST[0].getId()).await()
+        courseRepo.remove(FakeCourseRepository.COURSE_LIST[0].getId()).collect()
+        classroomRepo.remove(FakeClassroomRepository.CLASSROOM_LIST[0].getId()).collect()
+        restaurantRepo.remove(FakeRestaurantRepository.RESTAURANT_LIST[0].getId()).collect()
 
     }
 

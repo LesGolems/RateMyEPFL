@@ -14,21 +14,25 @@
         android:layout_height="match_parent">
 
         <include
-            layout="@layout/post_list_layout"
+            android:id="@+id/reviewRecyclerView"
+            layout="@layout/layout_loading_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/addReviewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
             android:backgroundTint="@color/white"
-            android:contentDescription="@string/add_review_button"
             android:elevation="50dp"
-            android:src="@drawable/ic_add_circle_white_24dp"
+            android:text="@string/add_review_string"
             app:borderWidth="0dp"
+            app:icon="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,13 +2,14 @@ package com.github.sdp.ratemyepfl.backend.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.Flow
 
 interface EventRepository : ReviewableRepository<Event> {
 
     /**
      * Add an event which already has an id to the database
      */
-    fun addEventWithId(event: Event): Task<String>
+    fun addEventWithId(event: Event): Flow<String>
 
     /**
      * Retrieve the event from the repository
@@ -20,9 +21,11 @@ interface EventRepository : ReviewableRepository<Event> {
     /**
      * Retrieve an event from id.
      *
-     * @return the event if found, otherwise null
+     * @return the event if found
+     *
+     * @throws NoSuchElementException if no element with the provided id exists
      */
-    suspend fun getEventById(id: String): Event?
+    suspend fun getEventById(id: String): Event
 
     /**
      *  Update the number of participants of given event if possible, and returns

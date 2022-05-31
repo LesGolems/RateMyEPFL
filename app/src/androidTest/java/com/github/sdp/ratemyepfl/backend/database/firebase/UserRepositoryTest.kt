@@ -6,7 +6,7 @@ import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -35,12 +35,12 @@ class UserRepositoryTest {
     @Before
     fun setup() = runTest {
         hiltRule.inject()
-        userRepo.add(testUser).await()
+        userRepo.add(testUser).last()
     }
 
     @After
     fun clean() = runTest {
-        userRepo.remove(testUser.uid).await()
+        userRepo.remove(testUser.uid).last()
     }
 
     @Test
@@ -48,7 +48,7 @@ class UserRepositoryTest {
         runTest {
             val updateUser = testUser.copy(username = "newUsername")
             userRepo.update(testUser.getId()) { updateUser }
-                .await()
+                .last()
             val user = userRepo.getUserByUid(testUser.uid)
             assertEquals(updateUser.uid, user?.uid)
             assertEquals(updateUser.username, user?.username)
@@ -139,13 +139,13 @@ class UserRepositoryTest {
 
     @Test
     fun registerWorks() = runTest {
-        userRepo.remove("register").await()
+        userRepo.remove("register").last()
         val user = User("register", "reg", "reg")
-        assertEquals(false, userRepo.register(user).await())
+        assertEquals(false, userRepo.register(user).last())
 
         assertEquals(true, userRepo.getUserByUid("register") != null)
 
-        assertEquals(true, userRepo.register(user).await())
+        assertEquals(true, userRepo.register(user).last())
 
         assertEquals(true, userRepo.getUserByUid("register") != null)
     }

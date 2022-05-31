@@ -7,6 +7,7 @@ import com.github.sdp.ratemyepfl.model.items.Event
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Period
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FakeEventRepository @Inject constructor(val repository: FakeLoaderRepository<Event>) :
@@ -59,9 +60,7 @@ class FakeEventRepository @Inject constructor(val repository: FakeLoaderReposito
     }
 
 
-    override fun addEventWithId(event: Event): Task<String> {
-        return repository.add(event)
-    }
+    override fun addEventWithId(event: Event): Flow<String> = repository.add(event)
 
     override suspend fun getEvents(): List<Event> = eventList
 

@@ -9,15 +9,16 @@ import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.lastOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 /**
@@ -45,30 +46,23 @@ open class ReviewListViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-    init {
-        updateReviewsList()
-    }
-
-    fun updateReviewsList() {
-        viewModelScope.launch {
-            reviews.postValue(reviewRepo.getByReviewableId(id)
-                .toMutableList()
-                .map { review ->
-                    ObjectWithAuthor(
+    fun getReviews(): Flow<List<ReviewWithAuthor>> =
+        reviewRepo.getByReviewableId(id)
+            .map { reviews ->
+                reviews.map { review ->
+                    ReviewWithAuthor(
                         review,
                         review.uid?.let { userRepo.getUserByUid(it) },
                         review.uid?.let { imageStorage.get(it).lastOrNull() }
                     )
                 }
-                .sortedBy { rwa -> -rwa.obj.likers.size })
-        }
-    }
+                    .sortedBy { rwa -> -rwa.obj.likers.size }
+            }
 
     fun removeReview(reviewId: String) {
         viewModelScope.launch {
-            reviewRepo.remove(reviewId).await()
+            reviewRepo.remove(reviewId).collect()
             gradeInfoRepo.removeReview(itemReviewed, reviewId)
-            updateReviewsList()
         }
     }
 
@@ -97,7 +91,6 @@ open class ReviewListViewModel @Inject constructor(
                 userRepo.updateKarma(authorUid, -1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, -1)
             }
-            updateReviewsList()
         }
     }
 
@@ -126,7 +119,6 @@ open class ReviewListViewModel @Inject constructor(
                 userRepo.updateKarma(authorUid, 1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, 1)
             }
-            updateReviewsList()
         }
     }
 }

@@ -36,7 +36,7 @@ class ClassroomInfoViewModel @Inject constructor(
 
     private fun updateRoom() {
         viewModelScope.launch {
-            room.postValue(classroomRepo.getRoomById(id))
+            room.postValue(classroomRepo.getRoomByName(id))
         }
     }
 

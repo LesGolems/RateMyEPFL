@@ -29,7 +29,7 @@ class RestaurantInfoViewModel @Inject constructor(
 
     fun updateRestaurant() {
         viewModelScope.launch {
-            restaurant.postValue(restaurantRepo.getRestaurantById(id))
+            restaurant.postValue(restaurantRepo.getRestaurantByName(id))
         }
     }
 }

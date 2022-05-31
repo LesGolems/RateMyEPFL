@@ -10,6 +10,7 @@ import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepositor
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 
 class CourseRepositoryImpl private constructor(private val repository: LoaderRepository<Course>) :
@@ -112,11 +113,13 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
 
     override suspend fun getCourses(): List<Course> =
         repository
-            .take(FirebaseQuery.DEFAULT_QUERY_LIMIT.toLong())
+            .get(FirebaseQuery.MAX_QUERY_LIMIT.toLong())
+            .last()
 
-    override suspend fun getCourseById(id: String): Course? =
+    override suspend fun getCourseByCourseCode(courseCode: String): Course =
         repository
-            .getById(id)
+            .getById(courseCode)
+            .last()
 
 
 }

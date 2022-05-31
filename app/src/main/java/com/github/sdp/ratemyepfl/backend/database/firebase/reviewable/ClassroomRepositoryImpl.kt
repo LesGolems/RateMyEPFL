@@ -10,6 +10,8 @@ import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepositor
 import com.github.sdp.ratemyepfl.model.items.Classroom
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.lastOrNull
 import javax.inject.Inject
 
 class ClassroomRepositoryImpl private constructor(private val repository: LoaderRepository<Classroom>) :
@@ -48,10 +50,12 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
 
     }
 
-    override suspend fun getClassrooms() = repository.take(FirebaseQuery.DEFAULT_QUERY_LIMIT.toLong())
+    override suspend fun getClassrooms() = repository.get(FirebaseQuery.MAX_QUERY_LIMIT.toLong())
+        .last()
 
 
-    override suspend fun getRoomById(id: String) = repository.getById(id)
+    override suspend fun getRoomByName(name: String) = repository.getById(name)
+        .last()
 
 
 }

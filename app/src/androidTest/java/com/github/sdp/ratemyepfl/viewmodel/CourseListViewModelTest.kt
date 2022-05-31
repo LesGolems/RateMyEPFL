@@ -74,14 +74,14 @@ class CourseListViewModelTest {
     fun setup() {
         hiltAndroidRule.inject()
         courses.forEach {
-            runTest { repository.add(it).await() }
+            runTest { repository.add(it).collect() }
         }
     }
 
     @After
     fun teardown() {
         courses.forEach {
-            runTest { repository.remove(it.getId()).await() }
+            runTest { repository.remove(it.getId()).collect() }
         }
     }
 

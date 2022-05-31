@@ -89,7 +89,7 @@ class ReviewListFragmentTest {
      * Like the ([position]+1)-th review
      */
     private fun likeReview(position: Int) {
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.likeButton)
@@ -101,7 +101,7 @@ class ReviewListFragmentTest {
      * Dislike the ([position]+1)-th review
      */
     private fun dislikeReview(position: Int) {
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 position,
                 clickOnViewChild(R.id.dislikeButton)
@@ -241,12 +241,11 @@ class ReviewListFragmentTest {
     @Test
     fun listIsVisible() {
         launch()
-        onView(withId(R.id.postRecyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.loadingRecyclerView)).check(matches(isDisplayed()))
     }
 
     @Test
     fun swipeRefreshes() {
-        launch()
         FakeReviewRepository.reviewList = listOf(
             Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
@@ -258,11 +257,11 @@ class ReviewListFragmentTest {
                 .setDate(DateTime.now())
                 .build()
         )
-        Thread.sleep(2000) // if no wait, the new list is direclty displayed
+        launch()
         FakeReviewRepository.reviewList = FakeReviewRepository.fakeList
-        onView(withId(R.id.postRecyclerView)).check(matches(hasChildCount(1)))
+        onView(withId(R.id.loadingRecyclerView)).check(matches(hasChildCount(1)))
         onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
-        onView(withId(R.id.postRecyclerView)).check(matches(not(hasChildCount(1))))
+        onView(withId(R.id.loadingRecyclerView)).check(matches(not(hasChildCount(1))))
     }
 
     @Test
@@ -423,7 +422,7 @@ class ReviewListFragmentTest {
 
         launch()
 
-        onView(withId(R.id.postRecyclerView)).perform(
+        onView(withId(R.id.loadingRecyclerView)).perform(
             actionOnItemAtPosition<PostAdapter<Review>.PostViewHolder>(
                 0,
                 clickOnViewChild(R.id.deleteButton)

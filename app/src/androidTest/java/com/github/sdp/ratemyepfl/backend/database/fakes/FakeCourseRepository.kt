@@ -94,6 +94,6 @@ class FakeCourseRepository @Inject constructor(
 
     override suspend fun getCourses(): List<Course> = COURSE_LIST
 
-    override suspend fun getCourseById(id: String): Course = courseById
+    override suspend fun getCourseByCourseCode(courseCode: String): Course = courseById
 
 }

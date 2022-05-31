@@ -6,6 +6,8 @@ import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FakeUserRepository @Inject constructor() : UserRepository,
@@ -57,8 +59,8 @@ class FakeUserRepository @Inject constructor() : UserRepository,
 
     var users = userMap.toMutableMap()
 
-    override suspend fun getUserByUid(uid: String): User? {
-        return users.getOrDefault(uid, null)
+    override suspend fun getUserByUid(uid: String): User {
+        return users.getOrDefault(uid, users.values.first())
     }
 
     override fun getUsersByUsername(username: String): QueryResult<List<User>> =
@@ -68,8 +70,9 @@ class FakeUserRepository @Inject constructor() : UserRepository,
         QueryResult.success(users.filterValues { user -> user.email.equals(email) }.values.toList()[0])
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun register(user: User): Task<Boolean> =
-        Tasks.forResult(true)
+    override suspend fun register(user: User): Flow<Boolean> = flow {
+        emit(true)
+    }
 
     override suspend fun updateKarma(uid: String?, inc: Int) {
         val user1 = users[UID1]!!

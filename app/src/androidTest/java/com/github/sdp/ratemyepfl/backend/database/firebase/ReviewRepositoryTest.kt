@@ -7,7 +7,8 @@ import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -39,14 +40,14 @@ class ReviewRepositoryTest {
     fun setup() {
         hiltRule.inject()
         runTest {
-            reviewRepo.addWithId(testReview, testReview.getId()).await()
+            reviewRepo.addWithId(testReview, testReview.getId()).collect()
         }
     }
 
     @After
     fun clean() {
         runTest {
-            reviewRepo.remove(testReview.getId()).await()
+            reviewRepo.remove(testReview.getId()).last()
         }
     }
 
@@ -60,16 +61,16 @@ class ReviewRepositoryTest {
             DateTime(2022, 4, 8, 0, 0)
         )
         runTest {
-            val id = reviewRepo.add(testReviewNoId).await()
+            val id = reviewRepo.add(testReviewNoId).last()
             assertNotNull(id)
-            reviewRepo.remove(id).await()
+            reviewRepo.remove(id).last()
         }
     }
 
     @Test
     fun getReviewsWorks() {
         runTest {
-            val review = reviewRepo.getReviews()[0]
+            val review = reviewRepo.get().last()[0]
             assertEquals(testReview.getId(), review.getId())
             assertEquals(testReview.title, review.title)
             assertEquals(testReview.comment, review.comment)
@@ -96,7 +97,7 @@ class ReviewRepositoryTest {
     @Test
     fun getReviewByReviewableIdWorks() {
         runTest {
-            val review = reviewRepo.getByReviewableId(testReview.reviewableId)[0]
+            val review = reviewRepo.getByReviewableId(testReview.reviewableId).last()[0]
             assertEquals(testReview.getId(), review.getId())
             assertEquals(testReview.title, review.title)
             assertEquals(testReview.comment, review.comment)
@@ -145,24 +146,25 @@ class ReviewRepositoryTest {
     @Test
     fun addWithIdRegisterWithTheGivenId() = runTest {
         val id = "id"
-        reviewRepo.addWithId(testReview, id).await()
+        reviewRepo.addWithId(testReview, id).collect()
 
-        val fetched = reviewRepo.getById(id)
+        val fetched = reviewRepo.getById(id).last()
         assertEquals(testReview, fetched)
 
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
     }
 
     @Test
     fun addWithoutIdUsesARandomOne() = runTest {
         val title = "addRandom"
         val review = testReview.copy(title = title)
-        val id = reviewRepo.add(review).await()
+        val id = reviewRepo.add(review).last()
 
-        val fetched = reviewRepo.getReviews()
+        val fetched = reviewRepo.get(10L)
+            .last()
             .first { it.title == title }
         assertEquals(review, fetched)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
     }
 
     @Test
@@ -171,14 +173,14 @@ class ReviewRepositoryTest {
 
         reviewRepo.addWithId(
             testReview.copy(likers = listOf("1")), id
-        ).await()
+        ).last()
 
         val uid = "uid"
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf("1", uid), updated.likers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -187,27 +189,27 @@ class ReviewRepositoryTest {
         val uid = "uid"
         val id = "fakeIdAdd"
 
-        reviewRepo.addWithId(testReview.copy(likers = listOf(uid)), id).await()
+        reviewRepo.addWithId(testReview.copy(likers = listOf(uid)), id).collect()
 
         reviewRepo.addUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf(uid), updated.likers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
     @Test
     fun addDownVoteOnceWorks() = runTest {
         val id = "fakeIdAdd"
-        reviewRepo.addWithId(testReview.copy(dislikers = listOf("1")), id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf("1")), id).collect()
 
         val uid = "uid"
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf("1", uid), updated.dislikers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -216,13 +218,13 @@ class ReviewRepositoryTest {
         val uid = "uid"
         val id = "fakeIdAdd"
 
-        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).collect()
 
         reviewRepo.addDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf(uid), updated.dislikers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -231,13 +233,13 @@ class ReviewRepositoryTest {
         val uid = "uid"
         val id = "fakeIdAdd"
 
-        reviewRepo.addWithId(testReview.copy(likers = listOf("uid")), id).await()
+        reviewRepo.addWithId(testReview.copy(likers = listOf("uid")), id).collect()
 
         reviewRepo.removeUpVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf<String>(), updated.likers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -254,13 +256,13 @@ class ReviewRepositoryTest {
             likers = listOf(uid)
         ).withId(id)
 
-        reviewRepo.addWithId(review, id).await()
+        reviewRepo.addWithId(review, id).collect()
 
         reviewRepo.removeUpVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf(uid), updated.likers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -269,13 +271,13 @@ class ReviewRepositoryTest {
         val uid = "uid"
         val id = "fakeIdAdd"
 
-        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).collect()
 
         reviewRepo.removeDownVote(id, uid)
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf<String>(), updated.dislikers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 
@@ -284,13 +286,13 @@ class ReviewRepositoryTest {
         val uid = "uid"
         val id = "fakeIdAdd"
 
-        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).await()
+        reviewRepo.addWithId(testReview.copy(dislikers = listOf(uid)), id).collect()
 
         reviewRepo.removeDownVote(id, "someNonExistingId")
 
-        val updated = reviewRepo.getById(id)!!
+        val updated = reviewRepo.getById(id).last()
         assertEquals(listOf(uid), updated.dislikers)
-        reviewRepo.remove(id).await()
+        reviewRepo.remove(id).last()
         clean()
     }
 }
