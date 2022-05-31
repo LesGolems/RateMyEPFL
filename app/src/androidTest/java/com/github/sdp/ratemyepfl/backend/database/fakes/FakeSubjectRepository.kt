@@ -6,6 +6,7 @@ import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepository<Subject>() {
@@ -43,12 +44,15 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
         var subjectList = fakeList
     }
 
+    init {
+        elements = fakeList.toSet()
+    }
+
     override suspend fun getSubjects(): List<Subject> {
         return subjectList
     }
 
     override suspend fun addComment(subjectId: String, commentId: String) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun removeComment(subjectId: String, commentId: String) {
@@ -60,23 +64,40 @@ class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepos
     }
 
     override fun addWithId(item: Subject, withId: String): Flow<String> {
-        TODO("Not yet implemented")
+        elements = elements.plus(item)
+        return flowOf(withId)
     }
 
     override suspend fun addUpVote(postId: String, userId: String) {
-        TODO("Not yet implemented")
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.likers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeUpVote(postId: String, userId: String) {
-        TODO("Not yet implemented")
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.likers.minus(userId))
+            } else it
+        }
     }
 
     override suspend fun addDownVote(postId: String, userId: String) {
-        TODO("Not yet implemented")
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.dislikers.plus(userId))
+            } else it
+        }
     }
 
     override suspend fun removeDownVote(postId: String, userId: String) {
-        TODO("Not yet implemented")
+        elements.map {
+            if (it.getId() == postId) {
+                it.copy(likers = it.dislikers.minus(userId))
+            } else it
+        }
     }
 
 }

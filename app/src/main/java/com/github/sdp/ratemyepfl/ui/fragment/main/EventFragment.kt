@@ -40,7 +40,7 @@ class EventFragment : Fragment(R.layout.layout_event_list) {
         eventAdapter.setUserId(auth.getUserId())
         recyclerView.adapter = eventAdapter
 
-        viewModel.events
+        viewModel.eventsWithAuthors
             .observe(viewLifecycleOwner) { events ->
                 eventAdapter.submitList(events)
             }

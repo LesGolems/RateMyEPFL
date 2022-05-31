@@ -41,8 +41,12 @@ class EventFragmentTest {
     fun startReviewOnClick() {
         HiltUtils.launchFragmentInHiltContainer<EventFragment> {}
         init()
-        onView(withText(FakeEventRepository.EVENT_LIST[0].toString()))
-            .perform(click())
+        onView(withId(R.id.eventRecyclerView)).perform(
+            actionOnItemAtPosition<EventAdapter.EventViewHolder>(
+                0,
+                click()
+            )
+        )
         intended(toPackage("com.github.sdp.ratemyepfl"))
         release()
     }

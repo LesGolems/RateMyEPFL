@@ -30,7 +30,7 @@ class AddReviewFragment : AddPostFragment<Review>(R.layout.fragment_add_review) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        indicationTitle.text = addReviewViewModel.id
+        indicationTitle.text = addReviewViewModel.item.toStringAddReview()
 
         ratingBar = view.findViewById(R.id.reviewRatingBar)
         ratingBar.setOnRatingBarChangeListener { _, float, _ ->

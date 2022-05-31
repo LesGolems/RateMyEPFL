@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
+import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.adapter.post.ReviewAdapter
@@ -53,11 +53,11 @@ class ReviewListFragment : PostListFragment<Review>(
             viewLifecycleOwner, userViewModel,
             getListener({ review, uid -> updateUpVotes(review, uid) }, view),
             getListener({ review, uid -> updateDownVotes(review, uid) }, view),
-            { rwa -> removePost(rwa.post.getId()) },
+            { rwa -> removePost(rwa.obj.getId()) },
             { rwa -> displayProfilePanel(rwa.author, rwa.image) }
         )
 
-    override fun posts(): MutableLiveData<List<PostWithAuthor<Review>>> {
+    override fun posts(): MutableLiveData<List<ObjectWithAuthor<Review>>> {
         return reviewsViewModel.reviews
     }
 

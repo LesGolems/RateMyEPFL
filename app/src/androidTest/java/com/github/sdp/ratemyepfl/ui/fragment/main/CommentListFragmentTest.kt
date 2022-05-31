@@ -75,15 +75,15 @@ class CommentListFragmentTest {
         onView(withId(R.id.postSwipeRefresh)).perform(swipeDown())
     }
 
-    /*@Test
+    @Test
     fun addCommentWorks() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_2
         launch()
 
-        onView(withId(R.id.slidingAddComment)).perform(swipeUp())
+        onView(withId(R.id.author_profile_panel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-        //onView(withId(R.id.doneButton)).perform(click())
-    }*/
+        onView(withId(R.id.doneButton)).perform(click())
+    }
 
     @Test
     fun addEmptyCommentDoesNotWork() {
@@ -102,7 +102,7 @@ class CommentListFragmentTest {
         onView(withId(R.id.commentPanel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
         onView(withId(R.id.addCommentAnonymousSwitch)).perform(click())
-        //onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.doneButton)).perform(click())
     }
 
     @Test

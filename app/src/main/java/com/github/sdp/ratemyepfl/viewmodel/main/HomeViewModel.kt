@@ -8,7 +8,6 @@ import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.PostWithAuthor
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,18 +33,17 @@ class HomeViewModel @Inject constructor(
     @Inject
     lateinit var auth: ConnectedUser
 
-    fun getSubjects(): Flow<List<PostWithAuthor<Subject>>> =
+    fun getSubjects(): Flow<List<SubjectWithAuthor>> =
         subjectRepo.get()
             .map { subjects ->
                 subjects.map { subject ->
-                    PostWithAuthor(
+                    SubjectWithAuthor(
                         subject,
                         subject.uid?.let { userRepo.getUserByUid(it) },
                         subject.uid?.let { imageStorage.get(it).last() }
                     )
-                }.sortedBy { rwa -> -rwa.post.likers.size }
+                }.sortedBy { rwa -> -rwa.obj.likers.size }
             }
-
 
     fun removeSubject(subjectId: String) {
         viewModelScope.launch {

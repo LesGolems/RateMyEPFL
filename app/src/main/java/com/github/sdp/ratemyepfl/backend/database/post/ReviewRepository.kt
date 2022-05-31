@@ -6,13 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface ReviewRepository : PostRepository<Review> {
 
     /**
-     * Retrieve the reviews from the repository
-     *
-     * @return a list of non-null reviews
-     */
-    suspend fun getReviews(): List<Review>
-
-    /**
      * Retrieve a review from id.
      *
      * @return the review if found, otherwise null
