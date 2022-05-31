@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.layout.LoadingCircleImageView
 import com.github.sdp.ratemyepfl.viewmodel.main.RankingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,49 +70,32 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     }
 
     private fun setupObservers() {
-        setUpFirstObservers()
-        setUpSecondObservers()
-        setUpThirdObservers()
+        val firstPicture = viewModel.topUsersPictures.first
+        val firstUser = viewModel.topUsers.first
+        setUpNthObservers(firstPicture, userTop1Picture, firstUser, userTop1Name, userTop1Karma)
+
+        val secondPicture = viewModel.topUsersPictures.second
+        val secondUser = viewModel.topUsers.second
+        setUpNthObservers(secondPicture, userTop2Picture, secondUser, userTop2Name, userTop2Karma)
+
+        val thirdPicture = viewModel.topUsersPictures.third
+        val thirdUser = viewModel.topUsers.third
+        setUpNthObservers(thirdPicture, userTop3Picture, thirdUser, userTop3Name, userTop3Karma)
     }
 
-    private fun setUpFirstObservers() {
-        viewModel.topUsersPictures.first.observe(viewLifecycleOwner) { image ->
+    private fun setUpNthObservers(nthPicture: MutableLiveData<ImageFile>,
+                                  nthCircleImageView: LoadingCircleImageView,
+                                  nthUser: MutableLiveData<User>, nthNameView: TextView,
+                                  nthKarmaView: TextView) {
+        nthPicture.observe(viewLifecycleOwner) { image ->
             image.let {
-                userTop1Picture.image.setImageBitmap(it.data)
+                nthCircleImageView.image.setImageBitmap(it.data)
             }
         }
-        viewModel.topUsers.first.observe(viewLifecycleOwner) {
+        nthUser.observe(viewLifecycleOwner) {
             it.let {
-                userTop1Name.text = it.username
-                userTop1Karma.text = it.karma.toString()
-            }
-        }
-    }
-
-    private fun setUpSecondObservers() {
-        viewModel.topUsersPictures.second.observe(viewLifecycleOwner) { image ->
-            image.let {
-                userTop2Picture.image.setImageBitmap(it.data)
-            }
-        }
-        viewModel.topUsers.second.observe(viewLifecycleOwner) {
-            it.let {
-                userTop2Name.text = it.username
-                userTop2Karma.text = it.karma.toString()
-            }
-        }
-    }
-
-    private fun setUpThirdObservers() {
-        viewModel.topUsersPictures.third.observe(viewLifecycleOwner) { image ->
-            image.let {
-                userTop3Picture.image.setImageBitmap(it.data)
-            }
-        }
-        viewModel.topUsers.third.observe(viewLifecycleOwner) {
-            it.let {
-                userTop3Name.text = it.username
-                userTop3Karma.text = it.karma.toString()
+                nthNameView.text = it.username
+                nthKarmaView.text = it.karma.toString()
             }
         }
     }
