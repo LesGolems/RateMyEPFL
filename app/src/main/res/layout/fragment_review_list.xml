@@ -31,7 +31,6 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
             android:elevation="50dp"
-            android:text="@string/add_review_string"
             app:borderWidth="0dp"
             app:icon="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
