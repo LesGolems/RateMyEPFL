@@ -26,23 +26,24 @@ class LoadingRecyclerView(
      * @param result: The asynchronous operations that retrieve data to display
      * @param onSuccess: Callback that uses the result. A typical use-case is an update of the view
      *                   model content
-     * @param onEmptyMessage: A action that returns a message to display when there is no data to
+     * @param onEmptyMessage: An action that returns a message to display when there is no data to
      *                        display
      * @param onError: An action to perform with the message from the original error. Returns the
      *                 text to display in case of error.
      *
      */
-    suspend fun<T> display(result: Flow<List<T>>, onSuccess: (List<T>) -> Unit, onEmptyMessage: () -> String, onError: (String) -> (String)) {
+    suspend fun<T> display(result: Flow<List<T>>, onSuccess: (List<T>) -> Unit,
+                           onEmptyMessage: () -> String, onError: (String) -> (String)) {
         startLoading()
         result.catch {
             it.message?.run {
-                displayTextMessage("Failed to load posts")
+                displayTextMessage(onError(this))
             }
 
         }
             .collect {
                 if (it.isEmpty()) {
-                    displayTextMessage("No post for now...")
+                    displayTextMessage(onEmptyMessage())
                 } else {
                     onSuccess(it)
                     displayList()
@@ -82,7 +83,8 @@ class LoadingRecyclerView(
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (!recyclerView.canScrollVertically(1) &&
+                    newState == RecyclerView.SCROLL_STATE_IDLE) {
                     action()
                 }
             }
