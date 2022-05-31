@@ -13,6 +13,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
@@ -38,6 +39,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     private lateinit var loadingRecyclerView: LoadingRecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
+    lateinit var swipeRefresher: SwipeRefreshLayout
 
     private var isSearching: Boolean = false
 
@@ -57,6 +59,12 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
             .adapter = reviewableAdapter
         loadingRecyclerView.setOnReachBottom {
             loadMore()
+        }
+
+        swipeRefresher = view.findViewById(R.id.postSwipeRefresh)
+        swipeRefresher.setOnRefreshListener {
+            refresh()
+            swipeRefresher.isRefreshing = false
         }
         setupSearchBar(view)
         setupControls(view)
@@ -229,7 +237,8 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
                     when (it) {
                         is QueryState.Failure -> throw it.error
                         is QueryState.Loading -> {loadingRecyclerView.textView.visibility = INVISIBLE}
-                        is QueryState.Success -> viewModel.elements.postValue(it.data)
+                        is QueryState.Success ->
+                            viewModel.elements.postValue(it.data)
                     }
                 }) {
                     loadingRecyclerView.textView.text = it
