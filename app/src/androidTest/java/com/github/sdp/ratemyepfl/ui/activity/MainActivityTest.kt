@@ -173,7 +173,7 @@ class MainActivityTest {
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.mainActivityDrawerLayout)).perform(DrawerActions.open())
         onView(withId(R.id.profile)).perform(click())
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
     }
 
     @Test

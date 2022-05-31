@@ -9,8 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,11 +63,12 @@ class ImageStorageTest {
     @Test
     fun imageNotInDbReturnsNull() {
         runTest {
-            var failed = false
+            var image : ImageFile? = null
             imageStorage.get("not in db")
-                .catch { failed = true }
-                .collect {}
-            assertEquals(failed, true)
+                .collect {
+                    image = it
+                }
+            assertNull(image)
         }
     }
 

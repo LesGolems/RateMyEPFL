@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,7 +26,7 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
 
     override fun get(id: String): Flow<ImageFile> = flow {
         val imageRef = storageRef.child("$id$FILE_EXTENSION")
-        emit(getImage(imageRef))
+        getImage(imageRef)?.let { emit(it) }
     }
 
     override suspend fun add(item: ImageFile) {
@@ -48,7 +49,7 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
             .filterNotNull()
 
         for (reference in references) {
-            emit(getImage(reference))
+            getImage(reference)?.let { emit(it) }
         }
     }
 
@@ -63,16 +64,19 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
     /**
      * Returns the [ImageFile] at the reference [imageRef].
      */
-    private suspend fun getImage(imageRef: StorageReference): ImageFile {
-        val id = imageRef.name.dropLast(FILE_EXTENSION.length)
+    private suspend fun getImage(imageRef: StorageReference): ImageFile? =
+        try {
+            val id = imageRef.name.dropLast(FILE_EXTENSION.length)
 
-        val byteArray = imageRef
-            .getBytes(MAX_ITEM_SIZE)
-            .await()
+            val byteArray = imageRef
+                .getBytes(MAX_ITEM_SIZE)
+                .await()
 
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        return ImageFile(id, bitmap)
-    }
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+            ImageFile(id, bitmap)
+        } catch (e : StorageException){
+            null
+        }
 
     /**
      * Adds [item] to the collection at location [path].

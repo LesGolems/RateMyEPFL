@@ -1,6 +1,7 @@
 package com.github.sdp.ratemyepfl.ui.fragment.review
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
@@ -74,12 +75,10 @@ class ReviewListFragment : PostListFragment<Review>(
 
     override fun updateUpVotes(post: Review, uid: String?) {
         reviewsViewModel.updateUpVotes(post, uid)
-        updatePostsList()
     }
 
     override fun updateDownVotes(post: Review, uid: String?) {
         reviewsViewModel.updateDownVotes(post, uid)
-        updatePostsList()
     }
 
     override fun onResume() {

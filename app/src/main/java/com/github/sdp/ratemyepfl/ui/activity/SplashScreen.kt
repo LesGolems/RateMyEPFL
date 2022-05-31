@@ -59,9 +59,7 @@ class SplashScreen : AppCompatActivity() {
         if (user.isLoggedIn()) {
             runBlocking {
                 launch(Dispatchers.IO) {
-                    if (!repository.register(User(user)).last()) {
-                        imageStorage.add(getDefaultProfilePicture().copy(id = user.getUserId()!!))
-                    }
+                    repository.register(User(user)).last()
                 }
             }
             goToMain()

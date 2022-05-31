@@ -46,9 +46,9 @@ class ProfileFragmentTest {
 
     @Test
     fun userProfileVisibleOnLaunch() {
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         onView(withId(R.id.modify_profile_button)).check(matches(isDisplayed()))
     }
 
@@ -63,9 +63,9 @@ class ProfileFragmentTest {
     fun clickOnModifyButtonEnablesModifications() {
         onView(withId(R.id.modify_profile_button)).perform(click())
 
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
 
         onView(withId(R.id.username_text)).check(matches(isEnabled()))
         onView(withId(R.id.emailText)).check(matches(isEnabled()))
@@ -77,9 +77,9 @@ class ProfileFragmentTest {
         onView(withId(R.id.modify_profile_button)).perform(click())
         onView(withId(R.id.modify_profile_button)).perform(click())
 
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         onView(withId(R.id.username_text)).check(matches(isDisplayed()))
-        onView(withId(R.id.profilePictureLoadingImage)).check(matches(isDisplayed()))
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
 
         onView(withId(R.id.username_text)).check(matches(isNotEnabled()))
         onView(withId(R.id.emailText)).check(matches(isNotEnabled()))
