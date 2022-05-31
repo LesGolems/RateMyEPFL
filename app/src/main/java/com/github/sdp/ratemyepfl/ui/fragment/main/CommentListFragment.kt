@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
@@ -45,6 +46,9 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadingRecyclerView.recyclerView.addItemDecoration(
+            DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        )
         viewModel.id = arguments?.getString(EXTRA_SUBJECT_COMMENTED_ID)!!
         emptyListMessage = getString(R.string.empty_post_list_message, "comments")
         initializeAddReview(view)

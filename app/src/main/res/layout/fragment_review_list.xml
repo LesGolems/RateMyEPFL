@@ -18,7 +18,8 @@
             layout="@layout/layout_loading_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="4dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager" />
 
