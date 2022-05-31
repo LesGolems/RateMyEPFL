@@ -59,7 +59,7 @@ class SplashScreen : AppCompatActivity() {
         if (user.isLoggedIn()) {
             runBlocking {
                 launch(Dispatchers.IO) {
-                    repository.register(User(user))
+                    repository.register(User(user)).last()
                 }
             }
             goToMain()
