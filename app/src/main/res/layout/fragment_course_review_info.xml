@@ -17,7 +17,7 @@
             android:layout_height="240dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@raw/course_info_books"/>
+            android:src="@raw/course_info_notebook" />
 
         <ImageView
             android:id="@+id/courseIcon"

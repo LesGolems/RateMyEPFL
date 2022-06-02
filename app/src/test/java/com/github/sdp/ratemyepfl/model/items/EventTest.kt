@@ -35,6 +35,12 @@ class EventTest {
     }
 
     @Test
+    fun withIdWorks() {
+        val e = EXPECTED_EVENT.withId("Team JUL")
+        assertEquals("Team JUL", e.eventId)
+    }
+
+    @Test
     fun toStringWorks() {
         assertEquals(EXPECTED_EVENT.toString(), ID)
     }
@@ -53,6 +59,7 @@ class EventTest {
     @Test
     fun builderSucceedsForMissingNonMandatoryProperties() {
         val fake = "fake"
+        val part = listOf("Jean mi du 13")
         val lat = 0.0
         val long = 0.0
         val g = 1.0
@@ -68,9 +75,10 @@ class EventTest {
             .setNumReviews(n)
             .setNumParticipants(0)
             .setLimitParticipants(70)
+            .setParticipants(part)
 
         val event = builder.build()
-        val expected = Event(fake, fake, 0, 70, listOf(), USER_ID, g, n, lat, long, DATE)
+        val expected = Event(fake, fake, 0, 70, part, USER_ID, g, n, lat, long, DATE)
         assertEquals(event.name, expected.name)
 
         assertEquals(event.eventId, expected.eventId)

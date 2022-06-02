@@ -242,6 +242,11 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
         ).show()
     }
 
+    override fun onStart() {
+        super.onStart()
+        slidingLayout.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
+    }
+
     override fun onResume() {
         super.onResume()
         if (permissionDenied) {
