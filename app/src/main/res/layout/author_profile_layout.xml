@@ -33,14 +33,32 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/golem_badge"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
+            <RelativeLayout
+                android:id="@+id/golem_karma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/author_panel_username"
                 android:layout_toEndOf="@id/author_panel_username"
-                android:src="@raw/golem_gold" />
+                android:layout_marginStart="10dp">
+
+                <ImageView
+                    android:id="@+id/golem_badge"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@raw/golem_gold" />
+
+                <TextView
+                    android:id="@+id/karma_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="35dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="1"
+                    android:fontFamily="@font/pt_sans_bold"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

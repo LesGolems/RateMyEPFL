@@ -46,6 +46,7 @@ abstract class PostListFragment<T : Post> constructor(
     lateinit var authorPanelEmail: TextView
     lateinit var authorPanelEmailIcon: ImageView
     lateinit var golemBadge: ImageView
+    lateinit var karmaCount: TextView
 
     @Inject
     lateinit var connectedUser: ConnectedUser
@@ -109,6 +110,7 @@ abstract class PostListFragment<T : Post> constructor(
         authorPanelEmail = view.findViewById(R.id.author_panel_email)
         authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
         golemBadge = view.findViewById(R.id.golem_badge)
+        karmaCount = view.findViewById(R.id.karma_count)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         profilePanel.setFadeOnClickListener {
@@ -121,6 +123,7 @@ abstract class PostListFragment<T : Post> constructor(
             authorPanelUsername.text = author.username
             authorPanelEmail.text = author.email
 
+            karmaCount.text = author.karma.toString()
             if (author.karma < 0) {
                 setGolemBadge(R.raw.golem_poop)
             } else if (author.karma < 50) {
@@ -130,6 +133,7 @@ abstract class PostListFragment<T : Post> constructor(
             } else {
                 setGolemBadge(R.raw.golem_gold)
             }
+
 
             if (image != null) {
                 authorPanelImage.setImageBitmap(image.data)
