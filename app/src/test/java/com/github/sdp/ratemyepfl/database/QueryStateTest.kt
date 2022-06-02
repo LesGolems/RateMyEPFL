@@ -61,4 +61,10 @@ class QueryStateTest {
         is QueryState.Loading -> 1
         is QueryState.Success -> 2
     }
+
+    @Test
+    fun flatMapPreservesError() {
+        val x = QueryState.failure<Int>(Exception())
+        assertEquals(true, x.flatMap { QueryState.loading<Int>() } is QueryState.Failure)
+    }
 }

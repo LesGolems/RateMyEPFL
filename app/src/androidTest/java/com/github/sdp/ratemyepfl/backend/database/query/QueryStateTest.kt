@@ -44,4 +44,6 @@ class QueryStateTest {
         assertEquals(success, success.mapError { error })
         assertEquals(loading, loading.mapError { error })
     }
+
+
 }

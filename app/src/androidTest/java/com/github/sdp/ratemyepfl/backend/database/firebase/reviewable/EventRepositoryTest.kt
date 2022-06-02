@@ -101,7 +101,7 @@ class EventRepositoryTest {
 
     @Test
     fun cannotExceedTheMaximalNumberOfParticipants() = runTest {
-        val e = testEvent.copy(limitParticipants = 0)
+        val e = testEvent.copy(participants = listOf(), limitParticipants = 0)
         val id = eventRepo.add(e).last()
 
         assertEquals(false, eventRepo.updateParticipants(id, "randomId"))
