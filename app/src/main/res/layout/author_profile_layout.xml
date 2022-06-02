@@ -23,7 +23,7 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="145dp"
+                android:layout_marginStart="150dp"
                 android:layout_marginBottom="20dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/anonymous"
@@ -33,13 +33,32 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <include
-                layout="@layout/karma_display"
+            <RelativeLayout
+                android:id="@+id/golem_karma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="15dp"
-                android:layout_toEndOf="@id/author_panel_username" />
+                android:layout_alignBottom="@id/author_panel_username"
+                android:layout_toEndOf="@id/author_panel_username"
+                android:layout_marginStart="10dp">
+
+                <ImageView
+                    android:id="@+id/golem_badge"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@raw/golem_gold" />
+
+                <TextView
+                    android:id="@+id/karma_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="35dp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="1"
+                    android:fontFamily="@font/pt_sans_bold"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -82,7 +101,7 @@
             android:id="@+id/author_panel_profile_image"
             android:layout_width="125dp"
             android:layout_height="125dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"

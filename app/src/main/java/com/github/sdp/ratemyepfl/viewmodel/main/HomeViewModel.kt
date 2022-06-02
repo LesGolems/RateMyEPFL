@@ -11,10 +11,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,7 +37,7 @@ class HomeViewModel @Inject constructor(
                     SubjectWithAuthor(
                         subject,
                         subject.uid?.let { userRepo.getUserByUid(it) },
-                        subject.uid?.let { imageStorage.get(it).last() }
+                        subject.uid?.let { imageStorage.get(it).lastOrNull() }
                     )
                 }.sortedBy { rwa -> -rwa.obj.likers.size }
             }

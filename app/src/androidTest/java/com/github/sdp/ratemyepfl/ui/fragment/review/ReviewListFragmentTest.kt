@@ -15,6 +15,7 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeImageStorage
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
@@ -54,7 +55,6 @@ class ReviewListFragmentTest {
     val hiltAndroidRule = HiltAndroidRule(this)
 
     fun launch() {
-        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         scenario = ActivityScenario.launch(intent)
         onView(withId(R.id.reviewTabLayout)).perform(
             CustomViewActions.TabAction.selectTabAtPosition(
@@ -112,6 +112,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aPanelDisplaysCorrectUserProfileInformation() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         launch()
         val user = FakeUserRepository.userMap[FakeUserRepository.UID1]
         // load the picture
@@ -144,6 +145,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePanelDisplayedWhenAuthorIsClicked() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
@@ -174,6 +176,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePanelIsHiddenWhenClickingOutside() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
@@ -206,6 +209,7 @@ class ReviewListFragmentTest {
     // 'a' to run this test first
     @Test
     fun aProfilePicturesOfAuthorsAreDisplayed() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         launch()
         val username1 = FakeUserRepository.userMap[FakeUserRepository.UID1]?.username
         // load the picture
@@ -240,12 +244,14 @@ class ReviewListFragmentTest {
 
     @Test
     fun listIsVisible() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         launch()
         onView(withId(R.id.loadingRecyclerView)).check(matches(isDisplayed()))
     }
 
     @Test
     fun swipeRefreshes() {
+        FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
         FakeReviewRepository.reviewList = listOf(
             Review.Builder()
                 .setRating(ReviewRating.EXCELLENT)
@@ -275,16 +281,10 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -292,8 +292,9 @@ class ReviewListFragmentTest {
         launch()
 
         likeReview(0)
-        refresh()
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
         likeReview(0)
+        onView(withId(R.id.likeCount)).check(matches(withText("0")))
     }
 
     @Test
@@ -307,16 +308,10 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -324,8 +319,9 @@ class ReviewListFragmentTest {
         launch()
 
         dislikeReview(0)
-        refresh()
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
         dislikeReview(0)
+        onView(withId(R.id.dislikeCount)).check(matches(withText("0")))
     }
 
     @Test
@@ -339,16 +335,10 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -356,8 +346,9 @@ class ReviewListFragmentTest {
         launch()
 
         likeReview(0)
-        refresh()
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
         dislikeReview(0)
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
     }
 
     @Test
@@ -371,16 +362,10 @@ class ReviewListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -388,8 +373,9 @@ class ReviewListFragmentTest {
         launch()
 
         dislikeReview(0)
-        refresh()
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
         likeReview(0)
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
     }
 
     @Test
@@ -397,6 +383,7 @@ class ReviewListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         launch()
         likeReview(0)
+        checkSnackbarText(DisconnectedUserException.DEFAULT_ERROR_MSG)
     }
 
     @Test
@@ -404,6 +391,7 @@ class ReviewListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         launch()
         dislikeReview(0)
+        checkSnackbarText(DisconnectedUserException.DEFAULT_ERROR_MSG)
     }
 
     @Test

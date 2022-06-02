@@ -65,9 +65,9 @@ class MainActivityTest {
         mManager.setTestProviderLocation(providerName, location)
     }
 
-    // 'a' to run the test first
+    // 'a' to run the test first, because other tests might influence the occupancy count
     @Test
-    fun allocationWorks() {
+    fun alocationWorks() {
         mContext = getInstrumentation().targetContext
         mManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         mManager.addTestProvider(

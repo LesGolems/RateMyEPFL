@@ -161,6 +161,7 @@ class ProfileFragmentTest {
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
         onView(withId(R.id.modify_profile_button)).perform(click())
         onView(withId(R.id.modify_profile_image_button)).perform(click())
+        onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         release()
     }
 }

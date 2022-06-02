@@ -14,4 +14,7 @@ class FakeLoaderRepository<T : RepositoryItem> @Inject constructor() : LoaderRep
 
 
     override fun loaded(query: FirebaseOrderedQuery): List<T>? = null
+    override fun resetLoaded() {
+
+    }
 }

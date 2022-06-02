@@ -3,8 +3,9 @@ package com.github.sdp.ratemyepfl.ui.fragment.main
 import android.os.Bundle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
@@ -12,14 +13,19 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
+import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
+import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils
+import com.github.sdp.ratemyepfl.utils.TestUtils
+import com.github.sdp.ratemyepfl.utils.TestUtils.checkSnackbarText
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.hamcrest.Matchers.not
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -83,6 +89,7 @@ class CommentListFragmentTest {
         onView(withId(R.id.author_profile_panel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
         onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.doneButton)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -92,6 +99,7 @@ class CommentListFragmentTest {
 
         onView(withId(R.id.commentPanel)).perform(swipeUp())
         onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -103,6 +111,7 @@ class CommentListFragmentTest {
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
         onView(withId(R.id.addCommentAnonymousSwitch)).perform(click())
         onView(withId(R.id.doneButton)).perform(click())
+        onView(withId(R.id.doneButton)).check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -112,13 +121,7 @@ class CommentListFragmentTest {
 
         onView(withId(R.id.commentPanel)).perform(swipeUp())
         onView(withId(R.id.addComment)).perform(typeText("my comment"))
-    }
-
-    @Test
-    fun clickOnFadeOut() {
-        launch()
-        onView(withId(R.id.commentPanel)).perform(swipeUp())
-        onView(withId(R.id.commentPanel)).perform(click())
+        onView(withId(R.id.doneButton)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -130,16 +133,10 @@ class CommentListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -147,8 +144,9 @@ class CommentListFragmentTest {
         launch()
 
         likeComment(0)
-        refresh()
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
         likeComment(0)
+        onView(withId(R.id.likeCount)).check(matches(withText("0")))
     }
 
     @Test
@@ -160,16 +158,10 @@ class CommentListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -177,8 +169,9 @@ class CommentListFragmentTest {
         launch()
 
         dislikeComment(0)
-        refresh()
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
         dislikeComment(0)
+        onView(withId(R.id.dislikeCount)).check(matches(withText("0")))
     }
 
     @Test
@@ -190,16 +183,10 @@ class CommentListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -207,8 +194,9 @@ class CommentListFragmentTest {
         launch()
 
         likeComment(0)
-        refresh()
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
         dislikeComment(0)
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
     }
 
     @Test
@@ -220,16 +208,10 @@ class CommentListFragmentTest {
                 .setComment("Regardez moi cet athlète, regardez moi cette plastique.")
                 .setDate(DateTime.now())
                 .setLikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_1,
-                        FakeReviewRepository.FAKE_UID_2
-                    )
+                    listOf()
                 )
                 .setDislikers(
-                    listOf(
-                        FakeReviewRepository.FAKE_UID_3,
-                        FakeReviewRepository.FAKE_UID_4
-                    )
+                    listOf()
                 )
                 .setUid(FakeUserRepository.UID1)
                 .build()
@@ -237,8 +219,9 @@ class CommentListFragmentTest {
         launch()
 
         dislikeComment(0)
-        refresh()
+        onView(withId(R.id.dislikeCount)).check(matches(withText("1")))
         likeComment(0)
+        onView(withId(R.id.likeCount)).check(matches(withText("1")))
     }
 
     @Test
@@ -246,6 +229,7 @@ class CommentListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         launch()
         likeComment(0)
+        checkSnackbarText(DisconnectedUserException.DEFAULT_ERROR_MSG)
     }
 
     @Test
@@ -253,6 +237,7 @@ class CommentListFragmentTest {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
         launch()
         dislikeComment(0)
+        checkSnackbarText(DisconnectedUserException.DEFAULT_ERROR_MSG)
     }
 
     @Test
@@ -320,6 +305,8 @@ class CommentListFragmentTest {
         launch()
 
         likeComment(0)
+
+        checkSnackbarText("You can't like your own review")
     }
 
     @Test
@@ -349,5 +336,7 @@ class CommentListFragmentTest {
         launch()
 
         dislikeComment(0)
+
+        checkSnackbarText("You can't dislike your own review")
     }
 }
