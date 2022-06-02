@@ -29,9 +29,9 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
         getImage(imageRef)?.let { emit(it) }
     }
 
-    override suspend fun add(item: ImageFile) {
+    override suspend fun add(item: ImageFile) =
         addImage(item, item.id)
-    }
+
 
     override suspend fun remove(id: String) {
         storageRef
@@ -53,13 +53,13 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
         }
     }
 
-    override suspend fun addInDirectory(item: ImageFile, dir: String) {
+    override suspend fun addInDirectory(item: ImageFile, dir: String) =
         addImage(item, "$dir/${item.id}")
-    }
 
-    override suspend fun removeInDirectory(id: String, dir: String) {
+
+    override suspend fun removeInDirectory(id: String, dir: String) =
         remove("$dir/${id}")
-    }
+
 
     /**
      * Returns the [ImageFile] at the reference [imageRef].

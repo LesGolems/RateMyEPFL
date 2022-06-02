@@ -52,6 +52,7 @@ class SubjectRepositoryTest {
         }
     }
 
+
     @Test
     fun addAndRemoveCommentWorks() {
         runTest {
@@ -92,5 +93,35 @@ class SubjectRepositoryTest {
             subject = subjectRepository.getById(currentId).last()
             Assert.assertEquals(0, subject.dislikers.size)
         }
+    }
+
+    @Test
+    fun userCanOnlyLikeOnce() = runTest {
+        val likers = listOf("AlreadyLikedUid")
+        subjectRepository.update(testSubject.getId()) {
+            it.copy(likers = likers)
+        }.last()
+
+        subjectRepository.addUpVote(testSubject.getId(), likers.first())
+        assertEquals(
+            likers, subjectRepository.getById(testSubject.getId())
+                .last()
+                .likers
+        )
+    }
+
+    @Test
+    fun userCanOnlyDislikeOnce() = runTest {
+        val dislikers = listOf("AlreadyDislikedUid")
+        subjectRepository.update(testSubject.getId()) {
+            it.copy(dislikers = dislikers)
+        }.last()
+
+        subjectRepository.addUpVote(testSubject.getId(), dislikers.first())
+        assertEquals(
+            dislikers, subjectRepository.getById(testSubject.getId())
+                .last()
+                .dislikers
+        )
     }
 }
