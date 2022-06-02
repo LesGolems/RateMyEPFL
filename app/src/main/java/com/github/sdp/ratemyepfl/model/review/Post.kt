@@ -119,4 +119,17 @@ abstract class Post constructor(
         infix fun <T> asMandatory(field: T?): T =
             field ?: throw IllegalStateException("A mandatory field cannot be null")
     }
+
+    companion object {
+
+        /**
+         * Add the provided element if it is not already contained in the list.
+         *
+         * @param element: element to add.
+         */
+        infix fun<T> List<T>.addIfAbsent(element: T): List<T> =
+            if(this.contains(element)) {
+                this
+            } else this.plus(element)
+    }
 }

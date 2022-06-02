@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.review.Post.Companion.addIfAbsent
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
@@ -62,9 +63,7 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
 
     override suspend fun addUpVote(postId: String, userId: String) {
         repository.update(postId) { comment ->
-            if (!comment.likers.contains(userId))
-                comment.copy(likers = comment.likers.plus(userId))
-            else comment
+            comment.copy(likers = comment.likers addIfAbsent userId)
         }.collect()
     }
 
@@ -76,9 +75,7 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
 
     override suspend fun addDownVote(postId: String, userId: String) {
         repository.update(postId) { comment ->
-            if (!comment.dislikers.contains(userId)) {
-                comment.copy(dislikers = comment.dislikers.plus(userId))
-            } else comment
+            comment.copy(dislikers = comment.dislikers addIfAbsent userId)
         }.collect()
     }
 
@@ -87,4 +84,5 @@ class CommentRepositoryImpl(val repository: RepositoryImpl<Comment>) : CommentRe
             comment.copy(dislikers = comment.dislikers.minus(userId))
         }.collect()
     }
+
 }
