@@ -70,6 +70,7 @@ open class ReviewListViewModel @Inject constructor(
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't dislike your own review")
         val reviewId = review.getId()
+        var posts = reviews.value
 
         viewModelScope.launch {
             // The user already disliked the review
@@ -78,6 +79,7 @@ open class ReviewListViewModel @Inject constructor(
                 reviewRepo.removeDownVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, 1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, 1)
+                posts = removeDislikeInLiveData(review.getId(), uid, posts)
             } else {
                 // The user dislikes for the first time
                 if (review.likers.contains(uid)) {
@@ -85,19 +87,80 @@ open class ReviewListViewModel @Inject constructor(
                     reviewRepo.removeUpVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, -1)
                     gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, -1)
+                    posts = removeLikeInLiveData(review.getId(), uid, posts)
                 }
                 // Add a dislike
                 reviewRepo.addDownVote(review.getId(), uid)
                 userRepo.updateKarma(authorUid, -1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, -1)
+                posts = addDislikeInLiveData(review.getId(), uid, posts)
             }
+            posts.let { reviews.postValue(it) }
         }
     }
+
+    private fun addLikeInLiveData(id: String, uid: String?, posts: List<ReviewWithAuthor>?) =
+        posts?.map {
+            val review = it.obj
+            if (review.getId() == id && uid != null) {
+                ReviewWithAuthor(
+                    review.copy(likers = review.likers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }?.sortedBy { rwa -> -rwa.obj.likers.size }
+
+    private fun removeLikeInLiveData(id: String, uid: String?, posts: List<ReviewWithAuthor>?) =
+        posts?.map {
+            val review = it.obj
+            if (review.getId() == id && uid != null) {
+                ReviewWithAuthor(
+                    review.copy(likers = review.likers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }?.sortedBy { rwa -> -rwa.obj.likers.size }
+
+    private fun addDislikeInLiveData(id: String, uid: String?, posts: List<ReviewWithAuthor>?) =
+        posts?.map {
+            val review = it.obj
+            if (review.getId() == id && uid != null) {
+                ReviewWithAuthor(
+                    review.copy(dislikers = review.dislikers.plus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }?.sortedBy { rwa -> -rwa.obj.likers.size }
+
+    private fun removeDislikeInLiveData(id: String, uid: String?, posts: List<ReviewWithAuthor>?) =
+        posts?.map {
+            val review = it.obj
+            if (review.getId() == id && uid != null) {
+                ReviewWithAuthor(
+                    review.copy(dislikers = review.dislikers.minus(uid)),
+                    it.author,
+                    it.image
+                )
+            } else {
+                it
+            }
+        }?.sortedBy { rwa -> -rwa.obj.likers.size }
+
 
     fun updateUpVotes(review: Review, authorUid: String?) {
         val uid = auth.getUserId() ?: throw DisconnectedUserException()
         if (uid == authorUid) throw VoteException("You can't like your own review")
         val reviewId = review.getId()
+        var posts = reviews.value
 
         viewModelScope.launch {
             // The user already liked the review
@@ -106,6 +169,7 @@ open class ReviewListViewModel @Inject constructor(
                 reviewRepo.removeUpVote(reviewId, uid)
                 userRepo.updateKarma(authorUid, -1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, -1)
+                posts = removeLikeInLiveData(review.getId(), uid, posts)
             } else {
                 // The user likes for the first time
                 if (review.dislikers.contains(uid)) {
@@ -113,12 +177,15 @@ open class ReviewListViewModel @Inject constructor(
                     reviewRepo.removeDownVote(reviewId, uid)
                     userRepo.updateKarma(authorUid, 1)
                     gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, 1)
+                    posts = removeDislikeInLiveData(review.getId(), uid, posts)
                 }
                 // Add a like
                 reviewRepo.addUpVote(review.getId(), uid)
                 userRepo.updateKarma(authorUid, 1)
                 gradeInfoRepo.updateLikeRatio(itemReviewed, reviewId, 1)
+                posts = addLikeInLiveData(review.getId(), uid, posts)
             }
+            posts.let { reviews.postValue(it) }
         }
     }
 }

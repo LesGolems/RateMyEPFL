@@ -1,21 +1,23 @@
 package com.github.sdp.ratemyepfl.ui.fragment.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
+import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.layout.LoadingCircleImageView
 import com.github.sdp.ratemyepfl.viewmodel.main.RankingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class RankingFragment : Fragment(R.layout.fragment_ranking) {
@@ -65,45 +67,40 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
         userTop3Karma = view.findViewById(R.id.userTop3Karma)
 
         setupObservers()
-
-
     }
 
     private fun setupObservers() {
-        viewModel.topUsersPictures.first.observe(viewLifecycleOwner) { image ->
-            image.let {
-                userTop1Picture.image.setImageBitmap(it.data)
-            }
-        }
-        viewModel.topUsersPictures.second.observe(viewLifecycleOwner) { image ->
-            image.let {
-                userTop2Picture.image.setImageBitmap(it.data)
-            }
-        }
-        viewModel.topUsersPictures.third.observe(viewLifecycleOwner) { image ->
-            image.let {
-                userTop3Picture.image.setImageBitmap(it.data)
-            }
-        }
+        val firstPicture = viewModel.topUsersPictures.first
+        val firstUser = viewModel.topUsers.first
+        setUpNthPicture(firstPicture, userTop1Picture)
+        setUpNthUser(firstUser, userTop1Name, userTop1Karma)
 
-        viewModel.topUsers.first.observe(viewLifecycleOwner) {
-            it.let {
-                userTop1Name.text = it.username
-                userTop1Karma.text = it.karma.toString()
+        val secondPicture = viewModel.topUsersPictures.second
+        val secondUser = viewModel.topUsers.second
+        setUpNthPicture(secondPicture, userTop2Picture)
+        setUpNthUser(secondUser, userTop2Name, userTop2Karma)
+
+        val thirdPicture = viewModel.topUsersPictures.third
+        val thirdUser = viewModel.topUsers.third
+        setUpNthPicture(thirdPicture, userTop3Picture)
+        setUpNthUser(thirdUser, userTop3Name, userTop3Karma)
+    }
+
+    private fun setUpNthPicture(nthPicture: MutableLiveData<ImageFile>,
+                                nthCircleImageView: LoadingCircleImageView) {
+        nthPicture.observe(viewLifecycleOwner) { image ->
+            image.let {
+                nthCircleImageView.image.setImageBitmap(it.data)
             }
         }
+    }
 
-        viewModel.topUsers.second.observe(viewLifecycleOwner) {
+    private fun setUpNthUser(nthUser: MutableLiveData<User>, nthNameView: TextView,
+                             nthKarmaView: TextView) {
+        nthUser.observe(viewLifecycleOwner) {
             it.let {
-                userTop2Name.text = it.username
-                userTop2Karma.text = it.karma.toString()
-            }
-        }
-
-        viewModel.topUsers.third.observe(viewLifecycleOwner) {
-            it.let {
-                userTop3Name.text = it.username
-                userTop3Karma.text = it.karma.toString()
+                nthNameView.text = it.username
+                nthKarmaView.text = it.karma.toString()
             }
         }
     }
@@ -113,44 +110,37 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
         refreshUsers()
     }
 
-    fun refreshUsers() {
+    private fun refreshUsers() {
         viewModel.viewModelScope
             .launch {
                 viewModel.refreshUsers().run {
                     val defaultImage = userTop1Picture.getDefaultImage()
                     val firstImage = viewModel.getPicture(this.first)
-                    viewModel.viewModelScope
-                        .launch {
-                            val picture = viewModel.topUsersPictures.first
-                            userTop1Picture.display(firstImage, {
-                                picture.postValue(it)
-                            }) {
-                                picture.postValue(defaultImage)
-                            }
-                        }
+                    viewModel.viewModelScope.launch {
+                        val picture = viewModel.topUsersPictures.first
+                        refreshPicture(picture, firstImage, defaultImage)
+                    }
                     val secondImage = viewModel.getPicture(this.second)
-                    viewModel.viewModelScope
-                        .launch {
-                            val picture = viewModel.topUsersPictures.second
-                            userTop1Picture.display(secondImage, {
-                                picture.postValue(it)
-                            }) {
-                                picture.postValue(defaultImage)
-                            }
-                        }
+                    viewModel.viewModelScope.launch {
+                        val picture = viewModel.topUsersPictures.second
+                        refreshPicture(picture, secondImage, defaultImage)
+                    }
                     val thirdImage = viewModel.getPicture(this.third)
-                    viewModel.viewModelScope
-                        .launch {
-                            val picture = viewModel.topUsersPictures.third
-                            userTop1Picture.display(thirdImage, {
-                                picture.postValue(it)
-                            }) {
-                                picture.postValue(defaultImage)
-                            }
-                        }
-
+                    viewModel.viewModelScope.launch {
+                        val picture = viewModel.topUsersPictures.third
+                        refreshPicture(picture, thirdImage, defaultImage)
+                    }
                 }
             }
     }
 
+    private suspend fun refreshPicture(nthPicture: MutableLiveData<ImageFile>,
+                                       nthImage: Flow<ImageFile>,
+                                       defaultImage: ImageFile) {
+        userTop1Picture.display(nthImage, {
+            nthPicture.postValue(it)
+        }) {
+            nthPicture.postValue(defaultImage)
+        }
+    }
 }

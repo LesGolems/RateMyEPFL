@@ -30,6 +30,11 @@ class TimeTest {
     }
 
     @Test
+    fun sameTimeIsZero() {
+        assertEquals(false, Time(12, 12) > Time(12, 12))
+    }
+
+    @Test
     fun equalityHoldsForSameTime() {
         assertEquals(Time(12, 12), Time(12, 12))
     }

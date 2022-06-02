@@ -40,11 +40,6 @@ class UserViewModel @Inject constructor(
         refreshUser()
     }
 
-    fun loadImage(): Flow<ImageFile> =
-        currentUser.getUserId()?.let {
-            imageStorage.get(it)
-        } ?: throw DisconnectedUserException("Cannot fetch the image of a disconnected user")
-
 
     /**
      * Refreshes the user profile, if the user is not connected set the user and picture to null

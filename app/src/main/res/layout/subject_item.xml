@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="5dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="6dp"
-    app:cardCornerRadius="30dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="5dp">
 
     <RelativeLayout
@@ -115,19 +115,20 @@
 
         <!-- DIVIDER -->
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/subjectDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/subjectMiddleLayout"
             android:layout_centerInParent="true"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="10dp" />
 
         <!-- BOTTOM LAYOUT -->
         <RelativeLayout
             android:id="@+id/subjectBottomLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/subjectMiddleLayout"
-            android:layout_marginTop="10dp">
+            android:layout_below="@id/subjectDivider"
+            android:layout_marginTop="15dp">
 
             <!-- COMMENT -->
             <ImageButton

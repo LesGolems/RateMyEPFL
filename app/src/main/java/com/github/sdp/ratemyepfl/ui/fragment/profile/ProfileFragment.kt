@@ -36,7 +36,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private lateinit var usernameText: EditText
     private lateinit var modifyButton: ImageButton
 
-    private lateinit var profilePicture: LoadingCircleImageView
+    private lateinit var profilePicture: CircleImageView
 
     @Inject
     lateinit var currentUser: ConnectedUser
@@ -46,8 +46,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val profilePictureLayout = view.findViewById<View>(R.id.profilePictureLoadingImage)
-        profilePicture = LoadingCircleImageView(profilePictureLayout, R.raw.blank_profile_picture)
+        profilePicture = view.findViewById(R.id.profile_image)
         cameraIcon = view.findViewById(R.id.modify_profile_image_button)
         emailText = view.findViewById(R.id.emailText)
         usernameText = view.findViewById(R.id.username_text)
@@ -61,34 +60,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         modifyButton.setOnClickListener(updateProfile)
     }
 
-    override fun onResume() {
-        refreshProfilePicture()
-        super.onResume()
-    }
-
-    private fun refreshProfilePicture() {
-        userViewModel.viewModelScope
-            .launch {
-                profilePicture.display(userViewModel.loadImage(), { image ->
-                    userViewModel.picture.postValue(image)
-                }) {
-                    userViewModel.picture.postValue(profilePicture.getDefaultImage())
-                    Toast.makeText(
-                        context,
-                        "Failed to download the profile picture",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
-    }
-
     /**
      * Observers handling user information display
      */
     private fun setUpObservers() {
         userViewModel.picture.observe(viewLifecycleOwner) {
-            profilePicture.view.setImageBitmap(it?.data)
+            profilePicture.setImageBitmap(it?.data)
         }
 
         userViewModel.user.observe(viewLifecycleOwner) {

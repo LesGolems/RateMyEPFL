@@ -20,7 +20,7 @@ data class Duration(
      */
     constructor(minutes: Long) : this(
         (minutes / MINUTES_PER_DAY).toInt(),
-        (minutes / MINUTES_PER_HOUR).toInt(),
+        ((minutes / MINUTES_PER_HOUR) % HOURS_PER_DAY).toInt(),
         (minutes % MINUTES_PER_HOUR).toInt()
     )
 
@@ -45,8 +45,8 @@ data class Duration(
     }
 
     companion object {
-
-        const val MINUTES_PER_DAY = 24 * 60
+        const val HOURS_PER_DAY = 24
+        const val MINUTES_PER_DAY = HOURS_PER_DAY * 60
         const val MINUTES_PER_HOUR = 60
     }
 }
