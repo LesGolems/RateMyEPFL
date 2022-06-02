@@ -64,7 +64,8 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
     /**
      * Returns the [ImageFile] at the reference [imageRef].
      */
-    private suspend fun getImage(imageRef: StorageReference): ImageFile? =
+    private suspend fun getImage(imageRef: StorageReference): ImageFile? = null
+        /*
         try {
             val id = imageRef.name.dropLast(FILE_EXTENSION.length)
 
@@ -76,7 +77,7 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
             ImageFile(id, bitmap)
         } catch (e : StorageException){
             null
-        }
+        }*/
 
     /**
      * Adds [item] to the collection at location [path].
