@@ -5,6 +5,7 @@ import com.github.sdp.ratemyepfl.model.time.Period
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -96,5 +97,15 @@ class EventRepositoryTest {
             assertEquals(0, event.numParticipants)
             assert(!event.participants.contains(USER_ID))
         }
+    }
+
+    @Test
+    fun cannotExceedTheMaximalNumberOfParticipants() = runTest {
+        val e = testEvent.copy(limitParticipants = 0)
+        val id = eventRepo.add(e).last()
+
+        assertEquals(false, eventRepo.updateParticipants(id, "randomId"))
+
+        eventRepo.remove(id).collect()
     }
 }
