@@ -33,13 +33,14 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <include
-                layout="@layout/karma_display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="15dp"
-                android:layout_toEndOf="@id/author_panel_username" />
+            <ImageView
+                android:id="@+id/golem_badge"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_alignBottom="@id/author_panel_username"
+                android:layout_toEndOf="@id/author_panel_username"
+                android:src="@raw/golem_gold" />
 
         </RelativeLayout>
 
@@ -82,7 +83,7 @@
             android:id="@+id/author_panel_profile_image"
             android:layout_width="125dp"
             android:layout_height="125dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="25dp"

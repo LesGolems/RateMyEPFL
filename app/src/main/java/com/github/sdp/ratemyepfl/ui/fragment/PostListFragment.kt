@@ -1,5 +1,6 @@
 package com.github.sdp.ratemyepfl.ui.fragment
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -44,7 +45,7 @@ abstract class PostListFragment<T : Post> constructor(
     lateinit var authorPanelUsername: TextView
     lateinit var authorPanelEmail: TextView
     lateinit var authorPanelEmailIcon: ImageView
-    lateinit var karmaCount: TextView
+    lateinit var golemBadge: ImageView
 
     @Inject
     lateinit var connectedUser: ConnectedUser
@@ -107,7 +108,7 @@ abstract class PostListFragment<T : Post> constructor(
         authorPanelUsername = view.findViewById(R.id.author_panel_username)
         authorPanelEmail = view.findViewById(R.id.author_panel_email)
         authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
-        karmaCount = view.findViewById(R.id.karmaCount)
+        golemBadge = view.findViewById(R.id.golem_badge)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         profilePanel.setFadeOnClickListener {
@@ -119,13 +120,27 @@ abstract class PostListFragment<T : Post> constructor(
         if (author != null) {
             authorPanelUsername.text = author.username
             authorPanelEmail.text = author.email
-            karmaCount.text = author.karma.toString()
+
+            if (author.karma < 0) {
+                setGolemBadge(R.raw.golem_poop)
+            } else if (author.karma < 50) {
+                setGolemBadge(R.raw.golem_bronze)
+            } else if (author.karma < 100) {
+                setGolemBadge(R.raw.golem_silver)
+            } else {
+                setGolemBadge(R.raw.golem_gold)
+            }
 
             if (image != null) {
                 authorPanelImage.setImageBitmap(image.data)
             }
             profilePanel.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         }
+    }
+
+    private fun setGolemBadge(resId: Int) {
+        val imageStream = resources.openRawResource(resId)
+        golemBadge.setImageBitmap(BitmapFactory.decodeStream(imageStream))
     }
 
     override fun onResume() {
