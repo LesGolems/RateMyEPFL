@@ -1,11 +1,13 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.query.QueryState
+import com.github.sdp.ratemyepfl.exceptions.DatabaseException
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -148,5 +150,44 @@ class UserRepositoryTest {
         assertEquals(true, userRepo.register(user).last())
 
         assertEquals(true, userRepo.getUserByUid("register") != null)
+    }
+
+    @Test
+    fun getTopKarmaUsersReturnsAListOfUserWithHighestKarma() = runTest {
+        val user = User("default", "default", "default", 0)
+        val karmaUsers = (0..19).map {
+            user.copy(uid = it.toString(), karma = it)
+        }.toList()
+
+        for (u in karmaUsers) {
+            userRepo.add(u).collect()
+        }
+
+        userRepo.getTopKarmaUsers()
+            .collect {
+                when(it)  {
+                    is QueryState.Failure -> throw Exception("Should succeed")
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> {
+                        assertEquals(it.data.sortedBy { -it.karma }, it.data)
+                    }
+                }
+            }
+
+        for (u in karmaUsers) {
+            userRepo.remove(u.getId()).collect()
+        }
+    }
+
+    @Test
+    fun inexistantEmailThrowsAnException() = runTest {
+        userRepo.getUserByEmail("SomeInexistantEmail123@inexistence.com")
+            .collect {
+                when(it) {
+                    is QueryState.Failure -> assertEquals(true, it.error is DatabaseException)
+                    is QueryState.Loading -> {}
+                    is QueryState.Success -> throw Exception("Should fail")
+                }
+            }
     }
 }
