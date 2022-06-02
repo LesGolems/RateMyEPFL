@@ -25,6 +25,7 @@ sealed class ReviewableListViewModel<T : Reviewable>(
 
     private var currentFilter: ReviewableFilter<T> = defaultFilter
 
+
     /**
      * Search for a prefix in a default field (corresponding to the [toString] definition).
      *
@@ -77,6 +78,10 @@ sealed class ReviewableListViewModel<T : Reviewable>(
         return if (loaded != null) {
             postResult(QueryResult.success(loaded), filter)
         } else load(filter, number)
+    }
+
+    fun resetRepo(){
+        repository.resetLoaded()
     }
 
     /**
