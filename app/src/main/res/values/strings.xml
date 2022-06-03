@@ -150,6 +150,8 @@
     <string name="room_class_creation">Click here to select a room</string>
     <string name="failed_to_retrieve_the_picture_text">Failed to retrieve the picture</string>
     <string name="content_description_loading_image">%s</string>
+    <string name="button_for_recording_the_intensity_of_a_room">Button for recording the intensity of a room</string>
+    <string name="noise_reaction_face">Noise reaction face</string>
 
     -- SUBJECT --
     <string name="create_post">Create post…</string>
@@ -177,5 +179,5 @@
     <string name="picture_of_the_top_2_user">Picture of the top 2 user</string>
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="podium_title">Best Karma Raters</string>
-    <string name="noise_reaction_face">Noise reaction face</string>
+    <string name="live_noise_reaction_face">Live noise reaction face</string>
 </resources>

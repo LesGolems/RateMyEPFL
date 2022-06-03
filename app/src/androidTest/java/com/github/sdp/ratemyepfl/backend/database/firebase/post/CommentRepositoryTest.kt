@@ -3,13 +3,13 @@ package com.github.sdp.ratemyepfl.backend.database.firebase.post
 import com.github.sdp.ratemyepfl.model.review.Comment
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
 import org.junit.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -58,12 +58,12 @@ class CommentRepositoryTest {
         runTest {
             commentRepository.addUpVote(currentId, "Fake uid")
             var comment = commentRepository.getById(currentId).last()
-            Assert.assertEquals(1, comment.likers.size)
-            Assert.assertEquals("Fake uid", comment.likers[0])
+            assertEquals(1, comment.likers.size)
+            assertEquals("Fake uid", comment.likers[0])
 
             commentRepository.removeUpVote(currentId, "Fake uid")
             comment = commentRepository.getById(currentId).last()
-            Assert.assertEquals(0, comment.likers.size)
+            assertEquals(0, comment.likers.size)
         }
     }
 
@@ -72,14 +72,14 @@ class CommentRepositoryTest {
         runTest {
             commentRepository.addDownVote(currentId, "Fake uid")
             var comment = commentRepository.getById(currentId).last()
-            Assert.assertNotNull(comment)
-            Assert.assertEquals(1, comment.dislikers.size)
-            Assert.assertEquals("Fake uid", comment.dislikers[0])
+            assertNotNull(comment)
+            assertEquals(1, comment.dislikers.size)
+            assertEquals("Fake uid", comment.dislikers[0])
 
             commentRepository.removeDownVote(currentId, "Fake uid")
             comment = commentRepository.getById(currentId).last()
-            Assert.assertNotNull(comment)
-            Assert.assertEquals(0, comment.dislikers.size)
+            assertNotNull(comment)
+            assertEquals(0, comment.dislikers.size)
         }
     }
 }

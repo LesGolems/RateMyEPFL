@@ -56,7 +56,7 @@ data class Review constructor(
         /**
          * Builds the corresponding [Review]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Review {
             val postId = this.postId ?: ""

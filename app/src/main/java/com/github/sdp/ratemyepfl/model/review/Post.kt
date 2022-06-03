@@ -27,11 +27,10 @@ abstract class Post constructor(
     open var dislikers: List<String> = listOf()
 ) : RepositoryItem {
 
-
     override fun getId(): String = postId
 
     /**
-     * Set the id of the [Post]
+     * Set the id of this post
      *
      * @param id: Unique identifier of the post
      *
@@ -41,10 +40,6 @@ abstract class Post constructor(
 
     /**
      * Allows to create a Post incrementally.
-     * NB: Even if a user can create a post incrementally, he
-     * must specify every property of the post.
-     *
-     * Mandatory: [title], [comment], [date], [uid], [likers], [dislikers]
      */
     abstract class Builder<T : Post>(
         protected var postId: String? = null,

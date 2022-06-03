@@ -19,11 +19,10 @@ data class RoomNoiseInfo(
             val roomId = this.roomId
             val noiseData = this.noiseData ?: listOf()
 
-            if (roomId != null) {
-                return RoomNoiseInfo(roomId, noiseData)
-            } else {
+            if (roomId == null)
                 throw IllegalStateException("Cannot build a room noise info with null arguments")
-            }
+
+            return RoomNoiseInfo(roomId, noiseData)
         }
     }
 }

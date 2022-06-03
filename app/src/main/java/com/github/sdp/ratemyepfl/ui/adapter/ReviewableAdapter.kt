@@ -1,7 +1,5 @@
 package com.github.sdp.ratemyepfl.ui.adapter
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -65,7 +63,6 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             grade.text = sb
-            //setGradeColor(reviewable, layout)
         }
     }
 
@@ -86,38 +83,4 @@ class ReviewableAdapter(private val onClick: (Reviewable) -> Unit) :
         holder.bind(room)
     }
 
-    private fun setGradeColor(reviewable: Reviewable, layout: FrameLayout) {
-        when {
-            reviewable.numReviews == 0 -> {
-                layout.background.setColorFilter(
-                    Color.parseColor("#ff807F7F"),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-            reviewable.grade <= 2 -> {
-                layout.background.setColorFilter(
-                    Color.parseColor("#ffFA1313"),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-            reviewable.grade <= 3 -> {
-                layout.background.setColorFilter(
-                    Color.parseColor("#ffFFB51E"),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-            reviewable.grade <= 4 -> {
-                layout.background.setColorFilter(
-                    Color.parseColor("#ff99E44C"),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-            reviewable.grade <= 5 -> {
-                layout.background.setColorFilter(
-                    Color.parseColor("#ff99CF04"),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-        }
-    }
 }
