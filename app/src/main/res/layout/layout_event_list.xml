@@ -17,10 +17,10 @@
         android:id="@+id/addEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pt_sans_bold"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:layout_weight="0"
+        android:fontFamily="@font/pt_sans_bold"
         android:text="@string/add_event" />
 
 </LinearLayout>

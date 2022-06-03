@@ -34,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/eventIcon"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:cardCornerRadius="10dp">
 
@@ -73,9 +73,9 @@
             android:id="@+id/eventInfoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/cardEventName"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/cardEventName">
+            android:layout_marginTop="40dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -93,11 +93,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/event_date_info_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -107,11 +107,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:maxWidth="260dp"
                     android:fontFamily="@font/pt_sans_bold"
+                    android:maxWidth="260dp"
                     android:text="@string/event_date_info"
-                    android:textSize="20sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -130,11 +130,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/event_time_info_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -144,10 +144,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:textSize="20sp"
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="@string/event_time_info"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
         </TableLayout>
 
@@ -163,8 +163,8 @@
             android:id="@+id/cardParticipation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignBottom="@id/participationGauge"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="7dp"
             app:cardBackgroundColor="@color/secondaryColor">
 
@@ -173,11 +173,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:paddingHorizontal="5dp"
                 android:fontFamily="@font/pt_sans_bold"
+                android:paddingHorizontal="5dp"
                 android:text="@string/event_participation_info_text"
                 android:textColor="@color/backgroundColor"
-                android:textSize="11sp"/>
+                android:textSize="11sp" />
 
         </androidx.cardview.widget.CardView>
 
@@ -186,8 +186,8 @@
             android:layout_width="200dp"
             android:layout_height="52dp"
             android:layout_below="@id/participationGauge"
-            android:layout_marginTop="40dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
             app:cardCornerRadius="30dp">
 
             <RatingBar

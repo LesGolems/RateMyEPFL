@@ -9,21 +9,21 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/failed_to_retrieve_the_picture_text"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/loadingImageProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/loadingImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/content_description_loading_image"
         android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
+        android:contentDescription="@string/content_description_loading_image"
+        android:scaleType="centerCrop" />
 
 </RelativeLayout>

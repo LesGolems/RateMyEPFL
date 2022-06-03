@@ -47,12 +47,12 @@
                 android:layout_centerHorizontal="true"
                 android:autofillHints=""
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/pt_sans_bold"
                 android:hint="@string/username"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:fontFamily="@font/pt_sans_bold"
                 android:textSize="52sp"
                 android:textStyle="bold" />
 
@@ -81,10 +81,10 @@
                 android:layout_marginStart="50dp"
                 android:autofillHints=""
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/pt_sans"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:selectAllOnFocus="true"
-                android:fontFamily="@font/pt_sans"
                 android:textSize="26sp" />
 
             <View

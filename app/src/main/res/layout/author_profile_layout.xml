@@ -38,8 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/author_panel_username"
-                android:layout_toEndOf="@id/author_panel_username"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/author_panel_username">
 
                 <ImageView
                     android:id="@+id/golem_badge"
@@ -53,10 +53,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="35dp"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:text="1"
-                    android:fontFamily="@font/pt_sans_bold"/>
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 

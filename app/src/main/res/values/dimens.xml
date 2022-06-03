@@ -6,6 +6,6 @@
     <dimen name="clusterItemWidth">384dp</dimen>
     <dimen name="clusterItemHeight">216dp</dimen>
 
-    <dimen name="classheight">74dp</dimen>
+    <dimen name="classHeight">74dp</dimen>
 
 </resources>
