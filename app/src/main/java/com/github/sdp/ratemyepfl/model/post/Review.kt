@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.model.review
+package com.github.sdp.ratemyepfl.model.post
 
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
@@ -56,7 +56,7 @@ data class Review constructor(
         /**
          * Builds the corresponding [Review]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Review {
             val postId = this.postId ?: ""

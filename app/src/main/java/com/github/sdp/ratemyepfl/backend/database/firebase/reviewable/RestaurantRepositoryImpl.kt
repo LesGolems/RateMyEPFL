@@ -12,7 +12,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
 import javax.inject.Inject
 
 class RestaurantRepositoryImpl private constructor(private val repository: LoaderRepository<Restaurant>) :
@@ -30,9 +29,6 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
     companion object {
         const val RESTAURANT_NAME_FIELD_NAME: String = "name"
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
-        const val LATITUDE_FIELD_NAME = "lat"
-        const val LONGITUDE_FIELD_NAME = "long"
-        const val OCCUPANCY_FIELD_NAME = "occupancy"
 
         val OFFLINE_RESTAURANTS = listOf(
             Restaurant(

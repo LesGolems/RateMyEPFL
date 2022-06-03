@@ -1,3 +1,3 @@
 package com.github.sdp.ratemyepfl.exceptions
 
-class QueryExecutionException(error: String) : Throwable(error) {}
+class QueryExecutionException(error: String) : Throwable(error)

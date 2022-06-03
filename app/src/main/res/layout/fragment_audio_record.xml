@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        app:layoutManager="LinearLayoutManager">
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layoutManager="LinearLayoutManager" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/popUpButton"
@@ -21,6 +20,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@color/white"
+        android:contentDescription="@string/button_for_recording_the_intensity_of_a_room"
         android:elevation="50dp"
         android:src="@android:drawable/ic_btn_speak_now"
         app:borderWidth="0dp"

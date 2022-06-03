@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.ui.activity.ImageDetailActivity
 import com.github.sdp.ratemyepfl.utils.TestUtils.getString
 import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import com.github.sdp.ratemyepfl.utils.TestUtils.withDrawable

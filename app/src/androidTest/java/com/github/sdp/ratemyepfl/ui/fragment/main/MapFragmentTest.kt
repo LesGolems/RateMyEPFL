@@ -19,7 +19,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -57,7 +56,6 @@ class MapFragmentTest {
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    @ExperimentalCoroutinesApi
     @Test
     fun isMapVisibleOnActivityLaunch() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -75,7 +73,6 @@ class MapFragmentTest {
     }
      */
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -84,7 +81,6 @@ class MapFragmentTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMap() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -92,7 +88,6 @@ class MapFragmentTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnReviewButton() {
         runTest { }
@@ -106,7 +101,6 @@ class MapFragmentTest {
         release()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMapAfterMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}

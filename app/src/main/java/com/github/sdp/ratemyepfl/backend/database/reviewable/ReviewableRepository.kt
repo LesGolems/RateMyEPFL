@@ -16,7 +16,6 @@ interface ReviewableRepository<T : Reviewable> : LoaderRepository<T> {
     val offlineData: List<T>
 
     companion object {
-        const val NUM_REVIEWS_FIELD_NAME = "numReviews"
         const val GRADE_FIELD_NAME = "grade"
         const val LIMIT_QUERY_SEARCH = 10u
 

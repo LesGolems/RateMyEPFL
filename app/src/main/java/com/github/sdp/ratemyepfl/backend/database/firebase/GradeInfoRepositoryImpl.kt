@@ -10,12 +10,10 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.Restaurant
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.items.*
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class GradeInfoRepositoryImpl private constructor(
@@ -45,8 +43,6 @@ class GradeInfoRepositoryImpl private constructor(
     companion object {
         const val NUM_USERS = 6.0
         const val GRADE_INFO_COLLECTION_PATH = "grades_info"
-        const val ITEM_ID_FIELD = "itemId"
-        const val REVIEWS_INFO_FIELD = "reviewsData"
 
         fun DocumentSnapshot.toGradeInfo(): GradeInfo? = toItem()
     }
@@ -120,7 +116,7 @@ class GradeInfoRepositoryImpl private constructor(
 
     override suspend fun getGradeInfoById(itemId: String): GradeInfo? = repository
         .getById(itemId)
-        .catch {  }
+        .catch { }
         .lastOrNull()
 
     private suspend fun updateItem(item: Reviewable, grade: Double, incNumReviews: Int) =

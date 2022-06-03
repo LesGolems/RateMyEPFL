@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.model.review
+package com.github.sdp.ratemyepfl.model.post
 
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
@@ -51,7 +51,7 @@ data class Subject constructor(
         /**
          * Builds the corresponding [Subject]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Subject {
             val postId = this.postId ?: ""
@@ -64,11 +64,17 @@ data class Subject constructor(
             val comments = this asMandatory comments
             val kind = this asMandatory kind
 
-            return Subject(postId,
-                title, comment, date, uid, likers, dislikers, comments, kind
+            return Subject(
+                postId,
+                title,
+                comment,
+                date,
+                uid,
+                likers,
+                dislikers,
+                comments,
+                kind
             )
         }
-
-
     }
 }

@@ -5,14 +5,11 @@ import com.github.sdp.ratemyepfl.backend.database.RoomNoiseRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.model.NoiseInfo
 import com.github.sdp.ratemyepfl.model.RoomNoiseInfo
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
-import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -29,8 +26,6 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
 
     companion object {
         const val ROOM_INFO_COLLECTION_PATH = "rooms_noise_info"
-        const val ROOM_NAME_FIELD_NAME = "name"
-        const val ROOMS_INFO_FIELD_NAME = "noiseData"
 
         fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? = toItem()
     }
@@ -60,7 +55,7 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
 
     override suspend fun getRoomNoiseInfoById(roomId: String): RoomNoiseInfo? =
         repository.getById(roomId)
-            .catch {  }
+            .catch { }
             .lastOrNull()
 
 }

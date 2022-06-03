@@ -12,16 +12,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.ui.layout.LoadingCircleImageView
-import com.github.sdp.ratemyepfl.ui.layout.LoadingView
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint

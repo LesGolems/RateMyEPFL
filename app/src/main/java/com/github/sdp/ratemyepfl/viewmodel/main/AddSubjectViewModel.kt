@@ -6,8 +6,8 @@ import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
-import com.github.sdp.ratemyepfl.model.review.Subject
-import com.github.sdp.ratemyepfl.model.review.SubjectKind
+import com.github.sdp.ratemyepfl.model.post.Subject
+import com.github.sdp.ratemyepfl.model.post.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

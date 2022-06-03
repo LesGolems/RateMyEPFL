@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.ui.layout
 import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.TextView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
 import de.hdodenhof.circleimageview.CircleImageView
@@ -12,8 +11,7 @@ import java.io.InputStream
 class LoadingCircleImageView(
     val image: CircleImageView,
     progressBar: ProgressBar,
-    val errorText: TextView,
-    val defaultImageId: Int
+    private val defaultImageId: Int
 ) : LoadingView<CircleImageView>(image, progressBar) {
 
     /**
@@ -25,11 +23,10 @@ class LoadingCircleImageView(
     constructor(parent: View, defaultImageId: Int) : this(
         parent.findViewById(R.id.loadingCircleImageView),
         parent.findViewById(R.id.loadingCircleImageProgressBar),
-        parent.findViewById(R.id.loadingCircleImageErrorText),
         defaultImageId
     )
 
-    constructor(parent: View): this(parent, R.raw.blank_profile_picture)
+    constructor(parent: View) : this(parent, R.raw.blank_profile_picture)
 
     init {
         image.setImageBitmap(getDefaultImage().data)

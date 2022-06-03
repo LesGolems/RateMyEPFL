@@ -12,8 +12,6 @@ import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.RestaurantRepository
-import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCommentRepository
-import com.github.sdp.ratemyepfl.backend.database.fakes.FakeSubjectRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import dagger.Binds
 import dagger.Module

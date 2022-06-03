@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/room_info_image"
             android:scaleType="centerCrop"
             android:src="@raw/classroom_info_classroom" />
 
@@ -25,6 +26,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="200dp"
+            android:contentDescription="@string/room_back_icon"
             android:src="@drawable/ic_door_closed_full"
             app:tint="@color/backgroundColor" />
 
@@ -34,6 +36,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="200dp"
+            android:contentDescription="@string/room_front_icon"
             android:src="@drawable/ic_door_closed_solid"
             app:tint="@color/primaryColor" />
 
@@ -43,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/roomIconFront"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:cardCornerRadius="10dp">
 
@@ -59,9 +62,9 @@
                 android:paddingBottom="5dp"
                 android:text="@string/default_id_text"
                 android:textAlignment="center"
-                android:textSize="38sp"
                 android:textAppearance="?attr/textAppearanceHeadline4"
                 android:textColor="@color/secondaryColor"
+                android:textSize="38sp"
                 android:typeface="normal" />
 
         </androidx.cardview.widget.CardView>
@@ -85,11 +88,11 @@
                     android:id="@+id/noiseInfoText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
                     android:fontFamily="@font/pt_sans_bold"
+                    android:paddingHorizontal="5dp"
                     android:text="@string/noise_string"
                     android:textColor="@color/orange_white"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -113,18 +116,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/noiseInfoLayout"
             android:layout_centerHorizontal="true"
-            app:cardCornerRadius="30dp"
-            android:layout_marginTop="25dp">
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="30dp">
 
             <ImageButton
                 android:id="@+id/noiseMeasureButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:background="@color/white"
-                app:tint="@color/grey"
                 android:contentDescription="@string/button_to_record_noise_intensity_of_a_room"
-                android:src="@drawable/ic_microphone_solid" />
+                android:padding="10dp"
+                android:src="@drawable/ic_microphone_solid"
+                app:tint="@color/grey" />
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -132,8 +135,8 @@
             android:layout_width="200dp"
             android:layout_height="52dp"
             android:layout_below="@id/cardNoiseButton"
-            android:layout_marginTop="60dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
             app:cardCornerRadius="30dp">
 
             <RatingBar
@@ -144,9 +147,9 @@
                 android:layout_gravity="center"
                 android:isIndicator="true"
                 android:padding="5dp"
-                android:scaleY="0.75"
-                android:scaleX="0.75"
                 android:progressTint="@color/secondaryColor"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
                 android:secondaryProgressTint="@color/tertiaryColor"
                 android:stepSize="0.1" />
         </com.google.android.material.card.MaterialCardView>

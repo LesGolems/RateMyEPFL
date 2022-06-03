@@ -19,5 +19,5 @@
     <fragment
         android:id="@+id/audioRecordFragment"
         android:name="com.github.sdp.ratemyepfl.ui.fragment.review.AudioRecordFragment"
-        android:label="Audio records"/>
+        android:label="Audio records" />
 </navigation>

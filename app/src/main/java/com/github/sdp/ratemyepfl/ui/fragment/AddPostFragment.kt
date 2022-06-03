@@ -10,7 +10,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
-import com.github.sdp.ratemyepfl.model.review.Post
+import com.github.sdp.ratemyepfl.model.post.Post
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.google.android.material.textfield.TextInputEditText
 import javax.inject.Inject

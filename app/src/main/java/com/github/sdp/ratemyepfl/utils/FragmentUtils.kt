@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.github.sdp.ratemyepfl.model.review.Post
+import com.github.sdp.ratemyepfl.model.post.Post
 import com.github.sdp.ratemyepfl.ui.adapter.post.OnClickListener
 import com.google.android.material.snackbar.Snackbar
 

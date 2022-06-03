@@ -12,7 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
 import com.github.sdp.ratemyepfl.model.items.Course
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.utils.CustomViewActions

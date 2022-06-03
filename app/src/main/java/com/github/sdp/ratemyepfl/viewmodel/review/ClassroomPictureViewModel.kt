@@ -5,7 +5,6 @@ import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

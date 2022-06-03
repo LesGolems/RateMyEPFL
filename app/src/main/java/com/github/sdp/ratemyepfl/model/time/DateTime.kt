@@ -2,6 +2,7 @@ package com.github.sdp.ratemyepfl.model.time
 
 import com.github.sdp.ratemyepfl.model.time.Date.Companion.DEFAULT_DATE
 import com.github.sdp.ratemyepfl.model.time.Date.Companion.toDate
+import com.github.sdp.ratemyepfl.model.time.DateTime.Companion.toDateTime
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
@@ -19,7 +20,8 @@ import java.time.LocalDateTime
  * @see Time
  */
 @Serializable
-data class DateTime(val date: Date = DEFAULT_DATE, val time: Time = Time.MIDNIGHT): Comparable<DateTime> {
+data class DateTime(val date: Date = DEFAULT_DATE, val time: Time = Time.MIDNIGHT) :
+    Comparable<DateTime> {
 
     constructor(year: Int, month: Int, dayOfMonth: Int, hour: Int, minute: Int) : this(
         Date(

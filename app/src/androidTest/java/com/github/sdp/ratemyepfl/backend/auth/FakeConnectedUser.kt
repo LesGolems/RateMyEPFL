@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.backend.auth
 
-import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.user.User
 import javax.inject.Inject
 

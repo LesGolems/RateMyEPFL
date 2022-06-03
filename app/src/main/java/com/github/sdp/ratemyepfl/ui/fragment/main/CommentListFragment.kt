@@ -5,15 +5,14 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
-import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Comment
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast
@@ -116,10 +115,6 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun posts(): MutableLiveData<List<ObjectWithAuthor<Comment>>> {
         return viewModel.comments
-    }
-
-    override fun isEmpty(): LiveData<Boolean> {
-        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {

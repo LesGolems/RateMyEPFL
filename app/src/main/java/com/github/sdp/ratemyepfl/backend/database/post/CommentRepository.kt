@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.post
 
-import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.post.Comment
 import kotlinx.coroutines.flow.Flow
 
 interface CommentRepository : PostRepository<Comment> {

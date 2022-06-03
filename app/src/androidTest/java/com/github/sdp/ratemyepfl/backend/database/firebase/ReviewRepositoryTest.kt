@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepositoryImpl
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.Review
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -53,7 +53,8 @@ class ReviewRepositoryTest {
 
     @Test
     fun addAndGetIdWorks() {
-        val testReviewNoId = Review("",
+        val testReviewNoId = Review(
+            "",
             ReviewRating.EXCELLENT,
             "title",
             "comment",
@@ -247,7 +248,8 @@ class ReviewRepositoryTest {
     fun removeNonExistingUpVoteDoesNotChange() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review("",
+        val review = Review(
+            "",
             ReviewRating.EXCELLENT,
             "title",
             "comment",

@@ -13,14 +13,12 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomR
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.RestaurantRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
-import com.github.sdp.ratemyepfl.utils.CustomViewActions
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.TabAction
 import com.github.sdp.ratemyepfl.utils.CustomViewActions.ViewPagerAction
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -28,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ReviewableFragmentTest {
     @get:Rule
@@ -62,7 +60,6 @@ class ReviewableFragmentTest {
 
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -70,7 +67,6 @@ class ReviewableFragmentTest {
         checkCourse()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -78,7 +74,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -87,7 +82,6 @@ class ReviewableFragmentTest {
     }
 
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheRightOfCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> { }
@@ -95,7 +89,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersSwipeToTheRightOfClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -105,7 +98,6 @@ class ReviewableFragmentTest {
         checkRestaurant()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -116,7 +108,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}

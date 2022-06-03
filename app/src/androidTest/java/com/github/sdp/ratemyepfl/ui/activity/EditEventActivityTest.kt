@@ -14,7 +14,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
-import com.github.sdp.ratemyepfl.ui.activity.EditEventActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After

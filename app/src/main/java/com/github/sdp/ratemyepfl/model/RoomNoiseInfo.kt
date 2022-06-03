@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.model
 
 import com.github.sdp.ratemyepfl.backend.database.RepositoryItem
-import com.github.sdp.ratemyepfl.backend.database.firebase.RoomNoiseRepositoryImpl
-import com.google.gson.Gson
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,11 +19,10 @@ data class RoomNoiseInfo(
             val roomId = this.roomId
             val noiseData = this.noiseData ?: listOf()
 
-            if (roomId != null) {
-                return RoomNoiseInfo(roomId, noiseData)
-            } else {
+            if (roomId == null)
                 throw IllegalStateException("Cannot build a room noise info with null arguments")
-            }
+
+            return RoomNoiseInfo(roomId, noiseData)
         }
     }
 }

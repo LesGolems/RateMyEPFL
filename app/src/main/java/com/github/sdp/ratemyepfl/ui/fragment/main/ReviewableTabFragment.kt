@@ -39,7 +39,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     private lateinit var loadingRecyclerView: LoadingRecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
-    lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     private var isSearching: Boolean = false
 
@@ -237,7 +237,9 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
                 loadingRecyclerView.display(result, {
                     when (it) {
                         is QueryState.Failure -> throw it.error
-                        is QueryState.Loading -> {loadingRecyclerView.textView.visibility = INVISIBLE}
+                        is QueryState.Loading -> {
+                            loadingRecyclerView.textView.visibility = INVISIBLE
+                        }
                         is QueryState.Success ->
                             viewModel.elements.postValue(it.data)
                     }

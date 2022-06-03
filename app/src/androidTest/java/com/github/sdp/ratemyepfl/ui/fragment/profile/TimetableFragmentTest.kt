@@ -21,7 +21,7 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomR
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.post.Review
 import com.github.sdp.ratemyepfl.ui.activity.MainActivity
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions
@@ -31,7 +31,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.not
 import org.junit.After
@@ -40,7 +39,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class TimetableFragmentTest {
     lateinit var scenario: ActivityScenario<HiltTestActivity>
@@ -246,7 +245,6 @@ class TimetableFragmentTest {
         scenario.close()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun buttonNotShownWhenLoggedOut() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
@@ -254,7 +252,6 @@ class TimetableFragmentTest {
         onView(withId(R.id.addClassButton)).check(matches(not(isDisplayed())))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun goesToReviewWhenClickOnCourseName() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
@@ -303,7 +300,6 @@ class TimetableFragmentTest {
         release()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsDayFragment() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1

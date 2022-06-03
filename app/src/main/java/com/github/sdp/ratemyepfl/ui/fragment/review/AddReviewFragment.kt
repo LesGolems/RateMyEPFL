@@ -9,8 +9,8 @@ import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.Review
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.github.sdp.ratemyepfl.viewmodel.review.AddReviewViewModel

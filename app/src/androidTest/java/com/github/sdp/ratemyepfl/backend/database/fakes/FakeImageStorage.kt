@@ -17,7 +17,7 @@ class FakeImageStorage @Inject constructor() : Storage<ImageFile> {
     companion object {
         val images = HashMap<String, ImageFile>()
 
-        val pictureIds = listOf(
+        private val pictureIds = listOf(
             R.raw.room3,
             R.raw.room1,
             R.raw.room4,

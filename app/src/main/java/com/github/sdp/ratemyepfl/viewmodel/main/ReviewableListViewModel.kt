@@ -80,7 +80,7 @@ sealed class ReviewableListViewModel<T : Reviewable>(
         } else load(filter, number)
     }
 
-    fun resetRepo(){
+    fun resetRepo() {
         repository.resetLoaded()
     }
 

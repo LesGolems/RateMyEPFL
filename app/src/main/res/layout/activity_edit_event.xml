@@ -18,11 +18,11 @@
             android:id="@+id/editEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
             android:paddingTop="20dp"
             android:paddingBottom="15dp"
             android:text="@string/edit_event_title"
             android:textAlignment="center"
-            android:fontFamily="@font/pt_sans_bold"
             android:textColor="@color/secondaryColor"
             android:textSize="40sp" />
 
@@ -31,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/edit_event_name"
+            android:paddingTop="16dp"
             app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            android:paddingTop="16dp">
+            app:boxCornerRadiusTopStart="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editEventName"
@@ -51,10 +51,10 @@
             <TextView
                 android:id="@+id/limitText"
                 style="@style/IconOnly"
-                android:fontFamily="@font/pt_sans_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:fontFamily="@font/pt_sans_bold"
                 android:text="@string/limit_participation"
                 android:textSize="11sp" />
 
@@ -80,10 +80,10 @@
             <TextView
                 android:id="@+id/datePickerText"
                 style="@style/IconOnly"
-                android:fontFamily="@font/pt_sans_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:fontFamily="@font/pt_sans_bold"
                 android:text="@string/event_date"
                 android:textSize="11sp" />
 

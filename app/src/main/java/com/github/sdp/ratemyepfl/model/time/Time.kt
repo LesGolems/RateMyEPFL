@@ -18,9 +18,9 @@ data class Time(val hours: Int = MIDNIGHT.hours, val minutes: Int = MIDNIGHT.min
     override fun toString(): String = "${TIME_FORMAT.format(hours)}h${TIME_FORMAT.format(minutes)}"
 
     companion object {
-        const val MIN_HOUR = 0
+        private const val MIN_HOUR = 0
         const val MAX_HOUR = 24
-        const val MIN_MINUTE = 0
+        private const val MIN_MINUTE = 0
         const val MAX_MINUTE = 60
 
         val TIME_FORMAT = DecimalFormat("00")

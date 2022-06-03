@@ -1,10 +1,9 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
-import com.github.sdp.ratemyepfl.model.review.Subject
-import com.github.sdp.ratemyepfl.model.review.SubjectKind
+import com.github.sdp.ratemyepfl.model.post.Subject
+import com.github.sdp.ratemyepfl.model.post.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -12,11 +11,11 @@ import javax.inject.Inject
 class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepository<Subject>() {
 
     companion object {
-        const val FAKE_UID_1 = "ID1"
-        const val FAKE_UID_2 = "ID2"
+        private const val FAKE_UID_1 = "ID1"
+        private const val FAKE_UID_2 = "ID2"
         const val FAKE_UID_3 = "ID3"
         const val FAKE_UID_4 = "ID4"
-        val DATE = DateTime(2000, 1, 1, 0, 0)
+        private val DATE = DateTime(2000, 1, 1, 0, 0)
 
         val fakeList = listOf(
             Subject.Builder()

@@ -8,7 +8,7 @@ import com.github.sdp.ratemyepfl.backend.database.Storage
 import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
+import com.github.sdp.ratemyepfl.model.post.EventWithAuthor
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.lastOrNull
@@ -36,7 +36,7 @@ class EventInfoViewModel @Inject constructor(
     fun updateEvent() {
         viewModelScope.launch {
             eventWithAuthor.postValue(
-                eventRepo.getEventById(id)?.let { event ->
+                eventRepo.getEventById(id).let { event ->
                     EventWithAuthor(
                         event,
                         event.creator.let { userRepo.getUserByUid(it) },

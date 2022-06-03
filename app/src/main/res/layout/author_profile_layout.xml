@@ -13,13 +13,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:id="@+id/profile_slider_background"
+            android:id="@+id/profileSliderBackground"
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:background="@raw/red3">
 
             <TextView
-                android:id="@+id/author_panel_username"
+                android:id="@+id/authorPanelUsername"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -34,29 +34,29 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
-                android:id="@+id/golem_karma"
+                android:id="@+id/golemKarma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/author_panel_username"
-                android:layout_toEndOf="@id/author_panel_username"
-                android:layout_marginStart="10dp">
+                android:layout_alignBottom="@id/authorPanelUsername"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/authorPanelUsername">
 
                 <ImageView
-                    android:id="@+id/golem_badge"
+                    android:id="@+id/golemBadge"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:contentDescription="@string/golem_badge"
                     android:src="@raw/golem_gold" />
 
                 <TextView
-                    android:id="@+id/karma_count"
+                    android:id="@+id/golemKarmaCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="35dp"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:text="1"
-                    android:fontFamily="@font/pt_sans_bold"/>
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 
@@ -64,26 +64,26 @@
 
 
         <RelativeLayout
-            android:id="@+id/author_panel_email_field"
+            android:id="@+id/authorPanelEmailField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_slider_background"
+            android:layout_below="@id/profileSliderBackground"
             android:layout_marginTop="35dp"
             android:background="@color/white"
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/author_panel_email_icon"
+                android:id="@+id/authorPanelEmailIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/fui_ic_googleg_color_24dp"
                 android:contentDescription="@string/gmail_icon" />
 
             <TextView
-                android:id="@+id/author_panel_email"
+                android:id="@+id/authorPanelEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@id/author_panel_email_icon"
+                android:layout_alignStart="@id/authorPanelEmailIcon"
                 android:layout_marginStart="50dp"
                 android:textSize="25sp" />
 
@@ -91,7 +91,7 @@
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/author_panel_email"
+                android:layout_below="@+id/authorPanelEmail"
                 android:layout_marginTop="20dp"
                 android:background="@color/browser_actions_bg_grey" />
 

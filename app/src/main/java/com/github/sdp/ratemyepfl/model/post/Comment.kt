@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.model.review
+package com.github.sdp.ratemyepfl.model.post
 
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable
@@ -12,7 +12,7 @@ data class Comment constructor(
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
-) : Post(postId,"", comment, date, uid, likers, dislikers) {
+) : Post(postId, "", comment, date, uid, likers, dislikers) {
 
     override fun withId(id: String): Comment {
         return this.apply {
@@ -36,7 +36,7 @@ data class Comment constructor(
         /**
          * Builds the corresponding [Comment]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Comment {
             val postId = this.postId ?: ""

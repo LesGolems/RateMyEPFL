@@ -10,8 +10,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -44,11 +42,6 @@ class LoaderRepositoryImplTest {
     private val items0: List<Item> = items.filter {
         it.data in 0..9
     }
-
-    private val items1 = items.filter { it.data in 10..19 }
-
-    private val items2 = items.filter { it.data in 20..30 }
-
 
     @Before
     fun setup() {

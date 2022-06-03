@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bottomNavigationItemIconSize">28dp</dimen>
-    <dimen name="bottomNavigationItemIconSizeReview">25dp</dimen>
 
     <dimen name="clusterItemWidth">384dp</dimen>
     <dimen name="clusterItemHeight">216dp</dimen>
 
-    <dimen name="classheight">74dp</dimen>
+    <dimen name="classHeight">74dp</dimen>
 
 </resources>

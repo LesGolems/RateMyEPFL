@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.model.review
+package com.github.sdp.ratemyepfl.model.post
 
 import androidx.annotation.RawRes
 import com.github.sdp.ratemyepfl.R

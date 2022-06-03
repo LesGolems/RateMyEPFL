@@ -9,10 +9,7 @@ import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +19,8 @@ class RankingViewModel @Inject constructor(
     private val imageStorage: Storage<ImageFile>
 ) : ViewModel() {
 
-    val topUsers: Triple<MutableLiveData<User>, MutableLiveData<User>, MutableLiveData<User>> =
-        Triple(MutableLiveData<User>(), MutableLiveData<User>(), MutableLiveData<User>())
+    val topUsers: Triple<MutableLiveData<User?>, MutableLiveData<User?>, MutableLiveData<User?>> =
+        Triple(MutableLiveData<User?>(), MutableLiveData<User?>(), MutableLiveData<User?>())
     val topUsersPictures = Top3UserPictures()
 
     init {
@@ -32,22 +29,17 @@ class RankingViewModel @Inject constructor(
         }
     }
 
-    fun getTop3Pictures(): Triple<Flow<ImageFile>, Flow<ImageFile>, Flow<ImageFile>> {
-        val users = topUsers.toList()
-            .map { it.value ?: throw IllegalStateException("There are no top 3 users") }
-        val images = users.map { it.getId() }
-            .map { imageStorage.get(it) }
-            .take(3)
-
-        return Triple(images[0], images[1], images[2])
+    fun getPicture(user: User?): Flow<ImageFile?> {
+        if (user != null) {
+            return imageStorage.get(user.getId())
+        }
+        return flowOf(null)
     }
 
-    fun getPicture(user: User): Flow<ImageFile> =
-        imageStorage.get(user.getId())
 
-    suspend fun getTop3Users(): Flow<Triple<User, User, User>> =
+    private suspend fun getTop3Users(): Flow<Triple<User?, User?, User?>> =
         userRepo.getTopKarmaUsers().mapResult {
-            Triple(it[0], it[1], it[2])
+            Triple(it.getOrNull(0), it.getOrNull(1), it.getOrNull(2))
         }.filter { it !is QueryState.Loading }
             .map { top3 ->
                 when (top3) {
@@ -58,7 +50,7 @@ class RankingViewModel @Inject constructor(
             }
 
 
-    suspend fun refreshUsers(): Triple<User, User, User> {
+    suspend fun refreshUsers(): Triple<User?, User?, User?> {
         val users = getTop3Users().last()
         topUsers.first.postValue(users.first)
         topUsers.second.postValue(users.second)
@@ -67,8 +59,8 @@ class RankingViewModel @Inject constructor(
     }
 
     data class Top3UserPictures(
-        val first: MutableLiveData<ImageFile> = MutableLiveData(),
-        val second: MutableLiveData<ImageFile> = MutableLiveData(),
-        val third: MutableLiveData<ImageFile> = MutableLiveData()
+        val first: MutableLiveData<ImageFile?> = MutableLiveData(),
+        val second: MutableLiveData<ImageFile?> = MutableLiveData(),
+        val third: MutableLiveData<ImageFile?> = MutableLiveData()
     )
 }

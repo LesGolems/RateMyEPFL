@@ -1,11 +1,11 @@
 package com.github.sdp.ratemyepfl.backend.database.query
 
-import com.github.sdp.ratemyepfl.exceptions.QueryExecutionException
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlin.experimental.ExperimentalTypeInference
 
 /**
@@ -136,8 +136,6 @@ class QueryResult<T> private constructor(private val result: Flow<QueryState<T>>
             this.mapResult { querySnapshot ->
                 querySnapshot.mapNotNull(op)
             }
-
-        const val COLLECT_RESULT_TIMEOUT_MS = 10000L
 
         /**
          * Wrap the flow in a [QueryResult]. This is a shorthand for a constructor call

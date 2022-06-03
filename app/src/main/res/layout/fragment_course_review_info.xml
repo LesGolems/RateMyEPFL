@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/course_info_image"
             android:scaleType="centerCrop"
             android:src="@raw/course_info_notebook" />
 
@@ -25,6 +26,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="200dp"
+            android:contentDescription="@string/course_icon"
             android:src="@drawable/ic_book_open_solid"
             app:tint="@color/primaryColor" />
 
@@ -34,8 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/courseIcon"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             app:cardCornerRadius="10dp">
 
@@ -50,9 +52,9 @@
                 android:paddingBottom="5dp"
                 android:text="@string/default_id_text"
                 android:textAlignment="center"
-                android:textSize="38sp"
                 android:textAppearance="?attr/textAppearanceHeadline4"
                 android:textColor="@color/secondaryColor"
+                android:textSize="38sp"
                 android:typeface="normal" />
 
         </androidx.cardview.widget.CardView>
@@ -61,9 +63,9 @@
             android:id="@+id/courseInfoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/cardCourseCode"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/cardCourseCode">
+            android:layout_marginTop="40dp">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -81,11 +83,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/course_title_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -95,11 +97,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:maxWidth="260dp"
                     android:fontFamily="@font/pt_sans_bold"
+                    android:maxWidth="260dp"
                     android:text="@string/course_title"
-                    android:textSize="20sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -118,11 +120,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/course_teacher_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -132,10 +134,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:textSize="20sp"
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="@string/course_teacher"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -154,11 +156,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/course_section_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -168,10 +170,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:textSize="20sp"
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="@string/course_section"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
 
             <TableRow
@@ -190,11 +192,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:paddingHorizontal="5dp"
                         android:fontFamily="@font/pt_sans_bold"
+                        android:paddingHorizontal="5dp"
                         android:text="@string/course_credits_text"
                         android:textColor="@color/backgroundColor"
-                        android:textSize="11sp"/>
+                        android:textSize="11sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -204,10 +206,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:textSize="20sp"
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="@string/course_credits"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
             </TableRow>
 
         </TableLayout>
@@ -217,8 +219,8 @@
             android:layout_width="200dp"
             android:layout_height="52dp"
             android:layout_below="@id/courseInfoLayout"
-            android:layout_marginTop="60dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
             app:cardCornerRadius="30dp">
 
             <RatingBar
@@ -229,9 +231,9 @@
                 android:layout_gravity="center"
                 android:isIndicator="true"
                 android:padding="5dp"
-                android:scaleY="0.75"
-                android:scaleX="0.75"
                 android:progressTint="@color/secondaryColor"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
                 android:secondaryProgressTint="@color/tertiaryColor"
                 android:stepSize="0.1" />
         </com.google.android.material.card.MaterialCardView>

@@ -8,11 +8,10 @@ import androidx.core.view.ViewCompat
 import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.viewpager2.widget.ViewPager2
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers
@@ -23,7 +22,7 @@ object CustomViewActions {
     inline fun <reified T : View> createViewAction(crossinline perform: (UiController?, View?) -> Unit): ViewAction =
         object : ViewAction {
             override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isAssignableFrom(T::class.java)
+                return isAssignableFrom(T::class.java)
             }
 
             override fun getDescription(): String {
@@ -42,7 +41,7 @@ object CustomViewActions {
     object RatingAction {
         private fun performSetRating(value: Float) = object : ViewAction {
             override fun getConstraints(): Matcher<View> {
-                return ViewMatchers.isAssignableFrom(RatingBar::class.java)
+                return isAssignableFrom(RatingBar::class.java)
             }
 
             override fun getDescription(): String {
@@ -88,7 +87,7 @@ object CustomViewActions {
         }
 
         private fun onSearchBar(): ViewInteraction =
-            onView(ViewMatchers.isAssignableFrom(SearchView::class.java))
+            onView(isAssignableFrom(SearchView::class.java))
     }
 
     object NumberPickerActions {
@@ -108,7 +107,7 @@ object CustomViewActions {
                 }
 
                 override fun getConstraints(): Matcher<View> {
-                    return ViewMatchers.isAssignableFrom(NumberPicker::class.java)
+                    return isAssignableFrom(NumberPicker::class.java)
                 }
             }
         }
@@ -120,13 +119,13 @@ object CustomViewActions {
         }
 
         fun verifySelectedTab(text: String) {
-            onTab(text).check(ViewAssertions.matches(ViewMatchers.isSelected()))
+            onTab(text).check(matches(isSelected()))
         }
 
-        fun onTab(tabName: String) = onView(
+        fun onTab(tabName: String): ViewInteraction = onView(
             CoreMatchers.allOf(
-                ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(TabLayout::class.java)),
-                ViewMatchers.withChild(withText(tabName))
+                isDescendantOfA(isAssignableFrom(TabLayout::class.java)),
+                withChild(withText(tabName))
             )
         )
 
@@ -134,7 +133,8 @@ object CustomViewActions {
             return object : ViewAction {
                 override fun getDescription() = "with tab at index $tabIndex"
 
-                override fun getConstraints() = allOf(isDisplayed(), isAssignableFrom(TabLayout::class.java))
+                override fun getConstraints() =
+                    allOf(isDisplayed(), isAssignableFrom(TabLayout::class.java))
 
                 override fun perform(uiController: UiController, view: View) {
                     val tabLayout = view as TabLayout
@@ -161,10 +161,10 @@ object CustomViewActions {
             override fun getConstraints(): Matcher<View> =
                 CoreMatchers.allOf(
                     CoreMatchers.anyOf(
-                        ViewMatchers.isAssignableFrom(ViewPager2::class.java),
-                        ViewMatchers.isDescendantOfA(ViewMatchers.isAssignableFrom(ViewPager2::class.java))
+                        isAssignableFrom(ViewPager2::class.java),
+                        isDescendantOfA(isAssignableFrom(ViewPager2::class.java))
                     ),
-                    ViewMatchers.isDisplayingAtLeast(90)
+                    isDisplayingAtLeast(90)
                 )
 
             override fun perform(uiController: UiController, view: View) {
@@ -178,13 +178,12 @@ object CustomViewActions {
                     parent as ViewPager2
                 }
                 val isForward = direction == Direction.FORWARD
-                val swipeAction: ViewAction
-                if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-                    swipeAction =
+                val swipeAction: ViewAction =
+                    if (vp.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
                         if (isForward == vp.isRtl()) ViewActions.swipeRight() else ViewActions.swipeLeft()
-                } else {
-                    swipeAction = if (isForward) ViewActions.swipeUp() else ViewActions.swipeDown()
-                }
+                    } else {
+                        if (isForward) ViewActions.swipeUp() else ViewActions.swipeDown()
+                    }
                 swipeAction.perform(uiController, view)
             }
 
@@ -193,12 +192,13 @@ object CustomViewActions {
             }
         }
 
-        fun onViewPager() = onView(ViewMatchers.isAssignableFrom(ViewPager2::class.java))
+        private fun onViewPager(): ViewInteraction =
+            onView(isAssignableFrom(ViewPager2::class.java))
 
-        fun swipeNext() = onViewPager()
+        fun swipeNext(): ViewInteraction = onViewPager()
             .perform(SwipeAction(SwipeAction.Direction.FORWARD))
 
-        fun swipePrevious() = onViewPager()
+        fun swipePrevious(): ViewInteraction = onViewPager()
             .perform(SwipeAction(SwipeAction.Direction.BACKWARD))
 
     }

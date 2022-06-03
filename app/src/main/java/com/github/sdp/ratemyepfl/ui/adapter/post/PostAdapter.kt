@@ -11,8 +11,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.Post
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Post
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView
@@ -52,9 +52,9 @@ open class PostAdapter<T : Post>(
 
         private val deleteButton: ImageButton = postView.findViewById(R.id.deleteButton)
 
-        private val authorUsername: TextView = postView.findViewById(R.id.author_username)
+        private val authorUsername: TextView = postView.findViewById(R.id.authorUsername)
         private val authorProfilePicture: CircleImageView =
-            postView.findViewById(R.id.author_profile_picture)
+            postView.findViewById(R.id.authorProfilePicture)
 
         protected lateinit var post: T
 

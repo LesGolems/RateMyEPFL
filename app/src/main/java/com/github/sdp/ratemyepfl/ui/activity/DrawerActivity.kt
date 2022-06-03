@@ -1,8 +1,6 @@
 package com.github.sdp.ratemyepfl.ui.activity
 
 import android.content.Intent
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity

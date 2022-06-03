@@ -14,6 +14,7 @@ data class GradeInfo(
 ) : RepositoryItem {
 
     override fun getId(): String = itemId
+
     /**
      * Compute the overall grade the number of reviews from all the grade info
      * (FOR NOW BASIC AVERAGE)

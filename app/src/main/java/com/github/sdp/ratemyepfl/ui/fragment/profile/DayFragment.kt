@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ClassAdapter
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.ClassAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -63,24 +63,14 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     private fun displayCourseReviews(id: String) {
         lifecycleScope.launch {
             val c = courseRepo.getCourseByCourseCode(id)
-            if (c != null) {
-                displayReviews(
-                    id,
-                    c
-                )
-            }
+            displayReviews(id, c)
         }
     }
 
     private fun displayRoomReviews(id: String) {
         lifecycleScope.launch {
             val r = roomRepo.getRoomByName(id)
-            if (r != null) {
-                displayReviews(
-                    id,
-                    r
-                )
-            }
+            displayReviews(id, r)
         }
     }
 

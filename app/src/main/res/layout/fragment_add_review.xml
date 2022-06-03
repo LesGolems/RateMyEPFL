@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.review.AddReviewFragment">
 
     <RelativeLayout
@@ -86,9 +86,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/inputReviewTitleText"
             android:layout_marginTop="2dp"
+            android:hint="@string/title_edit_text"
             app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            android:hint="@string/title_edit_text">
+            app:boxCornerRadiusTopStart="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addPostTitle"
@@ -115,9 +115,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/inputReviewCommentText"
             android:layout_marginTop="2dp"
+            android:hint="@string/comment_edit_text"
             app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            android:hint="@string/comment_edit_text">
+            app:boxCornerRadiusTopStart="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/addPostComment"

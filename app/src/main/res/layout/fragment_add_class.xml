@@ -17,10 +17,10 @@
             android:id="@+id/addClassTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
             android:paddingTop="25dp"
             android:text="@string/title_class_creation"
             android:textAlignment="center"
-            android:fontFamily="@font/pt_sans_bold"
             android:textColor="@color/secondaryColor"
             android:textSize="40sp" />
 
@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/course_class_creation"
+            android:paddingTop="35dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            android:paddingTop="35dp"
             app:startIconContentDescription="Course icon for class"
             app:startIconDrawable="@drawable/ic_book_open_page_variant">
 
@@ -48,9 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/room_class_creation"
+            android:paddingTop="35dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            android:paddingTop="35dp"
             app:startIconContentDescription="Course icon for class"
             app:startIconDrawable="@drawable/ic_table_chair">
 
@@ -66,12 +66,12 @@
             android:id="@+id/selectDayText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
             android:paddingTop="40dp"
             android:text="@string/day_class_creation"
             android:textAlignment="center"
-            android:fontFamily="@font/pt_sans_bold"
             android:textColor="@color/primaryColor"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ca.antonious.materialdaypicker.MaterialDayPicker
             android:id="@+id/dayPicker"
@@ -131,9 +131,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"
             android:backgroundTint="@color/primaryColor"
-            android:text="@string/done_button_text" />
+            android:text="@string/done_button_text"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </ScrollView>

@@ -67,7 +67,7 @@ class MainActivityTest {
 
     // 'a' to run the test first, because other tests might influence the occupancy count
     @Test
-    fun alocationWorks() {
+    fun aLocationWorks() {
         mContext = getInstrumentation().targetContext
         mManager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         mManager.addTestProvider(

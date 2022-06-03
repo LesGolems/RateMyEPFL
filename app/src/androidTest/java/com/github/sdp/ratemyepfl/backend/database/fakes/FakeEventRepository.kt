@@ -4,9 +4,8 @@ import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.Period
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

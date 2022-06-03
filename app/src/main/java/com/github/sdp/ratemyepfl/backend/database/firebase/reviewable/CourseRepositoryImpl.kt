@@ -37,9 +37,6 @@ class CourseRepositoryImpl private constructor(private val repository: LoaderRep
         const val TEACHER_FIELD_NAME = "teacher"
         const val CREDITS_FIELD_NAME = "credits"
         const val CYCLE_FIELD_NAME = "cycle"
-        const val SESSION_FIELD_NAME = "session"
-        const val GRADING_FIELD_NAME = "grading"
-        const val LANGUAGE_FIELD_NAME = "language"
 
         val OFFLINE_COURSES = listOf(
             Course(

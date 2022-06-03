@@ -7,13 +7,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Subject
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.adapter.post.SubjectAdapter
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
@@ -87,10 +86,6 @@ class HomeFragment : PostListFragment<Subject>(
         return viewModel.subjects
     }
 
-    override fun isEmpty(): LiveData<Boolean> {
-        return viewModel.isEmpty
-    }
-
     override fun updatePostsList() {
         viewModel.viewModelScope
             .launch {
@@ -119,7 +114,7 @@ class HomeFragment : PostListFragment<Subject>(
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId;
+        val id = item.itemId
 
         if (id == R.id.rankingButton) {
             Navigation.findNavController(requireView()).navigate(R.id.rankingFragment)

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.model.time
 
 import com.github.sdp.ratemyepfl.model.time.DateTime.Companion.toDateTime
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.LocalDateTime
 

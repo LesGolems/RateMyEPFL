@@ -9,6 +9,7 @@ interface Repository<T : RepositoryItem> : Queryable {
     companion object {
         const val DEFAULT_NUMBER_ITEMS = 10L
     }
+
     /**
      * Retrieve a given number of items from the collection
      *

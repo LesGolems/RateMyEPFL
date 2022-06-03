@@ -8,7 +8,7 @@
     app:cardUseCompatPadding="true"
     card_view:cardCornerRadius="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
@@ -18,31 +18,32 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@raw/emoji_happy"
+            android:contentDescription="@string/noise_reaction_face"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/dbRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dbRecord"
             android:fontFamily="@font/pt_sans_bold"
-            android:textSize="22sp"
             android:text="@string/title_review_list"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/dateRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dateRecord"
             android:fontFamily="@font/pt_sans"
             android:text="@string/date_review_list"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -48,7 +48,7 @@ class AudioRecordFragment : Fragment(R.layout.fragment_audio_record) {
     private var start = false
 
     private val viewModel by activityViewModels<ClassroomInfoViewModel>()
-    private lateinit var recordAdapter : RecordAdapter
+    private lateinit var recordAdapter: RecordAdapter
 
     companion object {
         private const val referenceAmplitude = 25

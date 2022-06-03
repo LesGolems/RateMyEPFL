@@ -48,7 +48,7 @@ class ClassAdapter(
         // Increase item height for longer classes
         if (item.duration() > 1) {
             holder.view.layoutParams.height =
-                (holder.view.context.resources.getDimension(R.dimen.classheight) * item.duration()).toInt()
+                (holder.view.context.resources.getDimension(R.dimen.classHeight) * item.duration()).toInt()
         }
     }
 

@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
-import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.post.Comment
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -12,7 +12,7 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
 
     companion object {
         private val COMMENT_LIST = listOf(
-            Comment("","id1", "comment1", DateTime.now(), "12345"),
+            Comment("", "id1", "comment1", DateTime.now(), "12345"),
             Comment("", "id2", "comment2", DateTime.now()),
             Comment("", "id3", "comment3", DateTime.now()),
         )
@@ -23,7 +23,7 @@ class FakeCommentRepository @Inject constructor() : CommentRepository, FakeRepos
     }
 
 
-        override fun getBySubjectId(id: String): Flow<List<Comment>> = flow {
+    override fun getBySubjectId(id: String): Flow<List<Comment>> = flow {
         emit(elements.toList())
     }
 

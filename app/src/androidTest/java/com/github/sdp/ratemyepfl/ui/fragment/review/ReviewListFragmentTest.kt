@@ -17,8 +17,8 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.Review
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
@@ -127,7 +127,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(user?.username)
                     )
                 ),
@@ -137,8 +137,8 @@ class ReviewListFragmentTest {
             )
         ).perform(click())
         // checks if the information are correct
-        onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
-        onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
+        onView(withId(R.id.authorPanelUsername)).check(matches(withText(user?.username)))
+        onView(withId(R.id.authorPanelEmail)).check(matches(withText(user?.email)))
         onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))
     }
 
@@ -160,7 +160,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),
@@ -191,7 +191,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),
@@ -224,7 +224,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),

@@ -7,14 +7,16 @@ import org.junit.Test
 
 class EventTest {
 
-    private val ID = "Evenement de dingue"
-    private val USER_ID = "Kevin du 13"
-    private val SHOW_PARTICIPANTS = "Participants: 64/70"
-    private val DATE = Period.DEFAULT_PERIOD
-    private val EXPECTED_EVENT = Event(
-        ID, ID,
-        64, 70, listOf(USER_ID), USER_ID, 0.0, 0, 46.52, 6.569, DATE
-    )
+    companion object {
+        private const val ID = "Evenement de dingue"
+        private const val USER_ID = "Kevin du 13"
+        private const val SHOW_PARTICIPANTS = "Participants: 64/70"
+        private val DATE = Period.DEFAULT_PERIOD
+        private val EXPECTED_EVENT = Event(
+            ID, ID,
+            64, 70, listOf(USER_ID), USER_ID, 0.0, 0, 46.52, 6.569, DATE
+        )
+    }
 
     @Test
     fun defaultConstructorWorks() {
