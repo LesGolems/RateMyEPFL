@@ -41,16 +41,18 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
     }
 
     override fun getByDirectory(dir: String): Flow<ImageFile> = flow {
-        val references = storageRef
-            .child(dir)
-            .listAll()
-            .await()
-            .items
-            .filterNotNull()
+        try {
+            val references = storageRef
+                .child(dir)
+                .listAll()
+                .await()
+                .items
+                .filterNotNull()
 
-        for (reference in references) {
-            getImage(reference)?.let { emit(it) }
-        }
+            for (reference in references) {
+                getImage(reference)?.let { emit(it) }
+            }
+        } catch (e : StorageException){}
     }
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {

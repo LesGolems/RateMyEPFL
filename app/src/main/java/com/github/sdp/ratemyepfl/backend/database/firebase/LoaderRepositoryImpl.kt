@@ -19,8 +19,8 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
     val repository: RepositoryImpl<T>,
 ) : Repository<T> by repository, LoaderRepository<T> {
 
-    private val loadedData: HashMap<FirebaseOrderedQuery, List<T>> = hashMapOf()
-    private val lastLoaded: HashMap<FirebaseOrderedQuery, DocumentSnapshot> = hashMapOf()
+    private var loadedData: HashMap<FirebaseOrderedQuery, List<T>> = hashMapOf()
+    private var lastLoaded: HashMap<FirebaseOrderedQuery, DocumentSnapshot> = hashMapOf()
 
     fun getCollection() = repository.collection
 
@@ -55,6 +55,11 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
             lastLoaded[query] = last
             updated
         } else loaded
+    }
+
+    override fun resetLoaded(){
+        loadedData = hashMapOf()
+        lastLoaded = hashMapOf()
     }
 
     override fun loaded(query: FirebaseOrderedQuery): List<T>? =

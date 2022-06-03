@@ -90,11 +90,15 @@ class RoomReviewPictureFragmentTest {
         val imgGalleryResult = createImageGallerySetResultStub(activity)
         intending(hasAction(Intent.ACTION_CHOOSER)).respondWith(imgGalleryResult)
         onView(withId(R.id.selectPhotoFAB)).perform(click())
+        onView(withId(R.id.pictureRecyclerView)).check(matches(isDisplayed()))
         release()
     }
 
     @Test
     fun startCamera() {
+        init()
         onView(withId(R.id.capturePhotoFAB)).perform(click())
+        intended(hasAction("android.media.action.IMAGE_CAPTURE"))
+        release()
     }
 }

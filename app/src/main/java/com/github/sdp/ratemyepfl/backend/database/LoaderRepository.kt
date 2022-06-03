@@ -20,6 +20,8 @@ interface LoaderRepository<T : RepositoryItem> : Repository<T> {
      */
     fun load(query: FirebaseOrderedQuery, number: UInt = FirebaseQuery.DEFAULT_QUERY_LIMIT): QueryResult<List<T>>
 
+    fun resetLoaded()
+
     /**
      * Returns the loaded element so far for a given query.
      *

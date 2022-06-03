@@ -52,6 +52,8 @@ class AddSubjectFragmentTest {
         clickOnKindChip("Help")
 
         onView(withId(R.id.doneButton)).perform(scrollTo(), click())
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -96,6 +98,8 @@ class AddSubjectFragmentTest {
         clickOnKindChip(kind)
 
         onView(withId(R.id.doneButton)).perform(scrollTo(), click())
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
     }
 
     @Test
@@ -127,6 +131,8 @@ class AddSubjectFragmentTest {
         onView(withId(R.id.anonymousSwitch)).perform(click())
 
         onView(withId(R.id.doneButton)).perform(scrollTo(), click())
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
     }
 
     private fun clickOnKindChip(kindId: String) {

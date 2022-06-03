@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.GrantPermissionRule
 import com.github.sdp.ratemyepfl.R
@@ -18,6 +19,7 @@ import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.utils.TestUtils
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -60,5 +62,6 @@ class AudioRecordFragmentTest {
         onView(withId(R.id.audioRecordButton)).check(matches(TestUtils.withDrawable(R.drawable.stop_circle_outline)))
         Thread.sleep(2000)
         onView(withId(R.id.audioRecordButton)).perform(click())
+        onView(withId(R.id.recordRecyclerView)).check(matches(isDisplayed()))
     }
 }

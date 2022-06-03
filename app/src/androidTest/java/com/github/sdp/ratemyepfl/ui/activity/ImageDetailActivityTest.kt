@@ -62,11 +62,13 @@ class ImageDetailActivityTest {
     @Test
     fun imageIsZoomedInWhenUserPinchesOut() {
         objectWithDescription(getString(R.string.image_seen_in_detail)).pinchOut(100, 100)
+        onView(withId(R.id.detailImageView)).check(matches(withDrawable(pictureId)))
     }
 
     @Test
     fun imageIsZoomedOutWhenUserPinchesIn() {
         objectWithDescription(getString(R.string.image_seen_in_detail)).pinchIn(100, 100)
+        onView(withId(R.id.detailImageView)).check(matches(withDrawable(pictureId)))
     }
 
 }

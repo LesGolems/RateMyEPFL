@@ -74,6 +74,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
      * Refresh the displayed list.
      */
     private fun refresh() {
+        viewModel.resetRepo()
         displayResult(viewModel.loadIfAbsent())
     }
 
