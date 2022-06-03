@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ImageDetailActivity
 import com.github.sdp.ratemyepfl.model.ImageFile
+import com.github.sdp.ratemyepfl.ui.activity.ImageDetailActivity
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 
 class RoomPictureAdapter :

@@ -8,11 +8,11 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeCourseRepository
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After

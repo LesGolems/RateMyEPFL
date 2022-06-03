@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.backend.database.post
 
 import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.model.review.Post
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository<T : Post> : Repository<T> {

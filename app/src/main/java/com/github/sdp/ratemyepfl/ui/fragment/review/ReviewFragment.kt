@@ -5,10 +5,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.FragmentViewPagerAdapter
 import com.github.sdp.ratemyepfl.model.items.*
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.FragmentViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,11 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
-    private val icons = listOf(R.drawable.ic_info_white_24dp, R.drawable.ic_list_white_24dp, R.drawable.ic_camera_white_24dp)
+    private val icons = listOf(
+        R.drawable.ic_info_white_24dp,
+        R.drawable.ic_list_white_24dp,
+        R.drawable.ic_camera_white_24dp
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,8 +41,12 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
         }.attach()
     }
 
-    private fun getFragments(item : Reviewable) = when (item) {
-        is Classroom -> listOf(RoomReviewInfoFragment(), ReviewListFragment(), RoomReviewPictureFragment())
+    private fun getFragments(item: Reviewable) = when (item) {
+        is Classroom -> listOf(
+            RoomReviewInfoFragment(),
+            ReviewListFragment(),
+            RoomReviewPictureFragment()
+        )
         is Course -> listOf(CourseReviewInfoFragment(), ReviewListFragment())
         is Restaurant -> listOf(RestaurantReviewInfoFragment(), ReviewListFragment())
         is Event -> listOf(EventReviewInfoFragment(), ReviewListFragment())

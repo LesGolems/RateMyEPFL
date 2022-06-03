@@ -11,8 +11,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.review.Post
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 import de.hdodenhof.circleimageview.CircleImageView

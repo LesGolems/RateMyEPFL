@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
-import com.github.sdp.ratemyepfl.ui.adapter.ClassAdapter
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ClassroomRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.CourseRepository
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
+import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
+import com.github.sdp.ratemyepfl.ui.adapter.ClassAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

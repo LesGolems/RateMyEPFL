@@ -56,7 +56,7 @@ class ClassroomRepositoryTest {
         runTest {
             val room = roomRepo.getRoomByName(testRoom.name)
             assertNotNull(room)
-            assertEquals(testRoom.name, room!!.name)
+            assertEquals(testRoom.name, room.name)
         }
     }
 }

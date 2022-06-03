@@ -13,7 +13,7 @@ import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.github.sdp.ratemyepfl.utils.SoundDisplayUtils.decibelMap
 import com.github.sdp.ratemyepfl.utils.TimeUtils.prettyTime
 
-class RecordAdapter():
+class RecordAdapter :
     ListAdapter<NoiseInfo, RecordAdapter.NoiseInfoViewHolder>(AdapterUtil.diffCallback<NoiseInfo>()) {
 
     /**

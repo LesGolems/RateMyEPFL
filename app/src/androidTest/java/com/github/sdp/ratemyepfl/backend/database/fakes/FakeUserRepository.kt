@@ -4,8 +4,6 @@ import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

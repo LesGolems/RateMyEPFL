@@ -119,7 +119,7 @@ class HomeFragment : PostListFragment<Subject>(
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId;
+        val id = item.itemId
 
         if (id == R.id.rankingButton) {
             Navigation.findNavController(requireView()).navigate(R.id.rankingFragment)

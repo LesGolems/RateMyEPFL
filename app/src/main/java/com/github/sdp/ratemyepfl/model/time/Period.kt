@@ -9,7 +9,10 @@ import kotlinx.serialization.Serializable
  * and lasts for a given [Duration].
  */
 @Serializable
-data class Period(val start: DateTime = DateTime.DEFAULT_DATE_TIME, val end: DateTime = DateTime.DEFAULT_DATE_TIME) {
+data class Period(
+    val start: DateTime = DateTime.DEFAULT_DATE_TIME,
+    val end: DateTime = DateTime.DEFAULT_DATE_TIME
+) {
 
     constructor(start: DateTime, duration: Duration) : this(
         start,

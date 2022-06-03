@@ -8,7 +8,6 @@ import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.test.runTest
 import org.junit.*
 import javax.inject.Inject
@@ -17,7 +16,8 @@ import javax.inject.Inject
 @HiltAndroidTest
 class CommentRepositoryTest {
     private lateinit var currentId: String
-    private val testComment = Comment("",
+    private val testComment = Comment(
+        "",
         "Fake id",
         "Fake comment"
     )
@@ -72,13 +72,13 @@ class CommentRepositoryTest {
         runTest {
             commentRepository.addDownVote(currentId, "Fake uid")
             var comment = commentRepository.getById(currentId).last()
-            Assert.assertNotNull(comment!!)
+            Assert.assertNotNull(comment)
             Assert.assertEquals(1, comment.dislikers.size)
             Assert.assertEquals("Fake uid", comment.dislikers[0])
 
             commentRepository.removeDownVote(currentId, "Fake uid")
             comment = commentRepository.getById(currentId).last()
-            Assert.assertNotNull(comment!!)
+            Assert.assertNotNull(comment)
             Assert.assertEquals(0, comment.dislikers.size)
         }
     }

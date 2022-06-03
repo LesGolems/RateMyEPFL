@@ -1,10 +1,10 @@
 package com.github.sdp.ratemyepfl.viewmodel.main
 
-import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
-import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.COURSE_CODE_FIELD_NAME
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.TITLE_FIELD_NAME
+import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
+import com.github.sdp.ratemyepfl.backend.database.query.QueryResult.Companion.asQueryResult
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.viewmodel.filter.CourseFilter
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -4,7 +4,6 @@ import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject

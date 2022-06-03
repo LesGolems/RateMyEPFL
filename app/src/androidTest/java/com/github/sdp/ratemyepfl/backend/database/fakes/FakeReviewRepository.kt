@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
-import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepositoryImpl.Companion.toReview
+import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime

@@ -4,19 +4,15 @@ import com.github.sdp.ratemyepfl.backend.database.LoaderRepository
 import com.github.sdp.ratemyepfl.backend.database.firebase.LoaderRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
-import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.MAX_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class EventRepositoryImpl private constructor(

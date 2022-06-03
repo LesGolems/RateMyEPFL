@@ -36,7 +36,7 @@ class EventInfoViewModel @Inject constructor(
     fun updateEvent() {
         viewModelScope.launch {
             eventWithAuthor.postValue(
-                eventRepo.getEventById(id)?.let { event ->
+                eventRepo.getEventById(id).let { event ->
                     EventWithAuthor(
                         event,
                         event.creator.let { userRepo.getUserByUid(it) },

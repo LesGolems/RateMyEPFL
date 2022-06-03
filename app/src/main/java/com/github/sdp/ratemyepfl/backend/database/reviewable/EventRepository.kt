@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.reviewable
 
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.flow.Flow
 
 interface EventRepository : ReviewableRepository<Event> {

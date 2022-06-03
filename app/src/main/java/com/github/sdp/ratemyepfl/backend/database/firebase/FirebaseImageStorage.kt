@@ -52,7 +52,8 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
             for (reference in references) {
                 getImage(reference)?.let { emit(it) }
             }
-        } catch (e : StorageException){}
+        } catch (e: StorageException) {
+        }
     }
 
     override suspend fun addInDirectory(item: ImageFile, dir: String) {
@@ -76,7 +77,7 @@ class FirebaseImageStorage @Inject constructor(storage: FirebaseStorage) : Stora
 
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
             ImageFile(id, bitmap)
-        } catch (e : StorageException){
+        } catch (e: StorageException) {
             null
         }
 

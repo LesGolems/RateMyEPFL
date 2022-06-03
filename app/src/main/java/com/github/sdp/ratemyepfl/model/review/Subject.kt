@@ -64,7 +64,8 @@ data class Subject constructor(
             val comments = this asMandatory comments
             val kind = this asMandatory kind
 
-            return Subject(postId,
+            return Subject(
+                postId,
                 title, comment, date, uid, likers, dislikers, comments, kind
             )
         }

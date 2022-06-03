@@ -29,7 +29,7 @@ class LoadingCircleImageView(
         defaultImageId
     )
 
-    constructor(parent: View): this(parent, R.raw.blank_profile_picture)
+    constructor(parent: View) : this(parent, R.raw.blank_profile_picture)
 
     init {
         image.setImageBitmap(getDefaultImage().data)

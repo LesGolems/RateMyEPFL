@@ -32,8 +32,10 @@ class LoadingRecyclerView(
      *                 text to display in case of error.
      *
      */
-    suspend fun<T> display(result: Flow<List<T>>, onSuccess: (List<T>) -> Unit,
-                           onEmptyMessage: () -> String, onError: (String) -> (String)) {
+    suspend fun <T> display(
+        result: Flow<List<T>>, onSuccess: (List<T>) -> Unit,
+        onEmptyMessage: () -> String, onError: (String) -> (String)
+    ) {
         startLoading()
         result.catch {
             it.message?.run {
@@ -84,7 +86,8 @@ class LoadingRecyclerView(
                 super.onScrollStateChanged(recyclerView, newState)
 
                 if (!recyclerView.canScrollVertically(1) &&
-                    newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    newState == RecyclerView.SCROLL_STATE_IDLE
+                ) {
                     action()
                 }
             }

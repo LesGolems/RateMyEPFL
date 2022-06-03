@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
-import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl.Companion.toCourse
+import com.github.sdp.ratemyepfl.backend.database.query.QueryState
 import com.github.sdp.ratemyepfl.model.items.Course
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

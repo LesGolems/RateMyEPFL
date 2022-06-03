@@ -3,8 +3,6 @@ package com.github.sdp.ratemyepfl.backend.database
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.items.Reviewable
 import com.github.sdp.ratemyepfl.model.review.ReviewRating
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.Transaction
 
 interface GradeInfoRepository {
 

@@ -2,7 +2,6 @@ package com.github.sdp.ratemyepfl.ui.fragment.review
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -59,8 +58,8 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
 
         restaurantImage.image
             .setImageResource(
-            MapActivityUtils.PHOTO_MAPPING.getOrDefault(restaurant.name, R.raw.arcadie)
-        )
+                MapActivityUtils.PHOTO_MAPPING.getOrDefault(restaurant.name, R.raw.arcadie)
+            )
     }
 
     /**
@@ -87,13 +86,13 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
      * Set the tooltip text displayed during occupancy gauge on click event
      */
     private fun setOccupancyText(ratio: Double) {
-        val thirdOf100 = 100.0/3
+        val thirdOf100 = 100.0 / 3
         when {
             ratio <= thirdOf100 -> {
                 occupancyRating.text = getString(R.string.occupancy_clear)
                 occupancyRating.setTextColor(resources.getColor(R.color.green))
             }
-            ratio <= 2*thirdOf100 -> {
+            ratio <= 2 * thirdOf100 -> {
                 occupancyRating.text = getString(R.string.occupancy_busy)
                 occupancyRating.setTextColor(resources.getColor(R.color.orange))
             }

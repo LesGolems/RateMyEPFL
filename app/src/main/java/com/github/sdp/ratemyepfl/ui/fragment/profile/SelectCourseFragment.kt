@@ -2,10 +2,10 @@ package com.github.sdp.ratemyepfl.ui.fragment.profile
 
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import com.github.sdp.ratemyepfl.ui.adapter.ReviewableAdapter
-import com.github.sdp.ratemyepfl.ui.fragment.main.CourseTabFragment
 import com.github.sdp.ratemyepfl.model.items.Course
 import com.github.sdp.ratemyepfl.model.items.Reviewable
+import com.github.sdp.ratemyepfl.ui.adapter.ReviewableAdapter
+import com.github.sdp.ratemyepfl.ui.fragment.main.CourseTabFragment
 import com.github.sdp.ratemyepfl.viewmodel.profile.AddClassViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

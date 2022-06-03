@@ -12,7 +12,7 @@ data class Comment constructor(
     override val uid: String? = null,
     override var likers: List<String> = listOf(),
     override var dislikers: List<String> = listOf()
-) : Post(postId,"", comment, date, uid, likers, dislikers) {
+) : Post(postId, "", comment, date, uid, likers, dislikers) {
 
     override fun withId(id: String): Comment {
         return this.apply {

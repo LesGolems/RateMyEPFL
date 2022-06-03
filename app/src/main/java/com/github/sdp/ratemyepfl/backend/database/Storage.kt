@@ -1,6 +1,5 @@
 package com.github.sdp.ratemyepfl.backend.database
 
-import com.github.sdp.ratemyepfl.backend.database.query.QueryResult
 import com.github.sdp.ratemyepfl.model.ImageFile
 import kotlinx.coroutines.flow.Flow
 

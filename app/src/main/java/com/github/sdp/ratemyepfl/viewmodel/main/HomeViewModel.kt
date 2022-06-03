@@ -11,7 +11,10 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.review.Subject
 import com.github.sdp.ratemyepfl.model.review.SubjectWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.lastOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

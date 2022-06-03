@@ -6,7 +6,6 @@ import com.github.sdp.ratemyepfl.utils.TestUtils.resourceToBitmap
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -63,7 +62,7 @@ class ImageStorageTest {
     @Test
     fun imageNotInDbReturnsNull() {
         runTest {
-            var image : ImageFile? = null
+            var image: ImageFile? = null
             imageStorage.get("not in db")
                 .collect {
                     image = it

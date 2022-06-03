@@ -29,8 +29,8 @@ class RoomReviewInfoFragment : Fragment(R.layout.fragment_room_review_info) {
     // Gets the shared view model
     private val viewModel by activityViewModels<ClassroomInfoViewModel>()
 
-    private lateinit var roomIdInfo : TextView
-    private lateinit var roomNumReview : TextView
+    private lateinit var roomIdInfo: TextView
+    private lateinit var roomNumReview: TextView
     private lateinit var roomRatingBar: RatingBar
 
     private lateinit var roomNoiseInfoTextView: TextView

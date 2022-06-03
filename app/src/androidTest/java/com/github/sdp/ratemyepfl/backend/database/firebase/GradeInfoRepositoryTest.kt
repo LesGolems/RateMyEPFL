@@ -35,6 +35,7 @@ class GradeInfoRepositoryTest {
 
     @Inject
     lateinit var gradeInfoRepo: GradeInfoRepositoryImpl
+
     @Inject
     lateinit var classroomRepo: ClassroomRepositoryImpl
 

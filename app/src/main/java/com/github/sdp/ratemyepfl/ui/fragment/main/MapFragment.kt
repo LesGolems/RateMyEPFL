@@ -207,7 +207,8 @@ class MapFragment : Fragment(R.layout.fragment_map), GoogleMap.OnMyLocationButto
      */
     private fun collapsePanel() {
         if (slidingLayout.panelState != SlidingUpPanelLayout.PanelState.COLLAPSED &&
-                slidingLayout.panelState != SlidingUpPanelLayout.PanelState.HIDDEN) {
+            slidingLayout.panelState != SlidingUpPanelLayout.PanelState.HIDDEN
+        ) {
             slidingLayout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
     }

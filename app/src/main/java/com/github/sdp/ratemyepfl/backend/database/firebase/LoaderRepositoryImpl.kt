@@ -57,7 +57,7 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
         } else loaded
     }
 
-    override fun resetLoaded(){
+    override fun resetLoaded() {
         loadedData = hashMapOf()
         lastLoaded = hashMapOf()
     }

@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.database.fakes.FakeRestaurantRepository
-import com.github.sdp.ratemyepfl.backend.database.fakes.FakeReviewRepository
 import com.github.sdp.ratemyepfl.model.serializer.putExtra
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.testing.HiltAndroidRule

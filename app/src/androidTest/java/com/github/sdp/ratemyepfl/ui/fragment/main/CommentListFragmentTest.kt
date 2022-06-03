@@ -14,13 +14,11 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
-import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.review.Comment
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils
-import com.github.sdp.ratemyepfl.utils.TestUtils
 import com.github.sdp.ratemyepfl.utils.TestUtils.checkSnackbarText
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

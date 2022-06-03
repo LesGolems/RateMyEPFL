@@ -6,7 +6,6 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Compan
 import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Subject
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow

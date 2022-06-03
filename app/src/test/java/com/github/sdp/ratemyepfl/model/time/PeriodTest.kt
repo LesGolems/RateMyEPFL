@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.model.time
 
-import org.junit.Assert.*
+import org.junit.Assert.assertThrows
 import org.junit.Test
 
 class PeriodTest {

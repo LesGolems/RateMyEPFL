@@ -4,11 +4,13 @@ import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
-import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery.Companion.DEFAULT_QUERY_LIMIT
 import com.github.sdp.ratemyepfl.model.review.Review
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 

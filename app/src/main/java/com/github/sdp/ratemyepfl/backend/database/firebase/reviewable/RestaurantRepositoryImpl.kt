@@ -12,7 +12,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.lastOrNull
 import javax.inject.Inject
 
 class RestaurantRepositoryImpl private constructor(private val repository: LoaderRepository<Restaurant>) :

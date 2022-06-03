@@ -19,7 +19,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before

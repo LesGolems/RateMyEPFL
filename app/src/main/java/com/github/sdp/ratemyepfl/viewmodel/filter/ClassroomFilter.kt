@@ -1,9 +1,9 @@
 package com.github.sdp.ratemyepfl.viewmodel.filter
 
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomRepositoryImpl
-import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseOrderedQuery
 import com.github.sdp.ratemyepfl.backend.database.query.FirebaseQuery
+import com.github.sdp.ratemyepfl.backend.database.query.OrderDirection
 import com.github.sdp.ratemyepfl.backend.database.reviewable.ReviewableRepository
 import com.github.sdp.ratemyepfl.model.items.Classroom
 

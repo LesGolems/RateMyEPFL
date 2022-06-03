@@ -13,9 +13,7 @@ import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Class
 import com.github.sdp.ratemyepfl.model.user.User
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await

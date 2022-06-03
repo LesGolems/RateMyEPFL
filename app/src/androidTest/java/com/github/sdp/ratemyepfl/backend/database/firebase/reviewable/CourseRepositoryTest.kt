@@ -30,6 +30,7 @@ class CourseRepositoryTest {
 
     @Inject
     lateinit var courseRepo: CourseRepositoryImpl
+
     @Inject
     lateinit var firebaseFirestore: FirebaseFirestore
 
@@ -67,7 +68,7 @@ class CourseRepositoryTest {
         runTest {
             val course = courseRepo.getCourseByCourseCode(testCourse.courseCode)
             assertNotNull(course)
-            assertEquals(testCourse.courseCode, course!!.courseCode)
+            assertEquals(testCourse.courseCode, course.courseCode)
             assertEquals(testCourse.title, course.title)
             assertEquals(testCourse.section, course.section)
             assertEquals(testCourse.teacher, course.teacher)

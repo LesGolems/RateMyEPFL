@@ -7,7 +7,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
-import de.hdodenhof.circleimageview.CircleImageView
 import java.io.InputStream
 
 class LoadingImageView(
@@ -18,11 +17,12 @@ class LoadingImageView(
 ) : LoadingView<ImageView>(image, progressBar) {
 
     val defaultImage: ImageFile? = defaultImageId?.let {
-            val context = view.context
-            val inputStream: InputStream = context.resources.openRawResource(it)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            ImageFile("default", bitmap)
-        }
+        val context = view.context
+        val inputStream: InputStream = context.resources.openRawResource(it)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        ImageFile("default", bitmap)
+    }
+
     /**
      * Should be use if the layout contains [R.layout.layout_animated_circle_image_view].
      *

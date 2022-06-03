@@ -237,7 +237,9 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
                 loadingRecyclerView.display(result, {
                     when (it) {
                         is QueryState.Failure -> throw it.error
-                        is QueryState.Loading -> {loadingRecyclerView.textView.visibility = INVISIBLE}
+                        is QueryState.Loading -> {
+                            loadingRecyclerView.textView.visibility = INVISIBLE
+                        }
                         is QueryState.Success ->
                             viewModel.elements.postValue(it.data)
                     }

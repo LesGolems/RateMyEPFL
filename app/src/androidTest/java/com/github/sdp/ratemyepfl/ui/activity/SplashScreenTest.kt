@@ -10,7 +10,6 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.FakeConnectedUser
-import com.github.sdp.ratemyepfl.ui.activity.SplashScreen
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule

@@ -53,7 +53,8 @@ class ReviewRepositoryTest {
 
     @Test
     fun addAndGetIdWorks() {
-        val testReviewNoId = Review("",
+        val testReviewNoId = Review(
+            "",
             ReviewRating.EXCELLENT,
             "title",
             "comment",
@@ -247,7 +248,8 @@ class ReviewRepositoryTest {
     fun removeNonExistingUpVoteDoesNotChange() = runTest {
         val uid = "uid"
         val id = "fakeIdAdd"
-        val review = Review("",
+        val review = Review(
+            "",
             ReviewRating.EXCELLENT,
             "title",
             "comment",

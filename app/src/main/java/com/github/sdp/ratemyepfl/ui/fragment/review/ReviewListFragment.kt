@@ -1,7 +1,6 @@
 package com.github.sdp.ratemyepfl.ui.fragment.review
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData

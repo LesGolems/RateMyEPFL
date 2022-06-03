@@ -129,7 +129,7 @@ class CommentListViewModel @Inject constructor(
                 // Remove a dislike
                 commentRepo.removeDownVote(commentId, uid)
                 userRepo.updateKarma(authorUid, 1)
-                posts =removeDislikeInLiveData(comment.getId(), uid, posts)
+                posts = removeDislikeInLiveData(comment.getId(), uid, posts)
             } else {
                 // The user dislikes for the first time
                 if (comment.likers.contains(uid)) {
