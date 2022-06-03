@@ -43,8 +43,6 @@ class GradeInfoRepositoryImpl private constructor(
     companion object {
         const val NUM_USERS = 6.0
         const val GRADE_INFO_COLLECTION_PATH = "grades_info"
-        const val ITEM_ID_FIELD = "itemId"
-        const val REVIEWS_INFO_FIELD = "reviewsData"
 
         fun DocumentSnapshot.toGradeInfo(): GradeInfo? = toItem()
     }

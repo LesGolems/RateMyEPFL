@@ -63,24 +63,14 @@ class DayFragment : Fragment(R.layout.fragment_day) {
     private fun displayCourseReviews(id: String) {
         lifecycleScope.launch {
             val c = courseRepo.getCourseByCourseCode(id)
-            if (c != null) {
-                displayReviews(
-                    id,
-                    c
-                )
-            }
+            displayReviews(id, c)
         }
     }
 
     private fun displayRoomReviews(id: String) {
         lifecycleScope.launch {
             val r = roomRepo.getRoomByName(id)
-            if (r != null) {
-                displayReviews(
-                    id,
-                    r
-                )
-            }
+            displayReviews(id, r)
         }
     }
 

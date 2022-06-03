@@ -31,7 +31,6 @@ class ClassroomRepositoryImpl private constructor(private val repository: Loader
 
     companion object {
         const val CLASSROOM_COLLECTION_PATH = "rooms"
-        const val ROOM_KIND_FIELD_NAME = "roomKind"
         const val ROOM_NAME_FIELD_NAME = "name"
 
         val OFFLINE_CLASSROOMS: List<Classroom> = listOf(

@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
@@ -85,10 +84,6 @@ class HomeFragment : PostListFragment<Subject>(
 
     override fun posts(): MutableLiveData<List<ObjectWithAuthor<Subject>>> {
         return viewModel.subjects
-    }
-
-    override fun isEmpty(): LiveData<Boolean> {
-        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {

@@ -62,10 +62,6 @@ class LoadingRecyclerView(
     }
 
 
-    private fun stopLoading() {
-        progressBar.visibility = View.INVISIBLE
-    }
-
     private fun displayList() {
         recyclerView.visibility = View.VISIBLE
         textView.visibility = View.INVISIBLE

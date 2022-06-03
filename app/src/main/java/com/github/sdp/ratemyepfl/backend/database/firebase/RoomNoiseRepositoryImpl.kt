@@ -26,8 +26,6 @@ class RoomNoiseRepositoryImpl(val repository: RepositoryImpl<RoomNoiseInfo>) : R
 
     companion object {
         const val ROOM_INFO_COLLECTION_PATH = "rooms_noise_info"
-        const val ROOM_NAME_FIELD_NAME = "name"
-        const val ROOMS_INFO_FIELD_NAME = "noiseData"
 
         fun DocumentSnapshot.toRoomNoiseInfo(): RoomNoiseInfo? = toItem()
     }

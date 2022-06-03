@@ -29,9 +29,6 @@ class RestaurantRepositoryImpl private constructor(private val repository: Loade
     companion object {
         const val RESTAURANT_NAME_FIELD_NAME: String = "name"
         const val RESTAURANT_COLLECTION_PATH = "restaurants"
-        const val LATITUDE_FIELD_NAME = "lat"
-        const val LONGITUDE_FIELD_NAME = "long"
-        const val OCCUPANCY_FIELD_NAME = "occupancy"
 
         val OFFLINE_RESTAURANTS = listOf(
             Restaurant(

@@ -39,7 +39,7 @@ abstract class ReviewableTabFragment<T : Reviewable>(open val filterMenuId: Int)
     private lateinit var loadingRecyclerView: LoadingRecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
-    lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var swipeRefresher: SwipeRefreshLayout
 
     private var isSearching: Boolean = false
 

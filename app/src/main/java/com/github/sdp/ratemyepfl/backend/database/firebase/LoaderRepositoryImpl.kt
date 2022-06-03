@@ -22,8 +22,6 @@ class LoaderRepositoryImpl<T : RepositoryItem>(
     private var loadedData: HashMap<FirebaseOrderedQuery, List<T>> = hashMapOf()
     private var lastLoaded: HashMap<FirebaseOrderedQuery, DocumentSnapshot> = hashMapOf()
 
-    fun getCollection() = repository.collection
-
     override fun load(query: FirebaseOrderedQuery, number: UInt): QueryResult<List<T>> {
         val lastLoaded = query.fields
             .names()

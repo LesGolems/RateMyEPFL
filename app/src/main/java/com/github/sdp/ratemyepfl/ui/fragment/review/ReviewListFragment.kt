@@ -3,7 +3,6 @@ package com.github.sdp.ratemyepfl.ui.fragment.review
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
@@ -16,7 +15,6 @@ import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.getListener
 import com.github.sdp.ratemyepfl.viewmodel.review.ReviewListViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,11 +29,10 @@ class ReviewListFragment : PostListFragment<Review>(
     R.id.reviewRecyclerView
 ) {
 
-    private lateinit var addReviewButton: FloatingActionButton
     private lateinit var emptyListMessage: String
 
     // Gets the shared view model
-    private val reviewsViewModel by activityViewModels<ReviewListViewModel>()
+    private val viewModel by activityViewModels<ReviewListViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,26 +55,22 @@ class ReviewListFragment : PostListFragment<Review>(
         )
 
     override fun posts(): MutableLiveData<List<ObjectWithAuthor<Review>>> {
-        return reviewsViewModel.reviews
-    }
-
-    override fun isEmpty(): LiveData<Boolean> {
-        return reviewsViewModel.isEmpty
+        return viewModel.reviews
     }
 
     override fun updatePostsList() {
-        reviewsViewModel.viewModelScope
+        viewModel.viewModelScope
             .launch {
-                displayPosts(reviewsViewModel.getReviews(), emptyListMessage)
+                displayPosts(viewModel.getReviews(), emptyListMessage)
             }
     }
 
     override fun updateUpVotes(post: Review, uid: String?) {
-        reviewsViewModel.updateUpVotes(post, uid)
+        viewModel.updateUpVotes(post, uid)
     }
 
     override fun updateDownVotes(post: Review, uid: String?) {
-        reviewsViewModel.updateDownVotes(post, uid)
+        viewModel.updateDownVotes(post, uid)
     }
 
     override fun onResume() {
@@ -87,7 +80,7 @@ class ReviewListFragment : PostListFragment<Review>(
     }
 
     override fun removePost(postId: String) {
-        reviewsViewModel.removeReview(postId)
+        viewModel.removeReview(postId)
         updatePostsList()
     }
 

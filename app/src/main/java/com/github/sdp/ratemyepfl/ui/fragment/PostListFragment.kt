@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -36,17 +35,17 @@ abstract class PostListFragment<T : Post> constructor(
 ) : Fragment(fragmentLayout) {
 
     lateinit var postAdapter: PostAdapter<T>
-    lateinit var recyclerView: RecyclerView
-    lateinit var swipeRefresher: SwipeRefreshLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var swipeRefresher: SwipeRefreshLayout
     lateinit var loadingRecyclerView: LoadingRecyclerView
 
     lateinit var profilePanel: SlidingUpPanelLayout
-    lateinit var authorPanelImage: CircleImageView
-    lateinit var authorPanelUsername: TextView
-    lateinit var authorPanelEmail: TextView
-    lateinit var authorPanelEmailIcon: ImageView
-    lateinit var golemBadge: ImageView
-    lateinit var karmaCount: TextView
+    private lateinit var authorPanelImage: CircleImageView
+    private lateinit var authorPanelUsername: TextView
+    private lateinit var authorPanelEmail: TextView
+    private lateinit var authorPanelEmailIcon: ImageView
+    private lateinit var golemBadge: ImageView
+    private lateinit var karmaCount: TextView
 
     @Inject
     lateinit var connectedUser: ConnectedUser
@@ -60,7 +59,6 @@ abstract class PostListFragment<T : Post> constructor(
     }
 
     abstract fun posts(): MutableLiveData<List<ObjectWithAuthor<T>>>
-    abstract fun isEmpty(): LiveData<Boolean>
     abstract fun updatePostsList()
     abstract fun updateUpVotes(post: T, uid: String?)
     abstract fun updateDownVotes(post: T, uid: String?)

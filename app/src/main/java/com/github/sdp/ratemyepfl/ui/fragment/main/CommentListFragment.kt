@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -116,10 +115,6 @@ class CommentListFragment : PostListFragment<Comment>(
 
     override fun posts(): MutableLiveData<List<ObjectWithAuthor<Comment>>> {
         return viewModel.comments
-    }
-
-    override fun isEmpty(): LiveData<Boolean> {
-        return viewModel.isEmpty
     }
 
     override fun updatePostsList() {

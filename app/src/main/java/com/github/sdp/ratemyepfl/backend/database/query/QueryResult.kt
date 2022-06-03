@@ -137,8 +137,6 @@ class QueryResult<T> private constructor(private val result: Flow<QueryState<T>>
                 querySnapshot.mapNotNull(op)
             }
 
-        const val COLLECT_RESULT_TIMEOUT_MS = 10000L
-
         /**
          * Wrap the flow in a [QueryResult]. This is a shorthand for a constructor call
          */

@@ -40,11 +40,8 @@ class UserRepositoryImpl(
 
     companion object {
         const val USER_COLLECTION_PATH = "users"
-        const val USER_UID_FIELD_NAME = "uid"
-        const val ADMIN_FIELD_NAME = "isAdmin"
         const val USERNAME_FIELD_NAME = "username"
         const val EMAIL_FIELD_NAME = "email"
-        const val TIMETABLE_FIELD_NAME = "timetable"
         const val KARMA_FIELD_NAME = "karma"
 
         fun DocumentSnapshot.toUser(): User? = toItem()

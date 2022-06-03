@@ -35,16 +35,7 @@ class EventRepositoryImpl private constructor(
 
 
     companion object {
-        const val ID_FIELD_NAME: String = "eventId"
-        const val NAME_FIELD_NAME: String = "name"
         const val EVENT_COLLECTION_PATH = "events"
-        const val LATITUDE_FIELD_NAME = "lat"
-        const val LONGITUDE_FIELD_NAME = "long"
-        const val NUMBER_PARTICIPANTS_FIELD_NAME = "numParticipants"
-        const val LIMIT_PARTICIPANTS_FIELD_NAME = "limitParticipants"
-        const val PARTICIPANTS_FIELD_NAME = "participants"
-        const val CREATOR_FIELD_NAME = "creator"
-        const val DATE_FIELD_NAME = "date"
 
         private val OFFLINE_EVENTS = listOf<Event>()
 
