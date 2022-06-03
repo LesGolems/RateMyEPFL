@@ -14,7 +14,6 @@ import com.github.sdp.ratemyepfl.model.review.SubjectKind
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnSnackbar
 import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel
-import com.github.sdp.ratemyepfl.viewmodel.main.AddSubjectViewModel.Companion.ONLY_ONE_KIND_MESSAGE
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,13 +48,12 @@ class AddSubjectFragment : AddPostFragment<Subject>(R.layout.fragment_add_subjec
     override fun setupListeners() {
         super.setupListeners()
         subjectKinds.setOnCheckedStateChangeListener { group, checkedIds ->
-            if (checkedIds.size > 1)
-                displayOnSnackbar(requireView(), ONLY_ONE_KIND_MESSAGE)
-            val kinds = checkedIds.map {
-                val chip: Chip = group.findViewById(it)
-                SubjectKind.fromId(chip.text.toString())!!
+            if (checkedIds.isEmpty()) {
+                addSubjectViewModel.setKind(null)
+            } else {
+                val chip: Chip = group.findViewById(checkedIds[0])
+                addSubjectViewModel.setKind(SubjectKind.fromId(chip.text.toString()))
             }
-            addSubjectViewModel.setKinds(kinds)
         }
     }
 

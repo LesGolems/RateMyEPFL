@@ -87,22 +87,22 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     }
 
     private fun setUpNthPicture(
-        nthPicture: MutableLiveData<ImageFile>,
+        nthPicture: MutableLiveData<ImageFile?>,
         nthCircleImageView: LoadingCircleImageView
     ) {
         nthPicture.observe(viewLifecycleOwner) { image ->
-            image.let {
+            image?.let {
                 nthCircleImageView.image.setImageBitmap(it.data)
             }
         }
     }
 
     private fun setUpNthUser(
-        nthUser: MutableLiveData<User>, nthNameView: TextView,
+        nthUser: MutableLiveData<User?>, nthNameView: TextView,
         nthKarmaView: TextView
     ) {
         nthUser.observe(viewLifecycleOwner) {
-            it.let {
+            it?.let {
                 nthNameView.text = it.username
                 nthKarmaView.text = it.karma.toString()
             }
@@ -139,8 +139,8 @@ class RankingFragment : Fragment(R.layout.fragment_ranking) {
     }
 
     private suspend fun refreshPicture(
-        nthPicture: MutableLiveData<ImageFile>,
-        nthImage: Flow<ImageFile>,
+        nthPicture: MutableLiveData<ImageFile?>,
+        nthImage: Flow<ImageFile?>,
         defaultImage: ImageFile
     ) {
         userTop1Picture.display(nthImage, {
