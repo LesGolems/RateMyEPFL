@@ -51,7 +51,7 @@ data class Subject constructor(
         /**
          * Builds the corresponding [Subject]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Subject {
             val postId = this.postId ?: ""
@@ -66,10 +66,15 @@ data class Subject constructor(
 
             return Subject(
                 postId,
-                title, comment, date, uid, likers, dislikers, comments, kind
+                title,
+                comment,
+                date,
+                uid,
+                likers,
+                dislikers,
+                comments,
+                kind
             )
         }
-
-
     }
 }

@@ -35,14 +35,14 @@ class ItemSerializerTest {
 
     @Test
     fun serializationFailsForInvalidParameters() {
-        val t: Reviewable = Restaurant(
+        Restaurant(
             name = "fake",
             lat = 0.0,
             long = 0.0,
             grade = 0.0,
             numReviews = 0
         )
-        val ser: String = "bad serialization"
+        val ser = "bad serialization"
 
         assertThrows(
             Exception::class.java

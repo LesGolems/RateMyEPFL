@@ -45,7 +45,7 @@ class RankingViewModel @Inject constructor(
     fun getPicture(user: User): Flow<ImageFile> =
         imageStorage.get(user.getId())
 
-    suspend fun getTop3Users(): Flow<Triple<User, User, User>> =
+    private suspend fun getTop3Users(): Flow<Triple<User, User, User>> =
         userRepo.getTopKarmaUsers().mapResult {
             Triple(it[0], it[1], it[2])
         }.filter { it !is QueryState.Loading }

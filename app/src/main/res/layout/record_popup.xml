@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_bg">
@@ -14,7 +15,8 @@
         android:background="@raw/emoji_happy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/live_noise_reaction_face" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -59,6 +61,7 @@
         android:background="@color/white"
         android:contentDescription="@string/button_for_recording_audio_from_the_microphone"
         android:paddingStart="7dp"
-        android:src="@drawable/record_circle" />
+        android:src="@drawable/record_circle"
+        tools:ignore="RtlSymmetry" />
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.ImageFile
 import java.io.InputStream
@@ -12,11 +11,10 @@ import java.io.InputStream
 class LoadingImageView(
     val image: ImageView,
     progressBar: ProgressBar,
-    val errorText: TextView,
     defaultImageId: Int? = null
 ) : LoadingView<ImageView>(image, progressBar) {
 
-    val defaultImage: ImageFile? = defaultImageId?.let {
+    private val defaultImage: ImageFile? = defaultImageId?.let {
         val context = view.context
         val inputStream: InputStream = context.resources.openRawResource(it)
         val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -32,7 +30,6 @@ class LoadingImageView(
     constructor(parent: View, defaultImageId: Int?) : this(
         parent.findViewById(R.id.loadingImageView),
         parent.findViewById(R.id.loadingImageProgressBar),
-        parent.findViewById(R.id.loadingImageErrorText),
         defaultImageId
     )
 
@@ -40,7 +37,7 @@ class LoadingImageView(
         setDefaultImage()
     }
 
-    fun setDefaultImage() = defaultImage?.run {
+    private fun setDefaultImage() = defaultImage?.run {
         image.setImageBitmap(this.data)
     }
 

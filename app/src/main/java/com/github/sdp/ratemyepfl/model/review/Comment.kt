@@ -36,7 +36,7 @@ data class Comment constructor(
         /**
          * Builds the corresponding [Comment]
          *
-         * @throws IllegalStateException if one of the properties is null
+         * @throws IllegalStateException if one of the mandatory properties is null
          */
         override fun build(): Comment {
             val postId = this.postId ?: ""
