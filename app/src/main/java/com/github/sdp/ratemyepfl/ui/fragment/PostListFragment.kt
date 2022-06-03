@@ -104,11 +104,11 @@ abstract class PostListFragment<T : Post> constructor(
     open fun initializeProfilePanel(view: View) {
         profilePanel = view.findViewById(R.id.author_profile_panel)
         authorPanelImage = view.findViewById(R.id.author_panel_profile_image)
-        authorPanelUsername = view.findViewById(R.id.author_panel_username)
-        authorPanelEmail = view.findViewById(R.id.author_panel_email)
-        authorPanelEmailIcon = view.findViewById(R.id.author_panel_email_icon)
-        golemBadge = view.findViewById(R.id.golem_badge)
-        karmaCount = view.findViewById(R.id.karma_count)
+        authorPanelUsername = view.findViewById(R.id.authorPanelUsername)
+        authorPanelEmail = view.findViewById(R.id.authorPanelEmail)
+        authorPanelEmailIcon = view.findViewById(R.id.authorPanelEmailIcon)
+        golemBadge = view.findViewById(R.id.golemBadge)
+        karmaCount = view.findViewById(R.id.golemKarmaCount)
 
         profilePanel.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         profilePanel.setFadeOnClickListener {

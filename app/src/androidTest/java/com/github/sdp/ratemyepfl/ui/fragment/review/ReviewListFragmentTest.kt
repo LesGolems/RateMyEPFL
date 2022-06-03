@@ -127,7 +127,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(user?.username)
                     )
                 ),
@@ -137,8 +137,8 @@ class ReviewListFragmentTest {
             )
         ).perform(click())
         // checks if the information are correct
-        onView(withId(R.id.author_panel_username)).check(matches(withText(user?.username)))
-        onView(withId(R.id.author_panel_email)).check(matches(withText(user?.email)))
+        onView(withId(R.id.authorPanelUsername)).check(matches(withText(user?.username)))
+        onView(withId(R.id.authorPanelEmail)).check(matches(withText(user?.email)))
         onView(withId(R.id.author_panel_profile_image)).check(matches(withDrawable(R.raw.fake_profile_picture)))
     }
 
@@ -160,7 +160,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),
@@ -191,7 +191,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),
@@ -224,7 +224,7 @@ class ReviewListFragmentTest {
             allOf(
                 hasSibling(
                     allOf(
-                        withId(R.id.author_username),
+                        withId(R.id.authorUsername),
                         withText(username1)
                     )
                 ),

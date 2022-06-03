@@ -21,18 +21,18 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/author_profile_picture"
+                android:id="@+id/authorProfilePicture"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@raw/blank_profile_picture" />
 
             <TextView
-                android:id="@+id/author_username"
+                android:id="@+id/authorUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/author_profile_picture"
+                android:layout_toEndOf="@id/authorProfilePicture"
                 android:fontFamily="@font/pt_sans_bold"
                 android:gravity="center"
                 android:text="@string/anonymous"

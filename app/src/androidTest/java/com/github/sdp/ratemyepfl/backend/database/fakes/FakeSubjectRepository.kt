@@ -11,11 +11,11 @@ import javax.inject.Inject
 class FakeSubjectRepository @Inject constructor() : SubjectRepository, FakeRepository<Subject>() {
 
     companion object {
-        const val FAKE_UID_1 = "ID1"
-        const val FAKE_UID_2 = "ID2"
+        private const val FAKE_UID_1 = "ID1"
+        private const val FAKE_UID_2 = "ID2"
         const val FAKE_UID_3 = "ID3"
         const val FAKE_UID_4 = "ID4"
-        val DATE = DateTime(2000, 1, 1, 0, 0)
+        private val DATE = DateTime(2000, 1, 1, 0, 0)
 
         val fakeList = listOf(
             Subject.Builder()

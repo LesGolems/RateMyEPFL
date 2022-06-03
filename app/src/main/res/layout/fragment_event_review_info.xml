@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/event_info_image"
             android:scaleType="centerCrop"
             android:src="@raw/event_info_event" />
 
@@ -25,6 +26,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="200dp"
+            android:contentDescription="@string/event_icon"
             android:src="@drawable/ic_calendar_solid"
             app:tint="@color/primaryColor" />
 

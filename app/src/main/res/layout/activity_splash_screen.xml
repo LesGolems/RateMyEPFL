@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@raw/rate" />
+        app:srcCompat="@raw/rate"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/logoEPFL"

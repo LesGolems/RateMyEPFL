@@ -106,12 +106,16 @@
     <string name="add_class_fragment">Add a class</string>
     <string name="course_class_creation">Click here to select a course</string>
     <string name="title_class_creation">Add a class</string>
+    <string name="course_icon">Course icon</string>
+    <string name="course_info_image">Course info image</string>
 
     -- RESTAURANT --
     <string name="closest_restaurant_title">Closest</string>
     <string name="occupancy_clear">CLEAR</string>
     <string name="occupancy_busy">BUSY</string>
     <string name="occupancy_full">FULL</string>
+    <string name="restaurant_info_image">Restaurant Info Image</string>
+    <string name="restaurant_icon">Restaurant icon</string>
 
     -- EVENT --
     <string name="edit_event_title">Edit your event</string>
@@ -134,11 +138,16 @@
     <string name="event_time_info">Event time</string>
     <string name="event_creator_info">hosted by %s</string>
     <string name="button_for_editing_an_event">Button for editing an event</string>
+    <string name="event_info_image">Event info image</string>
+    <string name="event_icon">Event icon</string>
 
     -- CLASSROOM --
     <string name="button_to_record_noise_intensity_of_a_room">Button to record noise intensity of a room</string>
     <string name="decibels">%s dB</string>
     <string name="noise">%s</string>
+    <string name="room_info_image">Room info image</string>
+    <string name="room_back_icon">Room back icon</string>
+    <string name="room_front_icon">Room front icon</string>
     <string name="button_for_recording_audio_from_the_microphone">Button for recording audio from the microphone</string>
     <string name="room_noise_info">%1$s (%2$s dB) - %3$s</string>
     <string name="noise_no_measure">No measure yet</string>
@@ -180,4 +189,6 @@
     <string name="picture_of_the_top_3_user">Picture of the top 3 user</string>
     <string name="podium_title">Best Karma Raters</string>
     <string name="live_noise_reaction_face">Live noise reaction face</string>
+
+    <string name="golem_badge">Golem badge</string>
 </resources>

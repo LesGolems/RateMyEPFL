@@ -43,11 +43,6 @@ class LoaderRepositoryImplTest {
         it.data in 0..9
     }
 
-    private val items1 = items.filter { it.data in 10..19 }
-
-    private val items2 = items.filter { it.data in 20..30 }
-
-
     @Before
     fun setup() {
         hiltRule.inject()

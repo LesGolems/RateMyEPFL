@@ -56,7 +56,6 @@ class MapFragmentTest {
     val grantPermissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    @ExperimentalCoroutinesApi
     @Test
     fun isMapVisibleOnActivityLaunch() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -74,7 +73,6 @@ class MapFragmentTest {
     }
      */
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -83,7 +81,6 @@ class MapFragmentTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMap() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}
@@ -91,7 +88,6 @@ class MapFragmentTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnReviewButton() {
         runTest { }
@@ -105,7 +101,6 @@ class MapFragmentTest {
         release()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun clickOnMapAfterMarker() {
         HiltUtils.launchFragmentInHiltContainer<MapFragment> {}

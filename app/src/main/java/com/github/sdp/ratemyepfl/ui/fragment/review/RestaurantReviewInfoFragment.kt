@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ekn.gruzer.gaugelibrary.ArcGauge
@@ -66,10 +67,11 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
      * Set up the occupancy gauge and rating (i.e. its bounds, colors and text)
      */
     private fun setupOccupancyUI(ratio: Double) {
+        val context = requireContext()
         val colors = listOf(
-            resources.getColor(R.color.green),
-            resources.getColor(R.color.orange),
-            resources.getColor(R.color.red)
+            ContextCompat.getColor(context, R.color.green),
+            ContextCompat.getColor(context, R.color.orange),
+            ContextCompat.getColor(context, R.color.red)
         )
         setRanges(colors)
         occupancyGauge.minValue = 0.0
@@ -87,18 +89,19 @@ class RestaurantReviewInfoFragment : Fragment(R.layout.fragment_restaurant_revie
      */
     private fun setOccupancyText(ratio: Double) {
         val thirdOf100 = 100.0 / 3
+        val context = requireContext()
         when {
             ratio <= thirdOf100 -> {
                 occupancyRating.text = getString(R.string.occupancy_clear)
-                occupancyRating.setTextColor(resources.getColor(R.color.green))
+                occupancyRating.setTextColor(ContextCompat.getColor(context, R.color.green))
             }
             ratio <= 2 * thirdOf100 -> {
                 occupancyRating.text = getString(R.string.occupancy_busy)
-                occupancyRating.setTextColor(resources.getColor(R.color.orange))
+                occupancyRating.setTextColor(ContextCompat.getColor(context, R.color.orange))
             }
             else -> {
                 occupancyRating.text = getString(R.string.occupancy_full)
-                occupancyRating.setTextColor(resources.getColor(R.color.red))
+                occupancyRating.setTextColor(ContextCompat.getColor(context, R.color.red))
             }
         }
     }

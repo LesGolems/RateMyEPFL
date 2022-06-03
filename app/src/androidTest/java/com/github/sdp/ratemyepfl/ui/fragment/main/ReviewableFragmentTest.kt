@@ -26,7 +26,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class ReviewableFragmentTest {
     @get:Rule
@@ -60,7 +60,6 @@ class ReviewableFragmentTest {
 
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersPressesOnCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -68,7 +67,6 @@ class ReviewableFragmentTest {
         checkCourse()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersPressesOnClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -76,7 +74,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersPressesOnRestaurantTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -85,7 +82,6 @@ class ReviewableFragmentTest {
     }
 
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheRightOfCourseTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> { }
@@ -93,7 +89,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsRestaurantFragmentWhenUsersSwipeToTheRightOfClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -103,7 +98,6 @@ class ReviewableFragmentTest {
         checkRestaurant()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsClassroomFragmentWhenUsersSwipeToTheLeftOfRestaurantTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}
@@ -114,7 +108,6 @@ class ReviewableFragmentTest {
         checkClassroom()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsCourseFragmentWhenUsersSwipeToTheLeftOfClassroomTab() {
         HiltUtils.launchFragmentInHiltContainer<ReviewableFragment> {}

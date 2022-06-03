@@ -20,10 +20,10 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@color/white"
+        android:contentDescription="@string/button_for_recording_the_intensity_of_a_room"
         android:elevation="50dp"
         android:src="@android:drawable/ic_btn_speak_now"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/button_for_recording_the_intensity_of_a_room" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,9 +52,9 @@ open class PostAdapter<T : Post>(
 
         private val deleteButton: ImageButton = postView.findViewById(R.id.deleteButton)
 
-        private val authorUsername: TextView = postView.findViewById(R.id.author_username)
+        private val authorUsername: TextView = postView.findViewById(R.id.authorUsername)
         private val authorProfilePicture: CircleImageView =
-            postView.findViewById(R.id.author_profile_picture)
+            postView.findViewById(R.id.authorProfilePicture)
 
         protected lateinit var post: T
 

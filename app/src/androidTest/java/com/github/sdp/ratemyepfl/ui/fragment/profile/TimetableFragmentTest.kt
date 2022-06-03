@@ -39,7 +39,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 @HiltAndroidTest
 class TimetableFragmentTest {
     lateinit var scenario: ActivityScenario<HiltTestActivity>
@@ -245,7 +245,6 @@ class TimetableFragmentTest {
         scenario.close()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun buttonNotShownWhenLoggedOut() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.LOGGED_OUT
@@ -253,7 +252,6 @@ class TimetableFragmentTest {
         onView(withId(R.id.addClassButton)).check(matches(not(isDisplayed())))
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun goesToReviewWhenClickOnCourseName() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
@@ -302,7 +300,6 @@ class TimetableFragmentTest {
         release()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun loadsDayFragment() {
         FakeConnectedUser.instance = FakeConnectedUser.Instance.FAKE_USER_1
