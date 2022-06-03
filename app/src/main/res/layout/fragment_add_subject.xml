@@ -41,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="@string/add_post_title_hint"
             android:layout_marginTop="2dp"
+            android:hint="@string/add_post_title_hint"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp">
 
@@ -69,8 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="@string/add_post_content_hint"
             android:layout_marginTop="2dp"
+            android:hint="@string/add_post_content_hint"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp">
 
@@ -104,7 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="10dp"
-            app:chipSpacingVertical="-10dp" />
+            app:chipSpacingVertical="-10dp"
+            app:singleSelection="true" />
 
 
         <Button
@@ -112,8 +113,8 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/primaryColor"
             android:fontFamily="@font/pt_sans_bold"
             android:text="@string/done_button_text"

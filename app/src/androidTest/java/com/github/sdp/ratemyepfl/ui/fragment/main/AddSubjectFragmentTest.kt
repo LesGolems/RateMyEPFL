@@ -70,7 +70,23 @@ class AddSubjectFragmentTest {
     }
 
     @Test
-    fun tooManyKindsSelectedDoesNotWork() {
+    fun selectAndDeselectKindDoesNotWork() {
+        val title = "Good"
+        val comment = "Good"
+        onView(withId(R.id.addPostTitle)).perform(typeText(title))
+        closeSoftKeyboard()
+        onView(withId(R.id.addPostComment)).perform(typeText(comment))
+        closeSoftKeyboard()
+
+        clickOnKindChip("Food")
+        clickOnKindChip("Food")
+
+        onView(withId(R.id.doneButton)).perform(scrollTo(), click())
+        checkSnackbarText(AddSubjectViewModel.NO_KIND_MESSAGE)
+    }
+
+    @Test
+    fun changeKindsWorks() {
         val title = "Good"
         val comment = "Good"
         onView(withId(R.id.addPostTitle)).perform(typeText(title))
@@ -80,10 +96,10 @@ class AddSubjectFragmentTest {
 
         clickOnKindChip("Food")
         clickOnKindChip("Help")
-        checkSnackbarText(AddSubjectViewModel.ONLY_ONE_KIND_MESSAGE)
 
         onView(withId(R.id.doneButton)).perform(scrollTo(), click())
-        checkSnackbarText(AddSubjectViewModel.ONLY_ONE_KIND_MESSAGE)
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
     }
 
     @Test
