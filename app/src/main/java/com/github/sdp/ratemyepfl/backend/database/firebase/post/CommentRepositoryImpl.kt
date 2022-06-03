@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.backend.database.Repository
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl
 import com.github.sdp.ratemyepfl.backend.database.firebase.RepositoryImpl.Companion.toItem
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
-import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.post.Comment
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.Flow

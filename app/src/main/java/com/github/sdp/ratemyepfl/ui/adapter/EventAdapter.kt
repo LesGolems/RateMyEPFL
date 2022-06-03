@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
+import com.github.sdp.ratemyepfl.model.post.EventWithAuthor
 import com.github.sdp.ratemyepfl.utils.AdapterUtil
 import com.google.android.material.button.MaterialButton
 

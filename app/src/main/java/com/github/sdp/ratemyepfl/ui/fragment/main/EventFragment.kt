@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EventFragment : Fragment(R.layout.layout_event_list) {
+class EventFragment : Fragment(R.layout.fragment_event_list) {
     private val viewModel: EventListViewModel by viewModels()
     private val eventAdapter =
         EventAdapter(

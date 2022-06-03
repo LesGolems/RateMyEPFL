@@ -8,7 +8,7 @@ import com.github.sdp.ratemyepfl.backend.database.UserRepository
 import com.github.sdp.ratemyepfl.backend.database.reviewable.EventRepository
 import com.github.sdp.ratemyepfl.model.ImageFile
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
+import com.github.sdp.ratemyepfl.model.post.EventWithAuthor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.launch

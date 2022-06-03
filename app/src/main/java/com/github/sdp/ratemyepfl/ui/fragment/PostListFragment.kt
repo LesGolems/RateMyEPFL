@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.backend.auth.ConnectedUser
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
-import com.github.sdp.ratemyepfl.model.review.Post
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Post
 import com.github.sdp.ratemyepfl.model.user.User
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.layout.LoadingRecyclerView
@@ -34,12 +33,11 @@ abstract class PostListFragment<T : Post> constructor(
     private val recyclerViewLayout: Int,
 ) : Fragment(fragmentLayout) {
 
-    lateinit var postAdapter: PostAdapter<T>
-    private lateinit var recyclerView: RecyclerView
+    protected lateinit var postAdapter: PostAdapter<T>
     private lateinit var swipeRefresher: SwipeRefreshLayout
-    lateinit var loadingRecyclerView: LoadingRecyclerView
+    protected lateinit var loadingRecyclerView: LoadingRecyclerView
 
-    lateinit var profilePanel: SlidingUpPanelLayout
+    protected lateinit var profilePanel: SlidingUpPanelLayout
     private lateinit var authorPanelImage: CircleImageView
     private lateinit var authorPanelUsername: TextView
     private lateinit var authorPanelEmail: TextView

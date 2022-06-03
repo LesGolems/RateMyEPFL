@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase.post
 
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.post.Subject
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

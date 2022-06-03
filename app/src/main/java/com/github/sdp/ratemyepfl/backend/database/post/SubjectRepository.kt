@@ -1,6 +1,6 @@
 package com.github.sdp.ratemyepfl.backend.database.post
 
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.post.Subject
 
 interface SubjectRepository : PostRepository<Subject> {
 

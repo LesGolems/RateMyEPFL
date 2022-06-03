@@ -1,4 +1,4 @@
-package com.github.sdp.ratemyepfl.model.review
+package com.github.sdp.ratemyepfl.model.post
 
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.serialization.Serializable

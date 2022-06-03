@@ -11,8 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Subject
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.ui.adapter.post.SubjectAdapter
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment

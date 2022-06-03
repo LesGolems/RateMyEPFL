@@ -4,7 +4,7 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomR
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.items.Classroom
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi

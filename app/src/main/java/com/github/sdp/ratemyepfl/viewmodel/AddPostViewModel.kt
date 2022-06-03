@@ -2,7 +2,7 @@ package com.github.sdp.ratemyepfl.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.sdp.ratemyepfl.model.review.Post
+import com.github.sdp.ratemyepfl.model.post.Post
 
 open class AddPostViewModel<T : Post> : ViewModel() {
 

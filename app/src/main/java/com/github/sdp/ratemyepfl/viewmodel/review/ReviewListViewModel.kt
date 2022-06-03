@@ -9,8 +9,8 @@ import com.github.sdp.ratemyepfl.backend.database.post.ReviewRepository
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Review
+import com.github.sdp.ratemyepfl.model.post.ReviewWithAuthor
 import com.github.sdp.ratemyepfl.model.serializer.getReviewable
 import com.github.sdp.ratemyepfl.ui.activity.ReviewActivity
 import dagger.hilt.android.lifecycle.HiltViewModel

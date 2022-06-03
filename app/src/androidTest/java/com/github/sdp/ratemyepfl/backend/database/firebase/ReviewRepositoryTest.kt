@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.firebase
 
 import com.github.sdp.ratemyepfl.backend.database.firebase.post.ReviewRepositoryImpl
-import com.github.sdp.ratemyepfl.model.review.Review
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.Review
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

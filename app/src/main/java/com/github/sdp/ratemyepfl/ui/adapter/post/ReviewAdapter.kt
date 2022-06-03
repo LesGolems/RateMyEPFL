@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.ui.adapter.post
 import android.widget.RatingBar
 import androidx.lifecycle.LifecycleOwner
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.post.Review
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 
 class ReviewAdapter(

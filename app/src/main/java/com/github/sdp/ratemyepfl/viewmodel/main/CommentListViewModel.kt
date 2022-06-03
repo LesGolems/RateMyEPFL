@@ -13,8 +13,8 @@ import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
 import com.github.sdp.ratemyepfl.exceptions.VoteException
 import com.github.sdp.ratemyepfl.model.ImageFile
-import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.review.CommentWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Comment
+import com.github.sdp.ratemyepfl.model.post.CommentWithAuthor
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.viewmodel.AddPostViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

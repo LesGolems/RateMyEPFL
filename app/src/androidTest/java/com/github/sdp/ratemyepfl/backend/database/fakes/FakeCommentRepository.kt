@@ -1,7 +1,7 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
-import com.github.sdp.ratemyepfl.model.review.Comment
+import com.github.sdp.ratemyepfl.model.post.Comment
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

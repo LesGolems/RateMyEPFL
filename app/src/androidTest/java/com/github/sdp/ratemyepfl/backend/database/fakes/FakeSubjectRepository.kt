@@ -1,8 +1,8 @@
 package com.github.sdp.ratemyepfl.backend.database.fakes
 
 import com.github.sdp.ratemyepfl.backend.database.post.SubjectRepository
-import com.github.sdp.ratemyepfl.model.review.Subject
-import com.github.sdp.ratemyepfl.model.review.SubjectKind
+import com.github.sdp.ratemyepfl.model.post.Subject
+import com.github.sdp.ratemyepfl.model.post.SubjectKind
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf

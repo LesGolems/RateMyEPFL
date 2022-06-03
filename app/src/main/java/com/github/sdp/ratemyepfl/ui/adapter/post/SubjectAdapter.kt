@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import com.github.sdp.ratemyepfl.R
-import com.github.sdp.ratemyepfl.model.review.Subject
+import com.github.sdp.ratemyepfl.model.post.Subject
 import com.github.sdp.ratemyepfl.viewmodel.profile.UserViewModel
 
 class SubjectAdapter(

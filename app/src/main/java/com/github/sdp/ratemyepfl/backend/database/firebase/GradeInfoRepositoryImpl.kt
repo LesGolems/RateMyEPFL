@@ -10,7 +10,7 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.Restaurant
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.ReviewInfo
 import com.github.sdp.ratemyepfl.model.items.*
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.*

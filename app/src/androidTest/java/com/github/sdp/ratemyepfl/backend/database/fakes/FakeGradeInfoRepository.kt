@@ -3,7 +3,7 @@ package com.github.sdp.ratemyepfl.backend.database.fakes
 import com.github.sdp.ratemyepfl.backend.database.GradeInfoRepository
 import com.github.sdp.ratemyepfl.model.GradeInfo
 import com.github.sdp.ratemyepfl.model.items.Reviewable
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

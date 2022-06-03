@@ -21,7 +21,7 @@ import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.ClassroomR
 import com.github.sdp.ratemyepfl.backend.database.firebase.reviewable.CourseRepositoryImpl
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.model.items.Class
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.post.Review
 import com.github.sdp.ratemyepfl.ui.activity.MainActivity
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.CustomViewActions

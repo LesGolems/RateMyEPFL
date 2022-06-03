@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
 import com.github.sdp.ratemyepfl.exceptions.MissingInputException
-import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.review.ObjectWithAuthor
+import com.github.sdp.ratemyepfl.model.post.Comment
+import com.github.sdp.ratemyepfl.model.post.ObjectWithAuthor
 import com.github.sdp.ratemyepfl.ui.fragment.AddPostFragment
 import com.github.sdp.ratemyepfl.ui.fragment.PostListFragment
 import com.github.sdp.ratemyepfl.utils.FragmentUtils.displayOnToast

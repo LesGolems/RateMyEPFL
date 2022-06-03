@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ekn.gruzer.gaugelibrary.ArcGauge
 import com.ekn.gruzer.gaugelibrary.Range
 import com.github.sdp.ratemyepfl.R
 import com.github.sdp.ratemyepfl.model.items.Event
-import com.github.sdp.ratemyepfl.model.review.EventWithAuthor
+import com.github.sdp.ratemyepfl.model.post.EventWithAuthor
 import com.github.sdp.ratemyepfl.utils.InfoFragmentUtils.getNumReviewString
 import com.github.sdp.ratemyepfl.viewmodel.review.EventInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,7 +66,7 @@ class EventReviewInfoFragment : Fragment(R.layout.fragment_event_review_info) {
         participationGauge.value = value.toDouble()
 
         val range = Range()
-        range.color = resources.getColor(R.color.secondaryColor)
+        range.color = ContextCompat.getColor(requireContext(), R.color.secondaryColor)
         range.from = 0.0
         range.to = maxValue.toDouble()
         participationGauge.addRange(range)

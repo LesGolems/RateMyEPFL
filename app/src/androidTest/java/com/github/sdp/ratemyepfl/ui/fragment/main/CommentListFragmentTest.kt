@@ -14,8 +14,8 @@ import com.github.sdp.ratemyepfl.backend.database.fakes.FakeUserRepository
 import com.github.sdp.ratemyepfl.backend.database.post.CommentRepository
 import com.github.sdp.ratemyepfl.dependencyinjection.HiltUtils
 import com.github.sdp.ratemyepfl.exceptions.DisconnectedUserException
-import com.github.sdp.ratemyepfl.model.review.Comment
-import com.github.sdp.ratemyepfl.model.review.Review
+import com.github.sdp.ratemyepfl.model.post.Comment
+import com.github.sdp.ratemyepfl.model.post.Review
 import com.github.sdp.ratemyepfl.model.time.DateTime
 import com.github.sdp.ratemyepfl.ui.adapter.post.PostAdapter
 import com.github.sdp.ratemyepfl.utils.RecyclerViewUtils

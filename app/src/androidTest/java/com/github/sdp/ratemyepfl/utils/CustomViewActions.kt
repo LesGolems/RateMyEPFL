@@ -8,10 +8,10 @@ import androidx.core.view.ViewCompat
 import androidx.test.espresso.*
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.viewpager2.widget.ViewPager2
-import com.github.sdp.ratemyepfl.model.review.ReviewRating
+import com.github.sdp.ratemyepfl.model.post.ReviewRating
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers
@@ -119,7 +119,7 @@ object CustomViewActions {
         }
 
         fun verifySelectedTab(text: String) {
-            onTab(text).check(ViewAssertions.matches(isSelected()))
+            onTab(text).check(matches(isSelected()))
         }
 
         fun onTab(tabName: String): ViewInteraction = onView(
